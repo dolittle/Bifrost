@@ -28,17 +28,19 @@ namespace Bifrost.Services.Execution
     public class RestServiceRouteHandler : IRouteHandler
     {
         Type _type;
+        string _url;
         IHttpHandler _httpHandler;
 
-        public RestServiceRouteHandler(Type type)
+        public RestServiceRouteHandler(Type type, string url)
         {
             _type = type;
+            _url = url;
         }
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
             if (_httpHandler == null)
-                _httpHandler = new RestServiceRouteHttpHandler(_type);
+                _httpHandler = new RestServiceRouteHttpHandler(_type, _url);
 
             return _httpHandler;
         }

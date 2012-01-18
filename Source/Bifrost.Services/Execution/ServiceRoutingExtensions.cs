@@ -30,16 +30,18 @@ namespace Bifrost.Services.Execution
     {
         const string PostFix = "Service";
 
-        public static void AddService<T>(this RouteCollection routes, string name = null, bool removePostFix = true)
+        public static void AddService<T>(this RouteCollection routes, string url = null, bool removePostFix = true)
         {
-            routes.AddService(typeof(T), name, removePostFix);
+            routes.AddService(typeof(T), url, removePostFix);
         }
 
-        public static void AddService(this RouteCollection routes, Type service, string name = null, bool removePostFix = true)
+        public static void AddService(this RouteCollection routes, Type service, string url = null, bool removePostFix = true)
         {
-            name = name ?? (removePostFix ? RemovePostFix(service) : service.Name);
+            url = url ?? (removePostFix ? RemovePostFix(service) : service.Name);
 
-            routes.Add(new WebApiRoute(name, new ContainerServiceHostFactory(), service));
+            routes.Add(new RestServiceRoute(service, url));
+
+            //routes.Add(new WebApiRoute(url, new ContainerServiceHostFactory(), service));
         }
 
 

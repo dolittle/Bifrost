@@ -20,23 +20,24 @@
 //
 #endregion
 using System;
-using System.Web.Routing;
+using System.Collections.Specialized;
+using Bifrost.Serialization;
 
 namespace Bifrost.Services.Execution
 {
-    public class RestServiceRoute : Route
+    public class RestServiceMethodInvoker : IRestServiceMethodInvoker
     {
-        const string UnmatchedPathSegment = "{*pathInfo}";
+        ISerializer _serializer;
 
-        public RestServiceRoute(Type type, string url)
-            : base(string.Format("{0}/{1}", url, UnmatchedPathSegment), new RestServiceRouteHandler(type,url))
+        public RestServiceMethodInvoker(ISerializer serializer)
         {
+            _serializer = serializer;
         }
 
-
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        public void Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
         {
-            return null;
+            int i = 0;
+            i++;
         }
     }
 }
