@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FB310720-CD89-44B6-BD54-7861F65D8466}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost</RootNamespace>
+    <AssemblyName>Bifrost</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Bifrost.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Bifrost.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CoreDev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\CoreDev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Bifrost.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\DynamicCommand.cs" />
+    <Compile Include="Commands\DynamicCommandFactory.cs" />
+    <Compile Include="Commands\DynamicCommandHandler.cs" />
+    <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
+    <Compile Include="Commands\IDynamicCommandFactory.cs" />
+    <Compile Include="Configuration\ConfigSection\ConfigurationManager.cs" />
+    <Compile Include="Configuration\ConfigSection\IConfigurationManager.cs" />
+    <Compile Include="Configuration\ViewsConfiguration.cs" />
+    <Compile Include="Configuration\Xml\SagasElement.cs" />
+    <Compile Include="Configuration\IConfigure.cs" />
+    <Compile Include="Configuration\ISagasConfiguration.cs" />
+    <Compile Include="Configuration\SagasConfiguration.cs" />
+    <Compile Include="Domain\AggregatedRootOf.cs" />
+    <Compile Include="Events\EventConverter.cs" />
+    <Compile Include="Events\EventExtensions.cs" />
+    <Compile Include="Events\EventHolder.cs" />
+    <Compile Include="Events\EventRepository.cs" />
+    <Compile Include="Events\EventStoreChangeManager.cs" />
+    <Compile Include="Events\EventSubscription.cs" />
+    <Compile Include="Events\EventSubscriptionHolder.cs" />
+    <Compile Include="Events\EventSubscriptionManager.cs" />
+    <Compile Include="Events\EventSubscriptionRepository.cs" />
+    <Compile Include="Events\IEventConverter.cs" />
+    <Compile Include="Events\IEventStoreChangeListener.cs" />
+    <Compile Include="Events\IEventStoreChangeManager.cs" />
+    <Compile Include="Events\IEventStoreChangeNotifier.cs" />
+    <Compile Include="Events\IEventSubscriptionManager.cs" />
+    <Compile Include="Events\IEventSubscriptionRepository.cs" />
+    <Compile Include="Events\InvalidFastForwardException.cs" />
+    <Compile Include="Events\IProcessMethodInvoker.cs" />
+    <Compile Include="Events\ProcessMethodInvoker.cs" />
+    <Compile Include="Execution\AssemblyComparer.cs" />
+    <Compile Include="Execution\ExecutionContext.cs" />
+    <Compile Include="Execution\ExecutionContextManager.cs" />
+    <Compile Include="Execution\IExecutionContext.cs" />
+    <Compile Include="Execution\IExecutionContextManager.cs" />
+    <Compile Include="Execution\ReadOnlyObjectException.cs" />
+    <Compile Include="Execution\WriteOnceExpandoObject.cs" />
+    <Compile Include="Extensions\ITypeInfo.cs" />
+    <Compile Include="Extensions\TypeInfo.cs" />
+    <Compile Include="Sagas\Constants.cs" />
+    <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
+    <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
+    <Compile Include="Sagas\ISagaConverter.cs" />
+    <Compile Include="Sagas\SagaConverter.cs" />
+    <Compile Include="Sagas\SagaState.cs" />
+    <Compile Include="Sagas\State.cs" />
+    <Compile Include="Serialization\SerializationOptions.cs" />
+    <Compile Include="Serialization\SerializerContractResolver.cs" />
+    <Compile Include="Globalization\ILocalizer.cs" />
+    <Compile Include="Globalization\LocalizationScope.cs" />
+    <Compile Include="Globalization\Localizer.cs" />
+    <Compile Include="Sagas\ChapterDoesNotExistException.cs" />
+    <Compile Include="Sagas\ChapterTransition.cs" />
+    <Compile Include="Sagas\ChapterHolder.cs" />
+    <Compile Include="Sagas\SagaCommandContext.cs" />
+    <Compile Include="Sagas\SagaHolder.cs" />
+    <Compile Include="Sagas\SagaLibrarian.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Tenancy\Tenant.cs" />
+    <Compile Include="Validation\ChapterValidationService.cs" />
+    <Compile Include="Sagas\ICanTransitionTo.cs" />
+    <Compile Include="Sagas\ISaga.cs" />
+    <Compile Include="Sagas\IChapter.cs" />
+    <Compile Include="Sagas\ISagaLibrarian.cs" />
+    <Compile Include="Sagas\ISagaNarrator.cs" />
+    <Compile Include="Sagas\Saga.cs" />
+    <Compile Include="Configuration\CommandsConfiguration.cs" />
+    <Compile Include="Configuration\Xml\BifrostConfig.cs" />
+    <Compile Include="Configuration\BifrostConfigHandler.cs" />
+    <Compile Include="Configuration\ConfigSection\ConfigConfigurationSource.cs" />
+    <Compile Include="Configuration\Xml\CommandsElement.cs" />
+    <Compile Include="Configuration\Xml\ConfigParser.cs" />
+    <Compile Include="Configuration\ConfigSection\ConfigurationExtensions.cs" />
+    <Compile Include="Configuration\Xml\ElementNameAttribute.cs" />
+    <Compile Include="Configuration\Xml\EventsElement.cs" />
+    <Compile Include="Configuration\Xml\IConfigElement.cs" />
+    <Compile Include="Configuration\Xml\StorageElement.cs" />
+    <Compile Include="Configuration\ConfigurationExtensions.cs" />
+    <Compile Include="Configuration\Configure.cs" />
+    <Compile Include="Configuration\Defaults\DefaultBindings.cs" />
+    <Compile Include="Configuration\Defaults\DefaultConventions.cs" />
+    <Compile Include="Configuration\EventsConfiguration.cs" />
+    <Compile Include="Configuration\ICommandsConfiguration.cs" />
+    <Compile Include="Configuration\IConfigurationSource.cs" />
+    <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
+    <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
+    <Compile Include="Configuration\IEventsConfiguration.cs" />
+    <Compile Include="Configuration\IViewsConfiguration.cs" />
+    <Compile Include="Configuration\IStorageConfiguration.cs" />
+    <Compile Include="Diagnostics\ILogger.cs" />
+    <Compile Include="Events\EventSourceExtensions.cs" />
+    <Compile Include="Execution\BindingConventionManager.cs" />
+    <Compile Include="Execution\ContainerServiceLocator.cs" />
+    <Compile Include="Execution\DefaultConvention.cs" />
+    <Compile Include="Execution\IBindingConventionManager.cs" />
+    <Compile Include="Execution\IContainer.cs" />
+    <Compile Include="Sagas\SagaConclusion.cs" />
+    <Compile Include="Sagas\SagaNotInChapterException.cs" />
+    <Compile Include="Sagas\Chapter.cs" />
+    <Compile Include="Sagas\ChapterAlreadyExistException.cs" />
+    <Compile Include="Sagas\ChapterTransitionNotAllowedException.cs" />
+    <Compile Include="Sagas\ChapterTransitionHelper.cs" />
+    <Compile Include="Sagas\SagaNarrator.cs" />
+    <Compile Include="Validation\ChapterValidation.cs" />
+    <Compile Include="Validation\ChapterValidatorProvider.cs" />
+    <Compile Include="Validation\CommandBusinessValidator.cs" />
+    <Compile Include="Commands\CommandHandlerForTypeInvoker.cs" />
+    <Compile Include="Commands\CommandHandlerInvoker.cs" />
+    <Compile Include="Validation\CommandInputValidator.cs" />
+    <Compile Include="Validation\CommandValidationService.cs" />
+    <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\DefaultValidatorFactory.cs" />
+    <Compile Include="Validation\ICanValidate.cs" />
+    <Compile Include="Validation\IChapterValidationService.cs" />
+    <Compile Include="Validation\IChapterValidator.cs" />
+    <Compile Include="Validation\IChapterValidatorProvider.cs" />
+    <Compile Include="Validation\ICommandBusinessValidator.cs" />
+    <Compile Include="Commands\ICommandContextStore.cs" />
+    <Compile Include="Validation\ICommandInputValidator.cs" />
+    <Compile Include="Validation\ICommandValidationService.cs" />
+    <Compile Include="Validation\ICommandValidatorProvider.cs" />
+    <Compile Include="Validation\NullChapterValidator.cs" />
+    <Compile Include="Validation\NullCommandBusinessValidator.cs" />
+    <Compile Include="Validation\NullCommandInputValidator.cs" />
+    <Compile Include="Commands\PersistentCommandContext.cs" />
+    <Compile Include="Commands\UnhandledCommandException.cs" />
+    <Compile Include="Domain\AggregatedRootFactory.cs" />
+    <Compile Include="Events\DuplicateInEventMigrationHierarchyException.cs" />
+    <Compile Include="Events\EventMigrationHierarchy.cs" />
+    <Compile Include="Events\EventMigrationHierarchyDiscoverer.cs" />
+    <Compile Include="Events\EventMigrationHierarchyManager.cs" />
+    <Compile Include="Events\EventMigratorManager.cs" />
+    <Compile Include="Events\EventOutOfSequenceException.cs" />
+    <Compile Include="Events\EventSourceVersion.cs" />
+    <Compile Include="Domain\IAggregatedRootFactory.cs" />
+    <Compile Include="Commands\ICommandForType.cs" />
+    <Compile Include="Commands\ICommandHandlerForType.cs" />
+    <Compile Include="Commands\ICommandHandlerInvoker.cs" />
+    <Compile Include="Domain\AggregatedRootCommand.cs" />
+    <Compile Include="Domain\AggregatedRootCommandHandler.cs" />
+    <Compile Include="Events\EventStore.cs" />
+    <Compile Include="Events\EventSubscriber.cs" />
+    <Compile Include="Events\IAmNextGenerationOf.cs" />
+    <Compile Include="Events\IEventMigrationHierarchyDiscoverer.cs" />
+    <Compile Include="Events\IEventMigrationHierarchyManager.cs" />
+    <Compile Include="Events\IEventMigratorManager.cs" />
+    <Compile Include="Events\IEventMigrator.cs" />
+    <Compile Include="Events\IEventRepository.cs" />
+    <Compile Include="Events\InvalidMigrationTypeException.cs" />
+    <Compile Include="Events\NotAMigratedEventTypeException.cs" />
+    <Compile Include="Events\MigrationLevelOutOfRangeException.cs" />
+    <Compile Include="Events\UnregisteredEventException.cs" />
+    <Compile Include="Execution\AssemblyLocator.cs" />
+    <Compile Include="Execution\IAssemblyLocator.cs" />
+    <Compile Include="Execution\MultipleTypesFoundException.cs" />
+    <Compile Include="Views\IHaveId.cs" />
+    <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
+    <Compile Include="Resources\IHaveResources.cs" />
+    <Compile Include="Resources\IResourcePropertiesResolver.cs" />
+    <Compile Include="Resources\IResourceResolver.cs" />
+    <Compile Include="Resources\ResourceConvention.cs" />
+    <Compile Include="Resources\ResourceInterceptor.cs" />
+    <Compile Include="Resources\ResourcePropertiesResolver.cs" />
+    <Compile Include="Commands\CommandContext.cs" />
+    <Compile Include="Commands\CommandContextManager.cs" />
+    <Compile Include="Commands\CommandHandlerManager.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
+    <Compile Include="Commands\ICommandContext.cs" />
+    <Compile Include="Commands\ICommandContextManager.cs" />
+    <Compile Include="Commands\ICommandHandlerManager.cs" />
+    <Compile Include="Configuration\IEntityContextConfiguration.cs" />
+    <Compile Include="Domain\InvalidAggregateException.cs" />
+    <Compile Include="Domain\AggregatedRoot.cs" />
+    <Compile Include="Domain\AggregatedRootRepository.cs" />
+    <Compile Include="Domain\IAggregatedRoot.cs" />
+    <Compile Include="Domain\IAggregatedRootRepository.cs" />
+    <Compile Include="Domain\IDynamicOriginator.cs" />
+    <Compile Include="Domain\IMemento.cs" />
+    <Compile Include="Domain\IOriginator.cs" />
+    <Compile Include="Domain\MissingAggregatedRootException.cs" />
+    <Compile Include="Entities\IEntityContext.cs" />
+    <Compile Include="Entities\IEntityContextConnection.cs" />
+    <Compile Include="Events\EventStream.cs" />
+    <Compile Include="Events\CommittedEventStream.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventSource.cs" />
+    <Compile Include="Events\ICanPublishEvents.cs" />
+    <Compile Include="Events\IEventSource.cs" />
+    <Compile Include="Events\IEventStore.cs" />
+    <Compile Include="Events\MethodEvent.cs" />
+    <Compile Include="Events\MethodEventArguments.cs" />
+    <Compile Include="Events\MethodEventFactory.cs" />
+    <Compile Include="Events\UncommittedEventStream.cs" />
+    <Compile Include="ExceptionStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Execution\ITypeDiscoverer.cs" />
+    <Compile Include="Execution\ITypeImporter.cs" />
+    <Compile Include="Execution\SingletonAttribute.cs" />
+    <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Execution\TypeImporter.cs" />
+    <Compile Include="Commands\CommandCoordinator.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="Commands\ICommandCoordinator.cs" />
+    <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\IEventSubscriber.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Lifecycle\IUnitOfWork.cs" />
+    <Compile Include="Execution\BaseConvention.cs" />
+    <Compile Include="Execution\IBindingConvention.cs" />
+    <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\View.cs" />
+    <Compile Include="Execution\BindingLifecycle.cs" />
+    <Compile Include="Execution\ApplicationManager.cs" />
+    <Compile Include="Execution\ApplicationNotFoundException.cs" />
+    <Compile Include="Execution\IApplication.cs" />
+    <Compile Include="Execution\IApplicationManager.cs" />
+    <Compile Include="Execution\MultipleApplicationsFoundException.cs" />
+    <Compile Include="Time\Month.cs" />
+    <Compile Include="Time\SystemClock.cs" />
+    <Compile Include="Validation\ConventionValidatorFactory.cs" />
+    <Compile Include="Validation\CommandValidatorFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ExceptionStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

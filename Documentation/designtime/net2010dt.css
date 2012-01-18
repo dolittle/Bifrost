@@ -1,0 +1,68 @@
+div#designbanner table td
+{
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 0;
+	padding-right: 0;
+	margin: 0;
+}
+div#designbanner
+{
+	background-color: #FFFFCC; 
+	padding-top: 4px; 
+	padding-bottom: 2px; 
+	padding-left: 4px; 
+	padding-right: 1px; 
+	border-bottom: 1px solid #808080; 
+	color: black; 
+	margin-left: 0px;
+}	
+div#designbanner table td.designbannertext
+{
+	width: 100%;
+	font-size: 8pt;
+	color: black;
+	padding-left: 1px;
+}
+div#designbanner table td.designbannericon
+{
+	padding-top: 0;
+	margin-top: 0;
+}
+
+/* Expand / collapse mini toc */
+div#mshv_panepanel
+{
+	position:	absolute; 
+	left: 		0px; 
+	width: 		10px;
+	height: 	100%;
+	background-color: Transparent;
+}
+
+div#mshv_paneimage
+{
+	background-image: 	url(expandpane.png); 
+	background-repeat: 	repeat-y; 
+	height: 			100%; 
+	float: 				right; 
+	width: 				8px; 
+	display: 			none; 
+	cursor: 			pointer;
+}
+
+div#OH_leftNav
+{
+	display:			none;
+}
+
+div.OH_outerContent
+{
+	padding-left: 10px;
+}
+
+body, div.OH_outerDiv
+{
+	height:		100%;
+}
+/* End Expand / collapse mini toc */

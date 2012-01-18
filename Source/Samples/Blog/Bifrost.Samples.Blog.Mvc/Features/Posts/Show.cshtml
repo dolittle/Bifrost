@@ -1,0 +1,93 @@
+﻿@using Bifrost.Samples.Blog.Domain.Posts.Commands;
+@using Bifrost.Web.Mvc.Commands
+@using Bifrost.Samples.Blog.Views.Posts;
+@using Bifrost.Samples.Blog.Mvc.Features.Posts;
+@using Bifrost.Web.Mvc.Visualizers
+@model PostViewModel
+@{
+	ViewBag.Title = "View Post";
+}
+@Html.ActionLink("Edit Post", "Edit", new { id = @Model.Post.Id });
+
+Title : @Model.Post.Title
+<br />
+Text : @Model.Post.Body
+
+<br />
+<br />
+<br />
+Comments : <br />
+<br />
+<br />
+
+<ul>
+	@foreach( var comment in Model.Comments )
+	 {
+		<li>
+			<table>
+				<tr>
+					<td>
+						Author
+					</td>
+					<td>
+						@comment.Author
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Comment
+					</td>
+					<td>
+						@comment.Body
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Occured
+					</td>
+					<td>
+						@comment.Occured.ToString()
+					</td>
+				</tr>
+			</table>
+
+		</li>
+	 }
+
+</ul>
+
+<br />
+<br />
+Comment : <br />
+
+@using (var form = Html.BeginCommandForm<AddCommentToPost, PostsController>(c => c.AddComment(null), FormMethod.Post))
+{
+	@form.Html.HiddenFor(c => c.Id);
+	
+    <ul>
+        <li>
+            @form.Html.LabelFor(c => c.Author)
+            @form.Html.TextBoxFor(c => c.Author)
+            @form.Html.ValidationMessageFor(c => c.Author)
+        </li>
+        <li>
+            @form.Html.LabelFor(c => c.EMail)
+            @form.Html.TextBoxFor(c => c.EMail)
+            @form.Html.ValidationMessageFor(c => c.EMail)
+        </li>
+        <li>
+            @form.Html.LabelFor(c => c.Url)
+            @form.Html.TextBoxFor(c => c.Url)
+            @form.Html.ValidationMessageFor(c => c.Url)
+        </li>
+        <li>
+            @form.Html.LabelFor(c => c.Comment)
+            @form.Html.TextBoxFor(c => c.Comment)
+            @form.Html.ValidationMessageFor(c => c.Comment)
+        </li>
+    </ul>
+	<input type="submit" value="Add comment" />
+}
+
+
+

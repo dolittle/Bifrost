@@ -1,0 +1,82 @@
+﻿@using Bifrost.Web.Mvc.Commands
+@using Bifrost.Samples.Shop.Mvc.Features.Campaigns
+@using Bifrost.Samples.Shop.Domain.Campaigns
+@{
+	ViewBag.Title = "Create new Campaign";
+}
+@using (var form = (Html.BeginCommandForm<CreateNewCampaign, CampaignsController>(c => c.Create(null), FormMethod.Post)))
+{
+	@form.Html.HiddenFor(c => c.Id);
+	
+	<table>
+		<tr>
+			<td>
+				Name
+			</td>
+			<td>
+				@form.Html.TextBoxFor(c => c.Name);
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Title
+			</td>
+			<td>
+				@form.Html.TextBoxFor(c => c.Title);
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Status
+			</td>
+			<td>
+				
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Valid from
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Valid to
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Zone
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Sites
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Tag
+			</td>
+				@form.Html.TextBoxFor(c => c.Tag);
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Segment
+			</td>
+			<td>
+			</td>
+		</tr>
+	</table>
+	
+	<input type="submit" value="Create" />
+}

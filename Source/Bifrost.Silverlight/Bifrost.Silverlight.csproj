@@ -1,0 +1,797 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1426A0C9-0445-4E65-839B-1B3A1BAECDB7}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost</RootNamespace>
+    <AssemblyName>Bifrost</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CoreDev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\CoreDev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>SLBin\Debug\Bifrost.Silverlight.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\SL4\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.2.0.0\lib\SL4\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Bifrost\Auditing\IHaveOrigin.cs">
+      <Link>Auditing\IHaveOrigin.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\Command.cs">
+      <Link>Commands\Command.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandContext.cs">
+      <Link>Commands\CommandContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandContextManager.cs">
+      <Link>Commands\CommandContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandCoordinator.cs">
+      <Link>Commands\CommandCoordinator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandHandlerForTypeInvoker.cs">
+      <Link>Commands\CommandHandlerForTypeInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandHandlerInvoker.cs">
+      <Link>Commands\CommandHandlerInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandHandlerManager.cs">
+      <Link>Commands\CommandHandlerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandResult.cs">
+      <Link>Commands\CommandResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\DynamicCommand.cs">
+      <Link>Commands\DynamicCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\DynamicCommandFactory.cs">
+      <Link>Commands\DynamicCommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\DynamicCommandHandler.cs">
+      <Link>Commands\DynamicCommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ExpressionNotMethodCallException.cs">
+      <Link>Commands\ExpressionNotMethodCallException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommand.cs">
+      <Link>Commands\ICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandContext.cs">
+      <Link>Commands\ICommandContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandContextManager.cs">
+      <Link>Commands\ICommandContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandContextStore.cs">
+      <Link>Commands\ICommandContextStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandCoordinator.cs">
+      <Link>Commands\ICommandCoordinator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandForType.cs">
+      <Link>Commands\ICommandForType.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandHandler.cs">
+      <Link>Commands\ICommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandHandlerForType.cs">
+      <Link>Commands\ICommandHandlerForType.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandHandlerInvoker.cs">
+      <Link>Commands\ICommandHandlerInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\ICommandHandlerManager.cs">
+      <Link>Commands\ICommandHandlerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\IDynamicCommandFactory.cs">
+      <Link>Commands\IDynamicCommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\PersistentCommandContext.cs">
+      <Link>Commands\PersistentCommandContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\UnhandledCommandException.cs">
+      <Link>Commands\UnhandledCommandException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\CommandsConfiguration.cs">
+      <Link>Configuration\CommandsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ConfigurationExtensions.cs">
+      <Link>Configuration\ConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Configure.cs">
+      <Link>Configuration\Configure.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Defaults\DefaultBindings.cs">
+      <Link>Configuration\Defaults\DefaultBindings.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Defaults\DefaultConventions.cs">
+      <Link>Configuration\Defaults\DefaultConventions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Defaults\IDefaultBindings.cs">
+      <Link>Configuration\Defaults\IDefaultBindings.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Defaults\IDefaultConventions.cs">
+      <Link>Configuration\Defaults\IDefaultConventions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\EventsConfiguration.cs">
+      <Link>Configuration\EventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ICommandsConfiguration.cs">
+      <Link>Configuration\ICommandsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IConfigurationSource.cs">
+      <Link>Configuration\IConfigurationSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IConfigure.cs">
+      <Link>Configuration\IConfigure.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IEntityContextConfiguration.cs">
+      <Link>Configuration\IEntityContextConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IEventsConfiguration.cs">
+      <Link>Configuration\IEventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ISagasConfiguration.cs">
+      <Link>Configuration\ISagasConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IStorageConfiguration.cs">
+      <Link>Configuration\IStorageConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
+      <Link>Configuration\IViewsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
+      <Link>Configuration\SagasConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
+      <Link>Configuration\ViewsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\BifrostConfig.cs">
+      <Link>Configuration\Xml\BifrostConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\CommandsElement.cs">
+      <Link>Configuration\Xml\CommandsElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\ConfigParser.cs">
+      <Link>Configuration\Xml\ConfigParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\ElementNameAttribute.cs">
+      <Link>Configuration\Xml\ElementNameAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\EventsElement.cs">
+      <Link>Configuration\Xml\EventsElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\IConfigElement.cs">
+      <Link>Configuration\Xml\IConfigElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\SagasElement.cs">
+      <Link>Configuration\Xml\SagasElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Xml\StorageElement.cs">
+      <Link>Configuration\Xml\StorageElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ILogger.cs">
+      <Link>Diagnostics\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRoot.cs">
+      <Link>Domain\AggregatedRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRootCommand.cs">
+      <Link>Domain\AggregatedRootCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRootCommandHandler.cs">
+      <Link>Domain\AggregatedRootCommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRootFactory.cs">
+      <Link>Domain\AggregatedRootFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRootOf.cs">
+      <Link>Domain\AggregatedRootOf.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\AggregatedRootRepository.cs">
+      <Link>Domain\AggregatedRootRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IAggregatedRoot.cs">
+      <Link>Domain\IAggregatedRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IAggregatedRootFactory.cs">
+      <Link>Domain\IAggregatedRootFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IAggregatedRootRepository.cs">
+      <Link>Domain\IAggregatedRootRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IDynamicOriginator.cs">
+      <Link>Domain\IDynamicOriginator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IMemento.cs">
+      <Link>Domain\IMemento.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\InvalidAggregateException.cs">
+      <Link>Domain\InvalidAggregateException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\IOriginator.cs">
+      <Link>Domain\IOriginator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Domain\MissingAggregatedRootException.cs">
+      <Link>Domain\MissingAggregatedRootException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Entities\IEntityContext.cs">
+      <Link>Entities\IEntityContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Entities\IEntityContextConnection.cs">
+      <Link>Entities\IEntityContextConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\CommittedEventStream.cs">
+      <Link>Events\CommittedEventStream.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\DuplicateInEventMigrationHierarchyException.cs">
+      <Link>Events\DuplicateInEventMigrationHierarchyException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\Event.cs">
+      <Link>Events\Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventConverter.cs">
+      <Link>Events\EventConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventExtensions.cs">
+      <Link>Events\EventExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventHolder.cs">
+      <Link>Events\EventHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventMigrationHierarchy.cs">
+      <Link>Events\EventMigrationHierarchy.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventMigrationHierarchyDiscoverer.cs">
+      <Link>Events\EventMigrationHierarchyDiscoverer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventMigrationHierarchyManager.cs">
+      <Link>Events\EventMigrationHierarchyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventMigratorManager.cs">
+      <Link>Events\EventMigratorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventOutOfSequenceException.cs">
+      <Link>Events\EventOutOfSequenceException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventRepository.cs">
+      <Link>Events\EventRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSource.cs">
+      <Link>Events\EventSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSourceExtensions.cs">
+      <Link>Events\EventSourceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSourceVersion.cs">
+      <Link>Events\EventSourceVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventStore.cs">
+      <Link>Events\EventStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventStoreChangeManager.cs">
+      <Link>Events\EventStoreChangeManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventStream.cs">
+      <Link>Events\EventStream.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSubscriber.cs">
+      <Link>Events\EventSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSubscription.cs">
+      <Link>Events\EventSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSubscriptionHolder.cs">
+      <Link>Events\EventSubscriptionHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSubscriptionManager.cs">
+      <Link>Events\EventSubscriptionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\EventSubscriptionRepository.cs">
+      <Link>Events\EventSubscriptionRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IAmNextGenerationOf.cs">
+      <Link>Events\IAmNextGenerationOf.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\ICanPublishEvents.cs">
+      <Link>Events\ICanPublishEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEvent.cs">
+      <Link>Events\IEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventConverter.cs">
+      <Link>Events\IEventConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventMigrationHierarchyDiscoverer.cs">
+      <Link>Events\IEventMigrationHierarchyDiscoverer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventMigrationHierarchyManager.cs">
+      <Link>Events\IEventMigrationHierarchyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventMigrator.cs">
+      <Link>Events\IEventMigrator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventMigratorManager.cs">
+      <Link>Events\IEventMigratorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventRepository.cs">
+      <Link>Events\IEventRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventSource.cs">
+      <Link>Events\IEventSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventStore.cs">
+      <Link>Events\IEventStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventStoreChangeListener.cs">
+      <Link>Events\IEventStoreChangeListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventStoreChangeManager.cs">
+      <Link>Events\IEventStoreChangeManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventStoreChangeNotifier.cs">
+      <Link>Events\IEventStoreChangeNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventSubscriber.cs">
+      <Link>Events\IEventSubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventSubscriptionManager.cs">
+      <Link>Events\IEventSubscriptionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IEventSubscriptionRepository.cs">
+      <Link>Events\IEventSubscriptionRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\InvalidFastForwardException.cs">
+      <Link>Events\InvalidFastForwardException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\InvalidMigrationTypeException.cs">
+      <Link>Events\InvalidMigrationTypeException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IProcessMethodInvoker.cs">
+      <Link>Events\IProcessMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\MethodEvent.cs">
+      <Link>Events\MethodEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\MethodEventArguments.cs">
+      <Link>Events\MethodEventArguments.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\MethodEventFactory.cs">
+      <Link>Events\MethodEventFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\MigrationLevelOutOfRangeException.cs">
+      <Link>Events\MigrationLevelOutOfRangeException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\NotAMigratedEventTypeException.cs">
+      <Link>Events\NotAMigratedEventTypeException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\ProcessMethodInvoker.cs">
+      <Link>Events\ProcessMethodInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\UncommittedEventStream.cs">
+      <Link>Events\UncommittedEventStream.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\UnregisteredEventException.cs">
+      <Link>Events\UnregisteredEventException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\ExceptionStrings.Designer.cs">
+      <Link>ExceptionStrings.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ApplicationManager.cs">
+      <Link>Execution\ApplicationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ApplicationNotFoundException.cs">
+      <Link>Execution\ApplicationNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\AssemblyComparer.cs">
+      <Link>Execution\AssemblyComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\AssemblyLocator.cs">
+      <Link>Execution\AssemblyLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\BaseConvention.cs">
+      <Link>Execution\BaseConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\BindingConventionManager.cs">
+      <Link>Execution\BindingConventionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\BindingLifecycle.cs">
+      <Link>Execution\BindingLifecycle.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ContainerServiceLocator.cs">
+      <Link>Execution\ContainerServiceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\DefaultConvention.cs">
+      <Link>Execution\DefaultConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ExecutionContext.cs">
+      <Link>Execution\ExecutionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ExecutionContextManager.cs">
+      <Link>Execution\ExecutionContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IApplication.cs">
+      <Link>Execution\IApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IApplicationManager.cs">
+      <Link>Execution\IApplicationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
+      <Link>Execution\IAssemblyLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IBindingConvention.cs">
+      <Link>Execution\IBindingConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IBindingConventionManager.cs">
+      <Link>Execution\IBindingConventionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IContainer.cs">
+      <Link>Execution\IContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IExecutionContext.cs">
+      <Link>Execution\IExecutionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IExecutionContextManager.cs">
+      <Link>Execution\IExecutionContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ITypeDiscoverer.cs">
+      <Link>Execution\ITypeDiscoverer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ITypeImporter.cs">
+      <Link>Execution\ITypeImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\MultipleApplicationsFoundException.cs">
+      <Link>Execution\MultipleApplicationsFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\MultipleTypesFoundException.cs">
+      <Link>Execution\MultipleTypesFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\SingletonAttribute.cs">
+      <Link>Execution\SingletonAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\TypeDiscoverer.cs">
+      <Link>Execution\TypeDiscoverer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\TypeImporter.cs">
+      <Link>Execution\TypeImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
+      <Link>Extensions\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
+      <Link>Extensions\ITypeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Extensions\TypeExtensions.cs">
+      <Link>Extensions\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Extensions\TypeInfo.cs">
+      <Link>Extensions\TypeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Globalization\ILocalizer.cs">
+      <Link>Globalization\ILocalizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Globalization\LocalizationScope.cs">
+      <Link>Globalization\LocalizationScope.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Globalization\Localizer.cs">
+      <Link>Globalization\Localizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Lifecycle\IUnitOfWork.cs">
+      <Link>Lifecycle\IUnitOfWork.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\IHaveResources.cs">
+      <Link>Resources\IHaveResources.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\IResourcePropertiesResolver.cs">
+      <Link>Resources\IResourcePropertiesResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\IResourceResolver.cs">
+      <Link>Resources\IResourceResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\ResourceConvention.cs">
+      <Link>Resources\ResourceConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\ResourceInterceptor.cs">
+      <Link>Resources\ResourceInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Resources\ResourcePropertiesResolver.cs">
+      <Link>Resources\ResourcePropertiesResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\Chapter.cs">
+      <Link>Sagas\Chapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterAlreadyExistException.cs">
+      <Link>Sagas\ChapterAlreadyExistException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterDoesNotExistException.cs">
+      <Link>Sagas\ChapterDoesNotExistException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterHolder.cs">
+      <Link>Sagas\ChapterHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterTransition.cs">
+      <Link>Sagas\ChapterTransition.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterTransitionHelper.cs">
+      <Link>Sagas\ChapterTransitionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ChapterTransitionNotAllowedException.cs">
+      <Link>Sagas\ChapterTransitionNotAllowedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\Constants.cs">
+      <Link>Sagas\Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\Exceptions\InvalidSagaStateTransitionException.cs">
+      <Link>Sagas\Exceptions\InvalidSagaStateTransitionException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\Exceptions\UnknownSagaStateException.cs">
+      <Link>Sagas\Exceptions\UnknownSagaStateException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ICanTransitionTo.cs">
+      <Link>Sagas\ICanTransitionTo.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\IChapter.cs">
+      <Link>Sagas\IChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ISaga.cs">
+      <Link>Sagas\ISaga.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ISagaConverter.cs">
+      <Link>Sagas\ISagaConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ISagaLibrarian.cs">
+      <Link>Sagas\ISagaLibrarian.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\ISagaNarrator.cs">
+      <Link>Sagas\ISagaNarrator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\Saga.cs">
+      <Link>Sagas\Saga.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaCommandContext.cs">
+      <Link>Sagas\SagaCommandContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaConclusion.cs">
+      <Link>Sagas\SagaConclusion.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaConverter.cs">
+      <Link>Sagas\SagaConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaHolder.cs">
+      <Link>Sagas\SagaHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaLibrarian.cs">
+      <Link>Sagas\SagaLibrarian.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaNarrator.cs">
+      <Link>Sagas\SagaNarrator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaNotInChapterException.cs">
+      <Link>Sagas\SagaNotInChapterException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaState.cs">
+      <Link>Sagas\SagaState.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\State.cs">
+      <Link>Sagas\State.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Serialization\ISerializer.cs">
+      <Link>Serialization\ISerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Serialization\SerializationOptions.cs">
+      <Link>Serialization\SerializationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Serialization\Serializer.cs">
+      <Link>Serialization\Serializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Serialization\SerializerContractResolver.cs">
+      <Link>Serialization\SerializerContractResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Time\Month.cs">
+      <Link>Time\Month.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Time\SystemClock.cs">
+      <Link>Time\SystemClock.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ChapterValidation.cs">
+      <Link>Validation\ChapterValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ChapterValidationService.cs">
+      <Link>Validation\ChapterValidationService.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ChapterValidatorProvider.cs">
+      <Link>Validation\ChapterValidatorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandBusinessValidator.cs">
+      <Link>Validation\CommandBusinessValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandInputValidator.cs">
+      <Link>Validation\CommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandValidationService.cs">
+      <Link>Validation\CommandValidationService.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandValidatorFactory.cs">
+      <Link>Validation\CommandValidatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandValidatorProvider.cs">
+      <Link>Validation\CommandValidatorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ConventionValidatorFactory.cs">
+      <Link>Validation\ConventionValidatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\DefaultValidatorFactory.cs">
+      <Link>Validation\DefaultValidatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ICanValidate.cs">
+      <Link>Validation\ICanValidate.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IChapterValidationService.cs">
+      <Link>Validation\IChapterValidationService.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IChapterValidator.cs">
+      <Link>Validation\IChapterValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IChapterValidatorProvider.cs">
+      <Link>Validation\IChapterValidatorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ICommandBusinessValidator.cs">
+      <Link>Validation\ICommandBusinessValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ICommandInputValidator.cs">
+      <Link>Validation\ICommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ICommandValidationService.cs">
+      <Link>Validation\ICommandValidationService.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ICommandValidatorProvider.cs">
+      <Link>Validation\ICommandValidatorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\NullChapterValidator.cs">
+      <Link>Validation\NullChapterValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\NullCommandBusinessValidator.cs">
+      <Link>Validation\NullCommandBusinessValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\NullCommandInputValidator.cs">
+      <Link>Validation\NullCommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Views\IHaveId.cs">
+      <Link>Views\IHaveId.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Views\IView.cs">
+      <Link>Views\IView.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Views\ObjectDoesNotHaveIdException.cs">
+      <Link>Views\ObjectDoesNotHaveIdException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Views\View.cs">
+      <Link>Views\View.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
+    <Compile Include="Extensions\DependencyPropertySubscription.cs" />
+    <Compile Include="Extensions\IDependencyPropertySubscription.cs" />
+    <Compile Include="Extensions\NotificationExtensions.cs" />
+    <Compile Include="Helpers\DependencyProperty.cs" />
+    <Compile Include="Helpers\DependencyPropertyHelper.cs" />
+    <Compile Include="Interaction\DelegateCommand.cs" />
+    <Compile Include="Notification\Dispatcher.cs" />
+    <Compile Include="Notification\DispatcherManager.cs" />
+    <Compile Include="Notification\IDispatcher.cs" />
+    <Compile Include="Notification\IgnoreChangesAttribute.cs" />
+    <Compile Include="Notification\NotifyChangesForAttribute.cs" />
+    <Compile Include="Notification\NotifyingObjectWeaver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Bifrost\ExceptionStrings.resx">
+      <Link>ExceptionStrings.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+@using( Html.BeginForm("Login","Users", null, FormMethod.Post) )
+{
+    @Html.Hidden("redirectUrl",ViewContext.RequestContext.HttpContext.Request["ReturnUrl"])
+    
+    <table>
+        <tr>
+            <td>
+                Username
+            </td>
+            <td>
+                
+                @Html.TextBox("userName", null, null)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password
+            </td>
+            <td>
+                @Html.TextBox("password", null, null)
+            </td>
+
+        </tr>
+    </table>
+
+    <input type="submit" value="Login" />
+}

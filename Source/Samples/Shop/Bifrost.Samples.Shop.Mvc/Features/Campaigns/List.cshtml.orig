@@ -1,0 +1,21 @@
+﻿@using Bifrost.Samples.Shop.Mvc.Features.Campaigns
+@model IEnumerable<Campaign>
+@{
+	View.Title = "Campaign List";
+}
+
+@Html.ActionLink("Create new", "New", "Campaigns");
+
+
+<ul>
+	@foreach (var campaign in Model)
+	{
+		<li>
+			@campaign.Name
+			@campaign.Zone
+			@campaign.Title
+			@campaign.Status
+		</li>
+	}
+
+</ul>

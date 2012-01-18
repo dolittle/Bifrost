@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDAA9409-34B1-4B02-B079-19427E77A3B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost.Specs</RootNamespace>
+    <AssemblyName>Bifrost.Specs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169, 0108, 0414</NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169, 0108, 0414</NoWarn>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Mono</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <NoWarn>0169, 0108, 0414</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CoreDev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\CoreDev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>0169, 0108, 0414</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Bifrost.Specs.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications, Version=0.4.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.4.24.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\for_CommandContextManager\given\a_command_context_manager.cs" />
+    <Compile Include="Commands\for_CommandContextManager\Subjects.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_getting_current.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_establishing_on_different_threads_with_different_commands.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_establishing_on_different_threads_with_same_command.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_establishing_for_same_command.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_establishing_with_different_commands.cs" />
+    <Compile Include="Commands\for_CommandContextManager\when_getting_current_and_command_has_been_established.cs" />
+    <Compile Include="Commands\for_CommandContext\given\a_command_context_for_a_simple_command.cs" />
+    <Compile Include="Commands\for_CommandContext\given\a_command_context_for_a_simple_command_with_one_tracked_object.cs" />
+    <Compile Include="Commands\for_CommandContext\given\a_command_context_for_a_simple_command_with_one_tracked_object_with_one_uncommitted_event.cs" />
+    <Compile Include="Commands\for_CommandContext\when_committing.cs" />
+    <Compile Include="Commands\for_CommandContext\when_getting_objects_being_tracked.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\given\a_command_coordinator.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\Subjects.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_an_invalid_command.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_handling.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_command_with_success.cs" />
+    <Compile Include="Commands\for_CommandHandlerForTypeInvoker\given\a_command_handler_for_type_invoker.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_no_command_handlers.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_one_command_handler.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\Stubs.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\Subjects.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_automatically_discovered_command_handlers.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_manually_registered_command_handlers.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_no_command_handlers.cs" />
+    <Compile Include="Commands\for_CommandHandlerManager\given\a_command_handler_manager.cs" />
+    <Compile Include="Commands\for_CommandHandlerManager\when_handling_a_command_without_a_command_handler.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory_and_an_aggregated_root.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_another_method.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_constant.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_field.cs" />
+    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_property.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithConfigObjectWithString.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithListOfElements.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\given\a_config_parser.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObject.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithStringProperty.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\ObjectWithConfigObjectInside.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_an_object_with_a_list.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_a_config_element_with_a_string_property_and_it_is_set_as_an_inner_text_on_element.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_a_string_property_and_it_is_set_as_an_attribute.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_a_string_property_and_it_is_set_as_inner_text_on_element.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_a_string_property_and_no_xml_setting_it.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_config_object_has_no_properties.cs" />
+    <Compile Include="Configuration\Xml\for_ConfigParser\when_object_has_config_object_inside_with_property_set_as_attribute_and_does_not_have_a_child_element_for_the_config_object.cs" />
+    <Compile Include="Configuration\for_Configure\given\a_configure_instance.cs" />
+    <Compile Include="Configuration\for_Configure\when_configured_with_a_configuration_source.cs" />
+    <Compile Include="Configuration\for_Configure\when_initializing.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_configure_object.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
+    <Compile Include="Events\for_EventConverter\given\an_event_converter.cs" />
+    <Compile Include="Events\for_EventConverter\when_converting_to_an_event_holder.cs" />
+    <Compile Include="Events\for_EventRepository\given\an_event_repository_with_persisted_events.cs" />
+    <Compile Include="Events\for_EventRepository\given\an_event_source_with_10_applied_events.cs" />
+    <Compile Include="Events\for_EventRepository\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
+    <Compile Include="Events\for_EventRepository\Subjects.cs" />
+    <Compile Include="Events\for_EventRepository\Subscribers.cs" />
+    <Compile Include="Events\for_EventRepository\when_getting_the_events_for_a_specific_event_source.cs" />
+    <Compile Include="Events\for_EventRepository\when_getting_the_last_committed_version_for_an_event_source_with_events.cs" />
+    <Compile Include="Events\for_EventRepository\when_getting_unprocessed_events_for_one_subscription_and_there_is_one_event_that_is_unprocessed.cs" />
+    <Compile Include="Events\for_EventRepository\when_saving_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSourceVersion\given\a_range_of_event_source_versions.cs" />
+    <Compile Include="Events\for_EventSourceVersion\when_comparing_event_source_versions.cs" />
+    <Compile Include="Events\for_EventSourceVersion\when_converting_the_event_source_version_to_a_single_number.cs" />
+    <Compile Include="Events\for_EventSource\given\a_stateless_event_source.cs" />
+    <Compile Include="Events\for_EventSource\given\two_different_event_source_types_that_handle_different_events.cs" />
+    <Compile Include="Events\for_EventSource\when_checking_if_stateless_on_a_stateful_event_source.cs" />
+    <Compile Include="Events\for_EventSource\when_checking_if_stateless_on_a_stateless_event_source.cs" />
+    <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateful_aggregate_root.cs" />
+    <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateless_aggregate_root_that_is_not_the_initial_version.cs" />
+    <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateless_aggregate_root_that_is_the_initial_version.cs" />
+    <Compile Include="Events\for_EventSource\when_getting_the_handle_method_on_an_event_source_for_an_event.cs" />
+    <Compile Include="Events\for_EventSource\when_reapplying_a_stream_on_a_stateless_event_source.cs" />
+    <Compile Include="Events\for_EventStoreChangeManager\EventStoreChangeNotifier.cs" />
+    <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_manager_with_one_notifier_registered.cs" />
+    <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_notifier.cs" />
+    <Compile Include="Events\for_EventStoreChangeManager\when_notifying_changes_with_one_notifier.cs" />
+    <Compile Include="Events\for_EventStoreChangeManager\when_registering_a_notifier_that_does_not_implement_the_notifier_interface.cs" />
+    <Compile Include="Events\for_EventStore\given\an_event_store.cs" />
+    <Compile Include="Events\for_EventStore\when_creating_an_instance_and_an_event_is_in_repository_and_a_subscription_has_not_received_it.cs" />
+    <Compile Include="Events\for_EventStore\when_saving_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager_with_one_subscriber_from_repository.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager_with_one_subscriber_from_repository_and_matching_in_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\SomeEvent.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\SomeEventSubscriber.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_getting_all_subscriptions_and_there_is_none_in_running_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_but_none_is_in_running_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_creating_and_there_is_no_subscription_in_repository_but_one_in_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_there_is_one_subscription_for_the_event.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_two_subscriptions_for_different_event_types.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\Subscribers.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_adding_a_subscription.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_all_subscribers_and_there_are_two_available.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_are_two_subscriptions.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_is_no_subscriptions.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_updating_a_subscription.cs" />
+    <Compile Include="Events\for_Event\when_comparing_events_of_different_types.cs" />
+    <Compile Include="Events\for_Event\when_comparing_events_that_are_same_type_and_area_equal_but_with_different_ids.cs" />
+    <Compile Include="Events\for_Event\when_comparing_events_that_are_same_type_with_different_content.cs" />
+    <Compile Include="Events\for_Event\when_comparing_events_without_properties_and_different_ids.cs" />
+    <Compile Include="Events\for_ProcessMethodInvoker\given\a_process_method_invoker.cs" />
+    <Compile Include="Events\for_ProcessMethodInvoker\TypeWithSimpleEventProcessMethod.cs" />
+    <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_handle_a_given_event.cs" />
+    <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_not_handle_a_given_event.cs" />
+    <Compile Include="Execution\for_any_conventions\SelfBindingConvention.cs" />
+    <Compile Include="Execution\for_any_conventions\TypeWithSingletonAttribute.cs" />
+    <Compile Include="Execution\for_any_conventions\when_resolving_a_type_that_has_singleton_attribute.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\FakeBindingConvention.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\given\a_binding_convention_manager.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\given\a_binding_convention_manager_with_one_type.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\IService.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\Service.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_adding_same_convention_twice.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_automatically_discovering_conventions_and_initializing.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_convention_that_can_resolve.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_existing_services_bound_and_one_convention.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_one_convention_and_one_type.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_two_conventions_and_one_type_and_first_convention_can_resolve.cs" />
+    <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_two_conventions_and_one_type_and_second_convention_can_resolve_but_not_the_first.cs" />
+    <Compile Include="Execution\for_DefaultConvention\ISomething.cs" />
+    <Compile Include="Execution\for_DefaultConvention\Something.cs" />
+    <Compile Include="Execution\for_DefaultConvention\when_resolving_an_interface_with_an_implementation_following_convention_with_a_singleton_attribute.cs" />
+    <Compile Include="Execution\for_ExecutionContextManager\given\given_an_execution_context_manager.cs" />
+    <Compile Include="Execution\for_ExecutionContextManager\when_Getting_current_and_identity_has_been_set_on_current_thread.cs" />
+    <Compile Include="Execution\for_ExecutionContextManager\when_getting_current_and_no_identity_exists_on_thread.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\a_read_only_container.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\given\a_write_once_expando_object_without_values.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\given\a_write_once_expando_object_with_values.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_adding_values_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_adding_value_to_dictionary_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_clearing_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_creating.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_removing_a_value_by_key_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_through_indexer_after_creation.cs" />
+    <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_to_the_dictionary_after_creation.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\TypeWithDefaultConstructor.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\TypeWithoutDefaultConstructor.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_without_a_default_constructor_if_it_has_a_default_constructor.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_with_a_default_constructor_if_it_has_a_default_constructor.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\FakeInvocation.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\given\a_resource_interceptor.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\ClassWithString.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting_property_with_string_and_resolver_does_not_have_value.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting_property_with_string_and_resolver_has_a_value.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_has_begun_when_there_are_no_exceptions_or_validation_errors.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_is_already_concluded.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_is_new.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_continuing_a_saga_that_has_concluded.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_continuing_a_saga_that_has_not_begun.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_continuing_a_saga_that_is_continuing.cs" />
+    <Compile Include="Sagas\for_SagaState\given\a_state_of_begun.cs" />
+    <Compile Include="Sagas\for_SagaState\given\a_state_of_concluded.cs" />
+    <Compile Include="Sagas\for_SagaState\given\a_state_of_continuing.cs" />
+    <Compile Include="Sagas\for_SagaState\given\a_state_of_new.cs" />
+    <Compile Include="Sagas\for_SagaState\when_getting_a_state_from_a_string.cs" />
+    <Compile Include="Sagas\for_SagaState\when_in_a_state_of_begun.cs" />
+    <Compile Include="Sagas\for_SagaState\when_in_a_state_of_continuing.cs" />
+    <Compile Include="Sagas\for_SagaState\when_in_a_state_of_new.cs" />
+    <Compile Include="Sagas\for_SagaState\when_in_a_state_of_concluded.cs" />
+    <Compile Include="Sagas\for_Saga\when_creating_a_saga.cs" />
+    <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter_by_type_and_it_is_not_part_of_saga.cs" />
+    <Compile Include="Serialization\for_Serializer\ClassToSerialize.cs" />
+    <Compile Include="Serialization\for_Serializer\given\a_serializer.cs" />
+    <Compile Include="Serialization\for_Serializer\ISomething.cs" />
+    <Compile Include="Serialization\for_Serializer\SomethingImplementation.cs" />
+    <Compile Include="Serialization\for_Serializer\when_deserializing_type_with_an_interface_property_and_json_contains_type_reference.cs" />
+    <Compile Include="Serialization\for_Serializer\when_serializing_type_with_an_interface_property_and_instance_set_to_implementation.cs" />
+    <Compile Include="Globalization\given\a_localizer_mock.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\given\a_saga_command_context.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\given\a_saga_command_context_with_aggregated_root_that_has_uncommitted_events.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\given\a_saga_command_context_with_one_object_being_tracked.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\when_committing_with_uncommitted_events_available.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\when_committing_with_uncommitted_events_available_and_saga_has_a_chapter_property.cs" />
+    <Compile Include="Sagas\for_SagaCommandContext\when_getting_objects_being_tracked.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\given\a_saga_contract_resolver.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_containing_properties_with_conflicting_names_using_contract_resolver.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_using_contract_resolver.cs" />
+    <Compile Include="Sagas\for_SagaExtensions\when_setting_the_chapter_instance_on_a_saga_that_has_more_than_one_property_of_this_chapter_type.cs" />
+    <Compile Include="Sagas\for_SagaExtensions\when_setting_the_chapter_instance_on_a_saga_that_has_this_chapter_as_a_property.cs" />
+    <Compile Include="Sagas\for_SagaConverter\given\a_saga_converter_and_a_saga_holder_with_one_chapter_and_one_event_and_chapter_is_current_and_state_is_continuing.cs" />
+    <Compile Include="Sagas\for_SagaConverter\given\a_saga_converter_and_a_saga.cs" />
+    <Compile Include="Sagas\for_SagaConverter\given\a_saga_with_one_chapter.cs" />
+    <Compile Include="Sagas\for_SagaConverter\given\a_saga_with_one_chapter_and_it_is_current.cs" />
+    <Compile Include="Sagas\for_SagaConverter\given\a_saga_with_one_event.cs" />
+    <Compile Include="Sagas\for_SagaConverter\when_converting_a_saga_with_one_event_to_a_saga_holder.cs" />
+    <Compile Include="Sagas\for_SagaConverter\when_converting_to_saga_holder.cs" />
+    <Compile Include="Sagas\for_SagaConverter\when_converting_to_saga_holder_with_one_chapter_and_it_is_current.cs" />
+    <Compile Include="Sagas\for_SagaConverter\when_converting_to_saga.cs" />
+    <Compile Include="Sagas\for_SagaLibrarian\given\a_saga_librarian.cs" />
+    <Compile Include="Sagas\for_SagaLibrarian\when_getting_a_saga.cs" />
+    <Compile Include="Sagas\for_SagaLibrarian\when_recording_an_existing_saga.cs" />
+    <Compile Include="Sagas\for_SagaLibrarian\when_recording_a_new_saga.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\given\a_saga_narrator.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_beginning_a_saga_that_is_new.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_causes_an_exception.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_is_continuing_when_there_are_no_exceptions_or_validation_errors.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_continuing_a_saga_that_has_begun.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_a_new_chapter_and_the_current_chapter_is_invalid.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_chapter.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_chapter_and_chapter_does_not_exist.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_chapter_and_no_chapter_is_set.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_chapter_and_chapter_is_already_in_saga.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_chapter_that_is_not_supported.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_and_it_can_not_transition.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_by_instance_and_it_can_not_transition.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_by_instance_and_it_can_transition.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_by_type_and_it_can_not_transition.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_by_type_and_it_can_transition.cs" />
+    <Compile Include="Sagas\for_ChapterTransitionHelper\when_asking_generically_and_it_can_transition.cs" />
+    <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_same_chapter_as_current.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_with_a_chapter_property.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_with_events_from_multiple_aggregated_roots.cs" />
+    <Compile Include="Sagas\for_Saga\when_adding_chapter.cs" />
+    <Compile Include="Sagas\for_Saga\when_adding_chapter_and_chapter_already_exist.cs" />
+    <Compile Include="Sagas\for_Saga\when_checking_if_a_chapter_is_in_saga_and_chapter_is_in_saga.cs" />
+    <Compile Include="Sagas\for_Saga\when_checking_if_a_chapter_is_in_saga_and_chapter_is_not_in_saga.cs" />
+    <Compile Include="Sagas\for_Saga\when_getting_chapter_by_type.cs" />
+    <Compile Include="Sagas\for_Saga\when_getting_chapter_by_type_and_it_is_not_in_saga.cs" />
+    <Compile Include="Sagas\for_Saga\when_loading_events_and_saga_has_events_from_multiple_aggregatedroots.cs" />
+    <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter.cs" />
+    <Compile Include="Validation\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
+    <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
+    <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_passes.cs" />
+    <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_with_no_validators.cs" />
+    <Compile Include="Validation\for_ChapterValidatorProvider\given\a_chapter_validator_provider.cs" />
+    <Compile Include="Validation\for_ChapterValidatorProvider\when_getting_a_validator_for_a_chapter_with_a_validator.cs" />
+    <Compile Include="Validation\for_ChapterValidatorProvider\when_getting_a_validator_for_chapter_with_no_validator.cs" />
+    <Compile Include="Validation\for_ChapterValidatorProvider\when_validating_a_chapter_that_does_not_exist.cs" />
+    <Compile Include="Validation\for_ChapterValidator\given\a_chapter_validator.cs" />
+    <Compile Include="Validation\for_ChapterValidator\when_validating_an_invalid_chapter.cs" />
+    <Compile Include="Validation\for_ChapterValidator\when_validating_a_valid_chapter.cs" />
+    <Compile Include="Validation\for_CommandInputValidator\given\a_command_input_validator.cs" />
+    <Compile Include="Validation\for_CommandInputValidator\when_validating_an_invalid_command.cs" />
+    <Compile Include="Validation\for_CommandInputValidator\when_validating_a_valid_command.cs" />
+    <Compile Include="Validation\for_CommandValidationService\given\a_command_validation_service.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_correct_inputs_but_does_not_fulfill_business_rules.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_incorrect_inputs.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_passes.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_with_no_validators.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\given\a_command_validator_provider_with_input_and_business_validators.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_created.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_an_input_validator.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_a_business_validator.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_no_business_validator.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateful_aggregated_root.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\Stubs.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\Subjects.cs" />
+    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_events.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\given\an_event_migration_hierarchy_manager_with_two_logical_events.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_concrete_type_for_an_unregistered_event.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_concrete_type_for_a_registered_event_with_an_invalid_level.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_concrete_type_for_a_registered_event_with_a_valid_level.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_current_migration_level_for_a_registered_event.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_current_migration_level_for_an_unregistered_event.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_logical_type_for_an_event_at_the_root_of_a_migration_hierarchy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_logical_type_for_an_event_that_is_unregistered.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_logical_type_for_an_event_within_a_migration_hierarchy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_logical_type_from_the_logical_event_name_for_a_registered_event.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_logical_type_from_the_logical_name_for_an_unregistered_event.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\given\an_event_migration_hierarchy_with_two_levels.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\given\an_initialized_event_migration_hierarchy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_adding_a_migration_that_does_not_implement_the_migration_interface.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_adding_a_migration_that_does_not_migrate_from_the_previous_type.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_adding_the_same_migration_type_twice.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_adding_two_migration_levels_to_the_hierachy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_adding_a_migration_level_to_the_hierarchy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_getting_the_concrete_type_for_a_level.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_getting_the_level_for_a_concrete_type.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchy\when_initializing_an_event_migration_hierarchy.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyDiscoverer\given\an_event_migration_hierarchy_discoverer_with_two_logical_events_one_of_which_is_migrated.cs" />
+    <Compile Include="Events\for_EventMigrationHierarchyDiscoverer\when_getting_the_event_migration_hierarchies.cs" />
+    <Compile Include="Events\for_EventMigrationManager\given\an_event_with_a_migrator.cs" />
+    <Compile Include="Events\for_EventMigrationManager\given\a_first_generation_event.cs" />
+    <Compile Include="Events\for_EventMigrationManager\when_migrating_an_event_that_is_first_generation.cs" />
+    <Compile Include="Events\for_EventMigrationManager\when_migrating_a_second_generation_event_that_has_a_single_migrator_registered.cs" />
+    <Compile Include="Events\for_EventMigrationManager\when_migrating_a_third_generation_event_with_two_migrators_registered.cs" />
+    <Compile Include="Events\for_EventSource\Subjects.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\given\a_type_discoverer.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\Stubs.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_multiple_implementations.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_multiple_implementations_but_asking_for_a_single.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_only_one_implementation.cs" />
+    <Compile Include="Execution\for_TypeImporter\given\a_type_importer.cs" />
+    <Compile Include="Execution\for_TypeImporter\Stubs.cs" />
+    <Compile Include="Execution\for_TypeImporter\when_importing_single_types.cs" />
+    <Compile Include="Execution\for_TypeImporter\when_importing_single_types_and_multiple_are_available.cs" />
+    <Compile Include="Execution\for_TypeImporter\when_importing_single_types_and_nothing_is_returned_from_TypeDiscoverer.cs" />
+    <Compile Include="Events\for_EventSource\when_comitting_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSource\when_rolling_back_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSource\when_applying_a_new_event.cs" />
+    <Compile Include="Events\for_EventSource\when_reapplying_a_stream_of_committed_events.cs" />
+    <Compile Include="Events\for_EventStream\behaviors\an_empty_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\behaviors\an_event_stream_with_five_events_appended.cs" />
+    <Compile Include="Events\for_EventStream\behaviors\an_event_stream_with_one_event_appended.cs" />
+    <Compile Include="Events\for_EventStream\given\EventStream.cs" />
+    <Compile Include="Events\for_EventStream\given\CommittedEventStream.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_an_uncommitted_event_stream_which_has_been_attached_to_an_event_source.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_an_uncommitted_event_stream_which_has_been_sequenced.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_a_committed_event_stream_out_of_sequence.cs" />
+    <Compile Include="Events\for_EventStream\given\UncommittedEventStream.cs" />
+    <Compile Include="Events\for_EventStream\given\an_empty_committed_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\given\an_empty_uncommitted_event_stream.cs" />
+    <Compile Include="Events\for_EventSource\given\a_stateful_event_source.cs" />
+    <Compile Include="Events\MethodEventArgumentsSpecs.cs" />
+    <Compile Include="Events\MethodEventFactorySpecs.cs" />
+    <Compile Include="Events\for_EventSource\given\an_event_source_with_2_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSource\when_creating_a_new_event_source.cs" />
+    <Compile Include="Execution\for_TypeImporter\TypeImporterSpecs.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_an_uncommitted_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_a_committed_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_a_committed_event_stream_which_has_been_attached_to_another_event_source.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_an_event_to_a_committed_event_stream_which_has_not_been_attached_to_an_event_source.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_five_events_to_an_uncommitted_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\when_appending_five_events_to_a_committed_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\when_creating_a_new_committed_event_stream.cs" />
+    <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\for_View\given\a_query_repository.cs" />
+    <Compile Include="Views\for_View\Subjects.cs" />
+    <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />
+    <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
+    <Compile Include="Views\Stubs.cs" />
+    <Compile Include="Resources\for_ResourceConvention\given\a_resource_convention.cs" />
+    <Compile Include="Resources\for_ResourceConvention\Stubs.cs" />
+    <Compile Include="Resources\for_ResourceConvention\Subjects.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_accessing_properties_on_a_resolved_strings_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_asking_if_it_can_resolve_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_asking_if_it_can_resolve_a_type_not_implementing_resource.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_getting_an_instance_of_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_resolving_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\given\a_resource_properties_resolver.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\Stubs.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\Subjects.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\when_resolving_properties_implemented_as_resource.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\when_resolving_properties_not_implemented_as_resource.cs" />
+    <Compile Include="Execution\for_ApplicationManager\given\an_application_manager.cs" />
+    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application.cs" />
+    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_and_there_are_multiple_defined.cs" />
+    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_and_there_is_no_application.cs" />
+    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_twice.cs" />
+    <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\for_DynamicCommand\" />
+    <Folder Include="Globalization\for_Localizer\given\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Fakes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

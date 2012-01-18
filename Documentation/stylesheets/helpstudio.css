@@ -1,0 +1,758 @@
+/* Glossary links */
+
+div.hspopupbubble, div.hsglossaryreference
+{
+    left:       4px;
+    position:   absolute;
+    padding:    4px 8px 5px 4px;
+    z-index:    1;
+    width:      50%;
+    visibility:     hidden;
+    border:     1px solid #999999;
+    background:     #EFEFF7;
+    font-size:  60%;
+}
+    
+A.hsglossaryreference       
+{ 
+    COLOR:  #008000 ;
+    border-bottom: 1px dotted #008000 ;
+    text-decoration: none;
+    cursor: hand;    
+    cursor: pointer;    
+}
+
+A.hsglossaryreference:link
+{
+    COLOR : #008000
+}
+
+A.hsglossaryreference:active
+{
+    COLOR : #008000
+}
+
+A.hsglossaryreference:visited
+{
+    COLOR : #008000
+}
+
+A.hsglossaryreference:hover
+{
+    COLOR : #008000
+}
+
+/* End Glossary Links */ 
+
+/***********************************************************
+ * Behaviors 
+ ***********************************************************/
+
+.userDataStyle
+{
+    behavior:url(#default#userData);
+}
+
+div.saveHistory
+{
+    behavior:url(#default#saveHistory);
+    display:    none;
+}
+
+/***********************************************************
+ * Content Presentation Styles
+ ***********************************************************/
+
+body
+{
+    background:     #FFFFFF;
+    color:          #000000;
+    font-family:    Verdana, Arial, Helvetica, sans-serif;
+    font-size:      1.1em;
+    font-style:     normal;
+    font-weight:    normal;
+    margin-top:     0;
+    margin-bottom:  0;
+    margin-left:    0;
+    margin-right:   0;
+    width:          100%;
+}
+
+div 
+{
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+}
+
+/* Body is initially hidden, unless for print. Improves page rendering quality */
+@media print {
+    body    {visibility: visible;}
+}
+@media screen {
+    body    {visibility: hidden;}
+}
+
+dl
+{
+    margin-top:     0; 
+    padding-left:   1; /* Prevents italic-letter descenders from being cut off */
+    margin-bottom:  0;
+}
+
+dt
+{
+    font-style: italic;
+}
+
+dd
+{
+    margin-bottom:  8;
+    margin-left:    0;
+}
+
+ul
+{
+    margin-left:    17;
+    list-style-type: disc;
+}
+
+ul ul
+{
+    margin-bottom:  4;
+    margin-left:    17;
+    margin-top:     3;
+    list-style-type: disc;
+}
+
+ol
+{
+    list-style-type: decimal;
+}
+
+ol ol
+{
+    margin-bottom:  4;
+    margin-top:     3;
+    list-style-type: lower-alpha;
+    
+}
+
+li
+{
+    margin-bottom:  3;
+}
+
+p.RootText
+{
+    margin-left:    -18px;
+}
+    
+p, ol, ul, div
+{
+    margin-top:     0;
+    margin-bottom:  8;
+}
+
+blockquote
+{
+    margin-top:     0;
+    margin-bottom: 0;
+}
+
+A, MSHelp\:link, A:link, MSHelp\:link:link
+{
+    color:      #0000FF;
+    text-decoration: underline;
+    cursor:     pointer;
+}
+
+A:active, MSHelp\:link:active, A:visited, MSHelp\:link:visited
+{
+    color:      #800080;
+    text-decoration: underline;
+    cursor:     pointer;
+}
+
+A:hover, MSHelp\:link:hover
+{
+    color:      #FF0000;
+    text-decoration: underline;
+    cursor:     pointer;
+}
+
+code
+{
+    font-family:    Monospace, Courier New, Courier;
+    color:      #0000EE;
+}
+
+
+/***********************************************************
+ * Structure Presentation Styles
+ ***********************************************************/
+
+/* Applies to everything below the non-scrolling header region. */
+div#pagebody
+{
+    font-size:      70%;
+    width:          100%;
+    margin-bottom:  0;
+}
+
+/* Applies to everything below the non-scrolling header region, minus the footer. */
+div#mainbody
+{
+    font-size:      90%;
+    padding-left:   13px;
+    margin-top:     10;
+    margin-bottom:  0;
+    padding-bottom: 20;
+    padding-right:  10px;
+    *width:         100%;
+}
+
+
+/*------------------------------ Non-scrolling Header Region Styles -------------------------------*/
+/* Applies to the entire non-scrolling header region. */
+div#pagetop
+{
+    background-color: #ffffff;
+    padding:    0 0 0 0 ;
+    width:      100%;
+    margin-bottom:  0;  
+}
+
+/* Applies to both tables in the non-scrolling header region. */
+div#pagetop table
+{
+    width:      100%;
+    font-size:  90%;
+    margin:     0 0 0 0;
+}
+
+/* Applies to cells in both tables in the non-scrolling header region. */
+div#pagetop table td
+{
+    color:      #0000FF;
+    font-size:  70%;
+    margin:     0 0 0 0;
+    padding:    0 20 0 13;
+	background-color: transparent;
+	border: none;
+}
+
+table#pagetoptable1
+{
+    border-collapse: collapse;
+}
+
+div#pagetop table tr#pagetoptable1row2 td
+{
+    padding-top: 0;
+}
+
+/* Applies to the last row in the upper table of the non-scrolling header region. */
+div#pagetop table tr#pagetoptable1row3 td
+{
+    background-image: url('../images/gradient.png');
+    background-position: bottom left;
+    background-repeat: repeat-x;
+    padding-bottom: 12;
+    padding-top:    2; 
+    height: 10;
+}
+
+div#pagetop table#pagetoptable2 td
+{
+    padding-top:    7;
+    padding-bottom: 5;
+    padding-left: 13;
+}
+
+
+/* Breadcrumbs section of the page header */
+div#pagetop table#pagetopbreadcrumbs td 
+{
+    background-color: white; 
+    padding:    3 3 4 13;
+    color:      black;
+    border-bottom: solid 1px #d0d0d0;
+}
+
+/* Applies to the running header text in the first row of the upper table in the
+   non-scrolling header region. */
+span#projecttitle
+{
+    color:      #8C8C8C;
+    font-size:  90%;    
+}
+
+/* Applies to the topic title in the second row of the upper table in the
+   non-scrolling header region. */
+span#pagetitle
+{
+    color:      #000000;
+    font-family: arial;
+    font-size:  160%;
+    font-weight:    400;
+}
+
+/* The copy code prompt span */
+span.copyCode
+{
+    color:      #0000ff;
+    font-size:  80%;
+    font-weight: normal;
+    cursor:     pointer;
+    float:      right;
+    display:    inline;
+    text-align: right;
+}
+
+/*------------------------------ Other Region Styles -------------------------------*/
+
+/* Applies to the page footer */
+div#pagefooter
+{
+    margin-top:     0;
+    margin-bottom:  0;
+    margin-left:    0;
+    margin-right:   0;
+    padding-top:    2;
+    padding-bottom: 6;
+    padding-left:   5;
+    padding-right:  2;
+    font-size:      .9em;   
+}
+
+/* Footer horizontal rule */
+hr#footerHR
+{
+    border-bottom-color:    #EEEEFF;
+    border-bottom-style:    solid;
+    border-bottom-width:    1;
+    border-top-color:   #C8CDDE;
+    border-top-style:   solid;
+    border-top-width:   1;
+    height:         3;
+    color:          #D4DFFF;
+}
+
+/* Non scrolling page footer */
+div#nonscrollingpagefooter, div.fullwidthfooter
+{
+    border-top:     1px solid #c0c0c0;
+    border-left:    0px;
+    border-right:   0px;
+    border-bottom:  0px;
+    padding-top:    2;
+    padding-bottom: 2;
+    padding-left:   5;
+    padding-right:  2;    
+    vertical-align: bottom;
+    font-size:      60%;    
+}
+
+/* Feedback section */
+div#feedback
+{
+    background-color:   #f1f1f1;
+}
+
+table.feedback
+{
+    width:          300px;
+}
+
+table.feedback, table.feedback td
+{
+    border-style:   none;
+    background-color: transparent;
+}
+
+td.feedbackcaption
+{
+    vertical-align: bottom;
+    padding-bottom: 4px;
+}
+
+td.feedbackprompt
+{
+    padding-bottom: 5px;
+}
+
+/* Popup bubble */
+div.dxpopupbubble
+{
+    left:       4px;
+    position:   absolute;
+    padding:    4px 8px 5px 4px;
+    z-index:    1;
+    width:      50%;
+    visibility:     hidden;
+    border:     1px solid #999999;
+    background:     #EFEFF7;
+    font-size:  60%;
+}
+
+div#dxlanguagemenu, div#dxmemberfiltermenu, div#dxcommunitymenu
+{
+    background-color: #FCECE4;
+}
+
+span#membersFilter
+{
+    margin-right: 8;
+}
+
+/*------------------------------ Heading Styles -------------------------------*/
+
+.heading, h1, h2, h3, h4
+{
+    font-weight:    bold;
+    margin-top:     18;
+    margin-bottom:  8;
+}
+
+h1, h2
+{
+    color:          #000000;
+}
+
+h1
+{
+    font-size:  130%;
+}
+
+h2
+{
+    font-size:  100%;
+}
+
+/* Applies to table titles and subsection titles. */
+.subHeading, h3, h4
+{
+    font-weight:    bold;
+    margin-bottom:  8;    
+}
+
+/* Formats the titles of all subsections. */
+h3, h4
+{
+    font-size:  110%;
+    color:      #000000;
+}
+
+/*------------------------------ General Table Styles -------------------------------*/
+
+table
+{
+    border:         0;
+    width:          100%;
+    margin-top:     5px;
+    margin-bottom:  5px;
+}
+
+tr
+{
+    vertical-align: top;
+}
+
+th
+{
+    background-color: #EFEFF7;
+    border-bottom:  1px solid #C8CDDE;
+    color:          #000066;
+    padding-left:   5px;
+    padding-right:  5px;
+    padding-top:    3px;
+    padding-bottom: 3px;
+    text-align:     left;
+    font-size:      .7em;
+}
+
+td
+{
+    padding-left:       5px;
+    padding-right:      5px;
+    padding-top:        3px;
+    padding-bottom:     3px;    
+    margin:             1px;
+    font-size:          .7em;
+	background-color:   #F7F7FF;
+    border-bottom:      1px solid #D5D5D3;
+}
+
+div#pagebody table.syntaxtable th, div#pagebody table.xmlsource th
+{
+    padding-top:    1px;
+    padding-bottom: 1px;
+    vertical-align: middle;
+}
+
+div#pagebody table.syntaxtable td, div#pagebody table.xmlsource td
+{
+    font-family:    Monospace, Courier New, Courier;
+    color:          #000066;
+    padding-top:    5px;
+    padding-bottom: 7px;
+    font-size:      .9em;    
+    border-bottom:  1px solid #C8CDDE;
+}
+
+div#pagebody table.syntaxtable td pre
+{
+    margin-bottom:  0px;
+}
+
+div.section
+{
+    margin-left:        16px;
+    *padding-left:      16px;
+    *margin-left:       0;
+    *width:             100%;
+}
+
+/*------------------------------ Code Styles ----------------------------------------*/
+
+div.code table th
+{   
+    font-weight:    bold;
+}
+
+div.code table td
+{
+    border-top:     1px solid #FFFFFF;
+    padding-top:    5;
+}
+
+div.code pre, .example, code, .sourcecode
+{
+    font-family:    Monospace, Courier New, Courier;
+    color:          #000066;
+    white-space:    nowrap;
+}
+
+div#pagebody table.xmlsource
+{
+    width:      95%;
+}
+
+div#pagebody table.xmlsource th
+{
+    vertical-align: middle;
+    padding-top:    1px;
+    padding-bottom: 1px;
+}
+
+/*------------------------------ Specific Cell Styles -------------------------------*/
+
+div#pagebody table.CodeContainerTable
+{
+    margin:     0;
+}
+
+div#pagebody table.CodeContainerTable td
+{
+    border:     none;
+}
+
+div#pagebody table td.imageCell
+{
+    white-space:    nowrap;
+}
+
+/* Formats the first column--the one that displays icons. */
+div#mainbody table td.imageCell
+{
+    white-space:    nowrap;
+    width:          18px;
+    padding-left:   1px;
+    padding-right:  1px;
+}
+
+/* Make the link and description columns sensible sizes. */
+td.linkcell
+{
+    white-space:    nowrap;
+}
+
+td.memberslinkcell
+{
+    white-space:    nowrap;
+    width:          30%;
+}
+
+td.membersdescriptioncell, td.descriptioncell
+{
+    width:          70%;
+}
+
+div#objectmodelSection table td
+{
+    background-color:   #FFFFFF;
+    border-style:       none;
+}
+
+td.newlinkcell, td.newmembernamecell, td.newmemberslinkcell, div.newTopic, td.newcentered
+{
+    background-repeat:      no-repeat; 
+    background-position:    left top ; 
+}
+
+div#objectmodelSection table td
+{
+    background-color:   #FFFFFF;
+    border-style:       none;
+}
+
+/*------------------------------ Expand Collapse -------------------------------*/
+
+span.expandcollapse
+{
+    cursor:default;
+}
+
+/*------------------------------ Image Styles -------------------------------*/
+
+img#toggleExpandedAllImage
+{
+    margin-left:    0;
+    vertical-align: middle;
+}
+
+img.toggle
+{
+    border:     0;
+    margin-right: 5;
+}
+
+img.copyCodeImage
+{
+    border:     0;
+    margin:     1;
+    margin-right: 3;
+}
+
+/*------------------------------ Hidden form elements -------------------------------*/
+form
+{
+    display: none;
+}
+
+/* XML colorization */
+
+/* Container spacing*/
+pre.plainxml, div.colorizedxml, div.dynamicxml
+{
+    word-wrap:      break-word;
+    font-family:    Monospace, Courier New, Courier;
+    font-size:      80%;
+}
+
+/* Container format*/
+pre.plainxml { margin-left: 3px; margin-bottom: 5px; }
+div.colorizedxml, div.dynamicxml { margin-left: -15px; }
+div.colorizedxml div, div.dynamicxml div { margin-top: 0; margin-bottom: 0; }
+div.dynamicxml a, div.dynamicxml a:hover, div.dynamicxml a:visited, div.dynamicxml a:active { text-decoration: none; }
+
+/* container for expanding/collapsing content */
+.c{cursor:hand}
+
+/* button - contains +/-/nbsp */
+.b{color:red;font-family:'Courier New';font-weight:bold;text-decoration:none}
+
+/* element container, comment or CDATA */
+.e,.k{margin-left: 30px;text-indent:-1em;margin-right:1em}
+
+/* tag */
+.t{color:#990000}
+
+/* tag in xsl namespace */
+.xt{color:#990099}
+
+/* attribute in xml or xmlns namespace */
+.ns{color:red}
+
+/* attribute in dt namespace */
+.dt{color:green}
+
+/* markup characters */
+.m  {color:blue}
+
+/* text node */
+.tx {font-weight:bold}
+
+/* multi-line (block) cdata */
+.db {text-indent:0px; margin-left:1em; margin-top:0px; margin-bottom:0px; padding-left:.3em; border-left:1px solid #CCCCCC; font:small Courier}
+
+/* single-line (inline) cdata */
+.di {font:small Courier}
+
+/* DOCTYPE declaration, pi */
+.d, .pi  {color:blue}
+
+/* multi-line (block) comment */
+.cb {text-indent:0px; margin-left:1em; margin-top:0px; margin-bottom:0px; padding-left:.3em; font:small Courier; color:#888888}
+
+/* single-line (inline) comment */
+.ci {font:small Courier; color:#888888}
+
+/* CDATA text */
+PRE.x{margin:0px;display:inline;}
+
+/* End XML colorization */
+
+/* 2008 specific community elements */
+
+div.communityratingcontainer
+{
+    margin-top: -3px;
+    margin-right: -10px;
+    margin-bottom: 0;
+}
+
+/* End 2008 specific community elements */
+
+/* VB source code colorization */
+code.VB
+{
+        white-space:    nowrap;
+        color:      #000000;
+}
+
+/* VB Keywords*/
+.keyword {
+    color: Navy;
+}
+
+/* Comments */
+.comment {
+    color: Green;
+}
+
+/* Literals */
+.string {
+    color: Gray;
+}
+
+/* Default color for code words without a specific highlight */
+div.colorizedvbcode, div.colorizedcode {
+    color: black;
+}
+
+img#languageFilterImage
+{
+    border:     0;
+    margin-left:    10;
+    vertical-align: middle;
+}
+
+.languageFilter, .membersFilter
+{
+    color:      #0000FF;
+    cursor:     hand;
+    text-decoration:underline;
+    padding-bottom: 4;
+    font-size:  8pt;
+}

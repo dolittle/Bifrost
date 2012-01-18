@@ -1,0 +1,976 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Bifrost</name>
+  </assembly>
+  <members>
+    <member name="T:Bifrost.IRuntime">
+      <summary>Defines the Bifrost Runtime This is the place to configure Bifrost</summary>
+    </member>
+    <member name="M:Bifrost.IRuntime.Configure">
+      <summary>Configures Bifrost Calls this method after setting all the properties for the Runtime</summary>
+    </member>
+    <member name="P:Bifrost.IRuntime.CommandCoordinator">
+      <summary>Gets the CommandCoordinator used by Bifrost</summary>
+    </member>
+    <member name="P:Bifrost.IRuntime.DataAccessConfiguration">
+      <summary>Gets the configuration for data access</summary>
+    </member>
+    <member name="P:Bifrost.IRuntime.DefaultActivationScope">
+      <summary>Gets or sets the default activation scope for activation of services within Bifrost</summary>
+    </member>
+    <member name="P:Bifrost.IRuntime.EventDispatcher">
+      <summary>Gets the EventDispatcher used by Bifrost</summary>
+    </member>
+    <member name="P:Bifrost.IRuntime.Kernel">
+      <summary>Gets the Ninject Kernel used by Bifrost,</summary>
+    </member>
+    <member name="T:Bifrost.Runtime">
+      <summary>Represents a IRuntime This is the entrypoint for Bifrost</summary>
+    </member>
+    <member name="F:Bifrost.Runtime.Instance">
+      <summary>Gets the singleton instance of the Runtime</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommand">
+      <summary>Defines the basic command</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandContext">
+      <summary>Defines a context for a command passing through the system</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandContextManager">
+      <summary>Manages command contexts</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandCoordinator">
+      <summary>Defines a coordinator for coordinating commands coming into the system</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandForType`1">
+      <summary>Defines a special command that is targetted towards a specific type Inherit from this if you want to specify a
+specific type the command is targetted towards.</summary>
+      <typeparam name="T">Type the command is targetted towards</typeparam>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandHandler">
+      <summary>Marker interface for command handlers</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandHandlerForType`1">
+      <summary>Defines a command handler for a specific type This is typically used for generic handling of commands</summary>
+      <typeparam name="T">Type of object it can handle for</typeparam>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandHandlerInvoker">
+      <summary>Invokes a command for a command handler type</summary>
+    </member>
+    <member name="T:Bifrost.Commands.ICommandHandlerManager">
+      <summary>Defines the functionality for a manager that handles commands Handles a command by calling any command handlers
+that can handle the specific command</summary>
+    </member>
+    <member name="P:Bifrost.Commands.ICommand.Id">
+      <summary>Id of the object the command will apply to</summary>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandContext.GetObjectsBeingTracked">
+      <summary>Get objects that are being tracked</summary>
+      <returns>All tracked objects</returns>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandContext.RegisterForTracking(Bifrost.Domain.IAggregatedRoot)">
+      <summary>Register an aggregated root for tracking</summary>
+      <param name="aggregatedRoot">Aggregated root to track</param>
+    </member>
+    <member name="P:Bifrost.Commands.ICommandContext.Command">
+      <summary>Gets the command the context is for</summary>
+    </member>
+    <member name="P:Bifrost.Commands.ICommandContext.Principal">
+      <summary>Gets the user principal that the context is in</summary>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandContextManager.EstablishForCommand(Bifrost.Commands.ICommand)">
+      <summary>Establish a command context for a specific <see cref="T:Bifrost.Commands.ICommand">command</see>. This will be the current
+command context, unless something else establishes a new context</summary>
+      <param name="command">Command to establish for</param>
+      <returns>Established context</returns>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandContextManager.GetCurrent">
+      <summary>Gets the current command context, if any</summary>
+      <returns>The current command context. If there is no current context, null will be returned</returns>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandCoordinator.Handle(Bifrost.Commands.ICommand)">
+      <summary>Handle a command</summary>
+      <param name="command">command to handle</param>
+      <returns>Result from the handle. Within the result one can check if the handling was success or not</returns>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandHandlerForType`1.Handle(Bifrost.Commands.ICommandForType{`0})">
+      <summary>Handle a command</summary>
+      <param name="commandForType">ICommandForType to handle</param>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandHandlerInvoker.TryHandle(Bifrost.Commands.ICommand)">
+      <summary>Try to handle a command If it can handle it, it should handle it - and return true if it handled it and false if not</summary>
+      <param name="command">Command to handle</param>
+      <returns>True if it handled it, false if not</returns>
+    </member>
+    <member name="M:Bifrost.Commands.ICommandHandlerManager.Handle(Bifrost.Commands.ICommand)">
+      <summary>Handle a command</summary>
+      <param name="command">Command to handle</param>
+    </member>
+    <member name="T:Bifrost.Commands.CommandContext">
+      <summary>Represents a ICommandContext</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandContextManager">
+      <summary>Represents a Command context manager</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandCoordinator">
+      <summary>Represents a ICommandCoordinator</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandHandlerForTypeInvoker">
+      <summary>Represents a ICommandHandlerInvoker</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandHandlerInvoker">
+      <summary>Represents a ICommandHandlerInvoker for handling command handlers that have methods called Handle()
+and takes specific <see cref="T:Bifrost.Commands.ICommand">commands</see> in as parameters</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandHandlerManager">
+      <summary>Represents a ICommandHandlerManager</summary>
+    </member>
+    <member name="T:Bifrost.Commands.CommandResult">
+      <summary>Represents the result from the CommandCoordinator</summary>
+    </member>
+    <member name="M:Bifrost.Commands.CommandContext.#ctor(Bifrost.Commands.ICommand,System.Security.Principal.IPrincipal,Bifrost.Events.IEventDispatcher,Bifrost.Events.IEventStore)">
+      <summary>Initializes a new CommandContext</summary>
+      <param name="command">The command the context is for</param>
+      <param name="principal">The principal the context is for</param>
+      <param name="eventDispatcher">The event dispatcher that will get all the events that occur in the context</param>
+      <param name="eventStore">The event store that will get all the events and persist them</param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandContext.Dispose">
+      <summary>Disposes the CommandContext by Committing</summary>
+    </member>
+    <member name="M:Bifrost.Commands.CommandContextManager.#ctor(Bifrost.Events.IEventDispatcher,Bifrost.Events.IEventStore)">
+      <summary>Initializes a new instance of CommandContextManager</summary>
+      <param name="eventDispatcher">A IEventDispatcher to use for dispatching the events</param>
+      <param name="eventStore">A IEventStore to use for saving events</param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandContextManager.ResetContext">
+      <summary>Reset context</summary>
+    </member>
+    <member name="M:Bifrost.Commands.CommandCoordinator.#ctor(Bifrost.Commands.ICommandHandlerManager,Bifrost.Commands.ICommandContextManager)">
+      <summary>Initializes a new instance of the CommandCoordinator</summary>
+      <param name="commandHandlerManager">A ICommandHandlerManager for handling commands</param>
+      <param name="commandContextManager">A ICommandContextManager for establishing a <see cref="T:Bifrost.Commands.CommandContext">CommandContext</see></param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandHandlerForTypeInvoker.#ctor(Bifrost.IRuntime,Bifrost.Execution.ITypeDiscoverer)">
+      <summary>Initializes a new instance of CommandHandlerForTypeInvoker</summary>
+      <param name="runtime">IRuntime the invoker belongs to</param>
+      <param name="typeDiscoverer">A ITypeDiscoverer used for discovering <see cref="T:Bifrost.Commands.ICommandHandlerForType`1">ICommandHandlerForType</see>
+implementations</param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandHandlerInvoker.#ctor(Bifrost.Execution.ITypeImporter)">
+      <summary>Initializes a new instance of CommandHandlerInvoker</summary>
+      <param name="importer">A ITypeImporter to use for discovering <see cref="T:Bifrost.Commands.ICommandHandler">command handlers</see></param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandHandlerInvoker.Register(Bifrost.Commands.ICommandHandler)">
+      <summary>Register a command handler explicitly</summary>
+      <param name="handler"></param>
+    </member>
+    <member name="M:Bifrost.Commands.CommandHandlerManager.#ctor(Bifrost.Execution.ITypeImporter)">
+      <summary>Initializes a new instance of a CommandHandlerManager</summary>
+      <param name="importer">TypeImporter to use for discovering the <see cref="T:Bifrost.Commands.ICommandHandlerInvoker">ICommandHandlerInvoker</see>'s
+to use</param>
+    </member>
+    <member name="P:Bifrost.Commands.CommandResult.Exception">
+      <summary>Gets the exception, if any, that occured during a handle</summary>
+    </member>
+    <member name="P:Bifrost.Commands.CommandResult.Success">
+      <summary>Gets the success state of the result If there are invalid validationresult, this is false. If an exception occured, this is false. Otherwise, its
+true</summary>
+    </member>
+    <member name="P:Bifrost.Commands.CommandResult.ValidationResult">
+      <summary>Gets the ValidationResult generated during handling of a command</summary>
+    </member>
+    <member name="T:Bifrost.Configuration.IDataAccessConfiguration">
+      <summary>Defines the configuration for all data access done through Bifrost Typically this is the low level entity access for the different repositories
+in Bifrost</summary>
+    </member>
+    <member name="T:Bifrost.Configuration.IEntityContextConfiguration">
+      <summary>Defines a configuration set for an EntityContext implementation</summary>
+    </member>
+    <member name="M:Bifrost.Configuration.IDataAccessConfiguration.Configure">
+      <summary>Configure the data access after all have been set</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IDataAccessConfiguration.Commands">
+      <summary>Gets or sets the configuration for the commands data access</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IDataAccessConfiguration.Default">
+      <summary>Gets or sets the default configuration for data access If no specific data access for the different aspects of Bifrost are configured, this is
+the one that will apply</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IDataAccessConfiguration.Events">
+      <summary>Gets or sets the configuration for the events data access</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IDataAccessConfiguration.Query">
+      <summary>Gets or sets the configuration for the query data access</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IEntityContextConfiguration.Connection">
+      <summary>Gets or sets the connection information for the entity context</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IEntityContextConfiguration.EntityContextType">
+      <summary>Gets the EntityContext type</summary>
+    </member>
+    <member name="P:Bifrost.Configuration.IEntityContextConfiguration.NamespaceContains">
+      <summary>Gets or sets the namespace condition for the configuration</summary>
+    </member>
+    <member name="T:Bifrost.Configuration.DataAccessConfiguration">
+      <summary>Represents the configuration for DataAccess used by Bifrost</summary>
+    </member>
+    <member name="M:Bifrost.Configuration.DataAccessConfiguration.#ctor(Bifrost.IRuntime)">
+      <summary>Initializes a new instance of DataAccessConfiguration</summary>
+      <param name="runtime">Runtime the configuration is for</param>
+    </member>
+    <member name="T:Bifrost.Domain.IAggregatedRoot">
+      <summary>Defines the very basic functionality needed for an aggregated root</summary>
+    </member>
+    <member name="T:Bifrost.Domain.IAggregatedRootFactory`1">
+      <summary>Defines the basic functionality for creating aggregated roots</summary>
+      <typeparam name="T">Type of aggregated roots</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.IAggregatedRootRepository`1">
+      <summary>Defines the basic functionality for finding and getting aggregated roots</summary>
+      <typeparam name="T">Type of aggregated root</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.IDynamicOriginator">
+      <summary>Defines an origin, typically for aggregated roots when needing to create mementos and set them This interface represents the mementos dynamically</summary>
+    </member>
+    <member name="T:Bifrost.Domain.IMemento">
+      <summary>Marker interface for mementos</summary>
+    </member>
+    <member name="T:Bifrost.Domain.IOriginator">
+      <summary>Defines an origin, typically for aggregated roots when needing to create mementos and set them</summary>
+    </member>
+    <member name="M:Bifrost.Domain.IAggregatedRootFactory`1.Create(System.Guid)">
+      <summary>Create an instance of the aggregated root</summary>
+      <param name="id">The id that represents the aggregated root</param>
+      <returns>An instance of the aggregated root</returns>
+    </member>
+    <member name="M:Bifrost.Domain.IAggregatedRootRepository`1.Find(System.Guid)">
+      <summary>Find an aggregated root by id</summary>
+      <param name="id">Id of the aggregated root to find</param>
+      <returns>An instance of the aggregated root, or null if not found</returns>
+    </member>
+    <member name="M:Bifrost.Domain.IAggregatedRootRepository`1.Get(System.Guid)">
+      <summary>Get an aggregated root by id</summary>
+      <param name="id">Id of aggregated root to get</param>
+      <exception caption="" cref="T:Bifrost.Domain.MissingAggregatedRootException">Thrown if aggregated root does not exist</exception>
+      <returns>An instance of the aggregated root</returns>
+    </member>
+    <member name="M:Bifrost.Domain.IDynamicOriginator.CreateMemento">
+      <summary>Create a memento</summary>
+      <returns>Dynamic representation of the memento</returns>
+    </member>
+    <member name="M:Bifrost.Domain.IDynamicOriginator.SetMemento(System.Object)">
+      <summary>Set a memento</summary>
+      <param name="memento">Dynamic representation of the memento to set</param>
+    </member>
+    <member name="M:Bifrost.Domain.IOriginator.CreateMemento">
+      <summary>Create memento</summary>
+      <returns>The actual memento</returns>
+    </member>
+    <member name="M:Bifrost.Domain.IOriginator.SetMemento(Bifrost.Domain.IMemento)">
+      <summary>Set mememoty</summary>
+      <param name="memento">The actual memento to set</param>
+    </member>
+    <member name="T:Bifrost.Domain.AggregatedRoot`1">
+      <summary>Represents the base class used for aggregated roots in your domain</summary>
+      <typeparam name="T">The type of the aggregated root that inherits from this</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.AggregatedRootCommand`1">
+      <summary>Represents a implementation of ICommandForType targetting
+<see cref="T:Bifrost.Domain.AggregatedRoot`1">AggregatedRoots</see></summary>
+      <typeparam name="T">Type of aggregated root the command is targetting</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.AggregatedRootCommandHandler`1">
+      <summary>Generic CommandHandler for commands targetting AggregatedRoots</summary>
+      <typeparam name="T">Type of AggregatedRoot it handles</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.AggregatedRootFactory`1">
+      <summary>Represents a IAggregatedRootFactory</summary>
+      <typeparam name="T">Type of aggregated root the factory is for</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.AggregatedRootRepository`1">
+      <summary>Defines a concrete implementation of IAggregatedRootRepository</summary>
+      <typeparam name="T">Type the repository is for</typeparam>
+    </member>
+    <member name="T:Bifrost.Domain.InvalidAggregateException">
+      <summary>The exception that is thrown when there is something invalid with an AggregatedRoot</summary>
+    </member>
+    <member name="T:Bifrost.Domain.MissingAggregatedRootException">
+      <summary>The exception that is thrown when an AggregatedRoot is missing</summary>
+    </member>
+    <member name="M:Bifrost.Domain.AggregatedRoot`1.#ctor(System.Guid)">
+      <summary>Initializes a new instance of an AggregatedRoot</summary>
+      <param name="id">Id of the AggregatedRoot</param>
+    </member>
+    <member name="M:Bifrost.Domain.AggregatedRootCommandHandler`1.#ctor(Bifrost.Domain.IAggregatedRootRepository{`0})">
+      <summary>Constructs a AggregatedRootCommandHandler</summary>
+      <param name="repository">Repository for the aggregated root</param>
+    </member>
+    <member name="M:Bifrost.Domain.AggregatedRootCommandHandler`1.Handle(Bifrost.Commands.ICommandForType{`0})">
+      <summary>Handle the command</summary>
+      <param name="commandForType">Command to handle</param>
+    </member>
+    <member name="M:Bifrost.Domain.AggregatedRootFactory`1.#ctor(Bifrost.Commands.ICommandContextManager)">
+      <summary>Initializes a new instance of AggregatedRootFactory</summary>
+      <param name="commandContextManager">A ICommandContextManager for registering objects for tracking during creation</param>
+    </member>
+    <member name="M:Bifrost.Domain.AggregatedRootRepository`1.#ctor(Bifrost.Commands.ICommandContextManager)">
+      <summary>Initializes a new instance of AggregatedRootRepository</summary>
+      <param name="commandContextManager">CommandContextManager to use for tracking</param>
+    </member>
+    <member name="M:Bifrost.Domain.InvalidAggregateException.#ctor(System.String)">
+      <summary>Initializes a new instance of the InvalidAggregateException class</summary>
+      <param name="message">The error message that explains the reason for the exception</param>
+    </member>
+    <member name="T:Bifrost.Entities.IEntityContext`1">
+      <summary>Defines a context for working with entities typically stored in a datastore</summary>
+      <typeparam name="T">Type of entity the context works on</typeparam>
+    </member>
+    <member name="T:Bifrost.Entities.IEntityContextConnection">
+      <summary>Marker interface for connection configuration for entity contexts</summary>
+    </member>
+    <member name="M:Bifrost.Entities.IEntityContext`1.Attach(`0)">
+      <summary>Attach an entity to the context</summary>
+      <param name="entity">Entity to attach</param>
+    </member>
+    <member name="M:Bifrost.Entities.IEntityContext`1.Commit">
+      <summary>Commit any changes in the context</summary>
+    </member>
+    <member name="M:Bifrost.Entities.IEntityContext`1.Delete(`0)">
+      <summary>Delete an existing entity</summary>
+      <param name="entity">Entity to delete</param>
+    </member>
+    <member name="M:Bifrost.Entities.IEntityContext`1.Insert(`0)">
+      <summary>Insert a newly created entity</summary>
+      <param name="entity">Entity to insert</param>
+    </member>
+    <member name="M:Bifrost.Entities.IEntityContext`1.Update(`0)">
+      <summary>Update an existing entity</summary>
+      <param name="entity">Entity to update</param>
+    </member>
+    <member name="P:Bifrost.Entities.IEntityContext`1.Entities">
+      <summary>Gets a queryable that one can do queries against</summary>
+    </member>
+    <member name="T:Bifrost.Entities.JSON.EntityContext`1">
+      <summary>Represents a simple JSON file based implementation of IEntityContext</summary>
+      <typeparam name="T">Type of entity for the context</typeparam>
+    </member>
+    <member name="T:Bifrost.Entities.JSON.EntityContextConfiguration">
+      <summary>Represents an IEntityContextConfiguration for the <see cref="T:Bifrost.Entities.JSON.EntityContext`1">simple JSON based
+implementation</see> of <see cref="T:Bifrost.Entities.IEntityContext`1">IEntityContext</see></summary>
+    </member>
+    <member name="T:Bifrost.Entities.JSON.EntityContextConnection">
+      <summary>Connection configuration for the simple JSON based EntityContext</summary>
+    </member>
+    <member name="M:Bifrost.Entities.JSON.EntityContext`1.#ctor(Bifrost.Entities.JSON.EntityContextConnection)">
+      <summary>Initializes a new instance of EntityContext</summary>
+      <param name="connection">Connection configuration to use</param>
+    </member>
+    <member name="P:Bifrost.Entities.JSON.EntityContextConnection.Directory">
+      <summary>Gets or sets the directory to hold all the JSON files</summary>
+    </member>
+    <member name="T:Bifrost.Events.ICanPublishEvents">
+      <summary>Defines the capability of publishing events</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEvent">
+      <summary>Defines the basics of an event</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventBus">
+      <summary>Defines the basic interface for an event bus</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventDispatcher">
+      <summary>Defines a dispatcher that handles all event publishing This is the main coordinator for events and also the place were one registers event buses</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventMethodBinder">
+      <summary>Defines the basic functionality of a binder that can bind events to methods on types</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventMethodBinding">
+      <summary>Defines a binding between an event and a method</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventMethodBindingInvoker">
+      <summary>Defines a invoker for calling a method that can handle an event</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventSource">
+      <summary>An EventSource is a domain object that is capable of generating and applying events. It is an AggregateRoot in the context of event sourcing.</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventStore">
+      <summary>Defines a repository that holds events generated</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventSubscriber">
+      <summary>Defines an event subscriber</summary>
+    </member>
+    <member name="T:Bifrost.Events.IEventSubscribersProcessor">
+      <summary>Defines a processor that can process events and call the correct registered subscribers</summary>
+    </member>
+    <member name="M:Bifrost.Events.ICanPublishEvents.Publish(Bifrost.Events.IEvent)">
+      <summary>Publish a single event</summary>
+      <param name="event">Event to publish</param>
+    </member>
+    <member name="M:Bifrost.Events.ICanPublishEvents.Publish(System.Collections.Generic.IEnumerable{Bifrost.Events.IEvent})">
+      <summary>Publish a set of events</summary>
+      <param name="events">Events to publish</param>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.AggregatedRootType">
+      <summary>Gets and sets the aggregated roots type</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.CausedBy">
+      <summary>Gets or sets who or what the event was caused by. Typically this would be the name of the user or system causing it</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.EventSourceId">
+      <summary>Gets the EventSource id (Aggregate Root) to which these events belong.</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.Id">
+      <summary>Gets the id of the event</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.Name">
+      <summary>Gets or sets the name of the event</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.Origin">
+      <summary>Gets or sets the origin of the event. Typically this would be what part of the system the event indirectly is coming from</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEvent.Sequence">
+      <summary>Gets or sets the position in the event stream in which this event was applied to the event source</summary>
+    </member>
+    <member name="M:Bifrost.Events.IEventDispatcher.RegisterBus(Bifrost.Events.IEventBus)">
+      <summary>Register a bus into the dispatcher</summary>
+      <param name="bus">Bus to register</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventDispatcher.Send(Bifrost.Events.IEvent)">
+      <summary>Send an event through the dispatcher</summary>
+      <param name="event">Event to send</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventDispatcher.Send(System.Collections.Generic.IEnumerable{Bifrost.Events.IEvent})">
+      <summary>Send a set of events through the dispatcher</summary>
+      <param name="events">Enumerable of <see cref="T:Bifrost.Events.IEvent">events</see> to send</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.AutoBindFor(System.Type)">
+      <summary>Automatically create bindings for a specific type holding methods that can be bound to events</summary>
+      <param name="type">Type to automatically create bindings for</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.AutoBindFor``1">
+      <summary>Automatically create bindings for a specific type holding methods that can be bound to events</summary>
+      <typeparam name="T">Type to automatically create bindings for</typeparam>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Bind``1">
+      <summary>Create a binding for a specific event type</summary>
+      <typeparam name="T">Event type to create binding for</typeparam>
+      <returns>Binding for the event type</returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Bind(System.Type)">
+      <summary>Create a binding for a specific event type</summary>
+      <param name="type">Event type to create binding for</param>
+      <returns>Binding for the event type</returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Bind(System.String)">
+      <summary>Create a binding for an event by the name of the event</summary>
+      <param name="name">Name of the event to create binding for</param>
+      <returns>Binding for the event</returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Get``1">
+      <summary>Get the bindings for an event type</summary>
+      <typeparam name="T">Event type to get bindings for</typeparam>
+      <returns>An IEnumerable of <see cref="T:Bifrost.Events.IEventMethodBinding">IEventMethodBindings</see></returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Get(System.Type)">
+      <summary>Get the bindings for an event type</summary>
+      <param name="type">Event type to get bindings for</param>
+      <returns>An IEnumerable of <see cref="T:Bifrost.Events.IEventMethodBinding">IEventMethodBindings</see></returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinder.Get(System.String)">
+      <summary>Get the bindings for an event by the name of the event</summary>
+      <param name="name">Name of event to get bindings for</param>
+      <returns>An IEnumerable of <see cref="T:Bifrost.Events.IEventMethodBinding">IEventMethodBindings</see></returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinding.To``1(System.Linq.Expressions.Expression{System.Action{``0}})">
+      <summary>Bind to a specified method through an expression</summary>
+      <param name="expression">Expression expressing the method</param>
+      <typeparam name="T">Type that holds the method</typeparam>
+      <returns>An IEventMethodBinding</returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBinding.To(System.Reflection.MethodInfo)">
+      <summary>Bind to a specified method</summary>
+      <param name="methodInfo">Method to bind to</param>
+      <returns>An IEventMethodBinding</returns>
+    </member>
+    <member name="P:Bifrost.Events.IEventMethodBinding.Method">
+      <summary>Gets the method that can be invoked for the event</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEventMethodBinding.Target">
+      <summary>Gets the target type that holds the method that can be invoked for the event</summary>
+    </member>
+    <member name="M:Bifrost.Events.IEventMethodBindingInvoker.Invoke(System.Object,Bifrost.Events.IEventMethodBinding,Bifrost.Events.IEvent)">
+      <summary>Invokes the method based upon a binding on an instance with the given event</summary>
+      <param name="instance">Instance to invoke on</param>
+      <param name="binding">Binding to use for the invocation</param>
+      <param name="event">Event to use during invocation</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventSource.ReApply(Bifrost.Events.CommittedEventStream)">
+      <summary>Reapply an event from a stream</summary>
+      <param name="eventStream">Stream that contains the events to reapply</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventSource.Apply(Bifrost.Events.IEvent)">
+      <summary>Apply a new event to the EventSource. This will be applied and added to the UncommitedEvents.</summary>
+      <param name="event">The event that is to be applied</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventSource.Apply(System.Linq.Expressions.Expression{System.Action})">
+      <summary>Apply a new event based upon a method to the EventSource. This will applied and added to the
+UncommitedEvents</summary>
+      <param name="expression">Expression pointing to a method to use for applying the event</param>
+    </member>
+    <member name="P:Bifrost.Events.IEventSource.CurrentVersion">
+      <summary>The version number for this EventSource. The Version is incremented for each event that is applied. This includes any uncommitted events.</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEventSource.Id">
+      <summary>The Id of the Event Source.</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEventSource.InitialVersion">
+      <summary>The version number for this EventSource at the time it was retrieved from the EventStore. Uncommitted events are not included.</summary>
+    </member>
+    <member name="P:Bifrost.Events.IEventSource.UncommittedEvents">
+      <summary>A stream of events that have been applied to the EventSource but have not yet been committed to the EventStore.</summary>
+    </member>
+    <member name="M:Bifrost.Events.IEventStore.Load(System.Type,System.Guid)">
+      <summary>Load events for a specific aggregated root</summary>
+      <param name="aggregatedRootType">Type of aggregated root</param>
+      <param name="aggregateId">Id of the aggregated root</param>
+      <returns>All events for the aggregated root in an Event Stream</returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventStore.Save(System.Type,System.Guid,Bifrost.Events.UncommittedEventStream)">
+      <summary>Save events for a specific aggregated root</summary>
+      <param name="aggregatedRootType">Type of aggregated root</param>
+      <param name="aggregateId">Id of the aggregated root</param>
+      <param name="eventsToSave">Events to save as an Event Stream</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventSubscribersProcessor.GetSubscribers">
+      <summary>Get all registered subscribers</summary>
+      <returns>An IEnumerable of <see cref="T:Bifrost.Events.IEventSubscriber">event subscribers</see></returns>
+    </member>
+    <member name="M:Bifrost.Events.IEventSubscribersProcessor.Process(Bifrost.Events.IEvent)">
+      <summary>Process a given event</summary>
+      <param name="event">Event to process</param>
+    </member>
+    <member name="M:Bifrost.Events.IEventSubscribersProcessor.RegisterSubscriber(Bifrost.Events.IEventSubscriber)">
+      <summary>Register an event subscriber</summary>
+      <param name="subscriber">Subscriber to register</param>
+    </member>
+    <member name="T:Bifrost.Events.CommittedEventStream">
+      <summary>Represents a special version of an EventStream that holds committed <see cref="T:Bifrost.Events.IEvent">events</see></summary>
+    </member>
+    <member name="T:Bifrost.Events.Event">
+      <summary>Represents an event</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventDispatcher">
+      <summary>Represents a IEventDispatcher</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventMethodBinder">
+      <summary>Represents a IEventMethodBinder</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventMethodBinding">
+      <summary>Represents a IEventMethodBinding</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventMethodBindingInvoker">
+      <summary>Represents a IEventMethodBindingInvoker</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventSource">
+      <summary>Represents a IEventSource This is a base abstract class for any EventSource</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventStore">
+      <summary>Represents a IEventStore</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventStream">
+      <summary>Represents a collection of events in the order that they were applied.</summary>
+    </member>
+    <member name="T:Bifrost.Events.EventSubscribersProcessor">
+      <summary>Represents a IEventSubscribersProcessor</summary>
+    </member>
+    <member name="T:Bifrost.Events.InMemoryEventBus">
+      <summary>Represents an in memory event bus that can publish events in memory to event subscribers</summary>
+    </member>
+    <member name="T:Bifrost.Events.MethodEvent">
+      <summary>Represents an event that represents a method on a domain object</summary>
+    </member>
+    <member name="T:Bifrost.Events.MethodEventArguments">
+      <summary>Represents arguments for a MethodEvent</summary>
+    </member>
+    <member name="T:Bifrost.Events.MethodEventFactory">
+      <summary>Provides functionality for creating method events</summary>
+    </member>
+    <member name="T:Bifrost.Events.PersistentEvent">
+      <summary>Represents an entity used for persisting events in an EventStore</summary>
+    </member>
+    <member name="T:Bifrost.Events.UncommittedEventStream">
+      <summary>Represents a stream of events that are uncommitted</summary>
+    </member>
+    <member name="M:Bifrost.Events.CommittedEventStream.#ctor(System.Guid)">
+      <summary>Initializes a new instance of CommittedEventStream</summary>
+      <param name="eventSourceId">Id of the event source - typically an AggregatedRoot</param>
+    </member>
+    <member name="M:Bifrost.Events.CommittedEventStream.Append(System.Collections.Generic.IEnumerable{Bifrost.Events.IEvent})">
+      <summary>Append a set of events to the stream</summary>
+      <param name="events">IEnumerable of <see cref="T:Bifrost.Events.IEvent">events</see> to append</param>
+    </member>
+    <member name="M:Bifrost.Events.EventStore.#ctor(Bifrost.Entities.IEntityContext{Bifrost.Events.PersistentEvent})">
+      <summary>Initializes a new instance of EventStore</summary>
+      <param name="entityContext">A IEntityContext to use for loading and saving events to</param>
+    </member>
+    <member name="M:Bifrost.Events.EventStream.#ctor(System.Guid)">
+      <summary>Initializes a new EventStream</summary>
+      <param name="eventSourceId">Id of the event source - typically an AggregatedRoot</param>
+    </member>
+    <member name="M:Bifrost.Events.EventStream.GetEnumerator">
+      <summary>Get a generic enumerator to iterate over the events</summary>
+      <returns>Enumerator</returns>
+    </member>
+    <member name="M:Bifrost.Events.EventStream.GetNextSequenceNumber">
+      <summary>Returns what the next of the next event to be appended should be.</summary>
+      <returns>The next sequential number for appending events</returns>
+    </member>
+    <member name="P:Bifrost.Events.EventStream.Count">
+      <summary>The number of Events in the Stream.</summary>
+    </member>
+    <member name="P:Bifrost.Events.EventStream.EventSourceId">
+      <summary>Gets the Id of the Event Source (Aggregate Root) that this Event Stream relates to.</summary>
+    </member>
+    <member name="P:Bifrost.Events.EventStream.HasEvents">
+      <summary>Indicates whether there are any events in the Stream.</summary>
+    </member>
+    <member name="F:Bifrost.Events.EventStream.Events">
+      <summary>Gets a list of all the events in the stream</summary>
+    </member>
+    <member name="M:Bifrost.Events.EventSubscribersProcessor.#ctor(Bifrost.Execution.ITypeImporter,Bifrost.Events.IEventMethodBinder,Bifrost.Events.IEventMethodBindingInvoker)">
+      <summary>Initializes a EventSubscribersProcessor</summary>
+      <param name="typeImporter">A ITypeImporter to use for importing <see cref="T:Bifrost.Events.IEventSubscriber">event subscribers</see></param>
+      <param name="binder">A IEventMethodBinder for getting the registered bindings</param>
+      <param name="invoker">A IEventMethodBindingInvoker for invoking event to method bindings</param>
+    </member>
+    <member name="M:Bifrost.Events.InMemoryEventBus.#ctor(Bifrost.Events.IEventSubscribersProcessor)">
+      <summary>Intializes a new instance of the InMemoryEventBus</summary>
+      <param name="processor">The Event subsribers processor that will be processing the events</param>
+    </member>
+    <member name="M:Bifrost.Events.InMemoryEventBus.Publish(Bifrost.Events.IEvent)">
+      <summary>Publish an event to the bus</summary>
+      <param name="eventToPublish">Event to publish</param>
+    </member>
+    <member name="M:Bifrost.Events.InMemoryEventBus.Publish(System.Collections.Generic.IEnumerable{Bifrost.Events.IEvent})">
+      <summary>Publish a set of events to the bus</summary>
+      <param name="events">Enumerable of <see cref="T:Bifrost.Events.IEvent">events</see> to publish</param>
+    </member>
+    <member name="M:Bifrost.Events.MethodEvent.#ctor(System.Reflection.MethodInfo)">
+      <summary>Constructs a MethodEvent based upon a MethodInfo</summary>
+      <param name="methodInfo"></param>
+    </member>
+    <member name="P:Bifrost.Events.MethodEvent.Arguments">
+      <summary>Gets the arguments for the method</summary>
+    </member>
+    <member name="M:Bifrost.Events.MethodEventArguments.GetArgumentValues">
+      <summary>Get all values for all arguments</summary>
+      <returns></returns>
+    </member>
+    <member name="P:Bifrost.Events.MethodEventArguments.Item(System.String)">
+      <summary>Gets or sets the value associated with a given argument for a method</summary>
+      <param name="argument">Name of argument</param>
+      <returns>Value for the argument</returns>
+    </member>
+    <member name="M:Bifrost.Events.MethodEventFactory.CreateMethodEventFromExpression(System.Linq.Expressions.Expression{System.Action})">
+      <summary>Create a MethodEvent from a method <see cref="T:System.Linq.Expressions.Expression`1">expression</see></summary>
+      <param name="method">Expression holding the method to create from</param>
+      <returns>A MethodEvent</returns>
+    </member>
+    <member name="M:Bifrost.Events.PersistentEvent.#ctor">
+      <summary>Initializes a new instance of the PersistentEvent</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.AggregatedRootType">
+      <summary>Gets or sets the aggregated root type the event applies to. A string representation of the typename</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.AggregateId">
+      <summary>Gets or sets the aggregated roots Id that the event applies to</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.CausedBy">
+      <summary>Gets or sets who or what the event was caused by. Typically this would be the name of the user or system causing it</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.EventType">
+      <summary>Gets or sets the event type A string representation of the typename</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.Id">
+      <summary>Gets or sets the id of the event</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.Name">
+      <summary>Gets or sets the name of the event</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.Origin">
+      <summary>Gets or sets the origin of the event. Typically this would be what part of the system the event indirectly is coming from</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.SerializedEvent">
+      <summary>Gets or sets the serialized event. This is a Json representation of the actual event</summary>
+    </member>
+    <member name="P:Bifrost.Events.PersistentEvent.Version">
+      <summary>Gets or sets the version of the event</summary>
+    </member>
+    <member name="M:Bifrost.Events.UncommittedEventStream.#ctor(System.Guid)">
+      <summary>Initializes a new instance of UncommittedEventStream</summary>
+      <param name="eventSourceId">Id of the event source - typically an AggregatedRoot</param>
+    </member>
+    <member name="M:Bifrost.Events.UncommittedEventStream.Append(Bifrost.Events.IEvent)">
+      <summary>Appends an event to the uncommitted event stream, setting the correct EventSourceId and Sequence Number for the event.</summary>
+      <param name="event">The event to be appended.</param>
+    </member>
+    <member name="F:Bifrost.Events.UncommittedEventStream.EventIsUnattached">
+      <summary>A read-only instance of a Guid that represents an unattached Event</summary>
+    </member>
+    <member name="F:Bifrost.Events.UncommittedEventStream.EventIsUnsequenced">
+      <summary>A read-only value indicating an event being unsequenced</summary>
+    </member>
+    <member name="T:Bifrost.Execution.ITypeDiscoverer">
+      <summary>Discovers types based upon basetypes</summary>
+    </member>
+    <member name="T:Bifrost.Execution.ITypeImporter">
+      <summary>Defines a container for importing types.</summary>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeDiscoverer.FindMultiple``1">
+      <summary>Find multiple implementations of a basetype</summary>
+      <typeparam name="T">Basetype to find for</typeparam>
+      <returns>All types implementing or inheriting from the given basetype</returns>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeDiscoverer.FindMultiple(System.Type)">
+      <summary>Find multiple implementations of a basetype</summary>
+      <param name="type">Basetype to find for</param>
+      <returns>All types implementing or inheriting from the given basetype</returns>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeDiscoverer.FindSingle``1">
+      <summary>Find a single implementation of a basetype</summary>
+      <typeparam name="T">Basetype to find for</typeparam>
+      <exception caption="" cref="T:System.ArgumentException">If there is more than one instance found</exception>
+      <returns>Type found</returns>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeDiscoverer.FindSingle(System.Type)">
+      <summary>Find a single implementation of a basetype</summary>
+      <param name="type">Basetype to find for</param>
+      <exception caption="" cref="T:System.ArgumentException">If there is more than one instance found</exception>
+      <returns>Type found</returns>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeImporter.Import``1">
+      <summary>Import a single instance of a type</summary>
+      <typeparam name="T">Basetype to import</typeparam>
+      <returns>An instance of a type that implements the given base type</returns>
+    </member>
+    <member name="M:Bifrost.Execution.ITypeImporter.ImportMany``1">
+      <summary>Import many instances of type</summary>
+      <typeparam name="T">Basetype to import - any inheritors will be found and created</typeparam>
+      <returns>An array of instances that implements or inherits from the given base type</returns>
+    </member>
+    <member name="T:Bifrost.Execution.SingletonAttribute">
+      <summary>Indicates that a class is Singleton and should be treated as such for any factory creating an instance of a class marked with this</summary>
+    </member>
+    <member name="T:Bifrost.Execution.TypeDiscoverer">
+      <summary>Represents a ITypeDiscoverer Uses the current AppDomain / Deployment and discoveres all types loaded</summary>
+    </member>
+    <member name="T:Bifrost.Execution.TypeImporter">
+      <summary>Represents a ITypeImporter</summary>
+    </member>
+    <member name="M:Bifrost.Execution.TypeDiscoverer.#ctor">
+      <summary>Initializes a new instance of TypeDiscoverer</summary>
+    </member>
+    <member name="M:Bifrost.Execution.TypeDiscoverer.ExcludeNamespaceStartingWith(System.String)">
+      <summary>Exclude discovering of types in a specific namespace</summary>
+      <param name="name">Namespace to exclude</param>
+    </member>
+    <member name="M:Bifrost.Execution.TypeImporter.#ctor(Ninject.IKernel,Bifrost.Execution.ITypeDiscoverer)">
+      <summary>Initializes a new instance of TypeImporter</summary>
+      <param name="kernel">Ninject kernel that used for creating types</param>
+      <param name="typeDiscoverer">A ITypeDiscoverer used for discovering types</param>
+    </member>
+    <member name="T:Bifrost.Extensions.ExpressionExtensions">
+      <summary>Provides methods for working with expressions</summary>
+    </member>
+    <member name="T:Bifrost.Extensions.TypeExtensions">
+      <summary>Provides a set of methods for working with types</summary>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetFieldInfo(System.Linq.Expressions.Expression)">
+      <summary>Get FieldInfo from an <see cref="T:System.Linq.Expressions.Expression">Expression</see> - if any</summary>
+      <param name="expression">Expression to get <see cref="T:System.Reflection.FieldInfo">FieldInfo</see> from</param>
+      <returns>FieldInfo instance, null if there is none</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetMemberExpression(System.Linq.Expressions.Expression)">
+      <summary>Get MemberExpression from an <see cref="T:System.Linq.Expressions.Expression">expression</see> - if any</summary>
+      <param name="expression">Expression to get <see cref="T:System.Linq.Expressions.MemberExpression">MemberExpression</see> from</param>
+      <returns>MemberExpression instance, null if there is none</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetMethodInfo(System.Linq.Expressions.Expression)">
+      <summary>Get MethodInfo from an <see cref="T:System.Linq.Expressions.Expression">expression</see> - if any</summary>
+      <param name="expression">Expression to get MethodInfo from</param>
+      <returns>The MethodInfo found, null if did not find one</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetPropertyInfo(System.Linq.Expressions.Expression)">
+      <summary>Get PropertyInfo from an <see cref="T:System.Linq.Expressions.Expression">Expression</see> - if any</summary>
+      <param name="expression">Expression to get <see cref="T:System.Reflection.PropertyInfo">PropertyInfo</see> from</param>
+      <returns>PropertyInfo instance, null if there is none</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetInstance(System.Linq.Expressions.Expression)">
+      <summary>Get an instance reference from an Expression - if any</summary>
+      <param name="expression">Expression to get an instance from</param>
+      <returns>The instance, null if there is none</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.ExpressionExtensions.GetInstance``1(System.Linq.Expressions.Expression)">
+      <summary>Get an instance reference from an Expression, with a specific type - if any</summary>
+      <param name="expression">Expression to get an instance from</param>
+      <typeparam name="T">Type of the instance</typeparam>
+      <returns>The instance, null if there is none</returns>
+    </member>
+    <member name="M:Bifrost.Extensions.TypeExtensions.HasInterface``1(System.Type)">
+      <summary>Check if a type implements a specific interface</summary>
+      <param name="type">Type to check</param>
+      <typeparam name="T">Interface to check for</typeparam>
+      <returns>True if the type implements the interface, false if not</returns>
+    </member>
+    <member name="T:Bifrost.Lifecycle.IUnitOfWork">
+      <summary>Defines a unit of work</summary>
+    </member>
+    <member name="M:Bifrost.Lifecycle.IUnitOfWork.Commit">
+      <summary>Commit the unit of work</summary>
+    </member>
+    <member name="M:Bifrost.Lifecycle.IUnitOfWork.Rollback">
+      <summary>Rollback to the state when the unit of work started</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.IBindingConvention">
+      <summary>Defines the basic functionality for a convention that can be applied to the ConventionKernel</summary>
+    </member>
+    <member name="M:Bifrost.Ninject.IBindingConvention.CanResolve(Ninject.Activation.IRequest)">
+      <summary>Checks wether or not a given request can be resolved</summary>
+      <param name="request">Request to check</param>
+      <returns>True if it can resolve it, false if not</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.IBindingConvention.Resolve(Ninject.Activation.IRequest)">
+      <summary>Resolve a request</summary>
+      <param name="request">Request to resolve</param>
+      <returns>A IBindingSyntax for the resolution</returns>
+    </member>
+    <member name="T:Bifrost.Ninject.ActivationScope">
+      <summary>Ninject scope for activation</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.ActivationScopeExtensions">
+      <summary>Provides functionality for setting scope to a Ninject Binding syntax</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.BaseConvention">
+      <summary>Defines a base abstract class for conventions for Ninject and the ConventionKernel</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.BindingConventions">
+      <summary>Represents conventions for Ninject binding</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.ConventionKernel">
+      <summary>Represents a convention based kernel for Ninject</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.DefaultConvention">
+      <summary>Represents a IBindingConvention that will apply default conventions</summary>
+    </member>
+    <member name="T:Bifrost.Ninject.EntityContextConvention">
+      <summary>Represents a convention for any IEntityContext</summary>
+    </member>
+    <member name="M:Bifrost.Ninject.ActivationScopeExtensions.InActivationScope(Ninject.Syntax.IBindingInSyntax{System.Object},Bifrost.Ninject.ActivationScope)">
+      <summary>Set scope based on ActivationScope</summary>
+      <param name="syntax">Binding syntax to set the scope for</param>
+      <param name="scope">ActivationScope to use</param>
+    </member>
+    <member name="M:Bifrost.Ninject.BaseConvention.Bind``1">
+      <summary>Get the binding syntax for a specific type</summary>
+      <typeparam name="T">Type to bind</typeparam>
+      <returns>Binding syntax for the type</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.BaseConvention.Bind(System.Type)">
+      <summary>Get the binding syntax for a specific type</summary>
+      <param name="type">Type to bind</param>
+      <returns>Binding syntax for the type</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.BaseConvention.HandleScopeForTarget(Ninject.Syntax.IBindingInSyntax{System.Object},System.Type,Bifrost.Ninject.ActivationScope)">
+      <summary>Handle scope for a target type</summary>
+      <param name="syntax">Binding syntax to set scope for</param>
+      <param name="targetType">Target type</param>
+      <param name="defaultScope">The default scope to use</param>
+    </member>
+    <member name="M:Bifrost.Ninject.BaseConvention.HandleScopeForTarget(Ninject.Syntax.IBindingInSyntax{System.Object},System.Type)">
+      <summary>Handle scope for a target type</summary>
+      <param name="syntax">Binding syntax to set scope for</param>
+      <param name="targetType">Target type</param>
+    </member>
+    <member name="P:Bifrost.Ninject.BaseConvention.DefaultScope">
+      <summary>Gets or sets the ActivationScope that will be used as default</summary>
+    </member>
+    <member name="P:Bifrost.Ninject.BaseConvention.Kernel">
+      <summary>Gets or sets the kernel that the convention uses internally</summary>
+    </member>
+    <member name="M:Bifrost.Ninject.BindingConventions.Add``1">
+      <summary>Add a convention</summary>
+      <typeparam name="T">Type of convention to add</typeparam>
+      <returns>An instance of the convention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.BindingConventions.Default">
+      <summary>Applies the default convention for bindings</summary>
+      <returns>The default convention applied</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.BindingConventions.GetConventions">
+      <summary>Get all conventions added</summary>
+      <returns>Array of IBindingConvetions</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.ConventionKernel.#ctor(Ninject.Modules.NinjectModule[])">
+      <summary>Initializes a new instance of ConventionKernel</summary>
+      <param name="modules">The modules to load into the kernel</param>
+    </member>
+    <member name="M:Bifrost.Ninject.ConventionKernel.#ctor(Ninject.INinjectSettings,Ninject.Modules.NinjectModule[])">
+      <summary>Initializes a new instance of ConventionKernel</summary>
+      <param name="settings">The configuration to use</param>
+      <param name="modules">The modules to load into the kernel</param>
+    </member>
+    <member name="P:Bifrost.Ninject.ConventionKernel.Conventions">
+      <summary>Gets the conventions container</summary>
+    </member>
+    <member name="M:Bifrost.Ninject.DefaultConvention.#ctor">
+      <summary>Initializes a new instance of </summary>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.AssemblyOf``1">
+      <summary>Define a filter for a specific assembly from a type</summary>
+      <typeparam name="T">Type that belongs to the assembly one wants to filter based upon</typeparam>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.EntityContext(System.Type)">
+      <summary>Specify what IEntityContext to use for the convention</summary>
+      <param name="type">Type of IEntityContext to use</param>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.InRequestScope">
+      <summary>Specify that the convention should resolve in a per-web-request scope</summary>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.InSingletonScope">
+      <summary>Specify that the convention should resolve in a singleton scope</summary>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.InThreadScope">
+      <summary>Specify that the convention should resolve in a thread scope</summary>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.InTransientScope">
+      <summary>Specify that the convention should resolve in a transient scope</summary>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="M:Bifrost.Ninject.EntityContextConvention.NamespaceContains(System.String)">
+      <summary>Defines a filter based upon namespace containing a specific string</summary>
+      <param name="name">String the namespace must contain</param>
+      <returns>An EntityContextConvention</returns>
+    </member>
+    <member name="T:Bifrost.Query.IQueryRepository`1">
+      <summary>Defines a repository that can be queried against</summary>
+      <typeparam name="T">Type that can be queried against</typeparam>
+    </member>
+    <member name="P:Bifrost.Query.IQueryRepository`1.Query">
+      <summary>Gets a queryable that can be queried against</summary>
+    </member>
+    <member name="T:Bifrost.Query.QueryRepository`1">
+      <summary>Represents a IQueryRepository</summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Bifrost.Query.QueryRepository`1.#ctor(Bifrost.Entities.IEntityContext{`0})">
+      <summary>Initializes a new instance of QueryRepository</summary>
+      <param name="entityContext">An IEntityContext to use for querying</param>
+    </member>
+  </members>
+</doc>

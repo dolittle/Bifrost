@@ -1,0 +1,44 @@
+﻿@using Bifrost.Web.Mvc.Commands
+@using Bifrost.Samples.Blog.Mvc.Features.Posts;
+@using Bifrost.Samples.Blog.Domain.Posts.Commands;
+@using Bifrost.Samples.Blog.Views.Posts;
+@model ListViewModel
+@{
+    ViewBag.Title = "Posts List";
+}
+<ul>
+    @foreach (var post in Model.Posts)
+    {
+        <li>
+            @Html.ActionLink(post.Title, "Show", "Posts", new { id = post.Id }, null)
+        </li>
+    }
+</ul>
+@using (var form = Html.BeginCommandForm<CreatePost, PostsController>(c => c.Create(null), FormMethod.Post))
+{
+    form.Command.BlogId = Model.BlogId;
+    @form.Html.HiddenFor(c => c.Id);
+    @form.Html.HiddenFor(c => c.BlogId)
+
+    <table>
+        <tr>
+            <td>
+                Title
+            </td>
+            <td>
+                @form.Html.TextBoxFor(c => c.Title)
+                @form.Html.ValidationMessageFor(c => c.Title)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Body
+            </td>
+            <td>
+                @form.Html.TextBoxFor(c => c.Body)
+                @form.Html.ValidationMessageFor(c => c.Body)
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Create" />
+}

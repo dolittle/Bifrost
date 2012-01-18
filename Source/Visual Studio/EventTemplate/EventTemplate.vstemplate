@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Bifrost Event</Name>
+    <Description>&lt;Event for an eventsource&gt;</Description>
+    <Icon>EventTemplate.ico</Icon>
+    <TemplateID>1f9904a7-2045-444c-8734-59b647f1de31</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Event.cs</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+		<References>
+      <Reference>
+        <Assembly>Bifrost</Assembly>
+      </Reference>
+    </References>
+    <ProjectItem ReplaceParameters="true">Event.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

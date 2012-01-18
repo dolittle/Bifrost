@@ -1,0 +1,17 @@
+﻿@using Bifrost.Samples.Blog.Domain.Posts.Commands;
+@using Bifrost.Web.Mvc.Commands
+@using Bifrost.Samples.Blog.Views.Posts;
+@using Bifrost.Web.Mvc.Visualizers
+@using Bifrost.Samples.Blog.Mvc.Features.Posts;
+@model Post
+@{
+    ViewBag.Title = "Edit Post";
+}
+@using(var form = Html.BeginCommandForm<UpdatePost, PostsController>(c => c.Update(null),FormMethod.Post))
+{
+    @Html.HiddenFor(p => p.Id);
+    <span>Title:</span><span> @Html.TextBoxFor(p => p.Title)</span>
+    <br />
+    <span>Body:</span><span>@Html.TextBoxFor(p => p.Body)</span>
+    <input type="submit" value="Update" />
+}

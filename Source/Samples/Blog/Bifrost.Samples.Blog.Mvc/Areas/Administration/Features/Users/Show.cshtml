@@ -1,0 +1,14 @@
+﻿@using Bifrost.Web.Mvc.Commands
+@using Bifrost.Samples.Blog.Mvc.Areas.Administration.Features.Users;
+@using Bifrost.Samples.Blog.Views.Security;
+@using Bifrost.Samples.Blog.Domain.Security.Commands;
+@{
+    ViewBag.Title = "Show user";
+}
+@model User
+           
+@Html.LabelFor(u => u.UserName)
+@Html.DisplayTextFor(u => u.UserName)
+<br />
+@Html.LabelFor(u => u.Password)
+@Html.DisplayTextFor(u => u.Password)
