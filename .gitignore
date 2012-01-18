@@ -1,5 +1,5 @@
-source/**/bin
-source/**/obj
+bin
+obj
 *.suo
 *.ldf
 *.LDF
@@ -11,12 +11,13 @@ lastbuild.txt
 version.txt
 *.version
 _ReSharper.*
-packages/*
+packages
 *.pidb
 *.userprefs
 *.pdb
 *.idb
 *.vspscc
+*.xap
 
 
 # OS generated files #
