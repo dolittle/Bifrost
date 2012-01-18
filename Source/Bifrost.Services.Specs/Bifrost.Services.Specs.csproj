@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,11 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithMethod.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethod.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Execution\for_RestServiceMethodInvoker\given\" />
+    <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
+      <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
+      <Name>Bifrost.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

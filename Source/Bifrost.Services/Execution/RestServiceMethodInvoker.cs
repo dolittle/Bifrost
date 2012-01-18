@@ -36,8 +36,7 @@ namespace Bifrost.Services.Execution
 
         public void Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
         {
-            int i = 0;
-            i++;
+            
         }
     }
 }
