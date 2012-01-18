@@ -1,7 +1,7 @@
 ﻿#region License
 
 //
-// Copyright (c) 2008-2012, DoLittle Studios and Komplett ASA
+// Copyright (c) 2008-2012, DoLittle Studios AS and Komplett ASA
 //
 // Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
 // With one exception :
