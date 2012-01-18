@@ -1,0 +1,27 @@
+source/**/bin
+source/**/obj
+*.suo
+*.ldf
+*.LDF
+*.user
+Source/Documentation/DocumentX/*
+Documentation/build/**/*
+current_version.txt
+lastbuild.txt
+version.txt
+*.version
+_ReSharper.*
+packages/*
+*.pidb
+*.userprefs
+*.pdb
+*.idb
+*.vspscc
+
+
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
