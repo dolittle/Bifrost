@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2012, DoLittle Studios AS and Komplett ASA
+// Copyright (c) 2008-2012, DoLittle Studios and Komplett ASA
 //
 // Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
 // With one exception :
@@ -21,26 +21,31 @@
 #endregion
 using System;
 using System.Web;
-using System.Web.Routing;
+using System.Web.SessionState;
 
 namespace Bifrost.Services.Execution
 {
-    public class RestServiceRouteHandler : IRouteHandler
+    public class RestServiceRouteHttpHandler : IHttpHandler, IHttpAsyncHandler, IRequiresSessionState
     {
-        Type _type;
-        IHttpHandler _httpHandler;
-
-        public RestServiceRouteHandler(Type type)
+        public RestServiceRouteHttpHandler(Type type)
         {
-            _type = type;
         }
 
-        public IHttpHandler GetHttpHandler(RequestContext requestContext)
-        {
-            if (_httpHandler == null)
-                _httpHandler = new RestServiceRouteHttpHandler(_type);
+        public bool IsReusable { get { return true; } }
 
-            return _httpHandler;
+        public void ProcessRequest(HttpContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback cb, object extraData)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void EndProcessRequest(IAsyncResult result)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
