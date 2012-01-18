@@ -76,6 +76,8 @@
     <Compile Include="Execution\ContainerServiceBehavior.cs" />
     <Compile Include="Execution\ContainerServiceHostFactory.cs" />
     <Compile Include="Execution\ContainerWebServiceHost.cs" />
+    <Compile Include="Execution\RestServiceRoute.cs" />
+    <Compile Include="Execution\RestServiceRouteHandler.cs" />
     <Compile Include="Execution\ServiceRoutingExtensions.cs" />
     <Compile Include="Execution\WebApiRoute.cs" />
   </ItemGroup>
