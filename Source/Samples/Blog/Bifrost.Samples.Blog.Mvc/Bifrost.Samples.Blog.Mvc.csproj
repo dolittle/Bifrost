@@ -100,9 +100,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\Libraries\SQLite\System.Data.SQLite.DLL</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -222,9 +219,9 @@
       <Project>{A6B34814-3554-4849-A54E-C7AD1A7BB8E1}</Project>
       <Name>Bifrost.RavenDb.Embeddable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bifrost.WCF\Bifrost.WCF.csproj">
+    <ProjectReference Include="..\..\..\Bifrost.Services\Bifrost.Services.csproj">
       <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
-      <Name>Bifrost.WCF</Name>
+      <Name>Bifrost.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Bifrost.Web.Mvc\Bifrost.Web.Mvc.csproj">
       <Project>{73FFB713-2878-4C17-8D5B-E22AF8DE89C5}</Project>
@@ -291,7 +288,9 @@
   <ItemGroup>
     <Content Include="Areas\Administration\Features\Users\Show.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Administration\Features\Comments\index.cshtml" />
     <None Include="Data\BlogDb" />

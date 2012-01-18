@@ -2,8 +2,8 @@
 using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.Ninject;
-using Bifrost.WCF.Commands;
-using Bifrost.WCF.Execution;
+using Bifrost.Services.Commands;
+using Bifrost.Services.Execution;
 using Bifrost.Web.Mvc;
 using Ninject;
 

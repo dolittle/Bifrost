@@ -29,7 +29,7 @@ using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Serialization;
 
-namespace Bifrost.WCF.Commands
+namespace Bifrost.Services.Commands
 {
     [ServiceContract]
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]

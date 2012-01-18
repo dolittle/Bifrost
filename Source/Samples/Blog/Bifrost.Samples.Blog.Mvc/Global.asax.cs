@@ -10,6 +10,7 @@ using Ninject;
 using Configure = Bifrost.Configuration.Configure;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject.Web.Mvc;
+using Bifrost.Services;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Samples.Blog.Mvc.MvcApplication), "InitializeNinject")]
 
