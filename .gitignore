@@ -18,6 +18,9 @@ packages
 *.idb
 *.vspscc
 *.xap
+*.fbl7
+*.fb7lck
+*.fbpinf
 
 
 # OS generated files #
