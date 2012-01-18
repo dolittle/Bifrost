@@ -77,6 +77,7 @@
     <Compile Include="Execution\ContainerServiceHostFactory.cs" />
     <Compile Include="Execution\ContainerWebServiceHost.cs" />
     <Compile Include="Execution\IRestServiceMethodInvoker.cs" />
+    <Compile Include="Execution\MethodNotSpecifiedException.cs" />
     <Compile Include="Execution\RestServiceMethodInvoker.cs" />
     <Compile Include="Execution\RestServiceRoute.cs" />
     <Compile Include="Execution\RestServiceRouteHandler.cs" />

@@ -26,6 +26,6 @@ namespace Bifrost.Services.Execution
 {
     public interface IRestServiceMethodInvoker
     {
-        void Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form);
+        string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form);
     }
 }

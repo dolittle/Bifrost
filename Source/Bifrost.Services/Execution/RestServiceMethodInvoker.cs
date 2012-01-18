@@ -34,9 +34,42 @@ namespace Bifrost.Services.Execution
             _serializer = serializer;
         }
 
-        public void Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
+        public string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
         {
-            
+            var methodName = GetMethodNameFromUri(baseUrl, uri);
+            ThrowIfMethodNameNotSpecified(methodName, instance, uri);
+            ThrowIfMethodMissing(methodName, instance, uri);
+
+            var method = instance.GetType().GetMethod(methodName);
+            method.Invoke(instance, new object[0]);
+
+            return string.Empty;
+        }
+
+        string GetMethodNameFromUri(string baseUrl, Uri uri)
+        {
+            var path = uri.AbsolutePath;
+            if (path.StartsWith("/"))
+                path = path.Substring(1);
+
+            var segments = path.Split('/');
+            if (segments.Length > 1)
+                return segments[1];
+
+            return string.Empty;
+        }
+
+        void ThrowIfMethodNameNotSpecified(string methodName, object instance, Uri uri)
+        {
+            if (string.IsNullOrEmpty(methodName))
+                throw new MethodNotSpecifiedException(instance.GetType(), uri);
+        }
+
+        void ThrowIfMethodMissing(string methodName, object instance, Uri uri)
+        {
+            var method = instance.GetType().GetMethod(methodName);
+            if (method == null)
+                throw new MissingMethodException(string.Format("Missing method '{0}' for Uri '{1}'", methodName, uri));
         }
     }
 }

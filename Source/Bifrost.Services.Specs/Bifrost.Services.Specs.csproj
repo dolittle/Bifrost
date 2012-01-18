@@ -47,9 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
-    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithMethod.cs" />
-    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethod.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithMethods.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_a_method.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_method_with_no_in_or_output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
