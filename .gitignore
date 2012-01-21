@@ -21,10 +21,12 @@ packages
 *.fbl7
 *.fb7lck
 *.fbpinf
+*.test-cache
 
 
 # OS generated files #
 ######################
+.DS_Store
 .DS_Store?
 ehthumbs.db
 Icon?
