@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,6 +50,8 @@
     <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_a_method.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_parameter_and_target_method_expects_a_parameter.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_complex_type_as_a_parameter.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_method_with_no_in_or_output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
