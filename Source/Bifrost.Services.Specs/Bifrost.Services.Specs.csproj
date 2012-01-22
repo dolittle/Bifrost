@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Execution\for_RestServiceMethodInvoker\ComplexType.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
@@ -53,6 +56,7 @@
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_parameter_and_target_method_expects_a_parameter.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_complex_type_as_a_parameter.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_method_with_no_in_or_output.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_wrong_parameter_name.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

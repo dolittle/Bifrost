@@ -22,6 +22,9 @@
 using System;
 using System.Collections.Specialized;
 using Bifrost.Serialization;
+using System.Reflection;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Bifrost.Services.Execution
 {
@@ -36,14 +39,31 @@ namespace Bifrost.Services.Execution
 
         public string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
         {
+            var type = instance.GetType();
             var methodName = GetMethodNameFromUri(baseUrl, uri);
             ThrowIfMethodNameNotSpecified(methodName, instance, uri);
             ThrowIfMethodMissing(methodName, instance, uri);
 
-            var method = instance.GetType().GetMethod(methodName);
-            method.Invoke(instance, new object[0]);
+            var method = type.GetMethod(methodName);
+            ThrowIfParameterCountMismatches(method, type, uri, form);
+            ThrowIfParameterMissing(method, type, uri, form);
+
+            var values = GetParameterValues(form, method);
+            method.Invoke(instance, values);
 
             return string.Empty;
+        }
+
+        private object[] GetParameterValues(NameValueCollection form, MethodInfo method)
+        {
+            var values = new List<object>();
+            var parameters = method.GetParameters();
+            foreach (var parameter in parameters)
+            {
+                var parameterAsJson = form[parameter.Name];
+                values.Add(_serializer.FromJson(parameter.ParameterType, parameterAsJson));
+            }
+            return values.ToArray();
         }
 
         string GetMethodNameFromUri(string baseUrl, Uri uri)
@@ -57,6 +77,21 @@ namespace Bifrost.Services.Execution
                 return segments[1];
 
             return string.Empty;
+        }
+
+        void ThrowIfParameterMissing(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection form)
+        {
+            var parameters = methodInfo.GetParameters();
+            foreach (var parameter in parameters)
+                if (!form.AllKeys.Contains(parameter.Name))
+                    throw new MissingParameterException(parameter.Name, type.Name, uri);
+        }
+
+        void ThrowIfParameterCountMismatches(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection form)
+        {
+            var parameters = methodInfo.GetParameters();
+            if( form.Count != parameters.Length )
+                throw new ParameterCountMismatchException(uri, type.Name, form.Count, parameters.Length);
         }
 
         void ThrowIfMethodNameNotSpecified(string methodName, object instance, Uri uri)
