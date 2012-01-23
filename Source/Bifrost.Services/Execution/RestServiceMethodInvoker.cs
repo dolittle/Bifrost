@@ -49,9 +49,10 @@ namespace Bifrost.Services.Execution
             ThrowIfParameterMissing(method, type, uri, form);
 
             var values = GetParameterValues(form, method);
-            method.Invoke(instance, values);
+            var result = method.Invoke(instance, values);
 
-            return string.Empty;
+            var serializedResult = _serializer.ToJson(result);
+            return serializedResult;
         }
 
         private object[] GetParameterValues(NameValueCollection form, MethodInfo method)

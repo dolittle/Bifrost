@@ -52,6 +52,7 @@
     <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\ServiceWithoutMethods.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_a_method_without_parameters_but_returns_complex_type.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_a_method.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_without_parameter_and_target_method_expects_a_parameter.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_complex_type_as_a_parameter.cs" />

@@ -23,5 +23,13 @@
 
 
 
+        public const string NoInputComplexOutputMethod = "NoInputComplexOutput";
+        public bool NoInputComplexOutputCalled = false;
+        public ComplexType NoInputComplexOutputReturn;
+        public ComplexType NoInputComplexOutput()
+        {
+            NoInputComplexOutputCalled = true;
+            return NoInputComplexOutputReturn;
+        }
     }
 }
