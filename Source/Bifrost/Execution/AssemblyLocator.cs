@@ -66,10 +66,8 @@ namespace Bifrost.Execution
             foreach (var file in files)
             {
                 var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                if (!currentAssemblies.Any(assembly => AssemblyName.ReferenceMatchesDefinition(assemblyName, assembly.GetName())))
-                {
+                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName()))) // AssemblyName.ReferenceMatchesDefinition(assemblyName, assembly.GetName())))
                     currentAssemblies.Add(Assembly.Load(assemblyName));
-                }
             }
             _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
 #endif
@@ -108,6 +106,11 @@ namespace Bifrost.Execution
 		{
 			return !name.Contains("System.");
 		}
+#else
+        bool Matches(AssemblyName a, AssemblyName b)
+        {
+            return a.ToString() == b.ToString();
+        }
 #endif
     }
 }
