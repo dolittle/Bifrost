@@ -20,13 +20,17 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Web;
 using System.Web.SessionState;
+using Bifrost.Serialization;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Services.Execution
 {
-    public class RestServiceRouteHttpHandler : IHttpHandler, IHttpAsyncHandler, IRequiresSessionState
+    // Todo : add async support - performance gain! 
+    public class RestServiceRouteHttpHandler : IHttpHandler, IRequiresSessionState // IHttpAsyncHandler
     {
         Type _type;
         string _url;
@@ -41,12 +45,30 @@ namespace Bifrost.Services.Execution
 
         public void ProcessRequest(HttpContext context)
         {
+            var form = context.Request.Form;
+
+            if (form.Keys.Count == 0 && context.Request.InputStream.Length > 0)
+            {
+                var input = new byte[context.Request.InputStream.Length];
+                context.Request.InputStream.Read(input, 0, input.Length);
+
+                var inputDictionary = new Dictionary<string, string>();
+                var inputAsString = System.Text.UTF8Encoding.UTF8.GetString(input);
+                var serializer = ServiceLocator.Current.GetInstance<ISerializer>();
+                serializer.FromJson(inputDictionary, inputAsString);
+
+                form = new NameValueCollection();
+                foreach (var key in inputDictionary.Keys)
+                    form[key] = inputDictionary[key];
+            }
+            
             var invoker = ServiceLocator.Current.GetInstance<IRestServiceMethodInvoker>();
             var serviceInstance = ServiceLocator.Current.GetInstance(_type);
 
-            invoker.Invoke(_url, serviceInstance, context.Request.Url, context.Request.Form);
+            invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
         }
 
+        /*
         public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback cb, object extraData)
         {
             ProcessRequest(context);
@@ -57,6 +79,6 @@ namespace Bifrost.Services.Execution
         public void EndProcessRequest(IAsyncResult result)
         {
             throw new System.NotImplementedException();
-        }
+        }*/
     }
 }

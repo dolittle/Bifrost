@@ -10,15 +10,7 @@ ko.bindingHandlers.command = {
     }
 };
 
-
 (function () {
-    function S4() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    }
-    function guid() {
-        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-    }
-
     function CommandDescriptor(name, commandParameters) {
         this.Name = name;
 
@@ -56,10 +48,10 @@ ko.bindingHandlers.command = {
             self.isBusy(true);
 
             $.ajax({
-                url: "CommandCoordinator/handle",
+                url: "/CommandCoordinator/Handle",
                 type: 'POST',
                 dataType: 'json',
-                data: JSON.stringify(new CommandDescriptor(self.name, self.parameters)),
+                data: JSON.stringify({ commandDescriptor : JSON.stringify(new CommandDescriptor(self.name, self.parameters)) }),
                 contentType: 'application/json; charset=utf-8',
                 error: function (e) {
                     self.hasError = true;

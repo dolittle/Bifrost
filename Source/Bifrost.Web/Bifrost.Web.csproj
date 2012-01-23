@@ -95,7 +95,9 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.html" />
-    <Content Include="Scripts\bifrost.commands.js" />
+    <Content Include="Scripts\Bifrost.commands.js" />
+    <Content Include="Scripts\Bifrost.features.js" />
+    <Content Include="Scripts\Bifrost.utils.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
