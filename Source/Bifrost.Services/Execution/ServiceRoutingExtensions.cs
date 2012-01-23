@@ -20,8 +20,6 @@
 //
 #endregion
 using System;
-using System.Linq;
-using System.ServiceModel;
 using System.Web.Routing;
 
 namespace Bifrost.Services.Execution
@@ -40,10 +38,7 @@ namespace Bifrost.Services.Execution
             url = url ?? (removePostFix ? RemovePostFix(service) : service.Name);
 
             routes.Add(new RestServiceRoute(service, url));
-
-            //routes.Add(new WebApiRoute(url, new ContainerServiceHostFactory(), service));
         }
-
 
         static string RemovePostFix(this Type serviceType)
         {
@@ -52,19 +47,6 @@ namespace Bifrost.Services.Execution
                 name = name.Substring(0, name.Length - PostFix.Length);
 
             return name;
-        }
-
-        static bool IsService(this Type type)
-        {
-            return type.GetCustomAttributes(typeof(ServiceContractAttribute), true).Length > 0;
-        }
-
-        public static void AddServicesFromNamespaceOf<T>(this RouteCollection routes, bool removePostfix = true)
-        {
-            var rootType = typeof(T);
-            var types = rootType.Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.StartsWith(rootType.Namespace) && t.IsService());
-            foreach (var type in types)
-                routes.AddService(type, removePostfix ? type.RemovePostFix() : null);
         }
     }
 }

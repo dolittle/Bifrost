@@ -40,9 +40,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Activation" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
@@ -59,10 +56,6 @@
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
-    <Compile Include="Execution\ContainerInstanceProvider.cs" />
-    <Compile Include="Execution\ContainerServiceBehavior.cs" />
-    <Compile Include="Execution\ContainerServiceHostFactory.cs" />
-    <Compile Include="Execution\ContainerWebServiceHost.cs" />
     <Compile Include="Execution\IRestServiceMethodInvoker.cs" />
     <Compile Include="Execution\MethodNotSpecifiedException.cs" />
     <Compile Include="Execution\MissingParameterException.cs" />
@@ -72,7 +65,6 @@
     <Compile Include="Execution\RestServiceRouteHandler.cs" />
     <Compile Include="Execution\RestServiceRouteHttpHandler.cs" />
     <Compile Include="Execution\ServiceRoutingExtensions.cs" />
-    <Compile Include="Execution\WebApiRoute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">

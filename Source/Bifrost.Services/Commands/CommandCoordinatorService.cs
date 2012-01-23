@@ -22,18 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Activation;
-using System.ServiceModel.Web;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Serialization;
 
 namespace Bifrost.Services.Commands
 {
-    [ServiceContract]
-    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class CommandCoordinatorService
     {
         ICommandCoordinator _commandCoordinator;
@@ -59,11 +53,7 @@ namespace Bifrost.Services.Commands
             _commandTypes = commands.Select(c=>c).ToDictionary(c => c.Name);
         }
 
-        [WebInvoke(
-            Method="POST",
-            RequestFormat=WebMessageFormat.Json,
-            ResponseFormat=WebMessageFormat.Json,
-            UriTemplate="handle")]
+
         public CommandResult Handle(CommandDescriptor commandDescriptor)
         {
             var commandName = commandDescriptor.Name;
