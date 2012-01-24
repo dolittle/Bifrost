@@ -7,16 +7,16 @@ var Bifrost = Bifrost || {};
 		self.definition = definition;
 		self.isSingleton = isSingleton;
 		
-		self.getInstance = function() {
-			if( isSingleton ) {
-				if( !self.instance ) {
+		self.getInstance = function () {
+			if (isSingleton) {
+				if (!self.instance) {
 					self.instance = new self.definition();
 				}
 				return self.instance;
 			}
 			
 			return new self.definition();
-		}
+		};
 	}
 	
 		
@@ -29,12 +29,12 @@ var Bifrost = Bifrost || {};
 		
 		var self = this;
 
-		this.load = function(loaded) {
+		this.load = function (loaded) {
 		
 			//var path = "/Features/"+self.name;
-			var view = "text!"+self.path+"/"+self.view+".html!strip";
+			var view = "text!" +self.path+ "/" +self.view+ ".html!strip";
 			//var styles = "text!"+path+"/views.css";
-			var viewModelPath = self.path+"/"+self.viewModel+".js";
+			var viewModelPath = self.path+ "/" +self.viewModel+ ".js";
 
 //			require([view, styles, viewModelPath], function(v,s) {
 			require([view, viewModelPath], function(v) {
