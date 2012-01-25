@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Commands\CommandCoordinatorService.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
+    <Compile Include="Commands\UnknownCommandException.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Execution\IRestServiceMethodInvoker.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Execution\RestServiceRouteHandler.cs" />
     <Compile Include="Execution\RestServiceRouteHttpHandler.cs" />
     <Compile Include="Execution\ServiceRoutingExtensions.cs" />
+    <Compile Include="Sagas\SagaNarratorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
