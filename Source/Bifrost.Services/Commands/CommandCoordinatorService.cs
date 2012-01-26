@@ -61,7 +61,7 @@ namespace Bifrost.Services.Commands
             return result;
         }
 
-        public IEnumerable<CommandResult> HandleForSaga(Guid sagaId, IEnumerable<CommandDescriptor> commandDescriptors)
+        public IEnumerable<CommandResult> HandleForSaga(Guid sagaId, CommandDescriptor[] commandDescriptors)
         {
             var results = new List<CommandResult>();
             var saga = _sagaLibrarian.Get(sagaId);

@@ -15,7 +15,10 @@ namespace Bifrost.Extensions
 
         TypeInfo()
         {
-            HasDefaultConstructor = typeof(T).GetConstructor(new Type[0]) != null;
+            var type = typeof(T); 
+            HasDefaultConstructor = 
+                type.IsValueType ||
+                type.GetConstructor(new Type[0]) != null ;
         }
 
 #pragma warning disable 1591 // Xml Comments

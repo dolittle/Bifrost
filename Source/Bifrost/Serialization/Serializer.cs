@@ -25,6 +25,7 @@ using System.IO;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace Bifrost.Serialization
 {
@@ -47,6 +48,8 @@ namespace Bifrost.Serialization
 #pragma warning disable 1591 // Xml Comments
         public T FromJson<T>(string json, SerializationOptions options = null)
 		{
+            return (T)FromJson(typeof(T), json, options);
+            /*
 			var serializer = CreateSerializer(options);
 			using (var textReader = new StringReader(json))
 			{
@@ -56,7 +59,7 @@ namespace Bifrost.Serialization
 					serializer.Populate(reader, instance);
 					return instance;
 				}
-			}
+			}*/
 		}
 
 		public object FromJson(Type type, string json, SerializationOptions options = null)
@@ -66,8 +69,16 @@ namespace Bifrost.Serialization
 			{
 				using (var reader = new JsonTextReader(textReader))
 				{
-					var instance = CreateInstanceOf(type);
-					serializer.Populate(reader, instance);
+                    object instance;
+
+                    if (type.IsValueType ||
+                        type.HasInterface<IEnumerable>())
+                        instance = serializer.Deserialize(reader, type);
+                    else
+                    {
+                        instance = CreateInstanceOf(type);
+                        serializer.Populate(reader, instance);
+                    }
 					return instance;
 				}
 			}
