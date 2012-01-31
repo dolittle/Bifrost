@@ -1,5 +1,4 @@
-var Bifrost = Bifrost || {};
-
+Bifrost.namespace("Bifrost.features");
 (function ($) {
 	
 	$(function() {
