@@ -8,7 +8,7 @@ Bifrost.commands.Command = (function () {
         this.hasError = false;
         this.isBusy = ko.observable();
         this.canExecute = ko.observable(true);
-        this.id = Bifrost.guid();
+        this.id = Bifrost.Guid.create();
         this.options = {
             beforeExecute: function () {
             },

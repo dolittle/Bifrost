@@ -1,7 +1,7 @@
 ﻿describe("when creating from command", function () {
     var command = {
         name: "DoSomething",
-        id: Bifrost.guid(),
+        id: Bifrost.Guid.create(),
         parameters: {}
     };
     var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);

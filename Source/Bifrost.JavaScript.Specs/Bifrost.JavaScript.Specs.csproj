@@ -36,14 +36,22 @@
   <ItemGroup>
     <Content Include="Commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="Commands\for_Command\when_creating_with_configuration.js" />
-    <Content Include="for_utils\when_extending_an_object_with_same_content.js" />
-    <Content Include="for_utils\when_extending_an_object_with_overlapping_content.js" />
-    <Content Include="for_utils\when_extending_an_empty_object.js" />
-    <Content Include="for_utils\when_generating_guid.js" />
-    <Content Include="for_utils\when_included.js" />
-    <Content Include="for_utils\when_using_namespace.js" />
+    <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
+    <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
+    <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />
+    <Content Include="Utils\for_guid\when_generating_guid.js" />
+    <Content Include="Utils\for_namespace\when_included.js" />
+    <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="..\dependencies.config">
+      <Link>dependencies.config</Link>
+    </None>
+    <None Include="..\forseti.config">
+      <Link>forseti.config</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

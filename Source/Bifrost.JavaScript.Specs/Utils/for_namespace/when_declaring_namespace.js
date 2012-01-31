@@ -1,4 +1,4 @@
-﻿describe("when using namespace", function () {
+﻿describe("when declaring namespace", function () {
     Bifrost.namespace("Something.Cool.That.Does.Not.Exist");
 
     it("should introduce namespace", function () {

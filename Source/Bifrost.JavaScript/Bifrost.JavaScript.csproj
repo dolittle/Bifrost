@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Bifrost.js" />
     <Content Include="Commands\Command.js" />
     <Content Include="Commands\commandCoordinator.js" />
     <Content Include="Commands\CommandDescriptor.js" />
@@ -43,8 +44,11 @@
     <Content Include="Libraries\sinon-1.3.1.js" />
     <Content Include="Sagas\Saga.js" />
     <Content Include="Sagas\sagaNarrator.js" />
-    <Content Include="utils.js" />
+    <Content Include="Utils\extend.js" />
+    <Content Include="Utils\guid.js" />
+    <Content Include="Utils\namespace.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
