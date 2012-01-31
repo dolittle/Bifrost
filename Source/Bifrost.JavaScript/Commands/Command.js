@@ -6,7 +6,7 @@ Bifrost.commands.Command = (function () {
     function Command(options) {
         var self = this;
         this.hasError = false;
-        this.isBusy = ko.observable();
+        this.isBusy = ko.observable(false);
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.options = {

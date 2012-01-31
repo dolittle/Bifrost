@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.JavaScript.Specs</RootNamespace>
     <AssemblyName>Bifrost.JavaScript.Specs</AssemblyName>
@@ -33,8 +33,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
+    <Content Include="commands\for_Command\when_executing_a_command_which_can_not_execute.js" />
+    <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
     <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
