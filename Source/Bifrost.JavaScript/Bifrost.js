@@ -7,5 +7,8 @@
 @depends Commands/commandCoordinator.js
 @depends Sagas/Saga.js
 @depends Sagas/sagaNarrator.js
-@depends features.js
+@depends Features/ViewModel.js
+@depends Features/Feature.js
+@depends Features/Container.js
+@depends Features/loader.js
 */
