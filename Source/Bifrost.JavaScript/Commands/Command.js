@@ -2,7 +2,7 @@
     throw "Requires Knockout.js";
 }
 Bifrost.namespace("Bifrost.commands");
-Bifrost.commands.Command = (function () {
+Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
         this.hasError = false;
@@ -26,7 +26,7 @@ Bifrost.commands.Command = (function () {
             if (typeof self.viewModel === "undefined") {
                 self.viewModel = window;
             }
-        }
+        };
 
         this.execute = function () {
             self.hasError = false;
@@ -46,30 +46,30 @@ Bifrost.commands.Command = (function () {
                     self.onComplete();
                 }
             });
-        }
+        };
 
         this.onBeforeExecute = function () {
             self.options.beforeExecute.call(self.viewModel, self);
-        }
+        };
 
         this.onError = function (e) {
             self.hasError = true;
             self.error.call(self.viewModel);
-        }
+        };
 
         this.onComplete = function () {
             if (!self.hasError) {
                 self.success.call(self.viewModel);
             }
             self.isBusy(false);
-        }
+        };
     }
 
     return {
-        create: function (options) {
+        create: function(options) {
             var command = new Command(options);
             command.initialize();
             return command;
         }
-    }
-})();
+    };
+})(window);
