@@ -34,8 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Commands\for_CommandDescriptor\when_creating_from_command.js" />
-    <Content Include="Commands\for_Command\when_creating_with_configuration.js" />
+    <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
+    <Content Include="commands\for_Command\when_creating_with_configuration.js" />
+    <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
+    <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
+    <Content Include="features\for_ViewModel\when_registering_as_transient_and_getting_two_instances.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />
