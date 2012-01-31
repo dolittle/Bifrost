@@ -6,13 +6,16 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.JavaScript.Specs</RootNamespace>
     <AssemblyName>Bifrost.JavaScript.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -33,9 +36,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
+    <Content Include="features\for_uriMapper\when_adding_mapping.js" />
+    <Content Include="features\for_uriMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
     <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_as_transient_and_getting_two_instances.js" />
@@ -53,9 +61,11 @@
     </None>
     <None Include="..\forseti.config">
       <Link>forseti.config</Link>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

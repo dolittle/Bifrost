@@ -29,22 +29,21 @@ Bifrost.features.Container = (function () {
                 path = path + "/" + name;
             }
 
-            var feature = new Feature(name, view, viewModel, path);
+            var feature = Bifrost.features.Feature.create(name, view, viewModel, path);
             self[name] = feature;
             feature.load(loaded);
         }
     }
 
-    Bifrost.features = $.extend(new Container("root"), {
-        addOrGetContainer: function (name, isAdministration) {
-            if (Bifrost.features[name] != undefined) {
-                return Bifrost.features[name];
-            }
-            var container = new Container(name, isAdministration);
-            Bifrost.features[name] = container;
-            return container;
+    Bifrost.extend(Bifrost.features, new Container("root"));
+    Bifrost.features.addOrGetContainer = function (name, isAdministration) {
+        if (Bifrost.features[name] != undefined) {
+            return Bifrost.features[name];
         }
-    });
+        var container = new Container(name, isAdministration);
+        Bifrost.features[name] = container;
+        return container;
+    }
 
     return {
         create: function (name) {
