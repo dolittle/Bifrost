@@ -44,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Bifrost.js" />
+    <Content Include="commands\bindingHandlers.js" />
     <Content Include="commands\Command.js" />
     <Content Include="commands\commandCoordinator.js" />
     <Content Include="commands\CommandDescriptor.js" />
@@ -58,6 +59,7 @@
     <Content Include="Libraries\knockout-2.0.0.js" />
     <Content Include="Libraries\sinon-1.3.1.js" />
     <Content Include="navigation\Frame.js" />
+    <Content Include="navigation\navigationService.js" />
     <Content Include="sagas\Saga.js" />
     <Content Include="sagas\sagaNarrator.js" />
     <Content Include="utils\extend.js" />
