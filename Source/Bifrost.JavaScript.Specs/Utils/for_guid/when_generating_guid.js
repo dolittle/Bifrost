@@ -1,5 +1,5 @@
 ﻿describe("when generating guid", function () {
-    var result = Bifrost.guid();
+    var result = Bifrost.Guid.create();
 
     it("should return something", function () {
         expect(result).toBeDefined();
