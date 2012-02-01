@@ -65,7 +65,8 @@ namespace Bifrost.Services.Execution
             var invoker = ServiceLocator.Current.GetInstance<IRestServiceMethodInvoker>();
             var serviceInstance = ServiceLocator.Current.GetInstance(_type);
 
-            invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
+            var result = invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
+            context.Response.Write(result);
         }
 
         /*
