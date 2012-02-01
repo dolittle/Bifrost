@@ -4,7 +4,7 @@ Bifrost.commands.commandCoordinator = (function () {
     return {
         handle: function (command, options) {
             var methodParameters = {
-                commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.create(command))
+                commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
             };
 
             $.ajax({
