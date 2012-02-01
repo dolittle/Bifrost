@@ -54,7 +54,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.onError = function (e) {
             self.hasError = true;
-            self.error.call(self.viewModel);
+            self.options.error.call(self.viewModel);
         };
 
         this.onComplete = function () {
