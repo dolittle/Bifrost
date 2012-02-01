@@ -7,24 +7,37 @@ Bifrost.features.uriMapper = (function () {
             mappings = new Array();
         },
 
-        add: function (uri, mappedUri) {
-            var uriMapping = Bifrost.features.UriMapping.create(uri, mappedUri);
+        add: function (uri, mappedUri, isDefault) {
+            var uriMapping = Bifrost.features.UriMapping.create(uri, mappedUri, isDefault);
             mappings.push(uriMapping);
         },
 
-        resolve: function (uri) {
+        getUriMappingFor: function (uri) {
             var found;
             $.each(mappings, function (i, m) {
                 if (m.matches(uri)) {
                     found = m;
-                    return;
+                    return false;
                 }
             });
 
             if (typeof found !== "undefined") {
-                return found.resolve(uri);
+                return found;
             }
-            return "";
+
+            throw {
+                name: "ArgumentError",
+                message: "URI (" + uri + ") could not be mapped"
+            }
+        },
+
+        resolve: function (uri) {
+            try {
+                var uriMapping = Bifrost.features.uriMapper.getUriMappingFor(uri);
+                return uriMapping.resolve(uri);
+            } catch (e) {
+                return "";
+            }
         },
 
         allMappings: function () {

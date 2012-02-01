@@ -11,6 +11,6 @@
 @depends Features/uriMapper.js
 @depends Features/ViewModel.js
 @depends Features/Feature.js
-@depends Features/Container.js
+@depends Features/featureManager.js
 @depends Features/loader.js
 */

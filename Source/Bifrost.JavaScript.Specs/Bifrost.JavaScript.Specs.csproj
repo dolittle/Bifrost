@@ -42,8 +42,17 @@
   <ItemGroup>
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
+    <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
+    <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />
     <Content Include="features\for_uriMapper\when_adding_mapping.js" />
     <Content Include="features\for_uriMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
+    <Content Include="features\for_uriMapper\when_resolving_a_uri_that_should_match_a_uri_with_expansion.js" />
+    <Content Include="features\for_uriMapper\when_resolving_a_uri_without_any_expansion.js" />
+    <Content Include="features\for_UriMapping\when_creating_without_a_mapped_uri.js" />
+    <Content Include="features\for_UriMapping\when_creating_without_a_uri.js" />
+    <Content Include="features\for_UriMapping\when_matching_a_uri_that_should_match.js" />
+    <Content Include="features\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
+    <Content Include="features\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_as_transient_and_getting_two_instances.js" />
