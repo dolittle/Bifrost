@@ -1,10 +1,8 @@
-﻿if (typeof ko === 'undefined') {
-    throw "Requires Knockout.js";
-}
-Bifrost.namespace("Bifrost.commands");
+﻿Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.Command = (function () {
     function Command(options) {
         var self = this;
+        this.name = options.name;
         this.hasError = false;
         this.isBusy = ko.observable();
         this.canExecute = ko.observable(true);
@@ -54,12 +52,12 @@ Bifrost.commands.Command = (function () {
 
         this.onError = function (e) {
             self.hasError = true;
-            self.error.call(self.viewModel);
+            self.options.error.call(self.viewModel);
         }
 
         this.onComplete = function () {
             if (!self.hasError) {
-                self.success.call(self.viewModel);
+                self.options.success.call(self.viewModel);
             }
             self.isBusy(false);
         }
