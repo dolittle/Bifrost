@@ -25,7 +25,7 @@ Bifrost.commands.commandCoordinator = (function () {
             command.result.Exception = {
                 Message: jqXHR.responseText,
                 details: jqXHR
-            }
+            };
             command.onError();
         }
         command.onComplete();
@@ -39,7 +39,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
             sendToHandler(baseUrl + "/Handle", JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
-                handleCommandCompletion(jqXHR, command);
+                handleCommandCompletion(jqXHR, command, commandResult);
             });
         },
         handleForSaga: function (saga, commands) {
