@@ -95,13 +95,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.html" />
-    <Content Include="Scripts\Bifrost.commands.js" />
-    <Content Include="Scripts\Bifrost.features.js" />
-    <Content Include="Scripts\Bifrost.utils.js" />
-    <Content Include="Scripts\Commands\Command.js" />
-    <Content Include="Scripts\Commands\commandCoordinator.js" />
-    <Content Include="Scripts\Commands\CommandDescriptor.js" />
-    <Content Include="Scripts\features.js" />
+    <Content Include="Scripts\Bifrost.debug.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -109,9 +103,6 @@
     <Content Include="Scripts\jQuery.tmpl.min.js" />
     <Content Include="Scripts\knockout-1.3.0beta.debug.js" />
     <Content Include="Scripts\knockout-1.3.0beta.js" />
-    <Content Include="Scripts\Sagas\Saga.js" />
-    <Content Include="Scripts\Sagas\sagaNarrator.js" />
-    <Content Include="Scripts\utils.js" />
     <Content Include="viewModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -136,6 +127,10 @@
     <Compile Include="TheObject.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
+      <Project>{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}</Project>
+      <Name>Bifrost.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
       <Project>{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}</Project>
       <Name>Bifrost.MongoDB</Name>
@@ -193,6 +188,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)Scripts\</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
