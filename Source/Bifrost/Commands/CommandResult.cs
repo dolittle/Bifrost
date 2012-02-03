@@ -32,6 +32,16 @@ namespace Bifrost.Commands
     public class CommandResult
     {
         /// <summary>
+        /// Gets or sets the name of command that this result is related to
+        /// </summary>
+        public string CommandName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Id of the command that this result is related to
+        /// </summary>
+        public Guid CommandId { get; set; }
+
+        /// <summary>
         /// Gets or sets the ValidationResults generated during handling of a command
         /// </summary>
         public IEnumerable<ValidationResult> ValidationResults { get; set; }
@@ -84,6 +94,20 @@ namespace Bifrost.Commands
             var validationResults = ValidationResults.ToList();
             validationResults.AddRange(commandResultToMerge.ValidationResults);
             ValidationResults = validationResults.ToArray();
+        }
+
+        /// <summary>
+        /// Create a <see cref="CommandResult"/> for a given <see cref="ICommand"/> instance
+        /// </summary>
+        /// <param name="command"><see cref="ICommand"/> to create from</param>
+        /// <returns>A <see cref="CommandResult"/> with <see cref="ICommand"/> details populated</returns>
+        public static CommandResult ForCommand(ICommand command)
+        {
+            return new CommandResult
+            {
+                CommandId = command.Id,
+                CommandName = command.GetType().Name
+            };
         }
     }
 }

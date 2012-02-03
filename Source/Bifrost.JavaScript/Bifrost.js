@@ -3,6 +3,7 @@
 @depends utils/extend.js
 @depends utils/guid.js
 @depends Commands/bindingHandlers.js
+@depends Commands/CommandResult.js
 @depends Commands/Command.js
 @depends Commands/CommandDescriptor.js
 @depends Commands/commandCoordinator.js

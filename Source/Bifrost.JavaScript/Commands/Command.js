@@ -7,18 +7,24 @@ Bifrost.commands.Command = (function (window) {
         this.isBusy = ko.observable(false);
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
+        this.result = Bifrost.commands.CommandResult.create();
+
         this.options = {
             beforeExecute: function () {
             },
             error: function () {
             },
             success: function () {
+            },
+            complete: function () {
             }
         };
         // Todo: add an overrideWith or similar that will always pick the one that is not undefined!
         // add validation check for "type" based on source, if not function for instance in the merger
         // exception!
         Bifrost.extend(this.options, options);
+
+        this.parameters = options.parameters || {};
 
         this.initialize = function () {
             if (typeof self.viewModel === "undefined") {
@@ -50,21 +56,26 @@ Bifrost.commands.Command = (function (window) {
             self.options.beforeExecute.call(self.viewModel, self);
         };
 
-        this.onError = function (e) {
+        this.onError = function () {
             self.hasError = true;
-            self.options.error.call(self.viewModel);
+            self.options.error.call(self.viewModel, self.result);
+        };
+
+        this.onSuccess = function () {
+            self.hasError = false;
+            self.options.success.call(self.viewModel, self.result);
         };
 
         this.onComplete = function () {
             if (!self.hasError) {
-                self.options.success.call(self.viewModel);
+                self.options.success.call(self.viewModel, self.result);
             }
             self.isBusy(false);
         };
     }
 
     return {
-        create: function(options) {
+        create: function (options) {
             var command = new Command(options);
             command.initialize();
             return command;

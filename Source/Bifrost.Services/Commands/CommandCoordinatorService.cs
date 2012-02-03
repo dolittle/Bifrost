@@ -66,11 +66,15 @@ namespace Bifrost.Services.Commands
             var results = new List<CommandResult>();
             var saga = _sagaLibrarian.Get(sagaId);
 
+            // Todo : IMPORTANT : We need to treat this as a unit of work with rollbacks if one or more commands fail and some succeed!!!!!!!!!!! 
             foreach (var commandDescriptor in commandDescriptors)
             {
                 var commandInstance = GetCommandFromDescriptor(commandDescriptor);
-                if (commandInstance == null)
-                    return new[] { new CommandResult { Exception = new UnknownCommandException(commandDescriptor.Name) }};
+                if (commandInstance == null) {
+                    var commandResult = CommandResult.ForCommand(commandInstance);
+                    commandResult.Exception = new UnknownCommandException(commandDescriptor.Name);
+                    return new[] { commandResult };
+                }
 
                 results.Add(_commandCoordinator.Handle(saga, commandInstance));
             }

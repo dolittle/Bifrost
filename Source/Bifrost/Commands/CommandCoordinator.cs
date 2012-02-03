@@ -74,11 +74,12 @@ namespace Bifrost.Commands
 		    return Handle( _commandContextManager.EstablishForCommand(command),command);
 		}
 
-        private CommandResult Handle(IUnitOfWork unitOfWork, ICommand command)
+        CommandResult Handle(IUnitOfWork unitOfWork, ICommand command)
         {
             using (_localizer.BeginScope())
             {
-                var commandResult = new CommandResult {ValidationResults = _commandValidationService.Validate(command)};
+                var commandResult = CommandResult.ForCommand(command);
+                commandResult.ValidationResults = _commandValidationService.Validate(command);
 
                 if (commandResult.Success)
                 {
