@@ -40,7 +40,13 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="commands\for_CommandCoordinator\when_handling_commands_for_a_saga.js" />
+    <Content Include="commands\for_CommandCoordinator\when_handling_a_single_command.js" />
+    <Content Include="commands\for_CommandCoordinator\when_handling_results_for_a_single_command.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
+    <Content Include="commands\for_Command\when_an_error_occurs_while_executing_a_command.js" />
+    <Content Include="commands\for_Command\when_executing_a_command_which_can_not_execute.js" />
+    <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
     <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
     <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />

@@ -1,10 +1,10 @@
 ﻿Bifrost.namespace("Bifrost.commands");
-Bifrost.commands.Command = (function () {
+Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
         this.name = options.name;
         this.hasError = false;
-        this.isBusy = ko.observable();
+        this.isBusy = ko.observable(false);
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.options = {
@@ -24,7 +24,7 @@ Bifrost.commands.Command = (function () {
             if (typeof self.viewModel === "undefined") {
                 self.viewModel = window;
             }
-        }
+        };
 
         this.execute = function () {
             self.hasError = false;
@@ -44,30 +44,30 @@ Bifrost.commands.Command = (function () {
                     self.onComplete();
                 }
             });
-        }
+        };
 
         this.onBeforeExecute = function () {
             self.options.beforeExecute.call(self.viewModel, self);
-        }
+        };
 
         this.onError = function (e) {
             self.hasError = true;
             self.options.error.call(self.viewModel);
-        }
+        };
 
         this.onComplete = function () {
             if (!self.hasError) {
                 self.options.success.call(self.viewModel);
             }
             self.isBusy(false);
-        }
+        };
     }
 
     return {
-        create: function (options) {
+        create: function(options) {
             var command = new Command(options);
             command.initialize();
             return command;
         }
-    }
-})();
+    };
+})(window);
