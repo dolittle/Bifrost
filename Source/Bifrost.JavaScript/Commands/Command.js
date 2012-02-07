@@ -8,6 +8,12 @@ Bifrost.commands.Command = (function (window) {
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
+        this.hasExecuted = false;
+        this.successfullyExcecuted = function () {
+            if (this.hasExecuted) {
+                return result.Success;
+            }
+        };
 
         this.options = {
             beforeExecute: function () {
