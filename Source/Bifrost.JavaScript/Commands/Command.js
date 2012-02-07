@@ -68,7 +68,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.onComplete = function () {
             if (!self.hasError) {
-                self.options.success.call(self.viewModel, self.result);
+                self.options.complete.call(self.viewModel, self.result);
             }
             self.isBusy(false);
         };
