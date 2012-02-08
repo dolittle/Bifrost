@@ -10,8 +10,8 @@ Bifrost.commands.Command = (function (window) {
         this.result = Bifrost.commands.CommandResult.create();
         this.hasExecuted = false;
         this.successfullyExcecuted = function () {
-            if (this.hasExecuted) {
-                return result.Success;
+            if (self.hasExecuted) {
+                return self.result.Success ===  true;
             }
         };
 
