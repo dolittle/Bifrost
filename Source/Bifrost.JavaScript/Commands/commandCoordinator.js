@@ -15,6 +15,7 @@ Bifrost.commands.commandCoordinator = (function () {
     function handleCommandCompletion(jqXHR, command, commandResult) {
         if (jqXHR.status === 200) {
             command.result = commandResult;
+            command.hasExecuted = true;
             if (command.result.Success === true) {
                 command.onSuccess();
             } else {
@@ -25,7 +26,7 @@ Bifrost.commands.commandCoordinator = (function () {
             command.result.Exception = {
                 Message: jqXHR.responseText,
                 details: jqXHR
-            }
+            };
             command.onError();
         }
         command.onComplete();
@@ -39,7 +40,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
             sendToHandler(baseUrl + "/Handle", JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
-                handleCommandCompletion(jqXHR, command);
+                handleCommandCompletion(jqXHR, command, commandResult);
             });
         },
         handleForSaga: function (saga, commands) {
