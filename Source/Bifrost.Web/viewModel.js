@@ -4,6 +4,8 @@
 
         this.message = ko.observable();
 
+        this.persistedStuff = ko.observableArray();
+
         this.stringParameter = ko.observable();
 
         this.doStuffCommand = Bifrost.commands.Command.create({
@@ -14,6 +16,7 @@
             },
             success: function (commandResult) {
                 self.message("We got it");
+                self.loadPersistedStuff();
             },
             beforeExecute: function (command) {
                 var stringParameter = command.parameters.stringParameter();
@@ -39,6 +42,17 @@
             var saga = Bifrost.sagas.Saga.create({ Id: Bifrost.Guid.create() });
             Bifrost.commands.commandCoordinator.handleForSaga(saga, [self.doStuffCommand, self.doOtherStuffCommand]);
         };
+
+
+        this.loadPersistedStuff = function () {
+
+            $.getJSON("/StuffToPersist/GetAll", function (d) {
+                self.persistedStuff(ko.mapping.fromJS(d));
+            });
+        };
+
+
+        this.loadPersistedStuff();
     }
 
     $(function () {

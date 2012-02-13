@@ -21,6 +21,7 @@ namespace Bifrost.Web
         public override void OnStarted()
         {
             RouteTable.Routes.AddService<CommandCoordinatorService>();
+            RouteTable.Routes.AddService<StuffToPersistService>();
         }
 
         protected override IContainer CreateContainer()

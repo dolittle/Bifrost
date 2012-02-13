@@ -49,17 +49,6 @@ namespace Bifrost.Serialization
         public T FromJson<T>(string json, SerializationOptions options = null)
 		{
             return (T)FromJson(typeof(T), json, options);
-            /*
-			var serializer = CreateSerializer(options);
-			using (var textReader = new StringReader(json))
-			{
-				using (var reader = new JsonTextReader(textReader))
-				{
-                    var instance = (T)CreateInstanceOf(typeof(T));
-					serializer.Populate(reader, instance);
-					return instance;
-				}
-			}*/
 		}
 
 		public object FromJson(Type type, string json, SerializationOptions options = null)
@@ -129,7 +118,7 @@ namespace Bifrost.Serialization
 			var contractResolver = new SerializerContractResolver(_container, options);
 			var serializer = new JsonSerializer
 			                 	{
-			                 		TypeNameHandling = TypeNameHandling.Auto,
+			                 		TypeNameHandling = TypeNameHandling.None,
 									ContractResolver = contractResolver
 			                 	};
 

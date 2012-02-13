@@ -15,5 +15,10 @@ namespace Bifrost.Web
         {
             Apply(new StuffDone(Id) { Something = something });
         }
+
+
+        void Handle(StuffDone @event)
+        {
+        }
     }
 }
