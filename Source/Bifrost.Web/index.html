@@ -10,18 +10,22 @@
     <script src="viewModel.js" type="text/javascript"></script>
 </head>
 <body>
-    <div data-bind="{visible:doStuffCommand.isBusy}">
-        Please wait, executing stuff
-    </div>
 
-    <span data-bind="{text:message}"></span>
+    
     <input type="text" data-bind="{value:stringParameter}" />
     <button data-bind="command:doStuffCommand">Click me</button>
     <button data-bind="command:doOtherStuffCommand">Click me for something else</button>
     <button data-bind="click: doItAll">Click me to do everything</button>
 
+    <div data-bind="{visible:doStuffCommand.isBusy}" style="height:40px">
+        Please wait, executing stuff
+    </div>
+    <div data-bind="{visible:doStuffCommand.isBusy() == false, text:message}" style="height:40px"></div>
+
     <ul data-bind="foreach: persistedStuff">
         <li data-bind="text: Something"></li>
     </ul>
+
+
 </body>
 </html>
