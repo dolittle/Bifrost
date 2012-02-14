@@ -26,6 +26,7 @@ using Bifrost.Execution;
 using Bifrost.Extensions;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Runtime.Serialization;
 
 namespace Bifrost.Serialization
 {
@@ -53,7 +54,7 @@ namespace Bifrost.Serialization
 
 		public object FromJson(Type type, string json, SerializationOptions options = null)
 		{
-			var serializer = CreateSerializer(options);
+			var serializer = CreateSerializerForDeserialization(options);
 			using (var textReader = new StringReader(json))
 			{
 				using (var reader = new JsonTextReader(textReader))
@@ -75,7 +76,7 @@ namespace Bifrost.Serialization
 
 		public void FromJson(object instance, string json, SerializationOptions options = null)
 		{
-			var serializer = CreateSerializer(options);
+			var serializer = CreateSerializerForDeserialization(options);
 			using (var textReader = new StringReader(json))
 			{
 				using (var reader = new JsonTextReader(textReader))
@@ -90,7 +91,7 @@ namespace Bifrost.Serialization
 		{
 			using (var stringWriter = new StringWriter())
 			{
-				var serializer = CreateSerializer(options);
+				var serializer = CreateSerializerForSerialization(options);
 				serializer.Serialize(stringWriter, instance);
 				var serialized = stringWriter.ToString();
 				return serialized;
@@ -112,14 +113,23 @@ namespace Bifrost.Serialization
                 return _container.Get(type);
         }
 
+        JsonSerializer CreateSerializerForDeserialization(SerializationOptions options)
+        {
+            return CreateSerializer(options, TypeNameHandling.Auto);
+        }
 
-        JsonSerializer CreateSerializer(SerializationOptions options)
+        JsonSerializer CreateSerializerForSerialization(SerializationOptions options)
+        {
+            return CreateSerializer(options, TypeNameHandling.None);
+        }
+
+        JsonSerializer CreateSerializer(SerializationOptions options, TypeNameHandling typeNameHandling)
 		{
 			var contractResolver = new SerializerContractResolver(_container, options);
 			var serializer = new JsonSerializer
 			                 	{
-			                 		TypeNameHandling = TypeNameHandling.None,
-									ContractResolver = contractResolver
+			                 		TypeNameHandling = typeNameHandling,
+									ContractResolver = contractResolver,
 			                 	};
 
             

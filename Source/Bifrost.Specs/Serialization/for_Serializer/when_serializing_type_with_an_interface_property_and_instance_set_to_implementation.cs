@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Serialization.for_Serializer
 
 		Because of = () => result = serializer.ToJson(class_to_serialize);
 
-		It should_contain_type_information = () => result.ShouldContain(typeof (SomethingImplementation).Name);
+		It should_not_contain_type_information = () => result.ShouldNotContain(typeof (SomethingImplementation).Name);
 	}
 }
