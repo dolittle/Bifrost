@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost");
-Bifrost.extend = function(destination, source) {
+Bifrost.extend = function extend(destination, source) {
     var toString = Object.prototype.toString,
 			            objTest = toString.call({});
     for (var property in source) {
