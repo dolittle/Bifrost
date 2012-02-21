@@ -1,0 +1,1 @@
+juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none
