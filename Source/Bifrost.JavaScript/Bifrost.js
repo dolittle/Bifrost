@@ -17,5 +17,5 @@
 @depends features/featureManager.js
 @depends features/loader.js
 @depends navigation/navigateTo.js
-@depends navigation/navigationService.js
+@depends navigation/navigation.js
 */
