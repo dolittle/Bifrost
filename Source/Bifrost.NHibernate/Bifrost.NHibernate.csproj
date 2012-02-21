@@ -70,17 +70,8 @@
     <Compile Include="Events\EventHolderClassMap.cs" />
     <Compile Include="Events\EventSubscriptionHolderClassMap.cs" />
     <Compile Include="Sagas\SagaHolderClassMap.cs" />
-    <Compile Include="UserTypes\SimpleImmutableUserTypeBase.cs" />
-    <Compile Include="UserTypes\SimpleMutableUserTypeBase.cs" />
-    <Compile Include="UserTypes\SimpleUserTypeBase.cs" />
-    <Compile Include="UserTypes\ValueTypeOfBoolean.cs" />
-    <Compile Include="UserTypes\ValueTypeOfDateTime.cs" />
-    <Compile Include="UserTypes\ValueTypeOfDecimal.cs" />
-    <Compile Include="UserTypes\ValueTypeOfDouble.cs" />
-    <Compile Include="UserTypes\ValueTypeOfInteger.cs" />
-    <Compile Include="UserTypes\ValueTypeOfLong.cs" />
-    <Compile Include="UserTypes\ValueTypeOfShort.cs" />
-    <Compile Include="UserTypes\ValueTypeOfString.cs" />
+    <Compile Include="UserTypes\ImmutableUserType.cs" />
+    <Compile Include="UserTypes\UserTypeBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
