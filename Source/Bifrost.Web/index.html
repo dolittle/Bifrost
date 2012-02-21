@@ -5,27 +5,26 @@
     <script src="Scripts/jquery-1.7.1.js" type="text/javascript"></script>
     <script src="Scripts/knockout-2.0.0.js" type="text/javascript"></script>
     <script src="Scripts/knockout.mapping-2.0.0.js" type="text/javascript"></script>
+    <script src="Scripts/knockout-plugins.js" type="text/javascript"></script>
     <script src="Scripts/jQuery.tmpl.js" type="text/javascript"></script>
     <script src="Scripts/bifrost.debug.js" type="text/javascript"></script>
     <script src="viewModel.js" type="text/javascript"></script>
 </head>
 <body>
-
-    
     <input type="text" data-bind="{value:stringParameter}" />
     <button data-bind="command:doStuffCommand">Click me</button>
     <button data-bind="command:doOtherStuffCommand">Click me for something else</button>
     <button data-bind="click: doItAll">Click me to do everything</button>
 
-    <div data-bind="{visible:doStuffCommand.isBusy}" style="height:40px">
-        Please wait, executing stuff
+    <div style="height:40px">
+        <div data-bind="{visible:doStuffCommand.isBusy}" >
+            Please wait, executing stuff
+        </div>
+        <div data-bind="{visible:doStuffCommand.isBusy() == false, text:message, fadeOutElement: message}"></div>
     </div>
-    <div data-bind="{visible:doStuffCommand.isBusy() == false, text:message}" style="height:40px"></div>
 
     <ul data-bind="foreach: persistedStuff">
-        <li data-bind="text: Something"></li>
+        <li data-bind="text: Something, fadeInElement: $data"></li>
     </ul>
-
-
 </body>
 </html>

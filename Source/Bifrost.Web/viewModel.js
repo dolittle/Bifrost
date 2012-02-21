@@ -47,7 +47,21 @@
         this.loadPersistedStuff = function () {
 
             $.getJSON("/StuffToPersist/GetAll", function (d) {
-                self.persistedStuff(ko.mapping.fromJS(d));
+                var mapped = ko.mapping.fromJS(d);
+
+                $.each(mapped(), function (index, e) {
+                    var found = false;
+                    $.each(self.persistedStuff(), function (i, ee) {
+                        if (ee.Id() == e.Id()) {
+                            found = true;
+                            return;
+                        }
+                    });
+
+                    if (found == false) {
+                        self.persistedStuff.push(e);
+                    }
+                });
             });
         };
 
