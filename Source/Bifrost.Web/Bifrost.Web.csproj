@@ -197,7 +197,6 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)Scripts\</PreBuildEvent>
   </PropertyGroup>
