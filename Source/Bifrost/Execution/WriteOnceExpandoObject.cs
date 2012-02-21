@@ -25,7 +25,6 @@ namespace Bifrost.Execution
             _construction = false;
         }
 
-
 #pragma warning disable 1591 // Xml Comments
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
@@ -88,7 +87,7 @@ namespace Bifrost.Execution
 
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
-            
+            throw new NotImplementedException();
         }
 
         public int Count { get { return _actualDictionary.Count; } }
