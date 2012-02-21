@@ -1,4 +1,6 @@
-using Bifrost;
+using System;
+using Bifrost.Commands;
+using Machine.Specifications;
 
 namespace Bifrost.Specs.Commands.for_CommandTypeManager
 {
@@ -6,12 +8,11 @@ namespace Bifrost.Specs.Commands.for_CommandTypeManager
 	{
 		static Exception exception;
 		
-		
 		Establish context = () => type_discoverer_mock.Setup(t=>t.FindMultiple<ICommand>()).Returns(new[] {typeof(SomeCommand), typeof(SomeCommand)});
 		
 		Because of = () => exception = Catch.Exception(()=>command_type_manager = new CommandTypeManager(type_discoverer_mock.Object));
-		
-		
+
+        It should_throw_ambiguous_command_exception = () => exception.ShouldBeOfType<AmbiguousCommandException>();
 	}
 }
 

@@ -26,31 +26,46 @@ using Bifrost.Execution;
 
 namespace Bifrost.Commands
 {
+    /// <summary>
+    /// Represents a <see cref="ICommandTypeManager"/>
+    /// </summary>
 	public class CommandTypeManager : ICommandTypeManager
 	{
         ITypeDiscoverer _typeDiscoverer;
-        Dictionary<string, Type> _commandTypes;
+        Dictionary<string, Type> _commandTypes = new Dictionary<string, Type>();
 		
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandTypeManager"/>
+        /// </summary>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="ICommand">commands</see></param>
 		public CommandTypeManager (ITypeDiscoverer typeDiscoverer)
 		{
 			_typeDiscoverer = typeDiscoverer;
 			PopulateCommandTypes();
 		}
-		
-        void PopulateCommandTypes()
-        {
-            var commands = _typeDiscoverer.FindMultiple<ICommand>();
-            _commandTypes = commands.Select(c => c).ToDictionary(c => c.Name);
-        }
-		
 
-		public Type GetFromName (string name)
+#pragma warning disable 1591 // Xml Comments
+        public Type GetFromName (string name)
 		{
 			if( !_commandTypes.ContainsKey(name) )
 				throw new UnknownCommandException(name);
 			
 			return _commandTypes[name];
 		}
+#pragma warning restore 1591 // Xml Comments
+
+        void PopulateCommandTypes()
+        {
+            var commandTypes = _typeDiscoverer.FindMultiple<ICommand>();
+            foreach (var commandType in commandTypes)
+            {
+                var name = commandType.Name;
+                if (_commandTypes.ContainsKey(name))
+                    throw new AmbiguousCommandException(_commandTypes[name], commandType);
+
+                _commandTypes[name] = commandType;
+            }
+        }
 	}
 }
 

@@ -82,7 +82,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forseti", "Forseti", "{8186F995-DCEF-4ECA-9161-27BAD741B757}"
 	ProjectSection(SolutionItems) = preProject
 		..\dependencies.config = ..\dependencies.config
-		..\forseti.config = ..\forseti.config
+		..\forseti.yaml = ..\forseti.yaml
 	EndProjectSection
 EndProject
 Global

@@ -23,6 +23,9 @@ using System;
 
 namespace Bifrost.Commands
 {
+    /// <summary>
+    /// Defines a manager for dealing with <see cref="ICommand">commands</see> and their types
+    /// </summary>
 	public interface ICommandTypeManager
 	{
 		/// <summary>
