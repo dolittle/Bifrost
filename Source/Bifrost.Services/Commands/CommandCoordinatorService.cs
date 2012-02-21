@@ -32,23 +32,24 @@ namespace Bifrost.Services.Commands
     public class CommandCoordinatorService
     {
         ICommandCoordinator _commandCoordinator;
+        ICommandTypeManager _commandTypeManager;
         ISerializer _serializer;
         ITypeDiscoverer _typeDiscoverer;
         ISagaLibrarian _sagaLibrarian;
-        Dictionary<string, Type> _commandTypes;
 
 
         public CommandCoordinatorService(
             ICommandCoordinator commandCoordinator, 
+            ICommandTypeManager commandTypeManager,
             ISerializer serializer,
             ITypeDiscoverer typeDiscoverer,
             ISagaLibrarian sagaLibrarian)
         {
             _commandCoordinator = commandCoordinator;
+            _commandTypeManager = commandTypeManager;
             _serializer = serializer;
             _typeDiscoverer = typeDiscoverer;
             _sagaLibrarian = sagaLibrarian;
-            PopulateCommandTypes();
         }
 
         public CommandResult Handle(CommandDescriptor commandDescriptor)
@@ -69,34 +70,29 @@ namespace Bifrost.Services.Commands
             // Todo : IMPORTANT : We need to treat this as a unit of work with rollbacks if one or more commands fail and some succeed!!!!!!!!!!! 
             foreach (var commandDescriptor in commandDescriptors)
             {
-                var commandInstance = GetCommandFromDescriptor(commandDescriptor);
-                if (commandInstance == null) {
+                ICommand commandInstance = null;
+                try
+                {
+                    commandInstance = GetCommandFromDescriptor(commandDescriptor);
+                    results.Add(_commandCoordinator.Handle(saga, commandInstance));
+                }
+                catch (Exception ex)
+                {
                     var commandResult = CommandResult.ForCommand(commandInstance);
-                    commandResult.Exception = new UnknownCommandException(commandDescriptor.Name);
+                    commandResult.Exception = ex;
                     return new[] { commandResult };
                 }
-
-                results.Add(_commandCoordinator.Handle(saga, commandInstance));
             }
 
             return results.ToArray();
         }
 
-        void PopulateCommandTypes()
-        {
-            var commands = _typeDiscoverer.FindMultiple<ICommand>();
-            _commandTypes = commands.Select(c => c).ToDictionary(c => c.Name);
-        }
-
         ICommand GetCommandFromDescriptor(CommandDescriptor commandDescriptor)
         {
             var commandName = commandDescriptor.Name;
-            if (_commandTypes.ContainsKey(commandName))
-            {
-                var commandInstance = _serializer.FromJson(_commandTypes[commandName], commandDescriptor.Command) as ICommand;
-                return commandInstance;
-            }
-            return null;
+            var commandType = _commandTypeManager.GetFromName(commandName);
+            var commandInstance = _serializer.FromJson(commandType, commandDescriptor.Command) as ICommand;
+            return commandInstance;
         }
     }
 }
