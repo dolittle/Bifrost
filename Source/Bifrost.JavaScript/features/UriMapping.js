@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.features");
+Bifrost.namespace("Bifrost.features");
 Bifrost.features.UriMapping = (function () {
     function throwIfNotString(input, message) {
         if( typeof input !== "string" ) {

@@ -1,4 +1,4 @@
-﻿var Bifrost = Bifrost || {};
+var Bifrost = Bifrost || {};
 (function(global, undefined) {
     Bifrost.namespace = function (ns) {
         var parent = global;
