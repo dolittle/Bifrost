@@ -1,4 +1,4 @@
-﻿describe("when_an_error_occurs_while_executing_a_command", function () {
+﻿describe("when an error occurs while executing a command", function () {
     var command, options, errorSpy;
     beforeEach(function () {
         errorSpy = sinon.spy();

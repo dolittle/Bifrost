@@ -4,15 +4,23 @@ Bifrost.validation.Validator = (function () {
         var self = this;
         this.isValid = ko.observable(true);
         this.message = ko.observable("");
+        this.rules = [];
+        options = options || {};
+
+        for (var property in options) {
+            this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
+        }
 
         this.validate = function (value) {
-            if (typeof value == "undefined" || value == "") {
-                self.isValid(false);
-                self.message("Yes we can");
-            } else {
-                self.isValid(true);
-                self.message("");
-            }
+            $.each(self.rules, function (index, rule) {
+                if (!rule.validate(value)) {
+                    self.isValid(false);
+                    self.message(rule.message);
+                } else {
+                    self.isValid(true);
+                    self.message("");
+                }
+            });
         }
     }
 

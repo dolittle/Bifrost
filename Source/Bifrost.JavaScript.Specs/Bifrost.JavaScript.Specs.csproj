@@ -81,16 +81,27 @@
     <Content Include="validation\for_required\when_validating_with_empty_string.js" />
     <Content Include="validation\for_required\when_validating_with_string_with_content.js" />
     <Content Include="validation\for_required\when_validating_with_undefined.js" />
+    <Content Include="validation\for_Rule\when_creating_without_options.js" />
+    <Content Include="validation\for_Rule\when_creating_with_a_known_rule.js" />
+    <Content Include="validation\for_Rule\when_creating_with_a_known_rule_and_options.js" />
+    <Content Include="validation\for_Rule\when_creating_without_a_message.js" />
+    <Content Include="validation\for_Rule\when_creating_with_message.js" />
+    <Content Include="validation\for_Rule\when_validating.js" />
+    <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
+    <Content Include="validation\for_Validator\when_validating_a_value_that_will_pass_by_a_rule.js" />
+    <Content Include="validation\for_Validator\when_validating_without_options.js" />
+    <Content Include="validation\for_Validator\when_applying_to_an_item.js" />
+    <Content Include="validation\for_Validator\when_creating_with_known_rule_handler.js" />
+    <Content Include="validation\for_Validator\when_validating_with_options.js" />
+    <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="..\dependencies.config">
       <Link>dependencies.config</Link>
     </None>
-    <None Include="..\forseti.config">
-      <Link>forseti.config</Link>
-      <SubType>Designer</SubType>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -4,7 +4,13 @@
 
         this.message = ko.observable();
         this.persistedStuff = ko.observableArray();
-        this.stringParameter = ko.observable().extend({validation:{}});
+        this.stringParameter = ko.observable().extend({
+            validation: {
+                required: {
+                    message: "You gotta have this"
+                }
+            }
+        });
 
         this.doStuffCommand = Bifrost.commands.Command.create({
             name: 'DoStuffCommand',
