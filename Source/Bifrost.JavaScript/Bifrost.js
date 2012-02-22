@@ -17,5 +17,11 @@
 @depends features/featureManager.js
 @depends features/loader.js
 @depends navigation/navigateTo.js
-@depends navigation/navigationService.js
+@depends navigation/navigation.js
+@depends validation/ruleHandlers.js
+@depends validation/Rule.js
+@depends validation/Validator.js
+@depends validation/validationMessageFor.js
+@depends validation/validation.js
+@depends validation/required.js
 */

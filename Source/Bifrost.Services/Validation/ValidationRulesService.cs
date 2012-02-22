@@ -5,12 +5,12 @@ using FluentValidation;
 
 namespace Bifrost.Services
 {
-	public class ValidationMetaDataService
+	public class ValidationRulesService
 	{
         ICommandTypeManager _commandTypeManager;
         ICommandValidatorProvider _commandValidatorProvider;
 
-        public ValidationMetaDataService(
+        public ValidationRulesService(
             ICommandTypeManager commandTypeManager, 
             ICommandValidatorProvider commandValidatorProvider)
         {
@@ -27,10 +27,6 @@ namespace Bifrost.Services
             {
                 var descriptor = validator.CreateDescriptor();
                 var validators = descriptor.GetMembersWithValidators();
-
-
-                
-                
             }
 		}
 	}

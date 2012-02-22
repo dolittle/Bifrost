@@ -69,7 +69,7 @@
     <Compile Include="Execution\RestServiceRouteHttpHandler.cs" />
     <Compile Include="Execution\ServiceRoutingExtensions.cs" />
     <Compile Include="Sagas\SagaNarratorService.cs" />
-    <Compile Include="Validation\ValidationMetaDataService.cs" />
+    <Compile Include="Validation\ValidationRulesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">

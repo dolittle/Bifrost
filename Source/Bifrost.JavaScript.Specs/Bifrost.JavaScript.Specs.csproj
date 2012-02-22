@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -78,6 +78,9 @@
     <Content Include="Utils\for_guid\when_generating_guid.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
+    <Content Include="validation\for_required\when_validating_with_empty_string.js" />
+    <Content Include="validation\for_required\when_validating_with_string_with_content.js" />
+    <Content Include="validation\for_required\when_validating_with_undefined.js" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
