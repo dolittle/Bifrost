@@ -8,6 +8,10 @@
             validation: {
                 required: {
                     message: "You gotta have this"
+                },
+                minLength: {
+                    message: "Must be at least 5 characters",
+                    min: 5
                 }
             }
         });

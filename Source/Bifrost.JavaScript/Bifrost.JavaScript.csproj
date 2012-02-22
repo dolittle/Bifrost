@@ -74,6 +74,7 @@
     <Content Include="utils\extend.js" />
     <Content Include="utils\guid.js" />
     <Content Include="utils\namespace.js" />
+    <Content Include="validation\minLength.js" />
     <Content Include="validation\required.js" />
     <Content Include="validation\Rule.js" />
     <Content Include="validation\ruleHandlers.js" />

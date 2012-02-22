@@ -24,4 +24,5 @@
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
 @depends validation/required.js
+@depends validation/minLength.js
 */
