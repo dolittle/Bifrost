@@ -1,9 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.minLength = {
     validate: function (value, options) {
-        if (typeof options === "undefined" || typeof options.min === "undefined") {
+        if (typeof options === "undefined" || typeof options.length === "undefined") {
             throw {
-                message: "min is not specified for the minLength validator"
+                message: "length is not specified for the minLength validator"
             }
         }
 
@@ -12,6 +12,6 @@ Bifrost.validation.ruleHandlers.minLength = {
 
         }
 
-        return value.length >= options.min;
+        return value.length >= options.length;
     }
 };

@@ -76,6 +76,7 @@
     <Content Include="utils\namespace.js" />
     <Content Include="validation\maxLength.js" />
     <Content Include="validation\minLength.js" />
+    <Content Include="validation\range.js" />
     <Content Include="validation\required.js" />
     <Content Include="validation\Rule.js" />
     <Content Include="validation\ruleHandlers.js" />
