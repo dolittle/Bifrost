@@ -94,7 +94,7 @@
     <Content Include="validation\for_Validator\when_validating_without_options.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_item.js" />
     <Content Include="validation\for_Validator\when_creating_with_known_rule_handler.js" />
-    <Content Include="validation\for_Validator\when_validating_with_options.js" />
+    <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
   </ItemGroup>
   <ItemGroup>
