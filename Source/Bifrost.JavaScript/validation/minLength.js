@@ -7,6 +7,11 @@ Bifrost.validation.ruleHandlers.minLength = {
             }
         }
 
+        if (typeof value === "undefined") {
+            return false;
+
+        }
+
         return value.length >= options.min;
     }
 };
