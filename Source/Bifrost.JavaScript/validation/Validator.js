@@ -16,6 +16,7 @@ Bifrost.validation.Validator = (function () {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
+                    return false;
                 } else {
                     self.isValid(true);
                     self.message("");
