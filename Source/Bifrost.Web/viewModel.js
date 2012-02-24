@@ -4,21 +4,6 @@
 
         this.message = ko.observable();
         this.persistedStuff = ko.observableArray();
-        //this.stringParameter = ko.observable(); 
-        /*.extend({
-        validation: {
-        required: {
-        message: "You gotta have this"
-        },
-        minLength: {
-        message: "Must be at least 5 characters",
-        length: 5
-        }
-        }
-        });*/
-
-
-
 
         this.doStuffCommand = Bifrost.commands.Command.create({
             name: 'DoStuffCommand',
@@ -40,10 +25,12 @@
                 }
             },
             parameters: {
-                stringParameter: ko.observable("").extend({ validation: {} }),
-                intParameter: ko.observable().extend({ validation: {} })
+                stringParameter: ko.observable(""),
+                intParameter: ko.observable()
             }
         });
+
+        ko.extenders.validation.extendAllProperties(this.doStuffCommand.parameters);
 
         var methodParameters = {
             name: "\"DoStuffCommand\""

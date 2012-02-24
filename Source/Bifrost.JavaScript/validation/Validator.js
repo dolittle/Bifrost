@@ -34,9 +34,32 @@ Bifrost.validation.Validator = (function () {
             var validator = new Validator(options);
             return validator;
         },
-        applyTo: function (item, options) {
-            var validator = this.create(options);
-            item.validator = validator;
+        applyTo: function (itemOrItems, options) {
+            var self = this;
+
+            function applyToItem(item) {
+                var validator = self.create(options);
+                item.validator = validator;
+            }
+
+            if (itemOrItems instanceof Array) {
+                $.each(itemOrItems, function (index, item) {
+                    
+                    applyToItem(item);
+                });
+            } else {
+                applyToItem(itemOrItems);
+            }
+        },
+        applyToProperties: function (item, options) {
+            var items = [];
+
+            for (var property in item) {
+                if (item.hasOwnProperty(property)) {
+                    items.push(item[property]);
+                }
+            }
+            this.applyTo(items, options);
         }
     }
 })();

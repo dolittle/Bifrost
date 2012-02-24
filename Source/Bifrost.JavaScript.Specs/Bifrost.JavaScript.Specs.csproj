@@ -115,6 +115,8 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
+    <Content Include="validation\for_Validator\when_applying_to_an_array_of_items.js" />
+    <Content Include="validation\for_Validator\when_applying_to_properties.js" />
     <Content Include="validation\for_Validator\when_creating_without_options_and_setting_options_later.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_pass_by_a_rule.js" />
     <Content Include="validation\for_Validator\when_validating_without_options.js" />

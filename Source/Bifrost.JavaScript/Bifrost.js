@@ -4,6 +4,19 @@
 @depends utils/guid.js
 @depends utils/isNumber.js
 @depends utils/hashString.js
+@depends validation/exceptions.js
+@depends validation/ruleHandlers.js
+@depends validation/Rule.js
+@depends validation/Validator.js
+@depends validation/validationMessageFor.js
+@depends validation/validation.js
+@depends validation/required.js
+@depends validation/minLength.js
+@depends validation/maxLength.js
+@depends validation/range.js
+@depends validation/lessThan.js
+@depends validation/greaterThan.js
+@depends validation/email.js
 @depends commands/bindingHandlers.js
 @depends commands/CommandResult.js
 @depends commands/Command.js
@@ -19,17 +32,4 @@
 @depends features/loader.js
 @depends navigation/navigateTo.js
 @depends navigation/navigation.js
-@depends validation/exceptions.js
-@depends validation/ruleHandlers.js
-@depends validation/Rule.js
-@depends validation/Validator.js
-@depends validation/validationMessageFor.js
-@depends validation/validation.js
-@depends validation/required.js
-@depends validation/minLength.js
-@depends validation/maxLength.js
-@depends validation/range.js
-@depends validation/lessThan.js
-@depends validation/greaterThan.js
-@depends validation/email.js
 */

@@ -9,4 +9,11 @@
         //target.validator.validate(target());
         return target;
     };
+
+
+    ko.extenders.validation.extendAllProperties = function (target) {
+        for (var property in target) {
+            target[property].extend({ validation: {} });
+        }
+    };
 }
