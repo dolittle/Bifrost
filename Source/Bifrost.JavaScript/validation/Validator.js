@@ -7,8 +7,10 @@ Bifrost.validation.Validator = (function () {
         this.rules = [];
         options = options || {};
 
-        for (var property in options) {
-            this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
+        this.setOptions = function (options) {
+            for (var property in options) {
+                this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
+            }
         }
 
         this.validate = function (value) {
@@ -23,6 +25,8 @@ Bifrost.validation.Validator = (function () {
                 }
             });
         }
+
+        this.setOptions(options);
     }
 
     return {

@@ -2,6 +2,7 @@
 @depends utils/namespace.js
 @depends utils/extend.js
 @depends utils/guid.js
+@depends utils/isNumber.js
 @depends utils/hashString.js
 @depends commands/bindingHandlers.js
 @depends commands/CommandResult.js
@@ -28,4 +29,7 @@
 @depends validation/minLength.js
 @depends validation/maxLength.js
 @depends validation/range.js
+@depends validation/lessThan.js
+@depends validation/greaterThan.js
+@depends validation/email.js
 */

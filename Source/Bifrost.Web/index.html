@@ -15,8 +15,10 @@
     <script src="viewModel.js" type="text/javascript"></script>
 </head>
 <body>
-    <input id="myInput" type="text" data-bind="value:stringParameter, valueUpdate: 'afterkeydown'" />
-    <span data-bind="validationMessageFor: stringParameter"></span>
+    <input id="myInput" type="text" data-bind="value:doStuffCommand.parameters.stringParameter, valueUpdate: 'afterkeydown'" />
+    <span data-bind="validationMessageFor: doStuffCommand.parameters.stringParameter"></span><br />
+    <input type="text" data-bind="value:doStuffCommand.parameters.intParameter, valueUpdate: 'afterkeydown'" />
+    <span data-bind="validationMessageFor: doStuffCommand.parameters.intParameter"></span><br />
     <button data-bind="command:doStuffCommand">Click me</button>
     <button data-bind="command:doOtherStuffCommand">Click me for something else</button>
     <button data-bind="click: doItAll">Click me to do everything</button>

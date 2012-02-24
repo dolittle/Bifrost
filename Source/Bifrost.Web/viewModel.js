@@ -4,17 +4,21 @@
 
         this.message = ko.observable();
         this.persistedStuff = ko.observableArray();
-        this.stringParameter = ko.observable().extend({
-            validation: {
-                required: {
-                    message: "You gotta have this"
-                },
-                minLength: {
-                    message: "Must be at least 5 characters",
-                    min: 5
-                }
-            }
-        });
+        //this.stringParameter = ko.observable(); 
+        /*.extend({
+        validation: {
+        required: {
+        message: "You gotta have this"
+        },
+        minLength: {
+        message: "Must be at least 5 characters",
+        length: 5
+        }
+        }
+        });*/
+
+
+
 
         this.doStuffCommand = Bifrost.commands.Command.create({
             name: 'DoStuffCommand',
@@ -36,10 +40,34 @@
                 }
             },
             parameters: {
-                stringParameter: ko.dependentObservable(self.stringParameter),
-                intParameter: ko.observable()
+                stringParameter: ko.observable("").extend({ validation: {} }),
+                intParameter: ko.observable().extend({ validation: {} })
             }
         });
+
+        var methodParameters = {
+            name: "\"DoStuffCommand\""
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ValidationRules/GetForCommand",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(methodParameters),
+            complete: function (d) {
+                var result = $.parseJSON($.parseJSON(d.responseText))
+                for (var property in result) {
+                    if (!self.doStuffCommand.parameters.hasOwnProperty(property)) {
+                        self.doStuffCommand.parameters[property] = ko.observable();
+                    }
+                    self.doStuffCommand.parameters[property].validator.setOptions(result[property]);
+                    /*extend({
+                    validation: result[property]
+                    });*/
+                }
+            }
+        });
+
 
         this.doOtherStuffCommand = Bifrost.commands.Command.create({
             name: 'DoOtherStuffCommand',
