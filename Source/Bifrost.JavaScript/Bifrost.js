@@ -32,4 +32,5 @@
 @depends features/loader.js
 @depends navigation/navigateTo.js
 @depends navigation/navigation.js
+@depends messaging/messenger.js
 */
