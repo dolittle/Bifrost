@@ -146,7 +146,14 @@ namespace Bifrost.Sagas
 
         public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
         {
-            throw new NotImplementedException();
+            if (!_aggregatedRootEvents.ContainsKey(aggregateId))
+                return EventSourceVersion.Zero;
+
+            var @event = _aggregatedRootEvents[aggregateId].OrderByDescending(e => e.Version).FirstOrDefault();
+            if( @event == null ) 
+                return EventSourceVersion.Zero;
+
+            return @event.Version;
         }
 
         public SagaState CurrentState { get; set; }

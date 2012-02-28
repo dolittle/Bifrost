@@ -95,5 +95,13 @@ namespace Bifrost.Events
             var versionAsFloat = majorNumber + minorNumber;
             return versionAsFloat;
         }
+
+
+#pragma warning disable 1591 // Xml Comments
+        public override string ToString()
+        {
+            return string.Format("[ Version : {0}.{1} ]",Commit,Sequence);
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }
