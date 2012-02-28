@@ -32,5 +32,11 @@ namespace Bifrost.Serialization
         /// A func that gets called during serialization of properties to decide 
         /// </summary>
 		public Func<Type, string, bool>	ShouldSerializeProperty = (t, p) => true;
+
+
+        /// <summary>
+        /// Gets or sets wether or not to use camel case for naming of properties
+        /// </summary>
+        public bool UseCamelCase { get; set; }
 	}
 }
