@@ -11,7 +11,7 @@ Bifrost.commands.Command = (function (window) {
         this.hasExecuted = false;
         this.successfullyExcecuted = function () {
             if (self.hasExecuted) {
-                return self.result.Success ===  true;
+                return self.result.Success === true;
             }
         };
 
@@ -36,6 +36,8 @@ Bifrost.commands.Command = (function (window) {
             if (typeof self.viewModel === "undefined") {
                 self.viewModel = window;
             }
+
+            Bifrost.validation.validationService.applyForCommand(self);
         };
 
         this.execute = function () {

@@ -30,43 +30,6 @@
             }
         });
 
-        ko.extenders.validation.extendAllProperties(this.doStuffCommand.parameters);
-
-        var methodParameters = {
-            name: "\"DoStuffCommand\""
-        }
-        $.ajax({
-            type: "POST",
-            url: "/ValidationRules/GetForCommand",
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(methodParameters),
-            complete: function (d) {
-                var result = $.parseJSON(d.responseText);
-                for (var property in result.properties) {
-                    if (!self.doStuffCommand.parameters.hasOwnProperty(property)) {
-                        self.doStuffCommand.parameters[property] = ko.observable();
-                    }
-                    self.doStuffCommand.parameters[property].validator.setOptions(result.properties[property]);
-                    /*extend({
-                    validation: result[property]
-                    });*/
-                }
-            }
-        });
-
-
-        this.doOtherStuffCommand = Bifrost.commands.Command.create({
-            name: 'DoOtherStuffCommand',
-            context: self
-        });
-
-        this.doItAll = function () {
-            var saga = Bifrost.sagas.Saga.create({ Id: Bifrost.Guid.create() });
-            Bifrost.commands.commandCoordinator.handleForSaga(saga, [self.doStuffCommand, self.doOtherStuffCommand]);
-        };
-
-
         this.loadPersistedStuff = function () {
 
             $.getJSON("/StuffToPersist/GetAll", function (d) {

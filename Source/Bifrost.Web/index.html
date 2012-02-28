@@ -20,8 +20,6 @@
     <input type="text" data-bind="value:doStuffCommand.parameters.intParameter, valueUpdate: 'afterkeydown'" />
     <span data-bind="validationMessageFor: doStuffCommand.parameters.intParameter"></span><br />
     <button data-bind="command:doStuffCommand">Click me</button>
-    <button data-bind="command:doOtherStuffCommand">Click me for something else</button>
-    <button data-bind="click: doItAll">Click me to do everything</button>
 
     <div style="height:40px">
         <div data-bind="{visible:doStuffCommand.isBusy}" >
