@@ -9,7 +9,7 @@
             name: 'DoStuffCommand',
             context: self,
             error: function (commandResult) {
-                self.message(commandResult.Exception.Message);
+                self.message(commandResult.exception.message);
             },
             success: function (commandResult) {
                 self.message("We got it");

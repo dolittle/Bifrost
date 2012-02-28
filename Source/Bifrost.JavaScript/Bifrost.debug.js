@@ -38,6 +38,11 @@ Bifrost.Guid = (function () {
         }
     }
 })(); 
+﻿Bifrost.namespace("Bifrost");
+Bifrost.isNumber = function(number) {
+    return !isNaN(parseFloat(number)) && isFinite(number);
+}
+
 Bifrost.namespace("Bifrost");
 Bifrost.hashString = (function() {
 	return {
@@ -55,6 +60,322 @@ Bifrost.hashString = (function() {
 		}
 	}
 })();
+
+﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.validation.OptionsNotDefined = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "OptionsNotDefined";
+    this.message = message || "option was undefined";
+}
+
+Bifrost.validation.NotANumber = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "NotANumber";
+    this.message = message || "value is not a number";
+}
+
+Bifrost.validation.ValueNotSpecified = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "ValueNotSpecified";
+    this.message = message || "value is not specified";
+}
+
+Bifrost.validation.MinNotSpecified = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "MinNotSpecified";
+    this.message = message || "min is not specified";
+}
+
+Bifrost.validation.MaxNotSpecified = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "MaxNotSpecified";
+    this.message = message || "max is not specified";
+}
+
+Bifrost.validation.MinLengthNotSpecified = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "MinLengthNotSpecified";
+    this.message = message || "min length is not specified";
+}
+
+Bifrost.validation.MaxLengthNotSpecified = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "MaxLengthNotSpecified";
+    this.message = message || "max length is not specified";
+}
+﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.validation.ruleHandlers = (function () {
+    return {
+    }
+})();
+
+﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.validation.Rule = (function () {
+    function Rule(ruleName, options) {
+        var self = this;
+        this.handler = Bifrost.validation.ruleHandlers[ruleName];
+
+        options = options || {};
+
+        this.message = options.message || "";
+        this.options = {};
+        Bifrost.extend(this.options, options);
+
+        this.validate = function (value) {
+            return self.handler.validate(value, self.options);
+        }
+    }
+
+    return {
+        create: function (ruleName, options) {
+            var rule = new Rule(ruleName, options);
+            return rule;
+        }
+    };
+})();
+﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.validation.Validator = (function () {
+    function Validator(options) {
+        var self = this;
+        this.isValid = ko.observable(true);
+        this.message = ko.observable("");
+        this.rules = [];
+        options = options || {};
+
+        this.setOptions = function (options) {
+            for (var property in options) {
+                this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
+            }
+        }
+
+        this.validate = function (value) {
+            $.each(self.rules, function (index, rule) {
+                if (!rule.validate(value)) {
+                    self.isValid(false);
+                    self.message(rule.message);
+                    return false;
+                } else {
+                    self.isValid(true);
+                    self.message("");
+                }
+            });
+        }
+
+        this.setOptions(options);
+    }
+
+    return {
+        create: function (options) {
+            var validator = new Validator(options);
+            return validator;
+        },
+        applyTo: function (itemOrItems, options) {
+            var self = this;
+
+            function applyToItem(item) {
+                var validator = self.create(options);
+                item.validator = validator;
+            }
+
+            if (itemOrItems instanceof Array) {
+                $.each(itemOrItems, function (index, item) {
+                    
+                    applyToItem(item);
+                });
+            } else {
+                applyToItem(itemOrItems);
+            }
+        },
+        applyToProperties: function (item, options) {
+            var items = [];
+
+            for (var property in item) {
+                if (item.hasOwnProperty(property)) {
+                    items.push(item[property]);
+                }
+            }
+            this.applyTo(items, options);
+        }
+    }
+})();
+
+﻿if (typeof ko !== 'undefined') {
+    ko.bindingHandlers.validationMessageFor = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var validator = value.validator;
+            ko.applyBindingsToNode(element, { hidden: validator.isValid, text: validator.message }, validator);
+        }
+    };
+}
+﻿if (typeof ko !== 'undefined') {
+    ko.extenders.validation = function (target, options) {
+        Bifrost.validation.Validator.applyTo(target, options);
+        target.subscribe(function (newValue) {
+            target.validator.validate(newValue);
+        });
+
+        // Todo : look into aggressive validation
+        //target.validator.validate(target());
+        return target;
+    };
+
+
+    ko.extenders.validation.extendAllProperties = function (target) {
+        for (var property in target) {
+            target[property].extend({ validation: {} });
+        }
+    };
+}
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.required = {
+    validate: function (value, options) {
+        return !(typeof value == "undefined" || value == "");
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.minLength = {
+    validate: function (value, options) {
+        if (typeof options === "undefined" || typeof options.length === "undefined") {
+            throw {
+                message: "length is not specified for the minLength validator"
+            }
+        }
+
+        if (typeof value === "undefined") {
+            return false;
+
+        }
+
+        return value.length >= options.length;
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.maxLength = {
+    validate: function (value, options) {
+        if (typeof options === "undefined" || typeof options.length === "undefined") {
+            throw {
+                message: "length is not specified for the maxLength validator"
+            }
+        }
+
+        if (typeof value === "undefined") {
+            return false;
+        }
+
+        return value.length <= options.length;
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.range = {
+    isNumber: function (number) {
+        return !isNaN(parseFloat(number)) && isFinite(number);
+    },
+    throwIfOptionsUndefined: function (options) {
+        if (typeof options === "undefined") {
+            throw new Bifrost.validation.OptionsNotDefined();
+        }
+    },
+    throwIfMinUndefined: function (options) {
+        if (typeof options.min === "undefined") {
+            throw new Bifrost.validation.MinNotSpecified();
+        }
+    },
+    throwIfMaxUndefined: function (options) {
+        if (typeof options.max === "undefined") {
+            throw new Bifrost.validation.MaxNotSpecified();
+        }
+    },
+    throwIfNotANumber: function (value) {
+        if (!Bifrost.isNumber(value)) {
+            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        }
+    },
+
+    validate: function (value, options) {
+        this.throwIfNotANumber(value);
+        this.throwIfOptionsUndefined(options);
+        this.throwIfMaxUndefined(options);
+        this.throwIfMinUndefined(options);
+
+        if (typeof value === "undefined") {
+            return false;
+        }
+
+        return value <= options.max && value >= options.min;
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.lessThan = {
+    throwIfOptionsUndefined: function (options) {
+        if (typeof options === "undefined") {
+            throw new Bifrost.validation.OptionsNotDefined();
+        }
+    },
+    throwIfValueUndefined: function (options) {
+        if (typeof options.value === "undefined") {
+            throw new Bifrost.validation.ValueNotSpecified();
+        }
+    },
+    throwIfNotANumber: function (value) {
+        if (!Bifrost.isNumber(value)) {
+            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        }
+    },
+
+    validate: function (value, options) {
+        this.throwIfNotANumber(value);
+        this.throwIfOptionsUndefined(options);
+        this.throwIfValueUndefined(options);
+        if (typeof value === "undefined") {
+            return false;
+        }
+        return parseFloat(value) < parseFloat(options.value);
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.greaterThan = {
+    throwIfOptionsUndefined: function (options) {
+        if (!options || typeof options === "undefined") {
+            throw new Bifrost.validation.OptionsNotDefined();
+        }
+    },
+    throwIfValueUndefined: function (options) {
+        if (typeof options.value === "undefined") {
+            throw new Bifrost.validation.ValueNotSpecified();
+        }
+    },
+    throwIfNotANumber: function (value) {
+        if (!Bifrost.isNumber(value)) {
+            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        }
+    },
+
+    validate: function (value, options) {
+        this.throwIfNotANumber(value);
+        this.throwIfOptionsUndefined(options);
+        this.throwIfValueUndefined(options);
+        if (typeof value === "undefined") {
+            return false;
+        }
+        return parseFloat(value) > parseFloat(options.value);
+    }
+};
+
+﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.validation.ruleHandlers.email = {
+    regex : /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
+
+    validate: function (value, options) {
+        return (value.match(this.regex) == null) ? false : true;
+    }
+};
 
 ﻿if (typeof ko !== 'undefined') {
     ko.bindingHandlers.command = {
@@ -227,14 +548,14 @@ Bifrost.commands.commandCoordinator = (function () {
         if (jqXHR.status === 200) {
             command.result = commandResult;
             command.hasExecuted = true;
-            if (command.result.Success === true) {
+            if (command.result.success === true) {
                 command.onSuccess();
             } else {
                 command.onError();
             }
         } else {
-            command.result.Success = false;
-            command.result.Exception = {
+            command.result.success = false;
+            command.result.exception = {
                 Message: jqXHR.responseText,
                 details: jqXHR
             };
@@ -659,7 +980,21 @@ Bifrost.messaging.messenger = (function() {
 @depends utils/namespace.js
 @depends utils/extend.js
 @depends utils/guid.js
+@depends utils/isNumber.js
 @depends utils/hashString.js
+@depends validation/exceptions.js
+@depends validation/ruleHandlers.js
+@depends validation/Rule.js
+@depends validation/Validator.js
+@depends validation/validationMessageFor.js
+@depends validation/validation.js
+@depends validation/required.js
+@depends validation/minLength.js
+@depends validation/maxLength.js
+@depends validation/range.js
+@depends validation/lessThan.js
+@depends validation/greaterThan.js
+@depends validation/email.js
 @depends commands/bindingHandlers.js
 @depends commands/CommandResult.js
 @depends commands/Command.js
