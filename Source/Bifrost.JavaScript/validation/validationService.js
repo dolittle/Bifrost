@@ -14,7 +14,7 @@ Bifrost.validation.validationService = (function () {
             }
             $.ajax({
                 type: "POST",
-                url: "/ValidationRules/GetForCommand",
+                url: "/Validation/GetForCommand",
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(methodParameters),

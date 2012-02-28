@@ -6,14 +6,14 @@ using Bifrost.Serialization;
 
 namespace Bifrost.Services
 {
-    public class ValidationRulesService
+    public class ValidationService
     {
         ICommandTypeManager _commandTypeManager;
         ICommandValidatorProvider _commandValidatorProvider;
         IValidationMetaDataGenerator _validationMetaDataGenerator;
         ISerializer _serializer;
 
-        public ValidationRulesService(
+        public ValidationService(
             ICommandTypeManager commandTypeManager,
             ICommandValidatorProvider commandValidatorProvider, 
             IValidationMetaDataGenerator validationMetaDataGenerator,

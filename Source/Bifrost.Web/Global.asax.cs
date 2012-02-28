@@ -23,7 +23,7 @@ namespace Bifrost.Web
         {
             RouteTable.Routes.AddService<CommandCoordinatorService>();
             RouteTable.Routes.AddService<StuffToPersistService>();
-            RouteTable.Routes.AddService<ValidationRulesService>();
+            RouteTable.Routes.AddService<ValidationService>();
         }
 
         protected override IContainer CreateContainer()

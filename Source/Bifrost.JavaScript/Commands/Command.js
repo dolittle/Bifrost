@@ -32,18 +32,41 @@ Bifrost.commands.Command = (function (window) {
 
         this.parameters = options.parameters || {};
 
+
         this.initialize = function () {
             if (typeof self.viewModel === "undefined") {
                 self.viewModel = window;
             }
 
             Bifrost.validation.validationService.applyForCommand(self);
+
+            self.parametersAreValid = ko.computed(function () {
+                for (var property in this.parameters) {
+                    if (this.parameters[property].validator.isValid() == false) {
+                        return false;
+                    }
+                }
+                return true;
+            }, self);
         };
+
+        this.validate = function () {
+            for (var property in self.parameters) {
+                self.parameters[property].validator.validate(self.parameters[property]());
+            }
+        }
 
         this.execute = function () {
             self.hasError = false;
 
+            self.validate();
+            if (!self.parametersAreValid()) {
+                return;
+            }
+
             self.onBeforeExecute();
+
+
 
             if (!self.canExecute.call(self.viewModel)) {
                 return;
