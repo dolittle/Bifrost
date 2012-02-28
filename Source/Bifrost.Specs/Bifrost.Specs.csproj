@@ -241,7 +241,10 @@
     <Compile Include="Sagas\for_SagaState\when_in_a_state_of_continuing.cs" />
     <Compile Include="Sagas\for_SagaState\when_in_a_state_of_new.cs" />
     <Compile Include="Sagas\for_SagaState\when_in_a_state_of_concluded.cs" />
+    <Compile Include="Sagas\for_Saga\when_getting_last_committed_version_and_an_aggregate_has_multiple_events.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_with_an_aggregated_root_with_multiple_events.cs" />
     <Compile Include="Sagas\for_Saga\when_creating_a_saga.cs" />
+    <Compile Include="Sagas\for_Saga\when_getting_last_committed_version_without_any_aggregate_with_that_id.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter_by_type_and_it_is_not_part_of_saga.cs" />
     <Compile Include="Serialization\for_Serializer\ClassToSerialize.cs" />
     <Compile Include="Serialization\for_Serializer\given\a_serializer.cs" />
