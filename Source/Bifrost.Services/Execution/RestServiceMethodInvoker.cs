@@ -51,7 +51,7 @@ namespace Bifrost.Services.Execution
             var values = GetParameterValues(form, method);
             var result = method.Invoke(instance, values);
 
-            var serializedResult = _serializer.ToJson(result);
+            var serializedResult = _serializer.ToJson(result, new SerializationOptions { UseCamelCase = true });
             return serializedResult;
         }
 
