@@ -34,7 +34,7 @@ namespace Bifrost.Serialization
     /// <summary>
     /// Represents a <see cref="IContractResolver"/> based on the <see cref="DefaultContractResolver"/> for resolving contracts for serialization
     /// </summary>
-	public class SerializerContractResolver : DefaultContractResolver
+    public class SerializerContractResolver : DefaultContractResolver
     {
 
         readonly IContainer _container;
@@ -47,6 +47,7 @@ namespace Bifrost.Serialization
         /// <param name="options"><see cref="SerializationOptions"/> to use during resolving</param>
 		public SerializerContractResolver(IContainer container, SerializationOptions options)
 		{
+            
 			_container = container;
 			_options = options;
 		}
@@ -63,6 +64,7 @@ namespace Bifrost.Serialization
 
 			return properties;
 		}
+
 #endif
 
         public override JsonContract ResolveContract(Type type)
@@ -89,6 +91,14 @@ namespace Bifrost.Serialization
 			}
 
 			return contract;
+        }
+
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            var result = base.ResolvePropertyName(propertyName);
+            if (_options != null && _options.UseCamelCase)
+                result = result.ToCamelCase();
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
     }

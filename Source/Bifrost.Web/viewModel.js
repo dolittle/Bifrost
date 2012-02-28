@@ -3,16 +3,13 @@
         var self = this;
 
         this.message = ko.observable();
-
         this.persistedStuff = ko.observableArray();
-
-        this.stringParameter = ko.observable();
 
         this.doStuffCommand = Bifrost.commands.Command.create({
             name: 'DoStuffCommand',
             context: self,
             error: function (commandResult) {
-                self.message(commandResult.Exception.Message);
+                self.message(commandResult.exception.message);
             },
             success: function (commandResult) {
                 self.message("We got it");
@@ -28,21 +25,10 @@
                 }
             },
             parameters: {
-                stringParameter: ko.dependentObservable(self.stringParameter),
+                stringParameter: ko.observable(""),
                 intParameter: ko.observable()
             }
         });
-
-        this.doOtherStuffCommand = Bifrost.commands.Command.create({
-            name: 'DoOtherStuffCommand',
-            context: self
-        });
-
-        this.doItAll = function () {
-            var saga = Bifrost.sagas.Saga.create({ Id: Bifrost.Guid.create() });
-            Bifrost.commands.commandCoordinator.handleForSaga(saga, [self.doStuffCommand, self.doOtherStuffCommand]);
-        };
-
 
         this.loadPersistedStuff = function () {
 
@@ -52,7 +38,7 @@
                 $.each(mapped(), function (index, e) {
                     var found = false;
                     $.each(self.persistedStuff(), function (i, ee) {
-                        if (ee.Id() == e.Id()) {
+                        if (ee.id() == e.id()) {
                             found = true;
                             return;
                         }

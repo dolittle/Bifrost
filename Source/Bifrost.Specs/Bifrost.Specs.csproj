@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -401,6 +401,15 @@
     <Compile Include="Events\for_EventStream\when_creating_a_new_committed_event_stream.cs" />
     <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\MetaData\for_EmailGenerator\when_generating.cs" />
+    <Compile Include="Validation\MetaData\for_GreaterThanGenerator\when_generating.cs" />
+    <Compile Include="Validation\MetaData\for_LessThanGenerator\when_generating.cs" />
+    <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_null.cs" />
+    <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_empty.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\given\a_validation_meta_data_generator_with_common_rules.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating.cs" />
     <Compile Include="Views\for_View\given\a_query_repository.cs" />
     <Compile Include="Views\for_View\Subjects.cs" />
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />
@@ -435,8 +444,6 @@
   <ItemGroup>
     <Folder Include="Commands\for_DynamicCommand\" />
     <Folder Include="Globalization\for_Localizer\given\" />
-    <Folder Include="Commands\for_CommandTypeManager\" />
-    <Folder Include="Commands\for_CommandTypeManager\given\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

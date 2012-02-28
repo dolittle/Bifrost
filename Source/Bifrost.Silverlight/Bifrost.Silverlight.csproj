@@ -525,6 +525,9 @@
     <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
       <Link>Extensions\ITypeInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Extensions\TypeExtensions.cs">
       <Link>Extensions\TypeExtensions.cs</Link>
     </Compile>

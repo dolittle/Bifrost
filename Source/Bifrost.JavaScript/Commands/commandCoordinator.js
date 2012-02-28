@@ -16,14 +16,14 @@ Bifrost.commands.commandCoordinator = (function () {
         if (jqXHR.status === 200) {
             command.result = commandResult;
             command.hasExecuted = true;
-            if (command.result.Success === true) {
+            if (command.result.success === true) {
                 command.onSuccess();
             } else {
                 command.onError();
             }
         } else {
-            command.result.Success = false;
-            command.result.Exception = {
+            command.result.success = false;
+            command.result.exception = {
                 Message: jqXHR.responseText,
                 details: jqXHR
             };

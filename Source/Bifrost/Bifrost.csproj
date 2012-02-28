@@ -103,6 +103,7 @@
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
@@ -187,6 +188,19 @@
     <Compile Include="Validation\ICommandInputValidator.cs" />
     <Compile Include="Validation\ICommandValidationService.cs" />
     <Compile Include="Validation\ICommandValidatorProvider.cs" />
+    <Compile Include="Validation\MetaData\RequiredGenerator.cs" />
+    <Compile Include="Validation\MetaData\LessThanGenerator.cs" />
+    <Compile Include="Validation\MetaData\Email.cs" />
+    <Compile Include="Validation\MetaData\EmailGenerator.cs" />
+    <Compile Include="Validation\MetaData\GreaterThan.cs" />
+    <Compile Include="Validation\MetaData\GreaterThanGenerator.cs" />
+    <Compile Include="Validation\MetaData\ICanGenerateRule.cs" />
+    <Compile Include="Validation\MetaData\IValidationMetaDataGenerator.cs" />
+    <Compile Include="Validation\MetaData\LessThan.cs" />
+    <Compile Include="Validation\MetaData\ValidationMetaData.cs" />
+    <Compile Include="Validation\MetaData\Required.cs" />
+    <Compile Include="Validation\MetaData\Rule.cs" />
+    <Compile Include="Validation\MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="Validation\NullChapterValidator.cs" />
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />

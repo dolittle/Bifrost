@@ -6,6 +6,7 @@ using Bifrost.Services.Commands;
 using Bifrost.Services.Execution;
 using Bifrost.Web.Mvc;
 using Ninject;
+using Bifrost.Services;
 
 namespace Bifrost.Web
 {
@@ -22,6 +23,7 @@ namespace Bifrost.Web
         {
             RouteTable.Routes.AddService<CommandCoordinatorService>();
             RouteTable.Routes.AddService<StuffToPersistService>();
+            RouteTable.Routes.AddService<ValidationService>();
         }
 
         protected override IContainer CreateContainer()

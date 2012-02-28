@@ -126,6 +126,7 @@ namespace Bifrost.Serialization
         JsonSerializer CreateSerializer(SerializationOptions options, TypeNameHandling typeNameHandling)
 		{
 			var contractResolver = new SerializerContractResolver(_container, options);
+            
 			var serializer = new JsonSerializer
 			                 	{
 			                 		TypeNameHandling = typeNameHandling,
