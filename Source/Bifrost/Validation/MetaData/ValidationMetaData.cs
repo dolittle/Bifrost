@@ -24,5 +24,11 @@ namespace Bifrost.Validation.MetaData
                 return _propertiesWithRules[property]; 
             }
         }
+
+
+        /// <summary>
+        /// Gets the properties with rulesets
+        /// </summary>
+        public Dictionary<string, Dictionary<string, Rule>> Properties { get { return _propertiesWithRules; } }
     }
 }

@@ -2,8 +2,8 @@
 {
     public class ObjectForValidation
     {
-        public const string SomeStringName = "SomeString";
-        public const string SomeIntName = "SomeInt";
+        public const string SomeStringName = "someString";
+        public const string SomeIntName = "someInt";
 
         public string SomeString { get; set; }
         public int SomeInt { get; set; }

@@ -87,7 +87,8 @@ namespace Bifrost.Validation.MetaData
                 {
                     var rule = _generatorsByType[type].GeneratorFrom(validator);
                     var ruleName = rule.GetType().Name.ToCamelCase();
-                    metaData[property][ruleName] = rule;
+                    var propertyName = property.ToCamelCase();
+                    metaData[propertyName][ruleName] = rule;
                 }
             }
         }
