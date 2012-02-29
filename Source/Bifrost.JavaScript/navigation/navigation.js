@@ -1,4 +1,4 @@
-﻿(function() {
+(function() {
 	var container = $("[data-navigation-container]")[0];
 
 	History.Adapter.bind(window,"statechange", function() {

@@ -55,7 +55,7 @@ namespace Bifrost.Web.Mvc
             }
 
             var httpContext = controllerContext.HttpContext;
-            if(httpContext == null)
+            if (httpContext == null)
             {
                 throw new InvalidOperationException("Cannot use temp data without a valid HttpContext");
             }
@@ -71,7 +71,8 @@ namespace Bifrost.Web.Mvc
             if (serializedTempData == null)
                 return new Dictionary<string, object>();
 
-            return _serializer.FromJson<Dictionary<string,object>>(serializedTempData);
+            return _serializer.FromJson<Dictionary<string, object>>(serializedTempData,
+                                                                    new SerializationOptions {IncludeTypeNames = true});
         }
 
         public void SaveTempData(ControllerContext controllerContext, IDictionary<string, object> values)
@@ -97,7 +98,7 @@ namespace Bifrost.Web.Mvc
 
             if (hasValues)
             {
-                var serializedTempData = _serializer.ToJson(values);
+                var serializedTempData = _serializer.ToJson(values, new SerializationOptions {IncludeTypeNames = true});
                 session[TEMP_DATA_SESSION_STATE_KEY] = serializedTempData;
                 return;
             }

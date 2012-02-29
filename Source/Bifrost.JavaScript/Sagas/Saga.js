@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.sagas");
+Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {
     function Saga() {
         var self = this;

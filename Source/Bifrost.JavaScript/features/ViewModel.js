@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.features");
+Bifrost.namespace("Bifrost.features");
 Bifrost.features.ViewModel = (function () {
     function ViewModel(definition, isSingleton) {
         var self = this;
