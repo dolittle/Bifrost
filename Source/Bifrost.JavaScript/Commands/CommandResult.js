@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.commands");
+Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandResult = (function () {
     function CommandResult(existing) {
         if (typeof existing !== "undefined") {

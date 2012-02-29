@@ -120,7 +120,11 @@ namespace Bifrost.Serialization
 
         JsonSerializer CreateSerializerForSerialization(SerializationOptions options)
         {
-            return CreateSerializer(options, TypeNameHandling.None);
+            return CreateSerializer(options, 
+                options == null ? TypeNameHandling.None :
+                    options.IncludeTypeNames ?
+                        TypeNameHandling.Auto : 
+                        TypeNameHandling.None);
         }
 
         JsonSerializer CreateSerializer(SerializationOptions options, TypeNameHandling typeNameHandling)

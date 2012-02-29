@@ -33,10 +33,14 @@ namespace Bifrost.Serialization
         /// </summary>
 		public Func<Type, string, bool>	ShouldSerializeProperty = (t, p) => true;
 
-
         /// <summary>
         /// Gets or sets wether or not to use camel case for naming of properties
         /// </summary>
         public bool UseCamelCase { get; set; }
+
+        /// <summary>
+        /// Gets or sets wether or not to include type names during serialization
+        /// </summary>
+        public bool IncludeTypeNames { get; set; }
 	}
 }

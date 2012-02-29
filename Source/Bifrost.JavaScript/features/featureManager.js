@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.features");
+Bifrost.namespace("Bifrost.features");
 Bifrost.features.featureManager = (function () {
     var allFeatures = {};
 

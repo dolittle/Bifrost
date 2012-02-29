@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.commands");
+Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.commandCoordinator = (function () {
     var baseUrl = "/CommandCoordinator";
     function sendToHandler(url, data, completeHandler) {

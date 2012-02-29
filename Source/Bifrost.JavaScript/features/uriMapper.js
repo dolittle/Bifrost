@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.features");
+Bifrost.namespace("Bifrost.features");
 Bifrost.features.uriMapper = (function () {
     var mappings = new Array();
 
