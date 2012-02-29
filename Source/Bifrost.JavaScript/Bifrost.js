@@ -18,6 +18,7 @@
 @depends validation/lessThan.js
 @depends validation/greaterThan.js
 @depends validation/email.js
+@depends validation/regex.js
 @depends commands/bindingHandlers.js
 @depends commands/CommandResult.js
 @depends commands/Command.js
