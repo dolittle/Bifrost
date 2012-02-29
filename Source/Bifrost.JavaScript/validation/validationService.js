@@ -25,7 +25,7 @@ Bifrost.validation.validationService = (function () {
 					}
                     for (var property in result.properties) {
                         if (!command.parameters.hasOwnProperty(property)) {
-                            command.parameters[property] = ko.observable();
+                            command.parameters[property] = ko.observable().extend({ validation: {} });
                         }
                         command.parameters[property].validator.setOptions(result.properties[property]);
                     }
