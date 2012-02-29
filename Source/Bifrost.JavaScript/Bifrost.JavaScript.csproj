@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -80,6 +80,7 @@
     <Content Include="validation\greaterThan.js" />
     <Content Include="validation\exceptions.js" />
     <Content Include="validation\lessThan.js" />
+    <Content Include="validation\regex.js" />
     <Content Include="validation\maxLength.js" />
     <Content Include="validation\minLength.js" />
     <Content Include="validation\range.js" />

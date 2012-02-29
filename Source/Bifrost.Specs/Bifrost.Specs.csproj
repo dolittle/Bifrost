@@ -404,6 +404,7 @@
     <Compile Include="Events\for_EventStream\when_creating_a_new_committed_event_stream.cs" />
     <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\MetaData\for_RegexGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_EmailGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_GreaterThanGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_LessThanGenerator\when_generating.cs" />

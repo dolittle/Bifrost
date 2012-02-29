@@ -105,6 +105,10 @@
     <Content Include="validation\for_range\when_not_specifying_max.js" />
     <Content Include="validation\for_range\when_not_specifying_min.js" />
     <Content Include="validation\for_range\when_validating_a_value_below_range.js" />
+    <Content Include="validation\for_regex\when_not_using_options.js" />
+    <Content Include="validation\for_regex\when_validating_and_it_should_match.js" />
+    <Content Include="validation\for_regex\when_validating_and_it_should_not_match.js" />
+    <Content Include="validation\for_regex\when_validating_without_expression.js" />
     <Content Include="validation\for_required\when_validating_with_empty_string.js" />
     <Content Include="validation\for_required\when_validating_with_string_with_content.js" />
     <Content Include="validation\for_required\when_validating_with_undefined.js" />

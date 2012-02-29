@@ -40,3 +40,9 @@ Bifrost.validation.MaxLengthNotSpecified = function (message) {
     this.name = "MaxLengthNotSpecified";
     this.message = message || "max length is not specified";
 }
+
+Bifrost.validation.MissingExpression = function (message) {
+    this.prototype = Error.prototype;
+    this.name = "MissingExpression";
+    this.message = message || "expression is not specified";
+}
