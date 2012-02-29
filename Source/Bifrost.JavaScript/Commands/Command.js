@@ -52,7 +52,9 @@ Bifrost.commands.Command = (function (window) {
 
         this.validate = function () {
             for (var property in self.parameters) {
-                self.parameters[property].validator.validate(self.parameters[property]());
+				if( self.parameters[property].validator ) {
+                	self.parameters[property].validator.validate(self.parameters[property]());
+				}
             }
         }
 

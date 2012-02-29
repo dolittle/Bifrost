@@ -20,6 +20,9 @@ Bifrost.validation.validationService = (function () {
                 data: JSON.stringify(methodParameters),
                 complete: function (d) {
                     var result = $.parseJSON(d.responseText);
+					if( !result || !result.properties ) {
+						return;
+					}
                     for (var property in result.properties) {
                         if (!command.parameters.hasOwnProperty(property)) {
                             command.parameters[property] = ko.observable();
