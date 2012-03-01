@@ -222,7 +222,9 @@ Bifrost.validation.validationService = (function () {
     return {
         extendAllProperties: function (target) {
             for (var property in target) {
-                target[property].extend({ validation: {} });
+				if( typeof target[property] === "function" ) {
+                	target[property].extend({ validation: {} });
+				}
             }
         },
         applyForCommand: function (command) {
