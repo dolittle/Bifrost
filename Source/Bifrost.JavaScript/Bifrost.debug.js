@@ -505,7 +505,8 @@ Bifrost.commands.Command = (function (window) {
 
             self.parametersAreValid = ko.computed(function () {
                 for (var property in this.parameters) {
-                    if (this.parameters[property].validator.isValid() == false) {
+                    if (this.parameters[property].validator &&
+						this.parameters[property].validator.isValid() == false) {
                         return false;
                     }
                 }
