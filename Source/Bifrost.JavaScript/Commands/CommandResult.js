@@ -19,14 +19,14 @@ Bifrost.commands.CommandResult = (function () {
     }
 
     return {
-        create: function () {
+        create: function() {
             var commandResult = new CommandResult();
             return commandResult;
         },
-        createFrom: function (json) {
+        createFrom: function(json) {
             var existing = $.parseJSON(json);
             var commandResult = new CommandResult(existing);
             return commandResult;
         }
-    }
+    };
 })();
