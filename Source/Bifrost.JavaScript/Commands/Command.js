@@ -8,11 +8,14 @@ Bifrost.commands.Command = (function (window) {
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
-        this.hasExecuted = false;
         this.successfullyExcecuted = function () {
-            if (self.hasExecuted) {
-                return self.result.Success === true;
+            if (self.hasResult()) {
+                return self.result.success === true;
             }
+        };
+
+        this.hasResult = function () {
+            return typeof self.result !== "undefined" && !self.result.isEmpty();
         };
 
         this.options = {
