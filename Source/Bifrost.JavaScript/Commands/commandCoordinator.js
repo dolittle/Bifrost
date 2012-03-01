@@ -14,7 +14,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
     function handleCommandCompletion(jqXHR, command, commandResult) {
         if (jqXHR.status === 200) {
-            command.result = commandResult;
+            command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
             command.hasExecuted = true;
             if (command.result.success === true) {
                 command.onSuccess();
