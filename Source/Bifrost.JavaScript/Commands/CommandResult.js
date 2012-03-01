@@ -1,11 +1,16 @@
 Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandResult = (function () {
     function CommandResult(existing) {
+        var self = this;
+        this.isEmpty = function () {
+            return self.commandId === Bifrost.Guid.empty;
+        };
+
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
         } else {
             this.CommandName = "";
-            this.CommandId = Bifrost.Guid.create();
+            this.CommandId = Bifrost.Guid.empty;
             this.ValidationResult = [];
             this.Success = true;
             this.Invalid = false;
