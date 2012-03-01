@@ -60,7 +60,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
                 $.each(commandResultArray, function (commandResultIndex, commandResult) {
                     $.each(commands, function (commandIndex, command) {
-                        if (command.id === commandResult.CommandId) {
+                        if (command.id === commandResult.commandId) {
                             handleCommandCompletion(jqXHR, command, commandResult);
                             return false;
                         }

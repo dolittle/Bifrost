@@ -9,12 +9,12 @@ Bifrost.commands.CommandResult = (function () {
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
         } else {
-            this.CommandName = "";
-            this.CommandId = Bifrost.Guid.empty;
-            this.ValidationResult = [];
-            this.Success = true;
-            this.Invalid = false;
-            this.Exception = undefined;
+            this.commandName = "";
+            this.commandId = Bifrost.Guid.empty;
+            this.validationResult = [];
+            this.success = true;
+            this.invalid = false;
+            this.exception = undefined;
         }
     }
 
