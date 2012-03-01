@@ -223,7 +223,9 @@ Bifrost.validation.validationService = (function () {
     return {
         extendAllProperties: function (target) {
             for (var property in target) {
-                target[property].extend({ validation: {} });
+				if( typeof target[property] === "function" ) {
+                	target[property].extend({ validation: {} });
+				}
             }
         },
         applyForCommand: function (command) {
@@ -512,7 +514,8 @@ Bifrost.commands.Command = (function (window) {
 
             self.parametersAreValid = ko.computed(function () {
                 for (var property in this.parameters) {
-                    if (this.parameters[property].validator.isValid() == false) {
+                    if (this.parameters[property].validator &&
+						this.parameters[property].validator.isValid() == false) {
                         return false;
                     }
                 }
