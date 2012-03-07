@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>Bifrost.JavaScript/Bifrost.js</string>
+	<string>Bifrost.JavaScript/features/Feature.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -45,89 +45,28 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/Bifrost.js</key>
+		<key>Bifrost.JavaScript/features/Feature.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>52</integer>
 				<key>line</key>
-				<integer>20</integer>
+				<integer>49</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Bifrost.JavaScript/commands/Command.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>17</integer>
-				<key>line</key>
-				<integer>47</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Bifrost.JavaScript/commands/CommandDescriptor.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>10</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Bifrost.JavaScript/messaging/messenger.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>19</integer>
-				<key>line</key>
-				<integer>9</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Bifrost.JavaScript/validation/validationService.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>5</integer>
-				<key>line</key>
-				<integer>35</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>17</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>Bifrost.JavaScript/messaging/messenger.js</string>
-		<string>Bifrost.JavaScript/validation/validationService.js</string>
-		<string>Bifrost.JavaScript/commands/Command.js</string>
-		<string>Bifrost.JavaScript/commands/CommandDescriptor.js</string>
-		<string>Bifrost.JavaScript/Bifrost.js</string>
-		<string>Bifrost.JavaScript.Specs/messaging/for_messenger/when_publishing_a_message_with_multiple_subscribers.js</string>
+		<string>Bifrost.JavaScript/features/Feature.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{0, 4}, {1439, 874}}</string>
+	<string>{{0, 4}, {1440, 874}}</string>
 </dict>
 </plist>

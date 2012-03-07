@@ -1,9 +1,12 @@
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.ViewModel = (function () {
-    function ViewModel(definition, isSingleton) {
+    function ViewModel(definition, isSingleton, state) {
         var self = this;
         this.definition = definition;
         this.isSingleton = isSingleton;
+		this.state = {};
+		
+		Bifrost.extend(this.state, state);
 
         this.getInstance = function () {
 
@@ -20,8 +23,8 @@ Bifrost.features.ViewModel = (function () {
     }
 
     return {
-        create: function (definition, isSingleton) {
-            var viewModel = new ViewModel(definition, isSingleton);
+        create: function (definition, isSingleton, state) {
+            var viewModel = new ViewModel(definition, isSingleton, state);
             return viewModel;
         }
     }
