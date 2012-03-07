@@ -1,14 +1,25 @@
-describe("when creating without state", function() {
-	function ViewModel() {
-	}
+describe("when creating with state", function () {
+    var createCalled = false;
 
-	var state = {
-		something : "Hello"
-	};
-	
-	var viewModelDefinition = Bifrost.features.ViewModel.create(ViewModel, true, state);
-	
-	it("should have the state given to it", function() {
-		expect(viewModelDefinition.state.something).toBe(state.something);
-	});
+    Bifrost.features.FeatureState = {
+        create: function() {
+            createCalled = true;
+        }
+    };
+
+    function ViewModel() {
+    }
+
+    var expectedState = {
+        something: "Hello"
+    };
+
+    var viewModelDefinition = Bifrost.features.ViewModel.create(ViewModel, {
+        singleton: false,
+        state: expectedState
+    });
+
+    it("should create an instance of FeatureState", function () {
+        expect(createCalled).toBe(true);    
+    });
 });

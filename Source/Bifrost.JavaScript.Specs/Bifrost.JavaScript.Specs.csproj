@@ -60,6 +60,9 @@
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
     <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
     <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />
+    <Content Include="features\for_FeatureState\when_a_value_changes.js" />
+    <Content Include="features\for_FeatureState\when_creating_with_state.js" />
+    <Content Include="features\for_Feature\when_defining_a_view_model.js" />
     <Content Include="features\for_uriMapper\when_adding_mapping.js" />
     <Content Include="features\for_uriMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
     <Content Include="features\for_uriMapper\when_resolving_a_uri_that_should_match_a_uri_with_expansion.js" />
@@ -69,9 +72,15 @@
     <Content Include="features\for_UriMapping\when_matching_a_uri_that_should_match.js" />
     <Content Include="features\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="features\for_UriMapping\when_resolving_a_uri.js" />
+    <Content Include="features\for_ViewModel\when_creating_without_state.js" />
+    <Content Include="features\for_ViewModel\when_creating_with_state.js" />
+    <Content Include="features\for_ViewModel\when_getting_an_instance_from_a_transient_that_has_state_defined.js" />
     <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_as_transient_and_getting_two_instances.js" />
+    <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
+    <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
+    <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />

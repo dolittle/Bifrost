@@ -1,7 +1,7 @@
 ﻿describe("when registering as singleton and getting two instances", function () {
     var actualViewModel = function () { };
 
-    var viewModel = Bifrost.features.ViewModel.create(actualViewModel, true);
+    var viewModel = Bifrost.features.ViewModel.create(actualViewModel, { isSingleton: true });
     var firstInstance = viewModel.getInstance();
     var secondInstance = viewModel.getInstance();
 

@@ -6,6 +6,6 @@
     var secondInstance = viewModel.getInstance();
 
     it("should return two different instances", function () {
-        expect(firstInstance).toNotBe(secondInstance);
+        expect(firstInstance).not.toBe(secondInstance);
     });
 });

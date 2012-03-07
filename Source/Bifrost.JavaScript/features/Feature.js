@@ -33,8 +33,8 @@ Bifrost.features.Feature = (function () {
             });
         }
 
-        this.defineViewModel = function (viewModel, isSingleton, state) {
-            self.viewModel = Bifrost.features.ViewModel.create(viewModel, isSingleton, state);
+        this.defineViewModel = function (viewModel, options) {
+            self.viewModel = Bifrost.features.ViewModel.create(viewModel, options);
         }
 
         this.renderTo = function (target) {
