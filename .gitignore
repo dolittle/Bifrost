@@ -31,3 +31,4 @@ packages
 ehthumbs.db
 Icon?
 Thumbs.db
+/Source/Bifrost.Web/Scripts/Bifrost.debug.js
