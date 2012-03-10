@@ -38,7 +38,7 @@ namespace Bifrost.Mimir.Features.Core.Navigation
 		{
 			get
 			{
-				var icon = string.Format("/Bifrost.Administration;component/Features/{0}/icon.png", Name);
+				var icon = string.Format("/Bifrost.Mimir;component/Features/{0}/icon.png", Name);
 				return icon;
 			}
 		}
