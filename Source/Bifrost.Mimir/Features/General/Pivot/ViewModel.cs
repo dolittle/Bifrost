@@ -60,8 +60,12 @@ namespace Bifrost.Mimir.Features.General.Pivot
             {
                 var serializer = new DataContractSerializer(typeof(string));
                 var bytes = System.Text.Encoding.UTF8.GetBytes(e.Result);
-                var memoryStream = new MemoryStream(bytes);
-                var eventsAsJson = (string)serializer.ReadObject(memoryStream);
+                //var memoryStream = new MemoryStream(bytes);
+                //memoryStream.Re
+
+                //var eventsAsJson = (string)serializer.ReadObject(memoryStream);
+
+                var eventsAsJson = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 
                 var events = _serializer.FromJson<List<EventHolder>>(eventsAsJson);
                 Events.Clear();
@@ -71,7 +75,7 @@ namespace Bifrost.Mimir.Features.General.Pivot
 
             
             var source = Application.Current.Host.Source;
-            var url = string.Format("{0}://{1}{2}/Events/GetAllAsJsonString",
+            var url = string.Format("{0}://{1}{2}/Events/GetAll",
                 source.Scheme,
                 source.Host,
                 source.Port == 80 ? string.Empty : ":" + source.Port);
