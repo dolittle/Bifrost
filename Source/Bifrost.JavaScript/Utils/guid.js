@@ -5,8 +5,9 @@ Bifrost.Guid = (function () {
     }
 
     return {
-        create: function () {
-            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4()); ;
-        }
-    }
+        create: function() {
+            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+        },
+        empty: "00000000-0000-0000-0000-000000000000"
+    };
 })(); 

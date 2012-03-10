@@ -15,7 +15,7 @@ Bifrost.sagas.sagaNarrator = (function () {
 
     function isRequestSuccess(jqXHR, commandResult) {
         if (jqXHR.status === 200) {
-            if (commandResult.Success === true) {
+            if (commandResult.success === true) {
                 return true;
             } else {
                 return false;

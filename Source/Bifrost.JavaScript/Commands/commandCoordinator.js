@@ -14,7 +14,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
     function handleCommandCompletion(jqXHR, command, commandResult) {
         if (jqXHR.status === 200) {
-            command.result = commandResult;
+            command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
             command.hasExecuted = true;
             if (command.result.success === true) {
                 command.onSuccess();
@@ -60,7 +60,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
                 $.each(commandResultArray, function (commandResultIndex, commandResult) {
                     $.each(commands, function (commandIndex, command) {
-                        if (command.id === commandResult.CommandId) {
+                        if (command.id === commandResult.commandId) {
                             handleCommandCompletion(jqXHR, command, commandResult);
                             return false;
                         }
