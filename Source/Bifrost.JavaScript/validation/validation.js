@@ -1,4 +1,4 @@
-﻿if (typeof ko !== 'undefined') {
+if (typeof ko !== 'undefined') {
     ko.extenders.validation = function (target, options) {
         Bifrost.validation.Validator.applyTo(target, options);
         target.subscribe(function (newValue) {
