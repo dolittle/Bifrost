@@ -36,15 +36,8 @@ namespace Bifrost.Web.Mvc
     /// Represents a HttpApplication that handles initialization of Bifrost and
     /// abstracts some of the tedious tasks needed to configure it
     /// </summary>
-    public abstract class BifrostHttpApplication : HttpApplication, IApplication
+    public abstract class BifrostHttpApplication : Bifrost.Web.BifrostHttpApplication
     {
-        public IContainer Container { get; private set; }
-        public virtual void OnConfigure(Configure configure) { }
-        public virtual void OnStarted() { }
-        public virtual void OnStopped() { }
-
-        protected abstract IContainer CreateContainer();
-
         /// <summary>
         /// Changes the default convention for locations of Views and Master pages for all view engines
         /// </summary>
@@ -78,36 +71,20 @@ namespace Bifrost.Web.Mvc
             }
         }
 
-        protected void Application_Start()
-        {
-            Container = CreateContainer();
-            SetupDependencyResolver();
-
-            var configure = Configure.With(Container, BindingLifecycle.Request).SpecificApplication(this);
-            OnConfigure(configure);
-            configure.Initialize();
-
-            SetupValidation();
-            OnStarted();
-        }
-
-        protected void Application_Stop()
-        {
-            OnStopped();
-        }
-
-        void SetupDependencyResolver()
+        public override void OnContainerCreated()
         {
             var dependencyResolver = new ContainerDependencyResolver(Container);
             DependencyResolver.SetResolver(dependencyResolver);
+            base.OnContainerCreated();
         }
 
-        void SetupValidation()
+        public override void OnConfigureValidation()
         {
             //DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
 
             var factory = Container.Get<CommandValidatorFactory>();
-            FluentValidationModelValidatorProvider.Configure(p => {
+            FluentValidationModelValidatorProvider.Configure(p =>
+            {
                 p.ValidatorFactory = factory;
                 p.AddImplicitRequiredValidator = false;
             });
@@ -116,6 +93,7 @@ namespace Bifrost.Web.Mvc
             var validatorProvider = new FluentValidationModelValidatorProvider(validatorFactory);
             validatorProvider.AddImplicitRequiredValidator = false;
             ModelValidatorProviders.Providers.Add(validatorProvider);
+            base.OnConfigureValidation();
         }
 
         static string[] ReplaceInStrings(IEnumerable<string> strings, string partToReplace, string replaceWith)

@@ -23,10 +23,11 @@ Bifrost.Guid = (function () {
     }
 
     return {
-        create: function () {
-            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4()); ;
-        }
-    }
+        create: function() {
+            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+        },
+        empty: "00000000-0000-0000-0000-000000000000"
+    };
 })(); 
 ﻿Bifrost.namespace("Bifrost");
 Bifrost.isNumber = function(number) {
@@ -437,29 +438,34 @@ if (typeof ko !== 'undefined') {
 Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandResult = (function () {
     function CommandResult(existing) {
+        var self = this;
+        this.isEmpty = function () {
+            return self.commandId === Bifrost.Guid.empty;
+        };
+
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
         } else {
-            this.CommandName = "";
-            this.CommandId = Bifrost.Guid.create();
-            this.ValidationResult = [];
-            this.Success = true;
-            this.Invalid = false;
-            this.Exception = undefined;
+            this.commandName = "";
+            this.commandId = Bifrost.Guid.empty;
+            this.validationResult = [];
+            this.success = true;
+            this.invalid = false;
+            this.exception = undefined;
         }
     }
 
     return {
-        create: function () {
+        create: function() {
             var commandResult = new CommandResult();
             return commandResult;
         },
-        createFrom: function (json) {
+        createFrom: function(json) {
             var existing = $.parseJSON(json);
             var commandResult = new CommandResult(existing);
             return commandResult;
         }
-    }
+    };
 })();
 Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.Command = (function (window) {
@@ -471,11 +477,14 @@ Bifrost.commands.Command = (function (window) {
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
-        this.hasExecuted = false;
         this.successfullyExcecuted = function () {
-            if (self.hasExecuted) {
-                return self.result.Success === true;
+            if (self.hasResult()) {
+                return self.result.success === true;
             }
+        };
+
+        this.hasResult = function () {
+            return typeof self.result !== "undefined" && !self.result.isEmpty();
         };
 
         this.options = {
@@ -584,21 +593,21 @@ Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandDescriptor = (function () {
     function CommandDescriptor(name, id, commandParameters) {
         this.Name = name;
-		var commandContent = {
-			Id: id
-		};
-		for( var property in commandParameters ) {
-			commandContent[property] = commandParameters[property];
-		}
-        this.Command = ko.toJSON(commandParameters);
+        var commandContent = {
+            Id: id
+        };
+        for (var property in commandParameters) {
+            commandContent[property] = commandParameters[property];
+        }
+        this.Command = ko.toJSON(commandContent);
     };
 
     return {
-        createFrom: function (command) {
+        createFrom: function(command) {
             var commandDescriptor = new CommandDescriptor(command.name, command.id, command.parameters);
             return commandDescriptor;
         }
-    }
+    };
 })();
 
 Bifrost.namespace("Bifrost.commands");
@@ -617,7 +626,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
     function handleCommandCompletion(jqXHR, command, commandResult) {
         if (jqXHR.status === 200) {
-            command.result = commandResult;
+            command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
             command.hasExecuted = true;
             if (command.result.success === true) {
                 command.onSuccess();
@@ -663,7 +672,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
                 $.each(commandResultArray, function (commandResultIndex, commandResult) {
                     $.each(commands, function (commandIndex, command) {
-                        if (command.id === commandResult.CommandId) {
+                        if (command.id === commandResult.commandId) {
                             handleCommandCompletion(jqXHR, command, commandResult);
                             return false;
                         }
@@ -715,7 +724,7 @@ Bifrost.sagas.sagaNarrator = (function () {
 
     function isRequestSuccess(jqXHR, commandResult) {
         if (jqXHR.status === 200) {
-            if (commandResult.Success === true) {
+            if (commandResult.success === true) {
                 return true;
             } else {
                 return false;

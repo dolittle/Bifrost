@@ -23,31 +23,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Entities;
 using Bifrost.Events;
-using Bifrost.Serialization;
 
 namespace Bifrost.Services.Events
 {
     public class EventService
     {
         IEntityContext<EventHolder> _entityContext;
-        ISerializer _serializer;
 
-        public EventService(IEntityContext<EventHolder> entityContext, ISerializer serializer)
+        public EventService(IEntityContext<EventHolder> entityContext)
         {
             _entityContext = entityContext;
-            _serializer = serializer;
         }
 
         public IEnumerable<EventHolder> GetAll()
         {
             return _entityContext.Entities.ToArray();
-        }
-
-        public string GetAllAsJsonString()
-        {
-            var events = GetAll();
-            var jsonString = _serializer.ToJson(events);
-            return jsonString;
         }
     }
 }

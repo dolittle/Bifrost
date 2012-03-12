@@ -34,7 +34,7 @@ namespace Bifrost.Mimir.Features.Core.Navigation
 		{
 			get
 			{
-				var icon = string.Format("/Bifrost.Administration;component/Features/{0}/{1}/icon.png", Category, Name);
+				var icon = string.Format("/Bifrost.Mimir;component/Features/{0}/{1}/icon.png", Category, Name);
 				return icon;
 			}
 		}
@@ -43,7 +43,7 @@ namespace Bifrost.Mimir.Features.Core.Navigation
 		{
 			get
 			{
-				var name = Type.Namespace.Replace("Bifrost.Administration.Features.", string.Empty);
+				var name = Type.Namespace.Replace("Bifrost.Mimir.Features.", string.Empty);
 				name = name.Replace(".", "/");
 				return name;
 			}

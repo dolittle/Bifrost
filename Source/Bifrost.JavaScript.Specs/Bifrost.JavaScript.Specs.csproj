@@ -85,6 +85,7 @@
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />
     <Content Include="Utils\for_guid\when_generating_guid.js" />
+    <Content Include="Utils\for_guid\when_getting_an_empty_guid.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="validation\for_email\when_validating_a_valid_email.js" />
