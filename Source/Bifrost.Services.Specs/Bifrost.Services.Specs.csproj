@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Execution\for_RequestParamsFactory\given\a_request_params_factory.cs" />
+    <Compile Include="Execution\for_RequestParamsFactory\when_building_a_request_params_object.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\ComplexType.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call.cs" />

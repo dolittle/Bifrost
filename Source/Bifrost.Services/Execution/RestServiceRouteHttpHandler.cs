@@ -32,40 +32,33 @@ namespace Bifrost.Services.Execution
     // Todo : add async support - performance gain! 
     public class RestServiceRouteHttpHandler : IHttpHandler, IRequiresSessionState // IHttpAsyncHandler
     {
-        Type _type;
-        string _url;
+        readonly Type _type;
+        readonly string _url;
+        readonly IRequestParamsFactory _factory;
+        readonly IRestServiceMethodInvoker _invoker;
 
-        public RestServiceRouteHttpHandler(Type type, string url)
+        public RestServiceRouteHttpHandler(Type type, string url) 
+            : this(type,url,ServiceLocator.Current.GetInstance<IRequestParamsFactory>(),
+            ServiceLocator.Current.GetInstance<IRestServiceMethodInvoker>())
+        {}
+
+        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker)
         {
             _type = type;
             _url = url;
+            _factory = factory;
+            _invoker = invoker;
         }
 
         public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
         {
-            var form = context.Request.Form;
-
-            if (form.Keys.Count == 0 && context.Request.InputStream.Length > 0)
-            {
-                var input = new byte[context.Request.InputStream.Length];
-                context.Request.InputStream.Read(input, 0, input.Length);
-
-                var inputDictionary = new Dictionary<string, string>();
-                var inputAsString = System.Text.UTF8Encoding.UTF8.GetString(input);
-                var serializer = ServiceLocator.Current.GetInstance<ISerializer>();
-                serializer.FromJson(inputDictionary, inputAsString);
-
-                form = new NameValueCollection();
-                foreach (var key in inputDictionary.Keys)
-                    form[key] = inputDictionary[key];
-            }
+            var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
             
-            var invoker = ServiceLocator.Current.GetInstance<IRestServiceMethodInvoker>();
             var serviceInstance = ServiceLocator.Current.GetInstance(_type);
 
-            var result = invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
+            var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
             context.Response.Write(result);
         }
 

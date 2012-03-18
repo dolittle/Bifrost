@@ -59,10 +59,13 @@
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
+    <Compile Include="Execution\IRequestParamsFactory.cs" />
     <Compile Include="Execution\IRestServiceMethodInvoker.cs" />
     <Compile Include="Execution\MethodNotSpecifiedException.cs" />
     <Compile Include="Execution\MissingParameterException.cs" />
     <Compile Include="Execution\ParameterCountMismatchException.cs" />
+    <Compile Include="Execution\RequestParams.cs" />
+    <Compile Include="Execution\RequestParamsFactory.cs" />
     <Compile Include="Execution\RestServiceMethodInvoker.cs" />
     <Compile Include="Execution\RestServiceRoute.cs" />
     <Compile Include="Execution\RestServiceRouteHandler.cs" />
