@@ -525,11 +525,32 @@ Bifrost.commands.Command = (function (window) {
 
         this.validate = function () {
             for (var property in self.parameters) {
-				if( self.parameters[property].validator ) {
-                	self.parameters[property].validator.validate(self.parameters[property]());
-				}
+                if (self.parameters[property].validator) {
+                    self.parameters[property].validator.validate(self.parameters[property]());
+                }
             }
-        }
+        };
+
+        this.applyServerValidation = function (validationResults) {
+            for (var i = 0; i < validationResults.length; i++) {
+                var validationResult = validationResults[i];
+                var message = validationResult.errorMessage;
+                var memberNames = validationResult.memberNames;
+                if (memberNames.length > 0) {
+                    for (var j = 0; j < memberNames.length; j++) {
+                        var member = memberNames[j];
+                        if (typeof message === "string" && typeof member === "string") {
+                            if (self.parameters.hasOwnProperty(member)) {
+                                self.parameters[member].validator.isValid(false);
+                                self.parameters[member].validator.message(message);
+                            }
+                        }
+                    }
+                }else {
+                    //the command needs a validator we can apply this message to.
+                }
+            }
+        };
 
         this.execute = function () {
             self.hasError = false;
@@ -564,6 +585,9 @@ Bifrost.commands.Command = (function (window) {
 
         this.onError = function () {
             self.hasError = true;
+            if (self.result.hasOwnProperty("validationResults")) {
+                self.applyServerValidation(self.result.validationResults);
+            }
             self.options.error.call(self.viewModel, self.result);
         };
 
@@ -626,7 +650,7 @@ Bifrost.commands.commandCoordinator = (function () {
 
     function handleCommandCompletion(jqXHR, command, commandResult) {
         if (jqXHR.status === 200) {
-            command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
+            command.result = commandResult;
             command.hasExecuted = true;
             if (command.result.success === true) {
                 command.onSuccess();
