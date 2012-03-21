@@ -62,22 +62,28 @@ Bifrost.commands.Command = (function (window) {
             }
         };
 
+        this.applyValidationMessageToMembers = function (members, message) {
+            for (var j = 0; j < members.length; j++) {
+                var member = members[j];
+                member = member.charAt(0).toLowerCase() + member.substring(1);
+                if (typeof message === "string" && typeof member === "string") {
+                    if (self.parameters.hasOwnProperty(member)) {
+                        self.parameters[member].validator.isValid(false);
+                        self.parameters[member].validator.message(message);
+                    }
+                }
+            }
+        }
+
         this.applyServerValidation = function (validationResults) {
             for (var i = 0; i < validationResults.length; i++) {
                 var validationResult = validationResults[i];
                 var message = validationResult.errorMessage;
                 var memberNames = validationResult.memberNames;
                 if (memberNames.length > 0) {
-                    for (var j = 0; j < memberNames.length; j++) {
-                        var member = memberNames[j];
-                        if (typeof message === "string" && typeof member === "string") {
-                            if (self.parameters.hasOwnProperty(member)) {
-                                self.parameters[member].validator.isValid(false);
-                                self.parameters[member].validator.message(message);
-                            }
-                        }
-                    }
-                }else {
+                    //one (or more) of the parameters has an error, so apply the error to those
+                    self.applyValidationMessageToMembers(memberNames, message);
+                } else {
                     //the command needs a validator we can apply this message to.
                 }
             }
