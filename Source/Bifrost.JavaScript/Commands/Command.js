@@ -56,11 +56,38 @@ Bifrost.commands.Command = (function (window) {
 
         this.validate = function () {
             for (var property in self.parameters) {
-				if( self.parameters[property].validator ) {
-                	self.parameters[property].validator.validate(self.parameters[property]());
-				}
+                if (self.parameters[property].validator) {
+                    self.parameters[property].validator.validate(self.parameters[property]());
+                }
+            }
+        };
+
+        this.applyValidationMessageToMembers = function (members, message) {
+            for (var j = 0; j < members.length; j++) {
+                var member = members[j];
+                member = member.charAt(0).toLowerCase() + member.substring(1);
+                if (typeof message === "string" && typeof member === "string") {
+                    if (self.parameters.hasOwnProperty(member)) {
+                        self.parameters[member].validator.isValid(false);
+                        self.parameters[member].validator.message(message);
+                    }
+                }
             }
         }
+
+        this.applyServerValidation = function (validationResults) {
+            for (var i = 0; i < validationResults.length; i++) {
+                var validationResult = validationResults[i];
+                var message = validationResult.errorMessage;
+                var memberNames = validationResult.memberNames;
+                if (memberNames.length > 0) {
+                    //one (or more) of the parameters has an error, so apply the error to those
+                    self.applyValidationMessageToMembers(memberNames, message);
+                } else {
+                    //the command needs a validator we can apply this message to.
+                }
+            }
+        };
 
         this.execute = function () {
             self.hasError = false;
@@ -95,6 +122,9 @@ Bifrost.commands.Command = (function (window) {
 
         this.onError = function () {
             self.hasError = true;
+            if (self.result.hasOwnProperty("validationResults")) {
+                self.applyServerValidation(self.result.validationResults);
+            }
             self.options.error.call(self.viewModel, self.result);
         };
 
