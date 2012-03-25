@@ -23,8 +23,8 @@ Bifrost.commands.CommandResult = (function () {
             var commandResult = new CommandResult();
             return commandResult;
         },
-        createFrom: function(json) {
-            var existing = $.parseJSON(json);
+        createFrom: function (result) {
+            var existing = typeof result === "string" ? $.parseJSON(result) : result;
             var commandResult = new CommandResult(existing);
             return commandResult;
         }
