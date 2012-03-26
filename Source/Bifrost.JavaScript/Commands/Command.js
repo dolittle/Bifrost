@@ -54,10 +54,14 @@ Bifrost.commands.Command = (function (window) {
             }, self);
         };
 
+        this.validator = Bifrost.validation.Validator.create({ required: true });
+
         this.validate = function () {
-            for (var property in self.parameters) {
-                if (self.parameters[property].validator) {
-                    self.parameters[property].validator.validate(self.parameters[property]());
+            if (self.validator.validate(true)) {
+                for (var property in self.parameters) {
+                    if (self.parameters[property].validator) {
+                        self.parameters[property].validator.validate(self.parameters[property]());
+                    }
                 }
             }
         };
@@ -73,7 +77,14 @@ Bifrost.commands.Command = (function (window) {
                     }
                 }
             }
-        }
+        };
+
+        this.applyValidationMessageToCommand = function (message) {
+            self.validator.isValid(false);
+            var newMessage = self.validator.message();
+            newMessage = newMessage.length == 0 ? message : newMessage + ", " + message;
+            self.validator.message(newMessage);
+        };
 
         this.applyServerValidation = function (validationResults) {
             for (var i = 0; i < validationResults.length; i++) {
@@ -85,6 +96,7 @@ Bifrost.commands.Command = (function (window) {
                     self.applyValidationMessageToMembers(memberNames, message);
                 } else {
                     //the command needs a validator we can apply this message to.
+                    self.applyValidationMessageToCommand(message);
                 }
             }
         };

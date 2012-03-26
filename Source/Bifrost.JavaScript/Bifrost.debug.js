@@ -143,10 +143,10 @@ Bifrost.validation.Validator = (function () {
             for (var property in options) {
                 this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
             }
-        }
+        };
 
-        this.validate = function (value) {
-            $.each(self.rules, function (index, rule) {
+        this.validate = function(value) {
+            $.each(self.rules, function(index, rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
@@ -156,7 +156,7 @@ Bifrost.validation.Validator = (function () {
                     self.message("");
                 }
             });
-        }
+        };
 
         this.setOptions(options);
     }
@@ -176,7 +176,7 @@ Bifrost.validation.Validator = (function () {
 
             if (itemOrItems instanceof Array) {
                 $.each(itemOrItems, function (index, item) {
-                    
+
                     applyToItem(item);
                 });
             } else {
@@ -523,10 +523,14 @@ Bifrost.commands.Command = (function (window) {
             }, self);
         };
 
+        this.validator = Bifrost.validation.Validator.create({ required: true });
+
         this.validate = function () {
-            for (var property in self.parameters) {
-                if (self.parameters[property].validator) {
-                    self.parameters[property].validator.validate(self.parameters[property]());
+            if (self.validator.validate(true)) {
+                for (var property in self.parameters) {
+                    if (self.parameters[property].validator) {
+                        self.parameters[property].validator.validate(self.parameters[property]());
+                    }
                 }
             }
         };
@@ -542,7 +546,14 @@ Bifrost.commands.Command = (function (window) {
                     }
                 }
             }
-        }
+        };
+
+        this.applyValidationMessageToCommand = function (message) {
+            self.validator.isValid(false);
+            var newMessage = self.validator.message();
+            newMessage = newMessage.length == 0 ? message : newMessage + ", " + message;
+            self.validator.message(newMessage);
+        };
 
         this.applyServerValidation = function (validationResults) {
             for (var i = 0; i < validationResults.length; i++) {
@@ -554,6 +565,7 @@ Bifrost.commands.Command = (function (window) {
                     self.applyValidationMessageToMembers(memberNames, message);
                 } else {
                     //the command needs a validator we can apply this message to.
+                    self.applyValidationMessageToCommand(message);
                 }
             }
         };
