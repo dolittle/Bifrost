@@ -3,9 +3,7 @@ Bifrost.validation.validationService = (function () {
     return {
         extendAllProperties: function (target) {
             for (var property in target) {
-				if( typeof target[property] === "function" ) {
-                	target[property].extend({ validation: {} });
-				}
+                target[property].extend({ validation: {} });
             }
         },
         applyForCommand: function (command) {
