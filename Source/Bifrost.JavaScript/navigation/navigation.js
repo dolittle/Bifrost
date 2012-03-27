@@ -1,7 +1,5 @@
 (function() {
-
 	if(typeof History === "undefined" || typeof History.Adapter === "undefined") return;
-	
 	
 	var container = $("[data-navigation-container]")[0];
 
