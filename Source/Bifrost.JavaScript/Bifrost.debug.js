@@ -571,21 +571,12 @@ Bifrost.commands.Command = (function (window) {
         };
 
         this.execute = function () {
-            self.hasError = false;
 
-            self.validate();
-            if (!self.parametersAreValid()) {
+
+
+            if (self.onBeforeExecute() === false) {
                 return;
             }
-
-            self.onBeforeExecute();
-
-
-
-            if (!self.canExecute.call(self.viewModel)) {
-                return;
-            }
-            self.isBusy(true);
 
             Bifrost.commands.commandCoordinator.handle(self, {
                 error: function (e) {
@@ -598,7 +589,22 @@ Bifrost.commands.Command = (function (window) {
         };
 
         this.onBeforeExecute = function () {
+
+            self.hasError = false;
+
+            self.validate();
+            if (!self.parametersAreValid()) {
+                return false;
+            }
+            
             self.options.beforeExecute.call(self.viewModel, self);
+
+            if (!self.canExecute.call(self.viewModel)) {
+                return false;
+            }
+            self.isBusy(true);
+
+            return true;
         };
 
         this.onError = function () {
@@ -688,6 +694,8 @@ Bifrost.commands.commandCoordinator = (function () {
 
     return {
         handle: function (command) {
+
+
             var methodParameters = {
                 commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
             };
@@ -699,8 +707,8 @@ Bifrost.commands.commandCoordinator = (function () {
         },
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
+
             $.each(commands, function (index, command) {
-                command.onBeforeExecute();
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
 
@@ -731,6 +739,19 @@ Bifrost.sagas.Saga = (function () {
         var self = this;
 
         this.executeCommands = function (commands) {
+
+            var canExecuteSaga = true;
+            
+            $.each(commands, function (index, command) {
+                if (command.onBeforeExecute() === false) {
+                    canExecuteSaga = false;
+                    return false;
+                }
+            });
+
+            if (canExecuteSaga === false) {
+                return;
+            }
             Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
                 error: function (e) {
                 },

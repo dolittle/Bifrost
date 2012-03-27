@@ -102,21 +102,12 @@ Bifrost.commands.Command = (function (window) {
         };
 
         this.execute = function () {
-            self.hasError = false;
 
-            self.validate();
-            if (!self.parametersAreValid()) {
+
+
+            if (self.onBeforeExecute() === false) {
                 return;
             }
-
-            self.onBeforeExecute();
-
-
-
-            if (!self.canExecute.call(self.viewModel)) {
-                return;
-            }
-            self.isBusy(true);
 
             Bifrost.commands.commandCoordinator.handle(self, {
                 error: function (e) {
@@ -129,7 +120,22 @@ Bifrost.commands.Command = (function (window) {
         };
 
         this.onBeforeExecute = function () {
+
+            self.hasError = false;
+
+            self.validate();
+            if (!self.parametersAreValid()) {
+                return false;
+            }
+            
             self.options.beforeExecute.call(self.viewModel, self);
+
+            if (!self.canExecute.call(self.viewModel)) {
+                return false;
+            }
+            self.isBusy(true);
+
+            return true;
         };
 
         this.onError = function () {
