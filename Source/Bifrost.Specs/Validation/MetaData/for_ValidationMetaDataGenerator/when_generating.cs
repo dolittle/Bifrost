@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         Because of = () => meta_data = generator.GenerateFrom(validator);
 
         It should_return_meta_data = () => meta_data.ShouldNotBeNull();
-        It should_have_some_string_property = () => meta_data[ObjectForValidation.SomeStringName].ShouldNotBeNull();
+        It should_have_some_string_property = () => meta_data[ObjectForValidation.SomeStringName].ShouldNotBeEmpty();
 
         It should_have_required_for_string = () => meta_data[ObjectForValidation.SomeStringName]["required"].ShouldNotBeNull();
         It should_have_required_for_string_with_correct_message = () => meta_data[ObjectForValidation.SomeStringName]["required"].Message.ShouldEqual(ObjectForValidationValidator.NotEmptyErrorMessage);
