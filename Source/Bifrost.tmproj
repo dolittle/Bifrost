@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>Bifrost.JavaScript/navigation/NavigationContainer.js</string>
+	<string>Bifrost.JavaScript.Specs/routing/for_router/when_url_changes.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -59,42 +59,28 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/navigation/NavigationContainer.js</key>
+		<key>Bifrost.JavaScript.Specs/routing/for_router/when_url_changes.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>7</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/navigation/navigateTo.js</key>
+		<key>Bifrost.JavaScript/routing/router.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>12</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>Bifrost.JavaScript/navigation/navigation.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>36</integer>
-				<key>line</key>
-				<integer>7</integer>
+				<integer>8</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -104,10 +90,8 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>Bifrost.JavaScript/navigation/navigation.js</string>
-		<string>Bifrost.JavaScript/navigation/navigateTo.js</string>
-		<string>Bifrost.JavaScript/navigation/NavigationContainer.js</string>
-		<string>Bifrost.JavaScript.Specs/navigation/for_NavigationContainer/when_creating_for_element.js</string>
+		<string>Bifrost.JavaScript/routing/router.js</string>
+		<string>Bifrost.JavaScript.Specs/routing/for_router/when_url_changes.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
