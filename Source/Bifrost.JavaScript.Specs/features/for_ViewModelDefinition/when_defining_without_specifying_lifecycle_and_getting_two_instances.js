@@ -1,7 +1,7 @@
-﻿describe("when registering without specifying lifecycle and getting two instances", function () {
+﻿describe("when defining without specifying lifecycle and getting two instances", function () {
     var actualViewModel = function () { };
 
-    var viewModel = Bifrost.features.ViewModel.create(actualViewModel);
+    var viewModel = Bifrost.features.ViewModelDefinition.define(actualViewModel);
     var firstInstance = viewModel.getInstance();
     var secondInstance = viewModel.getInstance();
 
