@@ -1,6 +1,14 @@
 describe("when registering route", function() {
 	var route = { name : "something" };
-	Bifrost.routing.router.register(route);
+	
+	beforeEach(function() {
+		Bifrost.routing.router.register(route);
+	});
+	
+	afterEach(function() {
+		Bifrost.routing.router.reset();
+	});
+	
 	
 	it("should have one route", function() {
 		expect(Bifrost.routing.router.routes.length).toBe(1);

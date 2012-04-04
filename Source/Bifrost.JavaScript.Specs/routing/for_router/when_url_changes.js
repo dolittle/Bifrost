@@ -6,11 +6,15 @@ describe("when url changes", function() {
 			isMatchCalled = true;
 		}
 	};
+
+	beforeEach(function() {
+		Bifrost.routing.router.register(route)
+		History.pushState({},"","?Something=5");
+	});
 	
-	Bifrost.routing.router.register(route)
-
-
-	History.pushState({},"","");
+	afterEach(function() {
+		Bifrost.routing.router.reset();
+	});
 	
 	it("should ask route if it is able to handle it", function() {
 		expect(isMatchCalled).toBe(true);
