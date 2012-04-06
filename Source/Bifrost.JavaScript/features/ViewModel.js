@@ -1,13 +1,16 @@
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.ViewModel = (function() {
-	var ViewModel = {
+	function ViewModel() {
 		
+		this.coolShit = function() {
+			print("Cool as hell");
+		}
 	}
 	
 	return {
-		superFor : function(f) {
-			if( typeof f === function ) {
-				f.prototype = ViewModel;
+		baseFor : function(f) {
+			if( typeof f === "function" ) {
+				f.prototype = new ViewModel();
 			}
 		}
 	};
