@@ -4,6 +4,7 @@
 @depends utils/guid.js
 @depends utils/isNumber.js
 @depends utils/hashString.js
+@depends utils/TypeInfo.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -29,6 +30,7 @@
 @depends features/UriMapping.js
 @depends features/uriMapper.js
 @depends features/ViewModel.js
+@depends features/ViewModelDefinition.js
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/loader.js
