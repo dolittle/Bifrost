@@ -1,12 +1,12 @@
-﻿Bifrost.features.UriMapping = (function() {
-    function UriMapping(uri, mappedUri) {
+﻿Bifrost.features.FeatureMapping = (function() {
+    function FeatureMapping(uri, mappedUri) {
         this.uri = uri;
         this.mappedUri = mappedUri;
     }
 
     return {
         create : function (uri, mappedUri) {
-            return new UriMapping(uri, mappedUri);
+            return new FeatureMapping(uri, mappedUri);
         }
     }
 })();
@@ -14,8 +14,8 @@
 describe("when adding mapping", function () {
     var expectedUri = "something";
     var expectedMappedUri = "else";
-    Bifrost.features.uriMapper.add(expectedUri, expectedMappedUri);
-    var result = Bifrost.features.uriMapper.allMappings();
+    Bifrost.features.featureMapper.add(expectedUri, expectedMappedUri);
+    var result = Bifrost.features.featureMapper.allMappings();
 
 
     it("should have one route", function () {

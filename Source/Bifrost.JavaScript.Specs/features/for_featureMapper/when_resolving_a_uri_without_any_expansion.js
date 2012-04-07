@@ -1,5 +1,5 @@
-﻿Bifrost.features.UriMapping = (function () {
-    function UriMapping(uri, mappedUri) {
+﻿Bifrost.features.FeatureMapping = (function () {
+    function FeatureMapping(uri, mappedUri) {
         var self = this;
         this.uri = uri;
         this.mappedUri = mappedUri;
@@ -17,8 +17,8 @@
 
     return {
         create: function (uri, mappedUri) {
-            var uriMapping = new UriMapping(uri, mappedUri);
-            return uriMapping;
+            var FeatureMapping = new FeatureMapping(uri, mappedUri);
+            return FeatureMapping;
         }
     }
 })();
@@ -27,12 +27,12 @@ describe("when resolving a uri without any expansion", function () {
     var expectedResult = "/Features/About";
     var uri = "About-Us";
 
-    Bifrost.features.uriMapper.clear();
-    Bifrost.features.uriMapper.add("Home", "/Features/Home");
-    Bifrost.features.uriMapper.add(uri, expectedResult);
-    Bifrost.features.uriMapper.add("Something", "/Features/Else");
+    Bifrost.features.featureMapper.clear();
+    Bifrost.features.featureMapper.add("Home", "/Features/Home");
+    Bifrost.features.featureMapper.add(uri, expectedResult);
+    Bifrost.features.featureMapper.add("Something", "/Features/Else");
 
-    var mappedUri = Bifrost.features.uriMapper.resolve(uri);
+    var mappedUri = Bifrost.features.featureMapper.resolve(uri);
 
     it("should resolve to the correct url", function () {
         expect(mappedUri).toEqual("");

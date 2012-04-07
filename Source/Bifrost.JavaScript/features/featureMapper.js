@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.features");
-Bifrost.features.uriMapper = (function () {
+Bifrost.features.featureMapper = (function () {
     var mappings = new Array();
 
     return {
@@ -8,11 +8,11 @@ Bifrost.features.uriMapper = (function () {
         },
 
         add: function (uri, mappedUri, isDefault) {
-            var uriMapping = Bifrost.features.UriMapping.create(uri, mappedUri, isDefault);
-            mappings.push(uriMapping);
+            var FeatureMapping = Bifrost.features.FeatureMapping.create(uri, mappedUri, isDefault);
+            mappings.push(FeatureMapping);
         },
 
-        getUriMappingFor: function (uri) {
+        getFeatureMappingFor: function (uri) {
             var found;
             $.each(mappings, function (i, m) {
                 if (m.matches(uri)) {
@@ -33,8 +33,8 @@ Bifrost.features.uriMapper = (function () {
 
         resolve: function (uri) {
             try {
-                var uriMapping = Bifrost.features.uriMapper.getUriMappingFor(uri);
-                return uriMapping.resolve(uri);
+                var FeatureMapping = Bifrost.features.featureMapper.getFeatureMappingFor(uri);
+                return FeatureMapping.resolve(uri);
             } catch (e) {
                 return "";
             }
