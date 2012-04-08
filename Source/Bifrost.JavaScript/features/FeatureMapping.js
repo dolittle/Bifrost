@@ -1,17 +1,21 @@
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.FeatureMapping = (function () {
-    function throwIfNotString(input, message) {
-        if( typeof input !== "string" ) {
-            throw {
-                name: "ArgumentError",
-                message: message
-            }
-        }
-    }
-
+	function throwIfUriNotSpecified(uri) {
+		if(!uri || typeof uri === "undefined") {
+			throw new Bifrost.features.UriNotSpecified();
+		}
+	}
+	
+	function throwIfMappedUriNotSpecified(mappedUri) {
+		if(!mappedUri || typeof mappedUri === "undefined") {
+			throw new Bifrost.features.MappedUriNotSpecified();
+		}
+	}
+	
     function FeatureMapping(uri, mappedUri, isDefault) {
-        throwIfNotString(uri, "Missing uri for FeatureMapping");
-        throwIfNotString(mappedUri, "Missing mappedUri for FeatureMapping");
+
+		throwIfUriNotSpecified(uri);
+		throwIfMappedUriNotSpecified(mappedUri);
 
         var uriComponentRegex = /\{[a-zA-Z]*\}/g
         var components = uri.match(uriComponentRegex) || [];
@@ -42,8 +46,8 @@ Bifrost.features.FeatureMapping = (function () {
 
     return {
         create: function (uri, mappedUri, isDefault) {
-            var FeatureMapping = new FeatureMapping(uri, mappedUri, isDefault);
-            return FeatureMapping;
+            var featureMapping = new FeatureMapping(uri, mappedUri, isDefault);
+            return featureMapping;
         }
     }
 })();

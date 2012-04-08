@@ -1,10 +1,10 @@
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.featureMapper = (function () {
-    var mappings = new Array();
+    var mappings = [];
 
     return {
         clear: function () {
-            mappings = new Array();
+            mappings = [];
         },
 
         add: function (uri, mappedUri, isDefault) {

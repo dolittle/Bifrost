@@ -17,8 +17,8 @@
 
     return {
         create: function (uri, mappedUri) {
-            var FeatureMapping = new FeatureMapping(uri, mappedUri);
-            return FeatureMapping;
+            var featureMapping = new FeatureMapping(uri, mappedUri);
+            return featureMapping;
         }
     }
 })();

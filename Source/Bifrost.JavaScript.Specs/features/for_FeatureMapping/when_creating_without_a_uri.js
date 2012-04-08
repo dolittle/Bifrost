@@ -1,6 +1,15 @@
 ﻿describe("when creating without a uri", function () {
-    it("should throw an exception", function () {
-        // Todo : How to do this in a generic way?
-        //expect(Bifrost.features.FeatureMapping.create()).toThrow({ name: "ArgumentError", message: "Missing uri for FeatureMapping" });
+	var exception;
+	
+	beforeEach(function() {
+		try {
+			Bifrost.features.FeatureMapping.create()
+		} catch( e ) {
+			exception = e;
+		}
+	});
+	
+    it("should throw UriNotSpecified", function () {
+		expect(exception instanceof Bifrost.features.UriNotSpecified).toBeTruthy();
     });
 });
