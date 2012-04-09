@@ -3,6 +3,7 @@ describe("when route parameters change and viewmodel has properties representing
 	var expectedString = "Horse";
 	var expectedValue = "42";
 	var location = "http://www.vg.no:8081/some/route#some/anchor?someString="+expectedString+"&someValue="+expectedValue+"&observedString="+expectedString+"&observedValue="+expectedValue;
+	var callbackCount = 0;
 	
  	function MyViewModel() {
 		this.queryParameters.define({
@@ -10,6 +11,10 @@ describe("when route parameters change and viewmodel has properties representing
 			someValue: 0,
 			observedString: ko.observable(),
 			observedValue: ko.observable()
+		});
+		
+		this.uriChanged(function() {
+			callbackCount++;
 		});
 	}
 	
@@ -40,12 +45,15 @@ describe("when route parameters change and viewmodel has properties representing
 		
 		Bifrost.features.ViewModel.baseFor(MyViewModel);
 
+		callbackCount = 0;
+
 		instance = new MyViewModel();
 		stateChangeCallback();
 	});
 
 	afterEach(function() {
 		Bifrost.Uri.create.restore();	
+		History.getState.restore();
 		History.Adapter.bind.restore();
 	});
 	
@@ -54,5 +62,9 @@ describe("when route parameters change and viewmodel has properties representing
 		expect(instance.queryParameters.someValue).toBe(expectedValue);
 		expect(instance.queryParameters.observedString()).toBe(expectedString);
 		expect(instance.queryParameters.observedValue()).toBe(expectedValue);
+	});
+	
+	it("should call any uri changed subscribers", function() {
+		expect(callbackCount).toBe(1);
 	});
 }));
