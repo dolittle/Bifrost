@@ -1,10 +1,12 @@
 /*
 @depends utils/namespace.js
+@depends utils/Exception.js
 @depends utils/extend.js
 @depends utils/guid.js
 @depends utils/isNumber.js
 @depends utils/hashString.js
 @depends utils/TypeInfo.js
+@depends utils/Uri.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
