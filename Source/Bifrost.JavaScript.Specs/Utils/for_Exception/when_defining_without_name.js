@@ -1,4 +1,4 @@
-describe("defining without name", function() {
+describe("when defining without name", function() {
 	var exception;
 	
 	try {

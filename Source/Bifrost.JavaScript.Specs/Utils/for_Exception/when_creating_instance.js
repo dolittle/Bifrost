@@ -1,4 +1,4 @@
-describe("creating instance", function() {
+describe("when creating instance", function() {
 	var exceptionName = "SomeException";
 	
 	Bifrost.Exception.define(exceptionName);

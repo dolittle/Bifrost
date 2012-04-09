@@ -1,4 +1,4 @@
-describe("defining with definition and creating an instance", function() {
+describe("when defining with definition and creating an instance", function() {
 	var someValue = "Something";
 	
 	Bifrost.Exception.define("SomeException", "Default message", function(message) {

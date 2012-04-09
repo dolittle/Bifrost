@@ -1,4 +1,4 @@
-describe("throwing a defined exception", function() {
+describe("when throwing a defined exception", function() {
 	var exceptionThrown;
 	
 	Bifrost.Exception.define("Something.SomeException");

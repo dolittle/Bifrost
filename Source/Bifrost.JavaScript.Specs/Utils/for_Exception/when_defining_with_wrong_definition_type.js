@@ -1,4 +1,4 @@
-describe("defining with wrong definition type", function() {
+describe("when defining with wrong definition type", function() {
 	var exception;
 
 	try {

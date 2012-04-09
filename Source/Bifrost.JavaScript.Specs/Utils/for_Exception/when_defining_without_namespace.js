@@ -1,4 +1,4 @@
-describe("defining without namespace", function() {
+describe("when defining without namespace", function() {
 	Bifrost.Exception.define("SomeException");
 	
 	it("should put exception in global", function() {

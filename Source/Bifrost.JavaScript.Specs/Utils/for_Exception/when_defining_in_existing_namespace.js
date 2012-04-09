@@ -1,4 +1,7 @@
-describe("defining in non existing namespace", function() {
+First = {};
+First.Second = {};
+
+describe("when defining in existing namespace", function() {
 	Bifrost.Exception.define("First.Second.SomeException");
 	
 	it("should put exception type in namespace", function() {

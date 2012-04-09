@@ -1,4 +1,4 @@
-describe("creating instance without specifying message", function() {
+describe("when creating instance without specifying message", function() {
 	var message = "This is a message";
 	Bifrost.Exception.define("SomeException", message);
 	
