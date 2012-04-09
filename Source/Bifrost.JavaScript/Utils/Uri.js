@@ -34,24 +34,29 @@ Bifrost.Uri = (function(window, undefined) {
 	
 	
 	function Uri(location) {
-		this.fullPath = location;
-		location = location.replace("#","/");
+		var self = this;
+		this.setLocation = function(location) {
+			self.fullPath = location;
+			location = location.replace("#","/");
 		
-		var result = parseUri(location);
+			var result = parseUri(location);
 		
-		if( !result.protocol || typeof result.protocol == "undefined" ||
-		 	!result.domain || typeof result.domain == "undefined" ) {
-			throw new Bifrost.InvalidUriFormat("Uri ('"+location+"') was in the wrong format");
+			if( !result.protocol || typeof result.protocol == "undefined" ||
+		 		!result.domain || typeof result.domain == "undefined" ) {
+				throw new Bifrost.InvalidUriFormat("Uri ('"+location+"') was in the wrong format");
+			}
+
+			self.scheme = result.protocol;
+			self.host = result.domain;
+			self.path = result.path;
+			self.anchor = result.anchor;
+
+			self.queryString = result.query;
+			self.port = parseInt(result.port);
+			self.parameters = Bifrost.hashString.decode(result.query);
 		}
-
-		this.scheme = result.protocol;
-		this.host = result.domain;
-		this.path = result.path;
-		this.anchor = result.anchor;
-
-		this.queryString = result.query;
-		this.port = parseInt(result.port);
-		this.parameters = Bifrost.hashString.decode(result.query);
+		
+		this.setLocation(location);
 	}
 	
 	function throwIfLocationNotSpecified(location) {
