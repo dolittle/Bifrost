@@ -120,7 +120,13 @@ Bifrost.hashString = (function() {
 		    for (var i = 0; i < a.length; ++i) {
 		        var p = a[i].split('=');
 		        if (p.length != 2) continue;
-		        b[p[0]] = decodeURIComponent(p[1].replace( /\+/g , " "));
+		
+				var value = decodeURIComponent(p[1].replace( /\+/g , " "));
+				var valueAsFloat = parseFloat(value);
+				if( !isNaN(valueAsFloat) ) {
+					value = valueAsFloat;
+				}
+		        b[p[0]] = value;
 		    }
 		    return b;
 		}
@@ -190,23 +196,29 @@ Bifrost.Uri = (function(window, undefined) {
 	
 	
 	function Uri(location) {
-		this.fullPath = location;
-		location = location.replace("#","/");
+		var self = this;
+		this.setLocation = function(location) {
+			self.fullPath = location;
+			location = location.replace("#","/");
 		
-		var result = parseUri(location);
+			var result = parseUri(location);
 		
-		if( !result.protocol || typeof result.protocol == "undefined" ||
-		 	!result.domain || typeof result.domain == "undefined" ) {
-			throw new Bifrost.InvalidUriFormat("Uri ('"+location+"') was in the wrong format");
+			if( !result.protocol || typeof result.protocol == "undefined" ||
+		 		!result.domain || typeof result.domain == "undefined" ) {
+				throw new Bifrost.InvalidUriFormat("Uri ('"+location+"') was in the wrong format");
+			}
+
+			self.scheme = result.protocol;
+			self.host = result.domain;
+			self.path = result.path;
+			self.anchor = result.anchor;
+
+			self.queryString = result.query;
+			self.port = parseInt(result.port);
+			self.parameters = Bifrost.hashString.decode(result.query);
 		}
-
-		this.scheme = result.protocol;
-		this.host = result.domain;
-		this.path = result.path;
-		this.anchor = result.anchor;
-
-		this.queryString = result.query;
-		this.port = parseInt(result.port);
+		
+		this.setLocation(location);
 	}
 	
 	function throwIfLocationNotSpecified(location) {
@@ -221,9 +233,6 @@ Bifrost.Uri = (function(window, undefined) {
 			var uri = new Uri(location);
 			return uri;
 		},
-		createFromCurrentLocation: function() {
-			
-		}
 	};
 })(window);
 ﻿Bifrost.namespace("Bifrost.validation");
@@ -1033,12 +1042,36 @@ Bifrost.features.featureMapper = (function () {
     }
 })();
 Bifrost.namespace("Bifrost.features");
-Bifrost.features.ViewModel = (function() {
+Bifrost.features.ViewModel = (function(window, undefined) {
 	function ViewModel() {
-		// this.messenger = Bifrost.messaging.messenger || {};
-		
-		// uri
+		var self = this;
+		this.messenger = Bifrost.messaging.messenger;
+		this.uri = Bifrost.Uri.create(window.location.href);
+		this.queryParameters = {
+			define: function(parameters) {
+				Bifrost.extend(this,parameters);
+			}
+		};
 
+		if(typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+			History.Adapter.bind(window,"statechange", function() {
+				var state = History.getState();
+				
+				self.uri.setLocation(state.url);
+				
+				for( var parameter in self.uri.parameters ) {
+					if( self.queryParameters.hasOwnProperty(parameter) && 
+						typeof self.uri.parameters[parameter] != "function") {
+						
+						if( typeof self.queryParameters[parameter] == "function" ) {
+							self.queryParameters[parameter](self.uri.parameters[parameter]);
+						} else {
+							self.queryParameters[parameter] = self.uri.parameters[parameter];
+						}
+					}
+				}
+			});
+		}
 	}
 	
 	return {
@@ -1048,7 +1081,7 @@ Bifrost.features.ViewModel = (function() {
 			}
 		}
 	};
-})();
+})(window);
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.ViewModelDefinition = (function () {
     function ViewModelDefinition(target, options) {
