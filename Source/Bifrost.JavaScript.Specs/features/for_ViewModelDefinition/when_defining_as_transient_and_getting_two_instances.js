@@ -1,4 +1,8 @@
 ﻿describe("when defining as transient and getting two instances", function () {
+	Bifrost.features.ViewModel = Bifrost.features.ViewModel || {
+		baseFor: function() {}
+	};
+
     var actualViewModel = function () { };
 
     var viewModel = Bifrost.features.ViewModelDefinition.define(actualViewModel, { isSingleton : false });

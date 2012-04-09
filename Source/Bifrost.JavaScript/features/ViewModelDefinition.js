@@ -24,6 +24,7 @@ Bifrost.features.ViewModelDefinition = (function () {
 
     return {
         define: function (target, options) {
+			Bifrost.features.ViewModel.baseFor(target);
             var viewModel = new ViewModelDefinition(target, options);
             return viewModel;
         }
