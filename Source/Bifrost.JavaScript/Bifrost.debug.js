@@ -1043,6 +1043,11 @@ Bifrost.features.featureMapper = (function () {
 })();
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.ViewModel = (function(window, undefined) {
+	Bifrost.features.ViewModel = Bifrost.features.ViewModel || {
+		baseFor: function() {}
+	};
+	
+	
 	function ViewModel() {
 		var self = this;
 		this.messenger = Bifrost.messaging.messenger;
@@ -1108,6 +1113,7 @@ Bifrost.features.ViewModelDefinition = (function () {
 
     return {
         define: function (target, options) {
+			Bifrost.features.ViewModel.baseFor(target);
             var viewModel = new ViewModelDefinition(target, options);
             return viewModel;
         }
