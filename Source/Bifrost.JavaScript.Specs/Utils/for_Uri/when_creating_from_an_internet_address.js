@@ -26,7 +26,7 @@ describe("when creating from an internet address", function() {
 		expect(uri.port).toBe(8081);
 	});
 	
-	it("should parameters set", function() {
+	it("should set parameters", function() {
 		expect(uri.parameters.firstParameter).toBe(5);
 		expect(uri.parameters.secondParameter).toBe("horse");
 	});

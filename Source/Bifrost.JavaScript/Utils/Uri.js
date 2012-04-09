@@ -51,6 +51,7 @@ Bifrost.Uri = (function(window, undefined) {
 
 		this.queryString = result.query;
 		this.port = parseInt(result.port);
+		this.parameters = Bifrost.hashString.decode(result.query);
 	}
 	
 	function throwIfLocationNotSpecified(location) {
@@ -65,8 +66,5 @@ Bifrost.Uri = (function(window, undefined) {
 			var uri = new Uri(location);
 			return uri;
 		},
-		createFromCurrentLocation: function() {
-			
-		}
 	};
 })(window);
