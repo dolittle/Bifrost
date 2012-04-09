@@ -1,5 +1,3 @@
 Bifrost.namespace("Bifrost");
-Bifrost.LocationNotSpecified = function(message) {
-	
-	
-}
+Bifrost.Exception.define("Bifrost.LocationNotSpecified","Location was not specified");
+Bifrost.Exception.define("Bifrost.InvalidUriFormat", "Uri format specified is not valid");
