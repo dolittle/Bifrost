@@ -1,6 +1,7 @@
 /*
-@depends utils/namespace.js
 @depends utils/Exception.js
+@depends utils/exceptions.js
+@depends utils/namespace.js
 @depends utils/extend.js
 @depends utils/guid.js
 @depends utils/isNumber.js
@@ -30,8 +31,8 @@
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js
-@depends features/UriMapping.js
-@depends features/uriMapper.js
+@depends features/FeatureMapping.js
+@depends features/featureMapper.js
 @depends features/ViewModel.js
 @depends features/ViewModelDefinition.js
 @depends features/Feature.js

@@ -62,8 +62,8 @@
     <Content Include="features\loader.js" />
     <Content Include="features\Container.js" />
     <Content Include="features\Feature.js" />
-    <Content Include="features\UriMapping.js" />
-    <Content Include="features\uriMapper.js" />
+    <Content Include="features\FeatureMapping.js" />
+    <Content Include="features\featureMapper.js" />
     <Content Include="features\ViewModel.js" />
     <Content Include="Libraries\jquery-1.7.1.min.js" />
     <Content Include="Libraries\knockout-2.0.0.js" />
