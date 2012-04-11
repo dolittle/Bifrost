@@ -1,4 +1,4 @@
-﻿using Bifrost.Resources;
+﻿using Bifrost.Content.Resources;
 
 namespace Bifrost.Specs.Resources.for_ResourcePropertiesResolver
 {

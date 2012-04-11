@@ -1,5 +1,6 @@
 using Bifrost.Execution;
 using Castle.Windsor;
+using Castle.MicroKernel.Registration;
 
 namespace Bifrost.Windsor
 {

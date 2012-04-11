@@ -1,4 +1,4 @@
-﻿using Bifrost.Resources;
+﻿using Bifrost.Content.Resources;
 using Machine.Specifications;
 using Moq;
 

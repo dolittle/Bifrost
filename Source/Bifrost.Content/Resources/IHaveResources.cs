@@ -19,24 +19,13 @@
 // limitations under the License.
 //
 #endregion
-
-using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-
-namespace Bifrost.Configuration.Defaults
+namespace Bifrost.Content.Resources
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultConventions"/> implementation
-	/// </summary>
-    public class DefaultConventions : IDefaultConventions
-	{
-#pragma warning disable 1591 // Xml Comments
-		public void Initialize()
-        {
-            var conventionManager = ServiceLocator.Current.GetInstance<BindingConventionManager>();
-            conventionManager.Add<DefaultConvention>();
-            conventionManager.DiscoverAndInitialize();
-		}
-#pragma warning restore 1591 // Xml Comments
-	}
+    /// <summary>
+    /// Defines the behavior of having resources represented as properties in your class
+    /// </summary>
+    public interface IHaveResources
+    {
+        
+    }
 }

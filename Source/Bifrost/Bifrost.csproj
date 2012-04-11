@@ -47,9 +47,6 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Castle.Core">
-      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\Solutions\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -239,12 +236,6 @@
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
-    <Compile Include="Resources\IHaveResources.cs" />
-    <Compile Include="Resources\IResourcePropertiesResolver.cs" />
-    <Compile Include="Resources\IResourceResolver.cs" />
-    <Compile Include="Resources\ResourceConvention.cs" />
-    <Compile Include="Resources\ResourceInterceptor.cs" />
-    <Compile Include="Resources\ResourcePropertiesResolver.cs" />
     <Compile Include="Commands\CommandContext.cs" />
     <Compile Include="Commands\CommandContextManager.cs" />
     <Compile Include="Commands\CommandHandlerManager.cs" />
