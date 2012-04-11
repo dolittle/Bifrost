@@ -46,5 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container.cs" />
+    <Compile Include="RegistrationExtensions.cs" />
   </ItemGroup>
 </Project>

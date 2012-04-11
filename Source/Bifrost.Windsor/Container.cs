@@ -1,53 +1,87 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using Bifrost.Execution;
-
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+	
 namespace Bifrost.Windsor
 {
 	public class Container : IContainer
 	{
+		IWindsorContainer	_windsorContainer;
+		
+		public Container(IWindsorContainer windsorContainer)
+		{
+			_windsorContainer = windsorContainer;
+		}
+		
+		
 		public T Get<T> ()
 		{
-			throw new NotImplementedException ();
+			return _windsorContainer.Resolve<T>();
 		}
 
 		public T Get<T> (bool optional)
 		{
-			throw new NotImplementedException ();
+            return (T)Get(typeof(T), optional);
 		}
 
 		public object Get (Type type)
 		{
-			throw new NotImplementedException ();
+			return _windsorContainer.Resolve (type);
 		}
 
 		public object Get (Type type, bool optional)
 		{
-			throw new NotImplementedException ();
+            // Todo : Figure out a way to resolve types "optionally"
+            try
+            {
+                return _windsorContainer.Resolve(type);
+            }
+            catch(Exception ex)
+            {
+                if (!optional)
+                    throw ex;
+                else
+                    return null;
+            }
 		}
 
-		public System.Collections.Generic.IEnumerable<T> GetAll<T> ()
-		{
-			throw new NotImplementedException ();
-		}
 
 		public bool HasBindingFor (Type type)
 		{
-			throw new NotImplementedException ();
+			// Todo : figure out a way to figure out wether or not there is a registration or not
+			try {
+				_windsorContainer.Resolve(type);
+				return true;
+			} catch {
+				return false;
+			}
 		}
 
 		public bool HasBindingFor<T> ()
 		{
-			throw new NotImplementedException ();
+			return HasBindingFor(typeof(T));
 		}
 
-		public System.Collections.Generic.IEnumerable<object> GetAll (Type type)
+		public IEnumerable<T> GetAll<T> ()
 		{
-			throw new NotImplementedException ();
+			return _windsorContainer.ResolveAll<T>();
 		}
 
-		public System.Collections.Generic.IEnumerable<Type> GetBoundServices ()
+		public IEnumerable<object> GetAll (Type type)
 		{
-			throw new NotImplementedException ();
+			return (IEnumerable<object>)_windsorContainer.ResolveAll (type);
+		}
+
+		public IEnumerable<Type> GetBoundServices ()
+		{
+			var services = _windsorContainer.Kernel.GetAssignableHandlers(typeof(object))
+				.Select(h=>h.ComponentModel.Services);
+			
+			return services;
+			
 		}
 
 		public void Bind (Type service, Func<Type> resolveCallback)
@@ -72,17 +106,17 @@ namespace Bifrost.Windsor
 
 		public void Bind<T> (Type type)
 		{
-			throw new NotImplementedException ();
+			Bind (typeof(T),type);
 		}
 
 		public void Bind (Type service, Type type)
 		{
-			throw new NotImplementedException ();
+			_windsorContainer.Register (Component.For(service).ImplementedBy(type));
 		}
 
 		public void Bind<T> (Type type, BindingLifecycle lifecycle)
 		{
-			throw new NotImplementedException ();
+			_windsorContainer.Register (Component.For<T>().ImplementedBy(type).WithLifecycle(lifecycle));
 		}
 
 		public void Bind (Type service, Type type, BindingLifecycle lifecycle)
@@ -99,6 +133,9 @@ namespace Bifrost.Windsor
 		{
 			throw new NotImplementedException ();
 		}
+		
+		
+		
 		
 	}
 }
