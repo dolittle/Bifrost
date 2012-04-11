@@ -102,8 +102,7 @@ Bifrost.validation.MissingExpression = function (message) {
 }
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.ruleHandlers = (function () {
-    return {
-    }
+    return Bifrost.validation.ruleHandlers || { };
 })();
 
 ﻿Bifrost.namespace("Bifrost.validation");
@@ -222,10 +221,12 @@ if (typeof ko !== 'undefined') {
 Bifrost.validation.validationService = (function () {
     return {
         recursivlyExtendProperties: function (properties, rules) {
+            var validatorsList = [];
             for (var rule in rules) {
                 var path = rule.split(".");
                 var member = properties;
-                for (var step in path) {
+                for (var i in path) {
+                    var step = path[i];
                     if (step in member) {
                         member = member[step];
                     } else {
@@ -233,21 +234,24 @@ Bifrost.validation.validationService = (function () {
                     }
                 }
 
-                if (typeof member === "function") {
+                if ("extend" in member && typeof member.extend === "function") {
                     member.extend({ validation: {} });
                     member.validator.setOptions(rules[rule]);
+                    validatorsList.push(member);
                 } else {
                     throw "Error applying validation rule: " + property + " is not an observable.";
                 }
             }
+            return validatorsList;
         },
+        /*
         extendAllProperties: function (target) {
-            for (var property in target) {
-                if (typeof target[property] === "function") {
-                    target[property].extend({ validation: {} });
-                }
-            }
-        },
+        for (var property in target) {
+        if ("extend" in target[property] && typeof target[property].extend === "function") {
+        target[property].extend({ validation: {} });
+        }
+        }
+        },*/
         applyForCommand: function (command) {
             //Bifrost.validation.validationService.extendAllProperties(command.parameters);
 
@@ -265,12 +269,12 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, result.properties);
+                    command.validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, result.properties);
                     /*for (var property in result.properties) {
-                        if (!command.parameters.hasOwnProperty(property)) {
-                            command.parameters[property] = ko.observable().extend({ validation: {} });
-                        }
-                        command.parameters[property].validator.setOptions(result.properties[property]);
+                    if (!command.parameters.hasOwnProperty(property)) {
+                    command.parameters[property] = ko.observable().extend({ validation: {} });
+                    }
+                    command.parameters[property].validator.setOptions(result.properties[property]);
                     }*/
                 }
             });
@@ -457,38 +461,6 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.commands");
-Bifrost.commands.CommandResult = (function () {
-    function CommandResult(existing) {
-        var self = this;
-        this.isEmpty = function () {
-            return self.commandId === Bifrost.Guid.empty;
-        };
-
-        if (typeof existing !== "undefined") {
-            Bifrost.extend(this, existing);
-        } else {
-            this.commandName = "";
-            this.commandId = Bifrost.Guid.empty;
-            this.validationResult = [];
-            this.success = true;
-            this.invalid = false;
-            this.exception = undefined;
-        }
-    }
-
-    return {
-        create: function() {
-            var commandResult = new CommandResult();
-            return commandResult;
-        },
-        createFrom: function (result) {
-            var existing = typeof result === "string" ? $.parseJSON(result) : result;
-            var commandResult = new CommandResult(existing);
-            return commandResult;
-        }
-    };
-})();
-Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
@@ -498,6 +470,7 @@ Bifrost.commands.Command = (function (window) {
         this.canExecute = ko.observable(true);
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
+        this.validatorsList = [];
         this.successfullyExcecuted = function () {
             if (self.hasResult()) {
                 return self.result.success === true;
@@ -531,12 +504,14 @@ Bifrost.commands.Command = (function (window) {
                 self.viewModel = window;
             }
 
+            //TODO: create a list of validators to loop through  //DONE
             Bifrost.validation.validationService.applyForCommand(self);
 
+            //TODO: loop through list of validations, not parameters object //DONE
             self.parametersAreValid = ko.computed(function () {
-                for (var property in this.parameters) {
-                    if (this.parameters[property].validator &&
-						this.parameters[property].validator.isValid() == false) {
+                for (var property in this.validatorsList) {
+                    if (this.validatorsList[property].validator &&
+						this.validatorsList[property].validator.isValid() == false) {
                         return false;
                     }
                 }
@@ -547,10 +522,12 @@ Bifrost.commands.Command = (function (window) {
         this.validator = Bifrost.validation.Validator.create({ required: true });
 
         this.validate = function () {
-            if (self.validator.validate(true)) {
-                for (var property in self.parameters) {
-                    if (self.parameters[property].validator) {
-                        self.parameters[property].validator.validate(self.parameters[property]());
+            self.validator.validate(true);
+            if (self.validator.isValid()) {
+                //TODO: loop through list of validations, not parameters object //DONE
+                for (var property in self.validatorsList) {
+                    if (self.validatorsList[property].validator) {
+                        self.validatorsList[property].validator.validate(self.validatorsList[property]());
                     }
                 }
             }
@@ -558,13 +535,24 @@ Bifrost.commands.Command = (function (window) {
 
         this.applyValidationMessageToMembers = function (members, message) {
             for (var j = 0; j < members.length; j++) {
-                var member = members[j];
-                member = member.charAt(0).toLowerCase() + member.substring(1);
-                if (typeof message === "string" && typeof member === "string") {
-                    if (self.parameters.hasOwnProperty(member)) {
-                        self.parameters[member].validator.isValid(false);
-                        self.parameters[member].validator.message(message);
+
+                var path = members[j].split(".");
+                var member = self.parameters;
+                for (var i in path) {
+                    var step = path[i];
+                    step = step.charAt(0).toLowerCase() + step.substring(1);
+                    if (step in member) {
+                        member = member[step];
+                    } else {
+                        throw "Error applying validation results: " + step + " is not a member of " + member + " (" + rule + ")";
                     }
+                }
+
+
+                //TODO: split on . and find object in parameters object //DONE
+                if (typeof message === "string" && "validator" in member) {
+                    member.validator.isValid(false);
+                    member.validator.message(message);
                 }
             }
         };
@@ -617,7 +605,7 @@ Bifrost.commands.Command = (function (window) {
             if (!self.parametersAreValid()) {
                 return false;
             }
-            
+
             self.options.beforeExecute.call(self.viewModel, self);
 
             if (!self.canExecute.call(self.viewModel)) {
@@ -751,6 +739,38 @@ Bifrost.commands.commandCoordinator = (function () {
     };
 })();
 
+Bifrost.namespace("Bifrost.commands");
+Bifrost.commands.CommandResult = (function () {
+    function CommandResult(existing) {
+        var self = this;
+        this.isEmpty = function () {
+            return self.commandId === Bifrost.Guid.empty;
+        };
+
+        if (typeof existing !== "undefined") {
+            Bifrost.extend(this, existing);
+        } else {
+            this.commandName = "";
+            this.commandId = Bifrost.Guid.empty;
+            this.validationResult = [];
+            this.success = true;
+            this.invalid = false;
+            this.exception = undefined;
+        }
+    }
+
+    return {
+        create: function() {
+            var commandResult = new CommandResult();
+            return commandResult;
+        },
+        createFrom: function (result) {
+            var existing = typeof result === "string" ? $.parseJSON(result) : result;
+            var commandResult = new CommandResult(existing);
+            return commandResult;
+        }
+    };
+})();
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {
     function Saga() {
@@ -1174,10 +1194,10 @@ Bifrost.messaging.messenger = (function() {
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js
-@depends commands/CommandResult.js
 @depends commands/Command.js
 @depends commands/CommandDescriptor.js
-@depends commands/commandCoordinator.js
+@depends commands/CommandCoordinator.js
+@depends commands/CommandResult.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/UriMapping.js

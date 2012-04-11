@@ -33,4 +33,15 @@
 
         expect(prop1Extended && prop2Extended).toBe(true);
     });
+    
+    it("should return a list of validators", function () {
+        var containingObject = {
+            prop1: new something(),
+            prop2: new something()
+        }
+        var validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(containingObject, rules);
+
+
+        expect(validatorsList.length).toBe(2);
+    });
 });
