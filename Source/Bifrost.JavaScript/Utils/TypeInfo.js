@@ -4,9 +4,13 @@ Bifrost.TypeInfo = (function() {
 		var target = obj;
 
 		this.initializeName = function() {
-	   		var funcNameRegex = /function (.{1,})\(/;
-	   		var results = (funcNameRegex).exec((target).constructor.toString());
-	   		this.name = (results && results.length > 1) ? results[1] : "";
+			try {
+	   			var funcNameRegex = /function (.{1,})\(/;
+	   			var results = (funcNameRegex).exec((target).constructor.toString());
+	   			this.name = (results && results.length > 1) ? results[1] : "";
+			} catch( e ) {
+				this.name = "unknown";
+			}
 		}
 		
 		this.initializeName();
