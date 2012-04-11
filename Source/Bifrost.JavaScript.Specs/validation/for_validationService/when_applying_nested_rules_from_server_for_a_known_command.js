@@ -1,21 +1,23 @@
-﻿describe("when applying rules from server for a known command", sinon.test(function () {
+﻿describe("when applying nested rules from server for a known command", sinon.test(function () {
     var expectedMessage = "Should be required";
     var test = this;
 
     var server = sinon.fakeServer.create();
 
     server.respondWith("POST", "/Validation/GetForCommand",
-        [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "'+expectedMessage+'" } } } }']);
+        [200, { "Content-Type": "application/json" }, '{ "properties": { "something.someOtherThing": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
 
     var command = {
         name: "Whatevva",
         parameters: {
             something: {
-                extend: function () {
-                },
-                validator: {
-                    setOptions: function (options) {
-                        test.optionsSet = options;
+                someOtherThing: {
+                    extend: function () {
+                    },
+                    validator: {
+                        setOptions: function (options) {
+                            test.optionsSet = options;
+                        }
                     }
                 }
             }
@@ -33,6 +35,6 @@
     });
     it("should set the validatorsList on the command", function () {
         expect(command.validatorsList.length).toBe(1);
-        expect(command.validatorsList[0]).toBe(command.parameters.something);
+        expect(command.validatorsList[0]).toBe(command.parameters.something.someOtherThing);
     });
 }));

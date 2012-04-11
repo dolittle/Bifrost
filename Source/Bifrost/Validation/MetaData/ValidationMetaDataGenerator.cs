@@ -56,22 +56,36 @@ namespace Bifrost.Validation.MetaData
         public ValidationMetaData GenerateFrom(IValidator inputValidator)
         {
             var metaData = new ValidationMetaData();
+
+            GetValue(inputValidator, metaData, String.Empty);
+
+            return metaData;
+        }
+
+        private void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey)
+        {
             var descriptor = inputValidator.CreateDescriptor();
             var members = descriptor.GetMembersWithValidators();
+            
             foreach (var member in members)
             {
+
                 var rules = descriptor.GetRulesForMember(member.Key);
                 foreach (var rule in rules)
                 {
                     foreach (var validator in rule.Validators)
                     {
-                        if (validator is IPropertyValidator)
-                            GenerateFor(metaData, member.Key, validator as IPropertyValidator);
+                        var currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+                        if (validator is ChildValidatorAdaptor)
+                        {
+                            var childValidator = (validator as ChildValidatorAdaptor).Validator;
+                            GetValue(childValidator, metaData, currentKey);
+                        }
+                        else if(validator is IPropertyValidator)
+                            GenerateFor(metaData, currentKey, validator as IPropertyValidator);
                     }
                 }
             }
-
-            return metaData;
         }
 #pragma warning restore 1591 // Xml Comments
 

@@ -1,6 +1,7 @@
 ﻿---
 Harnesses:
   - Harness:
+      Framework					: Jasmine
       Name						: Something
       SystemsSearchPath 		: Bifrost.JavaScript/{namespace}/{system}.js
       DescriptionsSearchPath	: Bifrost.JavaScript.Specs/{namespace}/for_{system}/{description}.js
