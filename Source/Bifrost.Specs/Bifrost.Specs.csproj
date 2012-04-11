@@ -410,8 +410,11 @@
     <Compile Include="Validation\MetaData\for_LessThanGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_null.cs" />
     <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_empty.cs" />
-    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\given\a_validation_meta_data_generator_with_common_rules.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_nested_properties.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\given\a_validation_meta_data_generator_with_common_rules.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidation.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating.cs" />
     <Compile Include="Views\for_View\given\a_query_repository.cs" />

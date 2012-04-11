@@ -1,4 +1,4 @@
-﻿describe("when creating with configuration", function () {
+﻿describe("when applying validation results", function () {
     var options = {
         error: function () {
             print("Error");
@@ -31,35 +31,18 @@
                     }
                 }
             }
-        })]);
+        })]
+    );
 
 
     var command = Bifrost.commands.Command.create(options);
     server.respond();
 
-    it("should create an instance", function () {
-        expect(command).toBeDefined();
-    });
+    var validationMessage = "message";
 
-    it("should include options", function () {
-        for (var property in options) {
-            expect(command.options[property]).toEqual(options[property]);
-        }
-    });
+    command.applyValidationMessageToMembers(["computed", "plainObject.observable"], validationMessage);
 
-    it("should include properties", function () {
-        for (var property in options.properties) {
-            expect(command.options.parameters[property]).toEqual(options.parameters[property]);
-        }
-    });
-
-    it("should include validatorsList", function () {
-        expect(command.validatorsList.length).toBe(2);
-        expect(command.validatorsList[0]).toBe(options.parameters.computed);
-        expect(command.validatorsList[1]).toBe(options.parameters.plainObject.observable);
-    });
-
-    it("should have valid parameters", function () {
-        expect(command.parametersAreValid()).toBe(true);
+    it("should set the validation message on each member", function () {
+        expect(options.parameters.computed.validator.message()).toBe(validationMessage);
     });
 });
