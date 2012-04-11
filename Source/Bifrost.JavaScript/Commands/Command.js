@@ -41,8 +41,10 @@ Bifrost.commands.Command = (function (window) {
                 self.viewModel = window;
             }
 
+            //TODO: create a list of validators to loop through
             Bifrost.validation.validationService.applyForCommand(self);
 
+            //TODO: loop through list of validations, not parameters object
             self.parametersAreValid = ko.computed(function () {
                 for (var property in this.parameters) {
                     if (this.parameters[property].validator &&
@@ -58,6 +60,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.validate = function () {
             if (self.validator.validate(true)) {
+                //TODO: loop through list of validations, not parameters object
                 for (var property in self.parameters) {
                     if (self.parameters[property].validator) {
                         self.parameters[property].validator.validate(self.parameters[property]());
@@ -69,6 +72,7 @@ Bifrost.commands.Command = (function (window) {
         this.applyValidationMessageToMembers = function (members, message) {
             for (var j = 0; j < members.length; j++) {
                 var member = members[j];
+                //TODO: split on . and find object in parameters object
                 member = member.charAt(0).toLowerCase() + member.substring(1);
                 if (typeof message === "string" && typeof member === "string") {
                     if (self.parameters.hasOwnProperty(member)) {

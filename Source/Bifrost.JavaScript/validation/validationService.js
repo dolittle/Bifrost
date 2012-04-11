@@ -22,13 +22,14 @@ Bifrost.validation.validationService = (function () {
                 }
             }
         },
+        /*
         extendAllProperties: function (target) {
             for (var property in target) {
                 if ("extend" in target[property] && typeof target[property].extend === "function") {
                     target[property].extend({ validation: {} });
                 }
             }
-        },
+        },*/
         applyForCommand: function (command) {
             //Bifrost.validation.validationService.extendAllProperties(command.parameters);
 
