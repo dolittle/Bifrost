@@ -200,7 +200,9 @@ Bifrost.validation.Validator = (function () {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
             var validator = value.validator;
-            ko.applyBindingsToNode(element, { hidden: validator.isValid, text: validator.message }, validator);
+            if (validator) {
+                ko.applyBindingsToNode(element, { hidden: validator.isValid, text: validator.message }, validator);
+            }
         }
     };
 }
@@ -227,6 +229,7 @@ Bifrost.validation.validationService = (function () {
                 var member = properties;
                 for (var i in path) {
                     var step = path[i];
+                    member = ko.utils.unwrapObservable(member);
                     if (step in member) {
                         member = member[step];
                     } else {
@@ -541,10 +544,11 @@ Bifrost.commands.Command = (function (window) {
                 for (var i in path) {
                     var step = path[i];
                     step = step.charAt(0).toLowerCase() + step.substring(1);
+                    member = ko.utils.unwrapObservable(member);
                     if (step in member) {
                         member = member[step];
                     } else {
-                        throw "Error applying validation results: " + step + " is not a member of " + member + " (" + rule + ")";
+                        throw "Error applying validation results: " + step + " is not a member of " + member + " (" + members[j] + ")";
                     }
                 }
 
@@ -612,6 +616,7 @@ Bifrost.commands.Command = (function (window) {
                 return false;
             }
             self.isBusy(true);
+            self.id = Bifrost.Guid.create();
 
             return true;
         };

@@ -8,6 +8,7 @@ Bifrost.validation.validationService = (function () {
                 var member = properties;
                 for (var i in path) {
                     var step = path[i];
+                    member = ko.utils.unwrapObservable(member);
                     if (step in member) {
                         member = member[step];
                     } else {
