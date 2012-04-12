@@ -78,7 +78,7 @@ namespace Bifrost.Configuration
         /// <returns>Configuration object to continue configuration on</returns>
         public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle)
         {
-            return With(container, defaultObjectLifecycle, new DefaultConventions(), new DefaultBindings());
+            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings());
         }
 
         /// <summary>
