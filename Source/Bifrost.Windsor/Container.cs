@@ -78,7 +78,7 @@ namespace Bifrost.Windsor
 		public IEnumerable<Type> GetBoundServices ()
 		{
 			var services = _windsorContainer.Kernel.GetAssignableHandlers(typeof(object))
-				.Select(h=>h.ComponentModel.Services);
+				.Select(h=>h.ComponentModel.Service);
 			
 			return services;
 			
@@ -116,27 +116,23 @@ namespace Bifrost.Windsor
 
 		public void Bind<T> (Type type, BindingLifecycle lifecycle)
 		{
-			_windsorContainer.Register (Component.For<T>().ImplementedBy(type).WithLifecycle(lifecycle));
+			Bind (typeof(T), type, lifecycle);
 		}
 
 		public void Bind (Type service, Type type, BindingLifecycle lifecycle)
 		{
-			throw new NotImplementedException ();
+			_windsorContainer.Register (Component.For(service).ImplementedBy(type).WithLifecycle(lifecycle));
 		}
 
 		public void Bind<T> (T instance)
 		{
-			throw new NotImplementedException ();
+			Bind (typeof(T), instance);
 		}
 
 		public void Bind (Type service, object instance)
 		{
-			throw new NotImplementedException ();
+			_windsorContainer.Register(Component.For(service).Instance(instance));
 		}
-		
-		
-		
-		
 	}
 }
 

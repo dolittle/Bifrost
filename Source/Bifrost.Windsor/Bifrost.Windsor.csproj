@@ -30,8 +30,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.1\lib\NET40ClientProfile\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Windsor">
-      <HintPath>..\Solutions\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+      <HintPath>..\Solutions\packages\Castle.Windsor.2.5.1\lib\NET40\Castle.Windsor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
