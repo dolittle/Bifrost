@@ -1,5 +1,4 @@
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.ruleHandlers = (function () {
-    return {
-    }
+    return Bifrost.validation.ruleHandlers || { };
 })();
