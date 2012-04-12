@@ -37,9 +37,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -110,7 +107,6 @@
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />
-    <Compile Include="Serialization\SerializerContractResolver.cs" />
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
     <Compile Include="Globalization\Localizer.cs" />
@@ -121,7 +117,6 @@
     <Compile Include="Sagas\SagaHolder.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Serialization\Serializer.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
@@ -302,6 +297,8 @@
     <Compile Include="Commands\ICommandTypeManager.cs" />
     <Compile Include="Commands\CommandTypeManager.cs" />
     <Compile Include="Commands\UnknownCommandException.cs" />
+    <Compile Include="Configuration\ISerializationConfiguration.cs" />
+    <Compile Include="Configuration\SerializationConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
