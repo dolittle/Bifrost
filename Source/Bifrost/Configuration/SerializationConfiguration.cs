@@ -29,7 +29,8 @@ namespace Bifrost.Configuration
 		
 		public void Initialize (IConfigure configure)
 		{
-			configure.Container.Bind<ISerializer>(SerializerType);
+			if( SerializerType != null )
+				configure.Container.Bind<ISerializer>(SerializerType);
 		}
 	}
 }
