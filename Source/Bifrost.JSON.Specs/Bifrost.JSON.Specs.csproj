@@ -71,4 +71,7 @@
       <Name>Bifrost.MSpec</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
