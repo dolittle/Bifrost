@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7048A168-BF11-48C1-886E-39DBF2EB8B04}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Bifrost.Windsor</RootNamespace>
-    <AssemblyName>Bifrost.Windsor</AssemblyName>
+    <ProjectGuid>{7D43EB8A-A872-493D-AD3F-14EA3BA24430}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Bifrost.TestApp</RootNamespace>
+    <AssemblyName>Bifrost.TestApp</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,7 +18,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -26,30 +26,14 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Castle.Core">
-      <HintPath>..\Solutions\packages\Castle.Core.2.5.1\lib\NET40ClientProfile\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\Solutions\packages\Castle.Windsor.2.5.1\lib\NET40\Castle.Windsor.dll</HintPath>
-    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
-      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
-      <Name>Bifrost</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Container.cs" />
-    <Compile Include="RegistrationExtensions.cs" />
-    <Compile Include="DefaultTypeLoader.cs" />
-  </ItemGroup>
 </Project>
