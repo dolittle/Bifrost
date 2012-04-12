@@ -14,6 +14,7 @@ namespace Bifrost.Windsor
 		public Container(IWindsorContainer windsorContainer)
 		{
 			_windsorContainer = windsorContainer;
+			_windsorContainer.Register (Component.For<DefaultTypeLoader>());
 		}
 		
 		
