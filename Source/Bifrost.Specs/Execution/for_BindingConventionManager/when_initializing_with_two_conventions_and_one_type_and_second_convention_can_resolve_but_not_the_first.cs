@@ -20,7 +20,7 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager
                                     first_convention_type = first_convention_mock.Object.GetType();
                                     manager.Add(first_convention_type);
                                     container_mock.Setup(c => c.Get(first_convention_type)).Returns(first_convention_mock.Object);
-                                    first_convention_mock.Setup(c => c.CanResolve(service_type)).Returns(false);
+                                    first_convention_mock.Setup(c => c.CanResolve(container_mock.Object, service_type)).Returns(false);
 
                                     second_convention = new FakeBindingConvention();
                                     second_convention_type = typeof(FakeBindingConvention);

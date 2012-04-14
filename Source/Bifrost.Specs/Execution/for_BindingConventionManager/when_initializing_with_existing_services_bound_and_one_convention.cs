@@ -22,6 +22,6 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager
                                 };
         Because of = () => manager.Initialize();
 
-        It should_not_ask_to_resolve = () => convention_mock.Verify(c => c.CanResolve(service_type), Times.Never());
+        It should_not_ask_to_resolve = () => convention_mock.Verify(c => c.CanResolve(container_mock.Object, service_type), Times.Never());
     }
 }

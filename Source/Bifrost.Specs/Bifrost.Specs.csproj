@@ -199,8 +199,13 @@
     <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_one_convention_and_one_type.cs" />
     <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_two_conventions_and_one_type_and_first_convention_can_resolve.cs" />
     <Compile Include="Execution\for_BindingConventionManager\when_initializing_with_two_conventions_and_one_type_and_second_convention_can_resolve_but_not_the_first.cs" />
+    <Compile Include="Execution\for_DefaultConvention\SomethingWithMultipleImplementationsSecond.cs" />
+    <Compile Include="Execution\for_DefaultConvention\SomethingWithMultipleImplementations.cs" />
     <Compile Include="Execution\for_DefaultConvention\ISomething.cs" />
+    <Compile Include="Execution\for_DefaultConvention\ISomethingWithMultipleImplementations.cs" />
     <Compile Include="Execution\for_DefaultConvention\Something.cs" />
+    <Compile Include="Execution\for_DefaultConvention\when_asking_to_resolve_an_interface_with_a_default_implementation_and_a_second_implementation.cs" />
+    <Compile Include="Execution\for_DefaultConvention\when_asking_to_resolve_an_interface_that_has_a_binding_for_the_implementation.cs" />
     <Compile Include="Execution\for_DefaultConvention\when_resolving_an_interface_with_an_implementation_following_convention_with_a_singleton_attribute.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\given\given_an_execution_context_manager.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\when_Getting_current_and_identity_has_been_set_on_current_thread.cs" />

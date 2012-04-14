@@ -26,6 +26,6 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager
                              manager.Initialize();
                          };
 
-        It should_not_try_to_resolve_twice = () => convention_mock.Verify(c => c.CanResolve(service_type), Times.Once());
+        It should_not_try_to_resolve_twice = () => convention_mock.Verify(c => c.CanResolve(container_mock.Object, service_type), Times.Once());
     }
 }
