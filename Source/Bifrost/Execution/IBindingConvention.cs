@@ -33,9 +33,10 @@ namespace Bifrost.Execution
 		/// <summary>
 		/// Checks wether or not a given <see cref="Type">Service</see> can be resolved by the convention
 		/// </summary>
+        /// <param name="container">Container to resolve binding for</param>
 		/// <param name="service">Service that needs to be resolved</param>
 		/// <returns>True if it can resolve it, false if not</returns>
-		bool CanResolve(Type service);
+		bool CanResolve(IContainer container, Type service);
 
 		/// <summary>
 		/// Resolve a <see cref="Type">Service</see>
