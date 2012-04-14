@@ -52,13 +52,11 @@ namespace Bifrost.Windsor
 
 		public bool HasBindingFor (Type type)
 		{
-			// Todo : figure out a way to figure out wether or not there is a registration or not
-			try {
-				_windsorContainer.Resolve(type);
-				return true;
-			} catch {
-				return false;
-			}
+            var handlers = _windsorContainer.Kernel.GetHandlers(type);
+
+            return _windsorContainer.Kernel.GetAssignableHandlers(typeof(object))
+                    .Where(h=>h.ComponentModel.Service == type)
+                    .Any();
 		}
 
 		public bool HasBindingFor<T> ()
