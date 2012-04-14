@@ -20,18 +20,24 @@
 //
 #endregion
 using Bifrost.Serialization;
+using System;
 
 namespace Bifrost.Configuration
 {
+    /// <summary>
+    /// Represents an implementation of <see cref="ISerializationConfiguration"/>
+    /// </summary>
 	public class SerializationConfiguration : ISerializationConfiguration
-	{
-		public System.Type SerializerType { get; set; }
-		
-		public void Initialize (IConfigure configure)
+    {
+#pragma warning disable 1591 // Xml Comments
+        public Type SerializerType { get; set; }
+
+        public void Initialize (IConfigure configure)
 		{
 			if( SerializerType != null )
 				configure.Container.Bind<ISerializer>(SerializerType);
 		}
-	}
+#pragma warning restore 1591 // Xml Comments
+    }
 }
 
