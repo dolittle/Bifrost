@@ -83,7 +83,7 @@ namespace Bifrost.Samples.Blog.Mvc
                 );
         }
 
-        public override void OnConfigure(Configure configure)
+        public override void OnConfigure(IConfigure configure)
         {
             configure.ExposeEventService();
             configure.UsingConfigConfigurationSource();

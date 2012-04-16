@@ -15,7 +15,7 @@ namespace ExplicitConsole
         
         public IContainer Container { get { return Program.Container; } }
 
-        public void OnConfigure(Configure configure)
+        public void OnConfigure(IConfigure configure)
         {
         }
 
@@ -55,7 +55,7 @@ namespace ExplicitConsole
 			var queries = Container.Get<IPersonView>();
 			var persons = queries.GetAll();
 			foreach (var person in persons)
-			{
+			{   
 				Console.WriteLine("Person ({0}) - {1} {2}", person.Id, person.FirstName, person.LastName);
 			}
 		}
