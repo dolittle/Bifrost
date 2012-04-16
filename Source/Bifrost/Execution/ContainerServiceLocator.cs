@@ -59,8 +59,7 @@ namespace Bifrost.Execution
 
         public IEnumerable<object> GetAllInstances(Type serviceType)
         {
-
-            throw new NotImplementedException();
+            return _container.GetAll(serviceType);
         }
 
         public T GetInstance<T>()
@@ -75,7 +74,7 @@ namespace Bifrost.Execution
 
         public IEnumerable<TService> GetAllInstances<TService>()
         {
-            throw new NotImplementedException();
+            return _container.GetAll<TService>();
 		}
 #pragma warning restore 1591 // Xml Comments
 
