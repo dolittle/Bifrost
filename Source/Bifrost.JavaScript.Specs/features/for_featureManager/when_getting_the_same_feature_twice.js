@@ -1,6 +1,6 @@
-﻿Bifrost.features.uriMapper = (function () {
+﻿Bifrost.features.featureMapper = (function () {
     return {
-        getUriMappingFor: function (uri) {
+        getFeatureMappingFor: function (uri) {
             return {
                 resolve: function (uri) {
                     return "";

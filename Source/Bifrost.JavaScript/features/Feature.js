@@ -34,7 +34,7 @@ Bifrost.features.Feature = (function () {
         }
 
         this.defineViewModel = function (viewModel, options) {
-            self.viewModel = Bifrost.features.ViewModel.create(viewModel, options);
+            self.viewModel = Bifrost.features.ViewModelDefinition.define(viewModel, options);
         }
 
         this.renderTo = function (target) {
@@ -48,7 +48,7 @@ Bifrost.features.Feature = (function () {
         this.actualRenderTo = function (target) {
             $(target).append(self.view);
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
-            var viewModel = self.viewModel.getInstance();
+            var viewModel = self.viewModelDefinition.getInstance();
             ko.applyBindings(viewModel, target);
         }
     }

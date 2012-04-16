@@ -31,9 +31,14 @@ namespace Bifrost.Configuration
     public interface IEventsConfiguration
     {
 		/// <summary>
-		/// Gets or sets the type of repository for events
+		/// Gets or sets the type of <see cref="IEventRepository"/> to use for persisting for events
 		/// </summary>
         Type RepositoryType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of <see cref="IEventStore"/> to use for handling events
+        /// </summary>
+        Type EventStoreType { get; set; }
 
         /// <summary>
         /// Add a <see cref="IEventStoreChangeNotifier"/> type for the configuration

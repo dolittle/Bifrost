@@ -10,9 +10,9 @@ Bifrost.features.featureManager = (function () {
                 return allFeatures[name];
             }
 
-            var uriMapping = Bifrost.features.uriMapper.getUriMappingFor(name);
-            var path = uriMapping.resolve(name);
-            var feature = Bifrost.features.Feature.create(name, path, uriMapping.isDefault);
+            var FeatureMapping = Bifrost.features.featureMapper.getFeatureMappingFor(name);
+            var path = FeatureMapping.resolve(name);
+            var feature = Bifrost.features.Feature.create(name, path, FeatureMapping.isDefault);
             allFeatures[name] = feature;
             return feature;
         },

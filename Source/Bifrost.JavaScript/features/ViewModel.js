@@ -1,39 +1,60 @@
 Bifrost.namespace("Bifrost.features");
-Bifrost.features.ViewModel = (function () {
-    function ViewModel(definition, options) {
-        var self = this;
-        this.definition = definition;
-        this.options = {
-            isSingleton: false
-        }
-        Bifrost.extend(this.options, options);
+Bifrost.features.ViewModel = (function(window, undefined) {
+	Bifrost.features.ViewModel = Bifrost.features.ViewModel || {
+		baseFor: function() {}
+	};
+	
+	function ViewModel() {
+		var self = this;
+		
+		this.uriChangedSubscribers = [];
+		
+		this.messenger = Bifrost.messaging.messenger;
+		this.uri = Bifrost.Uri.create(window.location.href);
+		this.queryParameters = {
+			define: function(parameters) {
+				Bifrost.extend(this,parameters);
+			}
+		}
+		
+		this.uriChanged = function(callback) {
+			this.uriChangedSubscribers.push(callback);
+		}
+		
+		this.onUriChanged = function() {
+			$.each(self.uriChangedSubscribers, function(index, callback) {
+				callback();
+			});
+		}
 
-        if (options && options.state) {
-            this.state = Bifrost.features.FeatureState.create(options.state);
-        } else {
-            this.state = {};
-        }
-
-        this.getInstance = function () {
-            if (self.options.isSingleton) {
-                if (!self.instance) {
-                    self.instance = new self.definition();
-                    self.instance.state = self.state;
-                }
-
-                return self.instance;
-            }
-
-            var instance = new self.definition();
-            instance.state = self.state;
-            return instance;
-        };
-    }
-
-    return {
-        create: function (definition, options) {
-            var viewModel = new ViewModel(definition, options);
-            return viewModel;
-        }
-    }
-})();
+		if(typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+			History.Adapter.bind(window,"statechange", function() {
+				var state = History.getState();
+				
+				self.onUriChanged();
+				
+				self.uri.setLocation(state.url);
+				
+				for( var parameter in self.uri.parameters ) {
+					if( self.queryParameters.hasOwnProperty(parameter) && 
+						typeof self.uri.parameters[parameter] != "function") {
+						
+						if( typeof self.queryParameters[parameter] == "function" ) {
+							self.queryParameters[parameter](self.uri.parameters[parameter]);
+						} else {
+							self.queryParameters[parameter] = self.uri.parameters[parameter];
+						}
+					}
+				}
+			});
+		}
+	}
+	
+	return {
+		baseFor : function(f) {
+			if( typeof f === "function" ) {
+				f.prototype = new ViewModel();
+			}
+		}
+	};
+})(window);

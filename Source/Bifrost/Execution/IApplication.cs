@@ -37,7 +37,8 @@ namespace Bifrost.Execution
         /// <summary>
         /// Gets the called to configure the applications
         /// </summary>
-        void OnConfigure(Configure configure);
+        /// <param name="configure"><see cref="IConfigure"/> configuration instance</param>
+        void OnConfigure(IConfigure configure);
 
         /// <summary>
         /// Gets called when Application is started

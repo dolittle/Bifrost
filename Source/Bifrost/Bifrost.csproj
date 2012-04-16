@@ -37,9 +37,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -47,9 +44,6 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Castle.Core">
-      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\Solutions\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -94,6 +88,7 @@
     <Compile Include="Events\IEventSubscriptionRepository.cs" />
     <Compile Include="Events\InvalidFastForwardException.cs" />
     <Compile Include="Events\IProcessMethodInvoker.cs" />
+    <Compile Include="Events\NullEventStore.cs" />
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
     <Compile Include="Execution\ExecutionContext.cs" />
@@ -109,11 +104,11 @@
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
     <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
     <Compile Include="Sagas\ISagaConverter.cs" />
+    <Compile Include="Sagas\NullSagaLibrarian.cs" />
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />
-    <Compile Include="Serialization\SerializerContractResolver.cs" />
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
     <Compile Include="Globalization\Localizer.cs" />
@@ -124,7 +119,6 @@
     <Compile Include="Sagas\SagaHolder.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Serialization\Serializer.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
@@ -239,12 +233,6 @@
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
-    <Compile Include="Resources\IHaveResources.cs" />
-    <Compile Include="Resources\IResourcePropertiesResolver.cs" />
-    <Compile Include="Resources\IResourceResolver.cs" />
-    <Compile Include="Resources\ResourceConvention.cs" />
-    <Compile Include="Resources\ResourceInterceptor.cs" />
-    <Compile Include="Resources\ResourcePropertiesResolver.cs" />
     <Compile Include="Commands\CommandContext.cs" />
     <Compile Include="Commands\CommandContextManager.cs" />
     <Compile Include="Commands\CommandHandlerManager.cs" />
@@ -311,6 +299,8 @@
     <Compile Include="Commands\ICommandTypeManager.cs" />
     <Compile Include="Commands\CommandTypeManager.cs" />
     <Compile Include="Commands\UnknownCommandException.cs" />
+    <Compile Include="Configuration\ISerializationConfiguration.cs" />
+    <Compile Include="Configuration\SerializationConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

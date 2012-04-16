@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{314E5D80-C9B6-41CD-96AD-E9166D953763}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bifrost.Content.Specs</RootNamespace>
+    <AssemblyName>Bifrost.Content.Specs</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET40ClientProfile\Castle.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\FakeInvocation.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\given\a_resource_interceptor.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\ClassWithString.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting_property_with_string_and_resolver_does_not_have_value.cs" />
+    <Compile Include="Resources\for_ResourceInterceptor\when_intercepting_property_with_string_and_resolver_has_a_value.cs" />
+    <Compile Include="Resources\for_ResourceConvention\given\a_resource_convention.cs" />
+    <Compile Include="Resources\for_ResourceConvention\Stubs.cs" />
+    <Compile Include="Resources\for_ResourceConvention\Subjects.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_accessing_properties_on_a_resolved_strings_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_asking_if_it_can_resolve_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_asking_if_it_can_resolve_a_type_not_implementing_resource.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_getting_an_instance_of_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourceConvention\when_resolving_a_resource_implementation.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\given\a_resource_properties_resolver.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\Stubs.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\Subjects.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\when_resolving_properties_implemented_as_resource.cs" />
+    <Compile Include="Resources\for_ResourcePropertiesResolver\when_resolving_properties_not_implemented_as_resource.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Content\Bifrost.Content.csproj">
+      <Project>{ACFBFE97-27FE-4D3C-B5F6-B5CBC24F9EF3}</Project>
+      <Name>Bifrost.Content</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

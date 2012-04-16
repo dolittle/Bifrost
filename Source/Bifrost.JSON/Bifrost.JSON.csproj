@@ -48,6 +48,8 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Serialization\SerializerContractResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
@@ -57,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Serialization\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

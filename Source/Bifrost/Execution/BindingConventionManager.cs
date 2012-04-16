@@ -55,7 +55,7 @@ namespace Bifrost.Execution
                 var convention = _container.Get(conventionType) as IBindingConvention;
                 if( convention != null )
                 {
-                    var servicesToResolve = services.Where(s=>convention.CanResolve(s) && !_container.HasBindingFor(s));
+                    var servicesToResolve = services.Where(s => convention.CanResolve(_container, s) && !_container.HasBindingFor(s));
 
                     foreach (var service in servicesToResolve)
                     {

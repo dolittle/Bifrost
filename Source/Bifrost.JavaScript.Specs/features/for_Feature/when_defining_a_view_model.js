@@ -2,12 +2,12 @@ function require() {
 }
 
 describe("when defining a view model", function () {
-    var viewModelCreated = false;
+    var viewModelDefined = false;
     var viewModelType;
     var optionsReceived;
-    Bifrost.features.ViewModel = {
-        create: function (viewModel, options) {
-            viewModelCreated = true;
+    Bifrost.features.ViewModelDefinition = {
+        define: function (viewModel, options) {
+            viewModelDefined = true;
             viewModelType = viewModel;
             optionsReceived = options;
         }
@@ -22,7 +22,7 @@ describe("when defining a view model", function () {
     feature.defineViewModel(ViewModel, options);
 
     it("should create a view model", function () {
-        expect(viewModelCreated).toBe(true);
+        expect(viewModelDefined).toBe(true);
     });
 
     it("should forward ViewModel as type", function () {

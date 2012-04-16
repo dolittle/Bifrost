@@ -37,7 +37,7 @@ namespace Bifrost.Web
     public abstract class BifrostHttpApplication : HttpApplication, IApplication
     {
         public IContainer Container { get; private set; }
-        public virtual void OnConfigure(Configure configure) { }
+        public virtual void OnConfigure(IConfigure configure) { }
         public virtual void OnStarted() { }
         public virtual void OnStopped() { }
         public virtual void OnConfigureValidation() { }

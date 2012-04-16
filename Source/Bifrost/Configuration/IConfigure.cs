@@ -74,7 +74,12 @@ namespace Bifrost.Configuration
 		/// Gets the configuration for sagas
 		/// </summary>
 		ISagasConfiguration Sagas { get; }
-
+		
+		/// <summary>
+		/// Gets the configureation for serialization
+		/// </summary>
+		ISerializationConfiguration Serialization { get; }
+		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
 		/// </summary>

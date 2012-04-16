@@ -21,7 +21,6 @@
 #endregion
 
 using Bifrost.Execution;
-using Bifrost.Resources;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Configuration.Defaults
@@ -31,12 +30,22 @@ namespace Bifrost.Configuration.Defaults
 	/// </summary>
     public class DefaultConventions : IDefaultConventions
 	{
+		IContainer _container;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Bifrost.Configuration.Defaults.DefaultConventions"/> class.
+		/// </summary>
+		public DefaultConventions(IContainer container)
+		{
+			_container = container;
+			_container.Bind<IBindingConventionManager>(typeof(BindingConventionManager));
+		}
+		
 #pragma warning disable 1591 // Xml Comments
 		public void Initialize()
         {
-            var conventionManager = ServiceLocator.Current.GetInstance<BindingConventionManager>();
+            var conventionManager = _container.Get<IBindingConventionManager>();
             conventionManager.Add<DefaultConvention>();
-            conventionManager.Add<ResourceConvention>();
             conventionManager.DiscoverAndInitialize();
 		}
 #pragma warning restore 1591 // Xml Comments

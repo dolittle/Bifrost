@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ACFBFE97-27FE-4D3C-B5F6-B5CBC24F9EF3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bifrost.Content</RootNamespace>
+    <AssemblyName>Bifrost.Content</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\IHaveResources.cs" />
+    <Compile Include="Resources\IResourcePropertiesResolver.cs" />
+    <Compile Include="Resources\IResourceResolver.cs" />
+    <Compile Include="Resources\ResourceConvention.cs" />
+    <Compile Include="Resources\ResourceInterceptor.cs" />
+    <Compile Include="Resources\ResourcePropertiesResolver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\NET40ClientProfile\Castle.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

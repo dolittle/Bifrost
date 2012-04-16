@@ -1,9 +1,13 @@
 /*
+@depends utils/Exception.js
+@depends utils/exceptions.js
 @depends utils/namespace.js
 @depends utils/extend.js
 @depends utils/guid.js
 @depends utils/isNumber.js
 @depends utils/hashString.js
+@depends utils/TypeInfo.js
+@depends utils/Uri.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -26,9 +30,11 @@
 @depends commands/commandCoordinator.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
-@depends features/UriMapping.js
-@depends features/uriMapper.js
+@depends features/exceptions.js
+@depends features/FeatureMapping.js
+@depends features/featureMapper.js
 @depends features/ViewModel.js
+@depends features/ViewModelDefinition.js
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/loader.js

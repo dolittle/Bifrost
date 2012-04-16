@@ -7,7 +7,7 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager
     {
         public bool CanResolveCalled = false;
         public bool CanResolveProperty = false;
-        public bool CanResolve(Type service)
+        public bool CanResolve(IContainer container, Type service)
         {
             CanResolveCalled = true;
             return CanResolveProperty;
