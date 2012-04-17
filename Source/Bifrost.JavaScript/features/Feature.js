@@ -34,7 +34,7 @@ Bifrost.features.Feature = (function () {
         }
 
         this.defineViewModel = function (viewModel, options) {
-            self.viewModel = Bifrost.features.ViewModelDefinition.define(viewModel, options);
+            self.viewModelDefinition = Bifrost.features.ViewModelDefinition.define(viewModel, options);
         }
 
         this.renderTo = function (target) {

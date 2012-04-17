@@ -1,4 +1,4 @@
-describe("when getting for an object", function() {
+describe("when getting for an object instance", function() {
 	function SomeType() {
 		
 	}

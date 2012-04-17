@@ -3,7 +3,7 @@ describe("when route parameters change and viewmodel has properties representing
 	var expectedString = "Horse";
 	var expectedValue = "42";
 	var location = "http://www.vg.no:8081/some/route#some/anchor?someString="+expectedString+"&someValue="+expectedValue+"&observedString="+expectedString+"&observedValue="+expectedValue;
-	var callbackCount = 0;
+	var uriOnCallback = null;
 	
  	function MyViewModel() {
 		this.queryParameters.define({
@@ -13,8 +13,8 @@ describe("when route parameters change and viewmodel has properties representing
 			observedValue: ko.observable()
 		});
 		
-		this.uriChanged(function() {
-			callbackCount++;
+		this.uriChanged(function(uri) {
+			uriOnCallback = uri;
 		});
 	}
 	
@@ -27,6 +27,7 @@ describe("when route parameters change and viewmodel has properties representing
 					this.parameters.someValue = expectedValue;
 					this.parameters.observedString = expectedString;
 					this.parameters.observedValue = expectedValue;
+					this.fullPath = location;
 				}
 			}
 		});
@@ -64,7 +65,7 @@ describe("when route parameters change and viewmodel has properties representing
 		expect(instance.queryParameters.observedValue()).toBe(expectedValue);
 	});
 	
-	it("should call any uri changed subscribers", function() {
-		expect(callbackCount).toBe(1);
+	it("should call any uri changed subscribers with the uri as parameter", function() {
+		expect(uriOnCallback.fullPath).toBe(location);
 	});
 }));

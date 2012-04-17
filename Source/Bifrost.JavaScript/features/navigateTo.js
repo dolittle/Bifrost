@@ -4,7 +4,7 @@ if (typeof ko !== 'undefined') {
             ko.applyBindingsToNode(element, { 
 				click: function() {
 					var featureName = valueAccessor()();
-					History.pushState({feature:featureName},$(element).attr("title"),"?feature="+featureName);
+					History.pushState({feature:featureName},$(element).attr("title"),"/"+featureName);
 				} 
 			}, viewModel);
         }
