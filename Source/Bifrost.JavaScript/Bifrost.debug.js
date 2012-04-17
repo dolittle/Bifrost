@@ -1047,20 +1047,34 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		baseFor: function() {}
 	};
 	
-	
 	function ViewModel() {
 		var self = this;
+		
+		this.uriChangedSubscribers = [];
+		
 		this.messenger = Bifrost.messaging.messenger;
 		this.uri = Bifrost.Uri.create(window.location.href);
 		this.queryParameters = {
 			define: function(parameters) {
 				Bifrost.extend(this,parameters);
 			}
-		};
+		}
+		
+		this.uriChanged = function(callback) {
+			this.uriChangedSubscribers.push(callback);
+		}
+		
+		this.onUriChanged = function() {
+			$.each(self.uriChangedSubscribers, function(index, callback) {
+				callback();
+			});
+		}
 
 		if(typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
 			History.Adapter.bind(window,"statechange", function() {
 				var state = History.getState();
+				
+				self.onUriChanged();
 				
 				self.uri.setLocation(state.url);
 				

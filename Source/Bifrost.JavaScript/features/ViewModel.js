@@ -21,17 +21,15 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 			this.uriChangedSubscribers.push(callback);
 		}
 		
-		this.onUriChanged = function() {
+		this.onUriChanged = function(uri) {
 			$.each(self.uriChangedSubscribers, function(index, callback) {
-				callback();
+				callback(uri);
 			});
 		}
 
 		if(typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
 			History.Adapter.bind(window,"statechange", function() {
 				var state = History.getState();
-				
-				self.onUriChanged();
 				
 				self.uri.setLocation(state.url);
 				
@@ -46,6 +44,8 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 						}
 					}
 				}
+				
+				self.onUriChanged(self.uri);
 			});
 		}
 	}
