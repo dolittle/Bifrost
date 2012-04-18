@@ -46,15 +46,15 @@ Bifrost.commands.Command = (function (window) {
             Bifrost.validation.validationService.applyForCommand(self);
 
             //TODO: loop through list of validations, not parameters object //DONE
-            self.parametersAreValid = ko.computed(function () {
-                for (var property in this.validatorsList) {
-                    if (this.validatorsList[property].validator &&
-						this.validatorsList[property].validator.isValid() == false) {
+            self.parametersAreValid = function () {
+                for (var property in self.validatorsList) {
+                    if (self.validatorsList[property].validator &&
+						self.validatorsList[property].validator.isValid() == false) {
                         return false;
                     }
                 }
                 return true;
-            }, self);
+            };
         };
 
         this.validator = Bifrost.validation.Validator.create({ required: true });
@@ -64,8 +64,10 @@ Bifrost.commands.Command = (function (window) {
             if (self.validator.isValid()) {
                 //TODO: loop through list of validations, not parameters object //DONE
                 for (var property in self.validatorsList) {
-                    if (self.validatorsList[property].validator) {
-                        self.validatorsList[property].validator.validate(self.validatorsList[property]());
+                    var validator = self.validatorsList[property].validator;
+                    if (validator) {    
+                        var value = self.validatorsList[property]();
+                        validator.validate(value);
                     }
                 }
             }

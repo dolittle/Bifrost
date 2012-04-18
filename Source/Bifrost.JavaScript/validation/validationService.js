@@ -1,7 +1,23 @@
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     return {
-        recursivlyExtendProperties: function (properties, rules) {
+        recursivlyExtendProperties: function (properties) {
+
+            for (var key in properties) {
+                var property = properties[key];
+                if (ko.isObservable(property)) {
+                    property.extend({ validation: {} });
+                }
+                property = ko.utils.unwrapObservable(property);
+                if (typeof property === "object") {
+                    Bifrost.validation.validationService.recursivlyExtendProperties(property);
+                }
+            }
+
+
+        },
+
+        recursivlyApplyRules: function (properties, rules) {
             var validatorsList = [];
             for (var rule in rules) {
                 var path = rule.split(".");
@@ -17,7 +33,7 @@ Bifrost.validation.validationService = (function () {
                 }
 
                 if ("extend" in member && typeof member.extend === "function") {
-                    member.extend({ validation: {} });
+                    //member.extend({ validation: {} });
                     member.validator.setOptions(rules[rule]);
                     validatorsList.push(member);
                 } else {
@@ -36,6 +52,7 @@ Bifrost.validation.validationService = (function () {
         },*/
         applyForCommand: function (command) {
             //Bifrost.validation.validationService.extendAllProperties(command.parameters);
+            Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters);
 
             var methodParameters = {
                 name: "\"" + command.name + "\""
@@ -51,7 +68,7 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    command.validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, result.properties);
+                    command.validatorsList = Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
                     /*for (var property in result.properties) {
                     if (!command.parameters.hasOwnProperty(property)) {
                     command.parameters[property] = ko.observable().extend({ validation: {} });
