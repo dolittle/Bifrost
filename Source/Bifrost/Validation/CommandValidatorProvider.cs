@@ -67,31 +67,31 @@ namespace Bifrost.Validation
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ICommandInputValidator GetInputValidatorFor(ICommand command)
+        public ICanValidate GetInputValidatorFor(ICommand command)
         {
             return GetInputValidatorFor(command.GetType());
         }
 
-        public ICommandBusinessValidator GetBusinessValidatorFor(ICommand command)
+        public ICanValidate GetBusinessValidatorFor(ICommand command)
         {
             return GetBusinessValidatorFor(command.GetType());
         }
 
-        public ICommandInputValidator GetInputValidatorFor(Type type)
+        public ICanValidate GetInputValidatorFor(Type type)
         {
             Type registeredType;
             _inputValidators.TryGetValue(type, out registeredType);
 
-            var inputValidator = registeredType != null ? _container.Get(registeredType) as ICommandInputValidator : NullInputValidator;
+            var inputValidator = (registeredType != null ? _container.Get(registeredType) : NullInputValidator) as ICanValidate;
             return inputValidator;
         }
 
-        public ICommandBusinessValidator GetBusinessValidatorFor(Type type)
+        public ICanValidate GetBusinessValidatorFor(Type type)
         {
             Type registeredType;
             _businessValidators.TryGetValue(type, out registeredType);
 
-            var businessValidator = registeredType != null ? _container.Get(registeredType) as ICommandBusinessValidator : NullBusinessValidator;
+            var businessValidator = (registeredType != null ? _container.Get(registeredType) : NullBusinessValidator) as ICanValidate;
             return businessValidator;
         }
 #pragma warning restore 1591 // Xml Comments

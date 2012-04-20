@@ -8,7 +8,7 @@ namespace Bifrost.Fakes.Commands
 {
     public class SimpleCommandBusinessValidator : CommandBusinessValidator<SimpleCommand>
     {
-        public override IEnumerable<ValidationResult> Validate(SimpleCommand instance)
+        public override IEnumerable<ValidationResult> ValidateFor(SimpleCommand instance)
         {
             throw new NotImplementedException();
         }

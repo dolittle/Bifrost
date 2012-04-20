@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidator
             transitional_chapter.AnInteger = 42;
         };
 
-        Because of = () => results = transitional_chapter_validator.ValidateChapter(transitional_chapter);
+        Because of = () => results = transitional_chapter_validator.ValidateFor(transitional_chapter);
 
         It should_have_no_invalid_properties = () => results.ShouldBeEmpty();
     }

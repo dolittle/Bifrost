@@ -26,19 +26,9 @@ using Bifrost.Commands;
 namespace Bifrost.Validation
 {
     /// <summary>
-    /// Defines a basic input level validator for a Command
+    /// Defines a marker interface for input level validator for a <see cref="ICommand"/>
     /// </summary>
     public interface ICommandInputValidator
     {
-        /// <summary>
-        /// Validates that a command has all the properties that are required for the command to succeed.
-        /// </summary>
-        /// <param name="command">The command to validate</param>
-        /// <remarks>
-        /// Only validates the type / presence / etc. of the properties.  It does not validate that they are correct from a business perspective.
-        /// e.g. validates that we have a valid user id but not that this user id actually exists.
-        /// </remarks>
-        /// <returns>A collection of ValidationResults.  An empty collection indicates a valid command.</returns>
-        IEnumerable<ValidationResult> ValidateInput(ICommand command);
     }
 }

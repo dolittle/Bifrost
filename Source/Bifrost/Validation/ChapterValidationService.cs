@@ -47,7 +47,8 @@ namespace Bifrost.Validation
         public IEnumerable<ValidationResult> Validate(IChapter chapter)
         {
             var validator = _chapterValidatorProvider.GetValidatorFor(chapter);
-            return validator.ValidateChapter(chapter);
+            
+            return validator.ValidateFor(chapter);
         }
 #pragma warning restore 1591 // Xml Comments
     }

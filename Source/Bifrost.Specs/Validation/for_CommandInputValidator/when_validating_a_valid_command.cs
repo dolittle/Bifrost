@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Validation.for_CommandInputValidator
                                     simple_command.SomeInt = 42;
                                 };
 
-        Because of = () => results = simple_command_input_validator.ValidateInput(simple_command);
+        Because of = () => results = simple_command_input_validator.ValidateFor(simple_command);
 
         It should_have_no_invalid_properties = () => results.ShouldBeEmpty();
     }
