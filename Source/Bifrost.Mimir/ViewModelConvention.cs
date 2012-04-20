@@ -13,7 +13,7 @@ namespace Bifrost.Mimir
             _weaver = new NotifyingObjectWeaver();
         }
 
-        public override bool CanResolve(Type service)
+        public override bool CanResolve(IContainer container, Type service)
         {
             return service.Name.Equals("ViewModel");
         }
