@@ -139,7 +139,6 @@ namespace Bifrost.Validation
                 return;
 
             validatorRegistry.Add(commandType, typeToRegister);
-            _container.Bind(typeToRegister, typeToRegister, _configuration.DefaultObjectLifecycle);
         }
 
         Type GetCommandType(Type typeToRegister)
