@@ -66,6 +66,8 @@ namespace Bifrost.Commands
 #pragma warning disable 1591 // Xml Comments
 		public CommandResult Handle(ISaga saga, ICommand command)
 		{
+            saga.PrePopulate(command);
+
             return Handle(_commandContextManager.EstablishForSaga(saga,command), command);
 		}
 
@@ -79,6 +81,8 @@ namespace Bifrost.Commands
             using (_localizer.BeginScope())
             {
                 var commandResult = CommandResult.ForCommand(command);
+
+
                 commandResult.ValidationResults = _commandValidationService.Validate(command);
 
                 if (commandResult.Success)

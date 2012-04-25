@@ -32,3 +32,5 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *.ncrunchsolution
+*.ncrunchproject
+*.crunchsolution.*
