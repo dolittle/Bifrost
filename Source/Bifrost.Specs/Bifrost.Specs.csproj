@@ -89,6 +89,7 @@
     <Compile Include="Commands\for_CommandCoordinator\given\a_command_coordinator.cs" />
     <Compile Include="Commands\for_CommandCoordinator\Subjects.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_an_invalid_command.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_a_command_with_success_in_a_saga.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_handling.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_with_success.cs" />
     <Compile Include="Commands\for_CommandHandlerForTypeInvoker\given\a_command_handler_for_type_invoker.cs" />
