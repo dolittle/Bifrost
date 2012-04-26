@@ -129,7 +129,7 @@ namespace Bifrost.Sagas
             }
         }
 
-        public void PrePopulate(ICommand command) {}
+        public virtual void PrePopulate(ICommand command) {}
 
         public CommittedEventStream Load(Type aggregatedRootType, Guid aggregateId)
         {
