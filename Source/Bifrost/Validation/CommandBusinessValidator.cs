@@ -51,6 +51,17 @@ namespace Bifrost.Validation
             return ValidateFor((T)target);
         }
 #pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Start building rules for the model
+        /// </summary>
+        /// <returns><see cref="IRuleBuilderInitial(T, T)"/> that can be used to fluently set up rules</returns>
+        public IRuleBuilderInitial<T, T> ModelRule()
+        {
+            var modelRule = RuleFor((t) => t);
+            var modelRuleOptions = (IRuleBuilderOptions<T, T>)modelRule;
+            modelRuleOptions.WithName(typeof(T).FullName);
+            return modelRuleOptions as IRuleBuilderInitial<T, T>;
+        }
 
 
         /// <summary>
