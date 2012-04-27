@@ -184,12 +184,5 @@ namespace Bifrost.Sagas
         /// </summary>
         /// <param name="eventStore"><see cref="IEventStore"/> to save the events to</param>
         void SaveUncommittedEventsToEventStore(IEventStore eventStore);
-
-
-        /// <summary>
-        /// Pre-populate the command based on the Saga state before any validation or handling
-        /// </summary>
-        /// <param name="command">The command to pre-populate with state</param>
-        void PrePopulate(ICommand command);
     }
 }
