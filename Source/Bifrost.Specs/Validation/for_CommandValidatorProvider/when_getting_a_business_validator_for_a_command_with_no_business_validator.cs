@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 {
     public class when_getting_a_business_validator_for_a_command_with_no_business_validator : a_command_validator_provider_with_input_and_business_validators
     {
-        static ICommandBusinessValidator business_validator;
+        static ICanValidate business_validator;
         static Mock<ICommand> command_mock;
 
         Establish context = () =>

@@ -34,27 +34,27 @@ namespace Bifrost.Validation
         /// </summary>
         /// <param name="command">Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICommandInputValidator GetInputValidatorFor(ICommand command);
+        ICanValidate GetInputValidatorFor(ICommand command);
 
         /// <summary>
         /// Retrieves an business-rule validator specific to the command
         /// </summary>
         /// <param name="command">Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICommandBusinessValidator GetBusinessValidatorFor(ICommand command);
+        ICanValidate GetBusinessValidatorFor(ICommand command);
 
         /// <summary>
         /// Retrieves an input validator specific to the command type
         /// </summary>
         /// <param name="type">Type of the Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICommandInputValidator GetInputValidatorFor(Type type);
+        ICanValidate GetInputValidatorFor(Type type);
 
         /// <summary>
         /// Retrieves an business-rule validator specific to the command type
         /// </summary>
         /// <param name="type">Type of the Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICommandBusinessValidator GetBusinessValidatorFor(Type type);
+        ICanValidate GetBusinessValidatorFor(Type type);
     }
 }

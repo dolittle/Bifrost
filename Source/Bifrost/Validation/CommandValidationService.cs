@@ -49,12 +49,12 @@ namespace Bifrost.Validation
         public IEnumerable<ValidationResult> Validate(ICommand command)
         {
             var inputValidator = _commandValidatorProvider.GetInputValidatorFor(command);
-            var inputValidationErrors = inputValidator.ValidateInput(command);
+            var inputValidationErrors = inputValidator.ValidateFor(command);
             if (inputValidationErrors.Count() > 0)
                 return inputValidationErrors;
 
             var businessValidator = _commandValidatorProvider.GetBusinessValidatorFor(command);
-            var businessValidationErrors = businessValidator.Validate(command);
+            var businessValidationErrors = businessValidator.ValidateFor(command);
             return businessValidationErrors.Count() > 0 ? businessValidationErrors : new List<ValidationResult>();
         }
 #pragma warning restore 1591 // Xml Comments

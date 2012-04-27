@@ -19,12 +19,37 @@
 // limitations under the License.
 //
 #endregion
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using Bifrost.Commands;
+
 namespace Bifrost.Validation
 {
+    /// <summary>
+    /// Defines the behavior of being able to do validation
+    /// </summary>
+    public interface ICanValidate
+    {
+        /// <summary>
+        /// Validates that the object is in a valid state.
+        /// </summary>
+        /// <param name="target">The target to validate</param>
+        /// <returns>A collection of ValidationResults.  An empty collection indicates a valid command.</returns>
+        IEnumerable<ValidationResult> ValidateFor(object target);
+    }
+
+
 	/// <summary>
 	/// Defines the behavior of being able to do validation
 	/// </summary>
 	/// <typeparam name="T">Type it can validate</typeparam>
-    public interface ICanValidate<T>
-    {}
+    public interface ICanValidate<in T> : ICanValidate
+    {
+        /// <summary>
+        /// Validates that the object is in a valid state.
+        /// </summary>
+        /// <param name="target">The target to validate</param>
+        /// <returns>A collection of ValidationResults.  An empty collection indicates a valid command.</returns>
+        IEnumerable<ValidationResult> ValidateFor(T target);
+    }
 }

@@ -34,7 +34,7 @@ namespace Bifrost.Validation
     /// </summary>
     public class ChapterValidatorProvider : IChapterValidatorProvider
     {
-        static IChapterValidator NullChapterValidator = new NullChapterValidator();
+        static ICanValidate NullChapterValidator = new NullChapterValidator();
         static Type _chapterValidatorType = typeof (IChapterValidator);
         static Type _validatesType = typeof (ICanValidate<>);
 
@@ -59,7 +59,7 @@ namespace Bifrost.Validation
 
 
 #pragma warning disable 1591 // Xml Comments
-        public IChapterValidator GetValidatorFor(IChapter chapter)
+        public ICanValidate GetValidatorFor(IChapter chapter)
         {
             if (chapter == null)
                 return NullChapterValidator;
@@ -68,7 +68,7 @@ namespace Bifrost.Validation
             return GetValidatorFor(type);
         }
 
-        public IChapterValidator GetValidatorFor(Type type)
+        public ICanValidate GetValidatorFor(Type type)
         {
             if (type == null)
                 return NullChapterValidator;
@@ -76,7 +76,7 @@ namespace Bifrost.Validation
             Type registeredType;
             _validators.TryGetValue(type, out registeredType);
 
-            var validator = registeredType != null ? _serviceLocator.GetInstance(registeredType) as IChapterValidator : NullChapterValidator;
+            var validator = (registeredType != null ? _serviceLocator.GetInstance(registeredType) : NullChapterValidator) as ICanValidate;
             return validator;
         }
 #pragma warning restore 1591 // Xml Comments

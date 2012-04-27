@@ -170,6 +170,7 @@
     <Compile Include="Commands\CommandHandlerForTypeInvoker.cs" />
     <Compile Include="Commands\CommandHandlerInvoker.cs" />
     <Compile Include="Validation\CommandInputValidator.cs" />
+    <Compile Include="Validation\CommandPredicateRule.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />

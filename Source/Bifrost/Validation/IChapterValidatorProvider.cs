@@ -34,14 +34,13 @@ namespace Bifrost.Validation
         /// </summary>
         /// <param name="chapter">Chapter to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        IChapterValidator GetValidatorFor(IChapter chapter);
-
+        ICanValidate GetValidatorFor(IChapter chapter);
 
         /// <summary>
         /// Retrieves an validator specific to the chapter type
         /// </summary>
         /// <param name="type">Type of the Chapter to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        IChapterValidator GetValidatorFor(Type type);
+        ICanValidate GetValidatorFor(Type type);
     }
 }

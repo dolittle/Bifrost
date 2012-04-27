@@ -7,7 +7,7 @@ namespace Bifrost.Specs.Resources.for_ResourceConvention
 	{
 		static bool can_resolve;
 
-		Because of = () => can_resolve = convention.CanResolve(typeof(MyResources));
+		Because of = () => can_resolve = convention.CanResolve(container_mock.Object, typeof(MyResources));
 
 		It should_be_true = () => can_resolve.ShouldBeTrue();
 	}

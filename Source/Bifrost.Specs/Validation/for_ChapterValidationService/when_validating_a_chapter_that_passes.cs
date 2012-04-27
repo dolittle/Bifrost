@@ -14,14 +14,14 @@ namespace Bifrost.Specs.Validation.for_ChapterValidationService
     {
         static IEnumerable<ValidationResult> validation_results;
         static Mock<IChapter> chapter_mock;
-        static Mock<IChapterValidator> chapter_validator_mock;
+        static Mock<ICanValidate> chapter_validator_mock;
 
         Establish context = () =>
         {
             chapter_mock = new Mock<IChapter>();
-            chapter_validator_mock = new Mock<IChapterValidator>();
+            chapter_validator_mock = new Mock<ICanValidate>();
 
-            chapter_validator_mock.Setup(v => v.ValidateChapter(chapter_mock.Object)).Returns(new List<ValidationResult>());
+            chapter_validator_mock.Setup(v => v.ValidateFor(chapter_mock.Object)).Returns(new List<ValidationResult>());
 
             chapter_validator_provider_mock.Setup(vp => vp.GetValidatorFor(chapter_mock.Object)).Returns(chapter_validator_mock.Object);
             };

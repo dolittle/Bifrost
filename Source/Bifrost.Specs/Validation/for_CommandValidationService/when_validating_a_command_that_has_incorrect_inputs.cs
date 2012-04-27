@@ -14,8 +14,8 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
         static IEnumerable<ValidationResult> input_validation_errors;
         static IEnumerable<ValidationResult> validation_results;
         static Mock<ICommand> command_mock;
-        static Mock<ICommandInputValidator> command_input_validator_mock;
-        static Mock<ICommandBusinessValidator> command_validator_mock;
+        static Mock<ICanValidate> command_input_validator_mock;
+        static Mock<ICanValidate> command_validator_mock;
 
         Establish context = () =>
         {
@@ -26,10 +26,10 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
                                           };
 
             command_mock = new Mock<ICommand>();
-            command_input_validator_mock = new Mock<ICommandInputValidator>();
-            command_validator_mock = new Mock<ICommandBusinessValidator>();
+            command_input_validator_mock = new Mock<ICanValidate>();
+            command_validator_mock = new Mock<ICanValidate>();
 
-            command_input_validator_mock.Setup(iv => iv.ValidateInput(command_mock.Object)).Returns(input_validation_errors);
+            command_input_validator_mock.Setup(iv => iv.ValidateFor(command_mock.Object)).Returns(input_validation_errors);
 
             command_validator_service_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(command_input_validator_mock.Object);
         };

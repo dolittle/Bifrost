@@ -43,7 +43,7 @@ namespace Bifrost.Content.Resources
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public override bool CanResolve(Type service)
+        public override bool CanResolve(IContainer container, Type service)
         {
             var hasIStrings = service.HasInterface<IHaveResources>();
                 

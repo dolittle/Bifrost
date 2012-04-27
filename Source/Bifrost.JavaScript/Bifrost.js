@@ -1,12 +1,11 @@
 /*
-@depends utils/Exception.js
-@depends utils/exceptions.js
 @depends utils/namespace.js
 @depends utils/extend.js
+@depends utils/Exception.js
+@depends utils/exceptions.js
 @depends utils/guid.js
 @depends utils/isNumber.js
 @depends utils/hashString.js
-@depends utils/TypeInfo.js
 @depends utils/Uri.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
@@ -38,7 +37,11 @@
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/loader.js
-@depends navigation/navigateTo.js
-@depends navigation/navigation.js
+@depends features/navigateTo.js
+@depends features/featureBindingHandler.js
 @depends messaging/messenger.js
 */
+
+// Something funky stuff with jQuery makes the TypeInfo break everything
+// depends utils/TypeInfo.js
+// depends navigation/navigation.js

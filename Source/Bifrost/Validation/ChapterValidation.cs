@@ -37,12 +37,19 @@ namespace Bifrost.Validation
     public abstract class ChapterValidator<T> : AbstractValidator<T>, ICanValidate<T>, IChapterValidator where T : class, IChapter
     {
 #pragma warning disable 1591 // Xml Comments
-        public virtual IEnumerable<ValidationResult> ValidateChapter(IChapter chapter)
+        public virtual IEnumerable<ValidationResult> ValidateFor(T chapter)
         {
             var result = Validate(chapter as T);
             return from error in result.Errors
                    select new ValidationResult(error.ErrorMessage, new[] { error.PropertyName });
         }
+
+
+        IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
+        {
+            return ValidateFor((T)target);
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }

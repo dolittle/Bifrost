@@ -32,13 +32,19 @@ namespace Bifrost.Validation
     /// <remarks>
     /// Always returns an empty validation result collection.
     /// </remarks>
-    public class NullChapterValidator : IChapterValidator
+    public class NullChapterValidator : ICanValidate<IChapter>, IChapterValidator
     {
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValidationResult> ValidateChapter(IChapter chapter)
+        public IEnumerable<ValidationResult> ValidateFor(IChapter chapter)
         {
             return new ValidationResult[0];
         }
+
+        IEnumerable<ValidationResult> ICanValidate.ValidateFor(object chapter)
+        {
+            return new ValidationResult[0];
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }
