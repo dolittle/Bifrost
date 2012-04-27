@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Bifrost.Commands;
 using Bifrost.Events;
 using Bifrost.Extensions;
 
