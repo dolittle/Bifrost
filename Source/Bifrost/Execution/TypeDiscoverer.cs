@@ -21,6 +21,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 #if(SILVERLIGHT)
 using System.Windows;
@@ -150,9 +151,10 @@ namespace Bifrost.Execution
                 try
                 {
                     _types.AddRange(assembly.GetTypes());
-                } catch
+                } catch(ReflectionTypeLoadException ex)
                 {
-                    throw;
+                    foreach (var loaderException in ex.LoaderExceptions)
+                        Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
                 }
 
             }
