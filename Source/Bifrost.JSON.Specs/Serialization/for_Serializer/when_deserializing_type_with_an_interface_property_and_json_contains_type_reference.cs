@@ -5,7 +5,7 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 {
     public class when_deserializing_type_with_an_interface_property_and_json_contains_type_reference : given.a_serializer
     {
-        const string json = "{\"Something\":{\"$type\":\"Bifrost.Specs.Serialization.for_Serializer.SomethingImplementation, Bifrost.Specs\",\"SomeValue\":\"Something\"}}";
+        const string json = "{\"Something\":{\"$type\":\"Bifrost.JSON.Specs.Serialization.for_Serializer.SomethingImplementation, Bifrost.JSON.Specs\",\"SomeValue\":\"Something\"}}";
 
         static ClassToSerialize instance;
 
