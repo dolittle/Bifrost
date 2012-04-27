@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Resources.for_ResourceConvention
 		Because of = () =>
 		             	{
 		             		var service = typeof(MyStringsNotImplementingStrings);
-		             		can_resolve = convention.CanResolve(service);
+		             		can_resolve = convention.CanResolve(container_mock.Object, service);
 		             	};
 
 		It should_be_true = () => can_resolve.ShouldBeFalse();
