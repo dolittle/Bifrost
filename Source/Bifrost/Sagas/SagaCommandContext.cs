@@ -32,7 +32,6 @@ namespace Bifrost.Sagas
     /// </summary>
     public class SagaCommandContext : ICommandContext
     {
-        readonly ISaga _saga;
         readonly IEventStore _eventStore;
         readonly IProcessMethodInvoker _processMethodInvoker;
         readonly ISagaLibrarian _sagaLibrarian;
@@ -57,7 +56,7 @@ namespace Bifrost.Sagas
         {
             Command = command;
             ExecutionContext = executionContext;
-            _saga = saga;
+            Saga = saga;
             _eventStore = eventStore;
             _processMethodInvoker = processMethodInvoker;
             _sagaLibrarian = sagaLibrarian;
@@ -66,6 +65,7 @@ namespace Bifrost.Sagas
         }
 
 #pragma warning disable 1591 // Xml Comments
+        public ISaga Saga { get; private set; }
         public ICommand Command { get; private set; }
         public IExecutionContext ExecutionContext { get; private set; }
         public IEnumerable<IEventStore> EventStores { get; private set; }
@@ -92,9 +92,9 @@ namespace Bifrost.Sagas
                 	events.MarkEventsWithCommand(Command);
                     events.ExpandExecutionContext(ExecutionContext);
                     ProcessEvents(events);
-                    _saga.Save(events);
+                    Saga.Save(events);
                     trackedObject.Commit();
-                    _sagaLibrarian.Catalogue(_saga);
+                    _sagaLibrarian.Catalogue(Saga);
                 }
             }
         }
@@ -117,11 +117,11 @@ namespace Bifrost.Sagas
         {
             foreach (var @event in events)
             {
-                var chapters = _saga.Chapters;
+                var chapters = Saga.Chapters;
                 foreach (var chapter in chapters )
                     _processMethodInvoker.TryProcess(chapter, @event);
 
-                _processMethodInvoker.TryProcess(_saga, @event);
+                _processMethodInvoker.TryProcess(Saga, @event);
             }
         }
 
