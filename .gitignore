@@ -22,6 +22,7 @@ packages
 *.fb7lck
 *.fbpinf
 *.test-cache
+*.ncrunch*
 
 
 # OS generated files #
