@@ -62,4 +62,6 @@ namespace Bifrost.Commands
 		/// <returns>All tracked objects</returns>
 		IEnumerable<IAggregatedRoot> GetObjectsBeingTracked();
 	}
+
+
 }

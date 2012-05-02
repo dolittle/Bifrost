@@ -30,7 +30,7 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents a <see cref="ICommandContext"/> as a <see cref="Bifrost.Lifecycle.IUnitOfWork"/> for a <see cref="ICommand"/> applied to a <see cref="ISaga"/>
     /// </summary>
-    public class SagaCommandContext : ICommandContext
+    public class SagaCommandContext : ISagaCommandContext
     {
         readonly IEventStore _eventStore;
         readonly IProcessMethodInvoker _processMethodInvoker;
