@@ -20,7 +20,7 @@
 //
 #endregion
 
-using System;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"Start")]
 
@@ -30,7 +30,7 @@ namespace Bifrost.Web
 	{
 		public static void Start()
 		{
-			
+			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
 		}
 	}
 }

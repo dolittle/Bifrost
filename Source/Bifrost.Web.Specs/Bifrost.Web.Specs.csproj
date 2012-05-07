@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C2C2138E-2617-43D6-B552-E0D57FDA7CEA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bifrost.Web.Specs</RootNamespace>
+    <AssemblyName>Bifrost.Web.Specs</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_without_an_extension.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_with_extension.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
+      <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>
+      <Name>Bifrost.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pipeline\" />
+    <Folder Include="Pipeline\for_SinglePageApplication\" />
+    <Folder Include="Pipeline\for_SinglePageApplication\given\" />
+  </ItemGroup>
+</Project>
