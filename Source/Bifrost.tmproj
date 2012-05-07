@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>Bifrost.JavaScript/messaging/messenger.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,18 +24,6 @@
 			<key>sourceDirectory</key>
 			<string>Bifrost.JavaScript.Specs</string>
 		</dict>
-		<dict>
-			<key>filename</key>
-			<string>dependencies.config</string>
-			<key>lastUsed</key>
-			<date>2012-04-09T08:09:48Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>forseti.yaml</string>
-			<key>lastUsed</key>
-			<date>2012-04-21T05:32:03Z</date>
-		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
@@ -57,58 +43,10 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/features/FeatureMapping.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>7</integer>
-		</dict>
-		<key>Bifrost.JavaScript/features/ViewModel.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>35</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>4</integer>
-		</dict>
-		<key>Bifrost.JavaScript/messaging/messenger.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>13</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>Bifrost.JavaScript/features/ViewModel.js</string>
-		<string>Bifrost.JavaScript/messaging/messenger.js</string>
-		<string>Bifrost.JavaScript/features/FeatureMapping.js</string>
-	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{-1, 4}, {938, 874}}</string>
+	<string>{{0, 4}, {938, 874}}</string>
 </dict>
 </plist>

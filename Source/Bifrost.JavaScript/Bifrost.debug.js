@@ -1044,7 +1044,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		}
 
 		if(typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
-			History.Adapter.bind(window,"statechange", function() {
+			this.handleUriState = function() {
 				var state = History.getState();
 				
 				self.uri.setLocation(state.url);
@@ -1062,6 +1062,14 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 				}
 				
 				self.onUriChanged(self.uri);
+			}
+			
+			History.Adapter.bind(window,"statechange", function() {
+				self.handleUriState();
+			});		
+			
+			$(function() {
+				self.handleUriState();
 			});
 		}
 	}
