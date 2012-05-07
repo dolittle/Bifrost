@@ -23,6 +23,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Extensions;
 
 namespace Bifrost.Execution
 {
@@ -46,16 +47,16 @@ namespace Bifrost.Execution
 		}
 
 #pragma warning disable 1591 // Xml Comments
-		public override bool CanResolve(Type service)
+		public override bool CanResolve(IContainer container, Type service)
 		{
-			var type = GetServiceInstanceType(service);
-			return type != null;
+			var type = GetServiceInstanceType(service) ;
+			return type != null && !container.HasBindingFor(type);
 		}
 
 		public override void Resolve(IContainer container, Type service)
 		{
 			var serviceInstanceType = GetServiceInstanceType(service);
-			if (null != serviceInstanceType)
+			if (serviceInstanceType != null )
 			{
                 var scope = GetScopeForTarget(serviceInstanceType);
 				container.Bind(service,serviceInstanceType, scope);
@@ -72,18 +73,26 @@ namespace Bifrost.Execution
 				var instanceName = string.Format("{0}.{1}", service.Namespace, serviceName.Substring(1));
 				var serviceInstanceType = service.Assembly.GetType(instanceName);
 
-                if (null != serviceInstanceType && IsAssignableFrom(service,serviceInstanceType))
+                if (null != serviceInstanceType &&
+                    IsAssignableFrom(service,serviceInstanceType) &&
+                    !HasMultipleImplementationInSameNamespace(service))
 				{
 					if (serviceInstanceType.IsAbstract )
-					{
 						return null;
-					}
 
 					return serviceInstanceType;
 				}
 			}
 			return null;
 		}
+
+        private static bool HasMultipleImplementationInSameNamespace(Type service)
+        {
+            var implementationsCount = service.Assembly.GetTypes()
+                .Where(t => !string.IsNullOrEmpty(t.Namespace) && t.Namespace.Equals(service.Namespace))
+                .Where(t => t.HasInterface(service)).Count();
+            return implementationsCount > 1;
+        }
 
         static bool IsAssignableFrom(Type service, Type serviceInstanceType)
         {

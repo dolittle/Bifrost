@@ -19,9 +19,13 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Bifrost.Commands;
+using FluentValidation;
+using FluentValidation.Internal;
 
 namespace Bifrost.Validation
 {
@@ -32,20 +36,47 @@ namespace Bifrost.Validation
     /// Commands inherting from this base class will be automatically registered.
     /// </remarks>
     /// <typeparam name="T">Concrete type of the Command to validate</typeparam>
-    public abstract class CommandBusinessValidator<T> : ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
+    public abstract class CommandBusinessValidator<T> : AbstractValidator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
     {
 #pragma warning disable 1591 // Xml Comments
-        public virtual IEnumerable<ValidationResult> Validate(ICommand command)
+        public virtual IEnumerable<ValidationResult> ValidateFor(T command)
         {
-            return Validate(command as T);
+            var result = Validate(command as T);
+            return from error in result.Errors
+                   select new ValidationResult(error.ErrorMessage, new[] { error.PropertyName });
+        }
+
+        IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
+        {
+            return ValidateFor((T)target);
         }
 #pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Start building rules for the model
+        /// </summary>
+        /// <returns><see cref="IRuleBuilderInitial(T, T)"/> that can be used to fluently set up rules</returns>
+        public IRuleBuilderInitial<T, T> ModelRule()
+        {
+            var modelRule = RuleFor((t) => t);
+            var modelRuleOptions = (IRuleBuilderOptions<T, T>)modelRule;
+            modelRuleOptions.WithName(typeof(T).FullName);
+            return modelRuleOptions as IRuleBuilderInitial<T, T>;
+        }
+
 
         /// <summary>
-        /// Abstract Validate method, utilising the concrete type of the command, to be implemented by each Commmand-specific implementation
+        /// Add a predicate rule based on a Func that will be called when validation occurs
         /// </summary>
-        /// <param name="instance">Concrete instance of the command</param>
-        /// <returns>A collection of failed validations</returns>
-        public abstract IEnumerable<ValidationResult> Validate(T instance);
+        /// <param name="validateFor"><see cref="Func(T, bool)"/> that will be called for validation</param>
+        /// <returns><see cref="IRuleBuilderOptions(T, object)"/> that can be used to fluently configure options for the rule</returns>
+        public IRuleBuilderOptions<T, object> AddRule(Func<T, bool> validateFor)
+        {
+            var rule = CommandPredicateRule<T>.Create(validateFor);
+            AddRule(rule);
+
+            var ruleBuilder = new RuleBuilder<T,object>(rule);
+            return ruleBuilder;
+        }
+
     }
 }

@@ -34,7 +34,7 @@ namespace Bifrost.Mimir
             var bindings = new DefaultBindings();
             bindings.Initialize(Container);
 
-            var conventions = new DefaultConventions();
+            var conventions = new DefaultConventions(Container);
             conventions.Initialize();
 
 			InitializeComponent();

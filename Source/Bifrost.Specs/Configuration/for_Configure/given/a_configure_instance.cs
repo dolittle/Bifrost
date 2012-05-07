@@ -14,6 +14,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IDefaultBindings> default_bindings_mock;
         protected static Mock<IEventsConfiguration> events_configuration_mock;
     	protected static Mock<ISagasConfiguration> sagas_configuration_mock;
+		protected static Mock<ISerializationConfiguration> serialization_configuration_mock;
         protected static Mock<IApplicationManager> application_manager_mock;
         protected static Mock<IApplication> application_mock;
         protected static Mock<IViewsConfiguration> views_configuration_mock;
@@ -33,6 +34,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
 									sagas_configuration_mock = new Mock<ISagasConfiguration>();
                                 	container_mock.Setup(c => c.Get<ISagasConfiguration>()).Returns(sagas_configuration_mock.Object);
+			
+									serialization_configuration_mock = new Mock<ISerializationConfiguration>();
+									container_mock.Setup(c => c.Get<ISerializationConfiguration>()).Returns(serialization_configuration_mock.Object);
 
                                     application_mock = new Mock<IApplication>();
                                     application_manager_mock = new Mock<IApplicationManager>();

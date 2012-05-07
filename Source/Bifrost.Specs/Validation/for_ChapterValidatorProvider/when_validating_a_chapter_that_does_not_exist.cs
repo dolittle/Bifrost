@@ -7,7 +7,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider
     [Subject(typeof (ChapterValidatorProvider))]
     public class when_validating_a_chapter_that_does_not_exist : given.a_chapter_validator_provider
     {
-        static IChapterValidator validator;
+        static ICanValidate validator;
 
         Because of = () => validator = chapter_validator_provider.GetValidatorFor(null as IChapter);
 

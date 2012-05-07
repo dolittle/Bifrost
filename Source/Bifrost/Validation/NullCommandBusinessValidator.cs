@@ -31,10 +31,15 @@ namespace Bifrost.Validation
     /// <remarks>
     /// Always returns an empty validation result collection.
     /// </remarks>
-    public class NullCommandBusinessValidator : ICommandBusinessValidator
+    public class NullCommandBusinessValidator : ICanValidate<ICommand>, ICommandBusinessValidator
     {
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValidationResult> Validate(ICommand command)
+        public IEnumerable<ValidationResult> ValidateFor(ICommand command)
+        {
+            return new ValidationResult[0];
+        }
+
+        IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
         {
             return new ValidationResult[0];
         }

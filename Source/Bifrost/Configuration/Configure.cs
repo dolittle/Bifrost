@@ -78,7 +78,7 @@ namespace Bifrost.Configuration
         /// <returns>Configuration object to continue configuration on</returns>
         public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle)
         {
-            return With(container, defaultObjectLifecycle, new DefaultConventions(), new DefaultBindings());
+            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings());
         }
 
         /// <summary>
@@ -137,6 +137,7 @@ namespace Bifrost.Configuration
         public IApplicationManager ApplicationManager { get; private set; }
         public IApplication Application { get; private set; }
 		public ISagasConfiguration Sagas { get; private set; }
+		public ISerializationConfiguration Serialization { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
         public BindingLifecycle DefaultObjectLifecycle { get; set; }
@@ -150,7 +151,8 @@ namespace Bifrost.Configuration
         {
             if (_configurationSource != null)
                 _configurationSource.Initialize(this);
-
+			
+			Serialization.Initialize (this);
             Events.Initialize(this);
             Views.Initialize(this);
 			Sagas.Initialize(this);
@@ -173,6 +175,7 @@ namespace Bifrost.Configuration
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();
         	Sagas = Container.Get<ISagasConfiguration>();
+			Serialization = Container.Get<ISerializationConfiguration>();
             ApplicationManager = Container.Get<IApplicationManager>();
         }
 

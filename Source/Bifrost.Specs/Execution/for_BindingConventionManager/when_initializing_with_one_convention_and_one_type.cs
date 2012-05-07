@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager
                                     convention_type = convention_mock.Object.GetType();
                                     manager.Add(convention_type);
                                     container_mock.Setup(c => c.Get(convention_type)).Returns(convention_mock.Object);
-                                    convention_mock.Setup(c => c.CanResolve(service_type)).Returns(true);
+                                    convention_mock.Setup(c => c.CanResolve(container_mock.Object, service_type)).Returns(true);
                                 };
 
         Because of = () => manager.Initialize();

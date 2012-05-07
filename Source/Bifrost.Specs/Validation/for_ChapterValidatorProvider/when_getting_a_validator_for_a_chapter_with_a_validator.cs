@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider
     [Subject(typeof (ChapterValidatorProvider))]
     public class when_getting_a_validator_for_a_chapter_with_a_validator : given.a_chapter_validator_provider
     {
-        static IChapterValidator chapter_validator;
+        static ICanValidate chapter_validator;
 
         Establish context = () => service_locator_mock.Setup(sl => sl.GetInstance(typeof(TransitionalChapterValidator))).Returns(() => new TransitionalChapterValidator());
 

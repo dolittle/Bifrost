@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
 using System.Collections.Generic;
 using Bifrost.Events;
@@ -40,10 +39,13 @@ namespace Bifrost.Configuration
         public EventsConfiguration(IEventStoreChangeManager eventStoreChangeManager)
         {
             _eventStoreChangeManager = eventStoreChangeManager;
+            RepositoryType = typeof(EventRepository);
+            EventStoreType = typeof(EventStore);
         }
 
 #pragma warning disable 1591 // Xml Comments
         public Type RepositoryType { get; set; }
+        public Type EventStoreType { get; set; }
 
         public void AddEventStoreChangeNotifier(Type type)
         {
@@ -52,11 +54,13 @@ namespace Bifrost.Configuration
 
         public void Initialize(IConfigure configure)
         {
-            //if( RepositoryType != null )
-            //    configure.Container.Bind<IEventRepository>(RepositoryType);
+            /*
+            if( RepositoryType != null )
+                configure.Container.Bind<IEventRepository>(RepositoryType);*/
+
+            if (EventStoreType != null)
+                configure.Container.Bind<IEventStore>(EventStoreType);
         }
 #pragma warning restore 1591 // Xml Comments
-
-
     }
 }

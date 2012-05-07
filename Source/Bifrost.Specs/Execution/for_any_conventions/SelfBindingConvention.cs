@@ -5,7 +5,7 @@ namespace Bifrost.Specs.Execution.for_any_conventions
 {
     public class SelfBindingConvention : BaseConvention
     {
-        public override bool CanResolve(Type service)
+        public override bool CanResolve(IContainer container, Type service)
         {
             return true;
         }

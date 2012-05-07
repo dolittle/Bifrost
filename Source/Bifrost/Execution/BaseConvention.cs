@@ -35,7 +35,7 @@ namespace Bifrost.Execution
 		public BindingLifecycle DefaultScope { get; set; }
 
 #pragma warning disable 1591 // Xml Comments
-		public abstract bool CanResolve(Type service);
+		public abstract bool CanResolve(IContainer container, Type service);
 		public abstract void Resolve(IContainer container, Type service);
 #pragma warning restore 1591 // Xml Comments
 

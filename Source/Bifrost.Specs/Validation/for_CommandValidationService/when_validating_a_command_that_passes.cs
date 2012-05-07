@@ -13,17 +13,17 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
     {
         static IEnumerable<ValidationResult> validation_results;
         static Mock<ICommand> command_mock;
-        static Mock<ICommandInputValidator> command_input_validator_mock;
-        static Mock<ICommandBusinessValidator> command_validator_mock;
+        static Mock<ICanValidate> command_input_validator_mock;
+        static Mock<ICanValidate> command_validator_mock;
 
         Establish context = () =>
         {
             command_mock = new Mock<ICommand>();
-            command_input_validator_mock = new Mock<ICommandInputValidator>();
-            command_validator_mock = new Mock<ICommandBusinessValidator>();
+            command_input_validator_mock = new Mock<ICanValidate>();
+            command_validator_mock = new Mock<ICanValidate>();
 
-            command_input_validator_mock.Setup(iv => iv.ValidateInput(command_mock.Object)).Returns(new List<ValidationResult>());
-            command_validator_mock.Setup(cv => cv.Validate(command_mock.Object)).Returns(new List<ValidationResult>());
+            command_input_validator_mock.Setup(iv => iv.ValidateFor(command_mock.Object)).Returns(new List<ValidationResult>());
+            command_validator_mock.Setup(cv => cv.ValidateFor(command_mock.Object)).Returns(new List<ValidationResult>());
 
             command_validator_service_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(command_input_validator_mock.Object);
             command_validator_service_mock.Setup(cvs => cvs.GetBusinessValidatorFor(command_mock.Object)).Returns(command_validator_mock.Object);

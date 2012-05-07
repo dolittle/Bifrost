@@ -26,18 +26,9 @@ using Bifrost.Commands;
 namespace Bifrost.Validation
 {
     /// <summary>
-    ///  Defines a basic business-rule validator for a Command
+    /// Marker interface for business validators
     /// </summary>
     public interface ICommandBusinessValidator
     {
-        /// <summary>
-        /// Validates that a command has all the values that are required for the command to succeed.
-        /// </summary>
-        /// <param name="command">The command to validate</param>
-        /// <remarks>
-        /// Assumes that the command
-        /// </remarks>
-        /// <returns>A collection of ValidationResults.  An empty collection indicates a valid command.</returns>
-        IEnumerable<ValidationResult> Validate(ICommand command);
     }
 }

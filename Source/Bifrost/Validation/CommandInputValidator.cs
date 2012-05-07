@@ -38,12 +38,18 @@ namespace Bifrost.Validation
     public abstract class CommandInputValidator<T> : AbstractValidator<T>, ICanValidate<T>, ICommandInputValidator where T : class, ICommand
     {
 #pragma warning disable 1591 // Xml Comments
-        public virtual IEnumerable<ValidationResult> ValidateInput(ICommand command)
+        public virtual IEnumerable<ValidationResult> ValidateFor(T command)
         {
             var result = Validate(command as T);
             return from error in result.Errors
                    select new ValidationResult(error.ErrorMessage, new[] {error.PropertyName});
         }
+
+        IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
+        {
+            return ValidateFor((T)target);
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }

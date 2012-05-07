@@ -38,6 +38,7 @@
     <Reference Include="System.Web" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+<<<<<<< HEAD
       <Private>False</Private>
     </Reference>
     <Reference Include="WebActivator">
@@ -45,6 +46,8 @@
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure">
       <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+=======
+>>>>>>> master
     </Reference>
   </ItemGroup>
   <ItemGroup>
