@@ -36,12 +36,15 @@
     <Reference Include="Moq">
       <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_without_an_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_with_extension.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_route_matching_incoming_request.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

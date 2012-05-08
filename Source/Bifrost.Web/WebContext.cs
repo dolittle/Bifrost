@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using System.Web.Routing;
 
 namespace Bifrost.Web
 {
@@ -11,6 +12,7 @@ namespace Bifrost.Web
 		{
 			_actualHttpContext = actualHttpContext;
 			Request = new Request(actualHttpContext.Request);
+			Routes = RouteTable.Routes;
 		}
 
 		public void RewritePath (string path)
@@ -19,6 +21,7 @@ namespace Bifrost.Web
 		}
 
 		public IWebRequest Request { get; private set; }
+		public RouteCollection Routes { get; private set; }
 	}
 }
 
