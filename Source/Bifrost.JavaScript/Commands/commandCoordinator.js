@@ -34,8 +34,6 @@ Bifrost.commands.commandCoordinator = (function () {
 
     return {
         handle: function (command) {
-
-
             var methodParameters = {
                 commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
             };
@@ -47,8 +45,8 @@ Bifrost.commands.commandCoordinator = (function () {
         },
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
-
             $.each(commands, function (index, command) {
+                command.onBeforeExecute();
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
 
