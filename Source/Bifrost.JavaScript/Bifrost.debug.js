@@ -1,6 +1,6 @@
 var Bifrost = Bifrost || {};
 (function(global, undefined) {
-    Bifrost.namespace = function (ns) {
+    Bifrost.namespace = function (ns, content) {
         var parent = global;
         var parts = ns.split('.');
         $.each(parts, function (index, part) {
@@ -9,6 +9,10 @@ var Bifrost = Bifrost || {};
             }
             parent = parent[part];
         });
+
+		if( typeof content === "object" ) {
+			Bifrost.extend(parent, content);
+		}
     };
 })(window);
 Bifrost.namespace("Bifrost");
@@ -91,19 +95,18 @@ Bifrost.namespace("Bifrost");
 Bifrost.Exception.define("Bifrost.LocationNotSpecified","Location was not specified");
 Bifrost.Exception.define("Bifrost.InvalidUriFormat", "Uri format specified is not valid");
 
-Bifrost.namespace("Bifrost");
-Bifrost.Guid = (function () {
-    function S4() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    }
+Bifrost.namespace("Bifrost", {
+	Guid : {
+       	create: function() {
+	    	function S4() {
+	        	return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	    	}
+           	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+       	},
+    	empty: "00000000-0000-0000-0000-000000000000"
+	}
+});
 
-    return {
-        create: function() {
-            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-        },
-        empty: "00000000-0000-0000-0000-000000000000"
-    };
-})(); 
 Bifrost.namespace("Bifrost");
 Bifrost.isNumber = function(number) {
     return !isNaN(parseFloat(number)) && isFinite(number);
