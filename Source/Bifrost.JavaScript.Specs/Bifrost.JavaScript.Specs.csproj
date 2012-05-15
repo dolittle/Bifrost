@@ -57,6 +57,7 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
+    <Content Include="commands\for_Command\when_reseting_validation_messages_in_the_command.js" />
     <Content Include="commands\for_Command\when_an_error_occurs_while_executing_a_command.js" />
     <Content Include="commands\for_Command\when_applying_validation_results.js" />
     <Content Include="commands\for_Command\when_executing_a_command_which_can_not_execute.js" />
@@ -134,6 +135,7 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
+    <Content Include="validation\for_validationService\when_initializing_validation_service.js" />
     <Content Include="validation\for_validationService\when_applying_nested_rules_from_server_for_a_known_command.js" />
     <Content Include="validation\for_validationService\when_recursivly_extending_properties.js" />
     <Content Include="validation\for_validationService\when_applying_rules_from_server_for_a_known_command.js" />

@@ -1,58 +1,51 @@
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     return {
-        recursivlyExtendProperties: function (properties) {
+        recursivlyExtendProperties: function (properties, validatorsList) {
 
             for (var key in properties) {
                 var property = properties[key];
                 if (ko.isObservable(property)) {
                     property.extend({ validation: {} });
+                    validatorsList.push(property);
                 }
                 property = ko.utils.unwrapObservable(property);
                 if (typeof property === "object") {
-                    Bifrost.validation.validationService.recursivlyExtendProperties(property);
+                    Bifrost.validation.validationService.recursivlyExtendProperties(property, validatorsList);
                 }
             }
-
-
         },
 
         recursivlyApplyRules: function (properties, rules) {
-            var validatorsList = [];
             for (var rule in rules) {
                 var path = rule.split(".");
+                var memberName = "parameters";
                 var member = properties;
-                for (var i in path) {
+                for (var i = 0; i < path.length; i++ ) {
                     var step = path[i];
                     member = ko.utils.unwrapObservable(member);
-                    if (step in member) {
+                    if (typeof member === "object" && step in member) {
+                        memberName += "." + step;
                         member = member[step];
                     } else {
-                        throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
+                        throw new Error("Error applying validation rule: `" + rule + "`\n" +
+                            step + " is not a member of " + memberName + ". \n" +
+                            memberName + "=`" + (ko.isObservable(member) ? member() : member) + "`");
                     }
                 }
 
-                if ("extend" in member && typeof member.extend === "function") {
-                    //member.extend({ validation: {} });
+                if (ko.isObservable(member) && "validator" in member) {
                     member.validator.setOptions(rules[rule]);
-                    validatorsList.push(member);
                 } else {
-                    throw "Error applying validation rule: " + property + " is not an observable.";
+                    throw new Error("Error applying validation rule: " + rule + "\n" +
+                        "It is not an observable or is not extended with a validator. \n" +
+                        memberName + "=`" + (ko.isObservable(member) ? member() : member) + "`");
                 }
             }
-            return validatorsList;
         },
-        /*
-        extendAllProperties: function (target) {
-        for (var property in target) {
-        if ("extend" in target[property] && typeof target[property].extend === "function") {
-        target[property].extend({ validation: {} });
-        }
-        }
-        },*/
+
         applyForCommand: function (command) {
-            //Bifrost.validation.validationService.extendAllProperties(command.parameters);
-            Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters);
+            Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, command.validatorsList);
 
             var methodParameters = {
                 name: "\"" + command.name + "\""
@@ -68,15 +61,9 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    command.validatorsList = Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
-                    /*for (var property in result.properties) {
-                    if (!command.parameters.hasOwnProperty(property)) {
-                    command.parameters[property] = ko.observable().extend({ validation: {} });
-                    }
-                    command.parameters[property].validator.setOptions(result.properties[property]);
-                    }*/
+                    Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
                 }
             });
         }
-    }
+    };
 })();
