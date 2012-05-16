@@ -1,6 +1,5 @@
-Bifrost.namespace("Bifrost")
-Bifrost.functionParser = (function() {
-	return {
+Bifrost.namespace("Bifrost", {
+	functionParser: {
 		parse: function(func) {
 			var result = [];
 			
@@ -16,5 +15,4 @@ Bifrost.functionParser = (function() {
 			return result;
 		}
 	}
-	
-})();
+});
