@@ -51,6 +51,10 @@
     <Compile Include="Execution\for_RequestParamsFactory\given\a_request_params_factory.cs" />
     <Compile Include="Execution\for_RequestParamsFactory\when_building_a_request_params_object.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\ComplexType.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_int_as_a_parameter.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_string_input_and_no_output.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_int_input_and_no_output.cs" />
+    <Compile Include="Execution\for_RestServiceMethodInvoker\when_invoking_with_a_string_as_a_parameter.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call.cs" />
     <Compile Include="Execution\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output.cs" />

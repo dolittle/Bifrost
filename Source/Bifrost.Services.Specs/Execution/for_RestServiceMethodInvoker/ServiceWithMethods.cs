@@ -31,5 +31,25 @@
             NoInputComplexOutputCalled = true;
             return NoInputComplexOutputReturn;
         }
+
+
+        public const string StringInputNoOutputMethod = "StringInputNoOutput";
+        public bool StringInputNoOutputCalled = false;
+        public string StringInputNoOutputInput;
+        public void StringInputNoOutput(string input)
+        {
+            StringInputNoOutputCalled = true;
+            StringInputNoOutputInput = input;
+        }
+
+        public const string IntInputNoOutputMethod = "IntInputNoOutput";
+        public bool IntInputNoOutputCalled = false;
+        public int IntInputNoOutputInput;
+        public void IntInputNoOutput(int input)
+        {
+            IntInputNoOutputCalled = true;
+            IntInputNoOutputInput = input;
+        }
+
     }
 }
