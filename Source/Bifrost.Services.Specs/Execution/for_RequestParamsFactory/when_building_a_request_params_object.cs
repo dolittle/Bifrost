@@ -29,16 +29,5 @@ namespace Bifrost.Services.Specs.Execution.for_RequestParamsFactory
                                                                       request_params[IN_INPUT_STREAM_ONLY].ShouldEqual(FROM_INPUTSTREAM);
                                                                       request_params[IN_INPUT_STREAM_COOKIES_AND_SERVER_VARIABLES].ShouldEqual(FROM_INPUTSTREAM);
                                                                   };
-
-        It should_retrieve_parameters_from_the_cookies_fourth = () =>
-                                                                {
-                                                                    serializer_mock.VerifyAll();
-                                                                    request_params[IN_COOKIES_ONLY].ShouldEqual(FROM_COOKIES);
-                                                                    request_params[IN_COOKIES_AND_SERVER_VARIABLES].ShouldEqual(FROM_COOKIES);
-                                                                };
-
-        It should_retrieve_parameters_from_the_server_variables_last = () => request_params[IN_SERVER_VARIABLES_ONLY]
-                                                                            .ShouldEqual(FROM_SERVERVARIABLES);
-
     }
 }
