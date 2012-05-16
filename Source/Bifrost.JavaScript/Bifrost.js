@@ -1,5 +1,8 @@
 /*
 @depends utils/namespace.js
+@depends utils/ClassPrototype.js
+@depends utils/ClassInfo.js
+@depends utils/Class.js
 @depends utils/extend.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
