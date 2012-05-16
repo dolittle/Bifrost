@@ -8,15 +8,21 @@ namespace Bifrost.Web.Pipeline
 		public void Before (IWebContext webContext)
 		{
 			if( !HasExtension(webContext) &&
-			    !HasRoute(webContext))
+			    !HasRoute(webContext) ||
+                IsDefault(webContext))
 				webContext.RewritePath("/index.html");
 		}
 
 		public void After (IWebContext webContext)
 		{
 		}
-		
-		
+
+        bool IsDefault(IWebContext webContext)
+        {
+            var path = StripLeadingSlashIfAny(webContext.Request.Path);
+            return path.Length == 0;
+        }
+
 		bool HasRoute(IWebContext webContext)
 		{
 			var path = StripLeadingSlashIfAny(webContext.Request.Path);
@@ -26,14 +32,14 @@ namespace Bifrost.Web.Pipeline
 				{
 					var actualRoute = route as Route;
 					var routePath = StripLeadingSlashIfAny(actualRoute.Url);
-					if( routePath.StartsWith(path) ||
-					    path.StartsWith(path))
+                    routePath = GetPathTillPlaceholdersStartIfAny(routePath);
+					if( routePath.Length > 0 && 
+                        path.StartsWith(routePath) )
 						return true;
 				}
 			}
 			return false;
 		}
-		
 		
 		bool HasExtension(IWebContext webContext)
 		{
@@ -49,6 +55,15 @@ namespace Bifrost.Web.Pipeline
 			}
 			return false;
 		}
+
+        string GetPathTillPlaceholdersStartIfAny(string path)
+        {
+            var index = path.IndexOf('{');
+            if (index > 0)
+                return path.Substring(0, index);
+
+            return path;
+        }
 		
 		string StripLeadingSlashIfAny(string path)
 		{

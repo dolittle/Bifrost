@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Bifrost.Web.Specs</RootNamespace>
     <AssemblyName>Bifrost.Web.Specs</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,10 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_an_empty_request_string_and_no_extension.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context_with_default_routes.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_only_a_slash_in_request_string_and_no_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_without_an_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_with_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_route_matching_incoming_request.cs" />
+    <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_route_with_placeholder_and_request_path_matches.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -60,9 +65,6 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pipeline\" />
-    <Folder Include="Pipeline\for_SinglePageApplication\" />
-    <Folder Include="Pipeline\for_SinglePageApplication\given\" />
-  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
