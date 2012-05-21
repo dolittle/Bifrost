@@ -15,17 +15,19 @@ describe("when activating", function() {
 		Bifrost.messaging = Bifrost.messaging || {}
 		Bifrost.messaging.messenger = {};
 		
-		Bifrost.features.ViewModel.baseFor(MyViewModel);
-		instance = new MyViewModel();
-		instance.handleUriState = function() {
-			handleUriState = true;
-		}
 		
+		Bifrost.features.ViewModel.baseFor(MyViewModel);
+		sinon.stub(MyViewModel.prototype,"handleUriState", function() {
+			handleUriState = true;
+		});
+		
+		instance = new MyViewModel();
 		instance.onActivated();
 	});
 
 	afterEach(function() {
 		Bifrost.Uri.create.restore();	
+		MyViewModel.prototype.handleUriState.restore();
 	});
 	
 	
