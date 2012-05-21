@@ -9,15 +9,17 @@ Bifrost.features.ViewModelDefinition = (function () {
         Bifrost.extend(this.options, options);
 
         this.getInstance = function () {
+			var instance = null;
             if (self.options.isSingleton) {
                 if (!self.instance) {
                     self.instance = new self.target();
                 }
 
-                return self.instance;
-            }
-
-            var instance = new self.target();
+                instance = self.instance;
+            } else {
+				instance = new self.target();
+			}
+			instance.onActivated();
             return instance;
         };
     }
