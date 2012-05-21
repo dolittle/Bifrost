@@ -1,5 +1,11 @@
 var Bifrost = Bifrost || {};
 (function(global, undefined) {
+	Bifrost.extend = function extend(destination, source) {
+    	return $.extend(destination, source);
+	};
+})(window);
+var Bifrost = Bifrost || {};
+(function(global, undefined) {
     Bifrost.namespace = function (ns, content) {
         var parent = global;
         var parts = ns.split('.');
@@ -15,10 +21,46 @@ var Bifrost = Bifrost || {};
 		}
     };
 })(window);
-Bifrost.namespace("Bifrost");
-Bifrost.extend = function extend(destination, source) {
-    return $.extend(destination, source);
-};
+Bifrost.namespace("Bifrost", {
+	ClassPrototype: {
+	},
+});
+Bifrost.namespace("Bifrost", {
+	ClassInfo: {
+		create : function() {
+			if( typeof this.typeDefinition === "undefined" ) {
+				throw new Bifrost.MissingTypeDefinition();
+			}
+			var dependencies = Bifrost.functionParser.parse(this.typeDefinition);
+			if( dependencies.length == 0 ) {
+				return new this.typeDefinition();
+			} else {
+				
+			}
+			
+		}
+	}
+});
+Bifrost.namespace("Bifrost", {
+	Class : function(typeDefinition) {
+		
+		if( typeDefinition == null || typeof typeDefinition == "undefined" ) {
+			throw new Bifrost.MissingClassDefinition();
+		}
+		if( typeof typeDefinition === "object") { 
+			throw new Bifrost.ObjectLiteralNotAllowed();
+		}
+		
+		var result = function() {
+			typeDefinition.prototype = Bifrost.ClassPrototype;
+			this.typeDefinition = typeDefinition;
+		}
+		result.prototype = Bifrost.ClassInfo;
+		
+		return new result();
+	}
+});
+
 
 Bifrost.namespace("Bifrost");
 
@@ -94,7 +136,9 @@ Bifrost.Exception = (function(global, undefined) {
 Bifrost.namespace("Bifrost");
 Bifrost.Exception.define("Bifrost.LocationNotSpecified","Location was not specified");
 Bifrost.Exception.define("Bifrost.InvalidUriFormat", "Uri format specified is not valid");
-
+Bifrost.Exception.define("Bifrost.ObjectLiteralNotAllowed", "Object literal is not allowed");
+Bifrost.Exception.define("Bifrost.MissingClassDefinition", "Class definition was not specified");
+Bifrost.Exception.define("Bifrost.MissingTypeDefinition", "Type definition was not specified");
 Bifrost.namespace("Bifrost", {
 	Guid : {
        	create: function() {
@@ -1027,6 +1071,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		var self = this;
 		
 		this.uriChangedSubscribers = [];
+		this.activatedSubscribers = [];
 		
 		this.messenger = Bifrost.messaging.messenger;
 		this.uri = Bifrost.Uri.create(window.location.href);
@@ -1037,12 +1082,27 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		}
 		
 		this.uriChanged = function(callback) {
-			this.uriChangedSubscribers.push(callback);
+			self.uriChangedSubscribers.push(callback);
 		}
+		
+		this.activated = function(callback) {
+			self.activatedSubscribers.push(callback);
+		}
+		
 		
 		this.onUriChanged = function(uri) {
 			$.each(self.uriChangedSubscribers, function(index, callback) {
 				callback(uri);
+			});
+		}
+		
+		this.onActivated = function() {
+			if( typeof self.handleUriState !== "undefined" ) {
+				self.handleUriState();
+			}
+			
+			$.each(self.activatedSubscribers, function(index, callback) {
+				callback();
 			});
 		}
 
@@ -1096,15 +1156,17 @@ Bifrost.features.ViewModelDefinition = (function () {
         Bifrost.extend(this.options, options);
 
         this.getInstance = function () {
+			var instance = null;
             if (self.options.isSingleton) {
                 if (!self.instance) {
                     self.instance = new self.target();
                 }
 
-                return self.instance;
-            }
-
-            var instance = new self.target();
+                instance = self.instance;
+            } else {
+				instance = new self.target();
+			}
+			instance.onActivated();
             return instance;
         };
     }
@@ -1281,8 +1343,11 @@ Bifrost.messaging.messenger = (function() {
 	}
 })();
 /*
-@depends utils/namespace.js
 @depends utils/extend.js
+@depends utils/namespace.js
+@depends utils/ClassPrototype.js
+@depends utils/ClassInfo.js
+@depends utils/Class.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js

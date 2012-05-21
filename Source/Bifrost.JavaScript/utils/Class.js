@@ -17,3 +17,4 @@ Bifrost.namespace("Bifrost", {
 		return new result();
 	}
 });
+

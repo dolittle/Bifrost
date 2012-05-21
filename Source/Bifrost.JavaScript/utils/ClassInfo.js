@@ -5,10 +5,12 @@ Bifrost.namespace("Bifrost", {
 				throw new Bifrost.MissingTypeDefinition();
 			}
 			var dependencies = Bifrost.functionParser.parse(this.typeDefinition);
-			
 			if( dependencies.length == 0 ) {
 				return new this.typeDefinition();
+			} else {
+				
 			}
+			
 		}
 	}
 });
