@@ -1,6 +1,6 @@
 ﻿describe("when applying rules from server for a known command", sinon.test(function () {
     var expectedMessage = "Should be required";
-    var test = this;
+    var test = {};
 
     var server = sinon.fakeServer.create();
 
@@ -26,7 +26,7 @@
     server.respond();
 
     it("should set the rule in response from server", function () {
-        expect(test.optionsSet.required).not.toBeUndefined();
+        expect(test.optionsSet.required).toBeDefined();
     });
     it("should set the message for the rule in response from server", function () {
         expect(test.optionsSet.required.message).toBe(expectedMessage);

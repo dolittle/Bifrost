@@ -12,27 +12,20 @@
         };
     }
 
-    var rules = {
-        prop1: {
-            require: "should be here"
-        },
-        prop2: {
-            require: "should be here as well"
-        },
-        "prop3.prop1": {
-            require: "should also be here"
-        }
-    };
+    var containingObject;
 
-    it("should add validation knockout extension", function () {
-        var containingObject = {
+    beforeEach(function () {
+        containingObject = {
             prop1: new something(),
             prop2: new something(),
             prop3: {
                 prop1: new something()
             }
-        }
-        Bifrost.validation.validationService.recursivlyExtendProperties(containingObject, rules);
+        };
+    });
+    it("should add validation knockout extension", function () {
+
+        Bifrost.validation.validationService.recursivlyExtendProperties(containingObject);
 
         var prop1Extended = typeof containingObject.prop1.extendedWith.validation !== "undefined";
         var prop2Extended = typeof containingObject.prop2.extendedWith.validation !== "undefined";
@@ -42,14 +35,8 @@
     });
 
     it("should return a list of validators", function () {
-        var containingObject = {
-            prop1: new something(),
-            prop2: new something(),
-            prop3: {
-                prop1: new something()
-            }
-        }
-        var validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(containingObject, rules);
+
+        var validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(containingObject);
 
 
         expect(validatorsList.length).toBe(3);

@@ -23,6 +23,10 @@
         command.execute();
     });
 
+    afterEach(function () {
+        coordinatorSpy.restore();
+    })
+
     it("should reset any errors before execution", function () {
         command.hasError = true;
 
