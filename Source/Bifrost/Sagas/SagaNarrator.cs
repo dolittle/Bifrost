@@ -98,7 +98,7 @@ namespace Bifrost.Sagas
                 return chapterTransition;
             }
 
-            chapterTransition.ValidationResults = _chapterValidationService.Validate(saga.CurrentChapter);
+            chapterTransition.ValidationResults = _chapterValidationService.ValidateForTransistionTo<T>(saga.CurrentChapter);
 
             if (chapterTransition.Invalid)
                 return chapterTransition;

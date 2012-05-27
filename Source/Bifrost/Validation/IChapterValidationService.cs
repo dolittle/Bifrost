@@ -31,10 +31,18 @@ namespace Bifrost.Validation
     public interface IChapterValidationService
     {
         /// <summary>
-        /// Validate the chapter
+        /// Validate the chapter for any transition
         /// </summary>
         /// <param name="chapter">Instance to be validated</param>
         /// <returns>A collection of ValidationResults that indicate any invalid properties / rules</returns>
         IEnumerable<ValidationResult> Validate(IChapter chapter);
+
+        /// <summary>
+        /// Validate chapter when transistioning rules exist to next chapter, otherwise falls back to default behaviour chapter validation.
+        /// </summary>
+        /// <typeparam name="T">Chapter being transitioned to</typeparam>
+        /// <param name="chapter">Instance to be validated</param>
+        /// <returns></returns>
+        IEnumerable<ValidationResult> ValidateForTransistionTo<T>(IChapter chapter);
     }
 }
