@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Commands\AnotherSimpleCommand.cs" />
     <Compile Include="Commands\AnotherSimpleCommandBusinessValidator.cs" />
     <Compile Include="Commands\AnotherSimpleCommandInputValidator.cs" />
@@ -75,6 +72,7 @@
     <Compile Include="Sagas\SimpleSagaWithConflictingPropertyNames.cs" />
     <Compile Include="Sagas\TransitionalChapter.cs" />
     <Compile Include="Sagas\NonTransitionalChapterValidator.cs" />
+    <Compile Include="Sagas\TransitionalChapterTransitionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">

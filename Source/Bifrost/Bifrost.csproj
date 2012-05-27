@@ -126,6 +126,7 @@
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Serializer.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
+    <Compile Include="Validation\AbstractChapterValidator.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
     <Compile Include="Sagas\ISaga.cs" />
@@ -170,7 +171,7 @@
     <Compile Include="Sagas\ChapterTransitionNotAllowedException.cs" />
     <Compile Include="Sagas\ChapterTransitionHelper.cs" />
     <Compile Include="Sagas\SagaNarrator.cs" />
-    <Compile Include="Validation\ChapterValidation.cs" />
+    <Compile Include="Validation\ChapterValidator.cs" />
     <Compile Include="Validation\ChapterValidatorProvider.cs" />
     <Compile Include="Validation\CommandBusinessValidator.cs" />
     <Compile Include="Commands\CommandHandlerForTypeInvoker.cs" />
@@ -178,8 +179,10 @@
     <Compile Include="Validation\CommandInputValidator.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\ChapterTranstionValidator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
+    <Compile Include="Validation\IChapterTransitionValidator.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />
     <Compile Include="Validation\IChapterValidator.cs" />
     <Compile Include="Validation\IChapterValidatorProvider.cs" />
