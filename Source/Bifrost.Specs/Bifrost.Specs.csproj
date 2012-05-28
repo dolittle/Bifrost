@@ -306,7 +306,8 @@
     <Compile Include="Sagas\for_Saga\when_getting_chapter_by_type_and_it_is_not_in_saga.cs" />
     <Compile Include="Sagas\for_Saga\when_loading_events_and_saga_has_events_from_multiple_aggregatedroots.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter.cs" />
-    <Compile Include="Validation\for_ChapterTransitionValidator\given\a_chapter_validator.cs" />
+    <Compile Include="Validation\for_ChapterTransitionValidator\given\a_chapter_transition_validator.cs" />
+    <Compile Include="Validation\for_ChapterTransitionValidator\when_validating_an_invalid_chapter_tansition.cs" />
     <Compile Include="Validation\for_ChapterTransitionValidator\when_validating_a_valid_chapter_transition.cs" />
     <Compile Include="Validation\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
