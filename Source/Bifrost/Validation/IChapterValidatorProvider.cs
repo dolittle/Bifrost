@@ -43,5 +43,13 @@ namespace Bifrost.Validation
         /// <param name="type">Type of the Chapter to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
         IChapterValidator GetValidatorFor(Type type);
+
+        /// <summary>
+        /// Retrieves a transition validator specific to this chapter transition.
+        /// </summary>
+        /// <typeparam name="T">Type of the Chapter being transitioned to</typeparam>
+        /// <param name="transitionFromChapter">Chapter to be validated</param>
+        /// <returns>Returns a specific validator if exists. Falls back to the default chapter validator, or NullValidator if no validator is availale</returns>
+        IChapterTransitionValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter);
     }
 }

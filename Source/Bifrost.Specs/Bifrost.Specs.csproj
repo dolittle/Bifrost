@@ -312,6 +312,7 @@
     <Compile Include="Validation\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_passes.cs" />
+    <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_transition_that_passes.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_with_no_validators.cs" />
     <Compile Include="Validation\for_ChapterValidatorProvider\given\a_chapter_validator_provider.cs" />
     <Compile Include="Validation\for_ChapterValidatorProvider\when_getting_a_validator_for_a_chapter_with_a_validator.cs" />

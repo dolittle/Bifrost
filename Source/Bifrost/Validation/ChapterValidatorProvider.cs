@@ -79,6 +79,11 @@ namespace Bifrost.Validation
             var validator = registeredType != null ? _serviceLocator.GetInstance(registeredType) as IChapterValidator : NullChapterValidator;
             return validator;
         }
+
+        public IChapterTransitionValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter)
+        {
+            throw new NotImplementedException();
+        }
 #pragma warning restore 1591 // Xml Comments
 
         void Initialize()
