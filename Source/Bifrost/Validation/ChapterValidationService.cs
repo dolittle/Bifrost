@@ -52,19 +52,11 @@ namespace Bifrost.Validation
 
         public IEnumerable<ValidationResult> ValidateForTransistionTo<T>(IChapter chapter)
         {
-
-            //get the transition validator for current transition if exists and return result
-            //if no transition validators exist, return the default validationResult
-            
-            /*
-            var transitionValidator = _chapterTransitionValidatorProvider.GetValidatorForTransitionTo<T>(chapter);
-            if (transitionValidator is NullChapterTransitionValidator)
+            var validator = _chapterValidatorProvider.GetValidatorForTransitionTo<T>(chapter);
+            if (validator is NullChapterValidator)
                 return Validate(chapter);
 
-            return transitionValidator.ValidateChapter(chapter);
-            */
-
-            throw new System.NotImplementedException();
+            return validator.ValidateChapter(chapter);
         }
 #pragma warning restore 1591 // Xml Comments
     }

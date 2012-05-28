@@ -80,7 +80,7 @@ namespace Bifrost.Validation
             return validator;
         }
 
-        public IChapterTransitionValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter)
+        public IChapterValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter)
         {
             throw new NotImplementedException();
         }

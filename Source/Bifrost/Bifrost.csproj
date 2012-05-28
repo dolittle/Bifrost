@@ -182,7 +182,6 @@
     <Compile Include="Validation\ChapterTranstionValidator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
-    <Compile Include="Validation\IChapterTransitionValidator.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />
     <Compile Include="Validation\IChapterValidator.cs" />
     <Compile Include="Validation\IChapterValidatorProvider.cs" />

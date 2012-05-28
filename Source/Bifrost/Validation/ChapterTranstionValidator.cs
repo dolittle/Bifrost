@@ -32,7 +32,7 @@ namespace Bifrost.Validation
     /// </remarks>
     /// <typeparam name="T">Concrete type of the Chapter to validate</typeparam>
     /// <typeparam name="Y">Concrete type of the Chapter to transition to </typeparam>
-    public abstract class ChapterTranstionValidator<T,Y> : AbstractChapterValidator<T>, ICanValidate<T>, IChapterTransitionValidator where T : class, IChapter where Y : class, IChapter
+    public abstract class ChapterTranstionValidator<T,Y> : AbstractChapterValidator<T>, ICanValidate<T>, IChapterValidator where T : class, IChapter where Y : class, IChapter
     {
 
     }
