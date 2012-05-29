@@ -1,14 +1,19 @@
 ﻿describe("when applying to properties", function () {
-    it("should add a validator to all property instances", function () {
-        var itemWithProperties = {
+
+    var itemWithProperties,
+        validatorCount,
+        propertyCount;
+
+    beforeEach(function() {
+        itemWithProperties = {
             first: {},
             second: {},
             third: {}
         };
 
         Bifrost.validation.Validator.applyToProperties(itemWithProperties, {});
-        var validatorCount = 0;
-        var propertyCount = 0;
+        validatorCount = 0;
+        propertyCount = 0;
 
         for (var property in itemWithProperties) {
             if (itemWithProperties.hasOwnProperty(property)) {
@@ -18,6 +23,10 @@
                 }
             }
         }
+    });
+
+    it("should add a validator to all property instances", function () {
+        
         expect(validatorCount).toBe(propertyCount);
     });
 });
