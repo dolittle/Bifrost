@@ -1062,11 +1062,7 @@ Bifrost.features.featureMapper = (function () {
     }
 })();
 Bifrost.namespace("Bifrost.features");
-Bifrost.features.ViewModel = (function(window, undefined) {
-	Bifrost.features.ViewModel = Bifrost.features.ViewModel || {
-		baseFor: function() {}
-	};
-	
+Bifrost.features.ViewModel = (function(window, undefined) {	
 	function ViewModel() {
 		var self = this;
 		
