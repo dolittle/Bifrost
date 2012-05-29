@@ -3,7 +3,10 @@
 		baseFor: function() {}
 	};
 
-    var actualViewModel = function () { };
+    var actualViewModel = function () { 
+		this.onActivated = function() {
+		}
+	};
 
     var viewModel = Bifrost.features.ViewModelDefinition.define(actualViewModel, { isSingleton : false });
     var firstInstance = viewModel.getInstance();

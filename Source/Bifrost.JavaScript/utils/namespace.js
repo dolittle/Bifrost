@@ -1,6 +1,6 @@
 var Bifrost = Bifrost || {};
 (function(global, undefined) {
-    Bifrost.namespace = function (ns) {
+    Bifrost.namespace = function (ns, content) {
         var parent = global;
         var parts = ns.split('.');
         $.each(parts, function (index, part) {
@@ -9,5 +9,9 @@ var Bifrost = Bifrost || {};
             }
             parent = parent[part];
         });
+
+		if( typeof content === "object" ) {
+			Bifrost.extend(parent, content);
+		}
     };
 })(window);
