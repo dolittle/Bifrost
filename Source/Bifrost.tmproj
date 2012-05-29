@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>Bifrost.JavaScript/Utils/ClassInfo.js</string>
+	<string>Bifrost.JavaScript.Specs/features/for_ViewModel/when_activating.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -31,14 +31,44 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>Bifrost.JavaScript.Specs/Utils/for_ClassInfo/when_creating_and_it_has_no_dependencies.js</key>
+		<key>Bifrost.JavaScript.Specs/Commands/for_Command/when_executing_a_command_which_can_not_execute.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>30</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>19</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>25</integer>
+				<key>line</key>
+				<integer>19</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>30</integer>
+				<key>line</key>
+				<integer>19</integer>
+			</dict>
+		</dict>
+		<key>Bifrost.JavaScript.Specs/features/for_ViewModel/when_activating.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>25</integer>
+				<key>line</key>
+				<integer>24</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -59,59 +89,75 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>Bifrost.JavaScript/Bifrost.debug.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>46</integer>
+				<key>line</key>
+				<integer>1288</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1264</integer>
+		</dict>
 		<key>Bifrost.JavaScript/Utils/Class.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>44</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>28</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/Utils/ClassInfo.js</key>
+		<key>Bifrost.JavaScript/Utils/guid.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>67</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>3</integer>
+				<integer>11</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>Bifrost.JavaScript/Utils/functionParser.js</key>
+		<key>Bifrost.JavaScript/features/ViewModel.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>18</integer>
+				<integer>21</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>52</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>33</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
+		<string>Bifrost.JavaScript.Specs/features/for_ViewModel/when_activating.js</string>
+		<string>Bifrost.JavaScript/Utils/guid.js</string>
 		<string>Bifrost.JavaScript/Utils/Class.js</string>
-		<string>Bifrost.JavaScript/Utils/functionParser.js</string>
-		<string>Bifrost.JavaScript/Utils/ClassInfo.js</string>
-		<string>Bifrost.JavaScript.Specs/Utils/for_ClassInfo/when_creating_and_it_has_no_dependencies.js</string>
+		<string>Bifrost.JavaScript/Bifrost.debug.js</string>
+		<string>Bifrost.JavaScript.Specs/Commands/for_Command/when_executing_a_command_which_can_not_execute.js</string>
+		<string>Bifrost.JavaScript/features/ViewModel.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{-0, 4}, {1280, 1414}}</string>
+	<string>{{0, 4}, {938, 874}}</string>
 </dict>
 </plist>
