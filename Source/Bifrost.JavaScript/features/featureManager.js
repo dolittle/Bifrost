@@ -18,10 +18,10 @@ Bifrost.features.featureManager = (function () {
         },
         hookup: function ($) {
             $("*[data-feature]").each(function () {
-                var target = $(this);
+                var target = $(this)[0];
                 var name = $(this).attr("data-feature");
                 var feature = Bifrost.features.featureManager.get(name);
-                feature.renderTo(target[0]);
+                feature.renderTo(target);
             });
         },
         all: function () {

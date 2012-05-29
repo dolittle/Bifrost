@@ -40,9 +40,10 @@
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/loader.js
-@depends features/navigateTo.js
 @depends features/featureBindingHandler.js
 @depends messaging/messenger.js
+@depends navigation/navigateTo.js
+@depends navigation/navigationManager.js
 */
 
 // Something funky stuff with jQuery makes the TypeInfo break everything

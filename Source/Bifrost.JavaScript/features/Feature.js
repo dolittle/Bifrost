@@ -49,8 +49,13 @@ Bifrost.features.Feature = (function () {
 			$(target).empty();
             $(target).append(self.view);
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
-            var viewModel = self.viewModelDefinition.getInstance();
-            ko.applyBindings(viewModel, target);
+
+			Bifrost.navigation.navigationManager.hookup(target);
+
+			if( self.viewModelDefinition ) {
+            	var viewModel = self.viewModelDefinition.getInstance();
+            	ko.applyBindings(viewModel, target);
+			}
         }
     }
 
