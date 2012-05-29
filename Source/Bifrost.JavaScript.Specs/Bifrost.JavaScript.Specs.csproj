@@ -84,6 +84,7 @@
     <Content Include="features\for_ViewModel\when_registering_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_without_specifying_lifecycle_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModel\when_registering_as_transient_and_getting_two_instances.js" />
+    <Content Include="messaging\for_messenger\when_subscribing_with_an_instance_of_a_class.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
