@@ -15,6 +15,7 @@
 
         command = {
             name: "Whatevva",
+            validatorsList: [],
             parameters: {
                 something: {
                     someOtherThing: ko.observable()
@@ -22,14 +23,18 @@
             }
         };
 
+        Bifrost.validation.validationService.applyForCommand(command);
         command.parameters.something.someOtherThing.validator = {
-            setOptions: function(options) {
+            setOptions: function (options) {
                 test.optionsSet = options;
             }
         };
 
-        Bifrost.validation.validationService.applyForCommand(command);
         server.respond();
+    });
+
+    afterEach(function () {
+        server.restore();
     });
 
     it("should set the rule in response from server", function () {

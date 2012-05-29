@@ -1,29 +1,36 @@
 ﻿describe("when applying rules from server for a known command", sinon.test(function () {
-    var expectedMessage = "Should be required";
-    var test = {};
+    var expectedMessage = "Should be required",
+        test = { },
+        server,
+        command;
 
-    var server = sinon.fakeServer.create();
 
-    server.respondWith("POST", "/Validation/GetForCommand",
-        [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "'+expectedMessage+'" } } } }']);
+    beforeEach(function () {
+        server = sinon.fakeServer.create();
 
-    var command = {
-        name: "Whatevva",
-        parameters: {
-            something: {
-                extend: function () {
-                },
-                validator: {
-                    setOptions: function (options) {
-                        test.optionsSet = options;
-                    }
-                }
+        server.respondWith("POST", "/Validation/GetForCommand",
+            [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
+
+
+        command = {
+            name: "Whatevva",
+            validatorsList: [],
+            parameters: {
+                something: ko.observable()
             }
-        }
-    };
+        };
 
-    Bifrost.validation.validationService.applyForCommand(command);
-    server.respond();
+        Bifrost.validation.validationService.applyForCommand(command);
+        command.parameters.something.validator = {
+            setOptions: function (options) {
+                test.optionsSet = options;
+            }
+        };
+        server.respond();
+    });
+    afterEach(function () {
+        server.restore();
+    });
 
     it("should set the rule in response from server", function () {
         expect(test.optionsSet.required).toBeDefined();

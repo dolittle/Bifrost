@@ -12,7 +12,6 @@
         };
         command = Bifrost.commands.Command.create(options);
         Bifrost.namespace("Bifrost.commands.commandCoordinator");
-        Bifrost.commands.commandCoordinator.handle = function () { };
 
         onBeforeExecuteSpy = sinon.spy(command, "onBeforeExecute");
         coordinatorSpy = sinon.spy(Bifrost.commands.commandCoordinator, 'handle');

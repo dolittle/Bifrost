@@ -1,6 +1,8 @@
 ﻿describe("when executing a command which can execute", function () {
 
-    var onBeforeExecuteSpy, coordinatorSpy, command;
+    var onBeforeExecuteSpy,
+        coordinatorSpy, 
+        command;
 
     beforeEach(function () {
         var options = {
@@ -12,7 +14,6 @@
         };
         command = Bifrost.commands.Command.create(options);
         Bifrost.namespace("Bifrost.commands.commandCoordinator");
-        Bifrost.commands.commandCoordinator.handle = function () { };
 
         onBeforeExecuteSpy = sinon.spy(command, "onBeforeExecute");
         coordinatorSpy = sinon.spy(Bifrost.commands.commandCoordinator, 'handle');
@@ -20,7 +21,7 @@
         command.execute();
     });
 
-    afterEach(function() {
+    afterEach(function () {
         coordinatorSpy.restore();
     });
 
