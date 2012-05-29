@@ -34,7 +34,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidationService
 
 
 
-        Because of = () => validation_results = chapter_validation_service.ValidateForTransistionTo<SimpleChapter>(chapter_mock.Object);
+        Because of = () => validation_results = chapter_validation_service.ValidateTransistionTo<SimpleChapter>(chapter_mock.Object);
 
         It should_have_no_failed_validation_results = () => validation_results.ShouldBeEmpty();
         It should_have_validated_the_chapter = () => chapter_validator_provider_mock.VerifyAll();

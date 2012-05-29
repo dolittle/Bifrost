@@ -28,7 +28,6 @@ namespace Bifrost.Specs.Validation.for_ChapterValidationService
 
                                     chapter_validator_provider_mock = new Mock<IChapterValidatorProvider>();
                                     chapter_validator_provider_mock.Setup(cvm => cvm.GetValidatorForTransitionTo<SimpleChapter>(chapter_mock.Object)).Returns(null_transition_validator);
-                                    chapter_validator_provider_mock.Setup(cvm => cvm.GetValidatorFor(chapter_mock.Object)).Returns(null_transition_validator);
 
                                     chapter_validation_service = new ChapterValidationService(chapter_validator_provider_mock.Object);
 
@@ -36,7 +35,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidationService
 
 
 
-        Because of = () => validation_results = chapter_validation_service.ValidateForTransistionTo<SimpleChapter>(chapter_mock.Object);
+        Because of = () => validation_results = chapter_validation_service.ValidateTransistionTo<SimpleChapter>(chapter_mock.Object);
 
         It should_have_no_failed_validation_results = () => validation_results.ShouldBeEmpty();
         It should_have_validated_the_chapter = () => chapter_validator_provider_mock.VerifyAll();

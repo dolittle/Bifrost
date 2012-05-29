@@ -21,7 +21,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
             saga = new Saga();
             saga.SetCurrentChapter(current_chapter);
 
-            chapter_validation_service_mock.Setup(v => v.ValidateForTransistionTo<AnotherTransitionalChapter>(current_chapter)).Returns(new List<ValidationResult>() { new ValidationResult("Test") });
+            chapter_validation_service_mock.Setup(v => v.ValidateTransistionTo<AnotherTransitionalChapter>(current_chapter)).Returns(new List<ValidationResult>() { new ValidationResult("Test") });
         };
 
         Because of = () => chapter_transition = narrator.TransitionTo<AnotherTransitionalChapter>(saga);

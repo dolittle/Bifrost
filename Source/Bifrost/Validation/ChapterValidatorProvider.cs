@@ -42,7 +42,6 @@ namespace Bifrost.Validation
         readonly IServiceLocator _serviceLocator;
 
         Dictionary<Type, Type> _validators;
-        Dictionary<KeyValuePair<Type, Type>, Type> _transitionValidators;
 
         /// <summary>
         /// Initializes an instance of <see cref="ChapterValidatorProvider"/> ChapterValidatorProvider
@@ -83,18 +82,19 @@ namespace Bifrost.Validation
 
         public IChapterValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter)
         {
-            if (transitionFromChapter == null)
+            //if (transitionFromChapter == null)
                 return NullChapterValidator;
-            
+            /*
             var type = transitionFromChapter.GetType();
 
             var transitionKey = new KeyValuePair<Type, Type>(type, typeof(T));
             Type registeredType;
 
-            _transitionValidators.TryGetValue(transitionKey, out registeredType);
+            //_transitionValidators.TryGetValue(transitionKey, out registeredType);
 
             var validator = registeredType != null ? _serviceLocator.GetInstance(registeredType) as IChapterValidator : NullChapterValidator;
-            return validator;
+             * */
+            
         }
 #pragma warning restore 1591 // Xml Comments
 
