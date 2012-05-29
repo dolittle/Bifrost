@@ -56,12 +56,13 @@ Bifrost.commands.Command = (function (window) {
         };
 
         this.validator = Bifrost.validation.Validator.create({ required: true });
+
         this.validate = function () {
             self.validator.validate(true);
             if (self.validator.isValid()) {
                 for (var property in self.validatorsList) {
                     var validator = self.validatorsList[property].validator;
-                    if (validator) {    
+                    if (validator) {
                         var value = self.validatorsList[property]();
                         validator.validate(value);
                     }
@@ -69,27 +70,33 @@ Bifrost.commands.Command = (function (window) {
             }
         };
 
-        this.applyValidationMessageToMembers = function (members, message) {
+        this.applyValidationMessageToMembers = function(members, message) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
                 var member = self.parameters;
-                for (var i in path) {
+                var memberName = "parameters";
+                for (var i = 0; i < path.length; i++) {
                     var step = path[i];
                     step = step.charAt(0).toLowerCase() + step.substring(1);
                     member = ko.utils.unwrapObservable(member);
                     if (step in member) {
                         member = member[step];
+                        memberName += "." + step;
                     } else {
-                        throw "Error applying validation results: " + step + " is not a member of " + member + " (" + members[j] + ")";
+                        throw new Error("Error applying validation result: " + member[j] + "\n" +
+                            step + " is not a member of " + memberName + "\n" +
+                            members[j] + " = `" + ko.utils.unwrapObservable(members[j]) + "`");
                     }
                 }
+
+
                 if (typeof message === "string" && "validator" in member) {
                     member.validator.isValid(false);
                     member.validator.message(message);
                 }
             }
-        }
+        };
 
         this.applyValidationMessageToCommand = function (message) {
             self.validator.isValid(false);
@@ -109,6 +116,16 @@ Bifrost.commands.Command = (function (window) {
                 } else {
                     //the command needs a validator we can apply this message to.
                     self.applyValidationMessageToCommand(message);
+                }
+            }
+        };
+
+        this.resetAllValidationMessages = function () {
+            self.validator.reset();
+            for (var i = 0; i < self.validatorsList.length; i++) {
+                var validator = self.validatorsList[i].validator;
+                if (validator) {
+                    validator.reset();
                 }
             }
         };

@@ -20,18 +20,28 @@
         };
         command = Bifrost.commands.Command.create(options);
         command.parameters.computed.validator.message("erro message which should be cleared");
+        command.parameters.plainObject.observable.validator.message("erro message which should be cleared");
+        command.validator.message("some message here");
         command.resetAllValidationMessages();
     });
 
     it("should have a a resetAllValidationMessagess function", function () {
-        expect(command.reseltAllValidationMessages).toBeDefined();
+        expect(command.resetAllValidationMessages).toBeDefined();
     });
 
     it("should not have any validation messages", function () {
-        expect(options.parameters.computed.validator.messages).toBe("");
+        expect(options.parameters.computed.validator.message()).toBe("");
     });
 
     it("should not have any nested validation messages", function () {
-        expect(options.parameters.plainObject.observable.validator.messages).toBe("");
+        expect(options.parameters.plainObject.observable.validator.message()).toBe("");
+    });
+
+    it("should remove the command validation message", function () {
+        expect(command.validator.message()).toBe("");
+    });
+
+    it("should be valid", function () {
+        expect(command.parametersAreValid()).toBe(true);
     });
 });
