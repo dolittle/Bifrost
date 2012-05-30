@@ -4,8 +4,8 @@ describe("when hooking up with three anchor tags were two have navigation attrib
 	var third = "/Something/Else";
 	
 	var firstAnchor = $("<a id='first' href='"+first+"'/>");
-	var secondAnchor = $("<a id='second' data-navigation='"+second+"'/>");
-	var thirdAnchor = $("<a id='third' data-navigation='"+third+"'/>");
+	var secondAnchor = $("<a id='second' data-navigate-to='"+second+"'/>");
+	var thirdAnchor = $("<a id='third' data-navigate-to='"+third+"'/>");
 	
 	var root = $("<div/>")
 					.append(firstAnchor)
@@ -61,12 +61,12 @@ describe("when hooking up with three anchor tags were two have navigation attrib
 	});
 	
 	
-	it("should add correct href with hash-bang to the second anchor", function() {
-		expect(secondResult).toBe("#!"+second);
+	it("should add href on second anchor to be the specified navigation target", function() {
+		expect(secondResult).toBe(second);
 	});
 	
-	it("should add correct href with hash-bang to the third anchor", function() {
-		expect(thirdResult).toBe("#!"+third);
+	it("should set href on third anchor to be the specified navigation target", function() {
+		expect(thirdResult).toBe(third);
 	});
 	
 	it("should hook up onclick event for second anchor", function() {
