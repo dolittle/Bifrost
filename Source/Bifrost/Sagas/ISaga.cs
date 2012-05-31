@@ -21,6 +21,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Bifrost.Commands;
 using Bifrost.Events;
 using System.Reflection;
 using Bifrost.Sagas.Exceptions;

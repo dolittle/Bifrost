@@ -79,6 +79,8 @@ namespace Bifrost.Commands
             using (_localizer.BeginScope())
             {
                 var commandResult = CommandResult.ForCommand(command);
+
+
                 commandResult.ValidationResults = _commandValidationService.Validate(command);
 
                 if (commandResult.Success)

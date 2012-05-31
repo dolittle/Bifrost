@@ -1,50 +1,61 @@
 ﻿describe("when validating the command", function () {
-    var options = {
-        error: function () {
-            print("Error");
-        },
-        success: function () {
-        },
-        parameters: {
-            plainValue: "test",
-            computed: ko.computed(function () { return "test"; }),
-            plainObject: {
-                plainValue: "test",
-                observable: ko.observable("test")
-            }
-        }
-    };
-    var expectedMessage = "it should be here";
-    var server = sinon.fakeServer.create();
+    var options,
+        expectedMessage,
+        server,
+        validations,
+        command;
 
-    server.respondWith("POST", "/Validation/GetForCommand",
-        [200, { "Content-Type": "application/json" }, ko.toJSON({
-            properties: {
-                "computed": {
-                    required: {
-                        message: expectedMessage
-                    }
-                },
-                "plainObject.observable": {
-                    required: {
-                        message: expectedMessage
-                    }
+    beforeEach(function () {
+        options = {
+            error: function () {
+                print("Error");
+            },
+            success: function () {
+            },
+            parameters: {
+                plainValue: "test",
+                computed: ko.computed(function () { return "test"; }),
+                plainObject: {
+                    plainValue: "test",
+                    observable: ko.observable("test")
                 }
             }
-        })]
-    );
+        };
+        expectedMessage = "it should be here";
+        server = sinon.fakeServer.create();
 
-    var validations = 0;
-    function validate() {
-        validations++;
-    }
+        server.respondWith("POST", "/Validation/GetForCommand",
+            [200, { "Content-Type": "application/json" }, ko.toJSON({
+                properties: {
+                    "computed": {
+                        required: {
+                            message: expectedMessage
+                        }
+                    },
+                    "plainObject.observable": {
+                        required: {
+                            message: expectedMessage
+                        }
+                    }
+                }
+            })]
+        );
+        validations = 0;
 
-    var command = Bifrost.commands.Command.create(options);
-    server.respond();
-    options.parameters.computed.validator = { validate: validate };
-    options.parameters.plainObject.observable.validator = { validate: validate };
-    command.validate();
+        function validate() {
+            validations++;
+        }
 
+        command = Bifrost.commands.Command.create(options);
+        server.respond();
+        options.parameters.computed.validator = { validate: validate };
+        options.parameters.plainObject.observable.validator = { validate: validate };
+        command.validate();
+    });
+
+    afterEach(function () {
+        server.restore();
+    })
 
     it("should call validate for each object", function () {
         expect(validations).toBe(2);
