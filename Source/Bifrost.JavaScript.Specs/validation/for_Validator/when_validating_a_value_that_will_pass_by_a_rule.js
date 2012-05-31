@@ -1,24 +1,30 @@
 ﻿describe("when validating a value that will pass by a rule", function () {
-    var validator;
-    var options = {
-        someRule: {
-            message: "The message"
-        }
-    };
+    
+
+    var validator,
+        ruleSpy,
+        options = {
+            someRule: {
+                message: "The message"
+            }
+        };
     beforeEach(function () {
-        Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
-                return {
-                    message: options.message,
-                    validate: function (value, options) {
-                        return true;
-                    }
+        ruleSpy = sinon.stub(Bifrost.validation.Rule, "create", function (ruleName, options) {
+            return {
+                message: options.message,
+                validate: function (value, options) {
+                    return true;
                 }
             }
-        }
+        });
+
 
         validator = Bifrost.validation.Validator.create(options);
     });
+
+    afterEach(function () {
+        ruleSpy.restore();
+    })
 
     it("should set isValid to true", function () {
         validator.validate("something");

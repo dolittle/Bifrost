@@ -1,34 +1,44 @@
 ﻿describe("when applying nested rules from server for a known command", sinon.test(function () {
-    var expectedMessage = "Should be required";
-    var test = this;
+    var expectedMessage = "Should be required",
+        test,
+        server,
+        command;
 
-    var server = sinon.fakeServer.create();
 
-    server.respondWith("POST", "/Validation/GetForCommand",
+
+    beforeEach(function () {
+        test = {};
+        server = sinon.fakeServer.create();
+
+        server.respondWith("POST", "/Validation/GetForCommand",
         [200, { "Content-Type": "application/json" }, '{ "properties": { "something.someOtherThing": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
 
-    var command = {
-        name: "Whatevva",
-        parameters: {
-            something: {
-                someOtherThing: {
-                    extend: function () {
-                    },
-                    validator: {
-                        setOptions: function (options) {
-                            test.optionsSet = options;
-                        }
-                    }
+        command = {
+            name: "Whatevva",
+            validatorsList: [],
+            parameters: {
+                something: {
+                    someOtherThing: ko.observable()
                 }
             }
-        }
-    };
+        };
 
-    Bifrost.validation.validationService.applyForCommand(command);
-    server.respond();
+        Bifrost.validation.validationService.applyForCommand(command);
+        command.parameters.something.someOtherThing.validator = {
+            setOptions: function (options) {
+                test.optionsSet = options;
+            }
+        };
+
+        server.respond();
+    });
+
+    afterEach(function () {
+        server.restore();
+    });
 
     it("should set the rule in response from server", function () {
-        expect(test.optionsSet.required).not.toBeUndefined();
+        expect(test.optionsSet.required).toBeDefined();
     });
     it("should set the message for the rule in response from server", function () {
         expect(test.optionsSet.required.message).toBe(expectedMessage);

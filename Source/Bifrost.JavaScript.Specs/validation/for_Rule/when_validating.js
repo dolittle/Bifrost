@@ -1,5 +1,7 @@
 ﻿describe("when validating", function () {
+    var rules;
     beforeEach(function () {
+        rules = Bifrost.validation.ruleHandlers;
         Bifrost.validation.ruleHandlers = {
             knownRule: {
                 validate: function (value, options) {
@@ -9,6 +11,11 @@
                 }
             }
         };
+    });
+
+
+    afterEach(function () {
+        Bifrost.validation.ruleHandlers = rules;
     });
 
     it("should forward call to rule handler", function () {

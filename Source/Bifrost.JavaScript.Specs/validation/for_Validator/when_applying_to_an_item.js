@@ -1,7 +1,13 @@
 ﻿describe("when applying to an item", function () {
+
+    var item;
+
+    beforeEach(function() {
+        item = { };
+        Bifrost.validation.Validator.applyTo(item, { });
+    });
+    
     it("should add a validator", function () {
-        var item = {};
-        Bifrost.validation.Validator.applyTo(item, {});
         expect(item.validator).not.toBeUndefined();
     });
 });

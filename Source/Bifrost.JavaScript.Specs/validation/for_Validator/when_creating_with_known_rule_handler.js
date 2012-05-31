@@ -1,18 +1,26 @@
 ﻿describe("when creating with known rule handler", function () {
+
+    var rules,
+        ruleSpy;
+
     beforeEach(function () {
+        rules = Bifrost.validation.ruleHandlers;
         Bifrost.validation.ruleHandlers = {
             knownRule: {
                 validate: function (value, options) {
                 }
             }
         };
-        Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
-                Bifrost.validation.Rule.ruleNamePassed = ruleName;
-                Bifrost.validation.Rule.createCalled = true;
-                Bifrost.validation.Rule.optionsPassed = options;
-            }
-        }
+        ruleSpy = sinon.stub(Bifrost.validation.Rule, "create", function (ruleName, options) {
+            Bifrost.validation.Rule.ruleNamePassed = ruleName;
+            Bifrost.validation.Rule.createCalled = true;
+            Bifrost.validation.Rule.optionsPassed = options;
+        });
+    });
+
+    afterEach(function() {
+        Bifrost.validation.ruleHandlers = rules;
+        ruleSpy.restore();
     });
 
     it("should create a validator", function () {
