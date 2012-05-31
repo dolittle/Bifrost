@@ -26,6 +26,7 @@
 
     it("should return a list of validators", function () {
 
+
         expect(validatorsList.length).toBe(3);
     });
 });
