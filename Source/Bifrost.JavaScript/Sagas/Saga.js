@@ -3,14 +3,20 @@ Bifrost.sagas.Saga = (function () {
     function Saga() {
         var self = this;
 
-        this.executeCommands = function (commands) {
+        this.Id = Bifrost.Guid.empty;
+
+        /*this.executeCommands = function (commands) {
             Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
                 error: function (e) {
                 },
                 complete: function (e) {
                 }
             });
-        }
+        };*/
+
+        this.createCommandExecutor = function (commands) {
+            return Bifrost.sagas.SagaCommandExecutor({sagaId:self.Id, commands:commands});
+        };
     }
 
     return {
@@ -19,5 +25,5 @@ Bifrost.sagas.Saga = (function () {
             Bifrost.extend(saga, configuration);
             return saga;
         }
-    }
+    };
 })();

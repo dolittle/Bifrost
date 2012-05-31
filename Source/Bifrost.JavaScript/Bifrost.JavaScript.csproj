@@ -72,6 +72,7 @@
     <Content Include="navigation\navigateTo.js" />
     <Content Include="navigation\navigation.js" />
     <Content Include="sagas\Saga.js" />
+    <Content Include="sagas\sagaCommandExecutor.js" />
     <Content Include="sagas\sagaNarrator.js" />
     <Content Include="utils\extend.js" />
     <Content Include="utils\guid.js" />

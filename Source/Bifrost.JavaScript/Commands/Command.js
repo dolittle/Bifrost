@@ -137,14 +137,14 @@ Bifrost.commands.Command = (function (window) {
                 return;
             }
 
-            Bifrost.commands.commandCoordinator.handle(self, {
+            Bifrost.commands.commandCoordinator.handle(self/* ,{
                 error: function (e) {
                     self.onError(e);
                 },
                 complete: function () {
                     self.onComplete();
                 }
-            });
+            }*/);
         };
 
         this.onBeforeExecute = function () {
