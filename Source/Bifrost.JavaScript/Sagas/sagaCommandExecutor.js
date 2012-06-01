@@ -3,10 +3,12 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
     function SagaCommandExecutor(options) {
         var self = this;
 
+        this.hasError = false;
         this.isBusy = ko.observable(false);
         this.sagaId = options.sagaId || Bifrost.Guid.empty;
         this.commands = options.commands || [];
-        
+        this.canExecute = ko.observable(true);
+
         this.options = {
             beforeExecute: function () {
             },
@@ -23,6 +25,38 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
         Bifrost.extend(this.options, options);
 
 
+
+        this.initialize = function () {
+            if (typeof self.viewModel === "undefined") {
+                self.viewModel = window;
+            }
+
+            self.commandParametersAreValid = ko.computed(function () {
+                for (var i = 0; i < self.commands.length; i++) {
+                    if (self.commands[i].parametersAreValid() === false) {
+                        return false;
+                    }
+                }
+                return true;
+            }, self);
+        };
+
+        this.forEachCommand = function (perform) {
+            for (var i = 0; i < self.commands.length; i++) {
+                var ret = perform(self.commands[i], i, self.commands);
+                if (ret === false) {
+                    break;
+                }
+            }
+        };
+
+        this.validateCommands = function () {
+            self.forEachCommand(function (command) {
+                command.validate();
+            });
+        };
+
+
         this.execute = function () {
 
 
@@ -31,7 +65,7 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
                 return;
             }
 
-            Bifrost.commands.commandCoordinator.handleForSaga(self, self.commands, {
+            Bifrost.commands.commandCoordinator.handleForSagaCommandExecutor(self, self.commands, {
                 error: function (e) {
                     self.onError(e);
                 },
@@ -48,18 +82,18 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
 
             self.hasError = false;
 
-            self.validate();
-            if (!self.parametersAreValid()) {
+            self.validateCommands();
+            if (!self.commandParametersAreValid()) {
                 return false;
             }
 
             self.options.beforeExecute.call(self.viewModel, self);
+            self.forEachCommand(function (command) {
+                command.options.beforeExecute.call(command.viewModel, command);
+            });
 
-            if (!self.canExecute.call(self.viewModel)) {
-                return false;
-            }
+            
             self.isBusy(true);
-            self.id = Bifrost.Guid.create();
 
             return true;
         };
@@ -90,7 +124,7 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
     return {
         create: function (options) {
             var sagaCommandExecutor = new SagaCommandExecutor(options);
-            Bifrost.extend(sagaCommandExecutor, options);
+            sagaCommandExecutor.initialize();
             return sagaCommandExecutor;
         }
     };

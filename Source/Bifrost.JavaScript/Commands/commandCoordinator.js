@@ -46,7 +46,7 @@ Bifrost.commands.commandCoordinator = (function () {
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
             $.each(commands, function (index, command) {
-                //command.onBeforeExecute();
+                command.onBeforeExecute();
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
 
@@ -66,6 +66,32 @@ Bifrost.commands.commandCoordinator = (function () {
                         }
                     });
                 });
+            });
+        },
+        handleForSagaCommandExecutor: function (sagaCommandExecutor, commands) {
+            var commandDescriptors = [];
+            $.each(commands, function (index, command) {
+                commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
+            });
+
+            var methodParameters = {
+                sagaId: "\"" + sagaCommandExecutor.sagaId + "\"",
+                commandDescriptors: JSON.stringify(commandDescriptors)
+            };
+
+            sendToHandler(baseUrl + "/HandleForSaga", JSON.stringify(methodParameters), function (jqXHR) {
+                var commandResultArray = $.parseJSON(jqXHR.responseText);
+
+                //TODO: handle this in sagaCommandExecutor;
+                //sagaCommandExecutor.handleResponses(commandResultArray);
+                /*$.each(commandResultArray, function (commandResultIndex, commandResult) {
+                $.each(commands, function (commandIndex, command) {
+                if (command.id === commandResult.commandId) {
+                handleCommandCompletion(jqXHR, command, commandResult);
+                return false;
+                }
+                });
+                });*/
             });
         }
     };

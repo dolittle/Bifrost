@@ -8,8 +8,6 @@
 
     beforeEach(function () {
 
-        Bifrost.namespace("Bifrost.commands.CommandDescriptor");
-        Bifrost.commands.CommandDescriptor.createFrom = function () { };
 
         descriptorSpy = sinon.spy(Bifrost.commands.CommandDescriptor, "createFrom"),
         commandCoordinator = Bifrost.commands.commandCoordinator,
@@ -22,6 +20,10 @@
         (function becauseOf() {
             commandCoordinator.handleForSaga(saga, commands, options);
         })();
+    });
+
+    afterEach(function() {
+        descriptorSpy.restore();
     });
 
     it("should create methodParameters to be sent to the server", function () {

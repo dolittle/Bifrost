@@ -5,7 +5,7 @@
     beforeEach(function () {
         options = {
             sagaId: "bleh",
-            commands: [1, 2, 3],
+            commands: [Bifrost.commands.Command.create({})],
             beforeExecute: function (){ },
             success: function () { },
             complete: function () { },
