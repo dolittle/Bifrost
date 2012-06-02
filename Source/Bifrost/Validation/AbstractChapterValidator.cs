@@ -31,7 +31,7 @@ namespace Bifrost.Validation
     /// Base handling of validation of a Chapter
     /// </summary>
     /// <typeparam name="T">Type of Chapter to be validated</typeparam>
-    public abstract class AbstractChapterValidator<T> : AbstractValidator<T> where T: class , IChapter
+    public abstract class AbstractChapterValidator<T> : AbstractValidator<T>, IChapterValidator where T: class , IChapter
     {
 #pragma warning disable 1591 // Xml Comments
         public virtual IEnumerable<ValidationResult> ValidateChapter(IChapter chapter)

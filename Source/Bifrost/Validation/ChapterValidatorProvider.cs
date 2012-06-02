@@ -36,12 +36,15 @@ namespace Bifrost.Validation
     {
         static IChapterValidator NullChapterValidator = new NullChapterValidator();
         static Type _chapterValidatorType = typeof (IChapterValidator);
+        static Type _transitionValidatorType = typeof (ChapterTranstionValidator<,>);
+        static Type _transitionToType = typeof (ICanTransitionTo<>);
         static Type _validatesType = typeof (ICanValidate<>);
 
         readonly ITypeDiscoverer _typeDiscoverer;
         readonly IServiceLocator _serviceLocator;
 
         Dictionary<Type, Type> _validators;
+        Dictionary<KeyValuePair<Type,Type>, Type> _transitionValidators;
 
         /// <summary>
         /// Initializes an instance of <see cref="ChapterValidatorProvider"/> ChapterValidatorProvider
@@ -82,32 +85,35 @@ namespace Bifrost.Validation
 
         public IChapterValidator GetValidatorForTransitionTo<T>(IChapter transitionFromChapter)
         {
-            //if (transitionFromChapter == null)
+            if (transitionFromChapter == null)
                 return NullChapterValidator;
-            /*
+            
             var type = transitionFromChapter.GetType();
 
             var transitionKey = new KeyValuePair<Type, Type>(type, typeof(T));
             Type registeredType;
 
-            //_transitionValidators.TryGetValue(transitionKey, out registeredType);
+            _transitionValidators.TryGetValue(transitionKey, out registeredType);
 
             var validator = registeredType != null ? _serviceLocator.GetInstance(registeredType) as IChapterValidator : NullChapterValidator;
-             * */
-            
+
+            return validator;
         }
 #pragma warning restore 1591 // Xml Comments
 
         void Initialize()
         {
             _validators = new Dictionary<Type, Type>();
+            _transitionValidators = new Dictionary<KeyValuePair<Type, Type>, Type>();
 
             var validators = _typeDiscoverer.FindMultiple(_chapterValidatorType);
+            var transitionValidators = _typeDiscoverer.FindMultiple(_transitionValidatorType);
 
-            Array.ForEach(validators, Register);
+            Array.ForEach(validators, RegisterChapterValidator);
+            Array.ForEach(transitionValidators, RegisterTransitionValidator);
         }
 
-        void Register(Type typeToRegister)
+        void RegisterChapterValidator(Type typeToRegister)
         {
             var chapterType = GetChapterType(typeToRegister);
 
@@ -115,6 +121,30 @@ namespace Bifrost.Validation
                 return;
 
             _validators.Add(chapterType, typeToRegister);
+        }
+
+        void RegisterTransitionValidator(Type typeToRegister)
+        {
+            Type transitionToType;
+            var chapterType = GetChapterType(typeToRegister, out transitionToType);
+
+            if (chapterType == null || chapterType.IsInterface)
+                return;
+
+            _transitionValidators.Add(new KeyValuePair<Type, Type>(chapterType, transitionToType), typeToRegister);
+        }
+
+        Type GetChapterType(Type typeToRegister, out Type transitionToType)
+        {
+            var type = GetChapterType(typeToRegister);
+            var transitionTo = from interfaceType in typeToRegister.GetInterfaces()
+                        where interfaceType.IsGenericType
+                        let baseInterface = interfaceType.GetGenericTypeDefinition()
+                        where baseInterface == _transitionToType
+                        select interfaceType.GetGenericArguments();
+            transitionToType = transitionTo.FirstOrDefault().FirstOrDefault();
+
+            return type;
         }
 
         Type GetChapterType(Type typeToRegister)

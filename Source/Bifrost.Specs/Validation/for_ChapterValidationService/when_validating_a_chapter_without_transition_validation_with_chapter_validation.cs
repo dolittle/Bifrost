@@ -28,6 +28,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidationService
 
                                     chapter_validator_provider_mock = new Mock<IChapterValidatorProvider>();
                                     chapter_validator_provider_mock.Setup(cvm => cvm.GetValidatorForTransitionTo<SimpleChapter>(chapter_mock.Object)).Returns(null_transition_validator);
+                                    chapter_validator_provider_mock.Setup(cvm => cvm.GetValidatorFor(chapter_mock.Object)).Returns(null_transition_validator);
 
                                     chapter_validation_service = new ChapterValidationService(chapter_validator_provider_mock.Object);
 

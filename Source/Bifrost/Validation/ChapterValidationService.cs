@@ -47,7 +47,12 @@ namespace Bifrost.Validation
 
         public IEnumerable<ValidationResult> ValidateTransistionTo<T>(IChapter chapter)
         {
-            var validator = _chapterValidatorProvider.GetValidatorForTransitionTo<T>(chapter);
+            var transitionValidator = _chapterValidatorProvider.GetValidatorForTransitionTo<T>(chapter);
+
+            var validator =  transitionValidator is NullChapterValidator 
+                            ? _chapterValidatorProvider.GetValidatorFor(chapter) 
+                            : transitionValidator;
+
             return validator.ValidateChapter(chapter);
         }
 #pragma warning restore 1591 // Xml Comments

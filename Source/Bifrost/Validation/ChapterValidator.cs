@@ -31,7 +31,7 @@ namespace Bifrost.Validation
     /// Chapter validators inherting from this base class will be automatically registered.
     /// </remarks>
     /// <typeparam name="T">Concrete type of the Chapter to validate</typeparam>
-    public abstract class ChapterValidator<T> : AbstractChapterValidator<T>, ICanValidate<T>, IChapterValidator where T : class, IChapter
+    public abstract class ChapterValidator<T> : AbstractChapterValidator<T>, ICanValidate<T> where T : class, IChapter
     {
 
     }

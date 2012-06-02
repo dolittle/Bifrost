@@ -26,6 +26,12 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
                                                     typeof(NullChapterValidator)
                                                 }
                                         );
+                                    type_discoverer_mock.Setup(
+                                        td => td.FindMultiple(typeof (ChapterTranstionValidator<,>)))
+                                        .Returns(new[]
+                                                     {
+                                                         typeof(Fakes.Sagas.TransitionalChapterTransitionValidator)
+                                                     });
 
                                     chapter_validator_provider = new ChapterValidatorProvider(type_discoverer_mock.Object, service_locator_mock.Object);
                                 };
