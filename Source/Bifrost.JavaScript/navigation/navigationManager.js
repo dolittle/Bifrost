@@ -2,8 +2,9 @@ Bifrost.namespace("Bifrost.navigation", {
 	navigationManager: {
 		hookup: function(parent) {
             $("a", parent).each(function (index, item) {
-				var target = item.href.replace("file://","");
-				if( target.indexOf("/") === 0 ) {
+				var targetUri = Bifrost.Uri.create(item.href);
+				if( targetUri.isSameAsOrigin ) {
+					var target = targetUri.path;
 					while( target.indexOf("/") == 0 ) {
 						target = target.substr(1);
 					}
@@ -12,7 +13,7 @@ Bifrost.namespace("Bifrost.navigation", {
 				
 					$(this).bind("click", function(e) {
 						e.preventDefault();
-						History.pushState({},"NO TITLE AT THE MOMENT","/"+target);
+						History.pushState({},"","/"+target);
 					});
 				}
 			});

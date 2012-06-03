@@ -17,7 +17,6 @@ describe("when hooking up with three anchor tags were two have navigation attrib
 	var secondOnClick;
 	var thirdOnClick;	
 
-
     beforeEach(function() {
 		sinon.stub($.fn, "attr", function(name, value) {
 			var element = $(this)[0];
