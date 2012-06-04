@@ -89,6 +89,8 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_validating_command_executor_commands.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_executing_a_saga_command_executor.js" />
     <Content Include="sagas\for_sagaCommandExecutor\when_creating_a_saga_command_executor.js" />
     <Content Include="sagas\for_Saga\when_creating_a_saga.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
