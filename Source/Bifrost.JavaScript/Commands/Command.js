@@ -74,7 +74,7 @@ Bifrost.commands.Command = (function (window) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
-                var member = self.parameters;
+                var member = ko.utils.unwrapObservable(self.parameters);
                 var memberName = "parameters";
                 for (var i = 0; i < path.length; i++) {
                     var step = path[i];

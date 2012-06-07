@@ -2,7 +2,6 @@
 Bifrost.validation.validationService = (function () {
     return {
         recursivlyExtendProperties: function (properties, validatorsList) {
-
             for (var key in properties) {
                 var property = properties[key];
                 if (ko.isObservable(property)) {
@@ -21,7 +20,7 @@ Bifrost.validation.validationService = (function () {
                 var path = rule.split(".");
                 var memberName = "parameters";
                 var member = properties;
-                for (var i = 0; i < path.length; i++ ) {
+                for (var i = 0; i < path.length; i++) {
                     var step = path[i];
                     member = ko.utils.unwrapObservable(member);
                     if (typeof member === "object" && step in member) {
@@ -45,7 +44,7 @@ Bifrost.validation.validationService = (function () {
         },
 
         applyForCommand: function (command) {
-            Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, command.validatorsList);
+            Bifrost.validation.validationService.recursivlyExtendProperties(ko.utils.unwwrapObservable(command.parameters), command.validatorsList);
 
             var methodParameters = {
                 name: "\"" + command.name + "\""
@@ -61,7 +60,7 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
+                    Bifrost.validation.validationService.recursivlyApplyRules(ko.utils.unwwrapObservable(command.parameters), result.properties);
                 }
             });
         }
