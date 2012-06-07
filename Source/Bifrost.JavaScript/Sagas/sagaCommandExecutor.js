@@ -8,7 +8,14 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
         this.sagaId = options.sagaId || Bifrost.Guid.empty;
         this.commands = options.commands || [];
         this.canExecute = ko.observable(true);
-
+        this.successfullyExecuted = function () {
+            for (var i = 0; i < self.commands.length; i++) {
+                if (self.commands[i].successfullyExecuted() === false) {
+                    return false;
+                }
+            }
+            return true;
+        };
         this.options = {
             beforeExecute: function () {
             },
@@ -65,20 +72,14 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
                 return;
             }
 
-            Bifrost.commands.commandCoordinator.handleForSagaCommandExecutor(self, self.commands, {
-                error: function (e) {
-                    self.onError(e);
-                },
-                complete: function () {
-                    self.onComplete();
-                },
-                success: function () {
-                    self.onSuccess();
-                }
-            });
+            Bifrost.commands.commandCoordinator.handleForSagaCommandExecutor(self, self.commands);
         };
 
         this.onBeforeExecute = function () {
+
+            if (self.isBusy()) {
+                return false;
+            }
 
             self.hasError = false;
 
@@ -92,7 +93,7 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
                 command.options.beforeExecute.call(command.viewModel, command);
             });
 
-            
+
             self.isBusy(true);
 
             return true;
@@ -100,21 +101,22 @@ Bifrost.sagas.SagaCommandExecutor = (function () {
 
         this.onError = function () {
             self.hasError = true;
-            if (self.result.hasOwnProperty("validationResults")) {
-                self.applyServerValidation(self.result.validationResults);
-            }
             self.options.error.call(self.viewModel, self.result);
         };
 
         this.onSuccess = function () {
             self.hasError = false;
-            self.resetAllValidationMessages();
             self.options.success.call(self.viewModel, self.result);
         };
 
         this.onComplete = function () {
-            if (!self.hasError) {
+
+
+            if (self.successfullyExecuted()) {
+                self.onSuccess();
                 self.options.complete.call(self.viewModel, self.result);
+            } else {
+                self.onError();
             }
             self.isBusy(false);
         };

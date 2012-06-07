@@ -46,7 +46,7 @@ Bifrost.commands.commandCoordinator = (function () {
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
             $.each(commands, function (index, command) {
-                //command.onBeforeExecute();
+                command.onBeforeExecute();
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
 
@@ -83,15 +83,15 @@ Bifrost.commands.commandCoordinator = (function () {
                 var commandResultArray = $.parseJSON(jqXHR.responseText);
 
                 //TODO: handle this in sagaCommandExecutor;
-                //sagaCommandExecutor.handleResponses(commandResultArray);
-                /*$.each(commandResultArray, function (commandResultIndex, commandResult) {
-                $.each(commands, function (commandIndex, command) {
-                if (command.id === commandResult.commandId) {
-                handleCommandCompletion(jqXHR, command, commandResult);
-                return false;
-                }
+                $.each(commandResultArray, function (commandResultIndex, commandResult) {
+                    $.each(commands, function (commandIndex, command) {
+                        if (command.id === commandResult.commandId) {
+                            handleCommandCompletion(jqXHR, command, commandResult);
+                            return false;
+                        }
+                    });
                 });
-                });*/
+                sagaCommandExecutor.onComplete();
             });
         }
     };

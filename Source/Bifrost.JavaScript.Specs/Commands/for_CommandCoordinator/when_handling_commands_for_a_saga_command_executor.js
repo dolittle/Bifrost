@@ -1,10 +1,11 @@
-﻿describe("when handling commands for a saga", function () {
+﻿describe("when handling commands for a saga command executor", function () {
     var descriptorSpy,
         commandCoordinator,
         ajaxSpy,
+        onCompleteSpy,
         commands,
         options,
-        saga;
+        sce;
 
     beforeEach(function () {
 
@@ -12,13 +13,13 @@
         descriptorSpy = sinon.spy(Bifrost.commands.CommandDescriptor, "createFrom"),
         commandCoordinator = Bifrost.commands.commandCoordinator,
         ajaxSpy = sinon.spy(jQuery, "ajax"),
-        commands = [{ name: "1", onBeforeExecute: function () { }, parameters:{}},
-                    { name: "2", onBeforeExecute: function () { }, parameters:{}}],
-        options = { someOptions: {} },
-        saga = { id: "" };
+        commands = [{ name: "1", onBeforeExecute: function () { }, parameters: {} },
+                    { name: "2", onBeforeExecute: function () { }, parameters: {}}],
+        sce = { sagaId: "", onComplete: function () { } };
+        onCompleteSpy = sinon.stub(sce, "onComplete");
 
         (function becauseOf() {
-            commandCoordinator.handleForSaga(saga, commands, options);
+            commandCoordinator.handleForSagaCommandExecutor(sce, commands);
         })();
     });
 
@@ -36,6 +37,11 @@
     it("should post the command to the server with the default handleUrl", function () {
         var handleUrl = ajaxSpy.getCall(0).args[0].url;
         expect(handleUrl).toEqual("/CommandCoordinator/HandleForSaga");
+    });
+
+    it("should notify the saga command executor that the command is executed", function () {
+        ajaxSpy.firstCall.args[0].complete({responseText: "[]"});
+        expect(onCompleteSpy.called).toBeTruthy();
     });
 
     afterEach(function () {

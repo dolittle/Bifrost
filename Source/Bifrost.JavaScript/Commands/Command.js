@@ -70,7 +70,7 @@ Bifrost.commands.Command = (function (window) {
             }
         };
 
-        this.applyValidationMessageToMembers = function(members, message) {
+        this.applyValidationMessageToMembers = function (members, message) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
@@ -137,17 +137,14 @@ Bifrost.commands.Command = (function (window) {
                 return;
             }
 
-            Bifrost.commands.commandCoordinator.handle(self/* ,{
-                error: function (e) {
-                    self.onError(e);
-                },
-                complete: function () {
-                    self.onComplete();
-                }
-            }*/);
+            Bifrost.commands.commandCoordinator.handle(self);
         };
 
         this.onBeforeExecute = function () {
+
+            if (self.isBusy()) {
+                return false;
+            }
 
             self.hasError = false;
 
