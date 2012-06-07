@@ -43,7 +43,6 @@ namespace Bifrost.Validation
 
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
-        IConfigure _configuration;
 
         Dictionary<Type, Type> _inputValidators;
         Dictionary<Type, Type> _businessValidators;
@@ -56,12 +55,10 @@ namespace Bifrost.Validation
         /// and  <see cref="ICommandBusinessValidator"/> implementations
         /// </param>
         /// <param name="container">An instance of <see cref="IContainer"/> to manage instances of any <see cref="ICommandInputValidator"/></param>
-        /// <param name="configuration">An instance of <see cref="IConfigure"/> that holds the current configuration</param>
-        public CommandValidatorProvider(ITypeDiscoverer typeDiscoverer, IContainer container, IConfigure configuration)
+        public CommandValidatorProvider(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
             _container = container;
-            _configuration = configuration;
 
             Initialize();
         }

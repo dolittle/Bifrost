@@ -13,7 +13,6 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
 
         protected static Mock<IContainer> container_mock;
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;
-        protected static Mock<IConfigure> configuration_mock;
 
 
         protected static Type[] input_validators = new[] {
@@ -50,16 +49,9 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
                                                 }
                                         );
 
-                                    configuration_mock = new Mock<IConfigure>();
-
-                                    lifecycle = BindingLifecycle.Request;
-                                    configuration_mock.SetupGet(c => c.DefaultObjectLifecycle).Returns(lifecycle);
-
                                     command_validator_provider = new CommandValidatorProvider(
                                         type_discoverer_mock.Object,
-                                        container_mock.Object,
-                                        configuration_mock.Object
-                                        );
+                                        container_mock.Object);
                                 };
 
     }

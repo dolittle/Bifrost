@@ -1,6 +1,9 @@
 /*
-@depends utils/namespace.js
 @depends utils/extend.js
+@depends utils/namespace.js
+@depends utils/ClassPrototype.js
+@depends utils/ClassInfo.js
+@depends utils/Class.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js
@@ -37,9 +40,10 @@
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/loader.js
-@depends features/navigateTo.js
 @depends features/featureBindingHandler.js
 @depends messaging/messenger.js
+@depends navigation/navigateTo.js
+@depends navigation/navigationManager.js
 */
 
 // Something funky stuff with jQuery makes the TypeInfo break everything

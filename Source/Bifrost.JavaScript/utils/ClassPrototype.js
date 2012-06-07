@@ -1,0 +1,4 @@
+Bifrost.namespace("Bifrost", {
+	ClassPrototype: {
+	},
+});

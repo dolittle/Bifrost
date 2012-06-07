@@ -24,10 +24,8 @@ namespace Bifrost.Services.Execution
             var queystring = request.QueryString;
             var form = request.Form;
             var requestBody = BuildFormFromInputStream(request.InputStream);
-            var cookies = request.Cookies;
-            var serverVariables = request.ServerVariables;
 
-            var requestParams = new RequestParams {queystring, form, requestBody, cookies, serverVariables};
+            var requestParams = new RequestParams {queystring, form, requestBody }; 
 
             return requestParams;
         }

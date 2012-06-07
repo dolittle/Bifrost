@@ -61,10 +61,22 @@ namespace Bifrost.Services.Execution
             var parameters = method.GetParameters();
             foreach (var parameter in parameters)
             {
-                var parameterAsJson = form[parameter.Name];
-                values.Add(_serializer.FromJson(parameter.ParameterType, parameterAsJson));
+                var parameterAsString = form[parameter.Name];
+                values.Add(HandleValue(parameter, parameterAsString));
             }
             return values.ToArray();
+        }
+
+
+        object HandleValue(ParameterInfo parameter, string input)
+        {
+            if (parameter.ParameterType == typeof(string))
+                return input;
+
+            if (parameter.ParameterType.IsValueType)
+                return Convert.ChangeType(input, parameter.ParameterType);
+
+            return _serializer.FromJson(parameter.ParameterType, input);
         }
 
         string GetMethodNameFromUri(string baseUrl, Uri uri)
