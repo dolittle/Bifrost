@@ -74,8 +74,9 @@
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="BifrostTempDataProvider.cs" />
     <Compile Include="Commands\CommandForm.cs" />
-    <Compile Include="Commands\CommandHelper.cs" />
+    <Compile Include="Commands\CommandAjaxHelper.cs" />
     <Compile Include="Commands\CommandViewDataContainer.cs" />
+    <Compile Include="Commands\CommandHtmlHelper.cs" />
     <Compile Include="Commands\ModelStateDictionaryExtensions.cs" />
     <Compile Include="ContainerDependencyResolver.cs" />
   </ItemGroup>
