@@ -36,6 +36,7 @@ namespace Bifrost.Validation
     {
         static IChapterValidator NullChapterValidator = new NullChapterValidator();
         static Type _chapterValidatorType = typeof (IChapterValidator);
+        static Type _chapterValidatorBaseType = typeof (ChapterValidator<>);
         static Type _transitionValidatorType = typeof (ChapterTranstionValidator<,>);
         static Type _transitionToType = typeof (ICanTransitionTo<>);
         static Type _validatesType = typeof (ICanValidate<>);
@@ -106,7 +107,7 @@ namespace Bifrost.Validation
             _validators = new Dictionary<Type, Type>();
             _transitionValidators = new Dictionary<KeyValuePair<Type, Type>, Type>();
 
-            var validators = _typeDiscoverer.FindMultiple(_chapterValidatorType);
+            var validators = _typeDiscoverer.FindMultiple(_chapterValidatorBaseType);
             var transitionValidators = _typeDiscoverer.FindMultiple(_transitionValidatorType);
 
             Array.ForEach(validators, RegisterChapterValidator);

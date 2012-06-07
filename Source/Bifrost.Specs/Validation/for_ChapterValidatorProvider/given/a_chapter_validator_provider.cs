@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
                                     service_locator_mock = new Mock<IServiceLocator>();
                                     type_discoverer_mock = new Mock<ITypeDiscoverer>();
 
-                                    type_discoverer_mock.Setup(td => td.FindMultiple(typeof(IChapterValidator)))
+                                    type_discoverer_mock.Setup(td => td.FindMultiple(typeof(ChapterValidator<>)))
                                         .Returns(new[]
                                                 {
                                                     typeof(Fakes.Sagas.TransitionalChapterValidator),
