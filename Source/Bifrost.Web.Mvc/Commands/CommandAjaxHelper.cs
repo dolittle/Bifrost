@@ -28,6 +28,7 @@ using Bifrost.Commands;
 using System.Web.Mvc.Ajax;
 using System.Globalization;
 using System.Text;
+using System.IO;
 
 namespace Bifrost.Web.Mvc.Commands
 {
@@ -36,6 +37,8 @@ namespace Bifrost.Web.Mvc.Commands
     /// </summary>
     public static class CommandAjaxHelper
     {
+        const string CommandFormEventsScriptKey = "CommandFormEventsScript";
+
         /// <summary>
         /// Begins a <see cref="CommandForm{T}"/>, with default <see cref="FormMethod.Post"/> as method
         /// </summary>
@@ -49,7 +52,7 @@ namespace Bifrost.Web.Mvc.Commands
         /// For the expression that expressed the action to use, it does not care about the parameters for the action, so these
         /// can be set to null. The expression just represents the action strongly typed.
         /// </remarks>
-        public static CommandForm<T> BeginCommandForm<T, TC>(this AjaxHelper AjaxHelper, Expression<Func<TC, ActionResult>> expression, AjaxOptions ajaxOptions)
+        public static CommandForm<T> BeginCommandForm<T, TC>(this AjaxHelper AjaxHelper, Expression<Func<TC, ActionResult>> expression, AjaxOptions ajaxOptions=null)
             where T : ICommand, new()
             where TC : ControllerBase
         {
@@ -169,24 +172,52 @@ namespace Bifrost.Web.Mvc.Commands
         {
             htmlAttributes = htmlAttributes ?? new Dictionary<string, object>();
 
+            RenderCommandFormEventsScriptIfNotOnPage(ajaxHelper);
+
             var builder = new TagBuilder("form");
             builder.MergeAttribute("action", formAction);
             builder.MergeAttributes<string, object>(htmlAttributes);
             builder.MergeAttribute("method", "post");
             builder.MergeAttribute("data-commandForm","",true);
-            ajaxOptions = ajaxOptions ?? new AjaxOptions();
-            if (ajaxHelper.ViewContext.UnobtrusiveJavaScriptEnabled)
-                builder.MergeAttributes<string, object>(ajaxOptions.ToUnobtrusiveHtmlAttributes());
 
             if (ajaxHelper.ViewContext.ClientValidationEnabled && !htmlAttributes.ContainsKey("id"))
                 builder.GenerateId(typeof (T).Name);
+
+            var formId = builder.Attributes["id"];
+            
+            ajaxOptions = ajaxOptions ?? new AjaxOptions();
+
+            ajaxOptions.OnSuccess = string.IsNullOrEmpty(ajaxOptions.OnSuccess) ? "Bifrost.commands.commandFormEvents.onSuccess('#" + formId + "', data)" : ajaxOptions.OnSuccess;
+            ajaxOptions.HttpMethod = string.IsNullOrEmpty(ajaxOptions.HttpMethod) ? "Get" : ajaxOptions.HttpMethod;
+
+            if (ajaxHelper.ViewContext.UnobtrusiveJavaScriptEnabled)
+                builder.MergeAttributes<string, object>(ajaxOptions.ToUnobtrusiveHtmlAttributes());
             
             ajaxHelper.ViewContext.Writer.Write(builder.ToString(TagRenderMode.StartTag));
             var form = new CommandForm<T>(ajaxHelper.ViewContext);
             if (ajaxHelper.ViewContext.ClientValidationEnabled)
-                ajaxHelper.ViewContext.FormContext.FormId = builder.Attributes["id"];
+                ajaxHelper.ViewContext.FormContext.FormId = formId;
             return form;
         }
 
+        static void RenderCommandFormEventsScriptIfNotOnPage(AjaxHelper ajaxHelper)
+        {
+            if (ajaxHelper.ViewData.ContainsKey(CommandFormEventsScriptKey))
+                return;
+
+            var type = typeof(CommandAjaxHelper);
+            var resourceName = string.Format("{0}.commandFormEvents.js",type.Namespace);
+            var stream = type.Assembly.GetManifestResourceStream(resourceName);
+            var resourceAsBytes = new byte[stream.Length];
+            stream.Read(resourceAsBytes,0,resourceAsBytes.Length);
+            var script = UTF8Encoding.UTF8.GetString(resourceAsBytes);
+
+            var builder = new TagBuilder("script");
+            builder.Attributes["type"] = "text/javascript";
+            builder.InnerHtml = script;
+            ajaxHelper.ViewContext.Writer.Write(builder.ToString());
+
+            ajaxHelper.ViewData[CommandFormEventsScriptKey] = true;
+        }
     }
 }
