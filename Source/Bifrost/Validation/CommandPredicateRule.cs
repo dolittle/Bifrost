@@ -62,7 +62,7 @@ namespace Bifrost.Validation
             : base(IdProperty, IdFunc, IdFuncExpression, () => CascadeMode.StopOnFirstFailure, typeof(T), typeof(T))
         {
             _validateFor = validateFor;
-            AddValidator(new PredicateValidator((o, p) => true));
+            AddValidator(new PredicateValidator((o, p, c) => true));
         }
 
 
