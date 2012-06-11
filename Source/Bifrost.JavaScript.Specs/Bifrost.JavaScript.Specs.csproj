@@ -50,6 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="commands\for_CommandCoordinator\when_handling_commands_for_a_saga_command_executor.js" />
     <Content Include="commands\for_CommandCoordinator\when_handling_commands_for_a_saga.js" />
     <Content Include="commands\for_CommandCoordinator\when_handling_a_single_command.js" />
     <Content Include="commands\for_CommandCoordinator\when_handling_results_for_a_single_command.js" />
@@ -57,6 +58,7 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
+    <Content Include="commands\for_Command\when_the_command_is_busy.js" />
     <Content Include="commands\for_Command\when_reseting_validation_messages_in_the_command.js" />
     <Content Include="commands\for_Command\when_an_error_occurs_while_executing_a_command.js" />
     <Content Include="commands\for_Command\when_applying_validation_results.js" />
@@ -89,9 +91,15 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
-    <Content Include="sagas\for_sagaCommandExecutor\when_validating_command_executor_commands.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_creating_a_saga_command_executor_with_config_object.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_one_commands_fails_to_execute.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_all_commands_have_successfully_executed.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_failing_to_validate_command_executor_commands.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_sucessfully_validating_command_executor_commands.js" />
     <Content Include="sagas\for_sagaCommandExecutor\when_executing_a_saga_command_executor.js" />
-    <Content Include="sagas\for_sagaCommandExecutor\when_creating_a_saga_command_executor.js" />
+    <Content Include="sagas\for_Saga\when_creating_a_saga_command_executor_with_options_object.js" />
+    <Content Include="sagas\for_Saga\when_creating_a_saga_command_executor_with_commands_array.js" />
+    <Content Include="sagas\for_sagaCommandExecutor\when_the_saga_command_executor_is_busy.js" />
     <Content Include="sagas\for_Saga\when_creating_a_saga.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />

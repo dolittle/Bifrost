@@ -26,6 +26,7 @@
 @depends commands/CommandResult.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
+@depends sagas/sagaCommandExecutor.js
 @depends features/UriMapping.js
 @depends features/uriMapper.js
 @depends features/ViewModel.js

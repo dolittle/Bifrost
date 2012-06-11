@@ -44,7 +44,7 @@ Bifrost.validation.validationService = (function () {
         },
 
         applyForCommand: function (command) {
-            Bifrost.validation.validationService.recursivlyExtendProperties(ko.utils.unwwrapObservable(command.parameters), command.validatorsList);
+            Bifrost.validation.validationService.recursivlyExtendProperties(ko.utils.unwrapObservable(command.parameters), command.validatorsList);
 
             var methodParameters = {
                 name: "\"" + command.name + "\""
@@ -60,7 +60,7 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    Bifrost.validation.validationService.recursivlyApplyRules(ko.utils.unwwrapObservable(command.parameters), result.properties);
+                    Bifrost.validation.validationService.recursivlyApplyRules(ko.utils.unwrapObservable(command.parameters), result.properties);
                 }
             });
         }

@@ -232,7 +232,6 @@ if (typeof ko !== 'undefined') {
 Bifrost.validation.validationService = (function () {
     return {
         recursivlyExtendProperties: function (properties, validatorsList) {
-
             for (var key in properties) {
                 var property = properties[key];
                 if (ko.isObservable(property)) {
@@ -251,7 +250,7 @@ Bifrost.validation.validationService = (function () {
                 var path = rule.split(".");
                 var memberName = "parameters";
                 var member = properties;
-                for (var i = 0; i < path.length; i++ ) {
+                for (var i = 0; i < path.length; i++) {
                     var step = path[i];
                     member = ko.utils.unwrapObservable(member);
                     if (typeof member === "object" && step in member) {
@@ -275,7 +274,7 @@ Bifrost.validation.validationService = (function () {
         },
 
         applyForCommand: function (command) {
-            Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, command.validatorsList);
+            Bifrost.validation.validationService.recursivlyExtendProperties(ko.utils.unwrapObservable(command.parameters), command.validatorsList);
 
             var methodParameters = {
                 name: "\"" + command.name + "\""
@@ -291,7 +290,7 @@ Bifrost.validation.validationService = (function () {
                     if (!result || !result.properties) {
                         return;
                     }
-                    Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
+                    Bifrost.validation.validationService.recursivlyApplyRules(ko.utils.unwrapObservable(command.parameters), result.properties);
                 }
             });
         }
@@ -487,7 +486,7 @@ Bifrost.commands.Command = (function (window) {
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
         this.validatorsList = [];
-        this.successfullyExcecuted = function () {
+        this.successfullyExecuted = function () {
             if (self.hasResult()) {
                 return self.result.success === true;
             }
@@ -522,7 +521,7 @@ Bifrost.commands.Command = (function (window) {
 
             Bifrost.validation.validationService.applyForCommand(self);
 
-            self.parametersAreValid = function () {
+            self.parametersAreValid = ko.computed(function () {
                 for (var i = 0; i < self.validatorsList.length; i++) {
                     if (self.validatorsList[i].validator &&
 						self.validatorsList[i].validator.isValid() == false) {
@@ -530,7 +529,7 @@ Bifrost.commands.Command = (function (window) {
                     }
                 }
                 return true;
-            };
+            }, self);
         };
 
         this.validator = Bifrost.validation.Validator.create({ required: true });
@@ -552,7 +551,7 @@ Bifrost.commands.Command = (function (window) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
-                var member = self.parameters;
+                var member = ko.utils.unwrapObservable(self.parameters);
                 var memberName = "parameters";
                 for (var i = 0; i < path.length; i++) {
                     var step = path[i];
@@ -599,7 +598,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.resetAllValidationMessages = function () {
             self.validator.reset();
-            for (var i = 0; i < self.validatorsList.length; i++ ) {
+            for (var i = 0; i < self.validatorsList.length; i++) {
                 var validator = self.validatorsList[i].validator;
                 if (validator) {
                     validator.reset();
@@ -615,17 +614,14 @@ Bifrost.commands.Command = (function (window) {
                 return;
             }
 
-            Bifrost.commands.commandCoordinator.handle(self, {
-                error: function (e) {
-                    self.onError(e);
-                },
-                complete: function () {
-                    self.onComplete();
-                }
-            });
+            Bifrost.commands.commandCoordinator.handle(self);
         };
 
         this.onBeforeExecute = function () {
+
+            if (self.isBusy()) {
+                return false;
+            }
 
             self.hasError = false;
 
@@ -680,7 +676,6 @@ Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandDescriptor = (function () {
     function CommandDescriptor(name, id, commandParameters) {
         this.Name = name;
-        //recursively create JSON from mix of objects and knockout observables/computed values
         var commandContent = ko.toJS(commandParameters);
         commandContent.Id = id;
         this.Command = ko.toJSON(commandContent);
@@ -730,8 +725,6 @@ Bifrost.commands.commandCoordinator = (function () {
 
     return {
         handle: function (command) {
-
-
             var methodParameters = {
                 commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
             };
@@ -743,7 +736,6 @@ Bifrost.commands.commandCoordinator = (function () {
         },
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
-
             $.each(commands, function (index, command) {
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
@@ -764,6 +756,32 @@ Bifrost.commands.commandCoordinator = (function () {
                         }
                     });
                 });
+            });
+        },
+        handleForSagaCommandExecutor: function (sagaCommandExecutor, commands) {
+            var commandDescriptors = [];
+            $.each(commands, function (index, command) {
+                commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
+            });
+
+            var methodParameters = {
+                sagaId: "\"" + sagaCommandExecutor.sagaId + "\"",
+                commandDescriptors: JSON.stringify(commandDescriptors)
+            };
+
+            sendToHandler(baseUrl + "/HandleForSaga", JSON.stringify(methodParameters), function (jqXHR) {
+                var commandResultArray = $.parseJSON(jqXHR.responseText);
+
+                //TODO: handle this in sagaCommandExecutor;
+                $.each(commandResultArray, function (commandResultIndex, commandResult) {
+                    $.each(commands, function (commandIndex, command) {
+                        if (command.id === commandResult.commandId) {
+                            handleCommandCompletion(jqXHR, command, commandResult);
+                            return false;
+                        }
+                    });
+                });
+                sagaCommandExecutor.onComplete();
             });
         }
     };
@@ -806,10 +824,12 @@ Bifrost.sagas.Saga = (function () {
     function Saga() {
         var self = this;
 
+        this.Id = Bifrost.Guid.empty;
+
         this.executeCommands = function (commands) {
 
             var canExecuteSaga = true;
-            
+
             $.each(commands, function (index, command) {
                 if (command.onBeforeExecute() === false) {
                     canExecuteSaga = false;
@@ -820,13 +840,16 @@ Bifrost.sagas.Saga = (function () {
             if (canExecuteSaga === false) {
                 return;
             }
-            Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
-                error: function (e) {
-                },
-                complete: function (e) {
-                }
-            });
-        }
+            Bifrost.commands.commandCoordinator.handleForSaga(self, commands);
+        };
+
+        this.createCommandExecutor = function (options) {
+            if ($.isArray(options)) {
+                options = {commands: options };
+            }
+            options.sagaId = self.Id;
+            return Bifrost.sagas.SagaCommandExecutor.create(options);
+        };
     }
 
     return {
@@ -835,7 +858,7 @@ Bifrost.sagas.Saga = (function () {
             Bifrost.extend(saga, configuration);
             return saga;
         }
-    }
+    };
 })();
 
 Bifrost.namespace("Bifrost.sagas");
@@ -883,6 +906,140 @@ Bifrost.sagas.sagaNarrator = (function () {
             });
         }
     }
+})();
+
+﻿Bifrost.namespace("Bifrost.sagas");
+Bifrost.sagas.SagaCommandExecutor = (function () {
+    function SagaCommandExecutor(options) {
+        var self = this;
+
+        this.hasError = false;
+        this.isBusy = ko.observable(false);
+        this.sagaId = options.sagaId || Bifrost.Guid.empty;
+        this.commands = options.commands || [];
+        this.canExecute = ko.observable(true);
+        this.successfullyExecuted = function () {
+            for (var i = 0; i < self.commands.length; i++) {
+                if (self.commands[i].successfullyExecuted() === false) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        this.options = {
+            beforeExecute: function () {
+            },
+            error: function () {
+            },
+            success: function () {
+            },
+            complete: function () {
+            }
+        };
+        // Todo: add an overrideWith or similar that will always pick the one that is not undefined!
+        // add validation check for "type" based on source, if not function for instance in the merger
+        // exception!
+        Bifrost.extend(this.options, options);
+
+
+
+        this.initialize = function () {
+            if (typeof self.viewModel === "undefined") {
+                self.viewModel = window;
+            }
+
+            self.commandParametersAreValid = ko.computed(function () {
+                for (var i = 0; i < self.commands.length; i++) {
+                    if (self.commands[i].parametersAreValid() === false) {
+                        return false;
+                    }
+                }
+                return true;
+            }, self);
+        };
+
+        this.forEachCommand = function (perform) {
+            for (var i = 0; i < self.commands.length; i++) {
+                var ret = perform(self.commands[i], i, self.commands);
+                if (ret === false) {
+                    break;
+                }
+            }
+        };
+
+        this.validateCommands = function () {
+            self.forEachCommand(function (command) {
+                command.validate();
+            });
+        };
+
+
+        this.execute = function () {
+
+
+
+            if (self.onBeforeExecute() === false) {
+                return;
+            }
+
+            Bifrost.commands.commandCoordinator.handleForSagaCommandExecutor(self, self.commands);
+        };
+
+        this.onBeforeExecute = function () {
+
+            if (self.isBusy()) {
+                return false;
+            }
+
+            self.hasError = false;
+
+            self.validateCommands();
+            if (!self.commandParametersAreValid()) {
+                return false;
+            }
+
+            self.options.beforeExecute.call(self.viewModel, self);
+            self.forEachCommand(function (command) {
+                command.options.beforeExecute.call(command.viewModel, command);
+            });
+
+
+            self.isBusy(true);
+
+            return true;
+        };
+
+        this.onError = function () {
+            self.hasError = true;
+            self.options.error.call(self.viewModel, self.result);
+        };
+
+        this.onSuccess = function () {
+            self.hasError = false;
+            self.options.success.call(self.viewModel, self.result);
+        };
+
+        this.onComplete = function () {
+
+
+            if (self.successfullyExecuted()) {
+                self.onSuccess();
+                self.options.complete.call(self.viewModel, self.result);
+            } else {
+                self.onError();
+            }
+            self.isBusy(false);
+        };
+
+    }
+
+    return {
+        create: function (options) {
+            var sagaCommandExecutor = new SagaCommandExecutor(options);
+            sagaCommandExecutor.initialize();
+            return sagaCommandExecutor;
+        }
+    };
 })();
 
 Bifrost.namespace("Bifrost.features");
@@ -1252,6 +1409,7 @@ Bifrost.messaging.messenger = (function () {
 @depends commands/CommandResult.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
+@depends sagas/sagaCommandExecutor.js
 @depends features/UriMapping.js
 @depends features/uriMapper.js
 @depends features/ViewModel.js

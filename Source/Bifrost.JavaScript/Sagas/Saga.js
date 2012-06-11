@@ -5,17 +5,29 @@ Bifrost.sagas.Saga = (function () {
 
         this.Id = Bifrost.Guid.empty;
 
-        /*this.executeCommands = function (commands) {
-            Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
-                error: function (e) {
-                },
-                complete: function (e) {
+        this.executeCommands = function (commands) {
+
+            var canExecuteSaga = true;
+
+            $.each(commands, function (index, command) {
+                if (command.onBeforeExecute() === false) {
+                    canExecuteSaga = false;
+                    return false;
                 }
             });
-        };*/
 
-        this.createCommandExecutor = function (commands) {
-            return Bifrost.sagas.SagaCommandExecutor({sagaId:self.Id, commands:commands});
+            if (canExecuteSaga === false) {
+                return;
+            }
+            Bifrost.commands.commandCoordinator.handleForSaga(self, commands);
+        };
+
+        this.createCommandExecutor = function (options) {
+            if ($.isArray(options)) {
+                options = {commands: options };
+            }
+            options.sagaId = self.Id;
+            return Bifrost.sagas.SagaCommandExecutor.create(options);
         };
     }
 

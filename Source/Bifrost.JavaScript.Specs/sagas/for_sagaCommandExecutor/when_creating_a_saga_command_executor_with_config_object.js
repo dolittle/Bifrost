@@ -1,4 +1,4 @@
-﻿describe("when creating a saga command executor", function () {
+﻿describe("when creating a saga command executor with config object", function () {
     var sce,
         options;
 

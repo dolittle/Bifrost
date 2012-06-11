@@ -9,7 +9,7 @@ Bifrost.commands.Command = (function (window) {
         this.id = Bifrost.Guid.create();
         this.result = Bifrost.commands.CommandResult.create();
         this.validatorsList = [];
-        this.successfullyExcecuted = function () {
+        this.successfullyExecuted = function () {
             if (self.hasResult()) {
                 return self.result.success === true;
             }
