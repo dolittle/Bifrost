@@ -1,6 +1,6 @@
 ﻿describe("when applying rules from server for a known command", sinon.test(function () {
     var expectedMessage = "Should be required",
-        test = { },
+        test = {},
         server,
         command;
 
@@ -20,6 +20,7 @@
             }
         };
 
+        Bifrost.validation.validationService.resetCache();
         Bifrost.validation.validationService.applyForCommand(command);
         command.parameters.something.validator = {
             setOptions: function (options) {
