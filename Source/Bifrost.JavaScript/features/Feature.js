@@ -55,7 +55,6 @@ Bifrost.features.Feature = (function () {
 			}
 
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
-			Bifrost.navigation.navigationManager.hookup(target);
         }
     }
 

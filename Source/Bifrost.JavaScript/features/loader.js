@@ -1,6 +1,6 @@
 (function ($) {
     $(function () {
-		Bifrost.navigation.navigationManager.hookup($("body")[0]);
+		Bifrost.navigation.navigationManager.hookup();
         Bifrost.features.featureManager.hookup($);
     });
 })(jQuery);
