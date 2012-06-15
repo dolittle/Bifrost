@@ -19,17 +19,17 @@
 // limitations under the License.
 //
 #endregion
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
-using Bifrost.Time;
 
 namespace Bifrost.Events
 {
     /// <summary>
     /// Represents an implementation of <see cref="IEventSubscriptionManager"/>
     /// </summary>
+    [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
         List<EventSubscription> _allSubscriptions;
