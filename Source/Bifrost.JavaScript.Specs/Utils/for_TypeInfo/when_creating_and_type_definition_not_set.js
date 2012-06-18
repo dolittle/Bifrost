@@ -5,7 +5,7 @@ describe("when creating and type definition not set", function() {
 	}
 	var exception;
 	var f = function() {};
-	f.prototype = Bifrost.ClassInfo;
+	f.prototype = Bifrost.TypeInfo;
 	var classInfo = new f();
 	try {
 		classInfo.create();

@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost", {
-	Class : function(typeDefinition) {
+	Type : function(typeDefinition) {
 		
 		if( typeDefinition == null || typeof typeDefinition == "undefined" ) {
 			throw new Bifrost.MissingClassDefinition();

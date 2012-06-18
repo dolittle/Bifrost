@@ -2,7 +2,7 @@ describe("when defining without a parameter", function() {
 	var exception;
 	
 	try {
-		Bifrost.Class();
+		Bifrost.Type();
 	} catch(e) {
 		exception = e;
 	}

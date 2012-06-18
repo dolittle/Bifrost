@@ -1,7 +1,7 @@
 describe("when defining", function() {
 	Bifrost.ClassInfo = {};
 	var typeDefinition = function(something) {};
-	var result = Bifrost.Class(typeDefinition);
+	var result = Bifrost.Type(typeDefinition);
 	
 	it("should return an object", function() {
 		expect(typeof result == "object").toBeTruthy();
