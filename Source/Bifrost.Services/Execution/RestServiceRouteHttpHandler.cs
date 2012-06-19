@@ -54,12 +54,27 @@ namespace Bifrost.Services.Execution
 
         public void ProcessRequest(HttpContext context)
         {
-            var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
-            
-            var serviceInstance = ServiceLocator.Current.GetInstance(_type);
-
-            var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
-            context.Response.Write(result);
+            try
+            {
+                var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
+                var serviceInstance = ServiceLocator.Current.GetInstance(_type);
+                var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
+                context.Response.Write(result);
+            }
+            catch( Exception e)
+            {
+                if (e.InnerException != null && e.InnerException is HttpStatus.HttpStatusException)
+                {
+                    var ex = e.InnerException as HttpStatus.HttpStatusException;
+                    context.Response.StatusCode = ex.Code;
+                    context.Response.StatusDescription = ex.Description;
+                }
+                else
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.StatusDescription = e.Message;
+                }
+            }
         }
 
         /*

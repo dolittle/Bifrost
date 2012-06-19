@@ -5,16 +5,15 @@ describe("when creating and it has no dependencies", function() {
 		}
 	}
 	
-	var classDefinition = function() {
+	var typeDefinition = function() {
 		this.something = 42;
 	}
 	var f = function() {
-		this.typeDefinition	= classDefinition;
+		this.typeDefinition	= typeDefinition;
 	};
-	f.prototype = Bifrost.ClassInfo;
-	var classInfo = new f();
-	var instance = classInfo.create();
-	
+	f.prototype = Bifrost.TypeInfo;
+	var typeInfo = new f();
+	var instance = typeInfo.create();
 	
 	it("should return an instance", function() {
 		expect(instance).toBeDefined();

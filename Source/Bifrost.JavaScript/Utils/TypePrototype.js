@@ -1,4 +1,4 @@
 Bifrost.namespace("Bifrost", {
-	ClassPrototype: {
+	TypePrototype: {
 	},
 });

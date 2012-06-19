@@ -22,27 +22,11 @@ var Bifrost = Bifrost || {};
     };
 })(window);
 Bifrost.namespace("Bifrost", {
-	ClassPrototype: {
+	TypePrototype: {
 	},
 });
 Bifrost.namespace("Bifrost", {
-	ClassInfo: {
-		create : function() {
-			if( typeof this.typeDefinition === "undefined" ) {
-				throw new Bifrost.MissingTypeDefinition();
-			}
-			var dependencies = Bifrost.functionParser.parse(this.typeDefinition);
-			if( dependencies.length == 0 ) {
-				return new this.typeDefinition();
-			} else {
-				
-			}
-			
-		}
-	}
-});
-Bifrost.namespace("Bifrost", {
-	Class : function(typeDefinition) {
+	Type : function(typeDefinition) {
 		
 		if( typeDefinition == null || typeof typeDefinition == "undefined" ) {
 			throw new Bifrost.MissingClassDefinition();
@@ -397,14 +381,14 @@ Bifrost.validation.validationService = (function () {
             Bifrost.validation.validationService.extendAllProperties(command.parameters);
 
             var methodParameters = {
-                name: "\"" + command.name + "\""
+                name: command.name
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/Validation/GetForCommand",
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(methodParameters),
+                data: methodParameters,
                 complete: function (d) {
                     var result = $.parseJSON(d.responseText);
 					if( !result || !result.properties ) {
@@ -1233,7 +1217,7 @@ Bifrost.features.Feature = (function () {
             	ko.applyBindings(viewModel, target);
 			}
 
-            Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
+            Bifrost.features.featureManager.hookup(function (a) { return $(a, $($(target).children())); });
         }
     }
 
@@ -1345,43 +1329,43 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.navigation", {
-	navigationManager: {
-		hookup: function() {
-			$("body").click(function(e) {
-				var href = e.target.href;
-				if( typeof href == "undefined" ) {
-					var closestAnchor = $(e.target).closest("a")[0];
-					if( !closestAnchor ) {
-						return;
-					}
-					href = closestAnchor.href;
-				}
-				if( href.indexOf("#") > 0 ) {
-					href = href.substr(0,href.indexOf("#"));
-				}
-				
-				if( href.length == 0 ) {
-					href = "/";
-				}
-				var targetUri = Bifrost.Uri.create(href);
-				if( targetUri.isSameAsOrigin ) {
-					var target = targetUri.path;
-					while( target.indexOf("/") == 0 ) {
-						target = target.substr(1);
-					}
-					e.preventDefault();
-					History.pushState({},"","/"+target);
-				}
-			});
-		}
-	}
+    navigationManager: {
+        hookup: function () {
+            $("body").click(function (e) {
+                var href = e.target.href;
+                if (typeof href == "undefined") {
+                    var closestAnchor = $(e.target).closest("a")[0];
+                    if (!closestAnchor) {
+                        return;
+                    }
+                    href = closestAnchor.href;
+                }
+                if (href.indexOf("#") > 0) {
+                    href = href.substr(0, href.indexOf("#"));
+                }
+
+                if (href.length == 0) {
+                    href = "/";
+                }
+                var targetUri = Bifrost.Uri.create(href);
+                if (targetUri.isSameAsOrigin) {
+                    var target = targetUri.path;
+                    while (target.indexOf("/") == 0) {
+                        target = target.substr(1);
+                    }
+                    e.preventDefault();
+                    var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                    History.pushState({}, "", "/" + target + queryString);
+                }
+            });
+        }
+    }
 });
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
-@depends utils/ClassPrototype.js
-@depends utils/ClassInfo.js
-@depends utils/Class.js
+@depends utils/TypePrototype.js
+@depends utils/Type.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js

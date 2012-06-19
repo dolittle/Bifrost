@@ -10,14 +10,14 @@ Bifrost.validation.validationService = (function () {
             Bifrost.validation.validationService.extendAllProperties(command.parameters);
 
             var methodParameters = {
-                name: "\"" + command.name + "\""
+                name: command.name
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/Validation/GetForCommand",
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(methodParameters),
+                data: methodParameters,
                 complete: function (d) {
                     var result = $.parseJSON(d.responseText);
 					if( !result || !result.properties ) {

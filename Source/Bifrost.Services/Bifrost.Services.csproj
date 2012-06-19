@@ -60,6 +60,7 @@
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
+    <Compile Include="Execution\HttpStatus.cs" />
     <Compile Include="Execution\IRequestParamsFactory.cs" />
     <Compile Include="Execution\IRestServiceMethodInvoker.cs" />
     <Compile Include="Execution\MethodNotSpecifiedException.cs" />
