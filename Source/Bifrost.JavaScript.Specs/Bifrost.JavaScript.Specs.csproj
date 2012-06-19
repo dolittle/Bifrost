@@ -81,6 +81,7 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
+    <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />
