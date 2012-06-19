@@ -1217,7 +1217,7 @@ Bifrost.features.Feature = (function () {
             	ko.applyBindings(viewModel, target);
 			}
 
-            Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
+            Bifrost.features.featureManager.hookup(function (a) { return $(a, $($(target).children())); });
         }
     }
 
