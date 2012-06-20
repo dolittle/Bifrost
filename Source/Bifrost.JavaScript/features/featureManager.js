@@ -17,7 +17,7 @@ Bifrost.features.featureManager = (function () {
             return feature;
         },
         hookup: function ($) {
-            $("*[data-feature]").each(function () {
+            $("[data-feature]").each(function () {
                 var target = $(this)[0];
                 var name = $(this).attr("data-feature");
                 var feature = Bifrost.features.featureManager.get(name);

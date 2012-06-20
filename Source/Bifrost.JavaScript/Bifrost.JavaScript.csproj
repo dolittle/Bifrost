@@ -60,7 +60,6 @@
     <Content Include="features\exceptions.js" />
     <Content Include="features\featureBindingHandler.js" />
     <Content Include="features\featureManager.js" />
-    <Content Include="features\FeatureState.js" />
     <Content Include="features\loader.js" />
     <Content Include="features\Feature.js" />
     <Content Include="features\FeatureMapping.js" />
