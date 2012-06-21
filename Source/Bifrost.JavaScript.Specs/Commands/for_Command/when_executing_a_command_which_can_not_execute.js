@@ -12,7 +12,6 @@
         };
         command = Bifrost.commands.Command.create(options);
         Bifrost.namespace("Bifrost.commands.commandCoordinator");
-        Bifrost.commands.commandCoordinator.handle = function () { };
 
         onBeforeExecuteSpy = sinon.spy(command, "onBeforeExecute");
         coordinatorSpy = sinon.spy(Bifrost.commands.commandCoordinator, 'handle');
@@ -22,6 +21,10 @@
 
         command.execute();
     });
+
+    afterEach(function () {
+        coordinatorSpy.restore();
+    })
 
     it("should reset any errors before execution", function () {
         command.hasError = true;

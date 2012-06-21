@@ -42,14 +42,12 @@ Bifrost.commands.Command = (function (window) {
                 self.viewModel = window;
             }
 
-            //TODO: create a list of validators to loop through  //DONE
             Bifrost.validation.validationService.applyForCommand(self);
 
-            //TODO: loop through list of validations, not parameters object //DONE
             self.parametersAreValid = ko.computed(function () {
-                for (var property in this.validatorsList) {
-                    if (this.validatorsList[property].validator &&
-						this.validatorsList[property].validator.isValid() == false) {
+                for (var i = 0; i < self.validatorsList.length; i++) {
+                    if (self.validatorsList[i].validator &&
+						self.validatorsList[i].validator.isValid() == false) {
                         return false;
                     }
                 }
@@ -62,32 +60,36 @@ Bifrost.commands.Command = (function (window) {
         this.validate = function () {
             self.validator.validate(true);
             if (self.validator.isValid()) {
-                //TODO: loop through list of validations, not parameters object //DONE
-                for (var property in self.validatorsList) {
-                    if (self.validatorsList[property].validator) {
-                        self.validatorsList[property].validator.validate(self.validatorsList[property]());
+                for (var i = 0; i < self.validatorsList.length; i++) {
+                    var validator = self.validatorsList[i].validator;
+                    if (validator) {
+                        var value = self.validatorsList[i]();
+                        validator.validate(value);
                     }
                 }
             }
         };
 
-        this.applyValidationMessageToMembers = function (members, message) {
+        this.applyValidationMessageToMembers = function(members, message) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
                 var member = self.parameters;
-                for (var i in path) {
+                var memberName = "parameters";
+                for (var i = 0; i < path.length; i++) {
                     var step = path[i];
                     step = step.charAt(0).toLowerCase() + step.substring(1);
+                    member = ko.utils.unwrapObservable(member);
                     if (step in member) {
                         member = member[step];
+                        memberName += "." + step;
                     } else {
-                        throw "Error applying validation results: " + step + " is not a member of " + member + " (" + rule + ")";
+                        throw new Error("Error applying validation result: " + member[j] + "\n" +
+                            step + " is not a member of " + memberName + "\n" +
+                            members[j] + " = `" + ko.utils.unwrapObservable(members[j]) + "`");
                     }
                 }
 
-
-                //TODO: split on . and find object in parameters object //DONE
                 if (typeof message === "string" && "validator" in member) {
                     member.validator.isValid(false);
                     member.validator.message(message);
@@ -113,6 +115,16 @@ Bifrost.commands.Command = (function (window) {
                 } else {
                     //the command needs a validator we can apply this message to.
                     self.applyValidationMessageToCommand(message);
+                }
+            }
+        };
+
+        this.resetAllValidationMessages = function () {
+            self.validator.reset();
+            for (var i = 0; i < self.validatorsList.length; i++) {
+                var validator = self.validatorsList[i].validator;
+                if (validator) {
+                    validator.reset();
                 }
             }
         };
@@ -150,6 +162,7 @@ Bifrost.commands.Command = (function (window) {
                 return false;
             }
             self.isBusy(true);
+            self.id = Bifrost.Guid.create();
 
             return true;
         };
@@ -164,6 +177,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.onSuccess = function () {
             self.hasError = false;
+            self.resetAllValidationMessages();
             self.options.success.call(self.viewModel, self.result);
         };
 

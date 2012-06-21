@@ -13,8 +13,17 @@ Bifrost.validation.Validator = (function () {
             }
         };
 
-        this.validate = function(value) {
-            $.each(self.rules, function(index, rule) {
+        this.reset = function() {
+            this.isValid(true);
+            this.message("");
+        };
+
+        this.validate = function (value) {
+            if (self.rules.length === 0) {
+                self.isValid(true);
+                self.message("");
+            }
+            $.each(self.rules, function (index, rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);

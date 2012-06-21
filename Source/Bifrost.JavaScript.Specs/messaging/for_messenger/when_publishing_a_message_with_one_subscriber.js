@@ -10,7 +10,7 @@ describe("when publishing a message with one subscriber", function() {
 		messageReceived = message;
 	}
 	
-	Bifrost.messaging.messenger.subscribeTo("SimpleMessage", received);
+	Bifrost.messaging.messenger.subscribeTo(SimpleMessage, received);
 	var message = new SimpleMessage("Hello");
 	Bifrost.messaging.messenger.publish(message)
 	

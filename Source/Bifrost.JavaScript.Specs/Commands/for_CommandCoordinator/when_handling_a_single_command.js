@@ -1,19 +1,29 @@
 ﻿describe("when handling a single command", function () {
 
-    Bifrost.namespace("Bifrost.commands.CommandDescriptor");
-    Bifrost.commands.CommandDescriptor.createFrom = function () {
-    };
 
-    var descriptorSpy = sinon.spy(Bifrost.commands.CommandDescriptor, "createFrom"),
-        commandCoordinator = Bifrost.commands.commandCoordinator,
-        ajaxSpy = sinon.spy(jQuery, "ajax"),
-        command = { command: {} },
-        options = { someOptions: {} };
+
+    var descriptorSpy,
+        commandCoordinator,
+        ajaxSpy,
+        command,
+        options;
 
     beforeEach(function () {
+        Bifrost.namespace("Bifrost.commands.CommandDescriptor");
+        //Bifrost.commands.CommandDescriptor.createFrom = function () { };
+        descriptorSpy = sinon.stub(Bifrost.commands.CommandDescriptor, "createFrom");
+        commandCoordinator = Bifrost.commands.commandCoordinator;
+        ajaxSpy = sinon.spy(jQuery, "ajax");
+        command = { command: {} };
+        options = { someOptions: {} };
+
         (function becauseOf() {
             commandCoordinator.handle(command, options);
         })();
+    });
+
+    afterEach(function () {
+        descriptorSpy.restore();
     });
 
     it("should create methodParameters to be sent to the server", function () {

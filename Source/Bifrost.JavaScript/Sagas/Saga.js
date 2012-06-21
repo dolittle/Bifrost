@@ -4,19 +4,6 @@ Bifrost.sagas.Saga = (function () {
         var self = this;
 
         this.executeCommands = function (commands) {
-
-            var canExecuteSaga = true;
-            
-            $.each(commands, function (index, command) {
-                if (command.onBeforeExecute() === false) {
-                    canExecuteSaga = false;
-                    return false;
-                }
-            });
-
-            if (canExecuteSaga === false) {
-                return;
-            }
             Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
                 error: function (e) {
                 },

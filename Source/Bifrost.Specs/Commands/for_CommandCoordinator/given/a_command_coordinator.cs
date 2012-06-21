@@ -1,4 +1,5 @@
 ﻿using Bifrost.Commands;
+using Bifrost.Sagas;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
@@ -24,6 +25,8 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                     var commandContextMock = new Mock<ICommandContext>();
                                     command_context_manager_mock.Setup(c => c.EstablishForCommand(Moq.It.IsAny<ICommand>())).
                                         Returns(commandContextMock.Object);
+                                    command_context_manager_mock.Setup(c => c.EstablishForSaga(Moq.It.IsAny<ISaga>(),Moq.It.IsAny<ICommand>()))
+                                        .Returns(commandContextMock.Object);
 
                                     coordinator = new CommandCoordinator(
                                         command_handler_manager_mock.Object,

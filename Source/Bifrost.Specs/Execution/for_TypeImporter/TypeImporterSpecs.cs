@@ -12,6 +12,9 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		public void ImportingMultipleShouldReturnAllInstances()
 		{
 		    var containerMock = new Mock<IContainer>();
+            containerMock.Setup(c => c.Get(typeof(FirstMultipleClass))).Returns(new FirstMultipleClass());
+            containerMock.Setup(c => c.Get(typeof(SecondMultipleClass))).Returns(new SecondMultipleClass());
+
 			var typeDiscovererMock = new Mock<ITypeDiscoverer>();
 			typeDiscovererMock.Setup(t => t.FindMultiple<IMultipleInterface>()).Returns(new[]
 			                                                                            	{
@@ -29,6 +32,8 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		public void ImportingMultipleAndThereIsOnlyOneShouldReturnThatInstance()
 		{
             var containerMock = new Mock<IContainer>();
+		    containerMock.Setup(c => c.Get(typeof (SingleClass))).Returns(new SingleClass());
+
 			var typeDiscovererMock = new Mock<ITypeDiscoverer>();
 			typeDiscovererMock.Setup(t => t.FindMultiple<ISingleInterface>()).Returns(new[]
 			                                                                            	{

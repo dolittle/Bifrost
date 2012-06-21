@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E066FF5C-A61E-48CD-AAF5-5A490F5C6F3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bifrost.JSON.Specs</RootNamespace>
+    <AssemblyName>Bifrost.JSON.Specs</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Serialization\for_Serializer\ClassToSerialize.cs" />
+    <Compile Include="Serialization\for_Serializer\given\a_serializer.cs" />
+    <Compile Include="Serialization\for_Serializer\ISomething.cs" />
+    <Compile Include="Serialization\for_Serializer\SomethingImplementation.cs" />
+    <Compile Include="Serialization\for_Serializer\when_deserializing_type_with_an_interface_property_and_json_contains_type_reference.cs" />
+    <Compile Include="Serialization\for_Serializer\when_serializing_type_with_an_interface_property_and_instance_set_to_implementation.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\given\a_saga_contract_resolver.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_containing_properties_with_conflicting_names_using_contract_resolver.cs" />
+    <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_using_contract_resolver.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
+      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
+      <Name>Bifrost.JSON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Fakes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.MSpec\Bifrost.MSpec.csproj">
+      <Project>{FFE4E208-67F2-47B5-AA92-BA35AB3F4730}</Project>
+      <Name>Bifrost.MSpec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

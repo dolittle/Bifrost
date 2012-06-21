@@ -108,6 +108,7 @@
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
     <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
+    <Compile Include="Sagas\ISagaCommandContext.cs" />
     <Compile Include="Sagas\ISagaConverter.cs" />
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
