@@ -4,6 +4,7 @@ namespace Bifrost.Events
 	/// <summary>
 	/// Represents the versioning for an <see cref="EventSource"/>
 	/// </summary>
+    [Serializable]
     public struct EventSourceVersion : IComparable<EventSourceVersion>
     {
         const float SEQUENCE_DIVISOR = 10000;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bifrost.Sagas.Exceptions;
 
@@ -6,6 +7,7 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents the state of a saga
     /// </summary>
+    [Serializable]
     public class SagaState
     {
         /// <summary>
@@ -62,8 +64,8 @@ namespace Bifrost.Sagas
         /// <exception cref="InvalidSagaStateTransitionException">Thrown if transition is not allowed</exception>
         public void TransitionTo(State newState)
         {
-            if(!CanTransitionTo(newState))
-                throw new InvalidSagaStateTransitionException(string.Format("Cannot transition from State [{0}] to State [{1}]",_currentState.GetType().FullName, newState.GetType().FullName));
+            if (!CanTransitionTo(newState))
+                throw new InvalidSagaStateTransitionException(string.Format("Cannot transition from State [{0}] to State [{1}]", _currentState.GetType().FullName, newState.GetType().FullName));
 
             _currentState = newState;
         }
@@ -107,13 +109,13 @@ namespace Bifrost.Sagas
             switch (state)
             {
                 case Constants.BEGUN:
-                    return new SagaState(SagaState.BEGUN);
+                    return new SagaState(BEGUN);
                 case Constants.CONTINUING:
-                    return new SagaState(SagaState.CONTINUING);
+                    return new SagaState(CONTINUING);
                 case Constants.NEW:
-                    return new SagaState(SagaState.NEW);
+                    return new SagaState(NEW);
                 case Constants.CONCLUDED:
-                    return new SagaState(SagaState.CONCLUDED);
+                    return new SagaState(CONCLUDED);
                 default:
                     throw new UnknownSagaStateException(string.Format("Cannot set a Saga State of {0}", state));
             }
@@ -128,10 +130,11 @@ namespace Bifrost.Sagas
             return _currentState.ToString();
         }
 
+        [Serializable]
         class Concluded : State
         {
             public Concluded()
-                : base(new List<State>() { })
+                : base(new List<State>())
             {
             }
 
@@ -141,12 +144,12 @@ namespace Bifrost.Sagas
             }
         }
 
+        [Serializable]
         class Continuing : State
         {
             public Continuing()
-                : base(new List<State>() { CONCLUDED })
+                : base(new List<State> { CONCLUDED })
             {
-                _canTransitionTo.Add(this);
             }
 
             public override string ToString()
@@ -155,10 +158,11 @@ namespace Bifrost.Sagas
             }
         }
 
+        [Serializable]
         class Begun : State
         {
             public Begun()
-                : base(new List<State>() { SagaState.CONTINUING, SagaState.CONCLUDED })
+                : base(new List<State> { CONTINUING, CONCLUDED })
             {
             }
 
@@ -168,10 +172,11 @@ namespace Bifrost.Sagas
             }
         }
 
+        [Serializable]
         class New : State
         {
             public New()
-                : base(new List<State>() { SagaState.BEGUN })
+                : base(new List<State> { BEGUN })
             {
             }
 
