@@ -2,17 +2,21 @@
     var expectedMessage = "Should be required",
         test = {},
         server,
-        command;
+        command1;
 
 
     beforeEach(function () {
-        server = sinon.fakeServer.create();
-
-        server.respondWith("POST", "/Validation/GetForCommand",
-            [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
+        server = sinon.stub($, "ajax");
 
 
-        command = {
+        command1 = {
+            name: "Whatevva",
+            validatorsList: [],
+            parameters: {
+                something: ko.observable()
+            }
+        };
+        command2 = {
             name: "Whatevva",
             validatorsList: [],
             parameters: {
@@ -21,27 +25,15 @@
         };
 
         Bifrost.validation.validationService.resetCache();
-        Bifrost.validation.validationService.applyForCommand(command);
-        command.parameters.something.validator = {
-            setOptions: function (options) {
-                test.optionsSet = options;
-            }
-        };
+        Bifrost.validation.validationService.applyForCommand(command1);
+        Bifrost.validation.validationService.applyForCommand(command2);
 
-        server.respond();
     });
     afterEach(function () {
         server.restore();
     });
 
-    it("should set the rule in response from server", function () {
-        expect(test.optionsSet.required).toBeDefined();
-    });
-    it("should set the message for the rule in response from server", function () {
-        expect(test.optionsSet.required.message).toBe(expectedMessage);
-    });
-    it("should set the validatorsList on the command", function () {
-        expect(command.validatorsList.length).toBe(1);
-        expect(command.validatorsList[0]).toBe(command.parameters.something);
+    it("should only contact the server once", function () {
+        expect(server.callCount).toBe(1);
     });
 }));

@@ -230,6 +230,69 @@ if (typeof ko !== 'undefined') {
 
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
+
+    var rules = [];
+
+    function getRuleState(name) {
+        var rule = getRule(name);
+        if (rule) {
+            return rule.state;
+        } else {
+            return false;
+        }
+    }
+
+    function getRule(name) {
+        for (var i = 0; i < rules.length; i++) {
+            if (rules[i].name == name) {
+                return rules[i];
+            }
+        }
+        return false;
+    }
+
+    function findRules(commandName, callback) {
+        var ruleState = getRuleState(commandName);
+        if (ruleState == "loaded") {
+            callback(getRule(commandName).rule);
+        } else if (ruleState == "loading") {
+            getRule(commandName).callbacks.push(callback);
+        } else {
+
+            rules.push({
+                name: commandName,
+                state: "loading",
+                rule: false,
+                callbacks: [callback]
+            });
+
+            var methodParameters = {
+                name: "\"" + commandName + "\""
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Validation/GetForCommand",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(methodParameters),
+                complete: function(d) {
+                    var result = $.parseJSON(d.responseText);
+                    if (!result || !result.properties) {
+                        return;
+                    }
+                    var rule = getRule(commandName);
+                    rule.state = "loaded";
+                    rule.rule = result.properties;
+                    for (var i = 0; i < rule.callbacks.length; i++) {
+                        console.log(rule.callbacks[i] === callback);
+                        var callback = rule.callbacks[i];
+                        callback(result.properties);
+                    }
+                }
+            });
+        }
+    }
+
     return {
         recursivlyExtendProperties: function (properties, validatorsList) {
 
@@ -251,7 +314,7 @@ Bifrost.validation.validationService = (function () {
                 var path = rule.split(".");
                 var memberName = "parameters";
                 var member = properties;
-                for (var i = 0; i < path.length; i++ ) {
+                for (var i = 0; i < path.length; i++) {
                     var step = path[i];
                     member = ko.utils.unwrapObservable(member);
                     if (typeof member === "object" && step in member) {
@@ -274,26 +337,34 @@ Bifrost.validation.validationService = (function () {
             }
         },
 
+        resetCache: function () {
+            rules.length = 0;
+        },
+
         applyForCommand: function (command) {
             Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, command.validatorsList);
 
-            var methodParameters = {
-                name: "\"" + command.name + "\""
+            findRules(command.name, function (rules) {
+                Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, rules);
+            });
+
+            /*var methodParameters = {
+            name: "\"" + command.name + "\""
             };
             $.ajax({
-                type: "POST",
-                url: "/Validation/GetForCommand",
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(methodParameters),
-                complete: function (d) {
-                    var result = $.parseJSON(d.responseText);
-                    if (!result || !result.properties) {
-                        return;
-                    }
-                    Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
-                }
-            });
+            type: "POST",
+            url: "/Validation/GetForCommand",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(methodParameters),
+            complete: function (d) {
+            var result = $.parseJSON(d.responseText);
+            if (!result || !result.properties) {
+            return;
+            }
+            Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, result.properties);
+            }
+            });*/
         }
     };
 })();
@@ -522,7 +593,7 @@ Bifrost.commands.Command = (function (window) {
 
             Bifrost.validation.validationService.applyForCommand(self);
 
-            self.parametersAreValid = function () {
+            self.parametersAreValid = ko.computed(function () {
                 for (var i = 0; i < self.validatorsList.length; i++) {
                     if (self.validatorsList[i].validator &&
 						self.validatorsList[i].validator.isValid() == false) {
@@ -530,7 +601,7 @@ Bifrost.commands.Command = (function (window) {
                     }
                 }
                 return true;
-            };
+            }, self);
         };
 
         this.validator = Bifrost.validation.Validator.create({ required: true });
@@ -548,7 +619,7 @@ Bifrost.commands.Command = (function (window) {
             }
         };
 
-        this.applyValidationMessageToMembers = function (members, message) {
+        this.applyValidationMessageToMembers = function(members, message) {
             for (var j = 0; j < members.length; j++) {
 
                 var path = members[j].split(".");
@@ -599,7 +670,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.resetAllValidationMessages = function () {
             self.validator.reset();
-            for (var i = 0; i < self.validatorsList.length; i++ ) {
+            for (var i = 0; i < self.validatorsList.length; i++) {
                 var validator = self.validatorsList[i].validator;
                 if (validator) {
                     validator.reset();
@@ -680,14 +751,17 @@ Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandDescriptor = (function () {
     function CommandDescriptor(name, id, commandParameters) {
         this.Name = name;
-        //recursively create JSON from mix of objects and knockout observables/computed values
-        var commandContent = ko.toJS(commandParameters);
-        commandContent.Id = id;
+        var commandContent = {
+            Id: id
+        };
+        for (var property in commandParameters) {
+            commandContent[property] = commandParameters[property];
+        }
         this.Command = ko.toJSON(commandContent);
     };
 
     return {
-        createFrom: function (command) {
+        createFrom: function(command) {
             var commandDescriptor = new CommandDescriptor(command.name, command.id, command.parameters);
             return commandDescriptor;
         }
@@ -730,8 +804,6 @@ Bifrost.commands.commandCoordinator = (function () {
 
     return {
         handle: function (command) {
-
-
             var methodParameters = {
                 commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
             };
@@ -743,8 +815,8 @@ Bifrost.commands.commandCoordinator = (function () {
         },
         handleForSaga: function (saga, commands) {
             var commandDescriptors = [];
-
             $.each(commands, function (index, command) {
+                command.onBeforeExecute();
                 commandDescriptors.push(Bifrost.commands.CommandDescriptor.createFrom(command));
             });
 
@@ -807,19 +879,6 @@ Bifrost.sagas.Saga = (function () {
         var self = this;
 
         this.executeCommands = function (commands) {
-
-            var canExecuteSaga = true;
-            
-            $.each(commands, function (index, command) {
-                if (command.onBeforeExecute() === false) {
-                    canExecuteSaga = false;
-                    return false;
-                }
-            });
-
-            if (canExecuteSaga === false) {
-                return;
-            }
             Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
                 error: function (e) {
                 },
