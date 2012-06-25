@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.OptionsNotDefined = function (message) {
     this.prototype = Error.prototype;
     this.name = "OptionsNotDefined";
