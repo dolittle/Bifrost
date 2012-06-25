@@ -19,6 +19,8 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -27,11 +29,9 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents a state used in a <see cref="ISaga"/>
     /// </summary>
+    [Serializable]
     public class State
     {
-        // Todo : Get rid of ICollection, we should probably expose this differently
-
-
         /// <summary>
         /// Holds all states it can transition to
         /// </summary>
@@ -41,9 +41,9 @@ namespace Bifrost.Sagas
         /// Initializes a new instance of <see cref="State"/>
         /// </summary>
         /// <param name="canTransitionTo">Collection of states it can transition to</param>
-        protected State(ICollection<State> canTransitionTo)
+        protected State(IEnumerable<State> canTransitionTo)
         {
-            _canTransitionTo = canTransitionTo;
+            _canTransitionTo = canTransitionTo.ToList();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Bifrost.Sagas
         /// <returns>true if it can transition, false if not</returns>
         public bool CanTransitionTo(State state)
         {
-            return _canTransitionTo.Contains(state);
+            return _canTransitionTo.Any(s => s.GetType() == state.GetType());
         }
     }
 }

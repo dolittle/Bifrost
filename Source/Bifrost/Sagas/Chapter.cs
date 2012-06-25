@@ -27,6 +27,7 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents a <see cref="IChapter"/>
     /// </summary>
+    [Serializable]
     public class Chapter : IChapter
     {
 #pragma warning disable 1591 // Xml Comments

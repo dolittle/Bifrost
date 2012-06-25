@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
 
     var rules = [];
@@ -54,7 +54,6 @@ Bifrost.validation.validationService = (function () {
                     rule.state = "loaded";
                     rule.rule = result.properties;
                     for (var i = 0; i < rule.callbacks.length; i++) {
-                        console.log(rule.callbacks[i] === callback);
                         var callback = rule.callbacks[i];
                         callback(result.properties);
                     }

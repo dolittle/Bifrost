@@ -34,3 +34,6 @@ Thumbs.db
 *.ncrunchsolution
 *.ncrunchproject
 *.crunchsolution.*
+Source/Bifrost.JavaScript/Bifrost.debug.js
+
+/Source/Bifrost.JavaScript/Bifrost.debug.js
