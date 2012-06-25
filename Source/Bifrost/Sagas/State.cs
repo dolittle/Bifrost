@@ -35,7 +35,7 @@ namespace Bifrost.Sagas
         /// <summary>
         /// Holds all states it can transition to
         /// </summary>
-        protected readonly IEnumerable<State> _canTransitionTo;
+        protected readonly ICollection<State> _canTransitionTo;
 
         /// <summary>
         /// Initializes a new instance of <see cref="State"/>
@@ -43,7 +43,7 @@ namespace Bifrost.Sagas
         /// <param name="canTransitionTo">Collection of states it can transition to</param>
         protected State(IEnumerable<State> canTransitionTo)
         {
-            _canTransitionTo = canTransitionTo;
+            _canTransitionTo = canTransitionTo.ToList();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Bifrost.Sagas
         /// <returns>true if it can transition, false if not</returns>
         public bool CanTransitionTo(State state)
         {
-            return GetType() == state.GetType() || _canTransitionTo.Any(s => s.GetType() == state.GetType());
+            return _canTransitionTo.Any(s => s.GetType() == state.GetType());
         }
     }
 }
