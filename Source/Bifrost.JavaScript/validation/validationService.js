@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
 
     var inputValidators = [];

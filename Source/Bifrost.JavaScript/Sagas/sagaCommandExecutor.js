@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.sagas");
+Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.SagaCommandExecutor = (function () {
     function SagaCommandExecutor(options) {
         var self = this;
