@@ -25,7 +25,6 @@ using System.Linq;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
-using System.Reflection;
 using Bifrost.Extensions;
 
 namespace Bifrost.Execution
@@ -38,9 +37,10 @@ namespace Bifrost.Execution
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
-        private readonly IAssemblyLocator _assemblyLocator;
+        readonly IAssemblyLocator _assemblyLocator;
         readonly static List<string> NamespaceStartingWithExclusions = new List<string>();
-		readonly List<Type> _types;
+		List<Type> _types;
+        Dictionary<Type, Type[]> _typesImplementingInterface;
 
 		/// <summary>
 		/// Exclude discovering of types in a specific namespace
@@ -58,6 +58,7 @@ namespace Bifrost.Execution
 		{
 		    _assemblyLocator = assemblyLocator;
 		    _types = new List<Type>();
+            _typesImplementingInterface = new Dictionary<Type, Type[]>();
 			CollectTypes();
 		}
 
@@ -140,23 +141,30 @@ namespace Bifrost.Execution
 #else
 		private void CollectTypes()
 		{
-		    var assemblies = _assemblyLocator.GetAll();
-			var query = from a in assemblies
-			            where ShouldAddAssembly(a.FullName)
-			            select a;
+            //var assemblies = _assemblyLocator.GetAll();
+            //var query = from a in assemblies
+            //            where ShouldAddAssembly(a.FullName)
+            //            select a;
 
-            foreach (var assembly in query)
-            {
-                try
-                {
-                    _types.AddRange(assembly.GetTypes());
-                } catch
-                {
-                    throw;
-                }
+            //foreach (var assembly in query)
+            //{
+            //    try
+            //    {
+            //        _types.AddRange(assembly.GetTypes());
+            //    } catch
+            //    {
+            //        throw;
+            //    }
 
-            }
+            //}
+
+		    _types =
+		        _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).SelectMany(a => a.GetTypes()).ToList();
+
+		    var interfaces = _types.SelectMany(t => t.GetInterfaces()).Where(i => !i.IsGenericType).Distinct();
+		    _typesImplementingInterface = interfaces.ToDictionary(i => i, i => _types.Where(t => t.HasInterface(i) && !t.IsInterface && !t.IsAbstract).ToArray());
 		}
+
 #endif
 #endif
 		private static bool ShouldAddAssembly(string name)
@@ -172,11 +180,14 @@ namespace Bifrost.Execution
 
 		private Type[] Find(Type type)
 		{
-			var query = from t in _types
-						where t.HasInterface(type) && !t.IsInterface && !t.IsAbstract
-						select t;
-			var typesFound = query.ToArray();
-			return typesFound;
+            //var query = from t in _types
+            //            where t.HasInterface(type) && !t.IsInterface && !t.IsAbstract
+            //            select t;
+            //var typesFound = query.ToArray();
+            //return typesFound;
+
+		    Type[] types;
+            return _typesImplementingInterface.TryGetValue(type, out types) ? types : new Type[0];
 		}
 	}
 }

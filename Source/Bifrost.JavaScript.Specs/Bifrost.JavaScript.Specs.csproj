@@ -149,6 +149,7 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
+    <Content Include="validation\for_validationService\when_applying_the_same_command_multiple_times.js" />
     <Content Include="validation\for_validationService\when_initializing_validation_service.js" />
     <Content Include="validation\for_validationService\when_applying_nested_rules_from_server_for_a_known_command.js" />
     <Content Include="validation\for_validationService\when_initializing_validation_service.js" />

@@ -32,6 +32,7 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents a <see cref="ISaga"/>
     /// </summary>
+    [Serializable]
     public class Saga : ISaga
     {
         readonly List<IChapter> _chapters = new List<IChapter>();

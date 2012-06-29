@@ -7,12 +7,12 @@
         items = [{}, {}, {}];
         Bifrost.validation.Validator.applyTo(items, {});
         validatorCount = 0;
-        items.forEach(function (item) {
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
             if (typeof item.validator !== "undefined") {
                 validatorCount++;
             }
-        });
-
+        }
     });
 
     it("should add a validator to all items", function () {

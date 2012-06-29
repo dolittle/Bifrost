@@ -1,5 +1,66 @@
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
+
+    var inputValidators = [];
+    
+    function getInputValidator(name) {
+        for (var i = 0; i < inputValidators.length; i++) {
+            if (inputValidators[i].name == name) {
+                return inputValidators[i];
+            }
+        }
+        return false;
+    }
+
+    function loadCommandRules(commandName, callback) {
+        var methodParameters = {
+            name: "\"" + commandName + "\""
+        };
+        $.ajax({
+            type: "POST",
+            url: "/Validation/GetForCommand",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(methodParameters),
+            complete: function (d) {
+                var result = $.parseJSON(d.responseText);
+                if (!result || !result.properties) {
+                    return;
+                }
+                callback(result.properties);
+            }
+        });
+    }
+
+    function getCommandRules(commandName, callback) {
+        var inputValidator = getInputValidator(commandName);
+        var ruleState = inputValidator ? inputValidator.state : false;
+        if (ruleState == "loaded") {
+            callback(inputValidator.rule);
+        } else if (ruleState == "loading") {
+            inputValidator.callbacks.push(callback);
+        } else {
+
+            inputValidator = {
+                name: commandName,
+                state: "loading",
+                rule: false,
+                callbacks: [callback]
+            };
+
+            inputValidators.push(inputValidator);
+
+            loadCommandRules(commandName, function (properties) {
+                inputValidator.state = "loaded";
+                inputValidator.rule = properties;
+                for (var i = 0; i < inputValidator.callbacks.length; i++) {
+                    var ruleCallback = inputValidator.callbacks[i];
+                    ruleCallback(properties);
+                }
+            });
+        }
+    }
+
     return {
         recursivlyExtendProperties: function (properties, validatorsList) {
             for (var key in properties) {
@@ -43,25 +104,15 @@ Bifrost.validation.validationService = (function () {
             }
         },
 
+        resetCache: function () {
+            inputValidators.length = 0;
+        },
+
         applyForCommand: function (command) {
             Bifrost.validation.validationService.recursivlyExtendProperties(ko.utils.unwrapObservable(command.parameters), command.validatorsList);
 
-            var methodParameters = {
-                name: "\"" + command.name + "\""
-            };
-            $.ajax({
-                type: "POST",
-                url: "/Validation/GetForCommand",
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(methodParameters),
-                complete: function (d) {
-                    var result = $.parseJSON(d.responseText);
-                    if (!result || !result.properties) {
-                        return;
-                    }
-                    Bifrost.validation.validationService.recursivlyApplyRules(ko.utils.unwrapObservable(command.parameters), result.properties);
-                }
+            getCommandRules(command.name, function (rules) {
+                Bifrost.validation.validationService.recursivlyApplyRules(command.parameters, rules);
             });
         }
     };

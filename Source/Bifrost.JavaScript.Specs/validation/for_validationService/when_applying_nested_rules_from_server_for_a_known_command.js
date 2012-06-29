@@ -23,6 +23,7 @@
             }
         };
 
+        Bifrost.validation.validationService.resetCache();
         Bifrost.validation.validationService.applyForCommand(command);
         command.parameters.something.someOtherThing.validator = {
             setOptions: function (options) {

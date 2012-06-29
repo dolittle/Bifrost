@@ -29,6 +29,7 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents an event
     /// </summary>
+    [Serializable]
     public abstract class Event : IEvent
     {
         static readonly IEnumerable<string> PropertiesToIgnore = typeof(IEvent).GetProperties().Select(p=>p.Name);
