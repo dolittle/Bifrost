@@ -166,7 +166,7 @@ Bifrost.commands.Command = (function (window) {
 
         this.onError = function () {
             self.hasError = true;
-            if (self.result.hasOwnProperty("validationResults")) {
+            if ("validationResults" in self.result && self.result.validationResults) {
                 self.applyServerValidation(self.result.validationResults);
             }
             self.options.error.call(self.viewModel, self.result);

@@ -16,7 +16,9 @@ Bifrost.commands.commandCoordinator = (function () {
         if (jqXHR.status === 200) {
             command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
             command.hasExecuted = true;
-            if (command.result.success === true) {
+            if (command.result.exception) {
+                command.onError();
+            } else if (command.result.success === true) {
                 command.onSuccess();
             } else {
                 command.onError();
