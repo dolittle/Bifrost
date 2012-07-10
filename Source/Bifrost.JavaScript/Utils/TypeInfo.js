@@ -20,6 +20,13 @@ Bifrost.namespace("Bifrost", {
 			if( dependencies.length == 0 ) {
 				return new this.typeDefinition();
 			} else {
+				
+				// A little note to self for how this should come together : 
+				// - Add a options parameter to create so that we can hand it dependencies manually - nice for testing
+				// - Add greater flexibility to solving - not only require
+				// 		- require being one solver
+				//		- namespace solving
+				
 				var resolvedDependencies = [];
 				var a = this.typeDefinition;
 				resolvedDependencies.push(a);
