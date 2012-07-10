@@ -1,4 +1,4 @@
-Bifrost.namespace("Bifrost")
+Bifrost.namespace("Bifrost");
 Bifrost.TypeInfo = (function() {
 	function TypeInfo(obj) {
 		var target = obj;
@@ -35,6 +35,7 @@ Bifrost.TypeInfo = (function() {
 		}
 	};
 })();
+
 
 // Object extensions
 Object.prototype.getTypeInfo = function() { 

@@ -47,4 +47,3 @@
 
 // Something funky stuff with jQuery makes the TypeInfo break everything
 // depends utils/TypeInfo.js
-// depends navigation/navigation.js
