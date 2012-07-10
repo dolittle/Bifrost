@@ -7,8 +7,8 @@ describe("when defining", function() {
 		expect(typeof result == "object").toBeTruthy();
 	});
 	
-	it("should return an object of type ClassInfo", function() {
-		expect(result instanceof Bifrost.ClassInfo).toBeTruthy();
+	it("should return an object of type TypeInfo", function() {
+		expect(result instanceof Bifrost.TypeInfo).toBeTruthy();
 	});
 	
 	it("should have the typeDefinition set to the input type definition", function() {

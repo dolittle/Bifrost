@@ -1,22 +1,17 @@
-Bifrost.namespace("Bifrost");
-Bifrost.TypeInfo = (function() {
-	function TypeInfo(obj) {
-		var target = obj;
+function TypeInfo(obj) {
+	var target = obj;
 
-		this.initializeName = function() {
-			try {
-	   			var funcNameRegex = /function (.{1,})\(/;
-	   			var results = (funcNameRegex).exec((target).constructor.toString());
-	   			this.name = (results && results.length > 1) ? results[1] : "";
-			} catch( e ) {
-				this.name = "unknown";
-			}
-		}
-		
-		this.initializeName();
+	try {
+		var funcNameRegex = /function (.{1,})\(/;
+		var results = (funcNameRegex).exec((target).constructor.toString());
+		this.name = (results && results.length > 1) ? results[1] : "";
+	} catch( e ) {
+		this.name = "unknown";
 	}
+}
 
-	return {
+Bifrost.namespace("Bifrost", {
+	TypeInfo: {
 		create : function() {
 			if( typeof this.typeDefinition === "undefined" ) {
 				throw new Bifrost.MissingTypeDefinition();
@@ -25,7 +20,14 @@ Bifrost.TypeInfo = (function() {
 			if( dependencies.length == 0 ) {
 				return new this.typeDefinition();
 			} else {
-				
+				var resolvedDependencies = [];
+				var a = this.typeDefinition;
+				resolvedDependencies.push(a);
+				$.each(dependencies, function(index, dependency) {
+					var resolvedDependency = require(dependency);
+					resolvedDependencies.push(resolvedDependency);
+				});
+				return new (a.bind.apply(a,resolvedDependencies))();
 			}
 		},
 		
@@ -33,5 +35,5 @@ Bifrost.TypeInfo = (function() {
 			var typeInfo = new TypeInfo(obj);
 			return typeInfo;
 		}
-	};
-})();
+	}
+});

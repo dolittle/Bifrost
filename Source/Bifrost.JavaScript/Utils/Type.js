@@ -9,10 +9,10 @@ Bifrost.namespace("Bifrost", {
 		}
 		
 		var result = function() {
-			typeDefinition.prototype = Bifrost.ClassPrototype;
+			typeDefinition.prototype = Bifrost.TypePrototype;
 			this.typeDefinition = typeDefinition;
 		}
-		result.prototype = Bifrost.ClassInfo;
+		result.prototype = Bifrost.TypeInfo;
 		
 		return new result();
 	}

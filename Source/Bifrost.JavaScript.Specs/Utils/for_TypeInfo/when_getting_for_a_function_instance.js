@@ -3,7 +3,7 @@ describe("when getting for a function instance", function() {
 		
 	}
 	var instance = new SomeType();
-	
+
 	var typeInfo = Bifrost.TypeInfo.getFor(instance);
 	
 	it("should return an instance", function() {
