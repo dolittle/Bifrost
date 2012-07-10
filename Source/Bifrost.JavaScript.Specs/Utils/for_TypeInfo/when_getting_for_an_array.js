@@ -3,7 +3,7 @@ describe("when getting for an array", function() {
 	var typeInfo = null;
 	
 	beforeEach(function() {
-		typeInfo = instanceToGetFrom.getTypeInfo();
+		typeInfo = Bifrost.TypeInfo.getFor(instanceToGetFrom);
 	});
 	
 	it("should have type name set to array", function() {

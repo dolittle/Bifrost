@@ -21,6 +21,51 @@ var Bifrost = Bifrost || {};
 		}
     };
 })(window);
+Bifrost.namespace("Bifrost");
+Bifrost.TypeInfo = (function() {
+	function TypeInfo(obj) {
+		var target = obj;
+
+		this.initializeName = function() {
+			try {
+	   			var funcNameRegex = /function (.{1,})\(/;
+	   			var results = (funcNameRegex).exec((target).constructor.toString());
+	   			this.name = (results && results.length > 1) ? results[1] : "";
+			} catch( e ) {
+				this.name = "unknown";
+			}
+		}
+		
+		this.initializeName();
+	}
+
+	return {
+		create : function() {
+			if( typeof this.typeDefinition === "undefined" ) {
+				throw new Bifrost.MissingTypeDefinition();
+			}
+			var dependencies = Bifrost.functionParser.parse(this.typeDefinition);
+			if( dependencies.length == 0 ) {
+				return new this.typeDefinition();
+			} else {
+				
+			}
+		},
+		
+		getFor: function(obj) {
+			var typeInfo = new TypeInfo(obj);
+			return typeInfo;
+		}
+	};
+})();
+
+
+// Object extensions
+Object.prototype.getTypeInfo = function() { 
+	console.log("Hello world");
+//	return Bifrost.TypeInfo.getFor(this);
+};
+
 Bifrost.namespace("Bifrost", {
 	TypePrototype: {
 	},
@@ -1306,7 +1351,7 @@ Bifrost.features.featureManager = (function () {
 })();
 (function ($) {
     $(function () {
-        Bifrost.navigation.navigationManager.hookup();
+		Bifrost.navigation.navigationManager.hookup();
         Bifrost.features.featureManager.hookup($);
     });
 })(jQuery);
@@ -1407,6 +1452,7 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/TypeInfo.js
 @depends utils/TypePrototype.js
 @depends utils/Type.js
 @depends utils/Exception.js
@@ -1449,8 +1495,9 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends messaging/messenger.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
+
 */
 
 // Something funky stuff with jQuery makes the TypeInfo break everything
-// depends utils/TypeInfo.js
+
 

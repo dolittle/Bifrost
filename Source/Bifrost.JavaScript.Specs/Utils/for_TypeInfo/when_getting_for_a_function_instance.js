@@ -1,10 +1,10 @@
-describe("when getting for an object", function() {
+describe("when getting for a function instance", function() {
 	function SomeType() {
 		
 	}
 	var instance = new SomeType();
 	
-	var typeInfo = instance.getTypeInfo();
+	var typeInfo = Bifrost.TypeInfo.getFor(instance);
 	
 	it("should return an instance", function() {
 		expect(typeInfo).not.toBeUndefined();

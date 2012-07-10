@@ -35,9 +35,3 @@ Bifrost.TypeInfo = (function() {
 		}
 	};
 })();
-
-
-// Object extensions
-Object.prototype.getTypeInfo = function() { 
-	return Bifrost.TypeInfo.getFor(this);
-};
