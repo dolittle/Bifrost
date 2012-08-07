@@ -180,10 +180,10 @@ Bifrost.namespace("Bifrost", {
 });
 
 Bifrost.namespace("Bifrost", {
-	isNumber : function(number) {
-    	return !isNaN(parseFloat(number)) && isFinite(number);
+    isNumber: function (number) {
+        return !isNaN(parseFloat(number)) && isFinite(number);
     }
-}
+});
 
 Bifrost.namespace("Bifrost");
 Bifrost.hashString = (function() {
@@ -1496,5 +1496,3 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 */
-
-
