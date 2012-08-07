@@ -61,7 +61,6 @@ Bifrost.features.Feature = (function () {
     return {
         create: function (name, path, isDefault) {
             var feature = new Feature(name, path, isDefault);
-            feature.load();
             return feature;
         }
     }
