@@ -5,41 +5,34 @@ var Bifrost = Bifrost || {};
 	};
 })(window);
 var Bifrost = Bifrost || {};
-(function(global, undefined) {
-    Bifrost.namespace = function (ns, content) {
-        var parent = global;
-        var parts = ns.split('.');
-        $.each(parts, function (index, part) {
-            if (!Object.prototype.hasOwnProperty.call(parent, part)) {
-                parent[part] = {};
-            }
-            parent = parent[part];
-        });
+Bifrost.namespace = function (ns, content) {
+    var parent = window;
+    var parts = ns.split('.');
+    $.each(parts, function (index, part) {
+        if (!Object.prototype.hasOwnProperty.call(parent, part)) {
+            parent[part] = {};
+        }
+        parent = parent[part];
+    });
 
-		if( typeof content === "object" ) {
-			Bifrost.extend(parent, content);
-		}
-    };
-})(window);
-Bifrost.namespace("Bifrost");
-Bifrost.TypeInfo = (function() {
-	function TypeInfo(obj) {
-		var target = obj;
-
-		this.initializeName = function() {
-			try {
-	   			var funcNameRegex = /function (.{1,})\(/;
-	   			var results = (funcNameRegex).exec((target).constructor.toString());
-	   			this.name = (results && results.length > 1) ? results[1] : "";
-			} catch( e ) {
-				this.name = "unknown";
-			}
-		}
-		
-		this.initializeName();
+	if( typeof content === "object" ) {
+		Bifrost.extend(parent, content);
 	}
+};
+function TypeInfo(obj) {
+	var target = obj;
 
-	return {
+	try {
+		var funcNameRegex = /function (.{1,})\(/;
+		var results = (funcNameRegex).exec((target).constructor.toString());
+		this.name = (results && results.length > 1) ? results[1] : "";
+	} catch( e ) {
+		this.name = "unknown";
+	}
+}
+
+Bifrost.namespace("Bifrost", {
+	TypeInfo: {
 		create : function() {
 			if( typeof this.typeDefinition === "undefined" ) {
 				throw new Bifrost.MissingTypeDefinition();
@@ -49,6 +42,20 @@ Bifrost.TypeInfo = (function() {
 				return new this.typeDefinition();
 			} else {
 				
+				// A little note to self for how this should come together : 
+				// - Add a options parameter to create so that we can hand it dependencies manually - nice for testing
+				// - Add greater flexibility to solving - not only require
+				// 		- require being one solver
+				//		- namespace solving
+				
+				var resolvedDependencies = [];
+				var a = this.typeDefinition;
+				resolvedDependencies.push(a);
+				$.each(dependencies, function(index, dependency) {
+					var resolvedDependency = require(dependency);
+					resolvedDependencies.push(resolvedDependency);
+				});
+				return new (a.bind.apply(a,resolvedDependencies))();
 			}
 		},
 		
@@ -56,16 +63,8 @@ Bifrost.TypeInfo = (function() {
 			var typeInfo = new TypeInfo(obj);
 			return typeInfo;
 		}
-	};
-})();
-
-
-// Object extensions
-Object.prototype.getTypeInfo = function() { 
-	console.log("Hello world");
-//	return Bifrost.TypeInfo.getFor(this);
-};
-
+	}
+});
 Bifrost.namespace("Bifrost", {
 	TypePrototype: {
 	},
@@ -81,10 +80,10 @@ Bifrost.namespace("Bifrost", {
 		}
 		
 		var result = function() {
-			typeDefinition.prototype = Bifrost.ClassPrototype;
+			typeDefinition.prototype = Bifrost.TypePrototype;
 			this.typeDefinition = typeDefinition;
 		}
-		result.prototype = Bifrost.ClassInfo;
+		result.prototype = Bifrost.TypeInfo;
 		
 		return new result();
 	}
@@ -180,9 +179,10 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 
-Bifrost.namespace("Bifrost");
-Bifrost.isNumber = function(number) {
-    return !isNaN(parseFloat(number)) && isFinite(number);
+Bifrost.namespace("Bifrost", {
+	isNumber : function(number) {
+    	return !isNaN(parseFloat(number)) && isFinite(number);
+    }
 }
 
 Bifrost.namespace("Bifrost");
@@ -1312,7 +1312,6 @@ Bifrost.features.Feature = (function () {
     return {
         create: function (name, path, isDefault) {
             var feature = new Feature(name, path, isDefault);
-            feature.load();
             return feature;
         }
     }
@@ -1334,6 +1333,7 @@ Bifrost.features.featureManager = (function () {
             var path = FeatureMapping.resolve(name);
             var feature = Bifrost.features.Feature.create(name, path, FeatureMapping.isDefault);
             allFeatures[name] = feature;
+            feature.load();            
             return feature;
         },
         hookup: function ($) {
@@ -1495,9 +1495,6 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends messaging/messenger.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
-
 */
-
-// Something funky stuff with jQuery makes the TypeInfo break everything
 
 
