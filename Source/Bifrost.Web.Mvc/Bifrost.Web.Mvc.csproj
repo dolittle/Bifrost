@@ -81,6 +81,11 @@
     <Compile Include="Commands\CommandHtmlHelper.cs" />
     <Compile Include="Commands\ModelStateDictionaryExtensions.cs" />
     <Compile Include="ContainerDependencyResolver.cs" />
+    <Compile Include="Validation\GreaterThanOrEqualPropertyValidator.cs" />
+    <Compile Include="Validation\LessThanOrEqualPropertyValidator.cs" />
+    <Compile Include="Validation\LessThanPropertyValidator.cs" />
+    <Compile Include="Validation\FluentValidationModelValidatorProviderExtensions.cs" />
+    <Compile Include="Validation\GreaterThanPropertyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
@@ -100,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Commands\commandFormEvents.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Validation\Bifrost.jQuery.validation.validators.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
