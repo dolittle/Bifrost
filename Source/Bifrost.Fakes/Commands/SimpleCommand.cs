@@ -5,6 +5,10 @@ namespace Bifrost.Fakes.Commands
 {
     public class SimpleCommand : ICommand
     {
+        public SimpleCommand() : this(Guid.NewGuid())
+        {
+        }
+
         public SimpleCommand(Guid id)
         {
             Id = id;

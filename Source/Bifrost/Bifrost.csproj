@@ -200,7 +200,6 @@
     <Compile Include="Validation\MetaData\Rule.cs" />
     <Compile Include="Validation\MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="Validation\ModelRule.cs" />
-    <Compile Include="Validation\NoPropertiesException.cs" />
     <Compile Include="Validation\NullChapterValidator.cs" />
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />

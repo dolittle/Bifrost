@@ -21,10 +21,12 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bifrost.Commands;
+using System.Reflection;
 
 namespace Bifrost.Web.Mvc.Commands
 {
@@ -33,6 +35,28 @@ namespace Bifrost.Web.Mvc.Commands
     /// </summary>
     public static class CommandHtmlHelper
     {
+        /// <summary>
+        /// Begins a <see cref="CommandForm{T}"/>, with default <see cref="FormMethod.Post"/> as method and will autodiscover any
+        /// action on the controller taking the type of <see cref="ICommand">command</see> specified.
+        /// </summary>
+        /// <typeparam name="T">Type of Command to create form for</typeparam>
+        /// <typeparam name="TC">Type of controller holding the action to forward to</typeparam>
+        /// <param name="htmlHelper">HtmlHelper to begin a command form within</param>
+        /// <returns>A <see cref="CommandForm{T}"/></returns>
+        public static CommandForm<T> BeginCommandForm<T, TC>(this HtmlHelper htmlHelper)
+            where T : ICommand, new()
+            where TC : ControllerBase
+        {
+            var actions = GetActionsForCommand<T, TC>();
+
+            ThrowIfAmbiguousAction<T, TC>(actions);
+            ThrowIfMissingAction<T, TC>(actions);
+            
+            var controllerName = GetControllerNameFromType<TC>();
+            var command = htmlHelper.BeginCommandForm<T>(actions.First().Name, controllerName, FormMethod.Post, new Dictionary<string, object>());
+            return command;
+        }
+
         /// <summary>
         /// Begins a <see cref="CommandForm{T}"/>, with default <see cref="FormMethod.Post"/> as method
         /// </summary>
@@ -140,7 +164,7 @@ namespace Bifrost.Web.Mvc.Commands
                 if( null != methodCallExpression )
                 {
                     var actionName = methodCallExpression.Method.Name;
-                    var controllerName = typeof (TC).Name.Replace("Controller",string.Empty);
+                    var controllerName = GetControllerNameFromType<TC>();
                     var commandForm = BeginCommandForm<T>(htmlHelper, actionName, controllerName, formMethod, htmlAttributes);
                     return commandForm;
                 }
@@ -200,7 +224,7 @@ namespace Bifrost.Web.Mvc.Commands
             where T : ICommand, new()
         {
             var formAction = UrlHelper.GenerateUrl(null, actionName, controllerName, new RouteValueDictionary(), htmlHelper.RouteCollection, htmlHelper.ViewContext.RequestContext, true);
-            var form = FormHelper<T>(htmlHelper, formAction, formMethod, htmlAttributes);
+            var form = FormHelper<T>(htmlHelper, formAction, actionName, controllerName, formMethod, htmlAttributes);
             return form;
         }
 
@@ -220,7 +244,7 @@ namespace Bifrost.Web.Mvc.Commands
             return htmlHelper.BeginCommandForm<T>(actionName, controllerName, formMethod, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        static CommandForm<T> FormHelper<T>(this HtmlHelper htmlHelper, string formAction, FormMethod method, IDictionary<string, object> htmlAttributes)
+        static CommandForm<T> FormHelper<T>(this HtmlHelper htmlHelper, string formAction, string action, string controller, FormMethod method, IDictionary<string, object> htmlAttributes)
             where T : ICommand, new()
         {
             htmlAttributes = htmlAttributes ?? new Dictionary<string, object>();
@@ -239,11 +263,53 @@ namespace Bifrost.Web.Mvc.Commands
             builder.MergeAttributes(htmlAttributes);
             htmlHelper.ViewContext.Writer.Write(builder.ToString(TagRenderMode.StartTag));
             var form = new CommandForm<T>(htmlHelper.ViewContext);
+            form.Action = action;
+            form.Controller = controller;
             if (htmlHelper.ViewContext.ClientValidationEnabled)
             {
                 htmlHelper.ViewContext.FormContext.FormId = builder.Attributes["id"];
             }
             return form;
+        }
+
+
+        static IEnumerable<MethodInfo> GetActionsForCommand<T, TC>()
+            where T : ICommand, new()
+            where TC : ControllerBase
+        {
+            var controllerType = typeof(TC);
+            var commandType = typeof(T);
+            var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            var actions = methods
+                .Where(m => typeof(ActionResult).IsAssignableFrom(m.ReturnType))
+                .Where(m => m.GetParameters().Any(p => p.ParameterType == commandType))
+                .ToArray();
+            return actions;
+        }
+
+        static void ThrowIfMissingAction<T, TC>(IEnumerable<MethodInfo> methods)
+        {
+            if (methods.Count() == 0)
+                throw new MissingActionException(typeof(T), typeof(TC));
+        }
+
+        static void ThrowIfAmbiguousAction<T, TC>(IEnumerable<MethodInfo> methods)
+        {
+            if (methods.Count() > 1)
+                throw new AmbiguousActionException(typeof(T), typeof(TC));
+        }
+
+
+        static string GetControllerNameFromType<TC>()
+        {
+            const string controllerString = "Controller";
+            var name = typeof(TC).Name;
+            var lastIndex = name.LastIndexOf(controllerString);
+
+            if( lastIndex > 0 )
+                name = name.Remove(lastIndex,controllerString.Length);
+
+            return name;
         }
     }
 }

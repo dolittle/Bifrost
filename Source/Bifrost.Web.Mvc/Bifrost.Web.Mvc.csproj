@@ -75,10 +75,12 @@
     </Compile>
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="BifrostTempDataProvider.cs" />
+    <Compile Include="Commands\AmbiguousActionException.cs" />
     <Compile Include="Commands\CommandForm.cs" />
     <Compile Include="Commands\CommandAjaxHelper.cs" />
     <Compile Include="Commands\CommandViewDataContainer.cs" />
     <Compile Include="Commands\CommandHtmlHelper.cs" />
+    <Compile Include="Commands\MissingActionException.cs" />
     <Compile Include="Commands\ModelStateDictionaryExtensions.cs" />
     <Compile Include="ContainerDependencyResolver.cs" />
     <Compile Include="Validation\GreaterThanOrEqualPropertyValidator.cs" />

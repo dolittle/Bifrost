@@ -20,20 +20,24 @@
 //
 #endregion
 using System;
+using System.Web.Mvc;
+using Bifrost.Commands;
 
-namespace Bifrost.Validation
+namespace Bifrost.Web.Mvc.Commands
 {
     /// <summary>
-    /// The exception that is thrown when there are no properties on a type
+    /// The exception that is thrown if the <see cref="CommandHtmlHelper"/> or <see cref="CommandAjaxHelper"/>
+    /// can't find a unique action to use for your command when creating a <see cref="CommandForm"/>
     /// </summary>
-    public class NoPropertiesException : ArgumentException
+    public class AmbiguousActionException : ArgumentException
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="NoPropertiesException"/>
+        /// Initializes a new instance of <see cref="AmbiguousActionException"/>
         /// </summary>
-        /// <param name="type">Type with no properties on it</param>
-        public NoPropertiesException(Type type)
-            : base("There are no properties for '{0}'", type.AssemblyQualifiedName)
+        /// <param name="commandType">Type of <see cref="ICommand"/></param>
+        /// <param name="controllerType">Type of <see cref="IController"/></param>
+        public AmbiguousActionException(Type commandType, Type controllerType)
+            : base(string.Format("Can't find a unique action for command of type '{0}' on controller '{0}'", commandType.AssemblyQualifiedName, controllerType.AssemblyQualifiedName))
         {
         }
     }
