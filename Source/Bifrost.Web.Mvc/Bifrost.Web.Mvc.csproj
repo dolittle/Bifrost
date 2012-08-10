@@ -80,6 +80,7 @@
     <Compile Include="Commands\CommandAjaxHelper.cs" />
     <Compile Include="Commands\CommandViewDataContainer.cs" />
     <Compile Include="Commands\CommandHtmlHelper.cs" />
+    <Compile Include="Commands\ControllerHelpers.cs" />
     <Compile Include="Commands\MissingActionException.cs" />
     <Compile Include="Commands\ModelStateDictionaryExtensions.cs" />
     <Compile Include="ContainerDependencyResolver.cs" />

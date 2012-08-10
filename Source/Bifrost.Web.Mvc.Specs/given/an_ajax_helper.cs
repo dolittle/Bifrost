@@ -6,11 +6,11 @@ using Moq;
 
 namespace Bifrost.Web.Mvc.Specs.given
 {
-    public class an_html_helper
+    public class an_ajax_helper
     {
         protected static Mock<ViewContext> view_context_mock;
         protected static Mock<IViewDataContainer> view_data_container_mock;
-        protected static HtmlHelper html_helper;
+        protected static AjaxHelper ajax_helper;
         protected static StringBuilder string_builder;
         protected static ViewDataDictionary view_data;
 
@@ -24,7 +24,7 @@ namespace Bifrost.Web.Mvc.Specs.given
             view_context_mock.SetupGet(v => v.ViewData).Returns(view_data);
             view_data_container_mock = new Mock<IViewDataContainer>();
             view_data_container_mock.Setup(v => v.ViewData).Returns(view_data);
-            html_helper = new HtmlHelper(view_context_mock.Object, view_data_container_mock.Object);
+            ajax_helper = new AjaxHelper(view_context_mock.Object, view_data_container_mock.Object);
         };
 
     }

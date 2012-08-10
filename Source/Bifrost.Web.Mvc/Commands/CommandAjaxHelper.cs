@@ -46,6 +46,28 @@ namespace Bifrost.Web.Mvc.Commands
         /// <typeparam name="TC">Type of controller holding the action to forward to</typeparam>
         /// <param name="AjaxHelper">AjaxHelper to begin a command form within</param>
         /// <param name="ajaxOptions">Ajax Options for the command form</param>
+        /// <returns>A <see cref="CommandForm{T}"/></returns>
+        /// <remarks>
+        /// For the expression that expressed the action to use, it does not care about the parameters for the action, so these
+        /// can be set to null. The expression just represents the action strongly typed.
+        /// </remarks>
+        public static CommandForm<T> BeginCommandForm<T, TC>(this AjaxHelper AjaxHelper, AjaxOptions ajaxOptions = null)
+            where T : ICommand, new()
+            where TC : ControllerBase
+        {
+            var action = ControllerHelpers.GetActionForCommand<T, TC>();
+            var controllerName = ControllerHelpers.GetControllerNameFromType<TC>();
+            var command = AjaxHelper.BeginCommandForm<T>(action.Name, controllerName, ajaxOptions);
+            return command;
+        }
+
+        /// <summary>
+        /// Begins a <see cref="CommandForm{T}"/>, with default <see cref="FormMethod.Post"/> as method
+        /// </summary>
+        /// <typeparam name="T">Type of Command to create form for</typeparam>
+        /// <typeparam name="TC">Type of controller holding the action to forward to</typeparam>
+        /// <param name="AjaxHelper">AjaxHelper to begin a command form within</param>
+        /// <param name="ajaxOptions">Ajax Options for the command form</param>
         /// <param name="expression">Expression holding information about the action on the controller to use</param>
         /// <returns>A <see cref="CommandForm{T}"/></returns>
         /// <remarks>
@@ -147,7 +169,7 @@ namespace Bifrost.Web.Mvc.Commands
             where T : ICommand, new()
         {
             var formAction = UrlHelper.GenerateUrl(null, actionName, controllerName, new RouteValueDictionary(), AjaxHelper.RouteCollection, AjaxHelper.ViewContext.RequestContext, true);
-            var form = FormHelper<T>(AjaxHelper, formAction, ajaxOptions, htmlAttributes);
+            var form = FormHelper<T>(AjaxHelper, formAction, actionName, controllerName, ajaxOptions, htmlAttributes);
             return form;
         }
 
@@ -167,7 +189,7 @@ namespace Bifrost.Web.Mvc.Commands
             return AjaxHelper.BeginCommandForm<T>(actionName, controllerName, ajaxOptions, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        static CommandForm<T> FormHelper<T>(this AjaxHelper ajaxHelper, string formAction, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
+        static CommandForm<T> FormHelper<T>(this AjaxHelper ajaxHelper, string formAction, string action, string controller, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
             where T : ICommand, new()
         {
             htmlAttributes = htmlAttributes ?? new Dictionary<string, object>();
@@ -183,7 +205,8 @@ namespace Bifrost.Web.Mvc.Commands
             if (ajaxHelper.ViewContext.ClientValidationEnabled && !htmlAttributes.ContainsKey("id"))
                 builder.GenerateId(typeof (T).Name);
 
-            var formId = builder.Attributes["id"];
+            var idKey = "id";
+            var formId = builder.Attributes.ContainsKey(idKey) ? builder.Attributes["id"] : Guid.NewGuid().ToString();
             
             ajaxOptions = ajaxOptions ?? new AjaxOptions();
 
@@ -195,6 +218,9 @@ namespace Bifrost.Web.Mvc.Commands
             
             ajaxHelper.ViewContext.Writer.Write(builder.ToString(TagRenderMode.StartTag));
             var form = new CommandForm<T>(ajaxHelper.ViewContext);
+            form.Action = action;
+            form.Controller = controller;
+
             if (ajaxHelper.ViewContext.ClientValidationEnabled)
                 ajaxHelper.ViewContext.FormContext.FormId = formId;
             return form;

@@ -47,13 +47,9 @@ namespace Bifrost.Web.Mvc.Commands
             where T : ICommand, new()
             where TC : ControllerBase
         {
-            var actions = GetActionsForCommand<T, TC>();
-
-            ThrowIfAmbiguousAction<T, TC>(actions);
-            ThrowIfMissingAction<T, TC>(actions);
-            
-            var controllerName = GetControllerNameFromType<TC>();
-            var command = htmlHelper.BeginCommandForm<T>(actions.First().Name, controllerName, FormMethod.Post, new Dictionary<string, object>());
+            var action = ControllerHelpers.GetActionForCommand<T, TC>();
+            var controllerName = ControllerHelpers.GetControllerNameFromType<TC>();
+            var command = htmlHelper.BeginCommandForm<T>(action.Name, controllerName, FormMethod.Post, new Dictionary<string, object>());
             return command;
         }
 
@@ -164,7 +160,7 @@ namespace Bifrost.Web.Mvc.Commands
                 if( null != methodCallExpression )
                 {
                     var actionName = methodCallExpression.Method.Name;
-                    var controllerName = GetControllerNameFromType<TC>();
+                    var controllerName = ControllerHelpers.GetControllerNameFromType<TC>();
                     var commandForm = BeginCommandForm<T>(htmlHelper, actionName, controllerName, formMethod, htmlAttributes);
                     return commandForm;
                 }
@@ -270,46 +266,6 @@ namespace Bifrost.Web.Mvc.Commands
                 htmlHelper.ViewContext.FormContext.FormId = builder.Attributes["id"];
             }
             return form;
-        }
-
-
-        static IEnumerable<MethodInfo> GetActionsForCommand<T, TC>()
-            where T : ICommand, new()
-            where TC : ControllerBase
-        {
-            var controllerType = typeof(TC);
-            var commandType = typeof(T);
-            var methods = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            var actions = methods
-                .Where(m => typeof(ActionResult).IsAssignableFrom(m.ReturnType))
-                .Where(m => m.GetParameters().Any(p => p.ParameterType == commandType))
-                .ToArray();
-            return actions;
-        }
-
-        static void ThrowIfMissingAction<T, TC>(IEnumerable<MethodInfo> methods)
-        {
-            if (methods.Count() == 0)
-                throw new MissingActionException(typeof(T), typeof(TC));
-        }
-
-        static void ThrowIfAmbiguousAction<T, TC>(IEnumerable<MethodInfo> methods)
-        {
-            if (methods.Count() > 1)
-                throw new AmbiguousActionException(typeof(T), typeof(TC));
-        }
-
-
-        static string GetControllerNameFromType<TC>()
-        {
-            const string controllerString = "Controller";
-            var name = typeof(TC).Name;
-            var lastIndex = name.LastIndexOf(controllerString);
-
-            if( lastIndex > 0 )
-                name = name.Remove(lastIndex,controllerString.Length);
-
-            return name;
         }
     }
 }
