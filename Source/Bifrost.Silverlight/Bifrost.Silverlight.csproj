@@ -699,9 +699,6 @@
     <Compile Include="..\Bifrost\Validation\ModelRule.cs">
       <Link>Validation\ModelRule.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Validation\NoPropertiesException.cs">
-      <Link>Validation\NoPropertiesException.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Validation\NullChapterValidator.cs">
       <Link>Validation\NullChapterValidator.cs</Link>
     </Compile>
