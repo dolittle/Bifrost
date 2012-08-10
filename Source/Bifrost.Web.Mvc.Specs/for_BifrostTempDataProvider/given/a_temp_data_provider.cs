@@ -4,7 +4,7 @@ using Bifrost.Serialization;
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Web.Mvc.Specs.given
+namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider.given
 {
     public class a_temp_data_provider
     {
