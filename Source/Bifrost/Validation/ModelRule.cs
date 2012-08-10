@@ -33,28 +33,23 @@ namespace Bifrost.Validation
     /// <typeparam name="T">Type the rule represents</typeparam>
     public class ModelRule<T> : PropertyRule
     {
-        internal static class ModelRuleInfo<TT>
+#pragma warning disable 1591 // Xml Comments
+        public static string ModelRuleProperty { get; set; }
+#pragma warning restore 1591 // Xml Comments
+        static PropertyInfo InternalProperty;
+        static Func<object, object> InternalFunc = (o) => o; 
+        static Expression<Func<T, object>> InternalExpression = (T o) => o; 
+
+        static ModelRule()
         {
-            public static PropertyInfo Property;
-            public static Func<object, object> Func = (o) => Property.GetValue(o, null);
-            public static Expression<Func<T, object>> Expression = (T o) => Property.GetValue(o, null);
-
-            static ModelRuleInfo()
-            {
-                var type = typeof(TT);
-                var properties = type.GetProperties();
-                if (properties.Length == 0)
-                    throw new NoPropertiesException(type);
-
-                Property = properties[0];
-            }
+            InternalProperty = typeof(ModelRule<T>).GetProperty("ModelRuleProperty");
         }
 
         /// <summary>
         /// Creates an instance of <see cref="ModelRule(T)"/>
         /// </summary>
         public ModelRule()
-            : base(ModelRuleInfo<T>.Property, ModelRuleInfo<T>.Func, ModelRuleInfo<T>.Expression, () => CascadeMode.StopOnFirstFailure, typeof(T), typeof(T))
+            : base(InternalProperty, InternalFunc, InternalExpression, () => CascadeMode.StopOnFirstFailure, InternalProperty.PropertyType, typeof(T))
         {
         }
     }

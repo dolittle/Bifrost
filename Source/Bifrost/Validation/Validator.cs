@@ -20,7 +20,6 @@
 //
 #endregion
 using FluentValidation;
-using System;
 using FluentValidation.Internal;
 
 namespace Bifrost.Validation
@@ -39,6 +38,7 @@ namespace Bifrost.Validation
         public IRuleBuilderInitial<T, T> ModelRule()
         {
             var rule = new ModelRule<T>();
+            AddRule(rule);
             var builder = new RuleBuilder<T, T>(rule);
             return builder;
         }
