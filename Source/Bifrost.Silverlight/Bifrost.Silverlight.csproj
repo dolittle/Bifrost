@@ -696,6 +696,12 @@
     <Compile Include="..\Bifrost\Validation\ICommandValidatorProvider.cs">
       <Link>Validation\ICommandValidatorProvider.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\ModelRule.cs">
+      <Link>Validation\ModelRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\NoPropertiesException.cs">
+      <Link>Validation\NoPropertiesException.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\NullChapterValidator.cs">
       <Link>Validation\NullChapterValidator.cs</Link>
     </Compile>
@@ -704,6 +710,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Validation\NullCommandInputValidator.cs">
       <Link>Validation\NullCommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\Validator.cs">
+      <Link>Validation\Validator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Views\IHaveId.cs">
       <Link>Views\IHaveId.cs</Link>

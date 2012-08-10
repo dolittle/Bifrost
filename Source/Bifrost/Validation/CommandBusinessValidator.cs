@@ -36,7 +36,7 @@ namespace Bifrost.Validation
     /// Commands inherting from this base class will be automatically registered.
     /// </remarks>
     /// <typeparam name="T">Concrete type of the Command to validate</typeparam>
-    public abstract class CommandBusinessValidator<T> : AbstractValidator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
+    public abstract class CommandBusinessValidator<T> : Validator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
     {
 #pragma warning disable 1591 // Xml Comments
         public virtual IEnumerable<ValidationResult> ValidateFor(T command)
@@ -51,18 +51,6 @@ namespace Bifrost.Validation
             return ValidateFor((T)target);
         }
 #pragma warning restore 1591 // Xml Comments
-        /// <summary>
-        /// Start building rules for the model
-        /// </summary>
-        /// <returns><see cref="IRuleBuilderInitial(T, T)"/> that can be used to fluently set up rules</returns>
-        public IRuleBuilderInitial<T, T> ModelRule()
-        {
-            var modelRule = RuleFor((t) => t);
-            var modelRuleOptions = (IRuleBuilderOptions<T, T>)modelRule;
-            modelRuleOptions.WithName(typeof(T).FullName);
-            return modelRuleOptions as IRuleBuilderInitial<T, T>;
-        }
-
 
         /// <summary>
         /// Add a predicate rule based on a Func that will be called when validation occurs
@@ -74,9 +62,8 @@ namespace Bifrost.Validation
             var rule = CommandPredicateRule<T>.Create(validateFor);
             AddRule(rule);
 
-            var ruleBuilder = new RuleBuilder<T,object>(rule);
+            var ruleBuilder = new RuleBuilder<T, object>(rule);
             return ruleBuilder;
         }
-
     }
 }
