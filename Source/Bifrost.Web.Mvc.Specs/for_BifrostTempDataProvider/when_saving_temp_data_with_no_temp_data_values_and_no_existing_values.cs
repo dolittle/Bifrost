@@ -5,7 +5,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Web.Mvc.Specs
+namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 {
     [Subject(typeof(BifrostTempDataProvider))]
     public class when_saving_temp_data_with_no_temp_data_values_and_no_existing_values : given.a_temp_data_provider

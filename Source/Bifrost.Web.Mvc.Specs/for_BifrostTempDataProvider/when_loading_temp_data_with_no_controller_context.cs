@@ -1,7 +1,7 @@
 using System;
 using Machine.Specifications;
 
-namespace Bifrost.Web.Mvc.Specs
+namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 {
     [Subject(typeof(BifrostTempDataProvider))]
     public class when_loading_temp_data_with_no_controller_context : given.a_temp_data_provider

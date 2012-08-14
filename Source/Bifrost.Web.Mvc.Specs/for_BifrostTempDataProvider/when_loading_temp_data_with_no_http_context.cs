@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Web;
 using System.Web.Mvc;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Web.Mvc.Specs
+namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 {
-    [Subject(typeof(BifrostTempDataProvider))]
-    public class when_saving_temp_data_with_no_http_context : given.a_temp_data_provider
+    [Subject(typeof (BifrostTempDataProvider))]
+    public class when_loading_temp_data_with_no_http_context : given.a_temp_data_provider
     {
         static Mock<ControllerContext> controller_context_mock;
         static Exception exception;
@@ -20,7 +19,7 @@ namespace Bifrost.Web.Mvc.Specs
                                     controller_context_mock.SetupGet(cc => cc.HttpContext).Returns(null as HttpContextBase);
                                 };
 
-        Because of = () => exception = Catch.Exception(() => temp_data_provider.SaveTempData(controller_context_mock.Object, new Dictionary<string, object>()));
+        Because of = () => exception = Catch.Exception(() => temp_data_provider.LoadTempData(controller_context_mock.Object));
 
         It should_throw_an_invalid_operation_exception = () => exception.ShouldBeOfType<InvalidOperationException>();
     }

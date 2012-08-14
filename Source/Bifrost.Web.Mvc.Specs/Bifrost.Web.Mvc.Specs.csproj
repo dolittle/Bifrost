@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,23 +51,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="given\a_temp_data_provider.cs" />
+    <Compile Include="Commands\ControllerWithOneActionForCommandController.cs" />
+    <Compile Include="Commands\ControllerWithTwoActionsForCommandController.cs" />
+    <Compile Include="Commands\ControllerWithoutActionForCommandController.cs" />
+    <Compile Include="Commands\ControllerWithOneActionAndOneRegularMethodForCommandController.cs" />
+    <Compile Include="Commands\for_CommandAjaxHelper\when_beginning_command_form_for_controller_without_actions_for_command.cs" />
+    <Compile Include="Commands\for_CommandAjaxHelper\when_beginning_command_form_for_controller_with_one_action_and_one_method_for_command.cs" />
+    <Compile Include="Commands\for_CommandAjaxHelper\when_beginning_command_form_for_controller_with_one_action_for_command.cs" />
+    <Compile Include="Commands\for_CommandAjaxHelper\when_beginning_command_form_for_controller_with_two_actions_for_command.cs" />
+    <Compile Include="Commands\for_CommandHtmlHelper\when_beginning_command_form_for_controller_with_one_action_and_one_method_for_command.cs" />
+    <Compile Include="Commands\for_CommandHtmlHelper\when_beginning_command_form_for_controller_without_actions_for_command.cs" />
+    <Compile Include="Commands\for_CommandHtmlHelper\when_beginning_command_form_for_controller_with_two_actions_for_command.cs" />
+    <Compile Include="Commands\for_CommandHtmlHelper\when_beginning_command_form_for_controller_with_one_action_for_command.cs" />
+    <Compile Include="for_BifrostTempDataProvider\given\a_temp_data_provider.cs" />
+    <Compile Include="given\an_html_helper.cs" />
+    <Compile Include="given\an_ajax_helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="when_loading_temp_data_with_no_controller_context.cs" />
-    <Compile Include="when_loading_temp_data_with_no_http_context.cs" />
-    <Compile Include="when_loading_temp_data_with_no_session.cs" />
-    <Compile Include="when_loading_temp_data_with_no_temp_data_in_session.cs" />
-    <Compile Include="when_loading_temp_data_with_temp_data_in_session.cs" />
-    <Compile Include="when_saving_temp_data_with_no_controller_context.cs" />
-    <Compile Include="when_saving_temp_data_with_no_http_context.cs" />
-    <Compile Include="when_saving_temp_data_with_no_temp_data_values_and_no_existing_values.cs" />
-    <Compile Include="when_saving_temp_data_with_no_temp_data_values_and_there_are_existing_values.cs" />
-    <Compile Include="when_saving_temp_data_with_temp_data_values.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_loading_temp_data_with_no_controller_context.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_loading_temp_data_with_no_http_context.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_loading_temp_data_with_no_session.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_loading_temp_data_with_no_temp_data_in_session.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_loading_temp_data_with_temp_data_in_session.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_saving_temp_data_with_no_controller_context.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_saving_temp_data_with_no_http_context.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_saving_temp_data_with_no_temp_data_values_and_no_existing_values.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_saving_temp_data_with_no_temp_data_values_and_there_are_existing_values.cs" />
+    <Compile Include="for_BifrostTempDataProvider\when_saving_temp_data_with_temp_data_values.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Fakes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web.Mvc\Bifrost.Web.Mvc.csproj">
       <Project>{73FFB713-2878-4C17-8D5B-E22AF8DE89C5}</Project>
       <Name>Bifrost.Web.Mvc</Name>
@@ -77,6 +95,7 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

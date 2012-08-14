@@ -14,6 +14,7 @@ Bifrost.features.featureManager = (function () {
             var path = FeatureMapping.resolve(name);
             var feature = Bifrost.features.Feature.create(name, path, FeatureMapping.isDefault);
             allFeatures[name] = feature;
+            feature.load();            
             return feature;
         },
         hookup: function ($) {
