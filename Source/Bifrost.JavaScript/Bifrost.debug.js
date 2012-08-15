@@ -416,11 +416,6 @@ if (typeof ko !== 'undefined') {
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     return {
-<<<<<<< HEAD
-        extendAllProperties: function (target) {
-            for (var property in target) {
-                target[property].extend({ validation: {} });
-=======
         recursivlyExtendProperties: function (properties, rules) {
             var validatorsList = [];
             for (var rule in rules) {
@@ -442,7 +437,6 @@ Bifrost.validation.validationService = (function () {
                 } else {
                     throw "Error applying validation rule: " + property + " is not an observable.";
                 }
->>>>>>> remotes/Komplett/serverValidationResults
             }
             return validatorsList;
         },
@@ -458,19 +452,14 @@ Bifrost.validation.validationService = (function () {
             //Bifrost.validation.validationService.extendAllProperties(command.parameters);
 
             var methodParameters = {
-<<<<<<< HEAD
-                name: command.name
-            }
-=======
                 name: "\"" + command.name + "\""
             };
->>>>>>> remotes/Komplett/serverValidationResults
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/Validation/GetForCommand",
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                data: methodParameters,
+                data: JSON.stringify(methodParameters),
                 complete: function (d) {
                     var result = $.parseJSON(d.responseText);
                     if (!result || !result.properties) {
@@ -1580,3 +1569,5 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 */
+
+
