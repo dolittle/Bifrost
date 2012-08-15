@@ -392,6 +392,38 @@ Bifrost.validation.Validator = (function () {
 })();
 
 ﻿if (typeof ko !== 'undefined') {
+    Bifrost.namespace("Bifrost.validation", {
+        ValidationSummary: function (commands) {
+            var self = this;
+            this.commands = commands;
+            this.messages = ko.computed(function () {
+                var actualMessages = [];
+                $.each(self.commands, function (commandIndex, command) {
+                    $.each(command.validators, function (validatorIndex, validator) {
+                        if (!validator.isValid()) {
+                            actualMessages.push(validator.message());
+                        }
+                    });
+                });
+                return actualMessages;
+            });
+        }
+    });
+
+    ko.bindingHandlers.validationSummaryFor = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = valueAccessor();
+            var target = ko.utils.unwrapObservable(value);
+            if (!(target instanceof Array)) {
+                target = [target];
+            }
+
+            var validationSummary = new Bifrost.validation.ValidationSummary(target);
+            ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
+        }
+    };
+}
+﻿if (typeof ko !== 'undefined') {
     ko.bindingHandlers.validationMessageFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
@@ -423,19 +455,19 @@ if (typeof ko !== 'undefined') {
 
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
-    function extendProperties(target) {
-        for( var property in target ) {
+    function extendProperties(target, validators) {
+        for (var property in target) {
             if ("extend" in target[property] && typeof target[property].extend === "function") {
                 target[property].extend({ validation: {} });
-            } else if( typeof target[property] === "object" ) {
-                extendProperties(target[property]);
+                validators.push(target[property].validator);
+            } else if (typeof target[property] === "object") {
+                extendProperties(target[property], validators);
             }
         }
     }
 
     return {
-        applyRulesToProperties: function(properties, rules) {
-            var validatorsList = [];
+        applyRulesToProperties: function (properties, rules) {
             for (var rule in rules) {
                 var path = rule.split(".");
                 var member = properties;
@@ -448,17 +480,16 @@ Bifrost.validation.validationService = (function () {
                     }
                 }
 
-                if (member.validator !== undefined ) {
+                if (member.validator !== undefined) {
                     member.validator.setOptions(rules[rule]);
-                    validatorsList.push(member);
-                } 
+                }
             }
-            return validatorsList;
         },
         applyForCommand: function (command) {
-            extendProperties(command.parameters);
+            command.validators = [];
+            extendProperties(command.parameters, command.validators);
             $.getJSON("/Validation/GetForCommand?name=" + command.name, function (e) {
-                command.validatorsList = Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
             });
         }
     }
@@ -1524,6 +1555,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
 @depends validation/Validator.js
+@depends validation/validationSummaryFor.js
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
 @depends validation/validationService.js

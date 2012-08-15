@@ -1,18 +1,18 @@
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
-    function extendProperties(target) {
-        for( var property in target ) {
+    function extendProperties(target, validators) {
+        for (var property in target) {
             if ("extend" in target[property] && typeof target[property].extend === "function") {
                 target[property].extend({ validation: {} });
-            } else if( typeof target[property] === "object" ) {
-                extendProperties(target[property]);
+                validators.push(target[property].validator);
+            } else if (typeof target[property] === "object") {
+                extendProperties(target[property], validators);
             }
         }
     }
 
     return {
-        applyRulesToProperties: function(properties, rules) {
-            var validatorsList = [];
+        applyRulesToProperties: function (properties, rules) {
             for (var rule in rules) {
                 var path = rule.split(".");
                 var member = properties;
@@ -25,17 +25,16 @@ Bifrost.validation.validationService = (function () {
                     }
                 }
 
-                if (member.validator !== undefined ) {
+                if (member.validator !== undefined) {
                     member.validator.setOptions(rules[rule]);
-                    validatorsList.push(member);
-                } 
+                }
             }
-            return validatorsList;
         },
         applyForCommand: function (command) {
-            extendProperties(command.parameters);
+            command.validators = [];
+            extendProperties(command.parameters, command.validators);
             $.getJSON("/Validation/GetForCommand?name=" + command.name, function (e) {
-                command.validatorsList = Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
             });
         }
     }

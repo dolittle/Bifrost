@@ -14,6 +14,7 @@
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
 @depends validation/Validator.js
+@depends validation/validationSummaryFor.js
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
 @depends validation/validationService.js
