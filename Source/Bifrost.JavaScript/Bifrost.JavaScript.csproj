@@ -100,9 +100,9 @@
     <Content Include="validation\validation.js" />
     <Content Include="validation\validationMessageFor.js" />
     <Content Include="validation\validationService.js" />
+    <Content Include="validation\validationSummaryFor.js" />
     <Content Include="validation\Validator.js" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd ../..
@@ -122,5 +122,8 @@ juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
   -->
   <ItemGroup>
     <Compile Include="DummyClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
 </Project>
