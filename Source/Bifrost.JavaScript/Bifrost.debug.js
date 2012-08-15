@@ -396,7 +396,15 @@ Bifrost.validation.Validator = (function () {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
             var validator = value.validator;
-            ko.applyBindingsToNode(element, { hidden: validator.isValid, text: validator.message }, validator);
+
+            validator.isValid.subscribe(function (newValue) {
+                if (newValue == true) {
+                    $(element).hide();
+                } else {
+                    $(element).show();
+                }
+            });
+            ko.applyBindingsToNode(element, { text: validator.message }, validator);
         }
     };
 }
@@ -415,8 +423,18 @@ if (typeof ko !== 'undefined') {
 
 ﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
+    function extendProperties(target) {
+        for( var property in target ) {
+            if ("extend" in target[property] && typeof target[property].extend === "function") {
+                target[property].extend({ validation: {} });
+            } else if( typeof target[property] === "object" ) {
+                extendProperties(target[property]);
+            }
+        }
+    }
+
     return {
-        recursivlyExtendProperties: function (properties, rules) {
+        applyRulesToProperties: function(properties, rules) {
             var validatorsList = [];
             for (var rule in rules) {
                 var path = rule.split(".");
@@ -430,49 +448,17 @@ Bifrost.validation.validationService = (function () {
                     }
                 }
 
-                if ("extend" in member && typeof member.extend === "function") {
-                    member.extend({ validation: {} });
+                if (member.validator !== undefined ) {
                     member.validator.setOptions(rules[rule]);
                     validatorsList.push(member);
-                } else {
-                    throw "Error applying validation rule: " + property + " is not an observable.";
-                }
+                } 
             }
             return validatorsList;
         },
-        /*
-        extendAllProperties: function (target) {
-        for (var property in target) {
-        if ("extend" in target[property] && typeof target[property].extend === "function") {
-        target[property].extend({ validation: {} });
-        }
-        }
-        },*/
         applyForCommand: function (command) {
-            //Bifrost.validation.validationService.extendAllProperties(command.parameters);
-
-            var methodParameters = {
-                name: "\"" + command.name + "\""
-            };
-            $.ajax({
-                type: "POST",
-                url: "/Validation/GetForCommand",
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(methodParameters),
-                complete: function (d) {
-                    var result = $.parseJSON(d.responseText);
-                    if (!result || !result.properties) {
-                        return;
-                    }
-                    command.validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(command.parameters, result.properties);
-                    /*for (var property in result.properties) {
-                    if (!command.parameters.hasOwnProperty(property)) {
-                    command.parameters[property] = ko.observable().extend({ validation: {} });
-                    }
-                    command.parameters[property].validator.setOptions(result.properties[property]);
-                    }*/
-                }
+            extendProperties(command.parameters);
+            $.getJSON("/Validation/GetForCommand?name=" + command.name, function (e) {
+                command.validatorsList = Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
             });
         }
     }

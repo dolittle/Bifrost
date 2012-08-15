@@ -32,7 +32,7 @@
                 prop1: new something()
             }
         }
-        Bifrost.validation.validationService.recursivlyExtendProperties(containingObject, rules);
+        Bifrost.validation.validationService.applyRulesToProperties(containingObject, rules);
 
         var prop1Extended = typeof containingObject.prop1.extendedWith.validation !== "undefined";
         var prop2Extended = typeof containingObject.prop2.extendedWith.validation !== "undefined";
@@ -49,7 +49,7 @@
                 prop1: new something()
             }
         }
-        var validatorsList = Bifrost.validation.validationService.recursivlyExtendProperties(containingObject, rules);
+        var validatorsList = Bifrost.validation.validationService.applyRulesToProperties(containingObject, rules);
 
 
         expect(validatorsList.length).toBe(3);
