@@ -975,7 +975,7 @@ Bifrost.commands.commandCoordinator = (function () {
             });
 
             var methodParameters = {
-                sagaId: "\"" + saga.Id + "\"",
+                sagaId: "\"" + saga.id + "\"",
                 commandDescriptors: JSON.stringify(commandDescriptors)
             };
 
