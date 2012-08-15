@@ -975,7 +975,7 @@ Bifrost.commands.commandCoordinator = (function () {
             });
 
             var methodParameters = {
-                sagaId: "\"" + saga.id + "\"",
+                sagaId: saga.id,
                 commandDescriptors: JSON.stringify(commandDescriptors)
             };
 
@@ -1095,7 +1095,7 @@ Bifrost.sagas.sagaNarrator = (function () {
     return {
         conclude: function (saga, success, error) {
             var methodParameters = {
-                sagaId: "\"" + saga.Id + "\""
+                sagaId: saga.Id
             };
             post(baseUrl + "/Conclude", JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
