@@ -54,7 +54,7 @@
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
     <Content Include="commands\Command.js" />
-    <Content Include="commands\commandCoordinator.js" />
+    <Content Include="commands\CommandCoordinator.js" />
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
     <Content Include="features\exceptions.js" />
@@ -100,9 +100,9 @@
     <Content Include="validation\validation.js" />
     <Content Include="validation\validationMessageFor.js" />
     <Content Include="validation\validationService.js" />
+    <Content Include="validation\validationSummaryFor.js" />
     <Content Include="validation\Validator.js" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>cd ../..
@@ -122,5 +122,8 @@ juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
   -->
   <ItemGroup>
     <Compile Include="DummyClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
 </Project>

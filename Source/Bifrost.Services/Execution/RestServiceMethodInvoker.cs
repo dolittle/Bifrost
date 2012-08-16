@@ -25,6 +25,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Serialization;
+using System.ComponentModel;
 
 namespace Bifrost.Services.Execution
 {
@@ -74,7 +75,7 @@ namespace Bifrost.Services.Execution
                 return input;
 
             if (parameter.ParameterType.IsValueType)
-                return Convert.ChangeType(input, parameter.ParameterType);
+                return TypeDescriptor.GetConverter(parameter.ParameterType).ConvertFromInvariantString(input);
 
             return _serializer.FromJson(parameter.ParameterType, input);
         }
