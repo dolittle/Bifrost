@@ -34,7 +34,9 @@ Bifrost.validation.validationService = (function () {
             command.validators = [];
             extendProperties(command.parameters, command.validators);
             $.getJSON("/Validation/GetForCommand?name=" + command.name, function (e) {
-                Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                if(e !== null) {
+                    Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                }
             });
         }
     }
