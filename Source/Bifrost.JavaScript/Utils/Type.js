@@ -2,7 +2,7 @@ Bifrost.namespace("Bifrost", {
 	Type : function(typeDefinition) {
 		
 		if( typeDefinition == null || typeof typeDefinition == "undefined" ) {
-			throw new Bifrost.MissingClassDefinition();
+			throw new Bifrost.MissingTypeDefinition();
 		}
 		if( typeof typeDefinition === "object") { 
 			throw new Bifrost.ObjectLiteralNotAllowed();
