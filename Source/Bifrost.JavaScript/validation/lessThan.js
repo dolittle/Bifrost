@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.lessThan = {
     throwIfOptionsUndefined: function (options) {
         if (typeof options === "undefined") {
