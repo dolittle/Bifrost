@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
 {
     public class when_validating_a_command_with_no_validators : a_command_validation_service
     {
-        static IEnumerable<ValidationResult> validation_results;
+        static CommandValidationResult result;
         static Mock<ICommand> command_mock;
 
         Establish context = () =>
@@ -21,8 +21,8 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
                                     command_validator_service_mock.Setup(cvs => cvs.GetBusinessValidatorFor(command_mock.Object)).Returns(() => new NullCommandBusinessValidator());
                                 };
 
-        Because of = () => validation_results = command_validation_service.Validate(command_mock.Object);
+        Because of = () => result = command_validation_service.Validate(command_mock.Object);
 
-        It should_have_no_failed_validation_results = () => validation_results.ShouldBeEmpty();
+        It should_have_no_failed_validation_results = () => result.ValidationResults.ShouldBeEmpty();
     }
 }

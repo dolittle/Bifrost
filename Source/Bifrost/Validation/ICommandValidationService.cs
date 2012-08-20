@@ -35,7 +35,7 @@ namespace Bifrost.Validation
         /// Validate the command
         /// </summary>
         /// <param name="command">Instance to be validated</param>
-        /// <returns>A collection of ValidationResults that indicate any invalid properties / rules</returns>
-        IEnumerable<ValidationResult> Validate(ICommand command);
+        /// <returns>Validation results for a <see cref="ICommand">Command</see></returns>
+        CommandValidationResult Validate(ICommand command);
     }
 }

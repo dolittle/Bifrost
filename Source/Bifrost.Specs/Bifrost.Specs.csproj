@@ -102,6 +102,13 @@
     <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_no_command_handlers.cs" />
     <Compile Include="Commands\for_CommandHandlerManager\given\a_command_handler_manager.cs" />
     <Compile Include="Commands\for_CommandHandlerManager\when_handling_a_command_without_a_command_handler.cs" />
+    <Compile Include="Commands\for_CommandResult\when_containing_exception_and_one_validation_results.cs" />
+    <Compile Include="Commands\for_CommandResult\when_containing_one_command_error_message.cs" />
+    <Compile Include="Commands\for_CommandResult\when_containing_one_validation_result.cs" />
+    <Compile Include="Commands\for_CommandResult\when_having_an_exception_without_validation_results.cs" />
+    <Compile Include="Commands\for_CommandResult\when_having_no_validation_results_and_no_exception.cs" />
+    <Compile Include="Commands\for_CommandValidationService\given\a_command_validation_service.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_without_any_errors.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory_and_an_aggregated_root.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_another_method.cs" />

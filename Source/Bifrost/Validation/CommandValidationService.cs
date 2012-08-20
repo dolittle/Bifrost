@@ -46,7 +46,15 @@ namespace Bifrost.Validation
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValidationResult> Validate(ICommand command)
+        public CommandValidationResult Validate(ICommand command)
+        {
+            var result = new CommandValidationResult();
+            var validationResults = ValidateInternal(command);
+            return result;   
+        }
+#pragma warning restore 1591 // Xml Comments
+
+        IEnumerable<ValidationResult> ValidateInternal(ICommand command)
         {
             var inputValidator = _commandValidatorProvider.GetInputValidatorFor(command);
             var inputValidationErrors = inputValidator.ValidateFor(command);
@@ -55,8 +63,7 @@ namespace Bifrost.Validation
 
             var businessValidator = _commandValidatorProvider.GetBusinessValidatorFor(command);
             var businessValidationErrors = businessValidator.ValidateFor(command);
-            return businessValidationErrors.Count() > 0 ? businessValidationErrors : new List<ValidationResult>();
+            return businessValidationErrors.Count() > 0 ? businessValidationErrors : new ValidationResult[0];
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

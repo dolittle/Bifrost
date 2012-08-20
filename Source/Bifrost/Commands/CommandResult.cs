@@ -47,6 +47,11 @@ namespace Bifrost.Commands
         public IEnumerable<ValidationResult> ValidationResults { get; set; }
 
         /// <summary>
+        /// Gets the error messages that are related to full command during validation
+        /// </summary>
+        public IEnumerable<string> CommandErrorMessages { get; set; }
+
+        /// <summary>
         /// Gets or sets the exception, if any, that occured during a handle
         /// </summary>
         public Exception Exception { get; set; }
@@ -60,7 +65,7 @@ namespace Bifrost.Commands
         /// </summary>
         public bool Success
         {
-            get { return null == Exception && !Invalid; }
+            get { return null == Exception && !Invalid && CommandErrorMessages.Count() == 0; }
         }
 
         /// <summary>
