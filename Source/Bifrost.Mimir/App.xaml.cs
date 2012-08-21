@@ -6,11 +6,14 @@ using Bifrost.Ninject;
 using Bifrost.Notification;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;
+using Bifrost.Serialization;
+using Bifrost.JSON.Serialization;
 
 namespace Bifrost.Mimir
 {
     public partial class App
 	{
+        
 		public static IContainer Container;
 
 		static App()
@@ -21,6 +24,7 @@ namespace Bifrost.Mimir
 
 		public App()
 		{
+            
 			Startup += Application_Startup;
 			Exit += Application_Exit;
 			UnhandledException += Application_UnhandledException;
@@ -30,6 +34,7 @@ namespace Bifrost.Mimir
             var serviceLocator = new ContainerServiceLocator(Container);
             Container.Bind<IServiceLocator>(serviceLocator);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            Container.Bind<ISerializer>(typeof(Serializer));
 
             var bindings = new DefaultBindings();
             bindings.Initialize(Container);
