@@ -57,5 +57,16 @@ namespace Bifrost.Web.Mvc.Commands
         /// Gets the Command for the form
         /// </summary>
 		public T Command { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Action for the <see cref="CommandForm"/>
+        /// </summary>
+        public string Action { get; set; }
+
+        /// <summary>
+        /// Gets or sets the controller for the <see cref="CommandForm"/>
+        /// </summary>
+        public string Controller { get; set; }
+
 	}
 }

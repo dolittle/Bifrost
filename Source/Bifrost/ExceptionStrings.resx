@@ -126,4 +126,7 @@
   <data name="CommandNotEstablished" xml:space="preserve">
     <value>Command has not been established</value>
   </data>
+  <data name="UnhandledCommandException" xml:space="preserve">
+    <value>Command of type '{0}' was not handled</value>
+  </data>
 </root>

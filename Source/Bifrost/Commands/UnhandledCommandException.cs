@@ -11,7 +11,7 @@ namespace Bifrost.Commands
 		/// Initializes a new instance <see cref="UnhandledCommandException"/>
 		/// </summary>
 		/// <param name="command"><see cref="ICommand"/> that wasn't handled</param>
-        public UnhandledCommandException(ICommand command)
+        public UnhandledCommandException(ICommand command) : base(string.Format(ExceptionStrings.UnhandledCommandException,command.GetType()))
         {
             Command = command;
         }

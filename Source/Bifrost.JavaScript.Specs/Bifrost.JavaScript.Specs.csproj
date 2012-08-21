@@ -53,11 +53,16 @@
     <Content Include="commands\for_CommandCoordinator\when_handling_commands_for_a_saga.js" />
     <Content Include="commands\for_CommandCoordinator\when_handling_a_single_command.js" />
     <Content Include="commands\for_CommandCoordinator\when_handling_results_for_a_single_command.js" />
+    <Content Include="commands\for_CommandDescriptor\when_creating_a_list_of_parameters.js" />
+    <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
+    <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
     <Content Include="commands\for_Command\when_an_error_occurs_while_executing_a_command.js" />
+    <Content Include="commands\for_Command\when_applying_validation_results.js" />
     <Content Include="commands\for_Command\when_executing_a_command_which_can_not_execute.js" />
     <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
+    <Content Include="commands\for_Command\when_validating_the_command.js" />
     <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
     <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />
     <Content Include="features\for_FeatureState\when_a_value_changes.js" />
@@ -81,6 +86,7 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_multiple_subscribers.js" />
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
+    <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_same_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_object_with_overlapping_content.js" />
     <Content Include="Utils\for_extend\when_extending_an_empty_object.js" />
@@ -129,6 +135,8 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
+    <Content Include="validation\for_validationService\when_applying_nested_rules_from_server_for_a_known_command.js" />
+    <Content Include="validation\for_validationService\when_recursivly_extending_properties.js" />
     <Content Include="validation\for_validationService\when_applying_rules_from_server_for_a_known_command.js" />
     <Content Include="validation\for_validationService\when_extending_all_properties.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_array_of_items.js" />
@@ -144,6 +152,7 @@
   <ItemGroup>
     <None Include="..\dependencies.config">
       <Link>dependencies.config</Link>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

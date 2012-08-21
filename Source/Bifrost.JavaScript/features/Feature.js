@@ -48,16 +48,19 @@ Bifrost.features.Feature = (function () {
         this.actualRenderTo = function (target) {
 			$(target).empty();
             $(target).append(self.view);
+
+			if( self.viewModelDefinition ) {
+            	var viewModel = self.viewModelDefinition.getInstance();
+            	ko.applyBindings(viewModel, target);
+			}
+
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
-            var viewModel = self.viewModelDefinition.getInstance();
-            ko.applyBindings(viewModel, target);
         }
     }
 
     return {
         create: function (name, path, isDefault) {
             var feature = new Feature(name, path, isDefault);
-            feature.load();
             return feature;
         }
     }

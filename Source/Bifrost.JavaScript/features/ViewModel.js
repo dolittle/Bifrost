@@ -1,13 +1,10 @@
 Bifrost.namespace("Bifrost.features");
-Bifrost.features.ViewModel = (function(window, undefined) {
-	Bifrost.features.ViewModel = Bifrost.features.ViewModel || {
-		baseFor: function() {}
-	};
-	
+Bifrost.features.ViewModel = (function(window, undefined) {	
 	function ViewModel() {
 		var self = this;
 		
 		this.uriChangedSubscribers = [];
+		this.activatedSubscribers = [];
 		
 		this.messenger = Bifrost.messaging.messenger;
 		this.uri = Bifrost.Uri.create(window.location.href);
@@ -18,12 +15,27 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		}
 		
 		this.uriChanged = function(callback) {
-			this.uriChangedSubscribers.push(callback);
+			self.uriChangedSubscribers.push(callback);
 		}
+		
+		this.activated = function(callback) {
+			self.activatedSubscribers.push(callback);
+		}
+		
 		
 		this.onUriChanged = function(uri) {
 			$.each(self.uriChangedSubscribers, function(index, callback) {
 				callback(uri);
+			});
+		}
+		
+		this.onActivated = function() {
+			if( typeof self.handleUriState !== "undefined" ) {
+				self.handleUriState();
+			}
+			
+			$.each(self.activatedSubscribers, function(index, callback) {
+				callback();
 			});
 		}
 

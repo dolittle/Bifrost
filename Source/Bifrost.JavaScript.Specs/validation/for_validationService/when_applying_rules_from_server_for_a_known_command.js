@@ -4,7 +4,7 @@
 
     var server = sinon.fakeServer.create();
 
-    server.respondWith("POST", "/Validation/GetForCommand",
+    server.respondWith("GET", "/Validation/GetForCommand",
         [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "'+expectedMessage+'" } } } }']);
 
     var command = {
@@ -30,5 +30,9 @@
     });
     it("should set the message for the rule in response from server", function () {
         expect(test.optionsSet.required.message).toBe(expectedMessage);
+    });
+    it("should set the validatorsList on the command", function () {
+        expect(command.validatorsList.length).toBe(1);
+        expect(command.validatorsList[0]).toBe(command.parameters.something);
     });
 }));

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>Bifrost.JavaScript/messaging/messenger.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -29,6 +31,48 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
+		<key>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_creating_and_it_has_no_dependencies.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>16</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_creating_and_type_definition_not_set.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>31</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_getting_for_an_array.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>Bifrost.JavaScript.Specs/messaging/for_messenger/when_publishing_a_message_with_multiple_subscribers.js</key>
 		<dict>
 			<key>caret</key>
@@ -43,10 +87,91 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>Bifrost.JavaScript/Bifrost.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>49</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript/Commands/Command.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript/Commands/bindingHandlers.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
+				<key>line</key>
+				<integer>25</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript/Utils/TypeInfo.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>Bifrost.JavaScript/messaging/messenger.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>Bifrost.JavaScript/Utils/TypeInfo.js</string>
+		<string>Bifrost.JavaScript/Bifrost.js</string>
+		<string>Bifrost.JavaScript/Commands/bindingHandlers.js</string>
+		<string>Bifrost.JavaScript/messaging/messenger.js</string>
+		<string>Bifrost.JavaScript/Commands/Command.js</string>
+		<string>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_getting_for_an_array.js</string>
+		<string>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_creating_and_type_definition_not_set.js</string>
+		<string>Bifrost.JavaScript.Specs/Utils/for_TypeInfo/when_creating_and_it_has_no_dependencies.js</string>
+	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{0, 4}, {938, 874}}</string>
+	<string>{{-0, 4}, {1190, 1174}}</string>
 </dict>
 </plist>

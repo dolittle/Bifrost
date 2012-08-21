@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.Validator = (function () {
     function Validator(options) {
         var self = this;
@@ -11,10 +11,10 @@ Bifrost.validation.Validator = (function () {
             for (var property in options) {
                 this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
             }
-        }
+        };
 
-        this.validate = function (value) {
-            $.each(self.rules, function (index, rule) {
+        this.validate = function(value) {
+            $.each(self.rules, function(index, rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
@@ -24,7 +24,7 @@ Bifrost.validation.Validator = (function () {
                     self.message("");
                 }
             });
-        }
+        };
 
         this.setOptions(options);
     }
@@ -44,7 +44,7 @@ Bifrost.validation.Validator = (function () {
 
             if (itemOrItems instanceof Array) {
                 $.each(itemOrItems, function (index, item) {
-                    
+
                     applyToItem(item);
                 });
             } else {

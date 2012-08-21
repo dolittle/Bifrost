@@ -23,7 +23,7 @@ packages
 *.fbpinf
 *.test-cache
 *.ncrunch*
-
+*.sublime-workspace
 
 # OS generated files #
 ######################
