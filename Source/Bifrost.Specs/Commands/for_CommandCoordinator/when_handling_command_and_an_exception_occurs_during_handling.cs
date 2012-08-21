@@ -5,6 +5,7 @@ using Bifrost.Commands;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
+using Bifrost.Validation;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
 {
@@ -16,7 +17,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
 
         Establish context = () =>
                                 {
-                                    var validation_results = new List<ValidationResult>(); //no validation errors
+                                    var validation_results = new CommandValidationResult { ValidationResults = new ValidationResult[0] };
                                     command_validation_service_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(validation_results);
                                 };
 
