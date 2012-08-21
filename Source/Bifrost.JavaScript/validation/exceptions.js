@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
 Bifrost.Exception.define("Bifrost.validation.NotANumber", "Value is not a number");
 Bifrost.Exception.define("Bifrost.validation.ValueNotSpecified","Value is not specified");

@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.Validator = (function () {
     function Validator(options) {
         var self = this;

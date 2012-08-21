@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
