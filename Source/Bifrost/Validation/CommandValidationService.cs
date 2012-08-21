@@ -50,6 +50,8 @@ namespace Bifrost.Validation
         {
             var result = new CommandValidationResult();
             var validationResults = ValidateInternal(command);
+            result.ValidationResults = validationResults.Where(v => v.MemberNames.First() != ModelRule<object>.ModelRulePropertyName);
+            result.CommandErrorMessages = validationResults.Where(v => v.MemberNames.First() == ModelRule<object>.ModelRulePropertyName).Select(v => v.ErrorMessage);
             return result;   
         }
 #pragma warning restore 1591 // Xml Comments
@@ -57,13 +59,21 @@ namespace Bifrost.Validation
         IEnumerable<ValidationResult> ValidateInternal(ICommand command)
         {
             var inputValidator = _commandValidatorProvider.GetInputValidatorFor(command);
-            var inputValidationErrors = inputValidator.ValidateFor(command);
-            if (inputValidationErrors.Count() > 0)
-                return inputValidationErrors;
+            if (inputValidator != null)
+            {
+                var inputValidationErrors = inputValidator.ValidateFor(command);
+                if (inputValidationErrors.Count() > 0)
+                    return inputValidationErrors;
+            }
 
             var businessValidator = _commandValidatorProvider.GetBusinessValidatorFor(command);
-            var businessValidationErrors = businessValidator.ValidateFor(command);
-            return businessValidationErrors.Count() > 0 ? businessValidationErrors : new ValidationResult[0];
+            if (businessValidator != null)
+            {
+                var businessValidationErrors = businessValidator.ValidateFor(command);
+                return businessValidationErrors.Count() > 0 ? businessValidationErrors : new ValidationResult[0];
+            }
+
+            return new ValidationResult[0];
         }
     }
 }

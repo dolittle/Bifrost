@@ -81,7 +81,7 @@ namespace Bifrost.Commands
                 var commandResult = CommandResult.ForCommand(command);
                 var validationResult = _commandValidationService.Validate(command);
                 commandResult.ValidationResults = validationResult.ValidationResults;
-                commandResult.CommandErrorMessages = validationResult.CommandErrorMessages;
+                commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;
 
                 if (commandResult.Success)
                 {

@@ -103,12 +103,12 @@
     <Compile Include="Commands\for_CommandHandlerManager\given\a_command_handler_manager.cs" />
     <Compile Include="Commands\for_CommandHandlerManager\when_handling_a_command_without_a_command_handler.cs" />
     <Compile Include="Commands\for_CommandResult\when_containing_exception_and_one_validation_results.cs" />
-    <Compile Include="Commands\for_CommandResult\when_containing_one_command_error_message.cs" />
+    <Compile Include="Commands\for_CommandResult\when_containing_one_command_validation_message.cs" />
     <Compile Include="Commands\for_CommandResult\when_containing_one_validation_result.cs" />
+    <Compile Include="Commands\for_CommandResult\when_creating.cs" />
     <Compile Include="Commands\for_CommandResult\when_having_an_exception_without_validation_results.cs" />
     <Compile Include="Commands\for_CommandResult\when_having_no_validation_results_and_no_exception.cs" />
-    <Compile Include="Commands\for_CommandValidationService\given\a_command_validation_service.cs" />
-    <Compile Include="Commands\for_CommandValidationService\when_validating_without_any_errors.cs" />
+    <Compile Include="Commands\for_CommandResult\when_merging_with_another_command_result.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory_and_an_aggregated_root.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_another_method.cs" />
@@ -318,9 +318,11 @@
     <Compile Include="Validation\for_CommandInputValidator\given\a_command_input_validator.cs" />
     <Compile Include="Validation\for_CommandInputValidator\when_validating_an_invalid_command.cs" />
     <Compile Include="Validation\for_CommandInputValidator\when_validating_a_valid_command.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_model_rule_and_property_errors_on_input_validator.cs" />
     <Compile Include="Validation\for_CommandValidationService\given\a_command_validation_service.cs" />
     <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_correct_inputs_but_does_not_fulfill_business_rules.cs" />
     <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_incorrect_inputs.cs" />
+    <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_has_model_rule_error_on_input_validator.cs" />
     <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_that_passes.cs" />
     <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_with_no_validators.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\given\a_command_validator_provider_with_input_and_business_validators.cs" />

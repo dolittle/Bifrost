@@ -21,8 +21,8 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
         {
             input_validation_errors = new List<ValidationResult>()
                                           {
-                                              new ValidationResult("first failed input"),
-                                              new ValidationResult("second failed input")
+                                              new ValidationResult("first failed input", new[] { "AProperty" }),
+                                              new ValidationResult("second failed input", new[] { "AnotherProperty" })
                                           };
 
             command_mock = new Mock<ICommand>();
@@ -31,7 +31,7 @@ namespace Bifrost.Specs.Validation.for_CommandValidationService
 
             command_input_validator_mock.Setup(iv => iv.ValidateFor(command_mock.Object)).Returns(input_validation_errors);
 
-            command_validator_service_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(command_input_validator_mock.Object);
+            command_validator_provider_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(command_input_validator_mock.Object);
         };
 
         Because of = () => result = command_validation_service.Validate(command_mock.Object);

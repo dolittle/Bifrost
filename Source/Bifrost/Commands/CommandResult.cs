@@ -32,6 +32,16 @@ namespace Bifrost.Commands
     public class CommandResult
     {
         /// <summary>
+        /// Initializes an instance of <see cref="CommandResult"/>
+        /// </summary>
+        public CommandResult()
+        {
+            ValidationResults = new ValidationResult[0];
+            CommandValidationMessages = new string[0];
+        }
+
+
+        /// <summary>
         /// Gets or sets the name of command that this result is related to
         /// </summary>
         public string CommandName { get; set; }
@@ -49,7 +59,7 @@ namespace Bifrost.Commands
         /// <summary>
         /// Gets the error messages that are related to full command during validation
         /// </summary>
-        public IEnumerable<string> CommandErrorMessages { get; set; }
+        public IEnumerable<string> CommandValidationMessages { get; set; }
 
         /// <summary>
         /// Gets or sets the exception, if any, that occured during a handle
@@ -65,7 +75,7 @@ namespace Bifrost.Commands
         /// </summary>
         public bool Success
         {
-            get { return null == Exception && !Invalid && CommandErrorMessages.Count() == 0; }
+            get { return null == Exception && !Invalid && CommandValidationMessages.Count() == 0; }
         }
 
         /// <summary>
@@ -79,27 +89,18 @@ namespace Bifrost.Commands
         }
 
         /// <summary>
-        /// Merges this instance of a CommandResult with another
+        /// Merges another CommandResult instance into the current instance
         /// </summary>
-        /// <param name="commandResultToMerge">The <see cref="CommandResult"/> to merge with the current instance</param>
+        /// <param name="commandResultToMerge">The source <see cref="CommandResult"/> to merge into current instance</param>
         public void MergeWith(CommandResult commandResultToMerge)
         {
             if (Exception == null)
                 Exception = commandResultToMerge.Exception;
 
-            if (commandResultToMerge.ValidationResults == null) 
-                return;
-
-            if (ValidationResults == null)
-            {
-                ValidationResults = commandResultToMerge.ValidationResults;
-                return;
-            }
-
-            var validationResults = ValidationResults.ToList();
-            validationResults.AddRange(commandResultToMerge.ValidationResults);
-            ValidationResults = validationResults.ToArray();
+            MergeValidationResults(commandResultToMerge);
+            MergeCommandErrorMessages(commandResultToMerge);
         }
+
 
         /// <summary>
         /// Create a <see cref="CommandResult"/> for a given <see cref="ICommand"/> instance
@@ -114,5 +115,38 @@ namespace Bifrost.Commands
                 CommandName = command.GetType().Name
             };
         }
+
+        void MergeValidationResults(CommandResult commandResultToMerge)
+        {
+            if (commandResultToMerge.ValidationResults == null)
+                return;
+
+            if (ValidationResults == null)
+            {
+                ValidationResults = commandResultToMerge.ValidationResults;
+                return;
+            }
+
+            var validationResults = ValidationResults.ToList();
+            validationResults.AddRange(commandResultToMerge.ValidationResults);
+            ValidationResults = validationResults.ToArray();
+        }
+
+        void MergeCommandErrorMessages(CommandResult commandResultToMerge)
+        {
+            if (commandResultToMerge.CommandValidationMessages == null)
+                return;
+
+            if (CommandValidationMessages == null)
+            {
+                CommandValidationMessages = commandResultToMerge.CommandValidationMessages;
+                return;
+            }
+
+            var commandErrorMessages = CommandValidationMessages.ToList();
+            commandErrorMessages.AddRange(commandResultToMerge.CommandValidationMessages);
+            CommandValidationMessages = commandErrorMessages.ToArray();
+        }
+
     }
 }

@@ -657,6 +657,9 @@
     <Compile Include="..\Bifrost\Validation\CommandPredicateRule.cs">
       <Link>Validation\CommandPredicateRule.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\CommandValidationResult.cs">
+      <Link>Validation\CommandValidationResult.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\CommandValidationService.cs">
       <Link>Validation\CommandValidationService.cs</Link>
     </Compile>
