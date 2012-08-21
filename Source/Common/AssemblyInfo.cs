@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DoLittle Studios AS and Komplett ASA")]
 [assembly: AssemblyProduct("Bifrost")]
-[assembly: AssemblyCopyright("Copyright © 2010-2011 DoLittle Studios AS and Komplett ASA ")]
+[assembly: AssemblyCopyright("Copyright © 2010-2012 DoLittle Studios AS and Komplett ASA")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
