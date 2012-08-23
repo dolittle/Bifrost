@@ -3,7 +3,7 @@ Bifrost.sagas.Saga = (function () {
     function Saga() {
         var self = this;
 
-        this.executeCommands = function (commands) {
+        this.executeCommands = function (commands, options) {
 
             var canExecuteSaga = true;
             
@@ -17,12 +17,7 @@ Bifrost.sagas.Saga = (function () {
             if (canExecuteSaga === false) {
                 return;
             }
-            Bifrost.commands.commandCoordinator.handleForSaga(self, commands, {
-                error: function (e) {
-                },
-                complete: function (e) {
-                }
-            });
+            Bifrost.commands.commandCoordinator.handleForSaga(self, commands, options);
         }
     }
 
