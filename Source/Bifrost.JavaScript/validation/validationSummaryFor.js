@@ -6,7 +6,8 @@
             this.messages = ko.computed(function () {
                 var actualMessages = [];
                 $.each(self.commands, function (commandIndex, command) {
-                    $.each(command.validators, function (validatorIndex, validator) {
+                    var unwrappedCommand = ko.utils.unwrapObservable(command);
+                    $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
                         }

@@ -3,7 +3,8 @@ if (typeof ko !== 'undefined') {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
         },
         update: function (element, valueAccessor, allBindingAccessor, viewModel) {
-			var featureName = valueAccessor()();
+        	var value = valueAccessor();
+			var featureName = ko.utils.unwrapObservable(value);
 			var feature = Bifrost.features.featureManager.get(featureName);
 			
 			$(element).empty();

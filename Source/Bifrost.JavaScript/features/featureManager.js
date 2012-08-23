@@ -6,6 +6,10 @@ Bifrost.features.featureManager = (function () {
         get: function (name) {
             name = name.toLowerCase();
 
+            while(name.charAt(name.length - 1) === "/") {
+                name = name.slice(0, -1);
+            }
+
             if (typeof allFeatures[name] !== "undefined") {
                 return allFeatures[name];
             }
