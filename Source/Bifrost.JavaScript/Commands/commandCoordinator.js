@@ -45,7 +45,7 @@ Bifrost.commands.commandCoordinator = (function () {
                 handleCommandCompletion(jqXHR, command, commandResult);
             });
         },
-        handleForSaga: function (saga, commands) {
+        handleForSaga: function (saga, commands, options) {
             var commandDescriptors = [];
 
             $.each(commands, function (index, command) {
@@ -57,10 +57,26 @@ Bifrost.commands.commandCoordinator = (function () {
                 commandDescriptors: JSON.stringify(commandDescriptors)
             };
 
+            var actualOptions = {
+                error: function (commandResults) {
+                },
+                completed: function (commandResults) {
+                },
+                success: function (commandResults) {
+                }
+            }
+
+            Bifrost.extend(actualOptions, options);
+
             sendToHandler(baseUrl + "/HandleForSaga", JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResultArray = $.parseJSON(jqXHR.responseText);
 
+                var success = true;
+
                 $.each(commandResultArray, function (commandResultIndex, commandResult) {
+                    if (!commandResult.success || commandResult.invalid) {
+                        success = false;
+                    }
                     $.each(commands, function (commandIndex, command) {
                         if (command.id === commandResult.commandId) {
                             handleCommandCompletion(jqXHR, command, commandResult);
@@ -68,6 +84,13 @@ Bifrost.commands.commandCoordinator = (function () {
                         }
                     });
                 });
+
+                if (!success) {
+                    actualOptions.error(commandResultArray);
+                } else {
+                    actualOptions.success(commandResultArray);
+                }
+                actualOptions.completed(commandResultArray);
             });
         }
     };
