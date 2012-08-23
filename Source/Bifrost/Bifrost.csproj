@@ -109,6 +109,18 @@
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
+    <Compile Include="Security\ISecurityCondition.cs" />
+    <Compile Include="Security\ISecurityContext.cs" />
+    <Compile Include="Security\ISecurityDescriptor.cs" />
+    <Compile Include="Security\ISecurityManager.cs" />
+    <Compile Include="Security\ISecurityObject.cs" />
+    <Compile Include="Security\ISecurityRoleProvider.cs" />
+    <Compile Include="Security\ISecurable.cs" />
+    <Compile Include="Security\ISecurityRule.cs" />
+    <Compile Include="Security\SecurableExtensions.cs" />
+    <Compile Include="Security\SecurityContextExtensions.cs" />
+    <Compile Include="Security\SecurityDescriptor.cs" />
+    <Compile Include="Security\SecurityObjectExtensions.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
@@ -172,6 +184,7 @@
     <Compile Include="Commands\CommandHandlerInvoker.cs" />
     <Compile Include="Validation\CommandInputValidator.cs" />
     <Compile Include="Validation\CommandPredicateRule.cs" />
+    <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />

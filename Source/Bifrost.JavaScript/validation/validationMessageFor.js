@@ -1,4 +1,4 @@
-﻿if (typeof ko !== 'undefined') {
+if (typeof ko !== 'undefined') {
     ko.bindingHandlers.validationMessageFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();

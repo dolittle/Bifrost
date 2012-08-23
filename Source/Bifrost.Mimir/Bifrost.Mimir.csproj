@@ -20,9 +20,8 @@
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>Bifrost.Mimir.xap</XapFilename>
-    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>Bifrost.Mimir.App</SilverlightAppEntry>
-    <TestPageFileName>Bifrost.AdministrationTestPage.html</TestPageFileName>
+    <TestPageFileName>Mimir.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
     <ValidateXaml>true</ValidateXaml>
     <EnableOutOfBrowser>false</EnableOutOfBrowser>
@@ -34,6 +33,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -66,18 +66,19 @@
     <Reference Include="Castle.Core">
       <HintPath>..\Solutions\packages\Castle.Core.3.0.0.3001\lib\sl4\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras.SL4, Version=3.0.0.32268, Culture=neutral, PublicKeyToken=5d2b2859f4a49b53, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\MvvmLight.3.0.3\lib\SL4\GalaSoft.MvvmLight.Extras.SL4.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.Extras.SL5">
+      <HintPath>..\Solutions\packages\MvvmLight.4.1.23.0\lib\SL5\GalaSoft.MvvmLight.Extras.SL5.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.SL4, Version=3.0.0.32268, Culture=neutral, PublicKeyToken=cd39e69f7fb3ebff, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\MvvmLight.3.0.3\lib\SL4\GalaSoft.MvvmLight.SL4.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.SL5">
+      <HintPath>..\Solutions\packages\MvvmLight.4.1.23.0\lib\SL5\GalaSoft.MvvmLight.SL5.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\Solutions\packages\MvvmLight.4.1.23.0\lib\SL5\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Ninject.2.2.1.4\lib\sl4\Ninject.dll</HintPath>
@@ -96,28 +97,43 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Data.4.2010.4\lib\sl4\System.Windows.Controls.Data.DataForm.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Controls.Data.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Data.Toolkit">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Data.4.2010.4\lib\sl4\System.Windows.Controls.Data.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-DataViz.4.2010.4\lib\sl4\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Input.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Controls.Layout.Toolkit">
-      <HintPath>..\Libraries\SilverlightToolkit\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Input.4.2010.4\lib\sl4\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Layout.4.2010.4\lib\sl4\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls.Navigation, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls.Pivot, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Windows.Controls.Toolkit">
-      <HintPath>..\Libraries\SilverlightToolkit\System.Windows.Controls.Toolkit.dll</HintPath>
+    <Reference Include="System.Windows.Controls.Theming.Toolkit">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Theming.4.2010.4\lib\sl4\System.Windows.Controls.Theming.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Controls.Toolkit.Internals, Version=4.0.5.0, Culture=neutral, PublicKeyToken=2c5c654d367bf4a7, processorArchitecture=MSIL" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\MvvmLight.3.0.3\lib\SL4\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\SilverlightToolkit-Core.4.2010.4\lib\sl4\System.Windows.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\MvvmLight.4.1.23.0\lib\SL5\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
@@ -129,67 +145,106 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\Events\EventBrowser\AggregatedRoot.cs" />
-    <Compile Include="Features\Events\EventBrowser\AggregatedRootType.cs" />
-    <Compile Include="Features\Events\EventBrowser\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Events\EventBrowser\ViewModel.cs" />
     <Compile Include="Features\Core\MainWindow\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\Core\MainWindow\ViewModel.cs" />
-    <Compile Include="Features\Core\Navigation\Category.cs" />
-    <Compile Include="Features\Core\Navigation\FeaturePage.cs" />
+    <Compile Include="Features\Core\MainWindow\ViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Core\Navigation\Category.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Core\Navigation\FeaturePage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\Core\Navigation\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\Core\Navigation\ViewModel.cs" />
+    <Compile Include="Features\Core\Navigation\ViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Core\Toolbar\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Core\Toolbar\ViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Events\EventBrowser\AggregatedRoot.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Events\EventBrowser\AggregatedRootType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Events\EventBrowser\View.xaml.cs">
+      <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Features\Events\EventBrowser\ViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\General\GettingStarted\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\General\Pivot\ObservableCollection.cs" />
+    <Compile Include="Features\General\Pivot\ObservableCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\General\Pivot\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\General\Pivot\ViewModel.cs" />
+    <Compile Include="Features\General\Pivot\ViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Features\General\Statistics\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Features\General\Status\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Features\Objects\ObjectHistory\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\Objects\ObjectHistory\ViewModel.cs" />
-    <Compile Include="Features\Core\Toolbar\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
+    <Compile Include="Features\Objects\ObjectHistory\ViewModel.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\Core\Toolbar\ViewModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ServiceHelper.cs" />
-    <Compile Include="ViewModelConvention.cs" />
-    <Compile Include="ViewModelLocator.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Services\ServiceHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModelConvention.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModelLocator.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Features\Events\EventBrowser\View.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Features\Core\MainWindow\View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Features\Core\Navigation\View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Core\Toolbar\View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Events\EventBrowser\View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -213,63 +268,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Features\Core\Toolbar\View.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Features\Objects\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\Events\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\Objects\ObjectHistory\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\Statistics\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\Status\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\Events\EventBrowser\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\GettingStarted\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\Pivot\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Features\General\Pivot\Event.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\backgroundshadow.png" />
-    <Resource Include="Images\backgroundtexture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Features\General\Pivot\Occured.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JSON.Silverlight\Bifrost.JSON.Silverlight.csproj">
+      <Project>{FE9CD87A-E785-49B7-9BC2-2B76526A2D49}</Project>
+      <Name>Bifrost.JSON.Silverlight</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject.Silverlight\Bifrost.Ninject.Silverlight.csproj">
       <Project>{27089447-9E63-45C4-B14B-7AEF8B933294}</Project>
       <Name>Bifrost.Ninject.Silverlight</Name>
@@ -278,6 +295,21 @@
       <Project>{1426A0C9-0445-4E65-839B-1B3A1BAECDB7}</Project>
       <Name>Bifrost.Silverlight</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Features\Events\EventBrowser\icon.png" />
+    <Resource Include="Features\Events\icon.png" />
+    <Resource Include="Features\General\GettingStarted\icon.png" />
+    <Resource Include="Features\General\icon.png" />
+    <Resource Include="Features\General\Pivot\Event.png" />
+    <Resource Include="Features\General\Pivot\icon.png" />
+    <Resource Include="Features\General\Pivot\Occured.png" />
+    <Resource Include="Features\General\Statistics\icon.png" />
+    <Resource Include="Features\General\Status\icon.png" />
+    <Resource Include="Features\Objects\icon.png" />
+    <Resource Include="Features\Objects\ObjectHistory\icon.png" />
+    <Resource Include="Images\backgroundshadow.png" />
+    <Resource Include="Images\backgroundtexture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

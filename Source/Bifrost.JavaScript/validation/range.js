@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.range = {
     isNumber: function (number) {
         return !isNaN(parseFloat(number)) && isFinite(number);

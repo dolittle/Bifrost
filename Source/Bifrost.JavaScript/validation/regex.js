@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.validation.ruleHandlers");
+Bifrost.namespace("Bifrost.validation.ruleHandlers");
 
 Bifrost.validation.ruleHandlers.regex = {
     throwIfOptionsUndefined: function (options) {

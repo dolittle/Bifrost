@@ -46,17 +46,34 @@ namespace Bifrost.Validation
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValidationResult> Validate(ICommand command)
+        public CommandValidationResult Validate(ICommand command)
         {
-            var inputValidator = _commandValidatorProvider.GetInputValidatorFor(command);
-            var inputValidationErrors = inputValidator.ValidateFor(command);
-            if (inputValidationErrors.Count() > 0)
-                return inputValidationErrors;
-
-            var businessValidator = _commandValidatorProvider.GetBusinessValidatorFor(command);
-            var businessValidationErrors = businessValidator.ValidateFor(command);
-            return businessValidationErrors.Count() > 0 ? businessValidationErrors : new List<ValidationResult>();
+            var result = new CommandValidationResult();
+            var validationResults = ValidateInternal(command);
+            result.ValidationResults = validationResults.Where(v => v.MemberNames.First() != ModelRule<object>.ModelRulePropertyName);
+            result.CommandErrorMessages = validationResults.Where(v => v.MemberNames.First() == ModelRule<object>.ModelRulePropertyName).Select(v => v.ErrorMessage);
+            return result;   
         }
 #pragma warning restore 1591 // Xml Comments
+
+        IEnumerable<ValidationResult> ValidateInternal(ICommand command)
+        {
+            var inputValidator = _commandValidatorProvider.GetInputValidatorFor(command);
+            if (inputValidator != null)
+            {
+                var inputValidationErrors = inputValidator.ValidateFor(command);
+                if (inputValidationErrors.Count() > 0)
+                    return inputValidationErrors;
+            }
+
+            var businessValidator = _commandValidatorProvider.GetBusinessValidatorFor(command);
+            if (businessValidator != null)
+            {
+                var businessValidationErrors = businessValidator.ValidateFor(command);
+                return businessValidationErrors.Count() > 0 ? businessValidationErrors : new ValidationResult[0];
+            }
+
+            return new ValidationResult[0];
+        }
     }
 }

@@ -8,6 +8,6 @@ describe("when defining with null parameter", function() {
 	}
 	
 	it("should throw missing class definition exception", function() {
-		expect(exception instanceof Bifrost.MissingClassDefinition).toBeTruthy();
+		expect(exception instanceof Bifrost.MissingTypeDefinition).toBeTruthy();
 	});
 });

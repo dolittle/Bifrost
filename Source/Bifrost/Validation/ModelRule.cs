@@ -34,6 +34,7 @@ namespace Bifrost.Validation
     public class ModelRule<T> : PropertyRule
     {
 #pragma warning disable 1591 // Xml Comments
+        public const string ModelRulePropertyName = "ModelRuleProperty";
         public static string ModelRuleProperty { get; set; }
 #pragma warning restore 1591 // Xml Comments
         static PropertyInfo InternalProperty;
@@ -42,7 +43,7 @@ namespace Bifrost.Validation
 
         static ModelRule()
         {
-            InternalProperty = typeof(ModelRule<T>).GetProperty("ModelRuleProperty");
+            InternalProperty = typeof(ModelRule<T>).GetProperty(ModelRulePropertyName);
         }
 
         /// <summary>
