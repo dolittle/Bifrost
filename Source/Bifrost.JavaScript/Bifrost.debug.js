@@ -396,7 +396,8 @@ Bifrost.validation.Validator = (function () {
             this.messages = ko.computed(function () {
                 var actualMessages = [];
                 $.each(self.commands, function (commandIndex, command) {
-                    $.each(command.validators, function (validatorIndex, validator) {
+                    var unwrappedCommand = ko.utils.unwrapObservable(command);
+                    $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
                         }
@@ -450,7 +451,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.validation");
+﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -486,7 +487,9 @@ Bifrost.validation.validationService = (function () {
             command.validators = [];
             extendProperties(command.parameters, command.validators);
             $.getJSON("/Validation/GetForCommand?name=" + command.name, function (e) {
-                Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                if(e !== null) {
+                    Bifrost.validation.validationService.applyRulesToProperties(command.parameters, e.properties);
+                }
             });
         }
     }
@@ -872,7 +875,9 @@ Bifrost.commands.Command = (function (window) {
         this.onError = function () {
             self.hasError = true;
             if (self.result.hasOwnProperty("validationResults")) {
-                self.applyServerValidation(self.result.validationResults);
+                if(self.result.validationResult && typeof self.result.validationResult !== "undefined") {
+                    self.applyServerValidation(self.result.validationResults);
+                }
             }
             self.options.error.call(self.viewModel, self.result);
         };
@@ -1430,6 +1435,10 @@ Bifrost.features.featureManager = (function () {
         get: function (name) {
             name = name.toLowerCase();
 
+            while(name.charAt(name.length - 1) === "/") {
+                name = name.slice(0, -1);
+            }
+
             if (typeof allFeatures[name] !== "undefined") {
                 return allFeatures[name];
             }
@@ -1468,7 +1477,8 @@ if (typeof ko !== 'undefined') {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
         },
         update: function (element, valueAccessor, allBindingAccessor, viewModel) {
-			var featureName = valueAccessor()();
+        	var value = valueAccessor();
+			var featureName = ko.utils.unwrapObservable(value);
 			var feature = Bifrost.features.featureManager.get(featureName);
 			
 			$(element).empty();
