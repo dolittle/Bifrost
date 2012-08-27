@@ -6,21 +6,53 @@ using System.Linq;
 
 namespace Bifrost.Web.Mvc.Commands
 {
+    /// <summary>
+    /// Extension methods for conviently working with <see cref="CommandResult"/> and <see cref="ModelStateDictionary"/>
+    /// </summary>
     public static class ModelStateDictionaryExtensions
     {
-        public static void FromCommandResult(this ModelStateDictionary modelStateDictionary, CommandResult commandResult, string exceptionErrorName)
+        /// <summary>
+        /// Add command result information onto a <see cref="ModelStateDictionary"/>
+        /// </summary>
+        /// <param name="modelStateDictionary"><see cref="ModelStateDictionary"/> to add to</param>
+        /// <param name="commandResult"><see cref="CommandResult"/> to add from</param>
+        /// <param name="exceptionErrorName">Optional parameter for specifying a error name for the any exception, if not specified the error name will be the name of the exception</param>
+        public static void FromCommandResult(this ModelStateDictionary modelStateDictionary, CommandResult commandResult, string exceptionErrorName = null)
         {
             if (commandResult.Invalid)
             {
                 modelStateDictionary.AddToModelErrors(commandResult.ValidationResults);
+
+                if( commandResult.CommandValidationMessages != null ) 
+                    modelStateDictionary.AddToModelErrors(commandResult.CommandValidationMessages);
             }
             else
             {
+                if (exceptionErrorName == null)
+                    exceptionErrorName = commandResult.Exception.GetType().Name;
+
                 modelStateDictionary.AddModelError(exceptionErrorName, commandResult.Exception.Message);
             }
         }
 
-        public static void AddToModelErrors(this ModelStateDictionary modelStateDictionary, IEnumerable<ValidationResult> validationResults, string prefix)
+        /// <summary>
+        /// Add a string of messages to a <see cref="ModelStateDictionary"/>
+        /// </summary>
+        /// <param name="modelStateDictionary"><see cref="ModelStateDictionary"/> to add to</param>
+        /// <param name="messages">Strings to add</param>
+        public static void AddToModelErrors(this ModelStateDictionary modelStateDictionary, IEnumerable<string> messages)
+        {
+            foreach (var message in messages)
+                modelStateDictionary.AddModelError(string.Empty, message);
+        }
+
+        /// <summary>
+        /// Add <see cref="ValidationResult">ValidationResults</see> to <see cref="ModelStateDictionary"/>
+        /// </summary>
+        /// <param name="modelStateDictionary"><see cref="ModelStateDictionary"/> to add to</param>
+        /// <param name="validationResults"><see cref="ValidationResult">ValidationResults</see> to add</param>
+        /// <param name="prefix">Optional prefix to prepend to all member names</param>
+        public static void AddToModelErrors(this ModelStateDictionary modelStateDictionary, IEnumerable<ValidationResult> validationResults, string prefix = null)
         {
             foreach (var validationResult in validationResults)
             {
@@ -32,11 +64,12 @@ namespace Bifrost.Web.Mvc.Commands
             }
         }
 
-        public static void AddToModelErrors(this ModelStateDictionary modelStateDictionary, IEnumerable<ValidationResult> validationResults)
-        {
-            AddToModelErrors(modelStateDictionary, validationResults, string.Empty);
-        }
 
+        /// <summary>
+        /// Turn a <see cref="ModelStateDictionary"/> into a <see cref="CommandResult"/>
+        /// </summary>
+        /// <param name="modelStateDictionary"></param>
+        /// <returns></returns>
         public static CommandResult ToCommandResult(this ModelStateDictionary modelStateDictionary)
         {
             var validationResults = new List<ValidationResult>();
