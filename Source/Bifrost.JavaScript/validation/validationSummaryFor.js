@@ -20,14 +20,19 @@
 
     ko.bindingHandlers.validationSummaryFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            var value = valueAccessor();
-            var target = ko.utils.unwrapObservable(value);
-            if (!(target instanceof Array)) {
-                target = [target];
-            }
-
+            var target = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
             var validationSummary = new Bifrost.validation.ValidationSummary(target);
+            ko.utils.domData.set(element, 'validationsummary', validationSummary);
             ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
+        },
+        update: function (element, valueAccessor) {
+            var validationSummary = ko.utils.domData.get(element, 'validationsummary');
+            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+        },
+        getValueAsArray: function (valueAccessor) {
+            var target = ko.utils.unwrapObservable(valueAccessor());
+            if (!(target instanceof Array)) { target = [target]; }
+            return target;
         }
     };
 }
