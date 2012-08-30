@@ -2,11 +2,12 @@
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
-            this.commands = commands;
+            this.commands = ko.observable(commands);
             this.messages = ko.computed(function () {
                 var actualMessages = [];
-                $.each(self.commands, function (commandIndex, command) {
+                $.each(self.commands(), function (commandIndex, command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
+                    
                     $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
