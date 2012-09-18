@@ -1,4 +1,8 @@
 Bifrost.namespace("Bifrost.navigation", {
+    navigateTo: function (featureName, queryString) {
+        // TODO: Support title somehow
+    	History.pushState({feature:featureName},"","/" + featureName + queryString);
+    },
     navigationManager: {
         hookup: function () {
             $("body").click(function (e) {
