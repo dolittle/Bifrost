@@ -1,7 +1,11 @@
 Bifrost.namespace("Bifrost.navigation", {
     navigateTo: function (featureName, queryString) {
+        var url = "/" + featureName;
+        if(queryString)
+            url += queryString;
+        
         // TODO: Support title somehow
-    	History.pushState({feature:featureName},"","/" + featureName + queryString);
+   	    History.pushState({feature:featureName}, "", url);
     },
     navigationManager: {
         hookup: function () {
