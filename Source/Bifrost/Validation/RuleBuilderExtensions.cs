@@ -53,7 +53,7 @@ namespace Bifrost.Validation
         {
             var actualBuilder = builder as RuleBuilder<T, TProperty>;
             if (!(actualBuilder.Rule.CurrentValidator is PropertyValidatorWithDynamicState))
-                throw new ArgumentException(
+                throw new InvalidValidatorTypeException(
                     string.Format("Dynamic state is only supported on a property validator that inherits from {0}",
                         typeof(PropertyValidatorWithDynamicState))
                 );

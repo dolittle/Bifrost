@@ -198,6 +198,7 @@
     <Compile Include="Validation\ICommandInputValidator.cs" />
     <Compile Include="Validation\ICommandValidationService.cs" />
     <Compile Include="Validation\ICommandValidatorProvider.cs" />
+    <Compile Include="Validation\InvalidValidatorTypeException.cs" />
     <Compile Include="Validation\MetaData\Regex.cs" />
     <Compile Include="Validation\MetaData\RegexGenerator.cs" />
     <Compile Include="Validation\MetaData\RequiredGenerator.cs" />
