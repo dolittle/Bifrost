@@ -188,7 +188,6 @@
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
-    <Compile Include="Validation\DynamicStateRuleBuilder.cs" />
     <Compile Include="Validation\DynamicState.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />

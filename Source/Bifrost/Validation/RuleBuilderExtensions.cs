@@ -21,6 +21,8 @@
 #endregion
 using System;
 using System.Linq.Expressions;
+using FluentValidation;
+using FluentValidation.Internal;
 
 namespace Bifrost.Validation
 {
@@ -37,14 +39,31 @@ namespace Bifrost.Validation
         /// <param name="builder"></param>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public static DynamicStateRuleBuilder<T, TProperty> WithDynamicStateFrom<T, TProperty>(this DynamicStateRuleBuilder<T, TProperty> builder, Expression<Func<T, object>> expression)
+        public static IRuleBuilderOptions<T, TProperty> WithDynamicStateFrom<T, TProperty>(this IRuleBuilderOptions<T, TProperty> builder, Expression<Func<T, object>> expression)
         {
-            if (builder.Rule.CurrentValidator is PropertyValidatorWithDynamicState)
-            {
-                var validator = builder.Rule.CurrentValidator as PropertyValidatorWithDynamicState;
-                validator.AddExpression(expression);
-            }
+            ThrowIfNotCorrectRuleBuilder(builder);
+            ThrowIfNotCorrectValidator(builder);
+
+            var validator = ((RuleBuilder<T, TProperty>)builder).Rule.CurrentValidator as PropertyValidatorWithDynamicState;
+            validator.AddExpression(expression);
             return builder;
+        }
+
+        static void ThrowIfNotCorrectValidator<T, TProperty>(IRuleBuilderOptions<T, TProperty> builder)
+        {
+            var actualBuilder = builder as RuleBuilder<T, TProperty>;
+            if (!(actualBuilder.Rule.CurrentValidator is PropertyValidatorWithDynamicState))
+                throw new ArgumentException(
+                    string.Format("Dynamic state is only supported on a property validator that inherits from {0}",
+                        typeof(PropertyValidatorWithDynamicState))
+                );
+               
+        }
+
+        static void ThrowIfNotCorrectRuleBuilder<T, TProperty>(IRuleBuilderOptions<T, TProperty> builder)
+        {
+            if (!(builder is RuleBuilder<T, TProperty>))
+                throw new ArgumentException("Builder is of wrong type - expecting RuleBuilder<>");
         }
     }
 

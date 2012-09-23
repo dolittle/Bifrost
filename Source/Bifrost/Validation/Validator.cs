@@ -44,23 +44,5 @@ namespace Bifrost.Validation
             var builder = new RuleBuilder<T, T>(rule);
             return builder;
         }
-
-
-        /// <summary>
-        /// Defines a validation rule for a specific property and adding the posibility for associating dynamic data with it
-        /// </summary>
-        /// <example>
-        /// RuleWithDynamicDataFor(x => x.Surname)...
-        /// </example>
-        /// <typeparam name="TProperty">The type of property being validated</typeparam>
-        /// <param name="expression">The expression representing the property to validate</param>
-        /// <returns>an <see cref="DynamicStateRuleBuilder{T, TProperty}"/> instance on which validators can be defined</returns>
-        public DynamicStateRuleBuilder<T, TProperty> RuleWithDynamicDataFor<TProperty>(Expression<Func<T, TProperty>> expression)
-        {
-            var rule = PropertyRule.Create(expression, () => CascadeMode);
-            AddRule(rule);
-            var ruleBuilder = new DynamicStateRuleBuilder<T, TProperty>(rule);
-            return ruleBuilder;
-        }
     }
 }
