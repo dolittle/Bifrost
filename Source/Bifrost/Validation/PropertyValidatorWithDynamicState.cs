@@ -50,7 +50,7 @@ namespace Bifrost.Validation
         /// Add an expression that resolve to a property
         /// </summary>
         /// <param name="expression">Expression to add</param>
-        public void AddExpression<T>(Expression<Func<T,object>> expression)
+        public virtual void AddExpression<T>(Expression<Func<T,object>> expression)
         {
             var property = expression.GetPropertyInfo();
             _properties.Add(property);
