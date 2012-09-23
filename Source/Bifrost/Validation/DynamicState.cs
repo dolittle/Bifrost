@@ -32,7 +32,16 @@ namespace Bifrost.Validation
     public class DynamicState : DynamicObject
     {
         object _model;
-        IEnumerable<PropertyInfo> _properties;
+        List<PropertyInfo> _properties = new List<PropertyInfo>();
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DynamicState"/>
+        /// </summary>
+        /// <param name="model">Model to use as base for representing the state</param>
+        public DynamicState(object model)
+        {
+            _model = model;
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="DynamicState"/>
@@ -42,7 +51,7 @@ namespace Bifrost.Validation
         public DynamicState(object model, IEnumerable<PropertyInfo> properties)
         {
             _model = model;
-            _properties = properties;
+            _properties.AddRange(properties);
         }
 
 #pragma warning disable 1591 // Xml Comments

@@ -409,6 +409,10 @@
     <Compile Include="Validation\for_DynamicState\ModelContainer.cs" />
     <Compile Include="Validation\for_DynamicState\when_getting_member_from_model.cs" />
     <Compile Include="Validation\for_DynamicState\when_gettng_member_via_container.cs" />
+    <Compile Include="Validation\for_PropertyValidatorWithDynamicState\Model.cs" />
+    <Compile Include="Validation\for_PropertyValidatorWithDynamicState\MyValidator.cs" />
+    <Compile Include="Validation\for_PropertyValidatorWithDynamicState\when_adding_property_expression.cs" />
+    <Compile Include="Validation\for_PropertyValidatorWithDynamicState\when_validating.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\FakePropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state.cs" />

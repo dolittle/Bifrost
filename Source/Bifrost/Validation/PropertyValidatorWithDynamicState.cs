@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Bifrost.Extensions;
+using FluentValidation.Results;
 using FluentValidation.Validators;
 
 namespace Bifrost.Validation
@@ -39,6 +40,15 @@ namespace Bifrost.Validation
         protected PropertyValidatorWithDynamicState(Expression<Func<string>> errorMessageResourceSelector) : base(errorMessageResourceSelector) { }
         protected PropertyValidatorWithDynamicState(string errorMessage) : base(errorMessage) { }
         protected PropertyValidatorWithDynamicState(string errorMessageResourceName, Type errorMessageResourceType) : base(errorMessageResourceName, errorMessageResourceType) { }
+
+
+        protected dynamic DynamicState { get; private set; }
+
+        public override IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context)
+        {
+            DynamicState = new DynamicState(context.Instance, Properties);
+            return base.Validate(context);
+        }
 #pragma warning restore 1591 // Xml Comments
 
         /// <summary>
