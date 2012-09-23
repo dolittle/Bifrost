@@ -405,6 +405,10 @@
     <Compile Include="Events\for_EventStream\when_creating_a_new_committed_event_stream.cs" />
     <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\for_DynamicState\Model.cs" />
+    <Compile Include="Validation\for_DynamicState\ModelContainer.cs" />
+    <Compile Include="Validation\for_DynamicState\when_getting_member_from_model.cs" />
+    <Compile Include="Validation\for_DynamicState\when_gettng_member_via_container.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\FakePropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state.cs" />
