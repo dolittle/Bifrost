@@ -188,6 +188,8 @@
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
+    <Compile Include="Validation\DynamicStateRuleBuilder.cs" />
+    <Compile Include="Validation\DynamicState.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />
     <Compile Include="Validation\IChapterValidator.cs" />
@@ -247,6 +249,8 @@
     <Compile Include="Execution\AssemblyLocator.cs" />
     <Compile Include="Execution\IAssemblyLocator.cs" />
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
+    <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
+    <Compile Include="Validation\RuleBuilderExtensions.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
