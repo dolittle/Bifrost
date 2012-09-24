@@ -1,4 +1,4 @@
-if (typeof ko !== 'undefined') {
+if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
     ko.bindingHandlers.navigateTo = {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
             ko.applyBindingsToNode(element, { 

@@ -67,7 +67,7 @@ Bifrost.namespace("Bifrost", {
 });
 Bifrost.namespace("Bifrost", {
 	TypePrototype: {
-	},
+	}
 });
 Bifrost.namespace("Bifrost", {
 	Type : function(typeDefinition) {
@@ -1519,7 +1519,7 @@ Bifrost.messaging.messenger = (function() {
 		}
 	}
 })();
-if (typeof ko !== 'undefined') {
+if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
     ko.bindingHandlers.navigateTo = {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
             ko.applyBindingsToNode(element, { 
@@ -1534,36 +1534,39 @@ if (typeof ko !== 'undefined') {
 Bifrost.namespace("Bifrost.navigation", {
     navigationManager: {
         hookup: function () {
-            $("body").click(function (e) {
-                var href = e.target.href;
-                if (typeof href == "undefined") {
-                    var closestAnchor = $(e.target).closest("a")[0];
-                    if (!closestAnchor) {
-                        return;
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                $("body").click(function (e) {
+                    var href = e.target.href;
+                    if (typeof href == "undefined") {
+                        var closestAnchor = $(e.target).closest("a")[0];
+                        if (!closestAnchor) {
+                            return;
+                        }
+                        href = closestAnchor.href;
                     }
-                    href = closestAnchor.href;
-                }
-                if (href.indexOf("#") > 0) {
-                    href = href.substr(0, href.indexOf("#"));
-                }
+                    if (href.indexOf("#") > 0) {
+                        href = href.substr(0, href.indexOf("#"));
+                    }
 
-                if (href.length == 0) {
-                    href = "/";
-                }
-                var targetUri = Bifrost.Uri.create(href);
-                if (targetUri.isSameAsOrigin) {
-                    var target = targetUri.path;
-                    while (target.indexOf("/") == 0) {
-                        target = target.substr(1);
+                    if (href.length == 0) {
+                        href = "/";
                     }
-                    e.preventDefault();
-                    var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                    History.pushState({}, "", "/" + target + queryString);
-                }
-            });
+                    var targetUri = Bifrost.Uri.create(href);
+                    if (targetUri.isSameAsOrigin) {
+                        var target = targetUri.path;
+                        while (target.indexOf("/") == 0) {
+                            target = target.substr(1);
+                        }
+                        e.preventDefault();
+                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                        History.pushState({}, "", "/" + target + queryString);
+                    }
+                });
+            }
         }
     }
 });
+
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
