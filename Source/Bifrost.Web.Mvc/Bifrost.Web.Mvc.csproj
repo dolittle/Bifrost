@@ -89,6 +89,7 @@
     <Compile Include="Validation\LessThanPropertyValidator.cs" />
     <Compile Include="Validation\FluentValidationModelValidatorProviderExtensions.cs" />
     <Compile Include="Validation\GreaterThanPropertyValidator.cs" />
+    <Compile Include="Validation\ValidatorPropertyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
@@ -104,7 +105,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Commands\commandFormEvents.js" />
