@@ -57,6 +57,18 @@ namespace Bifrost.Configuration
 
 
         /// <summary>
+        /// Configures events to be persisted asynchronously
+        /// </summary>
+        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
+        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
+        public static IConfigure WithAsynchronousEventStore(this IEventsConfiguration configuration)
+        {
+            configuration.EventStoreType = typeof(AsyncEventStore);
+            return Configure.Instance;
+        }
+
+
+        /// <summary>
         /// Configure sagas to not be persisted
         /// </summary>
         /// <param name="configuration"><see cref="ISagasConfiguration"/> instance to configure</param>

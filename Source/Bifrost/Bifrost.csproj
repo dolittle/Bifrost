@@ -72,6 +72,7 @@
     <Compile Include="Configuration\ISagasConfiguration.cs" />
     <Compile Include="Configuration\SagasConfiguration.cs" />
     <Compile Include="Domain\AggregatedRootOf.cs" />
+    <Compile Include="Events\AsyncEventStore.cs" />
     <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\EventHolder.cs" />
