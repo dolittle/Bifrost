@@ -31,6 +31,7 @@ namespace Bifrost.Events
         /// Notify changes for a <see cref="IEventStore"/>
         /// </summary>
         /// <param name="eventStore"><see cref="IEventStore"/> to notify for</param>
-        void Notify(IEventStore eventStore);
+        /// <param name="streamOfEvents"><see cref="EventStream"/> with events to notify for</param>
+        void Notify(IEventStore eventStore, EventStream streamOfEvents);
     }
 }

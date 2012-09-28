@@ -23,6 +23,7 @@ using Bifrost.Events;
 using Bifrost.Execution;
 using Microsoft.Practices.ServiceLocation;
 using Bifrost.Sagas;
+using System;
 
 namespace Bifrost.Configuration
 {
@@ -60,10 +61,13 @@ namespace Bifrost.Configuration
         /// Configures events to be persisted asynchronously
         /// </summary>
         /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
+        /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
         /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure WithAsynchronousEventStore(this IEventsConfiguration configuration)
+        public static IConfigure WithAsynchronousEventStore(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
         {
             configuration.EventStoreType = typeof(AsyncEventStore);
+            if (configurationAction != null)
+                configurationAction(configuration);
             return Configure.Instance;
         }
 

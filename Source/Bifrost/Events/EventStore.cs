@@ -69,7 +69,7 @@ namespace Bifrost.Events
             {
                 _repository.Insert(eventsToSave);
                 _eventSubscriptionManager.Process(eventsToSave);
-                _eventStoreChangeManager.NotifyChanges(this);
+                _eventStoreChangeManager.NotifyChanges(this, eventsToSave);
             }
 		}
 

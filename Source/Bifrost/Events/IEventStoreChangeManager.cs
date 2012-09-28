@@ -37,6 +37,6 @@ namespace Bifrost.Events
         /// <summary>
         /// Notify changes for a given <see cref="IEventStore"/>
         /// </summary>
-        void NotifyChanges(IEventStore eventStore);
+        void NotifyChanges(IEventStore eventStore, EventStream streamOfEvents);
     }
 }

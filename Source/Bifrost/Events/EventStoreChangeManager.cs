@@ -51,12 +51,12 @@ namespace Bifrost.Events
             _notifiers.Add(type);
         }
 
-        public void NotifyChanges(IEventStore eventStore)
+        public void NotifyChanges(IEventStore eventStore, EventStream streamOfEvents)
         {
             foreach( var notifierType in _notifiers ) 
             {
                 var notifier = _container.Get(notifierType) as IEventStoreChangeNotifier;
-                notifier.Notify(eventStore);
+                notifier.Notify(eventStore, streamOfEvents);
             }  
         }
 #pragma warning restore 1591 // Xml Comments
