@@ -211,6 +211,9 @@
     <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
       <Link>Configuration\SagasConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\SerializationConfiguration.cs">
+      <Link>Configuration\SerializationConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
     </Compile>
