@@ -68,7 +68,7 @@ namespace Bifrost.Extensions
         /// <returns>True if the type implements the interface, false if not</returns>
         public static bool HasInterface(this Type type, Type interfaceType)
         {
-            var hasInterface = type.GetInterface(interfaceType.Name, false) != null;
+            var hasInterface = type.GetInterface(interfaceType.FullName, false) != null;
             return hasInterface;
         }
 
