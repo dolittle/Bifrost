@@ -1,7 +1,6 @@
-﻿using Bifrost.Configuration;
-using Bifrost.SignalR.Events;
+﻿using Bifrost.SignalR.Events;
 
-namespace Bifrost.SignalR
+namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
