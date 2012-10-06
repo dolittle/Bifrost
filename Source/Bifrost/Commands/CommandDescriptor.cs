@@ -19,11 +19,21 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Services.Commands
+namespace Bifrost.Commands
 {
+    /// <summary>
+    /// Represents a descriptor for a <see cref="ICommand"/>
+    /// </summary>
     public class CommandDescriptor
     {
+        /// <summary>
+        /// Name of command
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Command content
+        /// </summary>
         public string Command { get; set; }
     }
 }

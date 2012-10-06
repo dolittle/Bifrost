@@ -19,18 +19,12 @@
 // limitations under the License.
 //
 #endregion
-using System;
-
 namespace Bifrost.Commands
 {
-	/// <summary>
-	/// Defines the basic command
-	/// </summary>
-	public partial interface ICommand
-	{
-		/// <summary>
-		/// Gets the Id of the object the command will apply to
-		/// </summary>
-		Guid Id { get; }
-	}
+    public partial interface ICommand : System.Windows.Input.ICommand
+    {
+        string Name { get; set; }
+        dynamic Parameters { get; }
+        bool IsBusy { get; set; }
+    }
 }

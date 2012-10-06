@@ -91,6 +91,9 @@
     <Compile Include="..\Bifrost\Commands\CommandContextManager.cs">
       <Link>Commands\CommandContextManager.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Commands\CommandDescriptor.cs">
+      <Link>Commands\CommandDescriptor.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Commands\CommandHandlerForTypeInvoker.cs">
       <Link>Commands\CommandHandlerForTypeInvoker.cs</Link>
     </Compile>
@@ -745,6 +748,9 @@
     <Compile Include="Commands\Command.Silverlight.cs" />
     <Compile Include="Commands\ClientCommandCoordinator.cs" />
     <Compile Include="Commands\CommandCoordinatorExtensions.cs" />
+    <Compile Include="Commands\DynamicCommand.Silverlight.cs" />
+    <Compile Include="Commands\ICommand.Silverlight.cs" />
+    <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

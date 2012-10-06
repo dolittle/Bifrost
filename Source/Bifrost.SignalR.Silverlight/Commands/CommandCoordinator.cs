@@ -43,26 +43,29 @@ namespace Bifrost.SignalR.Silverlight.Commands
 
         public CommandResult Handle(ICommand command)
         {
-            var validationResult = new ObservableCollection<ValidationResult>();
+            var validationResults = new ObservableCollection<ValidationResult>();
             var commandValidationMessages = new ObservableCollection<string>();
             var commandResult = new CommandResult();
-            commandResult.ValidationResults = validationResult;
+            commandResult.ValidationResults = validationResults;
             commandResult.CommandValidationMessages = commandValidationMessages;
 
-            dynamic parameters = new ExpandoObject();
-            dynamic commandDescriptor = new ExpandoObject();
-            commandDescriptor.Name = "TestCommand";
-            //commandDescriptor.Command = _serializer.ToJson(new { });
-
-            parameters.commandDescriptor = _serializer.ToJson(commandDescriptor);
-
-            var json = (string)_serializer.ToJson(parameters);
-
-
-            _hub.Invoke<CommandResult>("Handle", json).ContinueWith(a =>
+            var descriptor = new CommandDescriptor
             {
-                var i = 0;
-                i++;
+                Name = command.Name,
+                Command = _serializer.ToJson(command.Parameters)
+            };
+
+            command.IsBusy = true;
+            _hub.Invoke<CommandResult>("Handle", descriptor).ContinueWith(a =>
+            {
+                foreach (var commandValidationMessage in a.Result.CommandValidationMessages)
+                    commandValidationMessages.Add(commandValidationMessage);
+                foreach (var validationResult in a.Result.ValidationResults)
+                    validationResults.Add(validationResult);
+
+                commandResult.Exception = a.Result.Exception;
+
+                command.IsBusy = false;
             });
 
             return commandResult;

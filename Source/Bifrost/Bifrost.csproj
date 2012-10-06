@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\DynamicCommand.cs" />
     <Compile Include="Commands\DynamicCommandFactory.cs" />
     <Compile Include="Commands\DynamicCommandHandler.cs" />

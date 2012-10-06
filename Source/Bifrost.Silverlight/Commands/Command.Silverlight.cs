@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Dynamic;
+using System.ComponentModel;
+using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
-    public partial class Command : System.Windows.Input.ICommand
+    public partial class Command : INotifyPropertyChanged
     {
-        dynamic _parameters;
         ICommandCoordinator _commandCoordinator;
-
+        dynamic _parameters;
 
         public string Name { get; set; }
         public dynamic Parameters
@@ -17,6 +18,17 @@ namespace Bifrost.Commands
                 if (_parameters == null)
                     _parameters = new ExpandoObject();
                 return _parameters;
+            }
+        }
+
+        bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value;
+                PropertyChanged.Notify(() => IsBusy);
             }
         }
 
@@ -34,12 +46,13 @@ namespace Bifrost.Commands
         {
             return true;
         }
-
         public event EventHandler CanExecuteChanged = (s, e) => { };
 
         public void Execute(object parameter)
         {
             _commandCoordinator.Handle(this);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
     }
 }

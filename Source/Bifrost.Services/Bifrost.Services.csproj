@@ -54,7 +54,6 @@
       <Link>AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Commands\CommandCoordinatorService.cs" />
-    <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Execution\HttpStatus.cs" />
