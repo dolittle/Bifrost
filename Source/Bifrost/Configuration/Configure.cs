@@ -153,6 +153,7 @@ namespace Bifrost.Configuration
                 _configurationSource.Initialize(this);
 			
 			Serialization.Initialize (this);
+            Commands.Initialize(this);
             Events.Initialize(this);
             Views.Initialize(this);
 			Sagas.Initialize(this);

@@ -9,11 +9,11 @@ using System.Dynamic;
 
 namespace Bifrost.Commands
 {
-    public class CommandCoordinator : ICommandCoordinator
+    public class ClientCommandCoordinator : ICommandCoordinator
     {
         ISerializer _serializer;
 
-        public CommandCoordinator(ISerializer serializer)
+        public ClientCommandCoordinator(ISerializer serializer)
         {
             _serializer = serializer;
         }

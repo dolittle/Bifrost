@@ -19,6 +19,8 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.Commands;
 namespace Bifrost.Configuration
 {
 	/// <summary>
@@ -28,6 +30,14 @@ namespace Bifrost.Configuration
 	{
 #pragma warning disable 1591 // Xml Comments
 		public IEntityContextConfiguration Storage { get; set; }
+        public Type CommandCoordinatorType { get; set; }
+
+        public void Initialize(IConfigure configure)
+        {
+            if (CommandCoordinatorType != null)
+                configure.Container.Bind<ICommandCoordinator>(CommandCoordinatorType);
+        }
+
 #pragma warning restore 1591 // Xml Comments
-	}
+    }
 }

@@ -19,6 +19,8 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.Commands;
 
 namespace Bifrost.Configuration
 {
@@ -27,5 +29,15 @@ namespace Bifrost.Configuration
 	/// </summary>
     public interface ICommandsConfiguration : IStorageConfiguration
     {
+        /// <summary>
+        /// Gets or sets the type <see cref="ICommandCoordinator"/> to use
+        /// </summary>
+        Type CommandCoordinatorType { get; set; }
+
+        /// <summary>
+        /// Initialize the configuration
+        /// </summary>
+        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
+        void Initialize(IConfigure configure);
     }
 }

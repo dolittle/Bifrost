@@ -743,7 +743,7 @@
       <Link>AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Commands\Command.Silverlight.cs" />
-    <Compile Include="Commands\CommandCoordinator.cs" />
+    <Compile Include="Commands\ClientCommandCoordinator.cs" />
     <Compile Include="Commands\CommandCoordinatorExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />

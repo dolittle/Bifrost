@@ -5,19 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FE9CD87A-E785-49B7-9BC2-2B76526A2D49}</ProjectGuid>
+    <ProjectGuid>{FAF67B45-A232-4410-90B8-88F2619F53FD}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.JSON.Silverlight</RootNamespace>
-    <AssemblyName>Bifrost.JSON.Silverlight</AssemblyName>
+    <RootNamespace>Bifrost.SignalR.Silverlight</RootNamespace>
+    <AssemblyName>Bifrost.SignalR.Silverlight</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
@@ -48,9 +48,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Newtonsoft.Json.4.5.9\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Client.Silverlight5">
+      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\SignalR.Client.Silverlight5.0.5.3\lib\sl50\SignalR.Client.Silverlight5.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.Threading.Tasks.SL5">
+      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\System.Threading.Tasks.3.0.1\lib\sl50\System.Threading.Tasks.SL5.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -60,37 +68,18 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Bifrost.JSON\ConfigurationExtensions.cs">
-      <Link>ConfigurationExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Configuration\JsonStorageElement.cs">
-      <Link>Configuration\JsonStorageElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContext.cs">
-      <Link>EntityContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContextConfiguration.cs">
-      <Link>EntityContextConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContextConnection.cs">
-      <Link>EntityContextConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\Serializer.cs">
-      <Link>Serialization\Serializer.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\SerializerContractResolver.cs">
-      <Link>Serialization\SerializerContractResolver.cs</Link>
-    </Compile>
+    <Compile Include="Commands\CommandCoordinator.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Silverlight\Bifrost.Silverlight.csproj">
       <Project>{1426A0C9-0445-4E65-839B-1B3A1BAECDB7}</Project>
       <Name>Bifrost.Silverlight</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
