@@ -55,6 +55,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BifrostDependencyResolver.cs" />
     <Compile Include="Commands\CommandCoordinator.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventStoreChangeNotifier.cs" />
