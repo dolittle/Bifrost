@@ -229,6 +229,7 @@
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_after_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_through_indexer_after_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_to_the_dictionary_after_creation.cs" />
+    <Compile Include="Dynamic\for_DynamicHelpers\when_populating_from_anonymous_object.cs" />
     <Compile Include="Extensions\for_TypeExtensions\TypeWithDefaultConstructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\TypeWithoutDefaultConstructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_without_a_default_constructor_if_it_has_a_default_constructor.cs" />

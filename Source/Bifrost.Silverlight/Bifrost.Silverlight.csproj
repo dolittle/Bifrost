@@ -286,6 +286,9 @@
     <Compile Include="..\Bifrost\Domain\MissingAggregatedRootException.cs">
       <Link>Domain\MissingAggregatedRootException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Dynamic\DynamicHelpers.cs">
+      <Link>Dynamic\DynamicHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Entities\IEntityContext.cs">
       <Link>Entities\IEntityContext.cs</Link>
     </Compile>

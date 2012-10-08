@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Dynamic;
 using System.ComponentModel;
+using System.Dynamic;
+using Bifrost.Dynamic;
 using Bifrost.Extensions;
 
 namespace Bifrost.Commands
@@ -32,15 +33,20 @@ namespace Bifrost.Commands
             }
         }
 
-        public static Command Create(ICommandCoordinator commandCoordinator,string name)
+        public static Command Create(ICommandCoordinator commandCoordinator,string name, object initialParameterValues = null)
         {
             var command = new Command
             {
                 Name = name,
                 _commandCoordinator = commandCoordinator,
             };
+
+            if( initialParameterValues != null ) 
+                DynamicHelpers.Populate(command.Parameters, initialParameterValues);
+
             return command;
         }
+        
 
         public bool CanExecute(object parameter)
         {
