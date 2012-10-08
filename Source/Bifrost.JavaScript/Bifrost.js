@@ -1,6 +1,7 @@
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/functionParser.js
 @depends utils/TypeInfo.js
 @depends utils/TypePrototype.js
 @depends utils/Type.js

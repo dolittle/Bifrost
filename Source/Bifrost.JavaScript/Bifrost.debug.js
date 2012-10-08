@@ -19,6 +19,25 @@ Bifrost.namespace = function (ns, content) {
 		Bifrost.extend(parent, content);
 	}
 };
+Bifrost.namespace("Bifrost", {
+	functionParser: {
+		parse: function(func) {
+			var result = [];
+			
+			var arguments = func.toString ().match (/function\s+\w*\s*\((.*?)\)/)[1].split (/\s*,\s*/);
+			$.each(arguments, function(index, item) {
+				if( item.trim().length > 0 ) {
+					result.push({
+						name:item
+					});
+				}
+			});
+			
+			return result;
+		}
+	}
+});
+
 function TypeInfo(obj) {
 	var target = obj;
 
@@ -451,7 +470,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -1570,6 +1589,7 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/functionParser.js
 @depends utils/TypeInfo.js
 @depends utils/TypePrototype.js
 @depends utils/Type.js
