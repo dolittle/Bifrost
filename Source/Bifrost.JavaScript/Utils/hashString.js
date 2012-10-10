@@ -7,7 +7,7 @@ Bifrost.hashString = (function() {
 
 		    var b = { };
 		    for (var i = 0; i < a.length; ++i) {
-		        var p = a[i].split('=');
+		        var p = a[i].split('=', 2);
 		        if (p.length != 2) continue;
 		
 				var value = decodeURIComponent(p[1].replace( /\+/g , " "));
