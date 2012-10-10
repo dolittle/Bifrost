@@ -1,6 +1,9 @@
 Bifrost.namespace("Bifrost.navigation", {
     navigateTo: function (featureName, queryString) {
-        var url = "/" + featureName;
+        var url = featureName;
+
+        if(featureName.charAt(0) !== "/")
+            url = "/" + url;
         if(queryString)
             url += queryString;
         
