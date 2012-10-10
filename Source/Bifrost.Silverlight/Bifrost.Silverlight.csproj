@@ -754,6 +754,9 @@
     <Compile Include="Commands\DynamicCommand.Silverlight.cs" />
     <Compile Include="Commands\ICommand.Silverlight.cs" />
     <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
+    <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
+    <Compile Include="Dynamic\BindableExpandoType.cs" />
+    <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />
