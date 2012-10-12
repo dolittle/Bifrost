@@ -33,7 +33,7 @@ namespace Bifrost.Commands
             }
         }
 
-        public static Command Create(ICommandCoordinator commandCoordinator,string name, object initialParameterValues = null)
+        public static Command Create(ICommandCoordinator commandCoordinator,string name, dynamic initialParameterValues = null)
         {
             var command = new Command
             {

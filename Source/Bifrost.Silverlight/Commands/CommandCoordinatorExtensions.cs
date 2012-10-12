@@ -11,7 +11,7 @@ namespace Bifrost.Commands
             return Command.Create(commandCoordinator, name, initialParameterValues);
         }
 
-        public static Command CreateFrom(this ICommandCoordinator commandCoordinator, Expression<Func<object>> expression, object initialParameterValues = null)
+        public static Command CreateFrom(this ICommandCoordinator commandCoordinator, Expression<Func<object>> expression, dynamic initialParameterValues = null)
         {
             var name = expression.GetPropertyInfo().Name;
             var command = Command.Create(commandCoordinator, name, initialParameterValues);
