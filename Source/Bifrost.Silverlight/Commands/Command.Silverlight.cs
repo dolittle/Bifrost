@@ -17,7 +17,7 @@ namespace Bifrost.Commands
             get
             {
                 if (_parameters == null)
-                    _parameters = new ExpandoObject();
+                    _parameters = new BindableExpandoObject();
                 return _parameters;
             }
         }
