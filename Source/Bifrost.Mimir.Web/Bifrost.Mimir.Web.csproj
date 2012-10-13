@@ -57,9 +57,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Features\TopBar\TopBar.html" />
-    <Content Include="Features\TopBar\TopBar.js" />
+    <Content Include="Features\SideBar\view.html" />
+    <Content Include="Features\SideBar\viewModel.js" />
+    <Content Include="Features\TopBar\view.html" />
+    <Content Include="Features\TopBar\viewModel.js" />
     <Content Include="index.html" />
+    <Content Include="madmin.html" />
     <Content Include="Scripts\Bifrost.debug.js" />
     <Content Include="Scripts\domReady.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
