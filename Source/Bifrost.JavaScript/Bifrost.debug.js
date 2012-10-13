@@ -1463,15 +1463,6 @@ Bifrost.features.featureManager = (function () {
         }
     }
 })();
-(function ($) {
-    $(function () {
-		Bifrost.navigation.navigationManager.hookup();
-        Bifrost.features.featureManager.hookup($);
-    });
-})(jQuery);
-
-
-
 if (typeof ko !== 'undefined') {
     ko.bindingHandlers.feature = {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
@@ -1567,6 +1558,12 @@ Bifrost.namespace("Bifrost.navigation", {
     }
 });
 
+﻿(function ($) {
+    $(function () {
+        Bifrost.navigation.navigationManager.hookup();
+        Bifrost.features.featureManager.hookup($);
+    });
+})(jQuery);
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
@@ -1609,11 +1606,11 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends features/ViewModelDefinition.js
 @depends features/Feature.js
 @depends features/featureManager.js
-@depends features/loader.js
 @depends features/featureBindingHandler.js
 @depends messaging/messenger.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
+@depends startup.js
 */
 
 

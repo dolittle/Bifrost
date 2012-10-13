@@ -40,10 +40,10 @@
 @depends features/ViewModelDefinition.js
 @depends features/Feature.js
 @depends features/featureManager.js
-@depends features/loader.js
 @depends features/featureBindingHandler.js
 @depends messaging/messenger.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
+@depends startup.js
 */
 
