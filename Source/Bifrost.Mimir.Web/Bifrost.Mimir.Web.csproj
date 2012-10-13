@@ -57,7 +57,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\TopBar\TopBar.html" />
+    <Content Include="Features\TopBar\TopBar.js" />
     <Content Include="index.html" />
+    <Content Include="Scripts\Bifrost.debug.js" />
+    <Content Include="Scripts\domReady.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery.ba-url.min.js" />
+    <Content Include="Scripts\jquery.history.js" />
+    <Content Include="Scripts\knockout-2.0.0.js" />
+    <Content Include="Scripts\knockout.mapping-2.0.0.js" />
+    <Content Include="Scripts\knockout.plugins.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\order.js" />
+    <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\text.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +90,9 @@
       <Project>{0a748bd3-97dd-4c57-8069-4e36656c0a1a}</Project>
       <Name>Bifrost.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
