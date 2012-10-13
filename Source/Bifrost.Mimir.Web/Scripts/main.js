@@ -24,17 +24,23 @@ require(
 		                require([
                             "/bootstrap/js/bootstrap.min.js",
                             "/js/libs/flot/excanvas.min.js",
-                            "/js/libs/flot/jquery.flot.min.js",
-                            "/js/libs/flot/jquery.flot.resize.min.js",
-                            "/js/libs/flot/jquery.flot.pie.min.js",
                             "/js/libs/google-code-prettify/prettify.js",
                             "/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
                             "/js/libs/jquery.pageslide/jquery.pageslide.min.js",
-                            "/js/madmin.js",
+                            "/js/madmin.js"
+                            /*
                             "/js/application.js",
                             "/js/demo-area-chart.js",
                             "/js/demo-dynamic-chart.js",
-                            "/js/demo-pie-chart.js"]);
+                            "/js/demo-pie-chart.js"
+                            "/js/libs/flot/jquery.flot.min.js",
+                            "/js/libs/flot/jquery.flot.resize.min.js",
+                            "/js/libs/flot/jquery.flot.pie.min.js",
+                            */
+
+		                ], function () {
+		                    madmin.init();
+    	                });
 		            }
 		        );
 		    }
