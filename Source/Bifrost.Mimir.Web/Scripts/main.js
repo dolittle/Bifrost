@@ -27,8 +27,9 @@ require(
                             "/js/libs/google-code-prettify/prettify.js",
                             "/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
                             "/js/libs/jquery.pageslide/jquery.pageslide.min.js",
-                            "/js/madmin.js"
+                            
                             /*
+                            "/js/madmin.js"
                             "/js/application.js",
                             "/js/demo-area-chart.js",
                             "/js/demo-dynamic-chart.js",
@@ -39,7 +40,7 @@ require(
                             */
 
 		                ], function () {
-		                    madmin.init();
+		                    
     	                });
 		            }
 		        );

@@ -12,65 +12,29 @@
         </button>
     </form>
 
-    <!-- ul.sidebar-menu: Sidebar Menu -->
-    <ul class="sidebar-menu on-click" id="main-menu">
-        <li class="active">
+    <ul class="sidebar-menu on-click" id="main-menu" data-bind="foreach: features">
+        <li data-bind="childMenu: children, css: { active: $data.name == $parent.currentFeature().name, inactive: $data.name != $parent.currentFeature().name, parent: children.length > 0 }">
             <div class="sidebar-menu-item-wrapper">
-                <a href="#" data-target-page="page-dashboard">
-                    <i class="icon-home"></i>
-                    <span>Dashboard</span>
+                <a href="#" data-bind="click: $parent.navigateTo.bind($data)" data-target-page="page-dashboard">
+                    <i data-bind="attr: { class: 'icon-' + icon }"></i>
+                    <span data-bind="text: name"></span>
                 </a>
-            </div>
-        </li>
-        <li class="inactive">
-            <div class="sidebar-menu-item-wrapper">
-                <a href="#" data-target-page="page-stats-and-reports">
-                    <i class="icon-bar-chart"></i>
-                    <span>Stats &amp; Reports</span>
-                </a>
-            </div>
-        </li>
-        <li class="parent inactive">
-            <div class="sidebar-menu-item-wrapper">
-                <a href="#">
-                    <i class="icon-hdd"></i>
-                    <span>Database</span>
-                </a>
-                <ul>
-                    <li><a href="#" data-target-page="page-database-settings"><i class="icon-cog"></i><span>Settings</span></a></li>
-                    <li><a href="#" data-target-page="page-database-table1"><i class="icon-table"></i><span>Table 1</span></a></li>
-                    <li><a href="#" data-target-page="page-sample"><i class="icon-table"></i><span>Table 2</span></a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="inactive">
-            <div class="sidebar-menu-item-wrapper">
-                <a href="#" data-target-page="page-sample">
-                    <i class="icon-dashboard"></i>
-                    <span>Virtual Machines</span>
-                </a>
-            </div>
-        </li>
-        <li class="parent inactive">
-            <div class="sidebar-menu-item-wrapper">
-                <a href="#">
-                    <i class="icon-group"></i>
-                    <span>Users</span>
-                </a>
-                <ul>
-                    <li><a href="#" data-target-page="page-sample">User Accounts</a></li>
-                    <li><a href="#" data-target-page="page-sample">User settings</a></li>
-                    <li><a href="#" data-target-page="page-sample">Special user settings</a></li>
+
+                <ul class="parent" data-bind="visible: children.length > 0, foreach: children">
+                    <li data-bind="css: { active: $data.name == $root.currentSubFeature().name, inactive: $data.name != $root.currentSubFeature().name }">
+                        <a href="#" data-bind="click: $root.navigateTo.bind($data)" data-target-page="page-dashboard">
+                            <i data-bind="visible: icon.length > 0, attr: { class: 'icon-' + icon }"></i>
+                            <span data-bind="text: name"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </li>
     </ul>
-    <!-- /ul.sidebar-menu: Sidebar Menu -->
 
     <a href="#" id="sidebar-resizer">
         <i class="min icon-resize-small"></i>
         <i class="max icon-resize-full"></i>
     </a>
-
 </body>
 </html>

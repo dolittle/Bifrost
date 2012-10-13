@@ -1,6 +1,57 @@
-﻿Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
+﻿
+function feature(icon, name, children) {
+    var self = this;
+    this.icon = icon;
+    this.name = name;
+    this.children = children || [];
+
+    $.each(this.children, function (index, item) {
+        item.parent = self;
+    });
+}
+
+ko.bindingHandlers.childMenu = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var children = valueAccessor();
+        if (children.length > 0) {
+            $(element).click(function () {
+                $(element).addClass("open");
+                return false;
+            });
+        }
+    }
+}
+
+
+Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
     var self = this;
     var max_h = 0;
+
+    this.features = [
+        new feature("home", "Dashboard"),
+        new feature("bar-chart", "Statistics"),
+        new feature("group", "Users", [ 
+            new feature("cog", "Accounts"),
+            new feature("cog", "Settings"),
+        ])
+    ];
+
+    this.currentFeature = ko.observable(self.features[0]);
+    this.currentSubFeature = ko.observable(new feature("",""));
+
+    this.navigateTo = function (feature) {
+        if (feature.children.length > 0) {
+            return;
+        }
+
+        if (typeof feature.parent !== "undefined") {
+            self.currentSubFeature(feature);
+            self.currentFeature(feature.parent);
+        } else {
+            self.currentFeature(feature);
+            self.currentSubFeature(new feature("", ""));
+        }
+    }
 
     this.menu_init = function () {
 
@@ -9,10 +60,10 @@
 
         $menu_links.on('click.madmin-menu_init', function (e) {
 
-            $this =  $(this);
+            $this = $(this);
 
             $parent_li = $this.parent();
-            if ($parent_li.prop('tagName') == 'DIV')  {
+            if ($parent_li.prop('tagName') == 'DIV') {
 
                 $parent_li = $parent_li.parent();
                 var $root_li = $parent_li;
@@ -79,7 +130,7 @@
         });
     };
 
-    this.sidebar_fix_init = function() {
+    this.sidebar_fix_init = function () {
 
         $active_li = $('.sidebar-menu > li.active');
 
