@@ -26,7 +26,7 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenEmbedded(this IConfigure configure, string url)
+        public static IConfigure UsingRaven(this IConfigure configure, string url)
         {
             var entityContextConfiguration = new EntityContextConfiguration();
             var connection = new EntityContextConnection(url);
