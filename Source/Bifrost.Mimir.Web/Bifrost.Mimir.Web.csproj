@@ -57,6 +57,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\Content\Dashboard\index.html" />
+    <Content Include="Features\Content\Dashboard\index.js" />
+    <Content Include="Features\Content\Statistics\index.html" />
+    <Content Include="Features\Content\Statistics\index.js" />
+    <Content Include="Features\Content\view.html" />
+    <Content Include="Features\Content\viewModel.js" />
     <Content Include="Features\SideBar\view.html" />
     <Content Include="Features\SideBar\viewModel.js" />
     <Content Include="Features\TopBar\view.html" />

@@ -16,14 +16,14 @@
             <div class="sidebar-menu-item-wrapper">
                 <a href="#" data-bind="click: $parent.navigateTo.bind($data)" data-target-page="page-dashboard">
                     <i data-bind="attr: { class: 'icon-' + icon }"></i>
-                    <span data-bind="text: name"></span>
+                    <span data-bind="text: title"></span>
                 </a>
 
                 <ul class="parent" data-bind="visible: children.length > 0, foreach: children">
                     <li data-bind="css: { active: $data.name == $root.currentSubFeature().name, inactive: $data.name != $root.currentSubFeature().name }">
                         <a href="#" data-bind="click: $root.navigateTo.bind($data)" data-target-page="page-dashboard">
                             <i data-bind="visible: icon.length > 0, attr: { class: 'icon-' + icon }"></i>
-                            <span data-bind="text: name"></span>
+                            <span data-bind="text: title"></span>
                         </a>
                     </li>
                 </ul>

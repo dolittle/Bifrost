@@ -1,8 +1,9 @@
 ﻿
-function feature(icon, name, children) {
+function feature(icon, name, title, children) {
     var self = this;
     this.icon = icon;
     this.name = name;
+    this.title = title;
     this.children = children || [];
 
     $.each(this.children, function (index, item) {
@@ -76,34 +77,38 @@ $(function () {
     this.sidebar_fix_init();
 });
 
+function currentFeatureChanged(name) {
+    this.name = name;
+}
 
 
 Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
     var self = this;
-
     this.features = [
-        new feature("home", "Dashboard"),
-        new feature("bar-chart", "Statistics"),
-        new feature("group", "Users", [ 
-            new feature("cog", "Accounts"),
-            new feature("cog", "Settings"),
+        new feature("home", "Dashboard", "Dashboard"),
+        new feature("bar-chart", "Statistics", "Statistics"),
+        new feature("group", "", "Users", [ 
+            new feature("cog", "Users/Accounts", "Accounts"),
+            new feature("cog", "Users/Settings", "Settings"),
         ])
     ];
 
     this.currentFeature = ko.observable(self.features[0]);
-    this.currentSubFeature = ko.observable(new feature("",""));
+    this.currentSubFeature = ko.observable(new feature("","",""));
 
-    this.navigateTo = function (feature) {
-        if (feature.children.length > 0) {
+    this.navigateTo = function (selectedFeature) {
+        if (selectedFeature.children.length > 0) {
             return;
         }
 
-        if (typeof feature.parent !== "undefined") {
-            self.currentSubFeature(feature);
-            self.currentFeature(feature.parent);
+        Bifrost.messaging.messenger.publish(new currentFeatureChanged(selectedFeature.name));
+
+        if (typeof selectedFeature.parent !== "undefined") {
+            self.currentSubFeature(selectedFeature);
+            self.currentFeature(selectedFeature.parent);
         } else {
-            self.currentFeature(feature);
-            self.currentSubFeature(new feature("", ""));
+            self.currentFeature(selectedFeature);
+            self.currentSubFeature(new feature("", "",""));
         }
     }
 });
