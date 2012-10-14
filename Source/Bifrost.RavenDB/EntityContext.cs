@@ -1,9 +1,8 @@
 ﻿using Bifrost.Entities;
 using System.Linq;
-using Raven.Client.Embedded;
 using Raven.Client;
 
-namespace Bifrost.RavenDb.Embeddable
+namespace Bifrost.RavenDB
 {
     public class EntityContext<T> : IEntityContext<T>
     {

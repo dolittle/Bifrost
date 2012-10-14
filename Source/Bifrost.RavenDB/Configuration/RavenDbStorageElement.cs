@@ -22,34 +22,24 @@
 
 using Bifrost.Configuration;
 using Bifrost.Configuration.Xml;
-using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
 
-namespace Bifrost.RavenDB.Embeddable
+namespace Bifrost.RavenDB
 {
-    [ElementName("EmbeddedRavenDB")]
+    [ElementName("RavenDB")]
     public class EmbeddedRavenDBStorageElement : StorageElement
     {
-        readonly IAssemblyLocator _assemblyLocator;
-
         public EmbeddedRavenDBStorageElement()
-            : this(ServiceLocator.Current.GetInstance<IAssemblyLocator>())
         {
+            EntityContextType = typeof(EntityContext<>);
             
         }
 
-        public EmbeddedRavenDBStorageElement(IAssemblyLocator assemblyLocator)
-        {
-            EntityContextType = typeof(EntityContext<>);
-            _assemblyLocator = assemblyLocator;
-        }
-
-        public string DataDirectory { get; set; }
+        public string Url { get; set; }
 
         public override IEntityContextConfiguration GetConfiguration()
         {
             var entityContextConfiguration = new EntityContextConfiguration();
-            var connection = new EntityContextConnection(DataDirectory);
+            var connection = new EntityContextConnection(Url);
             entityContextConfiguration.Connection = connection;
             return entityContextConfiguration;
         }

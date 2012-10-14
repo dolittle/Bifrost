@@ -20,28 +20,22 @@
 //
 #endregion
 using Bifrost.Entities;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
+using Bifrost.RavenDB;
 
-namespace Bifrost.RavenDB.Embeddable
+namespace Bifrost.Configuration
 {
-    public class EntityContextConnection : IEntityContextConnection
+    public static class ConfigurationExtensions
     {
-        public string DataDirectory { get; set; }
-        public EmbeddableDocumentStore DocumentStore { get; private set; }
-
-        public EntityContextConnection(string dataDirectory)
+        public static IConfigure UsingRavenEmbedded(this IConfigure configure, string url)
         {
-            DataDirectory = dataDirectory;
-            DocumentStore = new EmbeddableDocumentStore
-            {
-                
-                DataDirectory = dataDirectory
-            };
-
-            // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
-            DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;
-            DocumentStore.Initialize();
+            var entityContextConfiguration = new EntityContextConfiguration();
+            var connection = new EntityContextConnection(url);
+            entityContextConfiguration.Connection = connection;
+            configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
+            configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
+            configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
+            configure.Commands.Storage = entityContextConfiguration;
+            return configure;
         }
     }
 }

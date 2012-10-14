@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1663A5F5-14BA-4FDD-8D0D-B80996A32623}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost", "..\Bifrost\Bifrost.csproj", "{FB310720-CD89-44B6-BD54-7861F65D8466}"
@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Ninject", "..\Bifro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Unity", "..\Bifrost.Unity\Bifrost.Unity.csproj", "{4CDE2CC3-5D02-431B-BCCE-E332B9FDD665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.RavenDb.Embeddable", "..\Bifrost.RavenDb.Embeddable\Bifrost.RavenDb.Embeddable.csproj", "{A6B34814-3554-4849-A54E-C7AD1A7BB8E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.RavenDB.Embeddable", "..\Bifrost.RavenDb.Embeddable\Bifrost.RavenDB.Embeddable.csproj", "{A6B34814-3554-4849-A54E-C7AD1A7BB8E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Ninject.Silverlight", "..\Bifrost.Ninject.Silverlight\Bifrost.Ninject.Silverlight.csproj", "{27089447-9E63-45C4-B14B-7AEF8B933294}"
 EndProject
@@ -78,6 +78,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forseti", "Forseti", "{8186
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.SignalR", "..\Bifrost.SignalR\Bifrost.SignalR.csproj", "{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.RavenDB", "..\Bifrost.RavenDB\Bifrost.RavenDB.csproj", "{CB331526-55BF-4887-A0D8-EE721B7FCDD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -383,6 +385,16 @@ Global
 		{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,6 +429,7 @@ Global
 		{C2C2138E-2617-43D6-B552-E0D57FDA7CEA} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{FE9CD87A-E785-49B7-9BC2-2B76526A2D49} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{758D6292-93E7-40CB-AB6A-B9402CBBEFB3} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
+		{CB331526-55BF-4887-A0D8-EE721B7FCDD7} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{3D7F6A67-99BB-449B-B24A-1319F133DCBF} = {542BB878-AA9E-498F-AE47-EF335635C224}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

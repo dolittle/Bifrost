@@ -21,22 +21,20 @@
 #endregion
 using Bifrost.Entities;
 using Raven.Client.Document;
-using Raven.Client.Embedded;
 
-namespace Bifrost.RavenDB.Embeddable
+namespace Bifrost.RavenDB
 {
     public class EntityContextConnection : IEntityContextConnection
     {
-        public string DataDirectory { get; set; }
-        public EmbeddableDocumentStore DocumentStore { get; private set; }
+        public string Url { get; set; }
+        public DocumentStore DocumentStore { get; private set; }
 
-        public EntityContextConnection(string dataDirectory)
+        public EntityContextConnection(string url)
         {
-            DataDirectory = dataDirectory;
-            DocumentStore = new EmbeddableDocumentStore
+            Url = url;
+            DocumentStore = new Raven.Client.Document.DocumentStore()
             {
-                
-                DataDirectory = dataDirectory
+                Url = url
             };
 
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 

@@ -2,7 +2,7 @@
 using Bifrost.Configuration;
 using Bifrost.Entities;
 
-namespace Bifrost.RavenDB.Embeddable
+namespace Bifrost.RavenDB
 {
     public class EntityContextConfiguration : IEntityContextConfiguration
     {
