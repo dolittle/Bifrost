@@ -13,12 +13,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.Mimir.Web</RootNamespace>
     <AssemblyName>Bifrost.Mimir.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,51 +40,52 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Features\Content\Dashboard\index.html" />
-    <Content Include="Features\Content\Dashboard\index.js" />
-    <Content Include="Features\Content\Statistics\index.html" />
-    <Content Include="Features\Content\Statistics\index.js" />
-    <Content Include="Features\Content\view.html" />
-    <Content Include="Features\Content\viewModel.js" />
-    <Content Include="Features\SideBar\view.html" />
-    <Content Include="Features\SideBar\viewModel.js" />
-    <Content Include="Features\TopBar\view.html" />
-    <Content Include="Features\TopBar\viewModel.js" />
-    <Content Include="index.html" />
-    <Content Include="madmin.html" />
-    <Content Include="Scripts\Bifrost.debug.js" />
-    <Content Include="Scripts\domReady.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
-    <Content Include="Scripts\jquery.ba-url.min.js" />
-    <Content Include="Scripts\jquery.history.js" />
-    <Content Include="Scripts\knockout-2.0.0.js" />
-    <Content Include="Scripts\knockout.mapping-2.0.0.js" />
-    <Content Include="Scripts\knockout.plugins.js" />
-    <Content Include="Scripts\main.js" />
-    <Content Include="Scripts\order.js" />
-    <Content Include="Scripts\require.js" />
-    <Content Include="Scripts\text.js" />
+    <EmbeddedResource Include="Features\Content\Dashboard\index.html" />
+    <EmbeddedResource Include="Features\Content\Dashboard\index.js" />
+    <EmbeddedResource Include="Features\Content\Statistics\index.html" />
+    <EmbeddedResource Include="Features\Content\Statistics\index.js" />
+    <EmbeddedResource Include="Features\Content\view.html" />
+    <EmbeddedResource Include="Features\Content\viewModel.js" />
+    <EmbeddedResource Include="Features\SideBar\view.html" />
+    <EmbeddedResource Include="Features\SideBar\viewModel.js" />
+    <EmbeddedResource Include="Features\TopBar\view.html" />
+    <EmbeddedResource Include="Features\TopBar\viewModel.js" />
+    <EmbeddedResource Include="index.html" />
+    <EmbeddedResource Include="madmin.html" />
+    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
+    <EmbeddedResource Include="Scripts\domReady.js" />
+    <EmbeddedResource Include="Scripts\jquery-1.7.1.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.ba-url.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.history.js" />
+    <EmbeddedResource Include="Scripts\knockout-2.0.0.js" />
+    <EmbeddedResource Include="Scripts\knockout.mapping-2.0.0.js" />
+    <EmbeddedResource Include="Scripts\knockout.plugins.js" />
+    <EmbeddedResource Include="Scripts\main.js" />
+    <EmbeddedResource Include="Scripts\order.js" />
+    <EmbeddedResource Include="Scripts\require.js" />
+    <EmbeddedResource Include="Scripts\text.js" />
+    <EmbeddedResource Include="Styles\style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,10 +101,12 @@
       <Project>{0a748bd3-97dd-4c57-8069-4e36656c0a1a}</Project>
       <Name>Bifrost.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
