@@ -10,6 +10,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
     {
         protected static Configure configure_instance;
         protected static Mock<IContainer> container_mock;
+        protected static Mock<ICommandsConfiguration> commands_configuration_mock;
         protected static Mock<IDefaultConventions> default_conventions_mock;
         protected static Mock<IDefaultBindings> default_bindings_mock;
         protected static Mock<IEventsConfiguration> events_configuration_mock;
@@ -25,6 +26,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
                                     container_mock = new Mock<IContainer>();
                                     default_conventions_mock = new Mock<IDefaultConventions>();
                                     default_bindings_mock = new Mock<IDefaultBindings>();
+
+                                    commands_configuration_mock = new Mock<ICommandsConfiguration>();
+                                    container_mock.Setup(c => c.Get<ICommandsConfiguration>()).Returns(commands_configuration_mock.Object);
 
                                     events_configuration_mock = new Mock<IEventsConfiguration>();
                                     container_mock.Setup(c => c.Get<IEventsConfiguration>()).Returns(events_configuration_mock.Object);

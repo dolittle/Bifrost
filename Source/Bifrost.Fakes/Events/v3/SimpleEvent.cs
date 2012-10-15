@@ -9,10 +9,10 @@ namespace Bifrost.Fakes.Events.v3
 
         public string ThirdGenerationProperty { get; set; }
 
-        public SimpleEvent(Guid eventSourceId) : this(eventSourceId,Guid.NewGuid())
+        public SimpleEvent(Guid eventSourceId) : this(eventSourceId, 0)
         {}
 
-        public SimpleEvent(Guid eventSourceId, Guid id) : base(eventSourceId,id)
+        public SimpleEvent(Guid eventSourceId, long id) : base(eventSourceId,id)
         {
             ThirdGenerationProperty = DEFAULT_VALUE_FOR_THIRD_GENERATION_PROPERTY;
         }

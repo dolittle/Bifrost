@@ -34,7 +34,7 @@ namespace Bifrost.Events
         static readonly IEnumerable<string> PropertiesToIgnore = typeof(IEvent).GetProperties().Select(p=>p.Name);
 
 #pragma warning disable 1591 // Xml Comments
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
 		public string CommandName { get; set; }
@@ -50,13 +50,13 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a new instance of <see cref="Event">Event</see>
         /// </summary>
-        protected Event(Guid eventSourceId) : this(eventSourceId,Guid.NewGuid())
+        protected Event(Guid eventSourceId) : this(eventSourceId,0)
         {}
 
         /// <summary>
         /// Initializes a new instance of <see cref="Event">Event</see> setting the event id directly.  This is required for event versioning.
         /// </summary>
-        protected Event(Guid eventSourceId, Guid id)
+        protected Event(Guid eventSourceId, long id)
         {
             Id = id;
             EventSourceId = eventSourceId;

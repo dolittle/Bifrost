@@ -56,19 +56,19 @@ namespace Bifrost.Events
     	}
 
 #pragma warning disable 1591 // Xml Comments
-        public IEvent GetById(Guid id)
+        public IEvent GetById(long id)
         {
         	var eventHolder = GetEventHolderById(id);
         	return _eventConverter.ToEvent(eventHolder);
         }
 
-    	public string GetByIdAsJson(Guid id)
+    	public string GetByIdAsJson(long id)
     	{
 			var eventHolder = GetEventHolderById(id);
     		return eventHolder.SerializedEvent;
     	}
 
-    	public IEnumerable<IEvent> GetByIds(IEnumerable<Guid> ids)
+    	public IEnumerable<IEvent> GetByIds(IEnumerable<long> ids)
         {
             var events = _entityContext.Entities.Where(e => ids.Contains(e.Id)).Select(_eventConverter.ToEvent);
             return events.ToArray();
@@ -112,7 +112,7 @@ namespace Bifrost.Events
         }
 #pragma warning restore 1591 // Xml Comments
 
-		EventHolder GetEventHolderById(Guid id)
+		EventHolder GetEventHolderById(long id)
 		{
 			var eventHolder = _entityContext.Entities.Where(e => e.Id == id).SingleOrDefault();
 			if (eventHolder == null)
@@ -120,7 +120,5 @@ namespace Bifrost.Events
 
 			return eventHolder;
 		}
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Transactions;
+using Bifrost.Configuration;
 using Bifrost.Entities;
 using Raven.Abstractions.Data;
 using Raven.Abstractions.Exceptions;
@@ -19,9 +20,9 @@ namespace Bifrost.RavenDB
 
         DocumentStore _documentStore;
 
-        public SequentialKeyGenerator(EntityContextConnection connection)
+        public SequentialKeyGenerator(IEntityContextConfiguration configuration)
         {
-            _documentStore = connection.DocumentStore;
+            _documentStore = ((EntityContextConnection)((EntityContextConfiguration)configuration).Connection).DocumentStore;
         }
         
 

@@ -34,17 +34,19 @@ namespace Bifrost.Configuration
                 Url = url
             };
 
-            if (configureCallback != null)
-                configureCallback(entityContextConfiguration);
-
-            var connection = new EntityContextConnection(configure.Container, entityContextConfiguration);
+            var connection = new EntityContextConnection(entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
 
             configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
             configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
             configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
-
             configure.Commands.Storage = entityContextConfiguration;
+
+            if (configureCallback != null)
+                configureCallback(entityContextConfiguration);
+            
+            connection.Initialize(configure.Container, entityContextConfiguration);
+
             return configure;
         }
 

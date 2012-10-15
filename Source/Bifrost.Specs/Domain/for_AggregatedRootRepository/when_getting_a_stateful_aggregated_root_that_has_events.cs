@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
     public class when_getting_a_stateful_aggregated_root_that_has_events : given.a_repository_for_a_stateful_aggregated_root
     {
         static Guid aggregated_root_id = Guid.NewGuid();
-        static Guid event_id = Guid.NewGuid();
+        static long event_id = 42;
         static SimpleStatefulAggregatedRoot stateful_aggregated_root;
         static CommittedEventStream event_stream;
         static EventSourceVersion expected_version;

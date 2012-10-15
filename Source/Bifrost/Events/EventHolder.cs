@@ -37,7 +37,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets or sets the id of the event
         /// </summary>
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the command that indirectly caused the event

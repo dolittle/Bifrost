@@ -24,8 +24,8 @@ namespace Bifrost.RavenDB
             if (entityInstance is EventHolder)
             {
                 var @event = entityInstance as EventHolder;
-                var nextId = _keyGenerator.NextFor<EventHolder>();
-                
+                if( @event.Id == 0 )
+                    @event.Id = _keyGenerator.NextFor<EventHolder>();
             }
             return true;
         }

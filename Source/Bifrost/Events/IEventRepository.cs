@@ -35,21 +35,21 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="id">Id of the event</param>
         /// <returns>An instance of the event</returns>
-        IEvent GetById(Guid id);
+        IEvent GetById(long id);
 
 		/// <summary>
 		/// Get a specific event as Json
 		/// </summary>
 		/// <param name="id">Id of the event</param>
 		/// <returns>A string containing Json</returns>
-    	string GetByIdAsJson(Guid id);
+    	string GetByIdAsJson(long id);
 
         /// <summary>
         /// Get a set of events based upon a set of Ids
         /// </summary>
         /// <param name="ids">Ids of events to get</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IEvent"/> containing the events</returns>
-        IEnumerable<IEvent> GetByIds(IEnumerable<Guid> ids);
+        IEnumerable<IEvent> GetByIds(IEnumerable<long> ids);
 
         /// <summary>
         /// Get a set of events for a specific aggregated root

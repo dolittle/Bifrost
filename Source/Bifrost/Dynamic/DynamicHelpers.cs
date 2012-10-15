@@ -39,8 +39,8 @@ namespace Bifrost.Dynamic
         {
             var dictionary = target as IDictionary<string, object>;
 
-            foreach (var field in source.GetType().GetFields())
-                dictionary[field.Name] = field.GetValue(source);
+            foreach (var property in source.GetType().GetProperties())
+                dictionary[property.Name] = property.GetValue(source, null);
         }
     }
 }

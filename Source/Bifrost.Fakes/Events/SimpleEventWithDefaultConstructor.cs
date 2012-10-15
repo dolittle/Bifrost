@@ -5,7 +5,7 @@ namespace Bifrost.Fakes.Events
 {
     public class SimpleEventWithDefaultConstructor : IEvent
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
     	public string CommandName { get; set; }
         public Guid EventSourceId { get; set; }

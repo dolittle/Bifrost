@@ -38,7 +38,7 @@ namespace Bifrost.RavenDB
         public override IEntityContextConfiguration GetConfiguration()
         {
             var entityContextConfiguration = new EntityContextConfiguration { Url = Url };
-            var connection = new EntityContextConnection(Configure.Instance.Container, entityContextConfiguration);
+            var connection = new EntityContextConnection(entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
             return entityContextConfiguration;
         }
