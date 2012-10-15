@@ -29,8 +29,8 @@ namespace Bifrost.NHibernate.Events
 	{
 		public EventHolderClassMap()
 		{
-			Table("PersistentEvents");
-			Id(p => p.Id).GeneratedBy.Assigned();
+			Table("Events");
+            Id(p => p.Id).GeneratedBy.Increment();
             Map(p => p.Name);
             Map(p => p.CommandName);
 			Map(p => p.AggregateId);
