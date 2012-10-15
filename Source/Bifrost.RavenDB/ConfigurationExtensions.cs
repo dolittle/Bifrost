@@ -50,10 +50,9 @@ namespace Bifrost.Configuration
             return configure;
         }
 
-
-        public static void EventsWithSynchronousKeyGenerator(this EntityContextConfiguration configuration)
+        public static void EventKeyGenerator<T>(this EntityContextConfiguration configuration) where T : ISequentialKeyGenerator
         {
-            configuration.EventsKeyGeneratorType = typeof(SequentialKeyGenerator);
+            configuration.EventsKeyGeneratorType = typeof(T);
         }
     }
 }
