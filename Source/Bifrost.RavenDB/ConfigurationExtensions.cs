@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Entities;
 using Bifrost.RavenDB;
 
@@ -26,16 +27,31 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRaven(this IConfigure configure, string url)
+        public static IConfigure UsingRaven(this IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback=null)
         {
-            var entityContextConfiguration = new EntityContextConfiguration();
-            var connection = new EntityContextConnection(url);
+            var entityContextConfiguration = new EntityContextConfiguration
+            {
+                Url = url
+            };
+
+            if (configureCallback != null)
+                configureCallback(entityContextConfiguration);
+
+            var connection = new EntityContextConnection(configure.Container, entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
+
             configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
             configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
             configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
+
             configure.Commands.Storage = entityContextConfiguration;
             return configure;
+        }
+
+
+        public static void EventsWithSynchronousKeyGenerator(this EntityContextConfiguration configuration)
+        {
+            configuration.EventsKeyGeneratorType = typeof(SequentialKeyGenerator);
         }
     }
 }

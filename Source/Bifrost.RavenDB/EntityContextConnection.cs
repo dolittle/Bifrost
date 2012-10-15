@@ -20,6 +20,7 @@
 //
 #endregion
 using Bifrost.Entities;
+using Bifrost.Execution;
 using Raven.Client.Document;
 
 namespace Bifrost.RavenDB
@@ -29,13 +30,19 @@ namespace Bifrost.RavenDB
         public string Url { get; set; }
         public DocumentStore DocumentStore { get; private set; }
 
-        public EntityContextConnection(string url)
+        public EntityContextConnection(IContainer container, EntityContextConfiguration configuration)
         {
-            Url = url;
+            Url = configuration.Url;
             DocumentStore = new Raven.Client.Document.DocumentStore()
             {
-                Url = url
+                Url = configuration.Url
             };
+            if (configuration.EventsKeyGeneratorType != null)
+            {
+                var keyGenerator = container.Get(configuration.EventsKeyGeneratorType) as ISequentialKeyGenerator;
+                var listener = new EventsDocumentStoreListener(keyGenerator);
+                DocumentStore.RegisterListener(listener);
+            }
 
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
             DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;

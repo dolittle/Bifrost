@@ -6,6 +6,8 @@ namespace Bifrost.RavenDB
 {
     public class EntityContextConfiguration : IEntityContextConfiguration
     {
+        public string Url { get; set; }
+        public Type EventsKeyGeneratorType { get; set; }
         public Type EntityContextType { get { return typeof(EntityContext<>); } }
         public IEntityContextConnection Connection { get; set; }
     }

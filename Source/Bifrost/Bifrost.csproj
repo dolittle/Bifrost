@@ -74,6 +74,7 @@
     <Compile Include="Configuration\SagasConfiguration.cs" />
     <Compile Include="Domain\AggregatedRootOf.cs" />
     <Compile Include="Dynamic\DynamicHelpers.cs" />
+    <Compile Include="Entities\ISequentialKeyGenerator.cs" />
     <Compile Include="Events\AsyncEventStore.cs" />
     <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventExtensions.cs" />

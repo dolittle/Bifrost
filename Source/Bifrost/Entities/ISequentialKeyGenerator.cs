@@ -20,27 +20,18 @@
 //
 #endregion
 
-using Bifrost.Configuration;
-using Bifrost.Configuration.Xml;
-
-namespace Bifrost.RavenDB
+namespace Bifrost.Entities
 {
-    [ElementName("RavenDB")]
-    public class RavenDBStorageElement : StorageElement
+    /// <summary>
+    /// Defines a generator that can generate sequential keys
+    /// </summary>
+    public interface ISequentialKeyGenerator
     {
-        public RavenDBStorageElement()
-        {
-            EntityContextType = typeof(EntityContext<>);
-        }
-
-        public string Url { get; set; }
-
-        public override IEntityContextConfiguration GetConfiguration()
-        {
-            var entityContextConfiguration = new EntityContextConfiguration { Url = Url };
-            var connection = new EntityContextConnection(Configure.Instance.Container, entityContextConfiguration);
-            entityContextConfiguration.Connection = connection;
-            return entityContextConfiguration;
-        }
+        /// <summary>
+        /// Get next key for a specific type
+        /// </summary>
+        /// <typeparam name="T">Type of entity to get next key for</typeparam>
+        /// <returns>A unique and sequential key</returns>
+        long NextFor<T>();
     }
 }

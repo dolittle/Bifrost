@@ -10,9 +10,7 @@ namespace Bifrost.Configuration
         public static IConfigure UsingSignalR(this IEventsConfiguration configuration)
         {
             configuration.AddEventStoreChangeNotifier(typeof(EventStoreChangeNotifier));
-            
-
-            //RouteTable.Routes.MapConnection<CommandCoordinatorHub>("CommandCoordinator", "PersistentConnections/CommandCoordinator/{*operation}");
+            // MapConnection<CommandCoordinatorHub>("CommandCoordinator", "PersistentConnections/CommandCoordinator/{*operation}");
             return Configure.Instance;
         }
     }
