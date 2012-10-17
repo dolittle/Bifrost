@@ -11,10 +11,11 @@ Bifrost.hashString = (function() {
 		        if (p.length != 2) continue;
 		
 				var value = decodeURIComponent(p[1].replace( /\+/g , " "));
-				var valueAsFloat = parseFloat(value);
-				if( !isNaN(valueAsFloat) ) {
-					value = valueAsFloat;
+
+				if( value !== "" && !isNaN(value) ) {
+					value = parseFloat(value);
 				}
+
 		        b[p[0]] = value;
 		    }
 		    return b;
