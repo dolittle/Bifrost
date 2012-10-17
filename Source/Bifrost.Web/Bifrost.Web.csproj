@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,18 +43,23 @@
       <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="WebActivator">
-      <HintPath>..\Solutions\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure">
       <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applications\ApplicationRoute.cs" />
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
+    <Compile Include="Applications\AssetsRoute.cs" />
+    <Compile Include="Applications\AssetsRouteActivator.cs" />
+    <Compile Include="Applications\AssetsRouteHandler.cs" />
+    <Compile Include="Applications\AssetsRouteHttpHandler.cs" />
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
