@@ -56,10 +56,10 @@
     <Compile Include="Applications\ApplicationRoute.cs" />
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
-    <Compile Include="Applications\AssetsRoute.cs" />
-    <Compile Include="Applications\AssetsRouteActivator.cs" />
-    <Compile Include="Applications\AssetsRouteHandler.cs" />
-    <Compile Include="Applications\AssetsRouteHttpHandler.cs" />
+    <Compile Include="Applications\AssetManagerRoute.cs" />
+    <Compile Include="Applications\AssetManagerRouteActivator.cs" />
+    <Compile Include="Applications\AssetManagerRouteHandler.cs" />
+    <Compile Include="Applications\AssetManagerRouteHttpHandler.cs" />
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,6 @@
 require.config({
-    appDir: "/",
-    baseUrl: "/scripts",
+    appDir: "/Mimir",
+    baseUrl: "/Mimir/Scripts",
     optimize: "none",
 
     paths: {
@@ -18,23 +18,23 @@ require(
     ["jquery", "knockout"], function () {
         require(["jquery.history"], function () {
             require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
-                Bifrost.features.featureMapper.add("Content", "/Features/Content", true);
+                Bifrost.features.featureMapper.add("Content", "/Mimir/Features/Content", true);
 
-                Bifrost.features.featureMapper.add("/Content/{feature}/{subFeature}", "/Features/Content/{feature}/{subFeature}", false);
-                Bifrost.features.featureMapper.add("/Content/{feature}", "/Features/Content/{feature}", true);
+                Bifrost.features.featureMapper.add("/Content/{feature}/{subFeature}", "/Mimir/Features/Content/{feature}/{subFeature}", false);
+                Bifrost.features.featureMapper.add("/Content/{feature}", "/Mimir/Features/Content/{feature}", true);
 
 
-                Bifrost.features.featureMapper.add("{feature}/{subFeature}", "/Features/{feature}/{subFeature}", false);
-                Bifrost.features.featureMapper.add("{feature}", "/Features/{feature}", true);
+                Bifrost.features.featureMapper.add("{feature}/{subFeature}", "/Mimir/Features/{feature}/{subFeature}", false);
+                Bifrost.features.featureMapper.add("{feature}", "/Mimir/Features/{feature}", true);
 
                 
 
 
                 require([
-                    "/bootstrap/js/bootstrap.min.js",
-                    "/js/libs/google-code-prettify/prettify.js",
-                    "/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
-                    "/js/libs/jquery.pageslide/jquery.pageslide.min.js",
+                    "/Mimir/bootstrap/js/bootstrap.min.js",
+                    "/Mimir/js/libs/google-code-prettify/prettify.js",
+                    "/Mimir/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
+                    "/Mimir/js/libs/jquery.pageslide/jquery.pageslide.min.js",
 
                     /*
                     "/js/madmin.js"
