@@ -74,6 +74,9 @@
     <Content Include="navigation\navigationManager.js" />
     <Content Include="sagas\Saga.js" />
     <Content Include="sagas\sagaNarrator.js" />
+    <Content Include="utils\conventionDependencyResolver.js" />
+    <Content Include="utils\dependencyResolver.js" />
+    <Content Include="utils\dependencyResolvers.js" />
     <Content Include="utils\Exception.js" />
     <Content Include="utils\exceptions.js" />
     <Content Include="utils\extend.js" />
@@ -84,7 +87,6 @@
     <Content Include="utils\namespace.js" />
     <Content Include="utils\Type.js" />
     <Content Include="utils\TypeInfo.js" />
-    <Content Include="utils\TypePrototype.js" />
     <Content Include="utils\Uri.js" />
     <Content Include="validation\email.js" />
     <Content Include="validation\greaterThan.js" />

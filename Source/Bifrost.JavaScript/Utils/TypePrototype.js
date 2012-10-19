@@ -1,4 +1,0 @@
-Bifrost.namespace("Bifrost", {
-	TypePrototype: {
-	}
-});

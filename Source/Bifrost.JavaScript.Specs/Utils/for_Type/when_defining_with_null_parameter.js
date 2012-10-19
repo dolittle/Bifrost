@@ -2,7 +2,7 @@ describe("when defining with null parameter", function() {
 	var exception;
 	
 	try {
-		Bifrost.Class(null);
+		Bifrost.Type.define(null);
 	} catch(e) {
 		exception = e;
 	}

@@ -1,6 +1,9 @@
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/depdencyResolver.js
+@depends utils/depdencyResolvers.js
+@depends utils/conventionDepdencyResolver.js
 @depends utils/TypeInfo.js
 @depends utils/TypePrototype.js
 @depends utils/Type.js

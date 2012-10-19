@@ -2,7 +2,7 @@ describe("when defining with object literal", function() {
 	var exception;
 	
 	try {
-		Bifrost.Type({});		
+		Bifrost.Type.define({});		
 	} catch(e) {
 		exception = e;
 	}
