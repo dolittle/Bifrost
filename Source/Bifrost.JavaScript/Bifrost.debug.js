@@ -19,6 +19,37 @@ Bifrost.namespace = function (ns, content) {
 		Bifrost.extend(parent, content);
 	}
 };
+Bifrost.namespace("Bifrost", {
+    dependencyResolver: {
+        resolve: function (name, callback) {
+            for (var resolverName in Bifrost.dependencyResolvers) {
+                if (Bifrost.dependencyResolvers.hasOwnProperty(resolverName)) {
+                    var resolver = Bifrost.dependencyResolvers[resolverName];
+                    var canResolve = resolver.canResolve(name) === true;
+                    if (canResolve) {
+                        resolver.resolve(callback);
+                    }
+                }
+            }
+        }
+    }
+});
+Bifrost.namespace("Bifrost", {
+	dependencyResolvers: {
+	
+	}
+});
+﻿Bifrost.dependencyResolvers.convention = (function() {
+    Bifrost.assetsManager.getScripts(function(scripts) {
+    });
+
+    return {
+        canResolve: function (name) {
+        },
+        resolve: function (callback) {
+        }
+    }
+})();
 function TypeInfo(obj) {
 	var target = obj;
 
@@ -66,30 +97,26 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 Bifrost.namespace("Bifrost", {
-	TypePrototype: {
-	}
-});
-Bifrost.namespace("Bifrost", {
-	Type : function(typeDefinition) {
-		
-		if( typeDefinition == null || typeof typeDefinition == "undefined" ) {
-			throw new Bifrost.MissingTypeDefinition();
-		}
-		if( typeof typeDefinition === "object") { 
-			throw new Bifrost.ObjectLiteralNotAllowed();
-		}
-		
-		var result = function() {
-			typeDefinition.prototype = Bifrost.TypePrototype;
-			this.typeDefinition = typeDefinition;
-		}
-		result.prototype = Bifrost.TypeInfo;
-		
-		return new result();
-	}
+    Type: function () {
+
+    }
 });
 
-
+Bifrost.Type.define = function (typeDefinition) {
+    if (typeDefinition == null || typeof typeDefinition == "undefined") {
+        throw new Bifrost.MissingTypeDefinition();
+    }
+    if (typeof typeDefinition === "object") {
+        throw new Bifrost.ObjectLiteralNotAllowed();
+    }
+    typeDefinition.prototype = new Bifrost.Type();
+    typeDefinition.create = function () {
+        return Bifrost.Type.create(typeDefinition);
+    };
+    return typeDefinition;
+};
+Bifrost.Type.create = function (typeDefinition) {
+}
 Bifrost.namespace("Bifrost");
 
 Bifrost.DefinitionMustBeFunction = function(message) {
@@ -1567,8 +1594,10 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/dependencyResolver.js
+@depends utils/dependencyResolvers.js
+@depends utils/conventionDependencyResolver.js
 @depends utils/TypeInfo.js
-@depends utils/TypePrototype.js
 @depends utils/Type.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
