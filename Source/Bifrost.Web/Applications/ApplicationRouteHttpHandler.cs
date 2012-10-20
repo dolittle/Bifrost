@@ -55,6 +55,11 @@ namespace Bifrost.Web.Applications
             url = url.Replace("-", "_");
             url = url.ToLowerInvariant();
 
+            if (url.Contains(".js"))
+                context.Response.ContentType = "text/javascript";
+            if (url.Contains(".css"))
+                context.Response.ContentType = "text/css";
+
             if (!_resources.ContainsKey(url))
                 return;
 
