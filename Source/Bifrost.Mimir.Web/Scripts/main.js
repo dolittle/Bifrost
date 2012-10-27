@@ -1,6 +1,8 @@
+var applicationDir = "";
+
 require.config({
-    appDir: "/Mimir",
-    baseUrl: "/Mimir/Scripts",
+    appDir: applicationDir,
+    baseUrl: applicationDir+"/Scripts",
     optimize: "none",
 
     paths: {
@@ -18,23 +20,19 @@ require(
     ["jquery", "knockout"], function () {
         require(["jquery.history"], function () {
             require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
-                Bifrost.features.featureMapper.add("Content", "/Mimir/Features/Content", true);
+                //Bifrost.features.featureMapper.add("Content", "/Mimir/Features/Content", true);
 
-                Bifrost.features.featureMapper.add("/Content/{feature}/{subFeature}", "/Mimir/Features/Content/{feature}/{subFeature}", false);
-                Bifrost.features.featureMapper.add("/Content/{feature}", "/Mimir/Features/Content/{feature}", true);
+               // Bifrost.features.featureMapper.add("Content/{feature}/{subFeature}", applicationDir + "/Features/Content/{feature}/{subFeature}", false);
+               // Bifrost.features.featureMapper.add("Content/{feature}", applicationDir + "/Features/Content/{feature}", true);
 
-
-                Bifrost.features.featureMapper.add("{feature}/{subFeature}", "/Mimir/Features/{feature}/{subFeature}", false);
-                Bifrost.features.featureMapper.add("{feature}", "/Mimir/Features/{feature}", true);
-
-                
-
+                Bifrost.features.featureMapper.add("{feature}/{subFeature}", applicationDir + "/Features/{feature}/{subFeature}", false);
+                Bifrost.features.featureMapper.add("{feature}", applicationDir + "/Features/{feature}", true);
 
                 require([
-                    "/Mimir/bootstrap/js/bootstrap.min.js",
-                    "/Mimir/js/libs/google-code-prettify/prettify.js",
-                    "/Mimir/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
-                    "/Mimir/js/libs/jquery.pageslide/jquery.pageslide.min.js",
+                    applicationDir+"/bootstrap/js/bootstrap.min.js",
+                    applicationDir+"/js/libs/google-code-prettify/prettify.js",
+                    applicationDir+"/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
+                    applicationDir+"/js/libs/jquery.pageslide/jquery.pageslide.min.js",
 
                     /*
                     "/js/madmin.js"

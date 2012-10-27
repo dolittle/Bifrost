@@ -20,6 +20,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <SilverlightApplicationList>{CE2792C0-28EE-4F7D-8744-2F2267DB8B12}|..\Bifrost.Mimir.EventViewer\Bifrost.Mimir.EventViewer.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,12 +58,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Features\Content\Dashboard\index.html" />
-    <EmbeddedResource Include="Features\Content\Dashboard\index.js" />
-    <EmbeddedResource Include="Features\Content\Statistics\index.html" />
-    <EmbeddedResource Include="Features\Content\Statistics\index.js" />
-    <EmbeddedResource Include="Features\Content\view.html" />
-    <EmbeddedResource Include="Features\Content\viewModel.js" />
+    <EmbeddedResource Include="Features\Dashboard\index.html" />
+    <EmbeddedResource Include="Features\Dashboard\index.js" />
+    <EmbeddedResource Include="Features\Statistics\index.html" />
+    <EmbeddedResource Include="Features\Statistics\index.js" />
+    <EmbeddedResource Include="Features\Content\index.html" />
+    <EmbeddedResource Include="Features\Content\index.js" />
     <EmbeddedResource Include="Features\SideBar\view.html" />
     <EmbeddedResource Include="Features\SideBar\viewModel.js" />
     <EmbeddedResource Include="Features\TopBar\view.html" />
@@ -109,6 +110,11 @@
     <EmbeddedResource Include="js\demo-dynamic-chart.js" />
     <EmbeddedResource Include="js\demo-pie-chart.js" />
     <EmbeddedResource Include="js\libs\fixes\html5.js" />
+    <EmbeddedResource Include="Features\EventViewer\index.html" />
+    <EmbeddedResource Include="Features\EventViewer\index.js" />
+    <EmbeddedResource Include="ClientBin\Bifrost.Mimir.EventViewer.xap" />
+    <EmbeddedResource Include="Features\Home\index.html" />
+    <EmbeddedResource Include="Features\Home\index.js" />
     <Content Include="js\libs\flot\API.txt" />
     <Content Include="js\libs\flot\examples\ajax.html" />
     <Content Include="js\libs\flot\examples\annotating.html" />
@@ -210,6 +216,7 @@
     <EmbeddedResource Include="js\libs\jquery.tablesorter\themes\green\desc.png" />
     <EmbeddedResource Include="js\libs\jquery.tablesorter\themes\green\style.css" />
     <EmbeddedResource Include="js\madmin.js" />
+    <Content Include="Scripts\Silverlight.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

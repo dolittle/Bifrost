@@ -190,9 +190,6 @@
       <DependentUpon>View.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Features\General\Pivot\ObservableCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Features\General\Pivot\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
       <SubType>Code</SubType>
