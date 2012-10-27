@@ -23,52 +23,35 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
+using System.Windows;
+using System.Windows.Input;
 using Bifrost.Events;
 using Bifrost.Interaction;
-using System.Windows.Input;
-using Bifrost.Serialization;
-using System.Windows;
-using Bifrost.Mimir.EventViewer;
+using Newtonsoft.Json;
 
-namespace Bifrost.Mimir.Features.General.Pivot
+namespace Bifrost.Mimir.EventViewer
 {
     public class ViewModel
 	{
-        ISerializer _serializer;
-
-    	public ViewModel(ISerializer serializer)
+    	public ViewModel()
         {
             Events = new ObservableCollection<EventHolder>();
-            _serializer = serializer;
             ReloadCommand = DelegateCommand.Create(Reload);
             Load();
         }
 
-
         public virtual ObservableCollection<EventHolder> Events { get; private set; }
         public virtual ICommand ReloadCommand { get; private set; }
 
-
         public void Load()
         {
-            
-
             var webClient = new WebClient();
             webClient.DownloadStringCompleted += (s, e) =>
             {
-                var serializer = new DataContractSerializer(typeof(string));
                 var bytes = System.Text.Encoding.UTF8.GetBytes(e.Result);
-                //var memoryStream = new MemoryStream(bytes);
-                //memoryStream.Re
-
-                //var eventsAsJson = (string)serializer.ReadObject(memoryStream);
-
                 var eventsAsJson = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-
-                var events = _serializer.FromJson<List<EventHolder>>(eventsAsJson);
+                var events = JsonConvert.DeserializeObject<List<EventHolder>>(eventsAsJson);
                 Events.Clear();
                 foreach (var @event in events)
                     Events.Add(@event);

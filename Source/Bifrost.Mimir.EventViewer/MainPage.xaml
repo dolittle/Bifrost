@@ -6,8 +6,13 @@
     xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
     xmlns:Windows="clr-namespace:System.Windows;assembly=System.Windows.Controls" 
     xmlns:pivot="clr-namespace:System.Windows.Controls.Pivot;assembly=System.Windows.Controls.Pivot"
+             xmlns:local="clr-namespace:Bifrost.Mimir.EventViewer"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
+
+    <UserControl.DataContext>
+        <local:ViewModel/>
+    </UserControl.DataContext>
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -18,34 +23,36 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="Republish" Command="{Binding RepublishFilteredCommand}"/>
-            <Button Content="Reload" Command="{Binding ReloadCommand}" Click="Button_Click"/>
+            <Button Content="Reload" Command="{Binding ReloadCommand}" />
         </StackPanel>
 
         <pivot:PivotViewer x:Name="_pivotViewer" Grid.Row="1" ItemsSource="{Binding Events}">
             <pivot:PivotViewer.ItemTemplates>
                 <pivot:PivotViewerItemTemplate>
-                    <StackPanel Orientation="Vertical">
+                    <Grid Background="#18bde3">
+                        <StackPanel Orientation="Vertical" Margin="8,8,8,8">
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="64"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Image Source="/Bifrost.Mimir;component/Features/General/Pivot/Event.png" Grid.Column="0"/>
-                            <TextBlock FontSize="64" Text="{Binding LogicalEventName}" Grid.Column="1"/>
-                        </Grid>
+                                <Image Source="/Bifrost.Mimir.EventViewer;component/Event.png" Grid.Column="0"/>
+                                <TextBlock FontSize="64" Text="{Binding LogicalEventName}" Grid.Column="1"/>
+                            </Grid>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Image Source="/Bifrost.Mimir;component/Features/General/Pivot/Occured.png" Grid.Column="0"/>
-                            <TextBlock FontSize="32" Text="{Binding Occured}" Grid.Column="1"/>
-                        </Grid>
-                    </StackPanel>
+                                <Image Source="/Bifrost.Mimir.EventViewer;component/Occured.png" Grid.Column="0"/>
+                                <TextBlock FontSize="32" Text="{Binding Occured}" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
                 </pivot:PivotViewerItemTemplate>
             </pivot:PivotViewer.ItemTemplates>
 

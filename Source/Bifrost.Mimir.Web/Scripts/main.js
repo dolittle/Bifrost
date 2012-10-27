@@ -1,4 +1,4 @@
-var applicationDir = "";
+var applicationDir = "/Mimir";
 
 require.config({
     appDir: applicationDir,
@@ -20,31 +20,14 @@ require(
     ["jquery", "knockout"], function () {
         require(["jquery.history"], function () {
             require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
-                //Bifrost.features.featureMapper.add("Content", "/Mimir/Features/Content", true);
-
-               // Bifrost.features.featureMapper.add("Content/{feature}/{subFeature}", applicationDir + "/Features/Content/{feature}/{subFeature}", false);
-               // Bifrost.features.featureMapper.add("Content/{feature}", applicationDir + "/Features/Content/{feature}", true);
-
                 Bifrost.features.featureMapper.add("{feature}/{subFeature}", applicationDir + "/Features/{feature}/{subFeature}", false);
                 Bifrost.features.featureMapper.add("{feature}", applicationDir + "/Features/{feature}", true);
 
                 require([
-                    applicationDir+"/bootstrap/js/bootstrap.min.js",
-                    applicationDir+"/js/libs/google-code-prettify/prettify.js",
-                    applicationDir+"/js/libs/jquery.tablesorter/jquery.tablesorter.min.js",
-                    applicationDir+"/js/libs/jquery.pageslide/jquery.pageslide.min.js",
-
-                    /*
-                    "/js/madmin.js"
-                    "/js/application.js",
-                    "/js/demo-area-chart.js",
-                    "/js/demo-dynamic-chart.js",
-                    "/js/demo-pie-chart.js"
-                    "/js/libs/flot/excanvas.min.js",
-                    "/js/libs/flot/jquery.flot.min.js",
-                    "/js/libs/flot/jquery.flot.resize.min.js",
-                    "/js/libs/flot/jquery.flot.pie.min.js",
-                    */
+                    applicationDir + "/bootstrap/js/bootstrap.min.js",
+                    applicationDir + "/Scripts/libs/google-code-prettify/prettify.js",
+                    applicationDir + "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js",
+                    applicationDir + "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js",
 
                 ], function () {
 

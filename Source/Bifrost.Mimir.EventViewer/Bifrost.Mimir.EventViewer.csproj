@@ -31,6 +31,8 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject>
     </LinkedServerProject>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -61,6 +63,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Newtonsoft.Json.4.5.9\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core">
@@ -76,7 +81,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataContractSerializer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -94,19 +98,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Event.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Silverlight\Bifrost.Silverlight.csproj">
       <Project>{1426a0c9-0445-4e65-839b-1b3a1baecdb7}</Project>
       <Name>Bifrost.Silverlight</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Event.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Occured.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -123,4 +128,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

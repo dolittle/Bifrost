@@ -4,11 +4,11 @@
 //
 // Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
 // With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially, 
+//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
 //   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
-// You may obtain a copy of the license at 
+// You may obtain a copy of the license at
 //
 //   http://bifrost.codeplex.com/license
 //
@@ -19,10 +19,26 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Mimir.Features.Core.MainWindow
-{
-	public class ViewModel
-	{
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Bifrost.Events;
+using Bifrost.Entities;
 
-	}
+namespace Bifrost.Mimir.Web.Events
+{
+    public class EventService
+    {
+        IEntityContext<EventHolder> _entityContext;
+
+        public EventService(IEntityContext<EventHolder> entityContext)
+        {
+            _entityContext = entityContext;
+        }
+
+        public IEnumerable<EventHolder> GetAll()
+        {
+            return _entityContext.Entities.ToArray();
+        }
+    }
 }

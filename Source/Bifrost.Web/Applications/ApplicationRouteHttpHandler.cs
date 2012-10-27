@@ -40,12 +40,12 @@ namespace Bifrost.Web.Applications
             return resourceName;
         }
 
-        public bool IsReusable { get { return true; } }
+        public bool IsReusable { get { return false; } }
 
         public void ProcessRequest(HttpContext context)
         {
             var url = context.Request.Url.AbsolutePath.Replace("/"+_url,string.Empty);
-            if (string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url) || url == "/" )
                 url = "index.html";
 
             if (url.StartsWith("/"))
@@ -55,13 +55,21 @@ namespace Bifrost.Web.Applications
             url = url.Replace("-", "_");
             url = url.ToLowerInvariant();
 
+            if (!_resources.ContainsKey(url))
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
             if (url.Contains(".js"))
                 context.Response.ContentType = "text/javascript";
             if (url.Contains(".css"))
                 context.Response.ContentType = "text/css";
+            if (url.Contains(".xap"))
+                context.Response.ContentType = "application/x-silverlight-app";
 
-            if (!_resources.ContainsKey(url))
-                return;
+            context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
 
             var bytes = _resources[url];
             context.Response.OutputStream.Write(bytes, 0, bytes.Length);
@@ -77,27 +85,39 @@ namespace Bifrost.Web.Applications
             foreach (var line in lines)
             {
                 var actualLine = line;
-                actualLine = Replace("href", line, actualLine);
-                actualLine = Replace("src", line, actualLine);
+                if (!line.Contains("href=\"#\"") && !line.Contains("href='#'"))
+                    actualLine = Replace("href", line, actualLine);
+
+                if( line.Contains("src=") ) 
+                    actualLine = Replace("src", line, actualLine);
+
                 actualLines.Append(actualLine);
             }
 
             return UTF8Encoding.UTF8.GetBytes(actualLines.ToString());
         }
 
-        private string Replace(string attribute, string line, string actualLine)
+        string Replace(string attribute, string line, string actualLine)
         {
-            if (line.Contains(attribute + "=") && !line.Contains(attribute + "=\"http") && !line.Contains(attribute + "='http"))
+            if (line.Contains("<param name=\"source\" value=\""))
             {
-                if (line.Contains(attribute + "=\"/") && line.Contains(attribute + "='/"))
+                actualLine = actualLine.Replace("value=\"", "value=\"" + _url + "/");
+            }
+            else
+            {
+
+                if (line.Contains(attribute + "=") && !line.Contains(attribute + "=\"http") && !line.Contains(attribute + "='http"))
                 {
-                    actualLine = actualLine.Replace(attribute + "=\"/", attribute + "=\"" + _url + "/");
-                    actualLine = actualLine.Replace(attribute + "='/", attribute + "='" + _url + "/");
-                }
-                else
-                {
-                    actualLine = actualLine.Replace(attribute + "=\"", attribute + "=\"" + _url + "/");
-                    actualLine = actualLine.Replace(attribute + "='", attribute + "='" + _url + "/");
+                    if (line.Contains(attribute + "=\"/") && line.Contains(attribute + "='/"))
+                    {
+                        actualLine = actualLine.Replace(attribute + "=\"/", attribute + "=\"" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "='/", attribute + "='" + _url + "/");
+                    }
+                    else
+                    {
+                        actualLine = actualLine.Replace(attribute + "=\"", attribute + "=\"" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "='", attribute + "='" + _url + "/");
+                    }
                 }
             }
             return actualLine;
