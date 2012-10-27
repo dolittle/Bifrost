@@ -35,7 +35,7 @@
         <pivot:PivotViewer x:Name="_pivotViewer" Grid.Row="1" ItemsSource="{Binding Events}">
             <pivot:PivotViewer.ItemTemplates>
                 <pivot:PivotViewerItemTemplate>
-                    <Grid Background="#18bde3">
+                    <Grid Background="#9bba59">
                         <StackPanel Orientation="Vertical" Margin="8,8,8,8">
 
                             <Grid>
@@ -45,7 +45,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image Source="/Bifrost.Mimir.EventViewer;component/Event.png" Grid.Column="0"/>
-                                <TextBlock FontSize="64" Text="{Binding LogicalEventName}" Grid.Column="1"/>
+                                <TextBlock FontSize="48" Foreground="White" Text="{Binding LogicalEventName}" Grid.Column="1"/>
                             </Grid>
 
                             <Grid>
@@ -55,7 +55,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image Source="/Bifrost.Mimir.EventViewer;component/Occured.png" Grid.Column="0"/>
-                                <TextBlock FontSize="32" Text="{Binding Occured}" Grid.Column="1"/>
+                                <TextBlock FontSize="24" Foreground="White" Text="{Binding Occured}" Grid.Column="1"/>
                             </Grid>
                         </StackPanel>
                     </Grid>
