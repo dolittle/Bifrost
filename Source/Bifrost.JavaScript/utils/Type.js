@@ -27,7 +27,7 @@ Bifrost.namespace("Bifrost", {
     }
 
     setupDependencies = function(typeDefinition) {
-        typeDefinition.dependencies = Bifrost.dependencyResolver.getDependenciesFor(this);
+        typeDefinition.dependencies = Bifrost.dependencyResolver.getDependenciesFor(typeDefinition);
 
         var firstParameter = true;
         var createFunctionString = "Function('definition', 'dependencies','return new definition(";
@@ -43,6 +43,7 @@ Bifrost.namespace("Bifrost", {
             });
         }
         createFunctionString += ");')";
+
         typeDefinition.createFunction = eval(createFunctionString);
     }
 
