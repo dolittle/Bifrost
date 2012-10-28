@@ -1,9 +1,6 @@
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
-        this.doStuff = function () {
-            print("Doing stuff : "+this.horse);
-        }
     }
 });
 
@@ -29,11 +26,7 @@ Bifrost.namespace("Bifrost", {
         }
     }
 
-    Bifrost.Type.define = function (typeDefinition) {
-        throwIfMissingTypeDefinition(typeDefinition);
-        throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
-        addStaticProperties(typeDefinition);
-        typeDefinition.super = this;
+    setupDependencies = function(typeDefinition) {
         typeDefinition.dependencies = Bifrost.dependencyResolver.getDependenciesFor(this);
 
         var firstParameter = true;
@@ -51,6 +44,14 @@ Bifrost.namespace("Bifrost", {
         }
         createFunctionString += ");')";
         typeDefinition.createFunction = eval(createFunctionString);
+    }
+
+    Bifrost.Type.define = function (typeDefinition) {
+        throwIfMissingTypeDefinition(typeDefinition);
+        throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
+        addStaticProperties(typeDefinition);
+        setupDependencies(typeDefinition);
+        typeDefinition.super = this;
         return typeDefinition;
     };
 
@@ -67,7 +68,7 @@ Bifrost.namespace("Bifrost", {
                 dependencyInstances.push(dependencyInstance);
             });
         }
-        
+
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
             instance = this.createFunction(this, dependencyInstances);
