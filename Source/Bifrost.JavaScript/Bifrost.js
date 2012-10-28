@@ -1,6 +1,10 @@
 /*
+@depends utils/assetsManager.js
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/NamespacePath.js
+@depends utils/namespacePathResolvers.js
+@depends utils/namespacePaths.js
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/conventionDependencyResolver.js
@@ -48,4 +52,3 @@
 @depends navigation/navigationManager.js
 @depends startup.js
 */
-
