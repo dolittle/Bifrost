@@ -3,6 +3,6 @@
              x:Class="Bifrost.Mimir.EventViewer.App"
              >
     <Application.Resources>
-        
     </Application.Resources>
+    
 </Application>

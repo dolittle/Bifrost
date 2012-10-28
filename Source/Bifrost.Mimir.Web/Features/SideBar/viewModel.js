@@ -88,6 +88,7 @@ Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
         new feature("home", "Dashboard", "Dashboard"),
         new feature("bar-chart", "Statistics", "Statistics"),
         new feature("reorder", "EventViewer", "Event Viewer"),
+        new feature("table", "EventSubscriptions", "Event Subscriptions"),
         new feature("group", "", "Users", [
             new feature("cog", "Users/Accounts", "Accounts"),
             new feature("cog", "Users/Settings", "Settings"),

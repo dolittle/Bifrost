@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventSubscribers\EventSubscriberVersionResetted.cs" />
+    <Compile Include="EventSubscriptions\EventSubscriptionEventIdResetted.cs" />
+    <Compile Include="EventSubscriptions\EventSubscriptionReplayedAllEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

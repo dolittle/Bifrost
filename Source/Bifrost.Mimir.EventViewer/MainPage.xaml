@@ -19,7 +19,7 @@
     <UserControl.DataContext>
         <local:ViewModel/>
     </UserControl.DataContext>
-
+    
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

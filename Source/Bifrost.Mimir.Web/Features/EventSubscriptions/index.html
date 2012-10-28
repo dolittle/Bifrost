@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th class="header" style="width:200px;">Owner</th>
+                <th class="header" style="width:200px;">Event</th>
+                <th class="header">Last Event Id</th>
+                <th class="header">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="odd" data-bind="foreach: subscriptions">
+                <td data-bind="text: owner"></td>
+                <td data-bind="text: event"></td>
+                <td></td>
+                <td>
+                    <a href="#" data-bind="command: replayAll" title="Replay all">
+                        <i class="icon-play"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

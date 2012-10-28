@@ -105,7 +105,7 @@ namespace Bifrost.Events
         {
             var otherSubscription = obj as EventSubscription;
 
-            if (obj == null)
+            if (otherSubscription == null)
                 return false;
 
             return Owner.Equals(otherSubscription.Owner) &&

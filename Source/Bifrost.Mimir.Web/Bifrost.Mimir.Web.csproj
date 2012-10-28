@@ -69,7 +69,6 @@
     <EmbeddedResource Include="Features\TopBar\view.html" />
     <EmbeddedResource Include="Features\TopBar\viewModel.js" />
     <EmbeddedResource Include="index.html" />
-    <EmbeddedResource Include="madmin.html" />
     <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
     <EmbeddedResource Include="Scripts\domReady.js" />
     <EmbeddedResource Include="Scripts\jquery-1.7.1.min.js" />
@@ -115,6 +114,8 @@
     <EmbeddedResource Include="ClientBin\Bifrost.Mimir.EventViewer.xap" />
     <EmbeddedResource Include="Features\Home\index.html" />
     <EmbeddedResource Include="Features\Home\index.js" />
+    <EmbeddedResource Include="Features\EventSubscriptions\index.html" />
+    <EmbeddedResource Include="Features\EventSubscriptions\index.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
@@ -216,12 +217,13 @@
     <EmbeddedResource Include="Scripts\libs\jquery.tablesorter\themes\green\desc.png" />
     <EmbeddedResource Include="Scripts\libs\jquery.tablesorter\themes\green\style.css" />
     <EmbeddedResource Include="js\madmin.js" />
-    <Content Include="Scripts\Silverlight.js" />
+    <EmbeddedResource Include="Scripts\Silverlight.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
+    <Compile Include="Events\EventSubscriptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -36,8 +36,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventSubscribers\Commands\ResetEventSubscriberToVersion.cs" />
-    <Compile Include="EventSubscribers\EventSubscriber.cs" />
+    <Compile Include="EventSubscription\CommandHandlers.cs" />
+    <Compile Include="EventSubscription\Commands\ReplayAllForEventSubscription.cs" />
+    <Compile Include="EventSubscription\Commands\ResetEventSubscriberToSpecificEventId.cs" />
+    <Compile Include="EventSubscription\EventSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
