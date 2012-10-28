@@ -1,9 +1,12 @@
 ﻿Bifrost.namespace("Bifrost", {
     assetsManager: {
-        getScripts: function (callback) {
+        initialize: function () {
             $.get("/AssetsManager", { extension: "js" }, function (result) {
-                callback(result);
+                Bifrost.assetsManager.scripts = result;
             }, "json");
+        },
+        getScripts: function () {
+            return Bifrost.assetsManager.scripts;
         }
     }
 });
