@@ -87,7 +87,6 @@
     <Content Include="utils\isNumber.js" />
     <Content Include="utils\namespace.js" />
     <Content Include="utils\Type.js" />
-    <Content Include="utils\TypeInfo.js" />
     <Content Include="utils\Uri.js" />
     <Content Include="validation\email.js" />
     <Content Include="validation\greaterThan.js" />

@@ -8,7 +8,6 @@
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/conventionDependencyResolver.js
-@depends utils/TypeInfo.js
 @depends utils/Type.js
 @depends utils/Exception.js
 @depends utils/exceptions.js

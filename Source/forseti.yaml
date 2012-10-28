@@ -16,7 +16,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/extend.js
         - Bifrost.JavaScript/utils/guid.js
         - Bifrost.JavaScript/utils/isNumber.js
-        - Bifrost.JavaScript/utils/TypeInfo.js
+        - Bifrost.JavaScript/utils/Type.js
         - Bifrost.JavaScript/utils/exceptions.js
         - Bifrost.JavaScript/utils/Uri.js
         - Bifrost.JavaScript/features/exceptions.js

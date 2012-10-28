@@ -115,12 +115,6 @@
     <Content Include="Utils\for_Import\when_creating.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_it_has_dependencies_that_require_can_resolve.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_it_has_no_dependencies.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_type_definition_not_set.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_an_array.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_an_object_literal.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_a_function_instance.js" />
     <Content Include="Utils\for_Type\when_defining.js" />
     <Content Include="Utils\for_Type\when_defining_without_a_parameter.js" />
     <Content Include="Utils\for_Type\when_defining_with_null_parameter.js" />
