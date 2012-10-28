@@ -34,6 +34,23 @@ Bifrost.namespace("Bifrost", {
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
         typeDefinition.super = this;
+        typeDefinition.dependencies = Bifrost.dependencyResolver.getDependenciesFor(this);
+
+        var firstParameter = true;
+        var createFunctionString = "Function('definition', 'dependencies','return new definition(";
+            
+        if( typeof typeDefinition.dependencies !== "undefined" ) {
+            $.each(typeDefinition.dependencies, function(index, dependency) {
+                if (!firstParameter) {
+                    functionString += ",";
+                    createString += ",";
+                }
+                firstParameter = false;
+                createFunctionString += "dependencies[" + index + "]";
+            });
+        }
+        createFunctionString += ");')";
+        typeDefinition.createFunction = eval(createFunctionString);
         return typeDefinition;
     };
 
@@ -42,7 +59,22 @@ Bifrost.namespace("Bifrost", {
         if( this.super != null ) {
             actualType.prototype = this.super.create();
         }
-        var instance = new actualType();
+
+        var dependencyInstances = [];
+        if( typeof this.dependencies !== "undefined" ) {
+            $.each(this.dependencies, function(index, dependency) {
+                var dependencyInstance = Bifrost.dependencyResolver.resolve(dependency);
+                dependencyInstances.push(dependencyInstance);
+            });
+        }
+        
+        var instance = null;
+        if( typeof this.createFunction !== "undefined" ) {
+            instance = this.createFunction(this, dependencyInstances);
+        } else {
+            instance = new actualType();    
+        }
+
         return instance;
     };
 })();

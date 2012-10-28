@@ -1,8 +1,23 @@
 describe("when defining", function () {
     Bifrost.ClassInfo = {};
     var typeDefinition = function (something) { };
-    var result = Bifrost.Type.define(typeDefinition);
+    var result = null; 
+
+	beforeEach(function() {
+		Bifrost.dependencyResolver = {
+			getDependenciesFor: sinon.stub()
+		};
+		result = Bifrost.Type.define(typeDefinition);
+	});
+
+	afterEach(function() {
+		Bifrost.functionParser = {};
+	});
     
+	it("should get the dependencies for the function", function () {
+		expect(Bifrost.dependencyResolver.getDependenciesFor.called).toBe(true);
+	});
+
     it("should return the type definition", function () {
         expect(result).toBe(typeDefinition);
     });
