@@ -94,9 +94,14 @@ namespace Bifrost.Events
 
         public void Insert(IEnumerable<IEvent> events)
         {
-            var eventHolders = events.Select(_eventConverter.ToEventHolder);
-            foreach (var @event in eventHolders)
-                _entityContext.Insert(@event);
+            var eventArray = events.ToArray();
+            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
+            {
+                var @event = eventArray[eventIndex];
+                var eventHolder = _eventConverter.ToEventHolder(@event);
+                _entityContext.Insert(eventHolder);
+                @event.Id = eventHolder.Id;
+            }
 
             _entityContext.Commit();
         }
