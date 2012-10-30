@@ -30,6 +30,7 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents an implementation of <see cref="IEventSubscriptionManager"/>
     /// </summary>
+    [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
         List<EventSubscription> _allSubscriptions;
@@ -83,6 +84,8 @@ namespace Bifrost.Events
 
         public void Process(IEvent @event)
         {
+            MergeSubscribersFromRepository();
+
             var eventType = @event.GetType();
             var subscriptionsToProcess = _availableSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
