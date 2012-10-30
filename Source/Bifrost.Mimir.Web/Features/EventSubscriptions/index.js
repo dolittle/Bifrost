@@ -5,7 +5,10 @@
     $.get("/EventSubscriptions/GetAll", {}, function (result) {
         $.each(result, function (index, item) {
             item.replayAll = Bifrost.commands.Command.create({
-                name: "ReplayAllForEventSubscription"
+                name: "ReplayAllForEventSubscription",
+                parameters: {
+                    eventSubscriptionId : ko.observable(item.id)
+                }
             });
         });
         self.subscriptions(result);

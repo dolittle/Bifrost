@@ -78,5 +78,7 @@ namespace Bifrost.Events
 	        return _repository.GetLastCommittedVersion(aggregatedRootType, aggregateId);
 	    }
 #pragma warning restore 1591 // Xml Comments
-	}
+
+
+    }
 }

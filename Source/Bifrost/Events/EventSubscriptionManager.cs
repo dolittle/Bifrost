@@ -75,11 +75,29 @@ namespace Bifrost.Events
             return availableSubscriptions;
         }
 
+
+        public void Process(EventSubscription subscription, IEnumerable<IEvent> events)
+        {
+            foreach (var @event in events)
+                Process(subscription, @event);
+        }
+
+        public void Process(EventSubscription subscription, IEvent @event)
+        {
+            var subscriberType = subscription.Owner;
+            var method = subscription.Method;
+            var subscriberInstance = _container.Get(subscriberType);
+            method.Invoke(subscriberInstance, new[] { @event });
+
+            subscription.LastEventId = @event.Id;
+            _repository.Update(subscription);
+        }
+
+
         public void Process(IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
                 Process(@event);
-            
         }
 
         public void Process(IEvent @event)
@@ -93,13 +111,7 @@ namespace Bifrost.Events
                 if (!subscriptionToProcess.ShouldProcess(@event))
                     continue;
 
-                var subscriberType = subscriptionToProcess.Owner;
-                var method = subscriptionToProcess.Method;
-                var subscriberInstance = _container.Get(subscriberType);
-                method.Invoke(subscriberInstance, new[] { @event });
-
-                subscriptionToProcess.LastEventId = @event.Id;
-                _repository.Update(subscriptionToProcess);
+                Process(subscriptionToProcess, @event);
             }
         }
 #pragma warning restore 1591 // Xml Comments
@@ -145,6 +157,5 @@ namespace Bifrost.Events
             foreach (var subscriber in subscribersNotInRepository)
                 _repository.Add(subscriber);
         }
-
     }
 }

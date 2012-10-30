@@ -87,8 +87,10 @@ namespace Bifrost.Events
         {
             var query = _entityContext.Entities;
             foreach (var subscription in subscriptions)
-                query = query.Where(e => e.LogicalEventName == _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName).Name);
-                        
+            {
+                var logicalType = _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName);
+                query = query.Where(e => e.LogicalEventName == logicalType.Name);
+            }
             return query.Select(_eventConverter.ToEvent).ToArray();
         }
 

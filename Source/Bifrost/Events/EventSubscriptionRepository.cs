@@ -68,6 +68,21 @@ namespace Bifrost.Events
             return filtered.Select(ConvertToEventSubscription).ToArray();
         }
 
+        public EventSubscription Get(Guid id)
+        {
+            var subscription = _entityContext.Entities.Where(e => e.Id == id).Select(ConvertToEventSubscription).Single();
+            return subscription;
+        }
+
+        public void ResetLastEventId(Guid id)
+        {
+            var subscription = _entityContext.Entities.Where(e => e.Id == id).Single();
+            subscription.LastEventId = 0;
+            _entityContext.Update(subscription);
+            _entityContext.Commit();
+        }
+
+
 
         public void Add(EventSubscription subscription)
         {
