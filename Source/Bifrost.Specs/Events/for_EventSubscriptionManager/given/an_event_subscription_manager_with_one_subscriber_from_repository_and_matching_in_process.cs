@@ -30,6 +30,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
             event_subscriber_type = typeof(SomeEventSubscriber);
             subscription = new EventSubscription
             {
+                Id = Guid.NewGuid(),
                 EventType = event_type,
                 EventName = event_type.Name,
                 Owner = event_subscriber_type,

@@ -72,7 +72,6 @@ namespace Bifrost.Events
         public void Add(EventSubscription subscription)
         {
             var holder = ConvertToEventSubscriptionHolder(subscription);
-            holder.Id = Guid.NewGuid();
             _entityContext.Insert(holder);
             _entityContext.Commit();
         }
@@ -124,6 +123,8 @@ namespace Bifrost.Events
 
         void CopyToEventSubscriptionHolder(EventSubscription subscription, EventSubscriptionHolder holder)
         {
+            holder.Id = subscription.Id;
+            holder.LastEventId = subscription.LastEventId;
             holder.Owner = subscription.Owner.AssemblyQualifiedName;
             holder.Method = subscription.Method.Name;
             holder.EventType = subscription.EventType.AssemblyQualifiedName;
@@ -138,6 +139,7 @@ namespace Bifrost.Events
             var ownerType = Type.GetType(holder.Owner);
             return new EventSubscription
             {
+                Id = holder.Id,
                 EventName = holder.EventName,
                 EventType = eventType,
                 Owner = ownerType,

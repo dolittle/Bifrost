@@ -19,5 +19,6 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 
         It should_return_one_subscription = () => subscriptions.Count().ShouldEqual(1);
         It should_have_last_event_id_set_to_value_from_repository = () => subscriptions.First().LastEventId.ShouldEqual(42);
+        It should_have_the_id_set_to_value_from_repository = () => subscriptions.First().Id.ShouldEqual(subscription.Id);
     }
 }

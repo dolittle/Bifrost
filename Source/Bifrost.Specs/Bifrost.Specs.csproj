@@ -178,6 +178,8 @@
     <Compile Include="Events\for_EventSubscriptionManager\when_creating_and_there_is_no_subscription_in_repository_but_one_in_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_subscriber_has_processed_it.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_there_is_one_subscription_for_the_event.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_one_subscription.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_is_one_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_two_subscriptions_for_different_event_types.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\Subscribers.cs" />

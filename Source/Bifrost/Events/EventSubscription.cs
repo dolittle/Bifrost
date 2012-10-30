@@ -21,7 +21,6 @@
 #endregion
 using System;
 using System.Reflection;
-using System.Collections.Generic;
 
 namespace Bifrost.Events
 {
@@ -30,6 +29,11 @@ namespace Bifrost.Events
     /// </summary>
     public class EventSubscription
     {
+        /// <summary>
+        /// Gets or sets the Id of the event subscription
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Gets or sets the owner of the subscriber method that subscribes to the event
         /// </summary>
