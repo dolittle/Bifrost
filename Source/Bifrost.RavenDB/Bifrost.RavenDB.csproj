@@ -61,7 +61,6 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
-    <Compile Include="EventsDocumentStoreListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequentialKeyGenerator.cs" />
   </ItemGroup>

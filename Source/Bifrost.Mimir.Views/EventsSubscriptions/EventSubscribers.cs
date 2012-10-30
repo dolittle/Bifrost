@@ -9,11 +9,14 @@ namespace Bifrost.Mimir.Views.EventSubscriptions
         IEventSubscriptionManager _eventSubscriptionManager;
         IEventRepository _eventRepository;
 
-        public EventSubscribers(IEventSubscriptionRepository repository, IEventSubscriptionManager eventSubscriptionManager, IEventRepository eventRepository)
+        public EventSubscribers(
+            IEventSubscriptionRepository repository, 
+            IEventSubscriptionManager eventSubscriptionManager, 
+            IEventRepository eventRepository)
         {
             _repository = repository;
             _eventSubscriptionManager = eventSubscriptionManager;
-            _eventRepository = eventRepository;
+            _eventRepository = eventRepository; 
         }
 
 
