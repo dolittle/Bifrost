@@ -36,8 +36,8 @@ namespace Bifrost.Events
         public string EventName { get; set; }
 
         /// <summary>
-        /// Gets or sets the version of the event source that the event originated from
+        /// Gets or sets the last event id the subscriber has processed
         /// </summary>
-        public string EventSourceVersions { get; set; }
+        public long LastEventId { get; set; }
     }
 }

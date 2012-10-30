@@ -128,7 +128,7 @@ namespace Bifrost.Events
             holder.Method = subscription.Method.Name;
             holder.EventType = subscription.EventType.AssemblyQualifiedName;
             holder.EventName = subscription.EventName;
-            holder.EventSourceVersions = _serializer.ToJson(subscription.Versions);
+            holder.LastEventId = subscription.LastEventId;
         }
 
 
@@ -142,7 +142,7 @@ namespace Bifrost.Events
                 EventType = eventType,
                 Owner = ownerType,
                 Method = ownerType.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { eventType }),
-                Versions = _serializer.FromJson<Dictionary<string,EventSourceVersion>>(holder.EventSourceVersions??string.Empty)
+                LastEventId = holder.LastEventId
             };
         }
     }

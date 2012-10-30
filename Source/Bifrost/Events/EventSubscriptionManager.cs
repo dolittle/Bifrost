@@ -87,12 +87,15 @@ namespace Bifrost.Events
             var subscriptionsToProcess = _availableSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
             {
+                if (!subscriptionToProcess.ShouldProcess(@event))
+                    continue;
+
                 var subscriberType = subscriptionToProcess.Owner;
                 var method = subscriptionToProcess.Method;
                 var subscriberInstance = _container.Get(subscriberType);
                 method.Invoke(subscriberInstance, new[] { @event });
 
-                subscriptionToProcess.SetEventSourceVersion(@event.EventSourceName, @event.Version);
+                subscriptionToProcess.LastEventId = @event.Id;
                 _repository.Update(subscriptionToProcess);
             }
         }
@@ -103,7 +106,7 @@ namespace Bifrost.Events
 
             foreach (var eventSubscriberType in eventSubscriberTypes)
             {
-                var subscribers = from m in eventSubscriberType.GetMethods()
+                var subscribers = (from m in eventSubscriberType.GetMethods()
                                   where m.Name == ProcessMethodInvoker.ProcessMethodName &&
                                         m.GetParameters().Length == 1 &&
                                         typeof(IEvent).IsAssignableFrom(m.GetParameters()[0].ParameterType)
@@ -113,7 +116,8 @@ namespace Bifrost.Events
                                       Method = m,
                                       EventType = m.GetParameters()[0].ParameterType,
                                       EventName = m.GetParameters()[0].ParameterType.Name,
-                                  };
+                                      LastEventId = 0
+                                  }).ToArray();
 
                 _availableSubscriptions.AddRange(subscribers);
                 _allSubscriptions.AddRange(subscribers);
@@ -127,7 +131,8 @@ namespace Bifrost.Events
             foreach (var subscriber in subscribersToUpdate)
             {
                 var subscriberToUpdate = _availableSubscriptions.Where(s => s.Equals(subscriber)).Single();
-                subscriberToUpdate.MergeVersionsFrom(subscriber);
+                if( subscriber.LastEventId > subscriberToUpdate.LastEventId )
+                    subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }
             var subscribersNotInProcess = subscribersFromRepository.Where(s => !_availableSubscriptions.Contains(s));
             _allSubscriptions.AddRange(subscribersNotInProcess);

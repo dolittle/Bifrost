@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -31,8 +30,6 @@ namespace Bifrost.Events
     /// </summary>
     public class EventSubscription
     {
-        Dictionary<string, EventSourceVersion> _versions = new Dictionary<string, EventSourceVersion>();
-
         /// <summary>
         /// Gets or sets the owner of the subscriber method that subscribes to the event
         /// </summary>
@@ -54,51 +51,21 @@ namespace Bifrost.Events
         public string EventName { get; set; }
 
         /// <summary>
-        /// Gets or sets all the versions for the different <see cref="IEventSource"/>s it has handled
+        /// Gets or sets the last event id the subscriber has processed
         /// </summary>
-        public Dictionary<string, EventSourceVersion> Versions 
-        {
-            get { return _versions; }
-            set 
-            {
-                if (value == null)
-                    return;
-
-                foreach (var eventSource in value.Keys)
-                    SetEventSourceVersion(eventSource, value[eventSource]);
-            }
-        }
+        public long LastEventId { get; set; }
 
 
         /// <summary>
-        /// Set the current version for an <see cref="IEventSource"/> if the version is higher than 
-        /// what is already on the subscription. If the <see cref="IEventSource"/> is not there,
-        /// it will automatically add it
+        /// Check wether or not subscription should process the event
         /// </summary>
-        /// <param name="eventSource"><see cref="IEventSource"/> by name to set version for</param>
-        /// <param name="version"><see cref="EventSourceVersion"/> to set</param>
-        public void SetEventSourceVersion(string eventSource, EventSourceVersion version)
+        /// <param name="event">Event to check</param>
+        /// <returns>True if it should process, false if not</returns>
+        public bool ShouldProcess(IEvent @event)
         {
-            if (!_versions.ContainsKey(eventSource))
-            {
-                _versions[eventSource] = version;
-                return;
-            }
-
-            var currentVersion = _versions[eventSource];
-            if (currentVersion.CompareTo(version) < 0)
-                _versions[eventSource] = version;
+            return @event.Id > LastEventId;
         }
 
-        /// <summary>
-        /// Merge versions from another <see cref="EventSubscription"/>
-        /// </summary>
-        /// <param name="subscription"><see cref="EventSubscription"/> to merge from</param>
-        public void MergeVersionsFrom(EventSubscription subscription)
-        {
-            foreach( var key in subscription.Versions.Keys )
-                SetEventSourceVersion(key, subscription.Versions[key]);
-        }
 
 #pragma warning disable 1591 // Xml Comments
         public override bool Equals(object obj)
