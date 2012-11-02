@@ -75,7 +75,7 @@
     <Content Include="sagas\Saga.js" />
     <Content Include="sagas\sagaNarrator.js" />
     <Content Include="utils\assetsManager.js" />
-    <Content Include="utils\conventionDependencyResolver.js" />
+    <Content Include="utils\DefaultDependencyResolver.js" />
     <Content Include="utils\defaultNamespacePathResolver.js" />
     <Content Include="utils\dependencyResolver.js" />
     <Content Include="utils\dependencyResolvers.js" />
