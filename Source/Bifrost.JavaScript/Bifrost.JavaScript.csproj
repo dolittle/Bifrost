@@ -76,6 +76,7 @@
     <Content Include="sagas\sagaNarrator.js" />
     <Content Include="utils\assetsManager.js" />
     <Content Include="utils\conventionDependencyResolver.js" />
+    <Content Include="utils\defaultNamespacePathResolver.js" />
     <Content Include="utils\dependencyResolver.js" />
     <Content Include="utils\dependencyResolvers.js" />
     <Content Include="utils\Exception.js" />
@@ -86,6 +87,10 @@
     <Content Include="utils\hashString.js" />
     <Content Include="utils\isNumber.js" />
     <Content Include="utils\namespace.js" />
+    <Content Include="utils\NamespacePath.js" />
+    <Content Include="utils\namespacePathResolvers.js" />
+    <Content Include="utils\namespacePaths.js" />
+    <Content Include="utils\path.js" />
     <Content Include="utils\Type.js" />
     <Content Include="utils\Uri.js" />
     <Content Include="validation\email.js" />
@@ -104,6 +109,7 @@
     <Content Include="validation\validationService.js" />
     <Content Include="validation\validationSummaryFor.js" />
     <Content Include="validation\Validator.js" />
+    <Content Include="views\view.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

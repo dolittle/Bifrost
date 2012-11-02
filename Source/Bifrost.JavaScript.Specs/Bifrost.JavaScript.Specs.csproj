@@ -92,6 +92,8 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
     <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
+    <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
+    <Content Include="Utils\for_assetsManager\when_initializing.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving_and_resolver_can_resolve.js" />
     <Content Include="Utils\for_Exception\when_creating_instance.js" />
@@ -115,6 +117,7 @@
     <Content Include="Utils\for_Import\when_creating.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
+    <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Type\when_defining.js" />
     <Content Include="Utils\for_Type\when_defining_without_a_parameter.js" />
     <Content Include="Utils\for_Type\when_defining_with_null_parameter.js" />
