@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,6 @@ namespace Bifrost.Web.Applications
         public void ProcessRequest(HttpContext context)
         {
             InitializeIfNotInitialized(context);
-
             var assets = new List<string>();
             var extension = context.Request.Params["extension"];
             if( extension != null ) 
@@ -32,10 +32,18 @@ namespace Bifrost.Web.Applications
                 if (_assetsByExtension.ContainsKey(extension))
                     assets = _assetsByExtension[extension];
             }
+
+            if (context.Request.Params["structure"] != null)
+                assets = assets.Select(a => FormatPath(Path.GetDirectoryName(a))).Distinct().ToList();
+
             var serialized = JsonConvert.SerializeObject(assets);
             context.Response.Write(serialized);
         }
 
+        string FormatPath(string input)
+        {
+            return input.Replace("\\", "/");
+        }
 
         void InitializeIfNotInitialized(HttpContext context)
         {
@@ -49,7 +57,7 @@ namespace Bifrost.Web.Applications
             foreach (var file in files)
             {
                 var extension = Path.GetExtension(file);
-                var relativePath = file.Replace(root, string.Empty).Replace("\\","/");
+                var relativePath = FormatPath(file.Replace(root, string.Empty));
 
                 List<string> assets;
                 if (!_assetsByExtension.ContainsKey(extension))

@@ -1,15 +1,3 @@
-﻿Bifrost.namespace("Bifrost", {
-    assetsManager: {
-        initialize: function () {
-            $.get("/AssetsManager", { extension: "js" }, function (result) {
-                Bifrost.assetsManager.scripts = result;
-            }, "json");
-        },
-        getScripts: function () {
-            return Bifrost.assetsManager.scripts;
-        }
-    }
-});
 var Bifrost = Bifrost || {};
 (function(global, undefined) {
 	Bifrost.extend = function extend(destination, source) {
@@ -31,6 +19,18 @@ Bifrost.namespace = function (ns, content) {
 		Bifrost.extend(parent, content);
 	}
 };
+﻿Bifrost.namespace("Bifrost", {
+    assetsManager: {
+        initialize: function () {
+            $.get("/AssetsManager", { extension: "js" }, function (result) {
+                Bifrost.assetsManager.scripts = result;
+            }, "json");
+        },
+        getScripts: function () {
+            return Bifrost.assetsManager.scripts;
+        }
+    }
+});
 ﻿Bifrost.namespace("Bifrost", {
     NamespacePath: function (basePath, baseNamespace) {
         this.path = basePath;
@@ -1639,14 +1639,15 @@ Bifrost.namespace("Bifrost.navigation", {
 
 ﻿(function ($) {
     $(function () {
+        Bifrost.assetsManager.initialize();
         Bifrost.navigation.navigationManager.hookup();
         Bifrost.features.featureManager.hookup($);
     });
 })(jQuery);
 /*
-@depends utils/assetsManager.js
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/assetsManager.js
 @depends utils/NamespacePath.js
 @depends utils/namespacePathResolvers.js
 @depends utils/namespacePaths.js

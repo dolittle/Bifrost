@@ -63,14 +63,14 @@ Bifrost.namespace("Bifrost", {
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
-        typeDefinition.super = this;
+        typeDefinition._super = this;
         return typeDefinition;
     };
 
     Bifrost.Type.create = function () {
         var actualType = this;
-        if( this.super != null ) {
-            actualType.prototype = this.super.create();
+        if( this._super != null ) {
+            actualType.prototype = this._super.create();
         }
         var dependencyInstances = getDependencyInstances(this);
         var instance = null;
