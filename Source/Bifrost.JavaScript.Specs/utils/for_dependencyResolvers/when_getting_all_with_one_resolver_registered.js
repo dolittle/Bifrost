@@ -1,8 +1,8 @@
 ﻿describe("when getting all with one resolver registered", function () {
 
-    Bifrost.DefaultDependencyResolver = Bifrost.Type.define(function () {
+    Bifrost.DefaultDependencyResolver = function () {
         this.isDefault = true;
-    });
+    };
 
     Bifrost.dependencyResolvers.myResolver = {
         identifier: "Hello"

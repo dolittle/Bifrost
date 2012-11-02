@@ -1,11 +1,15 @@
 ﻿describe("when resolving", function () {
+    var firstResolver = {
+        canResolve: sinon.stub().returns(false)
+    };
+    var secondResolver = {
+        canResolve: sinon.stub().returns(false)
+    };
+
     beforeEach(function () {
         Bifrost.dependencyResolvers = {
-            first: {
-                canResolve: sinon.stub().returns(false)
-            },
-            second: {
-                canResolve: sinon.stub().returns(false)
+            getAll: function () {
+                return [firstResolver, secondResolver];
             }
         };
         Bifrost.dependencyResolver.resolve("Something");
@@ -16,9 +20,9 @@
     });
 
     it("should ask first resolver", function () {
-        expect(Bifrost.dependencyResolvers.first.canResolve.called).toBe(true);
+        expect(firstResolver.canResolve.called).toBe(true);
     });
     it("should ask second resolver", function () {
-        expect(Bifrost.dependencyResolvers.second.canResolve.called).toBe(true);
+        expect(secondResolver.canResolve.called).toBe(true);
     });
 });

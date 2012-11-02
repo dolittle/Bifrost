@@ -2,7 +2,7 @@ Bifrost.namespace("Bifrost", {
     dependencyResolvers: (function () {
         return {
             getAll: function () {
-                var resolvers = [Bifrost.DefaultDependencyResolver.create()];
+                var resolvers = [new Bifrost.DefaultDependencyResolver()];
                 for (var property in this) {
                     if (this.hasOwnProperty(property) &&
                         typeof this[property] !== "function") {

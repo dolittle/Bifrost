@@ -3,7 +3,7 @@
         something: function () {
         },
         objectLiteral: {},
-        arrayOfStuff: []
+        arrayOfStuff: [],
     });
 
     it("should introduce namespace", function () {

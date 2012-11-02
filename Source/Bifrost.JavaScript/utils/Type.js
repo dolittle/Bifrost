@@ -47,11 +47,11 @@ Bifrost.namespace("Bifrost", {
         typeDefinition.createFunction = eval(createFunctionString);
     }
 
-    getDependencyInstances = function(typeDefinition) {
+    getDependencyInstances = function(namespace, typeDefinition) {
         var dependencyInstances = [];
         if( typeof typeDefinition.dependencies !== "undefined" ) {
             $.each(typeDefinition.dependencies, function(index, dependency) {
-                var dependencyInstance = Bifrost.dependencyResolver.resolve(dependency);
+                var dependencyInstance = Bifrost.dependencyResolver.resolve(namespace, dependency);
                 dependencyInstances.push(dependencyInstance);
             });
         }
@@ -72,7 +72,7 @@ Bifrost.namespace("Bifrost", {
         if( this._super != null ) {
             actualType.prototype = this._super.create();
         }
-        var dependencyInstances = getDependencyInstances(this);
+        var dependencyInstances = getDependencyInstances(this._namespace, this);
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
             instance = this.createFunction(this, dependencyInstances);

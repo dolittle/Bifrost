@@ -5,12 +5,15 @@
 
     beforeEach(function () {
         Bifrost.dependencyResolvers = {
-            resolver: {
-                canResolve: sinon.stub().returns(true),
-                resolve: function (callback) {
-                    resolveCalled = true;
-                    return system;
-                }
+
+            getAll: function () {
+                return [{
+                    canResolve: sinon.stub().returns(true),
+                    resolve: function () {
+                        resolveCalled = true;
+                        return system;
+                    }
+                }];
             }
         };
         systemReceived = Bifrost.dependencyResolver.resolve("something");

@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost", {
-    DefaultDependencyResolver: Type.define(function () {
+    DefaultDependencyResolver: function () {
 
         this.canResolve = function (name) {
         }
@@ -7,5 +7,5 @@
         this.resolve = function () {
             return null;
         }
-    })
+    }
 });

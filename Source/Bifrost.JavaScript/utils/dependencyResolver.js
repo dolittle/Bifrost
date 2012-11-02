@@ -1,21 +1,20 @@
 Bifrost.namespace("Bifrost", {
     dependencyResolver: {
-        getDependenciesFor: function(func) {
+        getDependenciesFor: function (func) {
             Bifrost.functionParser.parse(func);
         },
 
-        resolve: function (name, callback) {
-            for (var resolverName in Bifrost.dependencyResolvers) {
-                if (Bifrost.dependencyResolvers.hasOwnProperty(resolverName)) {
-                    var resolver = Bifrost.dependencyResolvers[resolverName];
-                    var canResolve = resolver.canResolve(name) === true;
-                    if (canResolve) {
-                        return resolver.resolve();
-                    }
+        resolve: function (namespace, name, callback) {
+            var resolvers = Bifrost.dependencyResolvers.getAll();
+            var resolvedSystem = null;
+            $.each(resolvers, function (index, resolver) {
+                var canResolve = resolver.canResolve(namespace, name);
+                if (canResolve) {
+                    resolvedSystem = resolver.resolve(namespace, name);
+                    return;
                 }
-            }
-
-            return null;
+            });
+            return resolvedSystem;
         }
     }
 });

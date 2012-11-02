@@ -1,6 +1,11 @@
 describe("when creating instance with dependencies and super having dependencies", function() {
+    print("FUCK");
 	var super = null; 
 	var type = null;
+    var ns = null;
+
+    
+
 	var somethingDependency = {
 		something: "hello"
 	};
@@ -28,7 +33,9 @@ describe("when creating instance with dependencies and super having dependencies
 					return ["somethingElse"];
 				}
 			},
-			resolve: function(name) {
+			resolve: function(namespace, name) {
+                ns = namespace;
+
 				if( name === "something" ) {
 					return somethingDependency;
 				}
@@ -38,8 +45,11 @@ describe("when creating instance with dependencies and super having dependencies
 			}
 		}
 
+        var namespace = { name : "Somewhere" };
 		super = Bifrost.Type.define(superFunction);
+        super._namespace = namespace;
 		type = super.define(typeFunction);
+        type._namespace = namespace;
 
 		instance = type.create();
 	});
@@ -48,6 +58,10 @@ describe("when creating instance with dependencies and super having dependencies
 	afterEach(function() {
 
 	});
+
+    it("should pass along the namespace to resolver", function() {
+        expect(ns.name).toBe("Somewhere");
+    });
 
 	it("should create an instance", function() {
 		expect(instance).not.toBeNull();
