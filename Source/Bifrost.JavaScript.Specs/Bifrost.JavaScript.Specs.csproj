@@ -115,6 +115,7 @@
     <Content Include="Utils\for_guid\when_generating_guid.js" />
     <Content Include="Utils\for_guid\when_getting_an_empty_guid.js" />
     <Content Include="Utils\for_Import\when_creating.js" />
+    <Content Include="Utils\for_namespacePaths\when_resolving.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
