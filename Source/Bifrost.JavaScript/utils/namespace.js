@@ -5,11 +5,12 @@ Bifrost.namespace = function (ns, content) {
     $.each(parts, function (index, part) {
         if (!Object.prototype.hasOwnProperty.call(parent, part)) {
             parent[part] = {};
+            parent[part].parent = parent;
         }
         parent = parent[part];
     });
 
-	if( typeof content === "object" ) {
-		Bifrost.extend(parent, content);
-	}
+    if (typeof content === "object") {
+        Bifrost.extend(parent, content);
+    }
 };
