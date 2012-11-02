@@ -31,8 +31,8 @@ namespace Bifrost.Specs.Events.for_EventRepository
                 Method = typeof(Subscribers).GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { typeof(SimpleEvent) }),
                 EventType = typeof(SimpleEvent),
                 EventName = typeof(SimpleEvent).Name,
+                LastEventId = 0
             };
-            subscription.SetEventSourceVersion(EventSourceName, new EventSourceVersion(1,0));
 
             expected_event = new SimpleEvent(Guid.NewGuid());
             expected_event.EventSourceName = EventSourceName;

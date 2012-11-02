@@ -18,9 +18,10 @@ namespace Bifrost.Mimir.Web.Events
         {
             return _eventSubscriptionRepository.GetAll().Select(e => new
             {
-                OwnerFullyQualified = e.Owner.AssemblyQualifiedName,
+                Id = e.Id,
                 Owner = e.Owner.Name,
-                Event = e.EventName
+                Event = e.EventName,
+                LastEventId = e.LastEventId
             });
         }
     }

@@ -22,6 +22,7 @@
 using Bifrost.Entities;
 using Bifrost.Execution;
 using Raven.Client.Document;
+using Bifrost.Events;
 
 namespace Bifrost.RavenDB
 {
@@ -48,8 +49,16 @@ namespace Bifrost.RavenDB
             if (configuration.EventsKeyGeneratorType != null)
             {
                 var keyGenerator = container.Get(configuration.EventsKeyGeneratorType) as ISequentialKeyGenerator;
-                var listener = new EventsDocumentStoreListener(keyGenerator);
-                DocumentStore.RegisterListener(listener);
+                var originalDocumentKeyGenerator = DocumentStore.Conventions.DocumentKeyGenerator;
+                DocumentStore.Conventions.DocumentKeyGenerator = o =>
+                {
+                    if (o is EventHolder && ((EventHolder)o).Id == 0)
+                    {
+                        var key = keyGenerator.NextFor<EventHolder>();
+                        return "EventHolders/" + key;
+                    }
+                    return originalDocumentKeyGenerator(o);
+                };
             }
         }
     }

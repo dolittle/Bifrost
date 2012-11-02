@@ -41,6 +41,20 @@ namespace Bifrost.Events
         IEnumerable<EventSubscription> GetAvailableSubscriptions();
 
         /// <summary>
+        /// Process a set of <see cref="IEvent">Events</see> for a specific subscription
+        /// </summary>
+        /// <param name="subscription"><see cref="EventSubscription"/> to process events for</param>
+        /// <param name="events"><see cref="IEvent">Events</see> to process</param>
+        void Process(EventSubscription subscription, IEnumerable<IEvent> events);
+
+        /// <summary>
+        /// Process a single <see cref="IEvent"/> for a specific subscription
+        /// </summary>
+        /// <param name="subscription"><see cref="EventSubscription"/> to process event for</param>
+        /// <param name="event"><see cref="IEvent"/> to process</param>
+        void Process(EventSubscription subscription, IEvent @event);
+
+        /// <summary>
         /// Process a set of <see cref="IEvent">Events</see>
         /// </summary>
         /// <param name="events"><see cref="IEvent">Events</see> to process</param>

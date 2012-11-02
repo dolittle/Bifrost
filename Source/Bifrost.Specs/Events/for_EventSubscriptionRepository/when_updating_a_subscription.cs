@@ -19,10 +19,12 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionRepository
             event_type = typeof(SimpleEvent);
             subscription = new EventSubscription
             {
+                Id = Guid.NewGuid(),
                 Owner = owner_type,
                 Method = owner_type.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { event_type }),
                 EventType = event_type,
-                EventName = event_type.Name
+                EventName = event_type.Name,
+                LastEventId = 42
             };
             var holder = new EventSubscriptionHolder
             {
@@ -39,6 +41,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionRepository
 
         Because of = () => repository.Update(subscription);
 
+        It should_update_holder_with_correct_id = () => subscription_holder.Id.ShouldEqual(subscription.Id);
+        It should_update_holder_with_correct_last_event_id = () => subscription_holder.LastEventId.ShouldEqual(subscription.LastEventId);
         It should_update_holder_with_correct_owner_type = () => subscription_holder.Owner.ShouldEqual(owner_type.AssemblyQualifiedName);
         It should_update_holder_with_correct_method = () => subscription_holder.Method.ShouldEqual(ProcessMethodInvoker.ProcessMethodName);
         It should_update_holder_with_correct_event_type = () => subscription_holder.EventType.ShouldEqual(event_type.AssemblyQualifiedName);

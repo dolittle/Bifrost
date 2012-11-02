@@ -59,6 +59,7 @@ namespace Bifrost.Events
 			var concreteType = _eventMigrationHierarchyManager.GetConcreteTypeForLogicalEventMigrationLevel(logicalEventType, eventHolder.Generation);
 			var @event = CreateInstance(concreteType, eventHolder.AggregateId);
 			_serializer.FromJson(@event, eventHolder.SerializedEvent);
+            @event.Id = eventHolder.Id;
 			return _eventMigratorManager.Migrate(@event);
 		}
 

@@ -68,11 +68,25 @@ namespace Bifrost.Events
             return filtered.Select(ConvertToEventSubscription).ToArray();
         }
 
+        public EventSubscription Get(Guid id)
+        {
+            var subscription = _entityContext.Entities.Where(e => e.Id == id).Select(ConvertToEventSubscription).Single();
+            return subscription;
+        }
+
+        public void ResetLastEventId(Guid id)
+        {
+            var subscription = _entityContext.Entities.Where(e => e.Id == id).Single();
+            subscription.LastEventId = 0;
+            _entityContext.Update(subscription);
+            _entityContext.Commit();
+        }
+
+
 
         public void Add(EventSubscription subscription)
         {
             var holder = ConvertToEventSubscriptionHolder(subscription);
-            holder.Id = Guid.NewGuid();
             _entityContext.Insert(holder);
             _entityContext.Commit();
         }
@@ -124,11 +138,13 @@ namespace Bifrost.Events
 
         void CopyToEventSubscriptionHolder(EventSubscription subscription, EventSubscriptionHolder holder)
         {
+            holder.Id = subscription.Id;
+            holder.LastEventId = subscription.LastEventId;
             holder.Owner = subscription.Owner.AssemblyQualifiedName;
             holder.Method = subscription.Method.Name;
             holder.EventType = subscription.EventType.AssemblyQualifiedName;
             holder.EventName = subscription.EventName;
-            holder.EventSourceVersions = _serializer.ToJson(subscription.Versions);
+            holder.LastEventId = subscription.LastEventId;
         }
 
 
@@ -138,11 +154,12 @@ namespace Bifrost.Events
             var ownerType = Type.GetType(holder.Owner);
             return new EventSubscription
             {
+                Id = holder.Id,
                 EventName = holder.EventName,
                 EventType = eventType,
                 Owner = ownerType,
                 Method = ownerType.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { eventType }),
-                Versions = _serializer.FromJson<Dictionary<string,EventSourceVersion>>(holder.EventSourceVersions??string.Empty)
+                LastEventId = holder.LastEventId
             };
         }
     }

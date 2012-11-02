@@ -38,6 +38,19 @@ namespace Bifrost.Events
         IEnumerable<EventSubscription> GetForEvent(Type eventType);
 
         /// <summary>
+        /// Get a specific subscription
+        /// </summary>
+        /// <param name="id">Identifier of the <see cref="EventSubscription"/></param>
+        /// <returns>The specific <see cref="EventSubscription">EventSubscriptions</see></returns>
+        EventSubscription Get(Guid id);
+
+        /// <summary>
+        /// Reset last event id for a specific subscription
+        /// </summary>
+        /// <param name="id">Identifier of the <see cref="EventSubscription"/> to reset</param>
+        void ResetLastEventId(Guid id);
+
+        /// <summary>
         /// Get all subscriptions available
         /// </summary>
         /// <returns>All available <see cref="EventSubscription">EventSubscriptions</see> </returns>
