@@ -1,20 +1,20 @@
 describe("when namespace only has file matching system needed to be resolved registered in it", function() {
     var resolver = new Bifrost.DefaultDependencyResolver();
-    var ns = {
-        _scripts : ["something"]
-    };
-    var canResolve = resolver.canResolve(ns, "something");
+    var ns;
     var resolved = null;
     var requireStub;
     var requireArg;
+    var canResolve;
 
     beforeEach(function() {
+        ns = {
+            _scripts : ["something"]
+        };
         requireStub = sinon.stub(window,"require", function(arg) {
             requireArg = arg;
-            print("Require");
             ns.something = "Hello";
         });
-        print("Resolve");
+        canResolve = resolver.canResolve(ns, "something");
         resolved = resolver.resolve(ns, "something");
     });
 
@@ -22,7 +22,7 @@ describe("when namespace only has file matching system needed to be resolved reg
         requireStub.restore();
     });
 
-    it("should return true", function () {
+    it("should be able to resolve", function () {
         expect(canResolve).toBe(true);
     });
 
@@ -30,7 +30,7 @@ describe("when namespace only has file matching system needed to be resolved reg
         expect(requireArg).toBe("something");
     });
 
-    it("should return system loaded into namespace", function() {
+    it("should resolve system loaded into namespace", function() {
         expect(resolved).toBe("Hello");
     });
 });

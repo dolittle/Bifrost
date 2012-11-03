@@ -39,7 +39,6 @@
         };
 
         this.resolve = function (namespace, name) {
-
             var current = namespace;
             while (current != null) {
                 if (self.doesNamespaceHave(current,name)) {
@@ -47,8 +46,10 @@
                 }
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     self.loadScriptReference(namespace, name);
+                    if (self.doesNamespaceHave(current,name)) {
+                        return current[name];
+                    }
                 }
-                print("current : "+current.something);
                 current = current.parent;
             }
 
