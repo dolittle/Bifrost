@@ -5,11 +5,13 @@ Bifrost.namespace("Bifrost.execution", {
 		this.signalled = false;
 		this.callback = null;
 
-		this.signal = function() {
+		this.signal = function(parameter) {
 			self.signalled = true;
 
+			self.signalParameter = parameter;
+
 			if( self.callback != null && typeof self.callback !== "undefined" ) {
-				self.callback(Bifrost.execution.Promise.create());
+				self.callback(Bifrost.execution.Promise.create(),self.signalParameter);
 			}
 		};
 
@@ -17,7 +19,7 @@ Bifrost.namespace("Bifrost.execution", {
 			this.callback = callback;
 
 			if( self.signalled === true ) {
-				callback(Bifrost.execution.Promise.create());
+				callback(Bifrost.execution.Promise.create(),self.signalParameter);
 			}
 		};
 	}
