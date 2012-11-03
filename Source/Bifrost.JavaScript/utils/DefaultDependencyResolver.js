@@ -47,7 +47,7 @@
                 }
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     self.loadScriptReference(namespace, name);
-                }''
+                }
                 print("current : "+current.something);
                 current = current.parent;
             }
