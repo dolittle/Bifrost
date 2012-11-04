@@ -1,15 +1,20 @@
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/isNumber.js
+@depends utils/isArray.js
+@depends utils/path.js
+@depends utils/assetsManager.js
+@depends utils/NamespacePath.js
+@depends utils/namespacePathResolvers.js
+@depends utils/namespacePaths.js
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/conventionDependencyResolver.js
-@depends utils/TypeInfo.js
 @depends utils/Type.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js
-@depends utils/isNumber.js
 @depends utils/hashString.js
 @depends utils/Uri.js
 @depends validation/exceptions.js
@@ -48,4 +53,3 @@
 @depends navigation/navigationManager.js
 @depends startup.js
 */
-

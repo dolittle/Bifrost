@@ -2,6 +2,7 @@
 using Bifrost.Web.Applications;
 using Bifrost.Mimir.Web.Events;
 using Bifrost.Services.Execution;
+using Bifrost.Services;
 
 namespace Bifrost.Mimir.Web
 {
@@ -19,6 +20,7 @@ namespace Bifrost.Configuration
             RouteTable.Routes.AddApplicationFromAssembly("Mimir", typeof(Bifrost.Mimir.Web.ClassForTypeSafeConfiguration).Assembly);
             RouteTable.Routes.AddService<EventService>("Events");
             RouteTable.Routes.AddService<EventSubscriptionService>("EventSubscriptions");
+            RouteTable.Routes.AddService<ValidationService>();
             return configure;
         }
     }

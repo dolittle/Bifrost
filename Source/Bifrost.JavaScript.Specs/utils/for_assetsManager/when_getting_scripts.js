@@ -9,24 +9,15 @@
             callback(scripts);
         });
 
-        Bifrost.assetsManager.getScripts(function (result) {
-            scriptsReturned = result;
-        });
+        Bifrost.assetsManager.initialize();
+        scriptsReturned = Bifrost.assetsManager.getScripts();
     });
 
     afterEach(function () {
         $.get.restore();
     });
 
-    it("should call server to get assets", function () {
-        expect($.get.called).toBe(true);
-    });
-
-    it("should get files with js extension", function () {
-        expect(extension).toBe("js");
-    });
-
-    it("should call the callback with the scripts", function () {
+    it("should get scripts", function() {
         expect(scriptsReturned).toBe(scripts);
     });
 });

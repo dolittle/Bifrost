@@ -7,7 +7,7 @@ namespace Bifrost.Web.Applications
     {
         public static void Start()
         {
-            RouteTable.Routes.Add(new AssetManagerRoute("AssetManager"));
+            RouteTable.Routes.Add(new AssetManagerRoute("AssetsManager"));
         }
     }
 }

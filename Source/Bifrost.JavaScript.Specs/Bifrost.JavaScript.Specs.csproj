@@ -92,6 +92,10 @@
     <Content Include="messaging\for_messenger\when_publishing_a_message_with_one_subscriber.js" />
     <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
+    <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
+    <Content Include="Utils\for_assetsManager\when_initializing.js" />
+    <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_contains_system_for_resolving.js" />
+    <Content Include="Utils\for_dependencyResolvers\when_getting_all_with_one_resolver_registered.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving_and_resolver_can_resolve.js" />
     <Content Include="Utils\for_Exception\when_creating_instance.js" />
@@ -113,14 +117,14 @@
     <Content Include="Utils\for_guid\when_generating_guid.js" />
     <Content Include="Utils\for_guid\when_getting_an_empty_guid.js" />
     <Content Include="Utils\for_Import\when_creating.js" />
+    <Content Include="Utils\for_namespace\when_declaring_namespace_with_content.js" />
+    <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_it_has_dependencies_that_require_can_resolve.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_it_has_no_dependencies.js" />
-    <Content Include="Utils\for_TypeInfo\when_creating_and_type_definition_not_set.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_an_array.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_an_object_literal.js" />
-    <Content Include="Utils\for_TypeInfo\when_getting_for_a_function_instance.js" />
+    <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
+    <Content Include="Utils\for_Type\when_creating_instance.js" />
+    <Content Include="Utils\for_Type\when_creating_instance_with_dependencies_and_super_having_dependencies.js" />
+    <Content Include="Utils\for_Type\when_creating_with_dependencies.js" />
     <Content Include="Utils\for_Type\when_defining.js" />
     <Content Include="Utils\for_Type\when_defining_without_a_parameter.js" />
     <Content Include="Utils\for_Type\when_defining_with_null_parameter.js" />
@@ -195,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\for_namespacePaths\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -5,17 +5,18 @@
 
     beforeEach(function () {
         Bifrost.dependencyResolvers = {
-            resolver: {
-                canResolve: sinon.stub().returns(true),
-                resolve: function (callback) {
-                    resolveCalled = true;
-                    callback(system);
-                }
+
+            getAll: function () {
+                return [{
+                    canResolve: sinon.stub().returns(true),
+                    resolve: function () {
+                        resolveCalled = true;
+                        return system;
+                    }
+                }];
             }
         };
-        Bifrost.dependencyResolver.resolve("something", function (system) {
-            systemReceived = system;
-        });
+        systemReceived = Bifrost.dependencyResolver.resolve("something");
     });
 
     afterEach(function () {
@@ -26,7 +27,7 @@
         expect(resolveCalled).toBe(true);
     });
 
-    it("should call the callback with result from resolve", function () {
+    it("should return the system it can resolve", function () {
         expect(systemReceived).toBe(system);
     });
 });

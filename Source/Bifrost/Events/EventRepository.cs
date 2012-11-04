@@ -87,16 +87,23 @@ namespace Bifrost.Events
         {
             var query = _entityContext.Entities;
             foreach (var subscription in subscriptions)
-                query = query.Where(e => e.LogicalEventName == _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName).Name);
-                        
+            {
+                var logicalType = _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName);
+                query = query.Where(e => e.LogicalEventName == logicalType.Name);
+            }
             return query.Select(_eventConverter.ToEvent).ToArray();
         }
 
         public void Insert(IEnumerable<IEvent> events)
         {
-            var eventHolders = events.Select(_eventConverter.ToEventHolder);
-            foreach (var @event in eventHolders)
-                _entityContext.Insert(@event);
+            var eventArray = events.ToArray();
+            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
+            {
+                var @event = eventArray[eventIndex];
+                var eventHolder = _eventConverter.ToEventHolder(@event);
+                _entityContext.Insert(eventHolder);
+                @event.Id = eventHolder.Id;
+            }
 
             _entityContext.Commit();
         }

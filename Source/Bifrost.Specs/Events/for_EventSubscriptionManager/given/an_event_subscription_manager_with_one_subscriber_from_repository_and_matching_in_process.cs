@@ -19,6 +19,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
         protected static Type event_type;
         protected static Type event_subscriber_type;
 
+
         Establish context = () =>
         {
             event_subscription_repository_mock = new Mock<IEventSubscriptionRepository>();
@@ -29,12 +30,13 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
             event_subscriber_type = typeof(SomeEventSubscriber);
             subscription = new EventSubscription
             {
+                Id = Guid.NewGuid(),
                 EventType = event_type,
                 EventName = event_type.Name,
                 Owner = event_subscriber_type,
                 Method = event_subscriber_type.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { event_type }),
+                LastEventId = 0
             };
-            subscription.SetEventSourceVersion(EventSourceName, new EventSourceVersion(1, 0));
             event_subscription_repository_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });
 
             type_discoverer_mock.Setup(t => t.FindMultiple<IEventSubscriber>()).Returns(new[] { typeof(SomeEventSubscriber) });

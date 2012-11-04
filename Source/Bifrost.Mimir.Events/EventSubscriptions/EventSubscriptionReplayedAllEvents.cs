@@ -9,7 +9,5 @@ namespace Bifrost.Mimir.Events.EventSubscriptions
             : base(eventSourceId)
         {
         }
-
-        public Guid EventSubscriptionId { get; set; }
     }
 }

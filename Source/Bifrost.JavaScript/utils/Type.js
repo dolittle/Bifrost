@@ -1,9 +1,6 @@
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
-        this.doStuff = function () {
-            print("Doing stuff : "+this.horse);
-        }
     }
 });
 
@@ -29,20 +26,60 @@ Bifrost.namespace("Bifrost", {
         }
     }
 
+    setupDependencies = function(typeDefinition) {
+        typeDefinition.dependencies = Bifrost.dependencyResolver.getDependenciesFor(typeDefinition);
+
+        var firstParameter = true;
+        var createFunctionString = "Function('definition', 'dependencies','return new definition(";
+            
+        if( typeof typeDefinition.dependencies !== "undefined" ) {
+            $.each(typeDefinition.dependencies, function(index, dependency) {
+                if (!firstParameter) {
+                    functionString += ",";
+                    createString += ",";
+                }
+                firstParameter = false;
+                createFunctionString += "dependencies[" + index + "]";
+            });
+        }
+        createFunctionString += ");')";
+
+        typeDefinition.createFunction = eval(createFunctionString);
+    }
+
+    getDependencyInstances = function(namespace, typeDefinition) {
+        var dependencyInstances = [];
+        if( typeof typeDefinition.dependencies !== "undefined" ) {
+            $.each(typeDefinition.dependencies, function(index, dependency) {
+                var dependencyInstance = Bifrost.dependencyResolver.resolve(namespace, dependency);
+                dependencyInstances.push(dependencyInstance);
+            });
+        }
+        return dependencyInstances;
+    }
+
     Bifrost.Type.define = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
-        typeDefinition.super = this;
+        setupDependencies(typeDefinition);
+        typeDefinition._super = this;
         return typeDefinition;
     };
 
     Bifrost.Type.create = function () {
         var actualType = this;
-        if( this.super != null ) {
-            actualType.prototype = this.super.create();
+        if( this._super != null ) {
+            actualType.prototype = this._super.create();
         }
-        var instance = new actualType();
+        var dependencyInstances = getDependencyInstances(this._namespace, this);
+        var instance = null;
+        if( typeof this.createFunction !== "undefined" ) {
+            instance = this.createFunction(this, dependencyInstances);
+        } else {
+            instance = new actualType();    
+        }
+
         return instance;
     };
 })();
