@@ -225,7 +225,6 @@ Bifrost.hashString = (function() {
 		}
 	}
 })();
-
 Bifrost.namespace("Bifrost");
 Bifrost.Uri = (function(window, undefined) {
 	/* parseUri JS v0.1, by Steven Levithan (http://badassery.blogspot.com)
@@ -411,11 +410,12 @@ Bifrost.validation.Validator = (function () {
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
-            this.commands = commands;
+            this.commands = ko.observable(commands);
             this.messages = ko.computed(function () {
                 var actualMessages = [];
-                $.each(self.commands, function (commandIndex, command) {
+                $.each(self.commands(), function (commandIndex, command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
+                    
                     $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
@@ -429,14 +429,19 @@ Bifrost.validation.Validator = (function () {
 
     ko.bindingHandlers.validationSummaryFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            var value = valueAccessor();
-            var target = ko.utils.unwrapObservable(value);
-            if (!(target instanceof Array)) {
-                target = [target];
-            }
-
+            var target = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
             var validationSummary = new Bifrost.validation.ValidationSummary(target);
+            ko.utils.domData.set(element, 'validationsummary', validationSummary);
             ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
+        },
+        update: function (element, valueAccessor) {
+            var validationSummary = ko.utils.domData.get(element, 'validationsummary');
+            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+        },
+        getValueAsArray: function (valueAccessor) {
+            var target = ko.utils.unwrapObservable(valueAccessor());
+            if (!(target instanceof Array)) { target = [target]; }
+            return target;
         }
     };
 }
@@ -1585,6 +1590,17 @@ if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof Histor
     };
 }
 Bifrost.namespace("Bifrost.navigation", {
+    navigateTo: function (featureName, queryString) {
+        var url = featureName;
+
+        if(featureName.charAt(0) !== "/")
+            url = "/" + url;
+        if(queryString)
+            url += queryString;
+        
+        // TODO: Support title somehow
+   	    History.pushState({feature:featureName}, "", url);
+    },
     navigationManager: {
         hookup: function () {
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
@@ -1619,7 +1635,6 @@ Bifrost.namespace("Bifrost.navigation", {
         }
     }
 });
-
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
