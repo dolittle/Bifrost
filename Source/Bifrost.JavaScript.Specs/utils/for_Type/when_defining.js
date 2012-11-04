@@ -1,5 +1,4 @@
 describe("when defining", function () {
-    Bifrost.ClassInfo = {};
     var typeDefinition = function (something) { };
     var result = null; 
 

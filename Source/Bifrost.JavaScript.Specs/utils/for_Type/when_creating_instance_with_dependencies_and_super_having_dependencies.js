@@ -1,10 +1,7 @@
 describe("when creating instance with dependencies and super having dependencies", function() {
-    print("FUCK");
 	var super = null; 
 	var type = null;
     var ns = null;
-
-    
 
 	var somethingDependency = {
 		something: "hello"
