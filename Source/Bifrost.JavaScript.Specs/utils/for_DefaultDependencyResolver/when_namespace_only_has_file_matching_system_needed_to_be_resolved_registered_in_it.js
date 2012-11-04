@@ -37,7 +37,7 @@ describe("when namespace only has file matching system needed to be resolved reg
     });
 
     it("should return a promise", function() {
-        expect(resolved.constructor).toBe(Bifrost.execution.Promise);
+        expect(resolved instanceof Bifrost.execution.Promise).toBe(true);
     });
 
     it("should resolve system loaded into namespace", function() {

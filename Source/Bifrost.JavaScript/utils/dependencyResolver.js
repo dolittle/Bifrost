@@ -4,7 +4,7 @@ Bifrost.namespace("Bifrost", {
             Bifrost.functionParser.parse(func);
         },
 
-        resolve: function (namespace, name, callback) {
+        resolve: function (namespace, name) {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
             $.each(resolvers, function (index, resolver) {
@@ -14,6 +14,11 @@ Bifrost.namespace("Bifrost", {
                     return;
                 }
             });
+
+            if( resolvedSystem instanceof Bifrost.execution.Promise ) {
+                throw new Bifrost.AsynchronousDependenciesDetected();
+            }
+
             return resolvedSystem;
         }
     }
