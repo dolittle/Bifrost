@@ -13,11 +13,11 @@
 
     var resolved = resolver.resolve(ns, "something");
 
-    it("should return true", function () {
+    it("should be able to resolve", function () {
         expect(canResolve).toBe(true);
     });
 
-    it("should resolve it", function () {
+    it("should resolve system", function () {
         expect(resolved).toBe("Hello");
     });
 });

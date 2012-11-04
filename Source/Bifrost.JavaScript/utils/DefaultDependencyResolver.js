@@ -18,8 +18,12 @@
             return false;
         };
 
-        this.loadScriptReference = function(namespace, name) {
-            require(name);
+        this.loadScriptReference = function(namespace, name, promise) {
+            require([name], function() {
+                if (self.doesNamespaceHave(namespace,name)) {
+                    promise.signal(namespace[name]);
+                }
+            });
         };
 
 
@@ -45,10 +49,10 @@
                     return current[name];
                 }
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
-                    self.loadScriptReference(namespace, name);
-                    if (self.doesNamespaceHave(current,name)) {
-                        return current[name];
-                    }
+                    var promise = Bifrost.execution.Promise.create();
+
+                    self.loadScriptReference(namespace, name, promise);
+                    return promise;
                 }
                 current = current.parent;
             }

@@ -15,6 +15,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/Exception.js
         - Bifrost.JavaScript/utils/hashString.js
         - Bifrost.JavaScript/utils/extend.js
+        - Bifrost.JavaScript/execution/Promise.js
         - Bifrost.JavaScript/utils/guid.js
         - Bifrost.JavaScript/utils/isNumber.js
         - Bifrost.JavaScript/utils/isArray.js
