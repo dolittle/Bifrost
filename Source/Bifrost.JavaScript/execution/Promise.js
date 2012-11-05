@@ -16,11 +16,13 @@ Bifrost.namespace("Bifrost.execution", {
 		};
 
 		this.continueWith = function(callback) {
+			var nextPromise = Bifrost.execution.Promise.create();
 			this.callback = callback;
 
 			if( self.signalled === true ) {
-				callback(Bifrost.execution.Promise.create(),self.signalParameter);
+				callback(nextPromise,self.signalParameter);
 			}
+			return nextPromise;
 		};
 	}
 });

@@ -51,7 +51,7 @@
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     var promise = Bifrost.execution.Promise.create();
 
-                    self.loadScriptReference(namespace, name, promise);
+                    self.loadScriptReference(current, name, promise);
                     return promise;
                 }
                 current = current.parent;
