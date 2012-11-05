@@ -3,6 +3,7 @@
         initialize: function () {
             $.get("/AssetsManager", { extension: "js" }, function (result) {
                 Bifrost.assetsManager.scripts = result;
+                Bifrost.namespaces.initialize();
             }, "json");
         },
         getScripts: function () {

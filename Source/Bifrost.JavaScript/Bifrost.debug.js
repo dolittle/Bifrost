@@ -33,7 +33,43 @@ Bifrost.namespace = function (ns, content) {
         }
         Bifrost.namespace.current = null;
     }
+
+    return parent;
 };
+Bifrost.namespace("Bifrost", {
+	namespaces: {
+		root: "/",
+		initialize: function() {		
+			var scripts = Bifrost.assetsManager.getScripts();
+            $.each(scripts, function (index, fullPath) {
+                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                if( path.startsWith("/") ) {
+                	path = path.substr(1);
+                }
+			
+                var namespacePath = path.split("/").join(".");
+                var namespace = Bifrost.namespace(namespacePath);
+                var actualRoot = Bifrost.namespaces.root;
+                if( !actualRoot.endsWith("/") ) {
+                	actualRoot += "/";
+                }
+
+                namespace._path = actualRoot + path;
+
+                if( typeof namespace._scripts === "undefined" ) {
+                	namespace._scripts = [];
+                }
+
+                var fileIndex = fullPath.lastIndexOf("/");
+                var file = fullPath.substr(fileIndex+1);
+                var extensionIndex = file.lastIndexOf(".");
+                var system = file.substr(0,extensionIndex);
+
+                namespace._scripts.push(system);
+            });
+		}
+	}
+});
 Bifrost.namespace("Bifrost", {
     isNumber: function (number) {
         return !isNaN(parseFloat(number)) && isFinite(number);
@@ -87,6 +123,7 @@ Bifrost.namespace("Bifrost", {
         initialize: function () {
             $.get("/AssetsManager", { extension: "js" }, function (result) {
                 Bifrost.assetsManager.scripts = result;
+                Bifrost.namespaces.initialize();
             }, "json");
         },
         getScripts: function () {
@@ -104,28 +141,6 @@ Bifrost.namespace("Bifrost", {
             return paths;
         }
     }
-});
-﻿Bifrost.namespace("Bifrost", {
-    NamespacePath: function (basePath, baseNamespace) {
-        this.path = basePath;
-        this.namespace = baseNamespace;
-    }
-});
-﻿Bifrost.namespace("Bifrost", {
-    namespacePathResolvers: {
-    }
-});
-﻿Bifrost.namespace("Bifrost", {
-    namespacePaths: (function () {
-        var paths = [];
-
-        return {
-            add: function (basePath, baseNamespace) {
-            },
-            resolve: function (path) {
-            }
-        }
-    })()
 });
 Bifrost.namespace("Bifrost", {
     dependencyResolver: (function() {
@@ -1962,15 +1977,13 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+@depends utils/namespaces.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
 @depends utils/path.js
 @depends utils/stringExtensions.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
-@depends utils/NamespacePath.js
-@depends utils/namespacePathResolvers.js
-@depends utils/namespacePaths.js
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
