@@ -52,6 +52,17 @@ Bifrost.namespace("Bifrost", {
         }
     }
 });
+if ( typeof String.prototype.startsWith != 'function' ) {
+	String.prototype.startsWith = function( str ) {
+		return str.length > 0 && this.substring( 0, str.length ) === str;
+	}
+};
+
+if ( typeof String.prototype.endsWith != 'function' ) {
+	String.prototype.endsWith = function( str ) {
+		return str.length > 0 && this.substring( this.length - str.length, this.length ) === str;
+	}
+};
 Bifrost.namespace("Bifrost", {
 	functionParser: {
 		parse: function(func) {
@@ -237,8 +248,25 @@ Bifrost.namespace("Bifrost", {
             return false;
         };
 
+        this.getFileName = function(namespace, name) {
+            var fileName = "";
+            if( typeof namespace._path !== "undefined" ) {
+                fileName += namespace._path;
+                if( !fileName.endsWith("/") ) {
+                    fileName += "/";
+                }
+            } 
+            fileName += name;
+            if( !fileName.endsWith(".js") ) {
+                fileName += ".js";
+            }
+            return fileName;
+
+        };
+
         this.loadScriptReference = function(namespace, name, promise) {
-            require([name], function() {
+            var fileName = self.getFileName(namespace, name);
+            require([fileName], function() {
                 if (self.doesNamespaceHave(namespace,name)) {
                     promise.signal(namespace[name]);
                 }
@@ -1937,6 +1965,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/isNumber.js
 @depends utils/isArray.js
 @depends utils/path.js
+@depends utils/stringExtensions.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
 @depends utils/NamespacePath.js
