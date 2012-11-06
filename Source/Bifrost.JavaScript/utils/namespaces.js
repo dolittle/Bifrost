@@ -50,5 +50,10 @@ Bifrost.namespace("Bifrost", {
                 });
             });
         };
+
+        return {
+            addConvention : addConvention,
+            initialize: initialize
+        };
     })()
 });
