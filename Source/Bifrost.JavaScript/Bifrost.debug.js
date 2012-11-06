@@ -66,9 +66,11 @@ Bifrost.namespace("Bifrost", {
                 path = self.stripPath(path);
                 $.each(self.conventions, function (conventionIndex, convention) {
                     if (path.startsWith(convention.path)) {
-                        var namespacePath = path.split("/").join(".");
+                        var namespacePath = path.substr(convention.path.length);
+                        namespacePath = self.stripPath(namespacePath);
+                        namespacePath = namespacePath.split("/").join(".");
                         if (convention.namespace.length > 0) {
-                            namespacePath = convention.namespace + "." + namespacePath;
+                            namespacePath = convention.namespace + ((namespacePath.length > 0) ? "."+namespacePath:"");
                         }
                         var namespace = Bifrost.namespace(namespacePath);
                         var root = "/" + path + "/";
