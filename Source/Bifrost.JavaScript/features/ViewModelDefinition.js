@@ -19,7 +19,6 @@ Bifrost.features.ViewModelDefinition = (function () {
             } else {
 				instance = new self.target();
 			}
-			instance.onActivated();
             return instance;
         };
     }
