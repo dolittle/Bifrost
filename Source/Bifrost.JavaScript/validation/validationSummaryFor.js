@@ -28,7 +28,7 @@
         },
         update: function (element, valueAccessor) {
             var validationSummary = ko.utils.domData.get(element, 'validationsummary');
-            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+            validationSummary.commands(ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor));
         },
         getValueAsArray: function (valueAccessor) {
             var target = ko.utils.unwrapObservable(valueAccessor());

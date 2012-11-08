@@ -82,6 +82,7 @@ Bifrost.features.Feature = (function () {
                 ko.bindingProvider.instance = new partialViewModelBindingProvider();
                 ko.bindingProvider.instance.currentViewModel = self.name;
 
+			    viewModel.onActivated();
                 ko.applyBindings(viewModel, target);
 
                 ko.bindingProvider.instance.currentViewModel = "";
