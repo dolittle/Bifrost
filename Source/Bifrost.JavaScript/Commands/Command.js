@@ -157,7 +157,7 @@ Bifrost.commands.Command = (function (window) {
         this.onError = function () {
             self.hasError = true;
             if (self.result.hasOwnProperty("validationResults")) {
-                if(self.result.validationResult && typeof self.result.validationResult !== "undefined") {
+                if(self.result.validationResults && typeof self.result.validationResults !== "undefined") {
                     self.applyServerValidation(self.result.validationResults);
                 }
             }
