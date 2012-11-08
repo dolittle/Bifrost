@@ -1465,7 +1465,7 @@ Bifrost.features.Feature = (function () {
 
                 var previousBindingProvider = ko.bindingProvider.instance;
                 ko.bindingProvider.instance = new partialViewModelBindingProvider();
-                ko.bindingProvider.instance.currentViewModel = self.path;
+                ko.bindingProvider.instance.currentViewModel = self.name;
 
                 ko.applyBindings(viewModel, target);
 
@@ -1540,8 +1540,8 @@ if (typeof ko !== 'undefined') {
 			var feature = Bifrost.features.featureManager.get(featureName);
 			
 			$(element).empty();
-			
-			var container = $("<div/>");
+
+			var container = $("<div/>").attr("data-feature", featureName);
 			$(element).append(container);
 			
 			feature.renderTo(container[0]);
