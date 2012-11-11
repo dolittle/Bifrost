@@ -14,9 +14,42 @@ Bifrost.namespace("Bifrost", {
             return resolvedSystem;
         }
 
+        function handleSystemInstance(system) {
+            if( system != null &&
+                system._super !== null &&
+                typeof system._super !== "undefined" &&
+                system._super ===  Bifrost.Type ) {
+                return system.create();
+            } 
+            return system;
+        }
+
+        function beginHandleSystemInstance(system) {
+            var promise = Bifrost.execution.Promise.create();
+
+            if( system != null &&   
+                system._super !== null &&
+                typeof system._super !== "undefined" &&
+                system._super ===  Bifrost.Type ) {
+
+                system.beginCreate().continueWith(function(next, result) {
+                    promise.signal(result);
+                });
+            } else {
+                promise.signal(system);
+            }
+
+            return promise;
+        }
+
         return {
             getDependenciesFor: function (func) {
-                Bifrost.functionParser.parse(func);
+                var dependencies = [];
+                var parameters = Bifrost.functionParser.parse(func);
+                for( var i=0; i<parameters.length; i++ ) {
+                    dependencies.push(parameters[i].name);
+                }
+                return dependencies;
             },
 
             resolve: function (namespace, name) {
@@ -26,7 +59,7 @@ Bifrost.namespace("Bifrost", {
                     throw new Bifrost.AsynchronousDependenciesDetected();
                 }
 
-                return resolvedSystem;
+                return handleSystemInstance(resolvedSystem);
             },
 
             beginResolve: function(namespace, name) {
@@ -34,10 +67,14 @@ Bifrost.namespace("Bifrost", {
                 var resolvedSystem = resolveImplementation(namespace,name);
                 if( resolvedSystem instanceof Bifrost.execution.Promise ) {
                     resolvedSystem.continueWith(function(innerPromise, system) {
-                        promise.signal(system);
+
+                        beginHandleSystemInstance(system)
+                            .continueWith(function(next, actualSystem) {
+                                promise.signal(handleSystemInstance(actualSystem));
+                            });
                     });
                 } else {
-                    promise.signal(resolvedSystem);
+                    promise.signal(handleSystemInstance(resolvedSystem));
                 }
 
                 return promise;

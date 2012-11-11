@@ -9,6 +9,7 @@ describe("when namespace only has file matching system needed to be resolved reg
 
     beforeEach(function() {
         ns = {
+            _path : "/Someplace/On/Server",
             _scripts : ["something"]
         };
         requireStub = sinon.stub(window,"require", function(arg, callback) {
@@ -33,7 +34,7 @@ describe("when namespace only has file matching system needed to be resolved reg
     });
 
     it("should resolve through require", function () {
-        expect(requireArg).toBe("something");
+        expect(requireArg).toBe("/Someplace/On/Server/something.js");
     });
 
     it("should return a promise", function() {
