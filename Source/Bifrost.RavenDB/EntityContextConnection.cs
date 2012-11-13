@@ -36,8 +36,11 @@ namespace Bifrost.RavenDB
             Url = configuration.Url;
             DocumentStore = new Raven.Client.Document.DocumentStore()
             {
-                Url = configuration.Url
+                Url = configuration.Url,
+                DefaultDatabase = configuration.DefaultDatabase,
+                Credentials = configuration.Credentials
             };
+            
 
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
             DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;
