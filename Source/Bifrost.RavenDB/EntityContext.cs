@@ -67,10 +67,34 @@ namespace Bifrost.RavenDB
 
         public T GetById<TProperty>(TProperty id)
         {
-            var documentKeyName = _session.Advanced.DocumentStore.Conventions.GetTypeTagName(typeof(T));
-
-            var keyId = string.Format("{0}/{1}", documentKeyName, id);
+            var keyId = GetDocumentIdForType<TProperty>(id);
             return _session.Load<T>(keyId);
         }
+
+        private string GetDocumentIdForType<TProperty>(TProperty id)
+        {
+            var documentKeyName = GetDocumentKeyForType();
+
+            var keyId = string.Format("{0}/{1}", documentKeyName, id);
+            return keyId;
+        } 
+        
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            var keyId = GetDocumentIdForType<TProperty>(id);
+
+            _session.Advanced.DatabaseCommands.Delete(keyId, null);
+        }
+
+
+        private string GetDocumentKeyForType()
+        {
+            return _session.Advanced.DocumentStore.Conventions.GetTypeTagName(typeof(T));
+        }
+
+
+    
+
+
     }
 }

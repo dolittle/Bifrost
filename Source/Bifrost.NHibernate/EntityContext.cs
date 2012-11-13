@@ -88,5 +88,11 @@ namespace Bifrost.NHibernate
         {
             throw new System.NotImplementedException();
         }
+
+
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -23,6 +23,7 @@ using System.Linq;
 using Bifrost.Entities;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver.Builders;
 
 namespace Bifrost.MongoDB
 {
@@ -82,9 +83,21 @@ namespace Bifrost.MongoDB
 
         public T GetById<TProperty>(TProperty id)
         {
+            var objectId = GetObjectId(id);
+            return _collection.FindOneById(objectId);
+        }
 
+        private static BsonValue GetObjectId<TProperty>(TProperty id)
+        {
             var idAsValue = BsonValue.Create(id);
-            return _collection.FindOneById(idAsValue);
+            return idAsValue;
+        }
+
+
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            var objectId = GetObjectId(id);
+            _collection.Remove(Query.EQ("_id", objectId));
         }
     }
 }

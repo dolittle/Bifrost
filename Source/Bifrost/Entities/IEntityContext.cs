@@ -84,5 +84,12 @@ namespace Bifrost.Entities
         /// <param name="id">Id to lookup</param>
         /// <returns></returns>
         T GetById<TProperty>(TProperty id);
-	}
+
+        /// <summary>
+        /// Delete an entity by its id 
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="id"></param>
+        void DeleteById<TProperty>(TProperty id);
+    }
 }

@@ -86,5 +86,11 @@ namespace Bifrost.EF4
         {
             throw new NotImplementedException();
         }
+
+
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
