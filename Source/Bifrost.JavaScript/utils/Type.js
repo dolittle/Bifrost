@@ -112,20 +112,34 @@ Bifrost.namespace("Bifrost", {
         var self = this;
 
         var promise = Bifrost.execution.Promise.create();
-        if( this._dependencies == null || 
-            typeof this._dependencies == "undefined" || 
-            this._dependencies.length == 0) {
+        var superPromise = Bifrost.execution.Promise.create();
 
-            var instance = this.create();
-            promise.signal(instance);
+        if( this._super != null ) {
+            this._super.beginCreate().continueWith(function(nextPromise, _super) {
+                superPromise.signal(_super);
+            });
         } else {
-            beginGetDependencyInstances(this._namespace, this)
-                .continueWith(function(nextPromise, dependencies) {
-                    var instance = self.createFunction(self, dependencies);
-                    promise.signal(instance);
-                });
-
+            superPromise.signal(null);
         }
+
+        superPromise.continueWith(function(nextPromise, _super) {
+            self.prototype = _super;
+
+            if( self._dependencies == null || 
+                typeof self._dependencies == "undefined" || 
+                self._dependencies.length == 0) {
+
+                var instance = self.create();
+                promise.signal(instance);
+            } else {
+                beginGetDependencyInstances(self._namespace, self)
+                    .continueWith(function(nextPromise, dependencies) {
+                        var instance = self.createFunction(self, dependencies);
+                        promise.signal(instance);
+                    });
+
+            }
+        });
 
         return promise;
     };

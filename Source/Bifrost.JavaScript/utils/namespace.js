@@ -27,4 +27,6 @@ Bifrost.namespace = function (ns, content) {
         }
         Bifrost.namespace.current = null;
     }
+
+    return parent;
 };

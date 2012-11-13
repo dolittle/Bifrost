@@ -27,7 +27,7 @@ Bifrost.namespace("Bifrost", {
         function beginHandleSystemInstance(system) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( system != null &&
+            if( system != null &&   
                 system._super !== null &&
                 typeof system._super !== "undefined" &&
                 system._super ===  Bifrost.Type ) {
@@ -70,11 +70,11 @@ Bifrost.namespace("Bifrost", {
 
                         beginHandleSystemInstance(system)
                             .continueWith(function(next, actualSystem) {
-                                promise.signal(actualSystem);
+                                promise.signal(handleSystemInstance(actualSystem));
                             });
                     });
                 } else {
-                    promise.signal(resolvedSystem);
+                    promise.signal(handleSystemInstance(resolvedSystem));
                 }
 
                 return promise;

@@ -18,8 +18,25 @@
             return false;
         };
 
+        this.getFileName = function(namespace, name) {
+            var fileName = "";
+            if( typeof namespace._path !== "undefined" ) {
+                fileName += namespace._path;
+                if( !fileName.endsWith("/") ) {
+                    fileName += "/";
+                }
+            } 
+            fileName += name;
+            if( !fileName.endsWith(".js") ) {
+                fileName += ".js";
+            }
+            return fileName;
+
+        };
+
         this.loadScriptReference = function(namespace, name, promise) {
-            require([name], function() {
+            var fileName = self.getFileName(namespace, name);
+            require([fileName], function() {
                 if (self.doesNamespaceHave(namespace,name)) {
                     promise.signal(namespace[name]);
                 }
@@ -51,7 +68,7 @@
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     var promise = Bifrost.execution.Promise.create();
 
-                    self.loadScriptReference(namespace, name, promise);
+                    self.loadScriptReference(current, name, promise);
                     return promise;
                 }
                 current = current.parent;
