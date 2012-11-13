@@ -88,5 +88,11 @@ namespace Bifrost.Fakes.Entities
         {
             _entities.AddRange(entities);
         }
+
+
+        public T GetById<TProperty>(TProperty id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

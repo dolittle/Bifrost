@@ -80,5 +80,11 @@ namespace Bifrost.EF4
 		{
 			throw new NotImplementedException();
 		}
-	}
+
+
+        public T GetById<TProperty>(TProperty id)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

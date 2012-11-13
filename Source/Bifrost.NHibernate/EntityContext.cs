@@ -82,5 +82,11 @@ namespace Bifrost.NHibernate
 			_session.Close();
 			_session = null;
 		}
-	}
+
+
+        public T GetById<TProperty>(TProperty id)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
