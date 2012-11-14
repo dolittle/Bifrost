@@ -1,6 +1,9 @@
 ﻿using Bifrost.Entities;
 using System.Linq;
 using Raven.Client;
+using System.Linq.Expressions;
+using System;
+using Bifrost.Extensions;
 
 namespace Bifrost.RavenDB
 {
@@ -18,6 +21,12 @@ namespace Bifrost.RavenDB
 
 
         public IQueryable<T> Entities { get { return _session.Query<T>(); } }
+
+        
+        //public T GetBy<TProperty>(Expression<Func<T, TProperty>> property, TProperty value)
+        //{
+        //    _session.Query<T>().Where( t => t.
+        //}
 
         public void Attach(T entity)
         {
@@ -54,5 +63,38 @@ namespace Bifrost.RavenDB
             _session.SaveChanges();
             _session.Dispose();
         }
+
+
+        public T GetById<TProperty>(TProperty id)
+        {
+            var keyId = GetDocumentIdForType<TProperty>(id);
+            return _session.Load<T>(keyId);
+        }
+
+        private string GetDocumentIdForType<TProperty>(TProperty id)
+        {
+            var documentKeyName = GetDocumentKeyForType();
+
+            var keyId = string.Format("{0}/{1}", documentKeyName, id);
+            return keyId;
+        } 
+        
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            var keyId = GetDocumentIdForType<TProperty>(id);
+
+            _session.Advanced.DatabaseCommands.Delete(keyId, null);
+        }
+
+
+        private string GetDocumentKeyForType()
+        {
+            return _session.Advanced.DocumentStore.Conventions.GetTypeTagName(typeof(T));
+        }
+
+
+    
+
+
     }
 }
