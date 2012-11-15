@@ -100,6 +100,7 @@
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
     <Content Include="Utils\for_assetsManager\when_initializing.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_contains_system_for_resolving.js" />
+    <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_has_script_needed_to_be_resolved_registered_but_not_in_namespace.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_only_has_file_matching_system_needed_to_be_resolved_registered_in_it.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_parent_namespace_contains_system_for_resolving.js" />
     <Content Include="Utils\for_dependencyResolvers\when_getting_all_with_one_resolver_registered.js" />

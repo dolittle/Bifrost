@@ -283,15 +283,15 @@ Bifrost.namespace("Bifrost", {
     DefaultDependencyResolver: function () {
         var self = this;
 
-        this.doesNamespaceHave = function(namespace, name) {
+        this.doesNamespaceHave = function (namespace, name) {
             return namespace.hasOwnProperty(name);
         };
 
-        this.doesNamespaceHaveScriptReference = function(namespace, name) {
-            if( namespace.hasOwnProperty("_scripts") && Bifrost.isArray(namespace._scripts)) {
-                for( var i=0; i<namespace._scripts.length; i++ ) {
+        this.doesNamespaceHaveScriptReference = function (namespace, name) {
+            if (namespace.hasOwnProperty("_scripts") && Bifrost.isArray(namespace._scripts)) {
+                for (var i = 0; i < namespace._scripts.length; i++) {
                     var script = namespace._scripts[i];
-                    if( script === name ) {
+                    if (script === name) {
                         return true;
                     }
                 }
@@ -299,28 +299,29 @@ Bifrost.namespace("Bifrost", {
             return false;
         };
 
-        this.getFileName = function(namespace, name) {
+        this.getFileName = function (namespace, name) {
             var fileName = "";
-            if( typeof namespace._path !== "undefined" ) {
+            if (typeof namespace._path !== "undefined") {
                 fileName += namespace._path;
-                if( !fileName.endsWith("/") ) {
+                if (!fileName.endsWith("/")) {
                     fileName += "/";
                 }
-            } 
+            }
             fileName += name;
-            if( !fileName.endsWith(".js") ) {
+            if (!fileName.endsWith(".js")) {
                 fileName += ".js";
             }
             return fileName;
 
         };
 
-        this.loadScriptReference = function(namespace, name, promise) {
+        this.loadScriptReference = function (namespace, name, promise) {
             var fileName = self.getFileName(namespace, name);
-            require([fileName], function() {
-                if (self.doesNamespaceHave(namespace,name)) {
-                    promise.signal(namespace[name]);
+            require([fileName], function (system) {
+                if (self.doesNamespaceHave(namespace, name)) {
+                    system = namespace[name];
                 }
+                promise.signal(system);
             });
         };
 
@@ -331,7 +332,7 @@ Bifrost.namespace("Bifrost", {
                 if (self.doesNamespaceHave(current, name)) {
                     return true;
                 }
-                if (self.doesNamespaceHaveScriptReference(current,name)) {
+                if (self.doesNamespaceHaveScriptReference(current, name)) {
                     return true;
                 }
                 if (current === current.parent) break;
@@ -344,10 +345,10 @@ Bifrost.namespace("Bifrost", {
         this.resolve = function (namespace, name) {
             var current = namespace;
             while (current != null) {
-                if (self.doesNamespaceHave(current,name)) {
+                if (self.doesNamespaceHave(current, name)) {
                     return current[name];
                 }
-                if (self.doesNamespaceHaveScriptReference(current,name)) {
+                if (self.doesNamespaceHaveScriptReference(current, name)) {
                     var promise = Bifrost.execution.Promise.create();
 
                     self.loadScriptReference(current, name, promise);

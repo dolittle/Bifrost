@@ -1,4 +1,4 @@
-describe("when namespace only has file matching system needed to be resolved registered in it", function () {
+﻿describe("when requested dependency is a valid script in namespace, but not registered in Bifrost namespace", function () {
     var resolver = new Bifrost.DefaultDependencyResolver();
     var ns;
     var resolved = null;
@@ -6,17 +6,20 @@ describe("when namespace only has file matching system needed to be resolved reg
     var requireStub;
     var requireArg;
     var canResolve;
+    var systemResolved;
 
     beforeEach(function () {
+        systemResolved = {
+            someValue : "value"
+        };
         ns = {
             _path: "/Someplace/On/Server",
             _scripts: ["something"]
         };
         requireStub = sinon.stub(window, "require", function (arg, callback) {
             requireArg = arg[0];
-            ns.something = "Hello";
-
-            callback();
+          
+            callback(systemResolved);
         });
         debugger;
         canResolve = resolver.canResolve(ns, "something");
@@ -43,6 +46,6 @@ describe("when namespace only has file matching system needed to be resolved reg
     });
 
     it("should resolve system loaded into namespace", function () {
-        expect(actualResolved).toBe("Hello");
+        expect(actualResolved).toBe(systemResolved);
     });
 });

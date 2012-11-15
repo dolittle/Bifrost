@@ -36,10 +36,11 @@
 
         this.loadScriptReference = function(namespace, name, promise) {
             var fileName = self.getFileName(namespace, name);
-            require([fileName], function() {
-                if (self.doesNamespaceHave(namespace,name)) {
-                    promise.signal(namespace[name]);
+            require([fileName], function (system) {
+                if (self.doesNamespaceHave(namespace, name)) {
+                    system = namespace[name];
                 }
+                promise.signal(system);
             });
         };
 
