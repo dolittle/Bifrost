@@ -4,3 +4,4 @@ Bifrost.Exception.define("Bifrost.InvalidUriFormat", "Uri format specified is no
 Bifrost.Exception.define("Bifrost.ObjectLiteralNotAllowed", "Object literal is not allowed");
 Bifrost.Exception.define("Bifrost.MissingTypeDefinition", "Type definition was not specified");
 Bifrost.Exception.define("Bifrost.AsynchronousDependenciesDetected", "You should consider using Type.beginCreate() or dependencyResolver.beginResolve() for systems that has asynchronous dependencies");
+Bifrost.Exception.define("Bifrost.UnresolvedDependencies", "Some dependencies was not possible to resolve");

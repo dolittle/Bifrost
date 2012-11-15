@@ -4,6 +4,7 @@ Bifrost.namespace("Bifrost", {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
             $.each(resolvers, function (index, resolver) {
+                if (resolvedSystem != null) return;
                 var canResolve = resolver.canResolve(namespace, name);
                 if (canResolve) {
                     resolvedSystem = resolver.resolve(namespace, name);
@@ -53,7 +54,10 @@ Bifrost.namespace("Bifrost", {
             },
 
             resolve: function (namespace, name) {
-                var resolvedSystem = resolveImplementation(namespace,name);
+                var resolvedSystem = resolveImplementation(namespace, name);
+                if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                    throw new Bifrost.UnresolvedDependencies();
+                }
 
                 if( resolvedSystem instanceof Bifrost.execution.Promise ) {
                     throw new Bifrost.AsynchronousDependenciesDetected();
@@ -64,7 +68,12 @@ Bifrost.namespace("Bifrost", {
 
             beginResolve: function(namespace, name) {
                 var promise = Bifrost.execution.Promise.create();
-                var resolvedSystem = resolveImplementation(namespace,name);
+                var resolvedSystem = resolveImplementation(namespace, name);
+
+                if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                    throw new Bifrost.UnresolvedDependencies();
+                }
+
                 if( resolvedSystem instanceof Bifrost.execution.Promise ) {
                     resolvedSystem.continueWith(function(innerPromise, system) {
 

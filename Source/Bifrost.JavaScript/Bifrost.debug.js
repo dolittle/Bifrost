@@ -175,6 +175,7 @@ Bifrost.namespace("Bifrost", {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
             $.each(resolvers, function (index, resolver) {
+                if (resolvedSystem != null) return;
                 var canResolve = resolver.canResolve(namespace, name);
                 if (canResolve) {
                     resolvedSystem = resolver.resolve(namespace, name);
@@ -224,7 +225,10 @@ Bifrost.namespace("Bifrost", {
             },
 
             resolve: function (namespace, name) {
-                var resolvedSystem = resolveImplementation(namespace,name);
+                var resolvedSystem = resolveImplementation(namespace, name);
+                if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                    throw new Bifrost.UnresolvedDependencies();
+                }
 
                 if( resolvedSystem instanceof Bifrost.execution.Promise ) {
                     throw new Bifrost.AsynchronousDependenciesDetected();
@@ -235,7 +239,12 @@ Bifrost.namespace("Bifrost", {
 
             beginResolve: function(namespace, name) {
                 var promise = Bifrost.execution.Promise.create();
-                var resolvedSystem = resolveImplementation(namespace,name);
+                var resolvedSystem = resolveImplementation(namespace, name);
+
+                if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                    throw new Bifrost.UnresolvedDependencies();
+                }
+
                 if( resolvedSystem instanceof Bifrost.execution.Promise ) {
                     resolvedSystem.continueWith(function(innerPromise, system) {
 
@@ -325,6 +334,7 @@ Bifrost.namespace("Bifrost", {
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     return true;
                 }
+                if (current === current.parent) break;
                 current = current.parent;
             }
 
@@ -343,7 +353,9 @@ Bifrost.namespace("Bifrost", {
                     self.loadScriptReference(current, name, promise);
                     return promise;
                 }
+                if (current === current.parent) break;
                 current = current.parent;
+
             }
 
             return null;
@@ -574,6 +586,7 @@ Bifrost.Exception.define("Bifrost.InvalidUriFormat", "Uri format specified is no
 Bifrost.Exception.define("Bifrost.ObjectLiteralNotAllowed", "Object literal is not allowed");
 Bifrost.Exception.define("Bifrost.MissingTypeDefinition", "Type definition was not specified");
 Bifrost.Exception.define("Bifrost.AsynchronousDependenciesDetected", "You should consider using Type.beginCreate() or dependencyResolver.beginResolve() for systems that has asynchronous dependencies");
+Bifrost.Exception.define("Bifrost.UnresolvedDependencies", "Some dependencies was not possible to resolve");
 Bifrost.namespace("Bifrost", {
 	Guid : {
        	create: function() {

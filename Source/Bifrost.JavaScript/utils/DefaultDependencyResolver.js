@@ -53,6 +53,7 @@
                 if (self.doesNamespaceHaveScriptReference(current,name)) {
                     return true;
                 }
+                if (current === current.parent) break;
                 current = current.parent;
             }
 
@@ -71,7 +72,9 @@
                     self.loadScriptReference(current, name, promise);
                     return promise;
                 }
+                if (current === current.parent) break;
                 current = current.parent;
+
             }
 
             return null;
