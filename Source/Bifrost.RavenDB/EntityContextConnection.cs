@@ -34,12 +34,16 @@ namespace Bifrost.RavenDB
         public EntityContextConnection(EntityContextConfiguration configuration)
         {
             Url = configuration.Url;
-            DocumentStore = new Raven.Client.Document.DocumentStore()
+            DocumentStore = new Raven.Client.Document.DocumentStore
             {
-                Url = configuration.Url,
-                DefaultDatabase = configuration.DefaultDatabase,
-                Credentials = configuration.Credentials
+                Url = configuration.Url
             };
+
+            if (configuration.DefaultDatabase != null)
+                DocumentStore.DefaultDatabase = configuration.DefaultDatabase;
+
+            if (configuration.Credentials != null)
+                DocumentStore.Credentials = configuration.Credentials;
             
 
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
