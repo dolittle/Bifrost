@@ -20,7 +20,6 @@
 //
 #endregion
 using Bifrost.Entities;
-using Bifrost.RavenDB;
 using EntityContextConfiguration = Bifrost.RavenDB.Embeddable.EntityContextConfiguration;
 using EntityContextConnection = Bifrost.RavenDB.Embeddable.EntityContextConnection;
 
@@ -35,7 +34,7 @@ namespace Bifrost.Configuration
             entityContextConfiguration.Connection = connection;
             configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
             configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
-            configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
+            configure.Container.Bind(typeof(IEntityContext<>), typeof(Bifrost.RavenDB.EntityContext<>));
             configure.Commands.Storage = entityContextConfiguration;
             return configure;
         }

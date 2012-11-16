@@ -145,6 +145,17 @@ namespace Bifrost.JSON
 		{
 			WriteFile();
 		}
+
+        public T GetById<TProperty>(TProperty id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void DeleteById<TProperty>(TProperty id)
+        {
+            throw new NotImplementedException();
+        }
 #pragma warning restore 1591  // Xml Comments
-	}
+    }
 }

@@ -12,7 +12,10 @@
                 return [firstResolver, secondResolver];
             }
         };
-        Bifrost.dependencyResolver.resolve("Something");
+        try {
+            Bifrost.dependencyResolver.resolve("Something");
+        } catch (e) {
+        }
     });
 
     afterEach(function () {
