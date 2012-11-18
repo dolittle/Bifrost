@@ -23,8 +23,11 @@ namespace Bifrost.Commands
 #pragma warning disable 1591 // Xml Comments
         public ICommand GetInstance()
         {
-            ThrowIfNameIsMissing();
-            ThrowIfParametersAreAnonymousType();
+            if (Parameters != null)
+            {
+                ThrowIfNameIsMissing();
+                ThrowIfParametersAreAnonymousType();
+            }
             
             var command = new Command(_commandCoordinator);
             command.Name = Name;

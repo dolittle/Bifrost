@@ -63,12 +63,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\for_CommandBuilder\when_calling_execute_on_command_from_builder.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_without_any_parameters.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_with_name_and_default_parameters_as_dynamic.cs" />
     <Compile Include="Commands\for_CommandBuilder\given\an_empty_command_builder.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_and_parameters_are_from_an_anonymous_type.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_with_name.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_with_name_and_default_parameters_as_dictionary.cs" />
-    <Compile Include="Commands\for_CommandBuilder\when_getting_instance_without_name_specified.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_without_name_specified.cs" />
     <Compile Include="Commands\for_CommandFactory\given\a_command_factory.cs" />
     <Compile Include="Commands\for_CommandFactory\ViewModel.cs" />
     <Compile Include="Commands\for_CommandFactory\when_building_from_a_property.cs" />

@@ -4,7 +4,7 @@ using System;
 
 namespace Bifrost.Silverlight.Specs.Commands.for_CommandBuilder
 {
-    public class when_getting_instance_without_name_specified : given.an_empty_command_builder
+    public class when_getting_an_instance_without_name_specified : given.an_empty_command_builder
     {
         static Exception exception;
 
