@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
 using Bifrost.Commands;
 using Machine.Specifications;
+using System.Dynamic;
 
 namespace Bifrost.Silverlight.Specs.Commands.for_CommandBuilder
 {
-    public class when_getting_an_instance_with_name_and_default_parameters_as_dictionary : given.an_empty_command_builder
+    public class when_getting_an_instance_with_name_and_default_parameters_as_dynamic : given.an_empty_command_builder
     {
         static ICommand    result;
 
         Establish context = () =>
         {
+            dynamic expando = new ExpandoObject();
+            expando.Integer = 42;
+            expando.String = "Hello world";
+
             builder.Name = "Test";
-            builder.Parameters = new Dictionary<string, object>
-            {
-                { "Integer", 42 },
-                { "String", "Hello world" }
-            };
+            builder.Parameters = expando;
         };
 
         Because of = () => result = builder.GetInstance();

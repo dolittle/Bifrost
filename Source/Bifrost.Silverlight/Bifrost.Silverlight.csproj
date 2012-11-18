@@ -762,6 +762,7 @@
     <Compile Include="Commands\ICommandBuilder.cs" />
     <Compile Include="Commands\ICommandBuildingConventions.cs" />
     <Compile Include="Commands\ICommandFactory.cs" />
+    <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
     <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
