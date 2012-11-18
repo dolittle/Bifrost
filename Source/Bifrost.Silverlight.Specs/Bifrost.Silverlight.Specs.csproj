@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\for_CommandBuilderExtensions\given\an_empty_command_builder.cs" />
+    <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_name.cs" />
+    <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_calling_execute_on_command_from_builder.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_without_any_parameters.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_with_name_and_default_parameters_as_dynamic.cs" />

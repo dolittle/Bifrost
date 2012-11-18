@@ -1,0 +1,18 @@
+﻿using Bifrost.Commands;
+using Machine.Specifications;
+using Moq;
+
+namespace Bifrost.Silverlight.Specs.Commands.for_CommandBuilderExtensions.given
+{
+    public class an_empty_command_builder
+    {
+        protected static Mock<ICommandCoordinator>   command_coordinator_mock;
+        protected static CommandBuilder  builder;
+
+        Establish context = () =>
+        {
+            command_coordinator_mock = new Mock<ICommandCoordinator>();
+            builder = new CommandBuilder(command_coordinator_mock.Object);
+        };
+    }
+}
