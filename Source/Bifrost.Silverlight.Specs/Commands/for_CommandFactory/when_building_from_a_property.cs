@@ -5,13 +5,13 @@ namespace Bifrost.Silverlight.Specs.Commands.for_CommandFactory
 {
     public class when_building_from_a_property : given.a_command_factory
     {
-        static ViewModel view_model;
+        static ViewModelWithCommandsOnly view_model;
         static ICommandBuilder builder;
         static bool name_convention_called;
 
         Establish context = () => 
         {
-            view_model = new ViewModel();
+            view_model = new ViewModelWithCommandsOnly();
             command_building_conventions.SetupGet(c=>c.CommandName).Returns(s=> {
                 name_convention_called = true;
                 return s;

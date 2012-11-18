@@ -14,6 +14,7 @@ namespace Bifrost.Silverlight.Specs.Commands.for_CommandFactory.given
         {
             command_coordinator_mock = new Mock<ICommandCoordinator>();
             command_building_conventions = new Mock<ICommandBuildingConventions>();
+            command_building_conventions.SetupGet(c => c.CommandName).Returns(s => s);
             command_factory = new CommandFactory(command_coordinator_mock.Object, command_building_conventions.Object);
         };
     }

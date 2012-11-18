@@ -2,8 +2,9 @@
 
 namespace Bifrost.Silverlight.Specs.Commands.for_CommandFactory
 {
-    public class ViewModel
+    public class ViewModelWithCommandsOnly
     {
         public ICommand TestCommand { get; set; }
+        public ICommand SecondCommand { get; set; }
     }
 }

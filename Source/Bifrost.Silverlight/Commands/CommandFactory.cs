@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Extensions;
 
 namespace Bifrost.Commands
@@ -23,14 +26,38 @@ namespace Bifrost.Commands
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ICommandBuilder BuildFrom(Expression<Func<object>> property)
+        public ICommandBuilder BuildFrom<TC>(Expression<Func<TC>> property, ICommandBuildingConventions conventions = null) where TC:ICommand
         {
-            var builder = new CommandBuilder(_commandCoordinator);
+            if (conventions == null) conventions = _conventions;
+
             var propertyName = property.GetPropertyInfo().Name;
-            builder.WithName(_conventions.CommandName(propertyName));
+            var builder = BuildFromName(propertyName, conventions);
             return builder;
+        }
+
+        public void BuildAndPopulateAll<T>(T target, ICommandBuildingConventions conventions = null)
+        {
+            if (conventions == null) conventions = _conventions;
+
+            foreach (var property in GetCommandProperties(typeof(T)))
+            {
+                var instance = BuildFromName(property.Name, conventions).GetInstance();
+                property.SetValue(target, instance, null);
+            }
+            
         }
 #pragma warning restore 1591 // Xml Comments
 
+        CommandBuilder BuildFromName(string name, ICommandBuildingConventions conventions)
+        {
+            var builder = new CommandBuilder(_commandCoordinator);
+            builder.WithName(conventions.CommandName(name));
+            return builder;
+        }
+
+        IEnumerable<PropertyInfo> GetCommandProperties(Type type)
+        {
+            return type.GetProperties().Where(p => p.PropertyType.HasInterface<ICommand>() || p.PropertyType == typeof(ICommand));
+        }
     }
 }
