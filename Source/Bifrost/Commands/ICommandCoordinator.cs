@@ -30,7 +30,7 @@ namespace Bifrost.Commands
 	/// <summary>
 	/// Defines a coordinator for coordinating commands coming into the system
 	/// </summary>
-	public interface ICommandCoordinator
+	public partial interface ICommandCoordinator
 	{
 		/// <summary>
 		/// Handle a command in the context of a saga

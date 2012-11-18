@@ -3,6 +3,7 @@ using System.Dynamic;
 
 namespace Bifrost.Domain
 {
+#pragma warning disable 1591 // Xml Comments
     public partial class AggregatedRootCommand<T>
     {
         dynamic _parameters;
@@ -29,6 +30,7 @@ namespace Bifrost.Domain
         public void Execute(object parameter)
         {
         }
-
     }
+#pragma warning restore 1591 // Xml Comments
+
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Bifrost.Commands;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bifrost.Validation

@@ -3,10 +3,10 @@ using System.Dynamic;
 
 namespace Bifrost.Commands
 {
+#pragma warning disable 1591 // Xml Comments
     public partial class DynamicCommand
     {
         dynamic _parameters;
-
 
         public bool IsBusy { get; set; }
         public string Name { get; set; }
@@ -29,6 +29,6 @@ namespace Bifrost.Commands
         public void Execute(object parameter)
         {
         }
-
     }
+#pragma warning restore 1591 // Xml Comments
 }

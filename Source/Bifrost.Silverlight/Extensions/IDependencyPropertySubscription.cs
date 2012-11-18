@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
 using System.ComponentModel;
 
 namespace Bifrost.Extensions
@@ -29,4 +28,3 @@ namespace Bifrost.Extensions
         object Value { get; set; }
     }
 }
-#endif

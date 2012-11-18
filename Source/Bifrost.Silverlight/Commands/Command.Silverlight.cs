@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Dynamic;
 using Bifrost.Dynamic;
 using Bifrost.Extensions;
 
@@ -10,6 +9,19 @@ namespace Bifrost.Commands
     {
         ICommandCoordinator _commandCoordinator;
         dynamic _parameters;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Command"/>
+        /// </summary>
+        /// <param name="commandCoordinator"><see cref="ICommandCoordinator"/> to use for handling the command</param>
+        public Command(ICommandCoordinator commandCoordinator) : base()
+        {
+            _commandCoordinator = commandCoordinator;
+        }
+
+#pragma warning disable 1591 // Xml Comments
+        public event EventHandler CanExecuteChanged = (s, e) => { };
+        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 
         public string Name { get; set; }
         public dynamic Parameters
@@ -33,32 +45,19 @@ namespace Bifrost.Commands
             }
         }
 
-        public static Command Create(ICommandCoordinator commandCoordinator,string name, dynamic initialParameterValues = null)
-        {
-            var command = new Command
-            {
-                Name = name,
-                _commandCoordinator = commandCoordinator,
-            };
-
-            if( initialParameterValues != null ) 
-                DynamicHelpers.Populate(command.Parameters, initialParameterValues);
-
-            return command;
-        }
-        
-
         public bool CanExecute(object parameter)
         {
             return true;
         }
-        public event EventHandler CanExecuteChanged = (s, e) => { };
+
 
         public void Execute(object parameter)
         {
-            _commandCoordinator.Handle(this);
+            if( _commandCoordinator != null ) 
+                _commandCoordinator.Handle(this);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+
+#pragma warning restore 1591 // Xml Comments
     }
 }

@@ -1,24 +1,31 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Windows;
-using System.Text;
-using Bifrost.Serialization;
 using System.Dynamic;
+using System.Net;
+using System.Text;
+using System.Windows;
+using Bifrost.Serialization;
 
 namespace Bifrost.Commands
 {
+    /// <summary>
+    /// Represents a <see cref="ICommandCoordinator"/> specialized for a client connecting to a server
+    /// </summary>
     public class ClientCommandCoordinator : ICommandCoordinator
     {
         ISerializer _serializer;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ClientCommandCoordinator"/>
+        /// </summary>
+        /// <param name="serializer"><see cref="ISerializer"/> to use for serialization back and forth to the server</param>
         public ClientCommandCoordinator(ISerializer serializer)
         {
             _serializer = serializer;
         }
 
-
+#pragma warning disable 1591 // Xml Comments
         public CommandResult Handle(Sagas.ISaga saga, ICommand command)
         {
             throw new NotImplementedException();
@@ -74,4 +81,5 @@ namespace Bifrost.Commands
             throw new NotImplementedException();
         }
     }
+#pragma warning restore 1591 // Xml Comments
 }

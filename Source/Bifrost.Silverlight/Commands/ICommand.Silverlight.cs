@@ -23,8 +23,19 @@ namespace Bifrost.Commands
 {
     public partial interface ICommand : System.Windows.Input.ICommand
     {
+        /// <summary>
+        /// Gets or sets the name of the command
+        /// </summary>
         string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parameters for the command
+        /// </summary>
         dynamic Parameters { get; }
+
+        /// <summary>
+        /// Gets or sets wether or not the command is busy
+        /// </summary>
         bool IsBusy { get; set; }
     }
 }
