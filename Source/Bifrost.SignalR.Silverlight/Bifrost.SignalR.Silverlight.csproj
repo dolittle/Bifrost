@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Castle.Core.2.5.2\lib\SL4\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="SignalR.Client.Silverlight5">
@@ -66,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandCoordinator.cs" />
+    <Compile Include="Commands\Proxies\ICommandCoordinator.cs" />
+    <Compile Include="Hubs\DynamicHubProxyInterceptor.cs" />
+    <Compile Include="Hubs\HubProxyManager.cs" />
+    <Compile Include="Hubs\IDynamicHubProxy.cs" />
+    <Compile Include="Hubs\IHubProxyManager.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

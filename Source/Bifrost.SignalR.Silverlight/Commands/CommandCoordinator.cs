@@ -1,39 +1,27 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Sagas;
-using SignalR.Client;
-using System.Windows;
-using SignalR.Client.Hubs;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Serialization;
-using System.Dynamic;
+using Bifrost.SignalR.Silverlight.Hubs;
+using SignalR.Client.Hubs;
 
 namespace Bifrost.SignalR.Silverlight.Commands
 {
     public class CommandCoordinator : ICommandCoordinator
     {
-        HubConnection _connection;
         IHubProxy _hub;
         ISerializer _serializer;
+        Proxies.ICommandCoordinator _proxy;
 
-        public CommandCoordinator(ISerializer serializer)
+        public CommandCoordinator(ISerializer serializer, IHubProxyManager hubProxyFactory)
         {
             _serializer = serializer;
 
-            var source = Application.Current.Host.Source;
-            var url = string.Format("{0}://{1}{2}",
-                source.Scheme,
-                source.Host,
-                source.Port == 80 ? string.Empty : ":" + source.Port);
-
-            _connection = new HubConnection(url);
-
-            _hub = _connection.CreateProxy("CommandCoordinator");
-
-            _connection.Start().Wait();
+            _proxy = hubProxyFactory.Get<Proxies.ICommandCoordinator>();
         }
 
         public CommandResult Handle(ISaga saga, ICommand command)
@@ -54,9 +42,8 @@ namespace Bifrost.SignalR.Silverlight.Commands
                 Name = command.Name,
                 Command = _serializer.ToJson(command.Parameters)
             };
-
             command.IsBusy = true;
-            _hub.Invoke<CommandResult>("Handle", descriptor).ContinueWith(a =>
+            _proxy.Handle(descriptor).ContinueWith(a =>
             {
                 foreach (var commandValidationMessage in a.Result.CommandValidationMessages)
                     commandValidationMessages.Add(commandValidationMessage);
