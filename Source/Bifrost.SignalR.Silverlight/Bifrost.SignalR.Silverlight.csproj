@@ -49,10 +49,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Castle.Core.2.5.2\lib\SL4\Castle.Core.dll</HintPath>
+      <HintPath>..\Solutions\packages\Castle.Core.2.5.2\lib\SL4\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.7\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SignalR.Client.Silverlight5">
       <HintPath>..\Solutions\packages\SignalR.Client.Silverlight5.0.5.3\lib\sl50\SignalR.Client.Silverlight5.dll</HintPath>
     </Reference>
