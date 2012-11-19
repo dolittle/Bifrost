@@ -38,11 +38,15 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="events">Enumerable of <see cref="IEvent">events</see> to be extended</param>
         /// <param name="command"><see cref="ICommand">Command</see> that caused the events to be generated</param>
-        public static void MarkEventsWithCommand(this IEnumerable<IEvent> events, ICommand command)
+        public static void MarkEventsWithCommandDetails(this IEnumerable<IEvent> events, ICommand command)
         {
             foreach (var @event in events)
+            {
                 if (string.IsNullOrEmpty(@event.CommandName))
                     @event.CommandName = command == null ? "[Not available]" : command.GetType().Name;
+
+                @event.CommandContext = command.Id;
+            }
         }
 
         /// <summary>

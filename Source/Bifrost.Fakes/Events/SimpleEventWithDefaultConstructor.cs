@@ -15,5 +15,6 @@ namespace Bifrost.Fakes.Events
         public string CausedBy { get; set; }
         public string Origin { get; set; }
     	public DateTime Occured { get; set; }
+        public Guid CommandContext { get; set; }
     }
 }

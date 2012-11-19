@@ -33,6 +33,11 @@ namespace Bifrost.Events
 		/// </summary>
         long Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Id of CommandContext in which the event originated from
+        /// </summary>
+        Guid CommandContext { get; set; }
+
 		/// <summary>
 		/// Gets or sets the name of the command causing the event
 		/// </summary>

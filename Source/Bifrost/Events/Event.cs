@@ -35,7 +35,7 @@ namespace Bifrost.Events
 
 #pragma warning disable 1591 // Xml Comments
         public long Id { get; set; }
-
+        public Guid CommandContext { get; set; }
         public string Name { get; set; }
 		public string CommandName { get; set; }
         public Guid EventSourceId { get; set; }

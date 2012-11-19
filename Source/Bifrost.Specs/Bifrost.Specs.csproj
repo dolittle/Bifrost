@@ -139,6 +139,7 @@
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
     <Compile Include="Events\for_EventConverter\given\an_event_converter.cs" />
     <Compile Include="Events\for_EventConverter\when_converting_to_an_event_holder.cs" />
+    <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_repository_with_persisted_events.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_source_with_10_applied_events.cs" />
     <Compile Include="Events\for_EventRepository\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
