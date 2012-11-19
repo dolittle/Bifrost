@@ -6,6 +6,7 @@ using Bifrost.Execution;
 using SignalR.Client.Hubs;
 using Castle.DynamicProxy;
 using Bifrost.Extensions;
+using System.Reflection;
 
 namespace Bifrost.SignalR.Silverlight.Hubs
 {
@@ -39,9 +40,11 @@ namespace Bifrost.SignalR.Silverlight.Hubs
             {
                 var interceptor = new DynamicHubProxyInterceptor(_connection, proxyType);
                 var proxy = proxyGenerator.CreateInterfaceProxyWithoutTarget(proxyType, interceptor) as IDynamicHubProxy;
+                interceptor.SetupEventSubscriptions(interceptor, proxy, proxyType);
                 _proxies[proxyType] = proxy;
             }
         }
+
 
         public T Get<T>() where T : IDynamicHubProxy
         {

@@ -10,17 +10,31 @@ namespace Bifrost.SignalR.Silverlight.Hubs
     public class DynamicHubProxyInterceptor : IInterceptor
     {
         IHubProxy _proxy;
+        Type _type;
         MethodInfo _genericInvokeMethod;
         MethodInfo _invokeMethod;
         HubConnection _connection;
 
         public DynamicHubProxyInterceptor(HubConnection connection, Type type)
         {
+            _type = type;
             var name = type.Name.Substring(1);
             _proxy = connection.CreateProxy(name);
             _connection = connection;
             _genericInvokeMethod = _proxy.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(m => m.Name == "Invoke" && m.ContainsGenericParameters).SingleOrDefault();
         }
+
+        public void SetupEventSubscriptions(DynamicHubProxyInterceptor interceptor, IDynamicHubProxy proxy, Type proxyType)
+        {
+            var events = proxyType.GetEvents(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var @event in events)
+                _proxy.Subscribe(@event.Name).Data += (tokens) =>
+                {
+                    var raiseMethod = @event.GetRaiseMethod();
+                    raiseMethod.Invoke(proxy, null);
+                };
+        }
+
 
         public void Intercept(IInvocation invocation)
         {
