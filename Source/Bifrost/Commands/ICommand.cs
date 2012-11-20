@@ -29,8 +29,8 @@ namespace Bifrost.Commands
 	public partial interface ICommand
 	{
 		/// <summary>
-		/// Gets the Id of the object the command will apply to
+		/// Gets or sets the Id of the object the command will apply to
 		/// </summary>
-		Guid Id { get; }
+        Guid Id { get; set; }
 	}
 }

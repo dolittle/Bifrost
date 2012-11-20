@@ -31,7 +31,6 @@ namespace Bifrost.SignalR.Silverlight.Hubs
             _connection.Start().Wait();
         }
 
-
         void CreateAllHubProxies()
         {
             var proxyGenerator = new ProxyGenerator();

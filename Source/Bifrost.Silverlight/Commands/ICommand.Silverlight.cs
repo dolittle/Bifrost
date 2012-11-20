@@ -37,5 +37,10 @@ namespace Bifrost.Commands
         /// Gets or sets wether or not the command is busy
         /// </summary>
         bool IsBusy { get; set; }
+
+        /// <summary>
+        /// Gets or sets wether or not the command is being processed
+        /// </summary>
+        bool IsProcessing { get; set; }
     }
 }

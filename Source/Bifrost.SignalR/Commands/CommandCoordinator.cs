@@ -3,6 +3,7 @@ using Bifrost.Execution;
 using Bifrost.Serialization;
 using SignalR.Hubs;
 using System;
+using SignalR;
 
 namespace Bifrost.SignalR.Commands
 {
@@ -17,8 +18,7 @@ namespace Bifrost.SignalR.Commands
             ICommandCoordinator commandCoordinator,
             ICommandTypeManager commandTypeManager,
             ICommandContextConnectionManager commandContextConnectionManager,
-            ISerializer serializer
-            )
+            ISerializer serializer)
         {
             _commandCoordinator = commandCoordinator;
             _commandTypeManager = commandTypeManager;
@@ -30,9 +30,17 @@ namespace Bifrost.SignalR.Commands
         {
             var commandType = _commandTypeManager.GetFromName(descriptor.Name);
             var command = (ICommand)_serializer.FromJson(commandType, descriptor.Command);
+            command.Id = descriptor.Id;
+            //Clients.EventsProcessed(descriptor.Id);
             _commandContextConnectionManager.Register(Context.ConnectionId, command.Id);
             var commandResult = _commandCoordinator.Handle(command);
             return commandResult;
+        }
+
+        public static void EventsProcessed(string connectionId, Guid commandContext)
+        {
+            var context = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
+            context.Clients.EventsProcessed(commandContext);
         }
     }
 }

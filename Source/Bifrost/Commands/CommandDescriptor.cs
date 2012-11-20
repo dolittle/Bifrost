@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 namespace Bifrost.Commands
 {
     /// <summary>
@@ -26,6 +27,11 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandDescriptor
     {
+        /// <summary>
+        /// Gets or sets the Id of the command
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Name of command
         /// </summary>

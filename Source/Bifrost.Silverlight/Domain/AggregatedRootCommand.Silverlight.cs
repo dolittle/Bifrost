@@ -20,6 +20,7 @@ namespace Bifrost.Domain
         }
 
         public bool IsBusy { get; set; }
+        public bool IsProcessing { get; set; }
 
         public bool CanExecute(object parameter)
         {

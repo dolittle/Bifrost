@@ -17,7 +17,6 @@ namespace Bifrost.SignalR.Events
 
         public void Notify(IEventStore eventStore, EventStream streamOfEvents)
         {
-            var hub = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
             var commandContextsToNotify = new List<Guid>();
 
             foreach (var @event in streamOfEvents)
@@ -26,8 +25,8 @@ namespace Bifrost.SignalR.Events
 
             foreach (var commandContext in commandContextsToNotify)
             {
-                var client = _commandContextConnectionManager.GetConnectionForCommandContext(commandContext);
-                hub.Clients.Client(client).EventsProcessed(commandContext);
+                var connectionId = _commandContextConnectionManager.GetConnectionForCommandContext(commandContext);
+                CommandCoordinator.EventsProcessed(connectionId, commandContext);
             }
         }
     }

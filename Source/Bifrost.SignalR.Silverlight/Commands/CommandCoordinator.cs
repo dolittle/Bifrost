@@ -8,6 +8,7 @@ using Bifrost.Sagas;
 using Bifrost.Serialization;
 using Bifrost.SignalR.Silverlight.Hubs;
 using SignalR.Client.Hubs;
+using System.Collections.Generic;
 
 namespace Bifrost.SignalR.Silverlight.Commands
 {
@@ -16,12 +17,24 @@ namespace Bifrost.SignalR.Silverlight.Commands
         IHubProxy _hub;
         ISerializer _serializer;
         Proxies.ICommandCoordinator _proxy;
+        Dictionary<Guid, ICommand> _commands = new Dictionary<Guid, ICommand>();
+
 
         public CommandCoordinator(ISerializer serializer, IHubProxyManager hubProxyFactory)
         {
             _serializer = serializer;
 
             _proxy = hubProxyFactory.Get<Proxies.ICommandCoordinator>();
+            _proxy.EventsProcessed += EventsProcessed;
+        }
+
+        void EventsProcessed(Guid commandContext)
+        {
+            if (_commands.ContainsKey(commandContext))
+            {
+                _commands[commandContext].IsProcessing = false;
+                _commands.Remove(commandContext);
+            }
         }
 
         public CommandResult Handle(ISaga saga, ICommand command)
@@ -39,10 +52,13 @@ namespace Bifrost.SignalR.Silverlight.Commands
 
             var descriptor = new CommandDescriptor
             {
+                Id = Guid.NewGuid(),
                 Name = command.Name,
                 Command = _serializer.ToJson(command.Parameters)
             };
+            _commands[descriptor.Id] = command;
             command.IsBusy = true;
+            command.IsProcessing = true;
             _proxy.Handle(descriptor).ContinueWith(a =>
             {
                 foreach (var commandValidationMessage in a.Result.CommandValidationMessages)

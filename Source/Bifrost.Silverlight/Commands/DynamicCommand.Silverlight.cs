@@ -9,6 +9,7 @@ namespace Bifrost.Commands
         dynamic _parameters;
 
         public bool IsBusy { get; set; }
+        public bool IsProcessing { get; set; }
         public string Name { get; set; }
         public dynamic Parameters
         {

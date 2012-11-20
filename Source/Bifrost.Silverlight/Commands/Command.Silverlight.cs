@@ -45,6 +45,17 @@ namespace Bifrost.Commands
             }
         }
 
+        bool _isProcessing;
+        public bool IsProcessing
+        {
+            get { return _isProcessing; }
+            set
+            {
+                _isProcessing = value;
+                PropertyChanged.Notify(() => IsProcessing);
+            }
+        }
+
         public bool CanExecute(object parameter)
         {
             return true;

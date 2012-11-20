@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
+using Newtonsoft.Json.Linq;
 using SignalR.Client.Hubs;
 
 namespace Bifrost.SignalR.Silverlight.Hubs
@@ -14,6 +15,8 @@ namespace Bifrost.SignalR.Silverlight.Hubs
         MethodInfo _genericInvokeMethod;
         MethodInfo _invokeMethod;
         HubConnection _connection;
+        Dictionary<string, List<Delegate>> _events = new Dictionary<string, List<Delegate>>();
+        MethodInfo _toObjectMethod = typeof(JToken).GetMethod("ToObject", new Type[0]);
 
         public DynamicHubProxyInterceptor(HubConnection connection, Type type)
         {
@@ -30,14 +33,47 @@ namespace Bifrost.SignalR.Silverlight.Hubs
             foreach (var @event in events)
                 _proxy.Subscribe(@event.Name).Data += (tokens) =>
                 {
-                    var raiseMethod = @event.GetRaiseMethod();
-                    raiseMethod.Invoke(proxy, null);
+                    if( _events.ContainsKey(@event.Name)) { 
+                        var eventMethods = _events[@event.Name];
+                        foreach (var eventMethod in eventMethods)
+                        {
+                            var actualParameters = new List<object>();
+
+                            var parameters = eventMethod.Method.GetParameters();
+                            for( var parameterIndex=0; parameterIndex<parameters.Length; parameterIndex++ ) 
+                            {
+                                var actualMethod = _toObjectMethod.MakeGenericMethod(parameters[parameterIndex].ParameterType);
+                                var actualParameter = actualMethod.Invoke(tokens[parameterIndex], null);
+                                actualParameters.Add(actualParameter);
+                            }
+
+                            eventMethod.DynamicInvoke(actualParameters.ToArray());
+                        }
+                    }
                 };
         }
 
 
         public void Intercept(IInvocation invocation)
         {
+            if (invocation.Method.Name.StartsWith("add_"))
+            {
+                var eventName = invocation.Method.Name.Substring(4);
+
+                List<Delegate> events;
+                if (!_events.ContainsKey(eventName))
+                {
+                    events = new List<Delegate>();
+                    _events[eventName] = events;
+                }
+                else
+                    events = _events[eventName];
+
+                events.Add((Delegate)invocation.Arguments[0]);
+
+                return;
+            }
+
             if( _invokeMethod == null ) {
                 var returnType = invocation.Method.ReturnType.GetGenericArguments()[0];
                 _invokeMethod = _genericInvokeMethod.MakeGenericMethod(returnType);
