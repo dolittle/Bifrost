@@ -68,20 +68,27 @@
     <Compile Include="Commands\for_CommandContextConnectionManager\when_getting_an_existing_connection_from_a_command_context.cs" />
     <Compile Include="Commands\for_CommandContextConnectionManager\when_getting_a_connection_from_a_non_registered_command_context.cs" />
     <Compile Include="Commands\for_CommandContextConnectionManager\when_removing_a_connection_registered_for_two_command_contexts.cs" />
+    <Compile Include="Events\for_EventStoreChangeNotifier\when_notifying_with_three_events_from_two_different_command_contexts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Fakes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.SignalR\Bifrost.SignalR.csproj">
       <Project>{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}</Project>
       <Name>Bifrost.SignalR</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\for_EventStoreChangeNotifier\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
