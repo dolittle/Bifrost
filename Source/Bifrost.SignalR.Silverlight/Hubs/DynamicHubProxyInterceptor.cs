@@ -53,7 +53,6 @@ namespace Bifrost.SignalR.Silverlight.Hubs
                 };
         }
 
-
         public void Intercept(IInvocation invocation)
         {
             if (invocation.Method.Name.StartsWith("add_"))

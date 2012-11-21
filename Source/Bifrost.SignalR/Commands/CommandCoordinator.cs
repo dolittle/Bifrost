@@ -4,6 +4,8 @@ using Bifrost.Serialization;
 using SignalR.Hubs;
 using System;
 using SignalR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Bifrost.SignalR.Commands
 {
@@ -31,7 +33,6 @@ namespace Bifrost.SignalR.Commands
             var commandType = _commandTypeManager.GetFromName(descriptor.Name);
             var command = (ICommand)_serializer.FromJson(commandType, descriptor.Command);
             command.Id = descriptor.Id;
-            //Clients.EventsProcessed(descriptor.Id);
             _commandContextConnectionManager.Register(Context.ConnectionId, command.Id);
             var commandResult = _commandCoordinator.Handle(command);
             return commandResult;

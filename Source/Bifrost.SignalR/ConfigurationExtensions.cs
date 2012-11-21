@@ -10,7 +10,8 @@ namespace Bifrost.Configuration
     {
         public static IConfigure UsingSignalR(this IEventsConfiguration configuration)
         {
-            RouteTable.Routes.MapHubs(new BifrostDependencyResolver(Configure.Instance.Container));
+            GlobalHost.DependencyResolver = new BifrostDependencyResolver(Configure.Instance.Container);
+            RouteTable.Routes.MapHubs();
             configuration.AddEventStoreChangeNotifier(typeof(EventStoreChangeNotifier));
             return Configure.Instance;
         }
