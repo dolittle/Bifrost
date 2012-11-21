@@ -37,11 +37,5 @@ namespace Bifrost.SignalR.Commands
             var commandResult = _commandCoordinator.Handle(command);
             return commandResult;
         }
-
-        public static void EventsProcessed(string connectionId, Guid commandContext)
-        {
-            var context = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
-            context.Clients.EventsProcessed(commandContext);
-        }
     }
 }

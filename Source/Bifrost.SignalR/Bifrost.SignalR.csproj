@@ -62,7 +62,9 @@
     <Compile Include="Commands\ICommandContextConnectionManager.cs" />
     <Compile Include="Commands\UnknownCommandContextException.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="Events\CommandCoordinatorEvents.cs" />
     <Compile Include="Events\EventStoreChangeNotifier.cs" />
+    <Compile Include="Events\ICommandCoordinatorEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
