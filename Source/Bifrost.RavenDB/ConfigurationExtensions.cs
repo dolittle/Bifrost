@@ -22,12 +22,18 @@
 using System;
 using Bifrost.Entities;
 using Bifrost.RavenDB;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRaven(this IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback=null)
+        public static IConfigure UsingRaven(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
+        {
+            return UsingRaven(storage, Configure.Instance, url, configureCallback);
+        }
+
+        public static IConfigure UsingRaven(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
@@ -36,17 +42,9 @@ namespace Bifrost.Configuration
             if (configureCallback != null)
                 configureCallback(entityContextConfiguration);
 
-
             var connection = new EntityContextConnection(entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
-
-            configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
-            configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
-            configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
-            configure.Commands.Storage = entityContextConfiguration;
-
-            
-            connection.Initialize(configure.Container, entityContextConfiguration);
+            storage.EntityContextConfiguration = entityContextConfiguration;
 
             return configure;
         }

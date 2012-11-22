@@ -13,15 +13,6 @@ namespace Bifrost.Configuration
 			return Configure.Instance;
 		}
 		
-        public static IConfigure UsingJson(this ICommandsConfiguration commandsConfiguration, string path)
-        {
-            commandsConfiguration.Storage = new EntityContextConfiguration
-            {
-                Connection = new EntityContextConnection { Directory = path }
-            };
-            return Configure.Instance;
-        }
-
         public static IConfigure UsingJson(this ISagasConfiguration sagasConfiguration, string path)
         {
             return Configure.Instance;
@@ -33,18 +24,16 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
             
-        public static IConfigure UsingJsonStorage(this IConfigure configure, string path)
+        public static IConfigure UsingJsonStorage(this IHaveStorage storage, string path)
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
                 Connection = new EntityContextConnection { Directory = path }
             };
-            configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
-            configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
-            configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
-            configure.Commands.Storage = entityContextConfiguration;
 
-            return configure;
+            storage.EntityContextConfiguration = entityContextConfiguration;
+
+            return Configure.Instance;
         }
     }
 }

@@ -27,6 +27,8 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Microsoft.Practices.ServiceLocation;
 using Bifrost.Events;
+using Bifrost.Entities;
+using Bifrost.Configuration;
 
 namespace Bifrost.Configuration
 {
@@ -130,6 +132,7 @@ namespace Bifrost.Configuration
 #pragma warning disable 1591 // Xml Comments
         public Type LoggerType { get; set; }
         public IContainer Container { get; private set; }
+        public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
         public IViewsConfiguration Views { get; private set; }
@@ -152,13 +155,14 @@ namespace Bifrost.Configuration
             if (_configurationSource != null)
                 _configurationSource.Initialize(this);
 			
-			Serialization.Initialize (this);
-            Commands.Initialize(this);
-            Events.Initialize(this);
-            Views.Initialize(this);
-			Sagas.Initialize(this);
+			Serialization.Initialize(Container);
+            Commands.Initialize(Container);
+            Events.Initialize(Container);
+            Views.Initialize(Container);
+			Sagas.Initialize(Container);
             InitializeApplication();
         	InitializeCulture();
+            DefaultStorage.Initialize(Container);
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -178,6 +182,7 @@ namespace Bifrost.Configuration
         	Sagas = Container.Get<ISagasConfiguration>();
 			Serialization = Container.Get<ISerializationConfiguration>();
             ApplicationManager = Container.Get<IApplicationManager>();
+            DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
         }
 
 		void InitializeCulture()

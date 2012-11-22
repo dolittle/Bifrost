@@ -22,21 +22,31 @@
 
 using System;
 using Bifrost.Sagas;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
 	/// <summary>
 	/// Represents a <see cref="ISagasConfiguration"/> implementation
 	/// </summary>
-	public class SagasConfiguration : ISagasConfiguration
+	public class SagasConfiguration : ConfigurationStorageElement, ISagasConfiguration
 	{
 #pragma warning disable 1591 // Xml Comments
 		public Type LibrarianType { get; set; }
 
-		public void Initialize(Configure configure)
+		public override void Initialize(IContainer container)
 		{
 			if( LibrarianType != null )
-				configure.Container.Bind<ISagaLibrarian>(LibrarianType);
+				container.Bind<ISagaLibrarian>(LibrarianType);
+
+
+            if (EntityContextConfiguration != null)
+            {
+                EntityContextConfiguration.BindEntityContextTo<SagaHolder>(container);
+                EntityContextConfiguration.BindEntityContextTo<ChapterHolder>(container);
+            }
+
+            base.Initialize(container);
 		}
 #pragma warning restore 1591 // Xml Comments
 

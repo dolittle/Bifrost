@@ -22,11 +22,6 @@ namespace Bifrost.RavenDB
 
         public IQueryable<T> Entities { get { return _session.Query<T>(); } }
 
-        
-        //public T GetBy<TProperty>(Expression<Func<T, TProperty>> property, TProperty value)
-        //{
-        //    _session.Query<T>().Where( t => t.
-        //}
 
         public void Attach(T entity)
         {

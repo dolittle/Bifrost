@@ -57,5 +57,10 @@ namespace Bifrost.NHibernate
             foreach (var assembly in assemblies)
                 mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never());
         }
-	}
+
+        public void Initialize(IContainer container)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }

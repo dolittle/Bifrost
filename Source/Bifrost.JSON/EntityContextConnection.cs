@@ -33,5 +33,9 @@ namespace Bifrost.JSON
 		/// Gets or sets the directory to hold all the JSON files
 		/// </summary>
 		public string Directory { get; set; }
-	}
+
+        public void Initialize(Execution.IContainer container)
+        {
+        }
+    }
 }

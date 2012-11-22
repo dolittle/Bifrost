@@ -24,6 +24,7 @@ using Bifrost.Execution;
 using Microsoft.Practices.ServiceLocation;
 using Bifrost.Sagas;
 using System;
+using Bifrost.Entities;
 
 namespace Bifrost.Configuration
 {
@@ -56,6 +57,8 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
 
+       
+
 
         /// <summary>
         /// Configures events to be persisted asynchronously
@@ -82,5 +85,39 @@ namespace Bifrost.Configuration
             configuration.LibrarianType = typeof(NullSagaLibrarian);
             return Configure.Instance;
         }
+
+        /// <summary>
+        /// Binds given entity context for a specific type (IEntityContext of T)
+        /// </summary>
+        /// <typeparam name="T">The Type that this vbinding will work for</typeparam>
+        /// <param name="configuration">EntityContextConfiguration instance</param>
+        /// <param name="container">Container</param>
+        public static void BindEntityContextTo<T>(this IEntityContextConfiguration configuration, IContainer container)
+        {
+            BindEntityContextConfigurationInstance(configuration, container);
+
+            var source = typeof(IEntityContext<>).MakeGenericType(typeof(T));
+            container.Bind(source, configuration.EntityContextType);
+        }
+
+        /// <summary>
+        /// Binds given entity context as default IEntityContext
+        /// </summary>
+        /// <param name="configuration">EntityContextConfiguration instance</param>
+        /// <param name="container">Container</param>
+        public static void BindDefaultEntityContext(this IEntityContextConfiguration configuration, IContainer container)
+        {
+            BindEntityContextConfigurationInstance(configuration, container);
+            container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
+        }
+        
+        private static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
+        {
+            var configurationType = configuration.Connection.GetType();
+
+            if(!container.HasBindingFor(configurationType))
+                container.Bind(configurationType, configuration.Connection);
+        }
+
     }
 }

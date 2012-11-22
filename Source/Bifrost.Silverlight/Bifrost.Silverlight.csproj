@@ -163,8 +163,14 @@
     <Compile Include="..\Bifrost\Configuration\ConfigurationExtensions.cs">
       <Link>Configuration\ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\ConfigurationStorageElement.cs">
+      <Link>Configuration\ConfigurationStorageElement.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\Configure.cs">
       <Link>Configuration\Configure.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\DefaultStorageConfiguration.cs">
+      <Link>Configuration\DefaultStorageConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\Defaults\DefaultBindings.cs">
       <Link>Configuration\Defaults\DefaultBindings.cs</Link>
@@ -184,17 +190,26 @@
     <Compile Include="..\Bifrost\Configuration\ICommandsConfiguration.cs">
       <Link>Configuration\ICommandsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IConfigurationElement.cs">
+      <Link>Configuration\IConfigurationElement.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IConfigurationSource.cs">
       <Link>Configuration\IConfigurationSource.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IConfigure.cs">
       <Link>Configuration\IConfigure.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IDefaultStorageConfiguration.cs">
+      <Link>Configuration\IDefaultStorageConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IEntityContextConfiguration.cs">
       <Link>Configuration\IEntityContextConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IEventsConfiguration.cs">
       <Link>Configuration\IEventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IHaveStorage.cs">
+      <Link>Configuration\IHaveStorage.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ISagasConfiguration.cs">
       <Link>Configuration\ISagasConfiguration.cs</Link>

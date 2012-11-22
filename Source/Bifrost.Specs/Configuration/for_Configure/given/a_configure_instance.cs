@@ -3,6 +3,7 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
+using Bifrost.Fakes.Entities;
 
 namespace Bifrost.Specs.Configuration.for_Configure.given
 {
@@ -19,6 +20,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IApplicationManager> application_manager_mock;
         protected static Mock<IApplication> application_mock;
         protected static Mock<IViewsConfiguration> views_configuration_mock;
+        protected static Mock<IDefaultStorageConfiguration> default_storage_configuration_mock;
 
         Establish context = () =>
                                 {
@@ -46,6 +48,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
                                     application_manager_mock = new Mock<IApplicationManager>();
                                     application_manager_mock.Setup(a => a.Get()).Returns(application_mock.Object);
                                     container_mock.Setup(c => c.Get<IApplicationManager>()).Returns(application_manager_mock.Object);
+
+                                    default_storage_configuration_mock = new Mock<IDefaultStorageConfiguration>();
+                                    container_mock.Setup(c => c.Get<IDefaultStorageConfiguration>()).Returns(default_storage_configuration_mock.Object);
 
                                     configure_instance = Configure.With(container_mock.Object, default_conventions_mock.Object, default_bindings_mock.Object);
                                 };

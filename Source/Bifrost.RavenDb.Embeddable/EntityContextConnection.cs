@@ -43,5 +43,10 @@ namespace Bifrost.RavenDB.Embeddable
             DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;
             DocumentStore.Initialize();
         }
+
+        public void Initialize(Execution.IContainer container)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

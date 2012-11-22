@@ -116,6 +116,18 @@
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_constant.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_field.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_property.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_multiple_bindings_for_specific_storage.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\SomeOtherType.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\SomeType.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_for_specific_storage.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\given\a_configuration_element.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_for_default_storage.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\when_initializing_without_storage.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\when_initializing_with_storage.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\given\a_sagas_configuration.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\given\a_sagas_configuration_and_container_object.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\when_initializing_without_storage.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\when_initializing_with_storage.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithConfigObjectWithString.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithListOfElements.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\given\a_config_parser.cs" />
@@ -133,7 +145,7 @@
     <Compile Include="Configuration\for_Configure\when_configured_with_a_configuration_source.cs" />
     <Compile Include="Configuration\for_Configure\when_initializing.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
-    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_configure_object.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />

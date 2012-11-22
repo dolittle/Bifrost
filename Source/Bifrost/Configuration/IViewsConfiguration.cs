@@ -24,12 +24,7 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines the configuration for views
 	/// </summary>
-    public interface IViewsConfiguration : IStorageConfiguration
+    public interface IViewsConfiguration : IConfigurationElement
     {
-        /// <summary>
-        /// Initialize the configuration
-        /// </summary>
-        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
-        void Initialize(IConfigure configure);
     }
 }

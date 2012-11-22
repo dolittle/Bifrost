@@ -1,5 +1,6 @@
 ﻿using Bifrost.Entities;
 using MongoDB.Driver;
+using Bifrost.Execution;
 
 namespace Bifrost.MongoDB
 {
@@ -18,6 +19,11 @@ namespace Bifrost.MongoDB
 
             Server = MongoServer.Create(connectionString);
             Database = Server.GetDatabase(databaseName);
+        }
+
+        public void Initialize(IContainer container)
+        {
+            
         }
     }
 }

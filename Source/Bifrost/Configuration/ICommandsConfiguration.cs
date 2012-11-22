@@ -27,17 +27,11 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines configuration for commands
 	/// </summary>
-    public interface ICommandsConfiguration : IStorageConfiguration
+    public interface ICommandsConfiguration : IConfigurationElement, IHaveStorage
     {
         /// <summary>
         /// Gets or sets the type <see cref="ICommandCoordinator"/> to use
         /// </summary>
         Type CommandCoordinatorType { get; set; }
-
-        /// <summary>
-        /// Initialize the configuration
-        /// </summary>
-        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
-        void Initialize(IConfigure configure);
     }
 }

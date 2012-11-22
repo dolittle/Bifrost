@@ -28,11 +28,16 @@ namespace Bifrost.RavenDB
 {
     public class EntityContextConnection : IEntityContextConnection
     {
+
+        EntityContextConfiguration _configuration;
+
         public string Url { get; set; }
         public DocumentStore DocumentStore { get; private set; }
 
         public EntityContextConnection(EntityContextConfiguration configuration)
         {
+            _configuration = configuration;
+
             Url = configuration.Url;
             DocumentStore = new Raven.Client.Document.DocumentStore
             {
@@ -51,11 +56,11 @@ namespace Bifrost.RavenDB
             DocumentStore.Initialize();
         }
 
-        public void Initialize(IContainer container, EntityContextConfiguration configuration)
+        public void Initialize(IContainer container)
         {
-            if (configuration.EventsKeyGeneratorType != null)
+            if (_configuration.EventsKeyGeneratorType != null)
             {
-                var keyGenerator = container.Get(configuration.EventsKeyGeneratorType) as ISequentialKeyGenerator;
+                var keyGenerator = container.Get(_configuration.EventsKeyGeneratorType) as ISequentialKeyGenerator;
                 var originalDocumentKeyGenerator = DocumentStore.Conventions.DocumentKeyGenerator;
                 DocumentStore.Conventions.DocumentKeyGenerator = o =>
                 {
