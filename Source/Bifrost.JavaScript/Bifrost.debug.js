@@ -424,13 +424,10 @@ Bifrost.namespace("Bifrost", {
     };
 
     resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
-        console.log("Resolve : "+dependency+" at index : "+index+", typeDef : "+typeDefinition._dependencies);
-
         var resolverPromise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
                 .continueWith(function(nextPromise, result) {
-                    console.log("Resolved ("+dependency+") at index : "+index+", typeDef : "+typeDefinition._dependencies+", instance : "+result);
                     instances[index] = result;
                     resolvedCallback(nextPromise, result);
                 });
