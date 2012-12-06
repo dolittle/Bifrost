@@ -20,7 +20,6 @@ describe("when creating asynchronously with two dependencies", function() {
 
 	var result = null;
 	type.beginCreate().continueWith(function(nextPromise, parameter) {
-		print("Hello");
 		result = parameter;
 	});
 
