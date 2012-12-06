@@ -83,6 +83,7 @@
     <Compile Include="Commands\ControllerHelpers.cs" />
     <Compile Include="Commands\MissingActionException.cs" />
     <Compile Include="Commands\ModelStateDictionaryExtensions.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="ContainerDependencyResolver.cs" />
     <Compile Include="Validation\GreaterThanOrEqualPropertyValidator.cs" />
     <Compile Include="Validation\LessThanOrEqualPropertyValidator.cs" />

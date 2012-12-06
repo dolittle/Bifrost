@@ -78,6 +78,7 @@ namespace Bifrost.Web.Mvc
             base.OnContainerCreated();
         }
 
+
         public override void OnConfigureValidation()
         {
             //DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
