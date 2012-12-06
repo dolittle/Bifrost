@@ -423,6 +423,20 @@ Bifrost.namespace("Bifrost", {
         return dependencyInstances;
     };
 
+    resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
+        console.log("Resolve : "+dependency+" at index : "+index+", typeDef : "+typeDefinition._dependencies);
+
+        var resolverPromise = 
+            Bifrost.dependencyResolver
+                .beginResolve(namespace, dependency)
+                .continueWith(function(nextPromise, result) {
+                    console.log("Resolved ("+dependency+") at index : "+index+", typeDef : "+typeDefinition._dependencies+", instance : "+result);
+                    instances[index] = result;
+                    resolvedCallback(nextPromise, result);
+                });
+    };
+
+
     beginGetDependencyInstances = function(namespace, typeDefinition) {
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
@@ -430,19 +444,17 @@ Bifrost.namespace("Bifrost", {
         if( typeof typeDefinition._dependencies !== "undefined" ) {
 
             var dependenciesToResolve = typeDefinition._dependencies.length;
+            var actualDependencyIndex = 0;
+            var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
-                var dependency = typeDefinition._dependencies[dependencyIndex];
-                var resolverPromise = 
-                    Bifrost.dependencyResolver
-                        .beginResolve(namespace, dependency)
-                        .continueWith(function(nextPromise, result) {
-                            dependencyInstances[dependencyIndex] = result;
-                            solvedDependencies++;
-                            if( solvedDependencies == dependenciesToResolve ) {
-                                promise.signal(dependencyInstances);
-                            } 
-                        });
-
+                dependency = typeDefinition._dependencies[dependencyIndex];
+                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(nextPromise, result) {
+                    
+                    solvedDependencies++;
+                    if( solvedDependencies == dependenciesToResolve ) {
+                        promise.signal(dependencyInstances);
+                    } 
+                });
             }
 
         }
