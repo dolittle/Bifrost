@@ -19,7 +19,7 @@ describe("when creating with dependencies", function() {
 			}
 		};
 
-		type = Bifrost.Type.define(function(something) {
+		type = Bifrost.Type.extend(function(something) {
 			somethingDependency = something;
 		});		
 

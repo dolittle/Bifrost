@@ -1,8 +1,8 @@
-describe("when defining without a parameter", function() {
+describe("when extending with null parameter", function() {
 	var exception;
 	
 	try {
-		Bifrost.Type.define();
+		Bifrost.Type.extend(null);
 	} catch(e) {
 		exception = e;
 	}

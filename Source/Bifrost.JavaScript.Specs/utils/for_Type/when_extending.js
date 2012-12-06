@@ -1,4 +1,4 @@
-describe("when defining", function () {
+describe("when extending", function () {
     var typeDefinition = function (something) { };
     var result = null; 
 
@@ -6,7 +6,7 @@ describe("when defining", function () {
 		Bifrost.dependencyResolver = {
 			getDependenciesFor: sinon.stub()
 		};
-		result = Bifrost.Type.define(typeDefinition);
+		result = Bifrost.Type.extend(typeDefinition);
 	});
 
 	afterEach(function() {

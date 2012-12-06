@@ -1,5 +1,5 @@
 describe("when creating asynchronously", function() {
-	var type = Bifrost.Type.define(function() {
+	var type = Bifrost.Type.extend(function() {
 	});
 
 	var result = type.beginCreate();

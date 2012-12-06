@@ -100,7 +100,7 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
-    Bifrost.Type.define = function (typeDefinition) {
+    Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);

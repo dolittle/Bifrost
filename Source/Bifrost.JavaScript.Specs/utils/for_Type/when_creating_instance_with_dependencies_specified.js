@@ -9,7 +9,7 @@
             }
         };
 
-        var myType = Bifrost.Type.define(function (something) {
+        var myType = Bifrost.Type.extend(function (something) {
             this.something = something;
         });
 

@@ -7,7 +7,7 @@ describe("when creating instance", function() {
 			getDependenciesFor: sinon.stub()
 		};
 
-		type = Bifrost.Type.define(function() {
+		type = Bifrost.Type.extend(function() {
 		});
 		instance = type.create();
 	});

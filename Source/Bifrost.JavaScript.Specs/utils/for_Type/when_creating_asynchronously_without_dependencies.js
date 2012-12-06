@@ -1,5 +1,5 @@
 describe("when creating asynchronously without dependencies", function() {
-	var type = Bifrost.Type.define(function() {
+	var type = Bifrost.Type.extend(function() {
 		this.something = "Hello";
 	});
 

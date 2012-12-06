@@ -43,9 +43,9 @@ describe("when creating instance with dependencies and super having dependencies
 		}
 
         var namespace = { name : "Somewhere" };
-		super = Bifrost.Type.define(superFunction);
+		super = Bifrost.Type.extend(superFunction);
         super._namespace = namespace;
-		type = super.define(typeFunction);
+		type = super.extend(typeFunction);
         type._namespace = namespace;
 
 		instance = type.create();

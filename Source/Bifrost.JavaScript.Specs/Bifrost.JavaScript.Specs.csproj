@@ -147,11 +147,12 @@
     <Content Include="Utils\for_Type\when_creating_asynchronously_with_two_dependencies.js" />
     <Content Include="Utils\for_Type\when_creating_instance.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_dependencies_and_super_having_dependencies.js" />
+    <Content Include="Utils\for_Type\when_creating_instance_with_dependencies_specified.js" />
     <Content Include="Utils\for_Type\when_creating_with_dependencies.js" />
-    <Content Include="Utils\for_Type\when_defining.js" />
-    <Content Include="Utils\for_Type\when_defining_without_a_parameter.js" />
-    <Content Include="Utils\for_Type\when_defining_with_null_parameter.js" />
-    <Content Include="Utils\for_Type\when_defining_with_object_literal.js" />
+    <Content Include="Utils\for_Type\when_extending.js" />
+    <Content Include="Utils\for_Type\when_extending_without_a_parameter.js" />
+    <Content Include="Utils\for_Type\when_extending_with_null_parameter.js" />
+    <Content Include="Utils\for_Type\when_extending_with_object_literal.js" />
     <Content Include="Utils\for_Uri\when_creating.js" />
     <Content Include="Utils\for_Uri\when_creating_from_an_internet_address.js" />
     <Content Include="Utils\for_Uri\when_creating_without_location.js" />

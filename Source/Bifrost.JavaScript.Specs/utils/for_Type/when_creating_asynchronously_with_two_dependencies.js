@@ -11,7 +11,7 @@ describe("when creating asynchronously with two dependencies", function() {
 		}
 	}
 
-	var type = Bifrost.Type.define(function(first, second) {
+	var type = Bifrost.Type.extend(function(first, second) {
 		this.something = "Hello";
 		this.first = first;
 		this.second = second;

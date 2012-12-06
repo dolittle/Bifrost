@@ -1,8 +1,8 @@
-describe("when defining with object literal", function() {
+describe("when extending with object literal", function() {
 	var exception;
 	
 	try {
-		Bifrost.Type.define({});		
+		Bifrost.Type.extend({});		
 	} catch(e) {
 		exception = e;
 	}
