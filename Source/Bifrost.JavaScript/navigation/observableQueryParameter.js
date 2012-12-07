@@ -18,8 +18,18 @@
                 observable(self.getState());
             }
         });
-        
+
         observable = ko.observable(self.getState() || defaultValue);
+
+        observable.subscribe(function (newValue) {
+            var state = History.getState();
+            state[parameterName] = newValue;
+
+            var parameters = Bifrost.hashString.decode(state.url);
+
+            History.pushState(state, state.title, "");
+        });
+
         return observable;
     }
 }

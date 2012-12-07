@@ -31,6 +31,7 @@ $(function () {
     var max_h = 0;
 
     this.sidebar_fix_init = function () {
+        var self = this;
 
         $active_li = $('.sidebar-menu > li.active');
 

@@ -54,5 +54,6 @@
 @depends messaging/observableMessage.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
+@depends navigation/observableQueryParameter.js
 @depends startup.js
 */
