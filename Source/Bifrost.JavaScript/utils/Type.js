@@ -100,6 +100,12 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    expandDependenciesToInstanceHash = function(typeDefinition, dependencies, instanceHash) {
+        for( var dependencyIndex=0; dependencyIndex<dependencies.length; dependencyIndex++ ) {
+            instanceHash[typeDefinition._dependencies[dependencyIndex]] = dependencies[dependencyIndex];
+        }
+    };
+
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
@@ -157,7 +163,9 @@ Bifrost.namespace("Bifrost", {
             } else {
                 beginGetDependencyInstances(self._namespace, self)
                     .continueWith(function(nextPromise, dependencies) {
-                        var instance = self.createFunction(self, dependencies);
+                        var instanceHash = {};
+                        expandDependenciesToInstanceHash(self, dependencies, instanceHash);
+                        var instance = self.create(instanceHash);
                         promise.signal(instance);
                     });
 
