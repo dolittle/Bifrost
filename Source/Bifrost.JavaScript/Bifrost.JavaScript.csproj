@@ -78,6 +78,7 @@
     <Content Include="Libraries\sinon-1.3.1.js" />
     <Content Include="Libraries\text.js" />
     <Content Include="messaging\observableMessage.js" />
+    <Content Include="navigation\observableQueryParameter.js" />
     <Content Include="startup.js" />
     <Content Include="messaging\Messenger.js" />
     <Content Include="navigation\navigateTo.js" />

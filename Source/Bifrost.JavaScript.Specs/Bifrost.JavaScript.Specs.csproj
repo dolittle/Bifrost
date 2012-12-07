@@ -100,6 +100,9 @@
     <Content Include="messaging\for_observableMessage\when_observing_global_messenger_and_message_is_published.js" />
     <Content Include="messaging\for_observableMessage\when_observing_message_and_value_changes_on_the_observable.js" />
     <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
+    <Content Include="navigation\for_observableQueryParameter\when_default_value_is_specified_and_query_parameter_does_not_exist.js" />
+    <Content Include="navigation\for_observableQueryParameter\when_default_value_is_specified_but_query_parameter_exist_as_well.js" />
+    <Content Include="navigation\for_observableQueryParameter\when_parameter_changes_in_query.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
     <Content Include="Utils\for_assetsManager\when_initializing.js" />
@@ -147,6 +150,7 @@
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
+    <Content Include="Utils\for_Type\when_creating_instance_with_function_as_scope.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_scope_to_same_object.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_with_specific_scope_returning_same_value.js" />
     <Content Include="Utils\for_Type\when_creating_asynchronously.js" />
