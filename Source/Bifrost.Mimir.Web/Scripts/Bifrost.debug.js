@@ -2032,6 +2032,24 @@ Bifrost.namespace("Bifrost.messaging", {
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
 
+﻿if (typeof ko !== 'undefined') {
+    ko.observableMessage = function (message, defaultValue) {
+        var observable = ko.observable(defaultValue);
+
+        var internal = false;
+        observable.subscribe(function (newValue) {
+            if (internal == true) return;
+            Bifrost.messaging.Messenger.global.publish(message, newValue);
+        });
+
+        Bifrost.messaging.Messenger.global.subscribeTo(message, function (value) {
+            internal = true;
+            observable(value);
+            internal = false;
+        });
+        return observable;
+    }
+}
 if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
     ko.bindingHandlers.navigateTo = {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
@@ -2140,6 +2158,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends features/featureManager.js
 @depends features/featureBindingHandler.js
 @depends messaging/Messenger.js
+@depends messaging/observableMessage.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends startup.js

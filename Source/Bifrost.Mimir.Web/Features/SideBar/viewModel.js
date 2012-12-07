@@ -11,6 +11,10 @@ function feature(icon, name, title, children) {
     });
 }
 
+feature.prototype.toString = function () {
+    return this.name;
+}
+
 ko.bindingHandlers.childMenu = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var children = valueAccessor();
@@ -90,22 +94,20 @@ Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
         ])
     ];
 
-    this.currentFeature = ko.observable(self.features[0]);
-    this.currentSubFeature = ko.observable(new feature("","",""));
+    this.currentFeature = ko.observableMessage("currentFeatureChanged", self.features[0]);
+    this.currentSubFeature = ko.observable(new feature("", "", ""));
 
     this.navigateTo = function (selectedFeature) {
         if (selectedFeature.children.length > 0) {
             return;
         }
 
-        Bifrost.messaging.Messenger.global.publish("currentFeatureChanged", selectedFeature.name);
-
         if (typeof selectedFeature.parent !== "undefined") {
             self.currentSubFeature(selectedFeature);
             self.currentFeature(selectedFeature.parent);
         } else {
             self.currentFeature(selectedFeature);
-            self.currentSubFeature(new feature("", "",""));
+            self.currentSubFeature(new feature("", "", ""));
         }
     }
 });
