@@ -51,6 +51,7 @@
 @depends features/featureManager.js
 @depends features/featureBindingHandler.js
 @depends messaging/Messenger.js
+@depends messaging/observableMessage.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends startup.js
