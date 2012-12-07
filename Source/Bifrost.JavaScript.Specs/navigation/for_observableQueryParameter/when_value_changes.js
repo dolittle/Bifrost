@@ -17,7 +17,7 @@
             pushedState = state;
             pushedTitle = title;
             pushedRequestString = requestString;
-            uri = Bifrost.hashString.decode(requestString);
+            uriParameters = Bifrost.hashString.decode(requestString);
         });
 
         var observable = ko.observableQueryParameter("something");

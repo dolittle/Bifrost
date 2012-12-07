@@ -26,8 +26,19 @@
             state[parameterName] = newValue;
 
             var parameters = Bifrost.hashString.decode(state.url);
+            parameters[parameterName] = newValue;
 
-            History.pushState(state, state.title, "");
+
+            var url = "?";
+            var parameterIndex = 0;
+            for (var parameter in parameters) {
+                if (parameterIndex > 0) {
+                    url += "&";
+                }
+                url += parameter + "=" + parameters[parameter];
+                parameterIndex++;
+            }
+            History.pushState(state, state.title, url);
         });
 
         return observable;
