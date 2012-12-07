@@ -1,4 +1,4 @@
-describe("when publishing a message with one subscriber", function () {
+describe("when publishing a message globally with one subscriber", function () {
     var wasMessageReceived = false;
     var messageReceived;
 
@@ -7,7 +7,7 @@ describe("when publishing a message with one subscriber", function () {
         messageReceived = message;
     }
 
-    var messenger = Bifrost.messaging.Messenger.create();
+    var messenger = Bifrost.messaging.Messenger.global;
     messenger.subscribeTo("SimpleMessage", received);
     messenger.publish("SimpleMessage", "Hello")
 

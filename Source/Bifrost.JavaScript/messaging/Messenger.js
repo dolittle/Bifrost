@@ -1,42 +1,32 @@
 Bifrost.namespace("Bifrost.messaging", {
     Messenger: Bifrost.Type.extend(function () {
+        var subscribers = [];
 
         this.publish = function (topic, message) {
+            if (subscribers.hasOwnProperty(topic)) {
+                $.each(subscribers[topic].subscribers, function (index, item) {
+                    item(message);
+                });
+            }
         };
 
-        this.subscribeTo = function (topic, callback) {
+        this.subscribeTo = function (topic, subscriber) {
+            var subscribersByTopic;
+
+            if (subscribers.hasOwnProperty(topic)) {
+                subscribersByTopic = subscribers[topic];
+            } else {
+                subscribersByTopic = { subscribers: [] };
+                subscribers[topic] = subscribersByTopic;
+            }
+
+            subscribersByTopic.subscribers.push(subscriber);
+        };
+
+        return {
+            publish: this.publish,
+            subscribeTo: this.subscribeTo
         };
     })
 });
-
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
-
-/*
-
-Bifrost.messaging.messenger = (function() {
-	var subscribers = [];
-	
-	return {
-		publish: function(message) {
-			var messageTypeName = message.constructor.name;
-			if( subscribers.hasOwnProperty(messageTypeName)) {
-				$.each(subscribers[messageTypeName].subscribers, function(index, item) {
-					item(message);
-				});
-			}
-		},
-	
-		subscribeTo: function(messageType, subscriber) {
-			var subscribersByMessageType;
-			
-			if( subscribers.hasOwnProperty(messageType)) {
-				subscribersByMessageType = subscribers[messageType];
-			} else {
-				subscribersByMessageType = {subscribers:[]};
-				subscribers[messageType] = subscribersByMessageType;
-			}
-			
-			subscribersByMessageType.subscribers.push(subscriber);
-		}
-	}
-})();*/
