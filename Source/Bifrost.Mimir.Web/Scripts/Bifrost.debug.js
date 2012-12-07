@@ -29,6 +29,7 @@ Bifrost.namespace = function (ns, content) {
         for (var property in parent) {
             if (parent.hasOwnProperty(property)) {
                 parent[property]._namespace = parent;
+                parent[property]._name = property;
             }
         }
         Bifrost.namespace.current = null;
@@ -378,7 +379,6 @@ Bifrost.namespace("Bifrost", {
     };
 
     throwIfTypeDefinitionIsObjectLiteral = function(typeDefinition) {
-        
         if (typeof typeDefinition === "object") {
             throw new Bifrost.ObjectLiteralNotAllowed();
         }
@@ -466,6 +466,21 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    expandDependenciesToInstanceHash = function(typeDefinition, dependencies, instanceHash) {
+        for( var dependencyIndex=0; dependencyIndex<dependencies.length; dependencyIndex++ ) {
+            instanceHash[typeDefinition._dependencies[dependencyIndex]] = dependencies[dependencyIndex];
+        }
+    };
+
+    Bifrost.Type.scope = {
+        getFor : function(namespace, name) {
+            return null;
+        }
+    };
+
+    Bifrost.Type.instancesPerScope = {};
+
+
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
@@ -473,6 +488,19 @@ Bifrost.namespace("Bifrost", {
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
         return typeDefinition;
+    };
+
+    Bifrost.Type.scopeTo = function(scope) {
+        if( typeof scope.getFor === "function" ) {
+            this.scope = scope;
+        } else {
+            this.scope = {
+                getFor: function() {
+                    return scope;
+                }
+            }
+        }
+        return this;
     };
 
     Bifrost.Type.create = function (instanceHash) {
@@ -487,11 +515,20 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
+        var scope = this.scope.getFor(this._namespace, this._name);
+        if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
+            return this.instancesPerScope[scope];
+        }
+
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
             instance = this.createFunction(this, dependencyInstances);
         } else {
             instance = new actualType();    
+        }
+
+        if( scope != null ) {
+            this.instancesPerScope[scope] = instance;
         }
 
         return instance;
@@ -523,7 +560,9 @@ Bifrost.namespace("Bifrost", {
             } else {
                 beginGetDependencyInstances(self._namespace, self)
                     .continueWith(function(nextPromise, dependencies) {
-                        var instance = self.createFunction(self, dependencies);
+                        var instanceHash = {};
+                        expandDependenciesToInstanceHash(self, dependencies, instanceHash);
+                        var instance = self.create(instanceHash);
                         promise.signal(instance);
                     });
 
@@ -533,6 +572,11 @@ Bifrost.namespace("Bifrost", {
         return promise;
     };
 })();
+﻿Bifrost.namespace("Bifrost", {
+    Singleton: function (typeDefinition) {
+        return Bifrost.Type.extend(typeDefinition).scopeTo(window);
+    }
+});
 Bifrost.namespace("Bifrost");
 
 Bifrost.DefinitionMustBeFunction = function(message) {
@@ -1726,7 +1770,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		this.uriChangedSubscribers = [];
 		this.activatedSubscribers = [];
 		
-		this.messenger = Bifrost.messaging.messenger;
+		this.messenger = Bifrost.messaging.Messenger.global;
 		this.uri = Bifrost.Uri.create(window.location.href);
 		this.queryParameters = {
 			define: function(parameters) {
@@ -1955,34 +1999,39 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.messaging");
-Bifrost.messaging.messenger = (function() {
-	var subscribers = [];
-	
-	return {
-		publish: function(message) {
-			var messageTypeName = message.constructor.name;
-			if( subscribers.hasOwnProperty(messageTypeName)) {
-				$.each(subscribers[messageTypeName].subscribers, function(index, item) {
-					item(message);
-				});
-			}
-		},
-	
-		subscribeTo: function(messageType, subscriber) {
-			var subscribersByMessageType;
-			
-			if( subscribers.hasOwnProperty(messageType)) {
-				subscribersByMessageType = subscribers[messageType];
-			} else {
-				subscribersByMessageType = {subscribers:[]};
-				subscribers[messageType] = subscribersByMessageType;
-			}
-			
-			subscribersByMessageType.subscribers.push(subscriber);
-		}
-	}
-})();
+Bifrost.namespace("Bifrost.messaging", {
+    Messenger: Bifrost.Type.extend(function () {
+        var subscribers = [];
+
+        this.publish = function (topic, message) {
+            if (subscribers.hasOwnProperty(topic)) {
+                $.each(subscribers[topic].subscribers, function (index, item) {
+                    item(message);
+                });
+            }
+        };
+
+        this.subscribeTo = function (topic, subscriber) {
+            var subscribersByTopic;
+
+            if (subscribers.hasOwnProperty(topic)) {
+                subscribersByTopic = subscribers[topic];
+            } else {
+                subscribersByTopic = { subscribers: [] };
+                subscribers[topic] = subscribersByTopic;
+            }
+
+            subscribersByTopic.subscribers.push(subscriber);
+        };
+
+        return {
+            publish: this.publish,
+            subscribeTo: this.subscribeTo
+        };
+    })
+});
+Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
+
 if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
     ko.bindingHandlers.navigateTo = {
         init: function (element, valueAccessor, allBindingAccessor, viewModel) {
@@ -2052,6 +2101,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
 @depends utils/Type.js
+@depends utils/Singleton.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js
@@ -2089,7 +2139,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends features/Feature.js
 @depends features/featureManager.js
 @depends features/featureBindingHandler.js
-@depends messaging/messenger.js
+@depends messaging/Messenger.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends startup.js

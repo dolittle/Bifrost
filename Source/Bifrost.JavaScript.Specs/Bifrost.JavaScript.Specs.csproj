@@ -70,6 +70,7 @@
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
     <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
     <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />
+    <Content Include="features\for_featureManager\when_hooking_up.js" />
     <Content Include="features\for_FeatureState\when_a_value_changes.js" />
     <Content Include="features\for_FeatureState\when_creating_with_state.js" />
     <Content Include="features\for_Feature\when_defining_a_view_model.js" />
@@ -82,6 +83,7 @@
     <Content Include="features\for_FeatureMapping\when_matching_a_uri_that_should_match.js" />
     <Content Include="features\for_FeatureMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="features\for_FeatureMapping\when_resolving_a_uri.js" />
+    <Content Include="features\for_Feature\when_performing_actual_rendering.js" />
     <Content Include="features\for_ViewModelDefinition\when_defining_as_singleton_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModelDefinition\when_defining_as_transient_and_getting_two_instances.js" />
     <Content Include="features\for_ViewModelDefinition\when_defining_without_specifying_lifecycle_and_getting_two_instances.js" />
@@ -219,12 +221,6 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule_handler.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\dependencies.config">
-      <Link>dependencies.config</Link>
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

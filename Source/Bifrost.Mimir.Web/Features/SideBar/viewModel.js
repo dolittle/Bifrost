@@ -77,11 +77,6 @@ $(function () {
     this.sidebar_fix_init();
 });
 
-function currentFeatureChanged(name) {
-    this.name = name;
-}
-
-
 Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
     var self = this;
     this.features = [
@@ -103,7 +98,7 @@ Bifrost.features.featureManager.get("SideBar").defineViewModel(function () {
             return;
         }
 
-        Bifrost.messaging.messenger.publish(new currentFeatureChanged(selectedFeature.name));
+        Bifrost.messaging.Messenger.global.publish("currentFeatureChanged", selectedFeature.name);
 
         if (typeof selectedFeature.parent !== "undefined") {
             self.currentSubFeature(selectedFeature);

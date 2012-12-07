@@ -6,7 +6,7 @@
         return path;
     });
 
-    Bifrost.messaging.messenger.subscribeTo("currentFeatureChanged", function (message) {
-        self.currentFeature(message.name);
+    Bifrost.messaging.Messenger.global.subscribeTo("currentFeatureChanged", function (feature) {
+        self.currentFeature(feature);
     });
 });

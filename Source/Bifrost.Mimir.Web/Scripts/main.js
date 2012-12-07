@@ -7,12 +7,12 @@ require.config({
 
     paths: {
         "jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min",
-        "knockout": "http://cdn.dolittle.com/Knockout/knockout-2.0.0",
+        "knockout": "http://cdn.dolittle.com/knockout/knockout-2.0.0",
         "knockout.mapping": "knockout.mapping-2.0.0",
         "bifrost": "Bifrost.debug",
-        "order": "http://cdn.dolittle.com/Require/order",
-        "domReady": "http://cdn.dolittle.com/Require/domReady",
-        "text": "http://cdn.dolittle.com/Require/text"
+        "order": "http://cdn.dolittle.com/require/order",
+        "domReady": "http://cdn.dolittle.com/require/domReady",
+        "text": "http://cdn.dolittle.com/require/text"
     }
 });
 
