@@ -6,7 +6,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		this.uriChangedSubscribers = [];
 		this.activatedSubscribers = [];
 		
-		this.messenger = Bifrost.messaging.messenger;
+		this.messenger = Bifrost.messaging.Messenger.global;
 		this.uri = Bifrost.Uri.create(window.location.href);
 		this.queryParameters = {
 			define: function(parameters) {

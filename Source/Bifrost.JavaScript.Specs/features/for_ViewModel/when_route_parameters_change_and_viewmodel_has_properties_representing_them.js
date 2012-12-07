@@ -32,7 +32,10 @@ describe("when route parameters change and viewmodel has properties representing
 			}
 		});
 		Bifrost.messaging = Bifrost.messaging || {};
-		Bifrost.messaging.messenger = {};
+		Bifrost.messaging = Bifrost.messaging || {}
+		Bifrost.messaging.Messenger = {
+		    global: {}
+		};
 
 		var stateChangeCallback;
 		sinon.stub(History.Adapter,"bind", function(window, event, callback) {

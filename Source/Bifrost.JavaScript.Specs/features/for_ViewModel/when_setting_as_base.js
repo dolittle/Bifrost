@@ -8,7 +8,10 @@ describe("when setting as base", function() {
 		sinon.stub(Bifrost.Uri,"create");
 
 		Bifrost.messaging = Bifrost.messaging || {}
-		Bifrost.messaging.messenger = {};
+		Bifrost.messaging = Bifrost.messaging || {}
+		Bifrost.messaging.Messenger = {
+		    global: {}
+		};
 
 		Bifrost.features.ViewModel.baseFor(MyViewModel);
 
