@@ -12,7 +12,6 @@ Bifrost.namespace("Bifrost", {
     };
 
     throwIfTypeDefinitionIsObjectLiteral = function(typeDefinition) {
-        
         if (typeof typeDefinition === "object") {
             throw new Bifrost.ObjectLiteralNotAllowed();
         }
@@ -106,6 +105,15 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    Bifrost.Type.scope = {
+        getFor : function(namespace, name) {
+            return null;
+        }
+    };
+
+    Bifrost.Type.instancesPerScope = {};
+
+
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
@@ -113,6 +121,19 @@ Bifrost.namespace("Bifrost", {
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
         return typeDefinition;
+    };
+
+    Bifrost.Type.scopeTo = function(scope) {
+        if( typeof scope.getFor === "function" ) {
+            this.scope = scope;
+        } else {
+            this.scope = {
+                getFor: function() {
+                    return scope;
+                }
+            }
+        }
+        return this;
     };
 
     Bifrost.Type.create = function (instanceHash) {
@@ -127,11 +148,20 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
+        var scope = this.scope.getFor(this._namespace, this._name);
+        if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
+            return this.instancesPerScope[scope];
+        }
+
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
             instance = this.createFunction(this, dependencyInstances);
         } else {
             instance = new actualType();    
+        }
+
+        if( scope != null ) {
+            this.instancesPerScope[scope] = instance;
         }
 
         return instance;
