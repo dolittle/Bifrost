@@ -124,12 +124,18 @@ Bifrost.namespace("Bifrost", {
     };
 
     Bifrost.Type.scopeTo = function(scope) {
-        if( typeof scope.getFor === "function" ) {
-            this.scope = scope;
-        } else {
+        if( typeof scope === "function" ) {
             this.scope = {
-                getFor: function() {
-                    return scope;
+                getFor: scope
+            }
+        } else {
+            if( typeof scope.getFor === "function" ) {
+                this.scope = scope;
+            } else {
+                this.scope = {
+                    getFor: function() {
+                        return scope;
+                    }
                 }
             }
         }
