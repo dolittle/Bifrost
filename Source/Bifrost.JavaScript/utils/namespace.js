@@ -23,6 +23,7 @@ Bifrost.namespace = function (ns, content) {
         for (var property in parent) {
             if (parent.hasOwnProperty(property)) {
                 parent[property]._namespace = parent;
+                parent[property]._name = property;
             }
         }
         Bifrost.namespace.current = null;
