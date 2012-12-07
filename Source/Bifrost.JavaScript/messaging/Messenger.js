@@ -1,4 +1,18 @@
-Bifrost.namespace("Bifrost.messaging");
+Bifrost.namespace("Bifrost.messaging", {
+    Messenger: Bifrost.Type.extend(function () {
+
+        this.publish = function (topic, message) {
+        };
+
+        this.subscribeTo = function (topic, callback) {
+        };
+    })
+});
+
+Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
+
+/*
+
 Bifrost.messaging.messenger = (function() {
 	var subscribers = [];
 	
@@ -25,4 +39,4 @@ Bifrost.messaging.messenger = (function() {
 			subscribersByMessageType.subscribers.push(subscriber);
 		}
 	}
-})();
+})();*/
