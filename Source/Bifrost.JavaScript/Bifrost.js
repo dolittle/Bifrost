@@ -12,6 +12,7 @@
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
 @depends utils/Type.js
+@depends utils/Singleton.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
 @depends utils/guid.js

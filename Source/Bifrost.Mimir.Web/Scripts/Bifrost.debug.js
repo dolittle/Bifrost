@@ -423,33 +423,50 @@ Bifrost.namespace("Bifrost", {
         return dependencyInstances;
     };
 
+    resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
+        var resolverPromise = 
+            Bifrost.dependencyResolver
+                .beginResolve(namespace, dependency)
+                .continueWith(function(nextPromise, result) {
+                    instances[index] = result;
+                    resolvedCallback(nextPromise, result);
+                });
+    };
+
+
     beginGetDependencyInstances = function(namespace, typeDefinition) {
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
         if( typeof typeDefinition._dependencies !== "undefined" ) {
-
             var dependenciesToResolve = typeDefinition._dependencies.length;
+            var actualDependencyIndex = 0;
+            var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
-                var dependency = typeDefinition._dependencies[dependencyIndex];
-                var resolverPromise = 
-                    Bifrost.dependencyResolver
-                        .beginResolve(namespace, dependency)
-                        .continueWith(function(nextPromise, result) {
-                            dependencyInstances[dependencyIndex] = result;
-                            solvedDependencies++;
-                            if( solvedDependencies == dependenciesToResolve ) {
-                                promise.signal(dependencyInstances);
-                            } 
-                        });
-
+                dependency = typeDefinition._dependencies[dependencyIndex];
+                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(nextPromise, result) {
+                    solvedDependencies++;
+                    if( solvedDependencies == dependenciesToResolve ) {
+                        promise.signal(dependencyInstances);
+                    } 
+                });
             }
 
         }
         return promise;
     };
 
-    Bifrost.Type.define = function (typeDefinition) {
+    expandInstancesHashToDependencies = function(typeDefinition, instanceHash, dependencyInstances) {
+        for( var dependency in instanceHash ) {
+            for( var dependencyIndex=0; dependencyIndex<typeDefinition._dependencies.length; dependencyIndex++ ) {
+                if( typeDefinition._dependencies[dependencyIndex] == dependency ) {
+                    dependencyInstances[dependencyIndex] = instanceHash[dependency];
+                }
+            }
+        }
+    };
+
+    Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
@@ -458,12 +475,18 @@ Bifrost.namespace("Bifrost", {
         return typeDefinition;
     };
 
-    Bifrost.Type.create = function () {
+    Bifrost.Type.create = function (instanceHash) {
         var actualType = this;
         if( this._super != null ) {
             actualType.prototype = this._super.create();
         }
-        var dependencyInstances = getDependencyInstances(this._namespace, this);
+        var dependencyInstances = [];
+        if( typeof instanceHash === "object" ) {
+            expandInstancesHashToDependencies(this, instanceHash, dependencyInstances);
+        } else {
+            dependencyInstances = getDependencyInstances(this._namespace, this);
+        }
+        
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
             instance = this.createFunction(this, dependencyInstances);
