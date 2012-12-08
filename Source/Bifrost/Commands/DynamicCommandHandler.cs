@@ -21,7 +21,7 @@
 #endregion
 using System;
 using Bifrost.Domain;
-using Microsoft.Practices.ServiceLocation;
+using Bifrost.Execution;
 
 namespace Bifrost.Commands
 {
@@ -30,6 +30,17 @@ namespace Bifrost.Commands
 	/// </summary>
     public class DynamicCommandHandler : ICommandHandler
     {
+        IContainer _container;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DynamicCommandHandler"/>
+        /// </summary>
+        /// <param name="container"></param>
+        public DynamicCommandHandler(IContainer container)
+        {
+            _container = container;
+        }
+
         static Type GetTypeFor(Type typeToGet, Type aggregatedRootType)
         {
             var genericFactoryType = typeToGet.MakeGenericType(aggregatedRootType);
@@ -41,10 +52,10 @@ namespace Bifrost.Commands
 		public void Handle(DynamicCommand command)
         {
             var factoryType = GetTypeFor(typeof(IAggregatedRootFactory<>),command.AggregatedRootType);
-            var factory = ServiceLocator.Current.GetInstance(factoryType) as IAggregatedRootFactory;
+            var factory = _container.Get(factoryType) as IAggregatedRootFactory;
 
             var repositoryType = GetTypeFor(typeof(IAggregatedRootRepository<>), command.AggregatedRootType);
-            var repository = ServiceLocator.Current.GetInstance(repositoryType) as IAggregatedRootRepository;
+            var repository = _container.Get(repositoryType) as IAggregatedRootRepository;
 
             AggregatedRoot aggregatedRoot;
             try

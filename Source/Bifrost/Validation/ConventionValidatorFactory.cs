@@ -20,8 +20,8 @@
 //
 #endregion
 using System;
+using Bifrost.Execution;
 using FluentValidation;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Validation
 {
@@ -30,15 +30,15 @@ namespace Bifrost.Validation
 	/// </summary>
     public class ConventionValidatorFactory : IValidatorFactory
     {
-        readonly IServiceLocator _serviceLocator;
+        readonly IContainer _container;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="ConventionValidatorFactory"/>
 		/// </summary>
-		/// <param name="serviceLocator"><see cref="IServiceLocator"/> to use for getting instances of <see cref="IValidator">validators</see></param>
-        public ConventionValidatorFactory(IServiceLocator serviceLocator)
+		/// <param name="container"><see cref="IContainer"/> to use for getting instances of <see cref="IValidator">validators</see></param>
+        public ConventionValidatorFactory(IContainer container)
         {
-            _serviceLocator = serviceLocator;
+            _container = container;
         }
 #pragma warning disable 1591 // Xml Comments
 		public IValidator<T> GetValidator<T>()
@@ -47,7 +47,7 @@ namespace Bifrost.Validation
             var validatorTypeName = string.Format("{0}Validator", type.Name);
             var validatorType = type.Assembly.GetType(validatorTypeName);
 
-            var validator = _serviceLocator.GetInstance(validatorType) as IValidator<T>;
+            var validator = _container.Get(validatorType) as IValidator<T>;
             return validator;
         }
 
@@ -57,7 +57,7 @@ namespace Bifrost.Validation
             var validatorType = type.Assembly.GetType(validatorTypeName);
             if (null != validatorType)
             {
-                var validator = _serviceLocator.GetInstance(validatorType) as IValidator;
+                var validator = _container.Get(validatorType) as IValidator;
                 return validator;
             }
             return null;

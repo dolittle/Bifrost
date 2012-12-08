@@ -19,12 +19,11 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Events;
-using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-using Bifrost.Sagas;
 using System;
 using Bifrost.Entities;
+using Bifrost.Events;
+using Bifrost.Execution;
+using Bifrost.Sagas;
 
 namespace Bifrost.Configuration
 {
@@ -56,8 +55,6 @@ namespace Bifrost.Configuration
             configuration.EventStoreType = typeof(NullEventStore);
             return Configure.Instance;
         }
-
-       
 
 
         /// <summary>

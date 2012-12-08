@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Execution.for_ApplicationManager
                                 {
                                     application_mock = new Mock<IApplication>();
                                     type_discoverer_mock.Setup(t => t.FindSingle<IApplication>()).Returns(application_mock.GetType());
-                                    service_locator_mock.Setup(s => s.GetInstance(application_mock.GetType())).Returns(application_mock.Object);
+                                    container_mock.Setup(c => c.Get(application_mock.GetType())).Returns(application_mock.Object);
                                 };
 
         Because of = () => application = application_manager.Get();

@@ -18,8 +18,8 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
                                 {
                                     saga_id = Guid.NewGuid();
                                     saga = new SagaWithOneChapterProperty();
-                                    service_locator_mock.Setup(a => a.GetInstance<SagaWithOneChapterProperty>()).Returns(saga);
-                                    service_locator_mock.Setup(a => a.GetInstance(typeof(SimpleChapter))).Returns(new SimpleChapter());
+                                    container_mock.Setup(c => c.Get<SagaWithOneChapterProperty>()).Returns(saga);
+                                    container_mock.Setup(c => c.Get(typeof(SimpleChapter))).Returns(new SimpleChapter());
                                     saga = narrator.Begin<SagaWithOneChapterProperty>();
                                     librarian_mock.Setup(a => a.Get(saga_id)).Returns(saga);
                                     saga.Conclude();

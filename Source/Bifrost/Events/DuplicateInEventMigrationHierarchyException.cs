@@ -31,9 +31,9 @@ namespace Bifrost.Events
 		/// <param name="innerException">The inner exception that is causing the exception</param>
 		public DuplicateInEventMigrationHierarchyException(string message, Exception innerException)
 			: base(message, innerException)
-        {}
+        { }
 
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
         /// Initializes an instance of <see cref="DuplicateInEventMigrationHierarchyException"/> for serialization
         /// </summary>

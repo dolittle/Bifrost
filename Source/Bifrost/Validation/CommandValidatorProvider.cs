@@ -24,8 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-using Bifrost.Configuration;
 
 namespace Bifrost.Validation
 {

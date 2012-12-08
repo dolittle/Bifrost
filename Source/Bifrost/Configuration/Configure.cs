@@ -22,13 +22,8 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-using Bifrost.Events;
-using Bifrost.Entities;
-using Bifrost.Configuration;
 
 namespace Bifrost.Configuration
 {
@@ -54,7 +49,6 @@ namespace Bifrost.Configuration
 
             Container = container;
             ExcludeNamespacesForTypeDiscovery();
-            SetupServiceLocator();
 
             defaultBindings.Initialize(container);
             defaultConventions.Initialize();
@@ -166,12 +160,6 @@ namespace Bifrost.Configuration
         }
 #pragma warning restore 1591 // Xml Comments
 
-        void SetupServiceLocator()
-        {
-            var serviceLocator = new ContainerServiceLocator(Container);
-            Container.Bind<IServiceLocator>(serviceLocator);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
-        }
 
         void InitializeProperties()
         {

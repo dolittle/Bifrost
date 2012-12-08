@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Sagas;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Validation
 {
@@ -38,8 +37,8 @@ namespace Bifrost.Validation
         static Type _chapterValidatorType = typeof (IChapterValidator);
         static Type _validatesType = typeof (ICanValidate<>);
 
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IServiceLocator _serviceLocator;
+        ITypeDiscoverer _typeDiscoverer;
+        IContainer _container;
 
         Dictionary<Type, Type> _validators;
 
@@ -48,11 +47,11 @@ namespace Bifrost.Validation
         /// </summary>
         /// <param name="typeDiscoverer">An instance of ITypeDiscoverer to help identify and register <see cref="IChapterValidator"> IChapterValidator</see> implementations
         /// </param>
-        /// <param name="serviceLocator">An instance of IServiceLocator to return concrete instances of validators</param>
-        public ChapterValidatorProvider(ITypeDiscoverer typeDiscoverer, IServiceLocator serviceLocator)
+        /// <param name="container">An instance of <see cref="IContainer"/> to create concrete instances of validators</param>
+        public ChapterValidatorProvider(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
-            _serviceLocator = serviceLocator;
+            _container = container;
 
             Initialize();
         }
@@ -76,7 +75,7 @@ namespace Bifrost.Validation
             Type registeredType;
             _validators.TryGetValue(type, out registeredType);
 
-            var validator = (registeredType != null ? _serviceLocator.GetInstance(registeredType) : NullChapterValidator) as ICanValidate;
+            var validator = (registeredType != null ? _container.Get(registeredType) : NullChapterValidator) as ICanValidate;
             return validator;
         }
 #pragma warning restore 1591 // Xml Comments

@@ -21,7 +21,6 @@
 #endregion
 
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Configuration.Defaults
 {

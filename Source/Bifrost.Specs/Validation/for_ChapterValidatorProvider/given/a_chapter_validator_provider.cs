@@ -1,7 +1,6 @@
 using Bifrost.Execution;
 using Bifrost.Validation;
 using Machine.Specifications;
-using Microsoft.Practices.ServiceLocation;
 using Moq;
 
 namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
@@ -10,12 +9,12 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
     {
         protected static IChapterValidatorProvider chapter_validator_provider;
 
-        protected static Mock<IServiceLocator> service_locator_mock;
+        protected static Mock<IContainer> container_mock;
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;
 
         Establish context = () =>
                                 {
-                                    service_locator_mock = new Mock<IServiceLocator>();
+                                    container_mock = new Mock<IContainer>();
                                     type_discoverer_mock = new Mock<ITypeDiscoverer>();
 
                                     type_discoverer_mock.Setup(td => td.FindMultiple(typeof(IChapterValidator)))
@@ -27,7 +26,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
                                                 }
                                         );
 
-                                    chapter_validator_provider = new ChapterValidatorProvider(type_discoverer_mock.Object, service_locator_mock.Object);
+                                    chapter_validator_provider = new ChapterValidatorProvider(type_discoverer_mock.Object, container_mock.Object);
                                 };
     }
 }
