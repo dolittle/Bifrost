@@ -24,7 +24,6 @@
 
 using System;
 using System.Web;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Services.Execution
 {

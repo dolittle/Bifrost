@@ -48,9 +48,6 @@
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4">
       <HintPath>..\Solutions\packages\Iesi.Collections.3.1.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\Solutions\packages\NHibernate.3.1.0.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
