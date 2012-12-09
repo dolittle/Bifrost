@@ -48,7 +48,7 @@ namespace Bifrost.Execution
                 {
                     _current = new ExecutionContext
                     {
-#if(!SILVERLIGHT)                        
+#if(!SILVERLIGHT && !NETFX_CORE)
                         // Todo : Figure out the best way to get the current user - probably get it from the server side of things.
                         Identity = Thread.CurrentPrincipal.Identity,
 #endif

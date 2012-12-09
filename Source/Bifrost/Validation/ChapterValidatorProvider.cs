@@ -24,6 +24,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Sagas;
+using Bifrost.Extensions;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -86,26 +90,46 @@ namespace Bifrost.Validation
 
             var validators = _typeDiscoverer.FindMultiple(_chapterValidatorType);
 
-            Array.ForEach(validators, Register);
+            validators.ForEach(Register);
         }
 
         void Register(Type typeToRegister)
         {
             var chapterType = GetChapterType(typeToRegister);
 
+#if(NETFX_CORE)
+            if (chapterType == null || chapterType.GetTypeInfo().IsInterface)
+                return;
+#else
             if (chapterType == null || chapterType.IsInterface)
                 return;
-
+#endif
             _validators.Add(chapterType, typeToRegister);
         }
 
         Type GetChapterType(Type typeToRegister)
         {
-            var types = from interfaceType in typeToRegister.GetInterfaces()
-                        where interfaceType.IsGenericType
+            var types = from interfaceType in typeToRegister
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                        where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == _validatesType
-                        select interfaceType.GetGenericArguments().FirstOrDefault();
+                        select interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().GenericTypeParameters
+#else
+                                    .GetGenericArguments()
+#endif
+                            .FirstOrDefault();
 
             return types.FirstOrDefault();
         }

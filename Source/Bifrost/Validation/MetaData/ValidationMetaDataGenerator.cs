@@ -25,6 +25,9 @@ using Bifrost.Execution;
 using Bifrost.Extensions;
 using FluentValidation;
 using FluentValidation.Validators;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation.MetaData
 {
@@ -94,7 +97,13 @@ namespace Bifrost.Validation.MetaData
             var validatorType = validator.GetType();
             var types = new List<Type>();
             types.Add(validatorType);
-            types.AddRange(validatorType.GetInterfaces());
+            types.AddRange(validatorType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                );
             foreach (var type in types)
             {
                 if (_generatorsByType.ContainsKey(type))

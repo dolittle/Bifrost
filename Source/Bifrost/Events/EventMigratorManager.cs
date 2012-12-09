@@ -24,6 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -91,11 +94,27 @@ namespace Bifrost.Events
 
         private static Type GetSourceType(Type migratorType)
         {
-            var types = from interfaceType in migratorType.GetInterfaces()
-                         where interfaceType.IsGenericType
+            var types = from interfaceType in migratorType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                         where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                          let baseInterface = interfaceType.GetGenericTypeDefinition()
                          where baseInterface == typeof(IEventMigrator<,>)
-                         select interfaceType.GetGenericArguments().First();
+                         select interfaceType
+#if(NETFX_CORE)
+                            .GetTypeInfo().GenericTypeParameters
+#else
+                            .GetGenericArguments()
+#endif
+                            .First();
 
             return types.First();
         }

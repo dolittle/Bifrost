@@ -22,6 +22,9 @@
 using System;
 using Bifrost.Execution;
 using FluentValidation;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -45,7 +48,12 @@ namespace Bifrost.Validation
         {
             var type = typeof(T);
             var validatorTypeName = string.Format("{0}Validator", type.Name);
+#if(NETFX_CORE)
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
+#else
             var validatorType = type.Assembly.GetType(validatorTypeName);
+#endif
+
 
             var validator = _container.Get(validatorType) as IValidator<T>;
             return validator;
@@ -54,7 +62,11 @@ namespace Bifrost.Validation
         public IValidator GetValidator(Type type)
         {
             var validatorTypeName = string.Format("{0}.{1}Validator", type.Namespace, type.Name);
+#if(NETFX_CORE)
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
+#else
             var validatorType = type.Assembly.GetType(validatorTypeName);
+#endif
             if (null != validatorType)
             {
                 var validator = _container.Get(validatorType) as IValidator;

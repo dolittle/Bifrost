@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Execution;
+using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
@@ -57,7 +58,7 @@ namespace Bifrost.Commands
 		private void Initialize()
 		{
 		    var handlers = _discoverer.FindMultiple<ICommandHandler>();
-			Array.ForEach(handlers, Register);
+            handlers.ForEach(Register);
 		    _initialized = true;
 		}
 
@@ -71,12 +72,21 @@ namespace Bifrost.Commands
 		/// </remarks>
 		public void Register(Type handlerType)
 		{
+#if(NETFX_CORE)
+            var allMethods = handlerType.GetRuntimeMethods().Where(m => m.IsPublic || !m.IsStatic);
+#else
             var allMethods = handlerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+#endif
 
             var query = from m in allMethods
                         where m.Name.Equals(HandleMethodName) &&
                               m.GetParameters().Length == 1 &&
-                              typeof(ICommand).IsAssignableFrom(m.GetParameters()[0].ParameterType)
+                              typeof(ICommand)
+#if(NETFX_CORE)
+                                .GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())
+#else
+                                .IsAssignableFrom(m.GetParameters()[0].ParameterType)
+#endif
                         select m;
 
             foreach (var method in query)

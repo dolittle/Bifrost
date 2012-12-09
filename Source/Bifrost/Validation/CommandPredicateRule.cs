@@ -28,6 +28,9 @@ using FluentValidation;
 using FluentValidation.Internal;
 using FluentValidation.Results;
 using FluentValidation.Validators;
+#if(NETFX_CORE)
+using System.Linq;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -38,7 +41,11 @@ namespace Bifrost.Validation
     public class CommandPredicateRule<T> : PropertyRule
         where T:ICommand
     {
+#if(NETFX_CORE)
+        static MemberInfo IdProperty = typeof(ICommand).GetTypeInfo().DeclaredProperties.Where(p=>p.Name == "Id").Single();
+#else
         static MemberInfo IdProperty = typeof(ICommand).GetProperty("Id");
+#endif
         static Func<object, object> IdFunc;
         static Expression<Func<ICommand, Guid>> IdFuncExpression;
 

@@ -25,8 +25,13 @@ using System.IO;
 #else
 using System.Windows;
 #endif
+#if(NETFX_CORE)
+using System.Collections.Generic;
+using Windows.Storage;
+#endif
 using System.Linq;
 using System.Reflection;
+
 
 
 namespace Bifrost.Execution
@@ -55,6 +60,36 @@ namespace Bifrost.Execution
                           let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
                           select part.Load(info.Stream)).ToArray();
 #else
+#if(NETFX_CORE)
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            var assemblies = new List<Assembly>();
+
+            IEnumerable<StorageFile>    files = null;
+
+            var operation = folder.GetFilesAsync();
+            operation.Completed = async (r, s) => {
+                var result = await r;
+                files = result;
+            };
+
+            while (files == null) ;
+
+            foreach (var file in files)
+            {
+                if (file.FileType == ".dll" || file.FileType == ".exe")
+                {
+                    var name = new AssemblyName() { Name = System.IO.Path.GetFileNameWithoutExtension(file.Name) };
+                    try
+                    {
+                        Assembly asm = Assembly.Load(name);
+                        assemblies.Add(asm);
+                    }
+                    catch { }
+                }
+            }
+            _assemblies = assemblies.ToArray();
+#else
+
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new Uri(codeBase);
             var path = Path.GetDirectoryName(uri.LocalPath);
@@ -70,6 +105,7 @@ namespace Bifrost.Execution
                     currentAssemblies.Add(Assembly.Load(assemblyName));
             }
             _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
+#endif
 #endif
         }
 

@@ -78,7 +78,11 @@ namespace Bifrost.Validation
             if (modelType == targetType)
                 return model;
 
+#if(NETFX_CORE)
+            var properties = modelType.GetTypeInfo().DeclaredProperties;
+#else
             var properties = modelType.GetProperties();
+#endif
             foreach (var property in properties)
             {
                 var propertyValue = property.GetValue(model, null);

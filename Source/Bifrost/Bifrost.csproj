@@ -104,6 +104,7 @@
     <Compile Include="Execution\IExecutionContextManager.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
+    <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
