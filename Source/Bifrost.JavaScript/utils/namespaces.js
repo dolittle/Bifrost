@@ -23,6 +23,8 @@ Bifrost.namespace("Bifrost", {
 
         this.initialize = function () {
             var scripts = Bifrost.assetsManager.getScripts();
+            if (typeof scripts === "undefined") return;
+
             $.each(scripts, function (index, fullPath) {
                 var path = Bifrost.path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
