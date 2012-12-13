@@ -15,5 +15,6 @@ namespace Bifrost.Specs.Commands.for_CommandResult
 
         It should_be_valid = () => result.Invalid.ShouldBeFalse();
         It should_not_be_successful = () => result.Success.ShouldBeFalse();
+        It should_not_have_any_validation_messages = () =>  result.AllValidationMessages.ShouldBeEmpty();
     }
 }

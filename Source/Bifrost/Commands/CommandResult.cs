@@ -62,6 +62,15 @@ namespace Bifrost.Commands
         public IEnumerable<string> CommandValidationMessages { get; set; }
 
         /// <summary>
+        /// Gets any validation errors (for properties or for the full command) as a simple string enumerbale.
+        /// To relate property validation errors to the relevant property, use the <see cref="ValidationResult">ValidationResults</see> property.
+        /// </summary>
+        public IEnumerable<string> AllValidationMessages
+        {
+            get { return CommandValidationMessages.Union(ValidationResults.Select(vr => vr.ErrorMessage)); }
+        }
+
+        /// <summary>
         /// Gets or sets the exception, if any, that occured during a handle
         /// </summary>
         public Exception Exception { get; set; }
@@ -69,23 +78,23 @@ namespace Bifrost.Commands
         /// <summary>
         /// Gets the success state of the result
         ///
-        /// If there are invalid validationresult, this is false.
+        /// If there are invalid validationresult or command validattion messages, this is false.
         /// If an exception occured, this is false.
         /// Otherwise, its true
         /// </summary>
         public bool Success
         {
-            get { return null == Exception && !Invalid && CommandValidationMessages.Count() == 0; }
+            get { return null == Exception && !Invalid; }
         }
 
         /// <summary>
         /// Gets the validation state of the result
         ///
-        /// If there are any validationresults this returns false, true if not
+        /// If there are any validationresults or command validation messages this returns false, true if not
         /// </summary>
         public bool Invalid
         {
-            get { return ValidationResults != null && ValidationResults.Count() > 0; }
+            get { return (ValidationResults != null && ValidationResults.Any()) || (CommandValidationMessages != null && CommandValidationMessages.Any()); }
         }
 
         /// <summary>

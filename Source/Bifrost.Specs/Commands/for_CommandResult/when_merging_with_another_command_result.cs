@@ -2,6 +2,7 @@
 using Machine.Specifications;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Specs.Commands.for_CommandResult
 {
@@ -55,5 +56,11 @@ namespace Bifrost.Specs.Commands.for_CommandResult
 
         It should_have_validation_results_from_both = () => target.ValidationResults.ShouldContain(expected_combined_validation_results);
         It should_have_command_error_messages_from_both = () => target.CommandValidationMessages.ShouldContain(expected_combined_command_error_messages);
+        It should_have_all_the_command_error_messages_and_validation_results = () =>
+                                    {
+                                        target.AllValidationMessages.ShouldContain(expected_combined_command_error_messages);
+                                        target.AllValidationMessages.ShouldContain( expected_combined_validation_results.Select(vr => vr.ErrorMessage));
+                                    };
+                                           
     }
 }
