@@ -38,37 +38,6 @@ Bifrost.namespace = function (ns, content) {
     return parent;
 };
 Bifrost.namespace("Bifrost", {
-<<<<<<< HEAD
-	functionParser: {
-		parse: function(func) {
-			var result = [];
-			
-			var arguments = func.toString ().match (/function\s+\w*\s*\((.*?)\)/)[1].split (/\s*,\s*/);
-			$.each(arguments, function(index, item) {
-				if( item.trim().length > 0 ) {
-					result.push({
-						name:item
-					});
-				}
-			});
-			
-			return result;
-		}
-	}
-});
-
-function TypeInfo(obj) {
-	var target = obj;
-
-	try {
-		var funcNameRegex = /function (.{1,})\(/;
-		var results = (funcNameRegex).exec((target).constructor.toString());
-		this.name = (results && results.length > 1) ? results[1] : "";
-	} catch( e ) {
-		this.name = "unknown";
-	}
-}
-=======
     namespaces: (function () {
         var self = this;
         this.conventions = [];
@@ -109,7 +78,6 @@ function TypeInfo(obj) {
                         var namespace = Bifrost.namespace(namespacePath);
                         var root = "/" + path + "/";
                         namespace._path = root;
->>>>>>> Mimir
 
                         if (typeof namespace._scripts === "undefined") {
                             namespace._scripts = [];
@@ -1010,7 +978,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.validation");
+﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -2196,11 +2164,6 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
-<<<<<<< HEAD
-@depends utils/functionParser.js
-@depends utils/TypeInfo.js
-@depends utils/TypePrototype.js
-=======
 @depends utils/namespaces.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
@@ -2211,7 +2174,6 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
->>>>>>> Mimir
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js
