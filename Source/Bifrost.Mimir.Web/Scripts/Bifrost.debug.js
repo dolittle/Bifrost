@@ -38,6 +38,37 @@ Bifrost.namespace = function (ns, content) {
     return parent;
 };
 Bifrost.namespace("Bifrost", {
+<<<<<<< HEAD
+	functionParser: {
+		parse: function(func) {
+			var result = [];
+			
+			var arguments = func.toString ().match (/function\s+\w*\s*\((.*?)\)/)[1].split (/\s*,\s*/);
+			$.each(arguments, function(index, item) {
+				if( item.trim().length > 0 ) {
+					result.push({
+						name:item
+					});
+				}
+			});
+			
+			return result;
+		}
+	}
+});
+
+function TypeInfo(obj) {
+	var target = obj;
+
+	try {
+		var funcNameRegex = /function (.{1,})\(/;
+		var results = (funcNameRegex).exec((target).constructor.toString());
+		this.name = (results && results.length > 1) ? results[1] : "";
+	} catch( e ) {
+		this.name = "unknown";
+	}
+}
+=======
     namespaces: (function () {
         var self = this;
         this.conventions = [];
@@ -62,6 +93,8 @@ Bifrost.namespace("Bifrost", {
 
         this.initialize = function () {
             var scripts = Bifrost.assetsManager.getScripts();
+            if (typeof scripts === "undefined") return;
+
             $.each(scripts, function (index, fullPath) {
                 var path = Bifrost.path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
@@ -76,6 +109,7 @@ Bifrost.namespace("Bifrost", {
                         var namespace = Bifrost.namespace(namespacePath);
                         var root = "/" + path + "/";
                         namespace._path = root;
+>>>>>>> Mimir
 
                         if (typeof namespace._scripts === "undefined") {
                             namespace._scripts = [];
@@ -674,27 +708,29 @@ Bifrost.namespace("Bifrost", {
 });
 
 Bifrost.namespace("Bifrost");
-Bifrost.hashString = (function() {
-	return {
-		decode: function(a) {
-		    if (a == "") return { };
-			a = a.replace("/?","").split('&');
+Bifrost.hashString = (function () {
+    return {
+        decode: function (a) {
+            if (a == "") return {};
+            a = a.replace("/?", "").split('&');
 
-		    var b = { };
-		    for (var i = 0; i < a.length; ++i) {
-		        var p = a[i].split('=');
-		        if (p.length != 2) continue;
-		
-				var value = decodeURIComponent(p[1].replace( /\+/g , " "));
-				var valueAsFloat = parseFloat(value);
-				if( !isNaN(valueAsFloat) ) {
-					value = valueAsFloat;
-				}
-		        b[p[0]] = value;
-		    }
-		    return b;
-		}
-	}
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=');
+                if (p.length != 2) continue;
+
+                var value = decodeURIComponent(p[1].replace(/\+/g, " "));
+                var valueAsFloat = parseFloat(value);
+                if (!isNaN(valueAsFloat)) {
+                    value = valueAsFloat;
+                }
+
+                var parameter = p[0].split("?").join("");
+                b[parameter] = value;
+            }
+            return b;
+        }
+    }
 })();
 
 Bifrost.namespace("Bifrost");
@@ -974,7 +1010,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-﻿Bifrost.namespace("Bifrost.validation");
+Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -2132,8 +2168,19 @@ Bifrost.namespace("Bifrost.navigation", {
             state[parameterName] = newValue;
 
             var parameters = Bifrost.hashString.decode(state.url);
+            parameters[parameterName] = newValue;
 
-            History.pushState(state, state.title, "");
+
+            var url = "?";
+            var parameterIndex = 0;
+            for (var parameter in parameters) {
+                if (parameterIndex > 0) {
+                    url += "&";
+                }
+                url += parameter + "=" + parameters[parameter];
+                parameterIndex++;
+            }
+            History.pushState(state, state.title, url);
         });
 
         return observable;
@@ -2149,6 +2196,11 @@ Bifrost.namespace("Bifrost.navigation", {
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
+<<<<<<< HEAD
+@depends utils/functionParser.js
+@depends utils/TypeInfo.js
+@depends utils/TypePrototype.js
+=======
 @depends utils/namespaces.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
@@ -2159,6 +2211,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
+>>>>>>> Mimir
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js

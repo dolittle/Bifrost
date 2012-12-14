@@ -38,37 +38,6 @@ Bifrost.namespace = function (ns, content) {
     return parent;
 };
 Bifrost.namespace("Bifrost", {
-<<<<<<< HEAD
-	functionParser: {
-		parse: function(func) {
-			var result = [];
-			
-			var arguments = func.toString ().match (/function\s+\w*\s*\((.*?)\)/)[1].split (/\s*,\s*/);
-			$.each(arguments, function(index, item) {
-				if( item.trim().length > 0 ) {
-					result.push({
-						name:item
-					});
-				}
-			});
-			
-			return result;
-		}
-	}
-});
-
-function TypeInfo(obj) {
-	var target = obj;
-
-	try {
-		var funcNameRegex = /function (.{1,})\(/;
-		var results = (funcNameRegex).exec((target).constructor.toString());
-		this.name = (results && results.length > 1) ? results[1] : "";
-	} catch( e ) {
-		this.name = "unknown";
-	}
-}
-=======
     namespaces: (function () {
         var self = this;
         this.conventions = [];
@@ -109,7 +78,6 @@ function TypeInfo(obj) {
                         var namespace = Bifrost.namespace(namespacePath);
                         var root = "/" + path + "/";
                         namespace._path = root;
->>>>>>> Mimir
 
                         if (typeof namespace._scripts === "undefined") {
                             namespace._scripts = [];
@@ -732,6 +700,7 @@ Bifrost.hashString = (function () {
         }
     }
 })();
+
 Bifrost.namespace("Bifrost");
 Bifrost.Uri = (function(window, undefined) {
 	/* parseUri JS v0.1, by Steven Levithan (http://badassery.blogspot.com)
@@ -950,12 +919,11 @@ Bifrost.validation.Validator = (function () {
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
-            this.commands = ko.observable(commands);
+            this.commands = commands;
             this.messages = ko.computed(function () {
                 var actualMessages = [];
-                $.each(self.commands(), function (commandIndex, command) {
+                $.each(self.commands, function (commandIndex, command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
-                    
                     $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
@@ -969,19 +937,14 @@ Bifrost.validation.Validator = (function () {
 
     ko.bindingHandlers.validationSummaryFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            var target = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+            var value = valueAccessor();
+            var target = ko.utils.unwrapObservable(value);
+            if (!(target instanceof Array)) {
+                target = [target];
+            }
+
             var validationSummary = new Bifrost.validation.ValidationSummary(target);
-            ko.utils.domData.set(element, 'validationsummary', validationSummary);
             ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
-        },
-        update: function (element, valueAccessor) {
-            var validationSummary = ko.utils.domData.get(element, 'validationsummary');
-            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
-        },
-        getValueAsArray: function (valueAccessor) {
-            var target = ko.utils.unwrapObservable(valueAccessor());
-            if (!(target instanceof Array)) { target = [target]; }
-            return target;
         }
     };
 }
@@ -1015,7 +978,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.validation");
+﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -1925,32 +1888,6 @@ Bifrost.features.ViewModelDefinition = (function () {
 })();
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.Feature = (function () {
-    var partialViewModelBindingProvider = function () {
-        var self = this;
-
-        var originalBindingProvider = ko.bindingProvider.instance;
-
-        this.nodeHasBindings = function (node) {
-            var closestViewModel = $(node).closest("[data-feature]");
-            if (closestViewModel.length == 1) {
-                var viewModelName = closestViewModel.data("feature");
-                if (viewModelName == self.currentViewModel) {
-                    return originalBindingProvider.nodeHasBindings(node);
-                } else {
-                    return false;
-                }
-            }
-
-            return originalBindingProvider.nodeHasBindings(node)
-        },
-
-        this.getBindings = function (node, bindingContext) {
-            return originalBindingProvider.getBindings(node, bindingContext);
-        }
-    }
-
-
-
     function Feature(name, path, isDefault) {
         var self = this;
         this.loaded = false;
@@ -1997,21 +1934,13 @@ Bifrost.features.Feature = (function () {
         }
 
         this.actualRenderTo = function (target) {
-            $(target).empty();
+			$(target).empty();
             $(target).append(self.view);
 
-            if (self.viewModelDefinition) {
-                var viewModel = self.viewModelDefinition.getInstance();
-
-                var previousBindingProvider = ko.bindingProvider.instance;
-                ko.bindingProvider.instance = new partialViewModelBindingProvider();
-                ko.bindingProvider.instance.currentViewModel = self.name;
-
-                ko.applyBindings(viewModel, target);
-
-                ko.bindingProvider.instance.currentViewModel = "";
-                ko.bindingProvider.instance = previousBindingProvider;
-            }
+			if( self.viewModelDefinition ) {
+            	var viewModel = self.viewModelDefinition.getInstance();
+            	ko.applyBindings(viewModel, target);
+			}
 
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
         }
@@ -2071,8 +2000,8 @@ if (typeof ko !== 'undefined') {
 			var feature = Bifrost.features.featureManager.get(featureName);
 			
 			$(element).empty();
-
-			var container = $("<div/>").attr("data-feature", featureName);
+			
+			var container = $("<div/>");
 			$(element).append(container);
 			
 			feature.renderTo(container[0]);
@@ -2144,17 +2073,6 @@ if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof Histor
     };
 }
 Bifrost.namespace("Bifrost.navigation", {
-    navigateTo: function (featureName, queryString) {
-        var url = featureName;
-
-        if(featureName.charAt(0) !== "/")
-            url = "/" + url;
-        if(queryString)
-            url += queryString;
-        
-        // TODO: Support title somehow
-   	    History.pushState({feature:featureName}, "", url);
-    },
     navigationManager: {
         hookup: function () {
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
@@ -2189,7 +2107,6 @@ Bifrost.namespace("Bifrost.navigation", {
         }
     }
 });
-<<<<<<< HEAD
 
 ﻿if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
     ko.observableQueryParameter = function (parameterName, defaultValue) {
@@ -2244,16 +2161,9 @@ Bifrost.namespace("Bifrost.navigation", {
         Bifrost.features.featureManager.hookup($);
     });
 })(jQuery);
-=======
->>>>>>> 52e06246bda54850d3f8b32436bc7e87338ce437
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
-<<<<<<< HEAD
-@depends utils/functionParser.js
-@depends utils/TypeInfo.js
-@depends utils/TypePrototype.js
-=======
 @depends utils/namespaces.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
@@ -2264,7 +2174,6 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
->>>>>>> Mimir
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js

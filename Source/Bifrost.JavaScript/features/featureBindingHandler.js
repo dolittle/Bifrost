@@ -8,8 +8,8 @@ if (typeof ko !== 'undefined') {
 			var feature = Bifrost.features.featureManager.get(featureName);
 			
 			$(element).empty();
-
-			var container = $("<div/>").attr("data-feature", featureName);
+			
+			var container = $("<div/>");
 			$(element).append(container);
 			
 			feature.renderTo(container[0]);

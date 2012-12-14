@@ -94,6 +94,7 @@
     <Content Include="utils\extend.js" />
     <Content Include="utils\functionParser.js" />
     <Content Include="utils\guid.js" />
+    <Content Include="utils\hashString.js" />
     <Content Include="utils\isArray.js" />
     <Content Include="utils\isNumber.js" />
     <Content Include="utils\namespace.js" />

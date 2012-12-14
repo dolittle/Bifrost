@@ -1,31 +1,5 @@
 Bifrost.namespace("Bifrost.features");
 Bifrost.features.Feature = (function () {
-    var partialViewModelBindingProvider = function () {
-        var self = this;
-
-        var originalBindingProvider = ko.bindingProvider.instance;
-
-        this.nodeHasBindings = function (node) {
-            var closestViewModel = $(node).closest("[data-feature]");
-            if (closestViewModel.length == 1) {
-                var viewModelName = closestViewModel.data("feature");
-                if (viewModelName == self.currentViewModel) {
-                    return originalBindingProvider.nodeHasBindings(node);
-                } else {
-                    return false;
-                }
-            }
-
-            return originalBindingProvider.nodeHasBindings(node)
-        },
-
-        this.getBindings = function (node, bindingContext) {
-            return originalBindingProvider.getBindings(node, bindingContext);
-        }
-    }
-
-
-
     function Feature(name, path, isDefault) {
         var self = this;
         this.loaded = false;
@@ -72,21 +46,13 @@ Bifrost.features.Feature = (function () {
         }
 
         this.actualRenderTo = function (target) {
-            $(target).empty();
+			$(target).empty();
             $(target).append(self.view);
 
-            if (self.viewModelDefinition) {
-                var viewModel = self.viewModelDefinition.getInstance();
-
-                var previousBindingProvider = ko.bindingProvider.instance;
-                ko.bindingProvider.instance = new partialViewModelBindingProvider();
-                ko.bindingProvider.instance.currentViewModel = self.name;
-
-                ko.applyBindings(viewModel, target);
-
-                ko.bindingProvider.instance.currentViewModel = "";
-                ko.bindingProvider.instance = previousBindingProvider;
-            }
+			if( self.viewModelDefinition ) {
+            	var viewModel = self.viewModelDefinition.getInstance();
+            	ko.applyBindings(viewModel, target);
+			}
 
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
         }
