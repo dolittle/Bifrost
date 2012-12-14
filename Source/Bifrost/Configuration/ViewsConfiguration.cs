@@ -1,22 +1,17 @@
-﻿
-
-using Bifrost.Views;
+﻿using Bifrost.Views;
+using Bifrost.Execution;
 namespace Bifrost.Configuration
 {
     /// <summary>
     /// Represents an <see cref="IViewsConfiguration"/>
     /// </summary>
-    public class ViewsConfiguration : IViewsConfiguration
+    public class ViewsConfiguration : ConfigurationStorageElement, IViewsConfiguration
     {
 #pragma warning disable 1591 // Xml Comments
-        public void Initialize(IConfigure configure)
+        public override void Initialize(IContainer container)
         {
+            base.Initialize(container);
         }
 #pragma warning restore // Xml Comments
-
-        /// <summary>
-        /// Gets and sets an instance of the <see cref="IEntityContextConfiguration"/>
-        /// </summary>
-        public IEntityContextConfiguration Storage { get; set; }
     }
 }

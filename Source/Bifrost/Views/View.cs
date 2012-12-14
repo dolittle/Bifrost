@@ -45,15 +45,11 @@ namespace Bifrost.Views
 
 #pragma warning disable 1591 // Xml Comments
 		public IQueryable<T> Query { get { return _entityContext.Entities; } }
-        public T Get(Guid id)
+        public T GetById(Guid id)
         {
             if( typeof(T).HasInterface<IHaveId>() )
             {
-                var queryable = (IQueryable<IHaveId>)Query;
-                var instance = (from o in queryable
-                                where o.Id == id
-                                select o).SingleOrDefault();
-                return (T)instance;
+                return _entityContext.GetById(id);
             }
 
             throw new ObjectDoesNotHaveIdException();

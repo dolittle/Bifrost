@@ -21,6 +21,7 @@
 #endregion
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Bifrost.Entities
 {
@@ -32,8 +33,10 @@ namespace Bifrost.Entities
 	{
 		/// <summary>
 		/// Gets a queryable that one can do queries against
-		/// </summary>
+		/// </summary>  
 		IQueryable<T> Entities { get; }
+
+        //T GetBy<TProperty>(Expression<Func<T, TProperty>> property, TProperty value);
 
 		/// <summary>
 		/// Attach an entity to the context
@@ -73,5 +76,20 @@ namespace Bifrost.Entities
 		/// Commit any changes in the context
 		/// </summary>
 		void Commit();
-	}
+
+        /// <summary>
+        /// Get an entity by its id
+        /// </summary>
+        /// <typeparam name="TProperty">Property to compare</typeparam>
+        /// <param name="id">Id to lookup</param>
+        /// <returns></returns>
+        T GetById<TProperty>(TProperty id);
+
+        /// <summary>
+        /// Delete an entity by its id 
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="id"></param>
+        void DeleteById<TProperty>(TProperty id);
+    }
 }

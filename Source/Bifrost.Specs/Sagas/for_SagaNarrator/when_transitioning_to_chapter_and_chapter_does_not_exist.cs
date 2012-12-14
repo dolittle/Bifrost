@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
 		                    		saga = new Saga();
 		                    		chapter = new TransitionalChapter();
 
-		                    		service_locator_mock.Setup(s => s.GetInstance<TransitionalChapter>()).Returns(chapter);
+		                    		container_mock.Setup(c => c.Get<TransitionalChapter>()).Returns(chapter);
 		                    	};
 
 		Because of = () => narrator.TransitionTo<TransitionalChapter>(saga);

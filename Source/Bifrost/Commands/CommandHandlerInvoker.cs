@@ -20,11 +20,11 @@
 //
 #endregion
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
+using System.Linq;
 using System.Reflection;
+using Bifrost.Execution;
+using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
@@ -39,7 +39,7 @@ namespace Bifrost.Commands
         const string HandleMethodName = "Handle";
 
 		readonly ITypeDiscoverer _discoverer;
-	    readonly IServiceLocator _serviceLocator;
+	    readonly IContainer _container;
         readonly Dictionary<Type, MethodInfo> _commandHandlers = new Dictionary<Type, MethodInfo>();
 	    bool _initialized;
 
@@ -47,18 +47,18 @@ namespace Bifrost.Commands
 	    /// Initializes a new instance of <see cref="CommandHandlerInvoker">CommandHandlerInvoker</see>
 	    /// </summary>
 	    /// <param name="discoverer">A <see cref="ITypeDiscoverer"/> to use for discovering <see cref="ICommandHandler">command handlers</see></param>
-	    /// <param name="serviceLocator">A <see cref="IServiceLocator"/> to use for getting instances of objects</param>
-	    public CommandHandlerInvoker(ITypeDiscoverer discoverer, IServiceLocator serviceLocator)
+	    /// <param name="container">A <see cref="IContainer"/> to use for getting instances of objects</param>
+	    public CommandHandlerInvoker(ITypeDiscoverer discoverer, IContainer container)
 		{
 			_discoverer = discoverer;
-		    _serviceLocator = serviceLocator;
+		    _container = container;
 	        _initialized = false;
 		}
 
 		private void Initialize()
 		{
 		    var handlers = _discoverer.FindMultiple<ICommandHandler>();
-			Array.ForEach(handlers, Register);
+            handlers.ForEach(Register);
 		    _initialized = true;
 		}
 
@@ -72,12 +72,21 @@ namespace Bifrost.Commands
 		/// </remarks>
 		public void Register(Type handlerType)
 		{
+#if(NETFX_CORE)
+            var allMethods = handlerType.GetRuntimeMethods().Where(m => m.IsPublic || !m.IsStatic);
+#else
             var allMethods = handlerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+#endif
 
             var query = from m in allMethods
                         where m.Name.Equals(HandleMethodName) &&
                               m.GetParameters().Length == 1 &&
-                              typeof(ICommand).IsAssignableFrom(m.GetParameters()[0].ParameterType)
+                              typeof(ICommand)
+#if(NETFX_CORE)
+                                .GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())
+#else
+                                .IsAssignableFrom(m.GetParameters()[0].ParameterType)
+#endif
                         select m;
 
             foreach (var method in query)
@@ -94,7 +103,7 @@ namespace Bifrost.Commands
             if (_commandHandlers.ContainsKey(commandType))
             {
                 var commandHandlerType = _commandHandlers[commandType].DeclaringType;
-                var commandHandler = _serviceLocator.GetInstance(commandHandlerType);
+                var commandHandler = _container.Get(commandHandlerType);
                 var method = _commandHandlers[commandType];
                 method.Invoke(commandHandler, new[] { command });
                 return true;

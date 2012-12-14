@@ -22,8 +22,8 @@
 using System;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.Execution;
 using Bifrost.Validation;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Sagas
 {
@@ -33,7 +33,7 @@ namespace Bifrost.Sagas
     public class SagaNarrator : ISagaNarrator
     {
         readonly ISagaLibrarian _librarian;
-        readonly IServiceLocator _serviceLocator;
+        readonly IContainer _container;
         readonly IChapterValidationService _chapterValidationService;
         readonly IEventStore _eventStore;
 
@@ -41,17 +41,17 @@ namespace Bifrost.Sagas
         /// Initializes a new instance of <see cref="SagaNarrator"/>
         /// </summary>
         /// <param name="librarian"><see cref="ISagaLibrarian"/> to use for handling sagas</param>
-        /// <param name="serviceLocator"><see cref="IServiceLocator"/> for creating instances</param>
+        /// <param name="container"><see cref="IContainer"/> for creating instances</param>
         /// <param name="chapterValidationService"><see cref="IChapterValidationService" /> for validating chapters</param>
         /// <param name="eventStore"></param>
         public SagaNarrator(
             ISagaLibrarian librarian,
-            IServiceLocator serviceLocator,
+            IContainer container,
             IChapterValidationService chapterValidationService,
             IEventStore eventStore)
         {
             _librarian = librarian;
-            _serviceLocator = serviceLocator;
+            _container = container;
             _chapterValidationService = chapterValidationService;
             _eventStore = eventStore;
         }
@@ -59,7 +59,7 @@ namespace Bifrost.Sagas
 #pragma warning disable 1591 // Xml Comments
         public T Begin<T>() where T : ISaga
         {
-            var saga = _serviceLocator.GetInstance<T>();
+            var saga = _container.Get<T>();
             CreateChaptersFromPropertiesOnSaga(saga);
             saga.Begin();
             return saga;
@@ -107,7 +107,7 @@ namespace Bifrost.Sagas
             var chapter = GetExistingChapterIfAnyFrom(saga, typeof(T));
             if (chapter == null)
             {
-                chapter = _serviceLocator.GetInstance<T>();
+                chapter = _container.Get<T>();
                 saga.AddChapter(chapter);
             }
 
@@ -125,7 +125,7 @@ namespace Bifrost.Sagas
         {
             foreach( var chapterProperty in saga.ChapterProperties )
             {
-                var chapter = _serviceLocator.GetInstance(chapterProperty.PropertyType) as IChapter;
+                var chapter = _container.Get(chapterProperty.PropertyType) as IChapter;
                 chapter.OnCreated();
                 saga.AddChapter(chapter);
             }

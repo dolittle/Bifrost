@@ -29,7 +29,7 @@ namespace Bifrost.Domain
 	/// targetting <see cref="AggregatedRoot">AggregatedRoots</see>
 	/// </summary>
 	/// <typeparam name="T">Type of aggregated root the command is targetting</typeparam>
-	public class AggregatedRootCommand<T> : ICommandForType<T>
+	public partial class AggregatedRootCommand<T> : ICommandForType<T>
 		where T:AggregatedRoot
 	{
 #pragma warning disable 1591 // Xml Comments

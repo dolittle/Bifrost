@@ -69,7 +69,7 @@ namespace Bifrost.Events
             {
                 _repository.Insert(eventsToSave);
                 _eventSubscriptionManager.Process(eventsToSave);
-                _eventStoreChangeManager.NotifyChanges(this);
+                _eventStoreChangeManager.NotifyChanges(this, eventsToSave);
             }
 		}
 
@@ -78,5 +78,7 @@ namespace Bifrost.Events
 	        return _repository.GetLastCommittedVersion(aggregatedRootType, aggregateId);
 	    }
 #pragma warning restore 1591 // Xml Comments
-	}
+
+
+    }
 }

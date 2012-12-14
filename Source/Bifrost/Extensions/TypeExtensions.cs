@@ -21,6 +21,9 @@
 #endregion
 using System;
 using System.Reflection;
+#if(NETFX_CORE)
+using System.Linq;
+#endif
 
 namespace Bifrost.Extensions
 {
@@ -33,7 +36,11 @@ namespace Bifrost.Extensions
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
+#if(NETFX_CORE)
+            return typeInfoType.GetRuntimeFields().Where(f => f.Name == "Instance" && f.IsStatic && f.IsPublic).Single().GetValue(null) as ITypeInfo;
+#else
             return typeInfoType.GetField("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as ITypeInfo;
+#endif
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -68,7 +75,11 @@ namespace Bifrost.Extensions
         /// <returns>True if the type implements the interface, false if not</returns>
         public static bool HasInterface(this Type type, Type interfaceType)
         {
-            var hasInterface = type.GetInterface(interfaceType.Name, false) != null;
+#if(NETFX_CORE)
+            var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => t.FullName == interfaceType.FullName).Count() == 1;
+#else
+            var hasInterface = type.GetInterface(interfaceType.FullName, false) != null;
+#endif
             return hasInterface;
         }
 

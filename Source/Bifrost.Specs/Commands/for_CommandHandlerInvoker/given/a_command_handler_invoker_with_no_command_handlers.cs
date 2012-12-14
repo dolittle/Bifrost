@@ -2,7 +2,6 @@
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Machine.Specifications;
-using Microsoft.Practices.ServiceLocation;
 using Moq;
 
 namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker.given
@@ -11,14 +10,14 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker.given
 	{
 		protected static CommandHandlerInvoker invoker;
 		protected static Mock<ITypeDiscoverer> type_discoverer_mock;
-	    protected static Mock<IServiceLocator> service_locator_mock;
+	    protected static Mock<IContainer> container_mock;
 
 		Establish context = () =>
 		                    	{
 									type_discoverer_mock = new Mock<ITypeDiscoverer>();
 									type_discoverer_mock.Setup(t => t.FindMultiple<ICommandHandler>()).Returns(new Type[0]);
-		                    	    service_locator_mock = new Mock<IServiceLocator>();
-									invoker = new CommandHandlerInvoker(type_discoverer_mock.Object, service_locator_mock.Object); 
+		                    	    container_mock = new Mock<IContainer>();
+									invoker = new CommandHandlerInvoker(type_discoverer_mock.Object, container_mock.Object); 
 		                    	};
 	}
 }

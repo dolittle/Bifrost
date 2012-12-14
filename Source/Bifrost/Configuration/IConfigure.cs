@@ -28,7 +28,7 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines the configuration for Bifrost
 	/// </summary>
-	public interface IConfigure
+	public interface IConfigure 
 	{
 		/// <summary>
 		/// Gets the type of logger to use
@@ -46,7 +46,8 @@ namespace Bifrost.Configuration
 		ICommandsConfiguration Commands { get; }
 
 		/// <summary>
-		/// Gets the configuration for events
+		/// Gets the configuration for events.
+        /// Supports specific storage
 		/// </summary>
 		IEventsConfiguration Events { get; }
 
@@ -72,13 +73,19 @@ namespace Bifrost.Configuration
 
 		/// <summary>
 		/// Gets the configuration for sagas
+        /// Supports specific storage
 		/// </summary>
 		ISagasConfiguration Sagas { get; }
-		
-		/// <summary>
-		/// Gets the configureation for serialization
-		/// </summary>
-		ISerializationConfiguration Serialization { get; }
+
+        /// <summary>
+        /// Gets the configureation for serialization
+        /// </summary>
+        ISerializationConfiguration Serialization { get; }
+        
+        /// <summary>
+        /// Gets the configureation for the applications default storage
+        /// </summary>
+        IDefaultStorageConfiguration DefaultStorage { get; }
 		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost

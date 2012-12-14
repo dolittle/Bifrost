@@ -40,6 +40,6 @@ namespace Bifrost.Views
         /// </summary>
         /// <param name="id">Id of instance to get</param>
         /// <returns>The instance found - null if not found</returns>
-	    T Get(Guid id);
+	    T GetById(Guid id);
 	}
 }

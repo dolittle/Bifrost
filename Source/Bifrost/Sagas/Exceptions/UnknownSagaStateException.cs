@@ -59,7 +59,7 @@ namespace Bifrost.Sagas.Exceptions
         {
         }
 
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
         /// Initializes an <see cref="UnknownSagaStateException">UnknownSagaStateException</see> for serialization
         /// </summary>

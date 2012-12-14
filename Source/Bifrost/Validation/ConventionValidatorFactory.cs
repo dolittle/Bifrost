@@ -20,8 +20,11 @@
 //
 #endregion
 using System;
+using Bifrost.Execution;
 using FluentValidation;
-using Microsoft.Practices.ServiceLocation;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -30,34 +33,43 @@ namespace Bifrost.Validation
 	/// </summary>
     public class ConventionValidatorFactory : IValidatorFactory
     {
-        readonly IServiceLocator _serviceLocator;
+        readonly IContainer _container;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="ConventionValidatorFactory"/>
 		/// </summary>
-		/// <param name="serviceLocator"><see cref="IServiceLocator"/> to use for getting instances of <see cref="IValidator">validators</see></param>
-        public ConventionValidatorFactory(IServiceLocator serviceLocator)
+		/// <param name="container"><see cref="IContainer"/> to use for getting instances of <see cref="IValidator">validators</see></param>
+        public ConventionValidatorFactory(IContainer container)
         {
-            _serviceLocator = serviceLocator;
+            _container = container;
         }
 #pragma warning disable 1591 // Xml Comments
 		public IValidator<T> GetValidator<T>()
         {
             var type = typeof(T);
             var validatorTypeName = string.Format("{0}Validator", type.Name);
+#if(NETFX_CORE)
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
+#else
             var validatorType = type.Assembly.GetType(validatorTypeName);
+#endif
 
-            var validator = _serviceLocator.GetInstance(validatorType) as IValidator<T>;
+
+            var validator = _container.Get(validatorType) as IValidator<T>;
             return validator;
         }
 
         public IValidator GetValidator(Type type)
         {
             var validatorTypeName = string.Format("{0}.{1}Validator", type.Namespace, type.Name);
+#if(NETFX_CORE)
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
+#else
             var validatorType = type.Assembly.GetType(validatorTypeName);
+#endif
             if (null != validatorType)
             {
-                var validator = _serviceLocator.GetInstance(validatorType) as IValidator;
+                var validator = _container.Get(validatorType) as IValidator;
                 return validator;
             }
             return null;

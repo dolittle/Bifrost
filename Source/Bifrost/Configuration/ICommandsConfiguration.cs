@@ -19,13 +19,19 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.Commands;
 
 namespace Bifrost.Configuration
 {
 	/// <summary>
 	/// Defines configuration for commands
 	/// </summary>
-    public interface ICommandsConfiguration : IStorageConfiguration
+    public interface ICommandsConfiguration : IConfigurationElement, IHaveStorage
     {
+        /// <summary>
+        /// Gets or sets the type <see cref="ICommandCoordinator"/> to use
+        /// </summary>
+        Type CommandCoordinatorType { get; set; }
     }
 }

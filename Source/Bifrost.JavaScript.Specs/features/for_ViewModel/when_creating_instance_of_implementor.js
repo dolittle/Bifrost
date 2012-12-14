@@ -7,7 +7,10 @@ describe("when creating instance of implementor", sinon.test(function() {
 		sinon.stub(Bifrost.Uri,"create");
 		
 		Bifrost.messaging = Bifrost.messaging || {}
-		Bifrost.messaging.messenger = {};
+		Bifrost.messaging = Bifrost.messaging || {}
+		Bifrost.messaging.Messenger = {
+		    global: {}
+		};
 		
 		Bifrost.features.ViewModel.baseFor(MyViewModel);
 		instance = new MyViewModel();

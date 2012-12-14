@@ -1,5 +1,5 @@
 describe("when setting as base", function() {
-	var typeInfo = null;
+	var prototypeName = null;
 	
 	function MyViewModel() {
 	}
@@ -8,12 +8,21 @@ describe("when setting as base", function() {
 		sinon.stub(Bifrost.Uri,"create");
 
 		Bifrost.messaging = Bifrost.messaging || {}
-		Bifrost.messaging.messenger = {};
-
+		Bifrost.messaging = Bifrost.messaging || {}
+		Bifrost.messaging.Messenger = {
+		    global: {}
+		};
 
 		Bifrost.features.ViewModel.baseFor(MyViewModel);
 
-		typeInfo = MyViewModel.prototype.getTypeInfo();
+		try {
+			var target = new MyViewModel();
+			var funcNameRegex = /function (.{1,})\(/;
+			var results = (funcNameRegex).exec((target).constructor.toString());
+			prototypeName = (results && results.length > 1) ? results[1] : "";
+		} catch( e ) {
+			prototypeName = "unknown";
+		}
 	});
 	
 	afterEach(function() {
@@ -22,6 +31,6 @@ describe("when setting as base", function() {
 	
 	
 	it("should set prototype to be a ViewModel", function() {
-		expect(typeInfo.name).toBe("ViewModel");
+		expect(prototypeName).toBe("ViewModel");
 	});
 });

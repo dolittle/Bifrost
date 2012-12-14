@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
 
         Establish context = () =>
                                 {
-                                    service_locator_mock.Setup(s => s.GetInstance<TransitionalChapter>()).Returns(
+                                    container_mock.Setup(c => c.Get<TransitionalChapter>()).Returns(
                                         new TransitionalChapter());
                                     saga = new Saga();
                                 };

@@ -139,6 +139,13 @@ namespace Bifrost.Execution
 			_types.AddRange(types);
 		}
 #else
+#if(NETFX_CORE)
+		void CollectTypes()
+		{
+            foreach (var assembly in _assemblyLocator.GetAll())
+                _types.AddRange(assembly.DefinedTypes.Select(t => t.AsType()));
+		}
+#else
 		private void CollectTypes()
 		{
 		    var assemblies = _assemblyLocator.GetAll();
@@ -161,6 +168,7 @@ namespace Bifrost.Execution
 		}
 #endif
 #endif
+#endif
 		private static bool ShouldAddAssembly(string name)
 		{
 			if (NameStartsWithAnExcludedNamespace(name)) return false;
@@ -175,7 +183,15 @@ namespace Bifrost.Execution
 		private Type[] Find(Type type)
 		{
 			var query = from t in _types
-						where t.HasInterface(type) && !t.IsInterface && !t.IsAbstract
+						where 
+                            t.HasInterface(type) && 
+#if(NETFX_CORE)
+                            !t.GetTypeInfo().IsInterface &&
+                            !t.GetTypeInfo().IsAbstract
+#else
+                            !t.IsInterface && 
+                            !t.IsAbstract
+#endif
 						select t;
 			var typesFound = query.ToArray();
 			return typesFound;

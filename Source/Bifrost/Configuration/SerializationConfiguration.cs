@@ -21,6 +21,7 @@
 #endregion
 using Bifrost.Serialization;
 using System;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
@@ -32,10 +33,10 @@ namespace Bifrost.Configuration
 #pragma warning disable 1591 // Xml Comments
         public Type SerializerType { get; set; }
 
-        public void Initialize (IConfigure configure)
+        public void Initialize (IContainer container)
 		{
 			if( SerializerType != null )
-				configure.Container.Bind<ISerializer>(SerializerType);
+				container.Bind<ISerializer>(SerializerType);
 		}
 #pragma warning restore 1591 // Xml Comments
     }

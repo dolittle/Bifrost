@@ -52,9 +52,9 @@ namespace Bifrost.Events
         /// <param name="message">Error Message</param>
         /// <param name="innerException">Inner Exception</param>
         public UnregisteredEventException(string message, Exception innerException) : base(message,innerException)
-        {}
+        { }
 
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
         /// Initializes a <see cref="UnregisteredEventException"/> for serialization
         /// </summary>

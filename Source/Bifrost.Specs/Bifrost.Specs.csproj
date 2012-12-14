@@ -43,8 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks">
       <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
@@ -60,9 +61,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -115,6 +113,18 @@
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_constant.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_field.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_property.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_multiple_bindings_for_specific_storage.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\SomeOtherType.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\SomeType.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_for_specific_storage.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\given\a_configuration_element.cs" />
+    <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_for_default_storage.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\when_initializing_without_storage.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\when_initializing_with_storage.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\given\a_sagas_configuration.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\given\a_sagas_configuration_and_container_object.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\when_initializing_without_storage.cs" />
+    <Compile Include="Configuration\for_SagasConfiguration\when_initializing_with_storage.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithConfigObjectWithString.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\ConfigObjectWithListOfElements.cs" />
     <Compile Include="Configuration\Xml\for_ConfigParser\given\a_config_parser.cs" />
@@ -132,12 +142,13 @@
     <Compile Include="Configuration\for_Configure\when_configured_with_a_configuration_source.cs" />
     <Compile Include="Configuration\for_Configure\when_initializing.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
-    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_configure_object.cs" />
+    <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
     <Compile Include="Events\for_EventConverter\given\an_event_converter.cs" />
     <Compile Include="Events\for_EventConverter\when_converting_to_an_event_holder.cs" />
+    <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_repository_with_persisted_events.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_source_with_10_applied_events.cs" />
     <Compile Include="Events\for_EventRepository\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
@@ -167,6 +178,7 @@
     <Compile Include="Events\for_EventStore\given\an_event_store.cs" />
     <Compile Include="Events\for_EventStore\when_creating_an_instance_and_an_event_is_in_repository_and_a_subscription_has_not_received_it.cs" />
     <Compile Include="Events\for_EventStore\when_saving_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_and_in_running_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager_with_one_subscriber_from_repository.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager_with_one_subscriber_from_repository_and_matching_in_process.cs" />
@@ -175,7 +187,12 @@
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_all_subscriptions_and_there_is_none_in_running_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_but_none_is_in_running_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_creating_and_there_is_no_subscription_in_repository_but_one_in_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_subscriber_has_processed_it.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_there_is_one_subscription_for_the_event.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_resetting_last_event_id_by_id.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_one_subscription.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_by_id.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_is_one_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_two_subscriptions_for_different_event_types.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\Subscribers.cs" />
@@ -184,6 +201,8 @@
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_are_two_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_is_no_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_updating_a_subscription.cs" />
+    <Compile Include="Events\for_EventSubscription\when_asking_if_it_should_process_for_event_that_has_higher_id_than_last_event_id.cs" />
+    <Compile Include="Events\for_EventSubscription\when_asking_if_it_should_process_for_event_that_has_lower_id_than_last_event_id.cs" />
     <Compile Include="Events\for_Event\when_comparing_events_of_different_types.cs" />
     <Compile Include="Events\for_Event\when_comparing_events_that_are_same_type_and_area_equal_but_with_different_ids.cs" />
     <Compile Include="Events\for_Event\when_comparing_events_that_are_same_type_with_different_content.cs" />
@@ -229,6 +248,9 @@
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_after_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_through_indexer_after_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_to_the_dictionary_after_creation.cs" />
+    <Compile Include="Dynamic\for_DynamicHelpers\when_populating_from_anonymous_object.cs" />
+    <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_camel_casing_to_pascal_casing.cs" />
+    <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_pascal_casing_to_camel_casing.cs" />
     <Compile Include="Extensions\for_TypeExtensions\TypeWithDefaultConstructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\TypeWithoutDefaultConstructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_without_a_default_constructor_if_it_has_a_default_constructor.cs" />

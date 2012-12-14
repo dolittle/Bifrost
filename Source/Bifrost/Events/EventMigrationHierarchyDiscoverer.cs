@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -56,11 +59,29 @@ namespace Bifrost.Events
 
         private static Type GetMigrationType(Type migrationSourceType, Type candidateType)
         {
-            var types = from interfaceType in candidateType.GetInterfaces()
+            var types = from interfaceType in 
+#if(NETFX_CORE)
+                            candidateType.GetTypeInfo().ImplementedInterfaces
+                        where interfaceType.GetTypeInfo().IsGenericType
+#else
+                            candidateType.GetInterfaces()
                         where interfaceType.IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
-                        where baseInterface == _migrationInterface && interfaceType.GetGenericArguments().First() == migrationSourceType
-                        select interfaceType.GetGenericArguments().First();
+                        where baseInterface == _migrationInterface && interfaceType
+#if(NETFX_CORE)
+                            .GetTypeInfo().GenericTypeArguments
+#else
+                            .GetGenericArguments()
+#endif
+                            .First() == migrationSourceType
+                        select interfaceType
+#if(NETFX_CORE)
+                            .GetTypeInfo().GenericTypeArguments
+#else
+                            .GetGenericArguments()
+#endif
+                            .First();
 
             var migratedFromType = types.FirstOrDefault();
 
@@ -78,8 +99,18 @@ namespace Bifrost.Events
         {
             foreach(var @event in allEventTypes)
             {
-                var eventType = (from ievent in @event.GetInterfaces()
-                                 where ievent.IsGenericType
+                var eventType = (from ievent in @event
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                                 where ievent
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                                  let baseInterface = ievent.GetGenericTypeDefinition()
                                  where baseInterface == _migrationInterface
                                  select ievent).FirstOrDefault();

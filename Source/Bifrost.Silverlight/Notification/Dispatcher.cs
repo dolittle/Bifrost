@@ -19,21 +19,29 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
 using System;
 
 namespace Bifrost.Notification
 {
+
+    /// <summary>
+    /// Represents a <see cref="IDispathcer"/>
+    /// </summary>
 	public class Dispatcher : IDispatcher
 	{
 		private readonly System.Windows.Threading.Dispatcher _systemDispatcher;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Dispatcher"/>
+        /// </summary>
+        /// <param name="systemDispatcher"></param>
 		public Dispatcher(System.Windows.Threading.Dispatcher systemDispatcher)
 		{
 			_systemDispatcher = systemDispatcher;
 		}
 
-		public bool CheckAccess()
+#pragma warning disable 1591 // Xml Comments
+        public bool CheckAccess()
 		{
 			return _systemDispatcher.CheckAccess();
 		}
@@ -46,7 +54,7 @@ namespace Bifrost.Notification
 		public void BeginInvoke(Action action)
 		{
 			_systemDispatcher.BeginInvoke(action);
-		}
-	}
+        }
+#pragma warning restore 1591 // Xml Comments
+    }
 }
-#endif

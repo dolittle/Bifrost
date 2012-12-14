@@ -23,6 +23,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Time;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -31,11 +34,15 @@ namespace Bifrost.Events
     /// </summary>
     public abstract class Event : IEvent
     {
-        static readonly IEnumerable<string> PropertiesToIgnore = typeof(IEvent).GetProperties().Select(p=>p.Name);
+#if(NETFX_CORE)
+        static readonly IEnumerable<string> PropertiesToIgnore = typeof(IEvent).GetTypeInfo().DeclaredProperties.Select(p => p.Name);
+#else
+        static readonly IEnumerable<string> PropertiesToIgnore = typeof(IEvent).GetProperties().Select(p => p.Name);
+#endif
 
 #pragma warning disable 1591 // Xml Comments
-        public Guid Id { get; set; }
-
+        public long Id { get; set; }
+        public Guid CommandContext { get; set; }
         public string Name { get; set; }
 		public string CommandName { get; set; }
         public Guid EventSourceId { get; set; }
@@ -50,13 +57,13 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a new instance of <see cref="Event">Event</see>
         /// </summary>
-        protected Event(Guid eventSourceId) : this(eventSourceId,Guid.NewGuid())
+        protected Event(Guid eventSourceId) : this(eventSourceId,0)
         {}
 
         /// <summary>
         /// Initializes a new instance of <see cref="Event">Event</see> setting the event id directly.  This is required for event versioning.
         /// </summary>
-        protected Event(Guid eventSourceId, Guid id)
+        protected Event(Guid eventSourceId, long id)
         {
             Id = id;
             EventSourceId = eventSourceId;
@@ -78,8 +85,11 @@ namespace Bifrost.Events
             if (obj == null || obj.GetType() != type )
                 return false;
 
+#if(NETFX_CORE)
+            var properties = type.GetTypeInfo().DeclaredProperties.Where(t => !PropertiesToIgnore.Contains(t.Name));
+#else
             var properties = type.GetProperties().Where(t=>!PropertiesToIgnore.Contains(t.Name));
-
+#endif
             foreach( var property in properties )
             {
                 var value = property.GetValue(this, null);

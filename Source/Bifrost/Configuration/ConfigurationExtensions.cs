@@ -19,9 +19,10 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.Entities;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
 using Bifrost.Sagas;
 
 namespace Bifrost.Configuration
@@ -57,6 +58,21 @@ namespace Bifrost.Configuration
 
 
         /// <summary>
+        /// Configures events to be persisted asynchronously
+        /// </summary>
+        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
+        /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
+        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
+        public static IConfigure WithAsynchronousEventStore(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
+        {
+            configuration.EventStoreType = typeof(AsyncEventStore);
+            if (configurationAction != null)
+                configurationAction(configuration);
+            return Configure.Instance;
+        }
+
+
+        /// <summary>
         /// Configure sagas to not be persisted
         /// </summary>
         /// <param name="configuration"><see cref="ISagasConfiguration"/> instance to configure</param>
@@ -66,5 +82,39 @@ namespace Bifrost.Configuration
             configuration.LibrarianType = typeof(NullSagaLibrarian);
             return Configure.Instance;
         }
+
+        /// <summary>
+        /// Binds given entity context for a specific type (IEntityContext of T)
+        /// </summary>
+        /// <typeparam name="T">The Type that this vbinding will work for</typeparam>
+        /// <param name="configuration">EntityContextConfiguration instance</param>
+        /// <param name="container">Container</param>
+        public static void BindEntityContextTo<T>(this IEntityContextConfiguration configuration, IContainer container)
+        {
+            BindEntityContextConfigurationInstance(configuration, container);
+
+            var source = typeof(IEntityContext<>).MakeGenericType(typeof(T));
+            container.Bind(source, configuration.EntityContextType);
+        }
+
+        /// <summary>
+        /// Binds given entity context as default IEntityContext
+        /// </summary>
+        /// <param name="configuration">EntityContextConfiguration instance</param>
+        /// <param name="container">Container</param>
+        public static void BindDefaultEntityContext(this IEntityContextConfiguration configuration, IContainer container)
+        {
+            BindEntityContextConfigurationInstance(configuration, container);
+            container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
+        }
+        
+        private static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
+        {
+            var configurationType = configuration.Connection.GetType();
+
+            if(!container.HasBindingFor(configurationType))
+                container.Bind(configurationType, configuration.Connection);
+        }
+
     }
 }

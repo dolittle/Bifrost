@@ -22,13 +22,14 @@
 using System;
 using System.Collections.Generic;
 using Bifrost.Events;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
     /// <summary>
     /// Represents an implementation of <see cref="IEventsConfiguration"/>
     /// </summary>
-    public class EventsConfiguration : IEventsConfiguration
+    public class EventsConfiguration : ConfigurationStorageElement, IEventsConfiguration
     {
         IEventStoreChangeManager _eventStoreChangeManager;
 
@@ -52,15 +53,19 @@ namespace Bifrost.Configuration
             _eventStoreChangeManager.Register(type);
         }
 
-        public void Initialize(IConfigure configure)
+        public override void Initialize(IContainer container)
         {
-            /*
-            if( RepositoryType != null )
-                configure.Container.Bind<IEventRepository>(RepositoryType);*/
-
             if (EventStoreType != null)
-                configure.Container.Bind<IEventStore>(EventStoreType);
+                container.Bind<IEventStore>(EventStoreType);
+
+            if (EntityContextConfiguration != null)
+            {
+                EntityContextConfiguration.BindEntityContextTo<EventHolder>(container);
+                EntityContextConfiguration.BindEntityContextTo<EventSubscriptionHolder>(container);
+                base.Initialize(container);
+            }
         }
 #pragma warning restore 1591 // Xml Comments
+
     }
 }

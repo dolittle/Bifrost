@@ -23,6 +23,9 @@
 using Bifrost.Execution;
 using System.Collections.Generic;
 using System;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -51,19 +54,25 @@ namespace Bifrost.Events
             _notifiers.Add(type);
         }
 
-        public void NotifyChanges(IEventStore eventStore)
+        public void NotifyChanges(IEventStore eventStore, EventStream streamOfEvents)
         {
             foreach( var notifierType in _notifiers ) 
             {
                 var notifier = _container.Get(notifierType) as IEventStoreChangeNotifier;
-                notifier.Notify(eventStore);
+                notifier.Notify(eventStore, streamOfEvents);
             }  
         }
 #pragma warning restore 1591 // Xml Comments
 
         void ThrowIfTypeIsNotANotifier(Type type)
         {
-            if (!typeof(IEventStoreChangeNotifier).IsAssignableFrom(type))
+            if (!typeof(IEventStoreChangeNotifier)
+#if(NETFX_CORE)
+                .GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
+#else
+                .IsAssignableFrom(type)
+#endif                
+                )
                 throw new ArgumentException(string.Format("Type '{0}' must implement '{1}'", type.Name, typeof(IEventStoreChangeNotifier).Name));
         }
     }

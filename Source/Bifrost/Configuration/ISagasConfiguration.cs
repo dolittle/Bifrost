@@ -27,17 +27,11 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines the configuration for sagas
 	/// </summary>
-	public interface ISagasConfiguration
+	public interface ISagasConfiguration : IConfigurationElement, IHaveStorage
 	{
 		/// <summary>
 		/// Gets or sets the type of librarian to use for sagas
 		/// </summary>
 		Type LibrarianType { get; set; }
-
-		/// <summary>
-		/// Initialize the saga configuration
-		/// </summary>
-		/// <param name="configure"><see cref="Configure"/> instance to initialize for</param>
-		void Initialize(Configure configure);
 	}
 }

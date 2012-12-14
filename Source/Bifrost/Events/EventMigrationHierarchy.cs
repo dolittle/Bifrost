@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -112,19 +115,45 @@ namespace Bifrost.Events
 
         static Type GetMigrationFromType(Type migrationType)
         {
-            var types = from interfaceType in migrationType.GetInterfaces()
-                        where interfaceType.IsGenericType
+            var types = from interfaceType in migrationType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                        where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == typeof(IAmNextGenerationOf<>)
-                        select interfaceType.GetGenericArguments().First();
+                        select interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().GenericTypeParameters
+#else
+                                    .GetGenericArguments()
+#endif
+                            .First();
 
             return types.Last();
         }
 
         static bool ImplementsMigrationInterface(Type migrationType)
         {
-            var types = from interfaceType in migrationType.GetInterfaces()
-                        where interfaceType.IsGenericType
+            var types = from interfaceType in migrationType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                        where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == typeof(IAmNextGenerationOf<>)
                         select interfaceType;

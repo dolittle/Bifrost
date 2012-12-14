@@ -24,7 +24,6 @@ using Bifrost.Configuration;
 using Bifrost.Configuration.Xml;
 using Bifrost.Execution;
 using FluentNHibernate.Cfg.Db;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.NHibernate.Configuration
 {
@@ -35,8 +34,8 @@ namespace Bifrost.NHibernate.Configuration
         readonly ITypeDiscoverer _typeDiscoverer;
 
         public NHibernateStorageElement()
-            : this(ServiceLocator.Current.GetInstance<IAssemblyLocator>(),
-                ServiceLocator.Current.GetInstance<ITypeDiscoverer>()) {}
+            : this(Configure.Instance.Container.Get<IAssemblyLocator>(),
+                Configure.Instance.Container.Get<ITypeDiscoverer>()) { }
 
         public NHibernateStorageElement(IAssemblyLocator assemblyLocator, ITypeDiscoverer typeDiscoverer)
         {
@@ -55,7 +54,6 @@ namespace Bifrost.NHibernate.Configuration
                 MsSqlConfiguration.MsSql2008.ConnectionString(ConnectionString));
 
             configuration.Connection = connection;
-            connection.Configure();
             return configuration;
         }
     }

@@ -13,7 +13,7 @@ namespace Bifrost.NHibernate.Events
             Map(e => e.Method);
             Map(e => e.EventType);
             Map(e => e.EventName);
-            Map(e => e.EventSourceVersions);
+            Map(e => e.LastEventId);
         }
     }
 }

@@ -23,7 +23,7 @@ using Bifrost.Entities;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 
-namespace Bifrost.RavenDb.Embeddable
+namespace Bifrost.RavenDB.Embeddable
 {
     public class EntityContextConnection : IEntityContextConnection
     {
@@ -42,6 +42,11 @@ namespace Bifrost.RavenDb.Embeddable
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
             DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;
             DocumentStore.Initialize();
+        }
+
+        public void Initialize(Execution.IContainer container)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -24,7 +24,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Sagas;
-using Microsoft.Practices.ServiceLocation;
+using Bifrost.Extensions;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -38,8 +41,8 @@ namespace Bifrost.Validation
         static Type _chapterValidatorType = typeof (IChapterValidator);
         static Type _validatesType = typeof (ICanValidate<>);
 
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IServiceLocator _serviceLocator;
+        ITypeDiscoverer _typeDiscoverer;
+        IContainer _container;
 
         Dictionary<Type, Type> _validators;
 
@@ -48,11 +51,11 @@ namespace Bifrost.Validation
         /// </summary>
         /// <param name="typeDiscoverer">An instance of ITypeDiscoverer to help identify and register <see cref="IChapterValidator"> IChapterValidator</see> implementations
         /// </param>
-        /// <param name="serviceLocator">An instance of IServiceLocator to return concrete instances of validators</param>
-        public ChapterValidatorProvider(ITypeDiscoverer typeDiscoverer, IServiceLocator serviceLocator)
+        /// <param name="container">An instance of <see cref="IContainer"/> to create concrete instances of validators</param>
+        public ChapterValidatorProvider(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
-            _serviceLocator = serviceLocator;
+            _container = container;
 
             Initialize();
         }
@@ -76,7 +79,7 @@ namespace Bifrost.Validation
             Type registeredType;
             _validators.TryGetValue(type, out registeredType);
 
-            var validator = (registeredType != null ? _serviceLocator.GetInstance(registeredType) : NullChapterValidator) as ICanValidate;
+            var validator = (registeredType != null ? _container.Get(registeredType) : NullChapterValidator) as ICanValidate;
             return validator;
         }
 #pragma warning restore 1591 // Xml Comments
@@ -87,26 +90,46 @@ namespace Bifrost.Validation
 
             var validators = _typeDiscoverer.FindMultiple(_chapterValidatorType);
 
-            Array.ForEach(validators, Register);
+            validators.ForEach(Register);
         }
 
         void Register(Type typeToRegister)
         {
             var chapterType = GetChapterType(typeToRegister);
 
+#if(NETFX_CORE)
+            if (chapterType == null || chapterType.GetTypeInfo().IsInterface)
+                return;
+#else
             if (chapterType == null || chapterType.IsInterface)
                 return;
-
+#endif
             _validators.Add(chapterType, typeToRegister);
         }
 
         Type GetChapterType(Type typeToRegister)
         {
-            var types = from interfaceType in typeToRegister.GetInterfaces()
-                        where interfaceType.IsGenericType
+            var types = from interfaceType in typeToRegister
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                        where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == _validatesType
-                        select interfaceType.GetGenericArguments().FirstOrDefault();
+                        select interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().GenericTypeParameters
+#else
+                                    .GetGenericArguments()
+#endif
+                            .FirstOrDefault();
 
             return types.FirstOrDefault();
         }

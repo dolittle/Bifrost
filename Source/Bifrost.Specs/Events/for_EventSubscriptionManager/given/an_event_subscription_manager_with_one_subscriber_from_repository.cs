@@ -33,8 +33,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
                 EventName = event_type.Name,
                 Owner = event_subscriber_type,
                 Method = event_subscriber_type.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { event_type }),
+                LastEventId = 0
             };
-            subscription.SetEventSourceVersion(EventSourceName, new EventSourceVersion(1, 0));
 
             event_subscription_repository_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });
 

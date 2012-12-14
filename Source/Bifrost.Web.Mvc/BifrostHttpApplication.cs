@@ -28,7 +28,6 @@ using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.Validation;
 using FluentValidation.Mvc;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Web.Mvc
 {
@@ -77,6 +76,7 @@ namespace Bifrost.Web.Mvc
             DependencyResolver.SetResolver(dependencyResolver);
             base.OnContainerCreated();
         }
+
 
         public override void OnConfigureValidation()
         {

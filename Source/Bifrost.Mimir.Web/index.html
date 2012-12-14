@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Mimir - Bifrost administration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-w-font-awesome.css" />
+    <link href="Scripts/libs/google-code-prettify/prettify.css" rel="stylesheet" />
+    <link href="Scripts/libs/jquery.pageslide/jquery.pageslide.css" rel="stylesheet" />
+    <link href="Scripts/libs/jquery.tablesorter/themes/blue/style.css" rel="stylesheet" />
+    <link href="Scripts/libs/jquery.tablesorter/addons/pager/jquery.tablesorter.pager.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="Styles/style.css" />
+
+    
+    <script src="Scripts/require.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Scripts/main.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript" src="Scripts/Silverlight.js"></script>
+    <script type="text/javascript">
+        function onSilverlightError(sender, args) {
+            var appSource = "";
+            if (sender != null && sender != 0) {
+                appSource = sender.getHost().Source;
+            }
+            
+            var errorType = args.ErrorType;
+            var iErrorCode = args.ErrorCode;
+
+            if (errorType == "ImageError" || errorType == "MediaError") {
+                return;
+            }
+
+            var errMsg = "Unhandled Error in Silverlight Application " + appSource + "\n";
+
+            errMsg += "Code: " + iErrorCode + "    \n";
+            errMsg += "Category: " + errorType + "       \n";
+            errMsg += "Message: " + args.ErrorMessage + "     \n";
+
+            if (errorType == "ParserError") {
+                errMsg += "File: " + args.xamlFile + "     \n";
+                errMsg += "Line: " + args.lineNumber + "     \n";
+                errMsg += "Position: " + args.charPosition + "     \n";
+            }
+            else if (errorType == "RuntimeError") {
+                if (args.lineNumber != 0) {
+                    errMsg += "Line: " + args.lineNumber + "     \n";
+                    errMsg += "Position: " + args.charPosition + "     \n";
+                }
+                errMsg += "MethodName: " + args.methodName + "     \n";
+            }
+
+            throw new Error(errMsg);
+        }
+    </script>
+
+</head>
+<body class="sidebar-max">
+    <div data-feature="TopBar"></div>
+    <div class="container-fluid" id="container">
+        <div class="row-fluid">
+            <div class="span" id="sidebar" data-feature="SideBar"></div>
+            
+            <div class="span" id="content">
+                <div data-feature="Content/index"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

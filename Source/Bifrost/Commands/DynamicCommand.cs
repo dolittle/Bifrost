@@ -35,7 +35,7 @@ namespace Bifrost.Commands
     /// The purpose of this representation of a <see cref="ICommand"/> is to provide 
     /// a dynamic and generic command type that represents a method on an <see cref="AggregatedRoot"/>
     /// </remarks>
-    public class DynamicCommand : DynamicObject, ICommand
+    public partial class DynamicCommand : DynamicObject, ICommand
     {
         readonly Dictionary<string, object> _values = new Dictionary<string, object>();
 

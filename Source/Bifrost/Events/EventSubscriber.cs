@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Bifrost.Configuration;
 using Bifrost.Entities;
 using Bifrost.Views;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Events
 {
@@ -18,8 +18,8 @@ namespace Bifrost.Events
         /// </summary>
         public EventSubscriber()
         {
-            Repository = ServiceLocator.Current.GetInstance<IView<T>>();
-            EntityContext = ServiceLocator.Current.GetInstance<IEntityContext<T>>();
+            Repository = Configure.Instance.Container.Get<IView<T>>();
+            EntityContext = Configure.Instance.Container.Get<IEntityContext<T>>();
         }
 
         /// <summary>

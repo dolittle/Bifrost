@@ -86,7 +86,7 @@ namespace Bifrost.Commands
 				var events = trackedObject.UncommittedEvents;
 				if (events.HasEvents)
 				{
-					events.MarkEventsWithCommand(Command);
+					events.MarkEventsWithCommandDetails(Command);
                     events.ExpandExecutionContext(ExecutionContext);
                     foreach (var eventStore in EventStores)
                         eventStore.Save(events);

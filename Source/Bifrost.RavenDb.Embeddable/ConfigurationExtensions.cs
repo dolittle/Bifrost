@@ -20,22 +20,21 @@
 //
 #endregion
 using Bifrost.Entities;
-using Bifrost.RavenDb.Embeddable;
+using EntityContextConfiguration = Bifrost.RavenDB.Embeddable.EntityContextConfiguration;
+using EntityContextConnection = Bifrost.RavenDB.Embeddable.EntityContextConnection;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenEmbedded(this IConfigure configure, string dataDirectory)
+        public static IConfigure UsingRavenEmbedded(this IHaveStorage storage, string dataDirectory)
         {
             var entityContextConfiguration = new EntityContextConfiguration();
             var connection = new EntityContextConnection(dataDirectory);
             entityContextConfiguration.Connection = connection;
-            configure.Container.Bind<IEntityContextConfiguration>(entityContextConfiguration);
-            configure.Container.Bind((EntityContextConnection)entityContextConfiguration.Connection);
-            configure.Container.Bind(typeof(IEntityContext<>), typeof(EntityContext<>));
-            configure.Commands.Storage = entityContextConfiguration;
-            return configure;
+
+            storage.EntityContextConfiguration = entityContextConfiguration;
+            return Configure.Instance;
         }
     }
 }

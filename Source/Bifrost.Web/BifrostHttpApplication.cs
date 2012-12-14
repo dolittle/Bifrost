@@ -26,7 +26,6 @@ using System.Web;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.Validation;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Web
 {

@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Execution;
 namespace Bifrost.Entities
 {
 	/// <summary>
@@ -26,5 +27,10 @@ namespace Bifrost.Entities
 	/// </summary>
 	public interface IEntityContextConnection
 	{
+        /// <summary>
+        /// Initialize the specific EntityContextConnection
+        /// </summary>
+        /// <param name="container">Container</param>
+        void Initialize(IContainer container);
 	}
 }

@@ -20,7 +20,6 @@
 //
 #endregion
 using Bifrost.Configuration.ConfigSection;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Configuration
 {
@@ -41,7 +40,7 @@ namespace Bifrost.Configuration
 		/// <returns><see cref="IConfigure"/> chain</returns>
         public static IConfigure UsingConfigConfigurationSource(this IConfigure configure)
         {
-            configure.ConfigurationSource(new ConfigConfigurationSource(ServiceLocator.Current.GetInstance<IConfigurationManager>()));
+            configure.ConfigurationSource(new ConfigConfigurationSource(configure.Container.Get<IConfigurationManager>()));
             return configure;
         }
     }

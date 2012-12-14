@@ -57,34 +57,52 @@
     <Content Include="commands\CommandCoordinator.js" />
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
+    <Content Include="execution\Promise.js" />
     <Content Include="features\exceptions.js" />
     <Content Include="features\featureBindingHandler.js" />
     <Content Include="features\featureManager.js" />
-    <Content Include="features\loader.js" />
     <Content Include="features\Feature.js" />
     <Content Include="features\FeatureMapping.js" />
     <Content Include="features\featureMapper.js" />
     <Content Include="features\ViewModel.js" />
     <Content Include="features\ViewModelDefinition.js" />
+    <Content Include="Libraries\domReady.js" />
+    <Content Include="Libraries\jasmine.js" />
+    <Content Include="Libraries\JasmineAdapter.js" />
     <Content Include="Libraries\jquery-1.7.1.min.js" />
+    <Content Include="Libraries\jquery.history.js" />
     <Content Include="Libraries\knockout-2.0.0.js" />
+    <Content Include="Libraries\knockout.mapping-2.0.0.js" />
+    <Content Include="Libraries\order.js" />
+    <Content Include="Libraries\require.js" />
     <Content Include="Libraries\sinon-1.3.1.js" />
-    <Content Include="messaging\messenger.js" />
+    <Content Include="Libraries\text.js" />
+    <Content Include="messaging\observableMessage.js" />
+    <Content Include="navigation\observableQueryParameter.js" />
+    <Content Include="startup.js" />
+    <Content Include="messaging\Messenger.js" />
     <Content Include="navigation\navigateTo.js" />
     <Content Include="navigation\navigationManager.js" />
     <Content Include="sagas\Saga.js" />
     <Content Include="sagas\sagaNarrator.js" />
+    <Content Include="utils\assetsManager.js" />
+    <Content Include="utils\DefaultDependencyResolver.js" />
+    <Content Include="utils\dependencyResolver.js" />
+    <Content Include="utils\dependencyResolvers.js" />
     <Content Include="utils\Exception.js" />
     <Content Include="utils\exceptions.js" />
     <Content Include="utils\extend.js" />
     <Content Include="utils\functionParser.js" />
     <Content Include="utils\guid.js" />
     <Content Include="utils\hashString.js" />
+    <Content Include="utils\isArray.js" />
     <Content Include="utils\isNumber.js" />
     <Content Include="utils\namespace.js" />
+    <Content Include="utils\namespaces.js" />
+    <Content Include="utils\path.js" />
+    <Content Include="utils\Singleton.js" />
+    <Content Include="utils\stringExtensions.js" />
     <Content Include="utils\Type.js" />
-    <Content Include="utils\TypeInfo.js" />
-    <Content Include="utils\TypePrototype.js" />
     <Content Include="utils\Uri.js" />
     <Content Include="validation\email.js" />
     <Content Include="validation\greaterThan.js" />
@@ -102,6 +120,7 @@
     <Content Include="validation\validationService.js" />
     <Content Include="validation\validationSummaryFor.js" />
     <Content Include="validation\Validator.js" />
+    <Content Include="views\view.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -125,5 +144,8 @@ juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="merge.cmd" />
   </ItemGroup>
 </Project>

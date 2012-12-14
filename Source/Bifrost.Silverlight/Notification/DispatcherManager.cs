@@ -19,14 +19,23 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
 using System;
 
 namespace Bifrost.Notification
 {
+    /// <summary>
+    /// Represents a manager for managing the dispatcher in an application
+    /// </summary>
 	public class DispatcherManager
 	{
 		private static IDispatcher _current;
+
+        /// <summary>
+        /// Gets or sets the current <see cref="IDispatcher"/>
+        /// </summary>
+        /// <remarks>
+        /// Throws an <see cref="ArgumentException"/> when getting and no <see cref="IDispatcher"/> has been set
+        /// </remarks>
 		public static IDispatcher Current
 		{
 			get
@@ -44,4 +53,3 @@ namespace Bifrost.Notification
 		}
 	}
 }
-#endif

@@ -56,19 +56,19 @@ namespace Bifrost.Events
     	}
 
 #pragma warning disable 1591 // Xml Comments
-        public IEvent GetById(Guid id)
+        public IEvent GetById(long id)
         {
         	var eventHolder = GetEventHolderById(id);
         	return _eventConverter.ToEvent(eventHolder);
         }
 
-    	public string GetByIdAsJson(Guid id)
+    	public string GetByIdAsJson(long id)
     	{
 			var eventHolder = GetEventHolderById(id);
     		return eventHolder.SerializedEvent;
     	}
 
-    	public IEnumerable<IEvent> GetByIds(IEnumerable<Guid> ids)
+    	public IEnumerable<IEvent> GetByIds(IEnumerable<long> ids)
         {
             var events = _entityContext.Entities.Where(e => ids.Contains(e.Id)).Select(_eventConverter.ToEvent);
             return events.ToArray();
@@ -87,16 +87,23 @@ namespace Bifrost.Events
         {
             var query = _entityContext.Entities;
             foreach (var subscription in subscriptions)
-                query = query.Where(e => e.LogicalEventName == _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName).Name);
-                        
+            {
+                var logicalType = _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName);
+                query = query.Where(e => e.LogicalEventName == logicalType.Name);
+            }
             return query.Select(_eventConverter.ToEvent).ToArray();
         }
 
         public void Insert(IEnumerable<IEvent> events)
         {
-            var eventHolders = events.Select(_eventConverter.ToEventHolder);
-            foreach (var @event in eventHolders)
-                _entityContext.Insert(@event);
+            var eventArray = events.ToArray();
+            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
+            {
+                var @event = eventArray[eventIndex];
+                var eventHolder = _eventConverter.ToEventHolder(@event);
+                _entityContext.Insert(eventHolder);
+                @event.Id = eventHolder.Id;
+            }
 
             _entityContext.Commit();
         }
@@ -112,7 +119,7 @@ namespace Bifrost.Events
         }
 #pragma warning restore 1591 // Xml Comments
 
-		EventHolder GetEventHolderById(Guid id)
+		EventHolder GetEventHolderById(long id)
 		{
 			var eventHolder = _entityContext.Entities.Where(e => e.Id == id).SingleOrDefault();
 			if (eventHolder == null)
@@ -120,7 +127,5 @@ namespace Bifrost.Events
 
 			return eventHolder;
 		}
-
-
     }
 }

@@ -12,13 +12,14 @@
     <RootNamespace>Bifrost</RootNamespace>
     <AssemblyName>Bifrost</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -36,6 +37,9 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,12 +57,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\SL4\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=5.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -66,12 +73,12 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
-    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Xml.Linq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Bifrost\Auditing\IHaveOrigin.cs">
-      <Link>Auditing\IHaveOrigin.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\Command.cs">
       <Link>Commands\Command.cs</Link>
     </Compile>
@@ -81,8 +88,8 @@
     <Compile Include="..\Bifrost\Commands\CommandContextManager.cs">
       <Link>Commands\CommandContextManager.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Commands\CommandCoordinator.cs">
-      <Link>Commands\CommandCoordinator.cs</Link>
+    <Compile Include="..\Bifrost\Commands\CommandDescriptor.cs">
+      <Link>Commands\CommandDescriptor.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\CommandHandlerForTypeInvoker.cs">
       <Link>Commands\CommandHandlerForTypeInvoker.cs</Link>
@@ -153,8 +160,14 @@
     <Compile Include="..\Bifrost\Configuration\ConfigurationExtensions.cs">
       <Link>Configuration\ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\ConfigurationStorageElement.cs">
+      <Link>Configuration\ConfigurationStorageElement.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\Configure.cs">
       <Link>Configuration\Configure.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\DefaultStorageConfiguration.cs">
+      <Link>Configuration\DefaultStorageConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\Defaults\DefaultBindings.cs">
       <Link>Configuration\Defaults\DefaultBindings.cs</Link>
@@ -174,17 +187,26 @@
     <Compile Include="..\Bifrost\Configuration\ICommandsConfiguration.cs">
       <Link>Configuration\ICommandsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IConfigurationElement.cs">
+      <Link>Configuration\IConfigurationElement.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IConfigurationSource.cs">
       <Link>Configuration\IConfigurationSource.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IConfigure.cs">
       <Link>Configuration\IConfigure.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IDefaultStorageConfiguration.cs">
+      <Link>Configuration\IDefaultStorageConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IEntityContextConfiguration.cs">
       <Link>Configuration\IEntityContextConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IEventsConfiguration.cs">
       <Link>Configuration\IEventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IHaveStorage.cs">
+      <Link>Configuration\IHaveStorage.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ISagasConfiguration.cs">
       <Link>Configuration\ISagasConfiguration.cs</Link>
@@ -200,6 +222,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
       <Link>Configuration\SagasConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\SerializationConfiguration.cs">
+      <Link>Configuration\SerializationConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
@@ -273,11 +298,17 @@
     <Compile Include="..\Bifrost\Domain\MissingAggregatedRootException.cs">
       <Link>Domain\MissingAggregatedRootException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Dynamic\DynamicHelpers.cs">
+      <Link>Dynamic\DynamicHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Entities\IEntityContext.cs">
       <Link>Entities\IEntityContext.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Entities\IEntityContextConnection.cs">
       <Link>Entities\IEntityContextConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\AsyncEventStore.cs">
+      <Link>Events\AsyncEventStore.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\CommittedEventStream.cs">
       <Link>Events\CommittedEventStream.cs</Link>
@@ -462,9 +493,6 @@
     <Compile Include="..\Bifrost\Execution\BindingLifecycle.cs">
       <Link>Execution\BindingLifecycle.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\ContainerServiceLocator.cs">
-      <Link>Execution\ContainerServiceLocator.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Execution\DefaultConvention.cs">
       <Link>Execution\DefaultConvention.cs</Link>
     </Compile>
@@ -518,6 +546,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\TypeImporter.cs">
       <Link>Execution\TypeImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Extensions\CollectionsExtensions.cs">
+      <Link>Extensions\CollectionsExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
       <Link>Extensions\ExpressionExtensions.cs</Link>
@@ -729,6 +760,25 @@
     <Compile Include="..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\Command.Silverlight.cs" />
+    <Compile Include="Commands\ClientCommandCoordinator.cs" />
+    <Compile Include="Commands\CommandBuilder.cs" />
+    <Compile Include="Commands\CommandBuilderExtensions.cs" />
+    <Compile Include="Commands\CommandBuildingConventions.cs" />
+    <Compile Include="Commands\CommandFactory.cs" />
+    <Compile Include="Commands\CommandNameConvention.cs" />
+    <Compile Include="Commands\CommandNameMissingException.cs" />
+    <Compile Include="Commands\DefaultCommandBuildingConventions.cs" />
+    <Compile Include="Commands\DynamicCommand.Silverlight.cs" />
+    <Compile Include="Commands\ICommand.Silverlight.cs" />
+    <Compile Include="Commands\ICommandBuilder.cs" />
+    <Compile Include="Commands\ICommandBuildingConventions.cs" />
+    <Compile Include="Commands\ICommandFactory.cs" />
+    <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
+    <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
+    <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
+    <Compile Include="Dynamic\BindableExpandoType.cs" />
+    <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Execution.for_ApplicationManager
                                 {
                                     application_mock = new Mock<IApplication>();
                                     type_discoverer_mock.Setup(t => t.FindSingle<IApplication>()).Returns(application_mock.GetType());
-                                    service_locator_mock.Setup(s => s.GetInstance(application_mock.GetType())).Returns(application_mock.Object);
+                                    container_mock.Setup(c => c.Get(application_mock.GetType())).Returns(application_mock.Object);
                                 };
 
         Because of = () =>
@@ -26,6 +26,6 @@ namespace Bifrost.Specs.Execution.for_ApplicationManager
 
         It should_return_same_instance = () => application.ShouldEqual(second_application);
 
-        It should_call_service_locator_once = () => service_locator_mock.Verify(s => s.GetInstance(application_mock.GetType()), Times.Once());
+        It should_call_service_locator_once = () => container_mock.Verify(c => c.Get(application_mock.GetType()), Times.Once());
     }
 }

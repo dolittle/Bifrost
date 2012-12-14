@@ -22,11 +22,8 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-using Bifrost.Events;
 
 namespace Bifrost.Configuration
 {
@@ -52,7 +49,6 @@ namespace Bifrost.Configuration
 
             Container = container;
             ExcludeNamespacesForTypeDiscovery();
-            SetupServiceLocator();
 
             defaultBindings.Initialize(container);
             defaultConventions.Initialize();
@@ -130,6 +126,7 @@ namespace Bifrost.Configuration
 #pragma warning disable 1591 // Xml Comments
         public Type LoggerType { get; set; }
         public IContainer Container { get; private set; }
+        public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
         public IViewsConfiguration Views { get; private set; }
@@ -152,21 +149,17 @@ namespace Bifrost.Configuration
             if (_configurationSource != null)
                 _configurationSource.Initialize(this);
 			
-			Serialization.Initialize (this);
-            Events.Initialize(this);
-            Views.Initialize(this);
-			Sagas.Initialize(this);
+			Serialization.Initialize(Container);
+            Commands.Initialize(Container);
+            Events.Initialize(Container);
+            Views.Initialize(Container);
+			Sagas.Initialize(Container);
             InitializeApplication();
         	InitializeCulture();
+            DefaultStorage.Initialize(Container);
         }
 #pragma warning restore 1591 // Xml Comments
 
-        void SetupServiceLocator()
-        {
-            var serviceLocator = new ContainerServiceLocator(Container);
-            Container.Bind<IServiceLocator>(serviceLocator);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
-        }
 
         void InitializeProperties()
         {
@@ -177,6 +170,7 @@ namespace Bifrost.Configuration
         	Sagas = Container.Get<ISagasConfiguration>();
 			Serialization = Container.Get<ISerializationConfiguration>();
             ApplicationManager = Container.Get<IApplicationManager>();
+            DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
         }
 
 		void InitializeCulture()

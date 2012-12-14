@@ -23,6 +23,10 @@ using System;
 using System.Collections.Generic;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+#if(NETFX_CORE)
+using System.Linq;
+using System.Reflection;
+#endif
 
 namespace Bifrost.Commands
 {
@@ -61,7 +65,7 @@ namespace Bifrost.Commands
 			{
 				var targetType = GetTargetTypeFromCommand(command);
 				var handlers = GetHandlers(targetType);
-				Array.ForEach(handlers, h => h.Handle((dynamic)command));
+                handlers.ForEach(h => h.Handle((dynamic)command));
 			}
 
 			return false;
@@ -91,12 +95,17 @@ namespace Bifrost.Commands
 
 		private static Type GetTargetTypeFromCommand(ICommand command)
 		{
-			var baseType = command.GetType().GetInterface(typeof(ICommandForType<>).Name, false);
-			var arguments = baseType.GetGenericArguments();
-			if( null != arguments && arguments.Length == 1 )
-			{
+			var baseType = command.GetType()
+#if(NETFX_CORE)
+                .GetTypeInfo().ImplementedInterfaces.Where(t=>t.Name == typeof(ICommandForType<>).Name).Single();
+            var arguments = baseType.GetTypeInfo().GenericTypeArguments;
+#else
+                .GetInterface(typeof(ICommandForType<>).Name, false);
+            var arguments = baseType.GetGenericArguments();
+#endif
+
+            if ( null != arguments && arguments.Length == 1 )
 				return arguments[0];
-			}
 
 			return null;
 		}

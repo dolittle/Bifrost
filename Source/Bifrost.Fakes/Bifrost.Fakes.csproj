@@ -53,11 +53,13 @@
     <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Commands\SimpleCommandBusinessValidator.cs" />
     <Compile Include="Commands\SimpleCommandInputValidator.cs" />
+    <Compile Include="Configuration\EntityContextConfiguration.cs" />
     <Compile Include="Domain\StatelessAggregatedRootWithOneMethod.cs" />
     <Compile Include="Domain\StatelessAggregatedRoot.cs" />
     <Compile Include="Domain\AnotherStatefulAggregatedRoot.cs" />
     <Compile Include="Domain\StatefulAggregatedRoot.cs" />
     <Compile Include="Entities\EntityContext.cs" />
+    <Compile Include="Entities\FakeEntityContextConnection.cs" />
     <Compile Include="Events\AnotherSimpleEvent.cs" />
     <Compile Include="Events\SimpleEvent.cs" />
     <Compile Include="Events\SimpleEventV1ToV2Migrator.cs" />

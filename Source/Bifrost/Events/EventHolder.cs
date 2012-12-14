@@ -29,15 +29,12 @@ namespace Bifrost.Events
     /// Represents a holder for an <see cref="IEvent"/> to be used for purposes such as persisting or
     /// transferring across boundaries
     /// </summary>
-#if(!SILVERLIGHT)
-    [Serializable]
-#endif
     public class EventHolder
     {
         /// <summary>
         /// Gets or sets the id of the event
         /// </summary>
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the command that indirectly caused the event

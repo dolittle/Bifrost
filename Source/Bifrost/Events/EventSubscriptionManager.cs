@@ -24,12 +24,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Time;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
     /// <summary>
     /// Represents an implementation of <see cref="IEventSubscriptionManager"/>
     /// </summary>
+    [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
         List<EventSubscription> _allSubscriptions;
@@ -74,26 +78,43 @@ namespace Bifrost.Events
             return availableSubscriptions;
         }
 
+
+        public void Process(EventSubscription subscription, IEnumerable<IEvent> events)
+        {
+            foreach (var @event in events)
+                Process(subscription, @event);
+        }
+
+        public void Process(EventSubscription subscription, IEvent @event)
+        {
+            var subscriberType = subscription.Owner;
+            var method = subscription.Method;
+            var subscriberInstance = _container.Get(subscriberType);
+            method.Invoke(subscriberInstance, new[] { @event });
+
+            subscription.LastEventId = @event.Id;
+            _repository.Update(subscription);
+        }
+
+
         public void Process(IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
                 Process(@event);
-            
         }
 
         public void Process(IEvent @event)
         {
+            MergeSubscribersFromRepository();
+
             var eventType = @event.GetType();
             var subscriptionsToProcess = _availableSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
             {
-                var subscriberType = subscriptionToProcess.Owner;
-                var method = subscriptionToProcess.Method;
-                var subscriberInstance = _container.Get(subscriberType);
-                method.Invoke(subscriberInstance, new[] { @event });
+                if (!subscriptionToProcess.ShouldProcess(@event))
+                    continue;
 
-                subscriptionToProcess.SetEventSourceVersion(@event.EventSourceName, @event.Version);
-                _repository.Update(subscriptionToProcess);
+                Process(subscriptionToProcess, @event);
             }
         }
 #pragma warning restore 1591 // Xml Comments
@@ -103,17 +124,28 @@ namespace Bifrost.Events
 
             foreach (var eventSubscriberType in eventSubscriberTypes)
             {
-                var subscribers = from m in eventSubscriberType.GetMethods()
+                var subscribers = (from m in 
+#if(NETFX_CORE)
+                                       eventSubscriberType.GetTypeInfo().DeclaredMethods
+#else
+                                       eventSubscriberType.GetMethods()
+#endif
                                   where m.Name == ProcessMethodInvoker.ProcessMethodName &&
                                         m.GetParameters().Length == 1 &&
-                                        typeof(IEvent).IsAssignableFrom(m.GetParameters()[0].ParameterType)
+                                        typeof(IEvent)
+#if(NETFX_CORE)
+                                            .GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())
+#else
+                                            .IsAssignableFrom(m.GetParameters()[0].ParameterType)
+#endif
                                   select new EventSubscription
                                   {
                                       Owner = eventSubscriberType,
                                       Method = m,
                                       EventType = m.GetParameters()[0].ParameterType,
                                       EventName = m.GetParameters()[0].ParameterType.Name,
-                                  };
+                                      LastEventId = 0
+                                  }).ToArray();
 
                 _availableSubscriptions.AddRange(subscribers);
                 _allSubscriptions.AddRange(subscribers);
@@ -127,7 +159,9 @@ namespace Bifrost.Events
             foreach (var subscriber in subscribersToUpdate)
             {
                 var subscriberToUpdate = _availableSubscriptions.Where(s => s.Equals(subscriber)).Single();
-                subscriberToUpdate.MergeVersionsFrom(subscriber);
+                subscriberToUpdate.Id = subscriber.Id;
+                if (subscriber.LastEventId > subscriberToUpdate.LastEventId)
+                    subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }
             var subscribersNotInProcess = subscribersFromRepository.Where(s => !_availableSubscriptions.Contains(s));
             _allSubscriptions.AddRange(subscribersNotInProcess);
@@ -136,6 +170,5 @@ namespace Bifrost.Events
             foreach (var subscriber in subscribersNotInRepository)
                 _repository.Add(subscriber);
         }
-
     }
 }

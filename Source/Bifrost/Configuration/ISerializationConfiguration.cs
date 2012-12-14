@@ -26,17 +26,12 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines the configuration for serialization
 	/// </summary>
-	public interface ISerializationConfiguration
+	public interface ISerializationConfiguration: IConfigurationElement
 	{
 		/// <summary>
 		/// Gets or sets the type of serializer to use throughout the system
 		/// </summary>
 		Type SerializerType { get; set; }
-		
-		/// <summary>
-		/// Initialize the serialization configuration
-		/// </summary>
-		void Initialize(IConfigure configure);
 	}
 }
 

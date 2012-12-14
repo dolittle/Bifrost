@@ -45,17 +45,17 @@ namespace Bifrost.NHibernate
 
 		}
 
-		public void Configure()
-		{
-			Configuration = FluentConfiguration.BuildConfiguration();
-			SessionFactory = Configuration.BuildSessionFactory();
-		}
-
         void DiscoverClassMapsAndAddAssemblies(MappingConfiguration mappings)
         {
             var assemblies = _typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
             foreach (var assembly in assemblies)
                 mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never());
         }
-	}
+
+        public void Initialize(IContainer container)
+        {
+            Configuration = FluentConfiguration.BuildConfiguration();
+            SessionFactory = Configuration.BuildSessionFactory();
+        }
+    }
 }

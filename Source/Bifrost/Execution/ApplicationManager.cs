@@ -20,7 +20,6 @@
 //
 #endregion
 using System;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Execution
 {
@@ -30,19 +29,19 @@ namespace Bifrost.Execution
     [Singleton]
     public class ApplicationManager : IApplicationManager
     {
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IServiceLocator _serviceLocator;
+        ITypeDiscoverer _typeDiscoverer;
+        IContainer _container;
         IApplication _application;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationManager"/>
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering an application</param>
-        /// <param name="serviceLocator"><see cref="IServiceLocator"/> to use for instantiating an application</param>
-        public ApplicationManager(ITypeDiscoverer typeDiscoverer, IServiceLocator serviceLocator)
+        /// <param name="container"><see cref="IContainer"/> to use for instantiating an application</param>
+        public ApplicationManager(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
-            _serviceLocator = serviceLocator;
+            _container = container;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -62,7 +61,7 @@ namespace Bifrost.Execution
             if( applicationType == null )
                 throw new ApplicationNotFoundException();
 
-            _application = _serviceLocator.GetInstance(applicationType) as IApplication;
+            _application = _container.Get(applicationType) as IApplication;
             return _application;
         }
 
