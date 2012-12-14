@@ -45,12 +45,6 @@ namespace Bifrost.NHibernate
 
 		}
 
-		public void Configure()
-		{
-			Configuration = FluentConfiguration.BuildConfiguration();
-			SessionFactory = Configuration.BuildSessionFactory();
-		}
-
         void DiscoverClassMapsAndAddAssemblies(MappingConfiguration mappings)
         {
             var assemblies = _typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
@@ -60,7 +54,8 @@ namespace Bifrost.NHibernate
 
         public void Initialize(IContainer container)
         {
-            throw new System.NotImplementedException();
+            Configuration = FluentConfiguration.BuildConfiguration();
+            SessionFactory = Configuration.BuildSessionFactory();
         }
     }
 }

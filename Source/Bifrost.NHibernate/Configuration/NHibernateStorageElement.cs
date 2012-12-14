@@ -55,7 +55,6 @@ namespace Bifrost.NHibernate.Configuration
                 MsSqlConfiguration.MsSql2008.ConnectionString(ConnectionString));
 
             configuration.Connection = connection;
-            connection.Configure();
             return configuration;
         }
     }
