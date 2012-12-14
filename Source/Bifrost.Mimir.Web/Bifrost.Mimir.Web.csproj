@@ -247,6 +247,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Mimir.Domain\Bifrost.Mimir.Domain.csproj">
+      <Project>{48AFEFD5-2AC8-472C-95A7-78147B255236}</Project>
+      <Name>Bifrost.Mimir.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
+      <Project>{3E9048BC-11C1-4278-ACBF-2B0DBE7EF9F4}</Project>
+      <Name>Bifrost.Mimir.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Views\Bifrost.Mimir.Views.csproj">
+      <Project>{0527B124-4719-4358-9214-83858E0353DB}</Project>
+      <Name>Bifrost.Mimir.Views</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
       <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
       <Name>Bifrost.Services</Name>
