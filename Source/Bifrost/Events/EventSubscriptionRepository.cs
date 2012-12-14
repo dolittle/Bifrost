@@ -24,6 +24,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Entities;
 using Bifrost.Serialization;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -152,13 +155,27 @@ namespace Bifrost.Events
         {
             var eventType = Type.GetType(holder.EventType);
             var ownerType = Type.GetType(holder.Owner);
+#if(NETFX_CORE)
+            Func<MethodInfo, Type, bool> hasEventType = (MethodInfo m, Type e) =>
+            {
+                foreach (var p in m.GetParameters())
+                    if (p.ParameterType == e)
+                        return true;
+                return false;
+            };
+#endif
             return new EventSubscription
             {
                 Id = holder.Id,
                 EventName = holder.EventName,
                 EventType = eventType,
                 Owner = ownerType,
+#if(NETFX_CORE)
+                
+                Method = ownerType.GetTypeInfo().DeclaredMethods.Where(m => m.Name == ProcessMethodInvoker.ProcessMethodName && hasEventType(m, eventType)).Single(),
+#else
                 Method = ownerType.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { eventType }),
+#endif
                 LastEventId = holder.LastEventId
             };
         }

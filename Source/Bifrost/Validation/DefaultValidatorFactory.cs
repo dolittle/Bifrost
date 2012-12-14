@@ -26,6 +26,10 @@ using Bifrost.Extensions;
 using Bifrost.Execution;
 using FluentValidation;
 
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
+
 namespace Bifrost.Validation
 {
     /// <summary>
@@ -73,11 +77,19 @@ namespace Bifrost.Validation
                 t =>
                     !t.HasInterface<ICommandInputValidator>() &&
                     !t.HasInterface<ICommandBusinessValidator>() &&
+#if(NETFX_CORE)
+                    !t.GetTypeInfo().BaseType.Name.Equals(typeof(ChapterValidator<>).Name)
+#else
                     !t.BaseType.Name.Equals(typeof(ChapterValidator<>).Name)
+#endif
                     );
             foreach (var validatorType in validatorTypes)
             {
+#if(NETFX_CORE)
+                var genericArguments = validatorType.GetTypeInfo().BaseType.GenericTypeArguments;
+#else
                 var genericArguments = validatorType.BaseType.GetGenericArguments();
+#endif
                 if (genericArguments.Length == 1)
                 {
                     var targetType = genericArguments[0];

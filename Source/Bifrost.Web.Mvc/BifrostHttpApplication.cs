@@ -28,7 +28,6 @@ using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.Validation;
 using FluentValidation.Mvc;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Web.Mvc
 {

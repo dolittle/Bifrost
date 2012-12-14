@@ -24,7 +24,6 @@ using System.Configuration;
 using System.Xml;
 using System.Xml.Linq;
 using Bifrost.Configuration.Xml;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Configuration
 {
@@ -38,7 +37,7 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Initializes a new instance of <see cref="BifrostConfigHandler"/>
         /// </summary>
-        public BifrostConfigHandler() : this(ServiceLocator.Current.GetInstance<ConfigParser>())
+        public BifrostConfigHandler() : this(Configure.Instance.Container.Get<ConfigParser>())
         {
             
         }

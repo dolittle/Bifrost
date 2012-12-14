@@ -24,6 +24,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FluentValidation.Internal;
 using FluentValidation;
+#if(NETFX_CORE)
+using System.Linq;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -43,7 +46,11 @@ namespace Bifrost.Validation
 
         static ModelRule()
         {
+#if(NETFX_CORE)
+            InternalProperty = typeof(ModelRule<T>).GetTypeInfo().DeclaredProperties.Where(p=>p.Name == ModelRulePropertyName).Single();
+#else
             InternalProperty = typeof(ModelRule<T>).GetProperty(ModelRulePropertyName);
+#endif
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker.given
 		                    		type_discoverer_mock.Setup(t => t.FindMultiple<ICommandHandler>()).Returns(new[]
  		                    		                                                                     	{typeof(CommandHandler)});
 
-		                    	    service_locator_mock.Setup(s => s.GetInstance(typeof (CommandHandler))).Returns(handler);
+		                    	    container_mock.Setup(c => c.Get(typeof (CommandHandler))).Returns(handler);
 		                    	};
 	}
 }

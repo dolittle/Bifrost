@@ -1,4 +1,7 @@
 ﻿using System;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Extensions
 {
@@ -17,8 +20,13 @@ namespace Bifrost.Extensions
         {
             var type = typeof(T); 
             HasDefaultConstructor = 
+#if(NETFX_CORE)
+                type.GetTypeInfo().IsValueType ||
+                type.HasDefaultConstructor();
+#else
                 type.IsValueType ||
                 type.GetConstructor(new Type[0]) != null ;
+#endif
         }
 
 #pragma warning disable 1591 // Xml Comments

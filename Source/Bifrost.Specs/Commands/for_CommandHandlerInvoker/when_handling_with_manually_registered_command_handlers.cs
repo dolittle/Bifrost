@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker
 	    Establish context = () =>
 	                            {
                                     handler = new CommandHandler();
-	                                service_locator_mock.Setup(s => s.GetInstance(typeof (CommandHandler))).Returns(
+	                                container_mock.Setup(c => c.Get(typeof (CommandHandler))).Returns(
 	                                    handler);
 
 	                                invoker.Register(typeof (CommandHandler));

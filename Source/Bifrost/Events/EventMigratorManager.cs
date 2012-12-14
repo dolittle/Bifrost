@@ -24,7 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -39,18 +41,18 @@ namespace Bifrost.Events
     public class EventMigratorManager : IEventMigratorManager
     {
         private readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IServiceLocator _serviceLocator;
+        readonly IContainer _container;
         private readonly Dictionary<Type, Type> _migratorTypes;
 
         /// <summary>
         /// Initializes an instance of <see cref="EventMigratorManager">EventMigratorManager</see>
         /// </summary>
-        /// <param name="typeDiscoverer"></param>
-        /// <param name="serviceLocator"></param>
-        public EventMigratorManager(ITypeDiscoverer typeDiscoverer, IServiceLocator serviceLocator)
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IEventMigrator">Event migrators</see></param>
+        /// <param name="container"><see cref="IContainer"/> to use for instantiation of <see cref="IEventMigrator">Event migrators</see></param>
+        public EventMigratorManager(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
-            _serviceLocator = serviceLocator;
+            _container = container;
             _migratorTypes = new Dictionary<Type, Type>();
             Initialize();
         }
@@ -62,7 +64,7 @@ namespace Bifrost.Events
             Type migratorType;
             while (_migratorTypes.TryGetValue(result.GetType(), out migratorType))
             {
-                var migrator = (dynamic) _serviceLocator.GetInstance(migratorType);
+                var migrator = (dynamic) _container.Get(migratorType);
                 result = (IEvent) migrator.Migrate((dynamic)result);
             }
             return result;
@@ -92,11 +94,27 @@ namespace Bifrost.Events
 
         private static Type GetSourceType(Type migratorType)
         {
-            var types = from interfaceType in migratorType.GetInterfaces()
-                         where interfaceType.IsGenericType
+            var types = from interfaceType in migratorType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                         where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                          let baseInterface = interfaceType.GetGenericTypeDefinition()
                          where baseInterface == typeof(IEventMigrator<,>)
-                         select interfaceType.GetGenericArguments().First();
+                         select interfaceType
+#if(NETFX_CORE)
+                            .GetTypeInfo().GenericTypeParameters
+#else
+                            .GetGenericArguments()
+#endif
+                            .First();
 
             return types.First();
         }

@@ -24,8 +24,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Execution;
-using Microsoft.Practices.ServiceLocation;
-using Bifrost.Configuration;
+using Bifrost.Extensions;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Validation
 {
@@ -118,8 +120,8 @@ namespace Bifrost.Validation
             var inputValidators = _typeDiscoverer.FindMultiple(_inputValidatorType);
             var businessValidators = _typeDiscoverer.FindMultiple(_businessValidatorType);
 
-            Array.ForEach(inputValidators, type => Register(type, _inputValidatorType));
-            Array.ForEach(businessValidators, type => Register(type, _businessValidatorType));
+            inputValidators.ForEach(type => Register(type, _inputValidatorType));
+            businessValidators.ForEach(type => Register(type, _businessValidatorType));
         }
 
         void Register(Type typeToRegister, Type registerFor)
@@ -131,7 +133,11 @@ namespace Bifrost.Validation
             var commandType = GetCommandType(typeToRegister);
 
             if (commandType == null || 
+#if(NETFX_CORE)
+                commandType.GetTypeInfo().IsInterface ||
+#else
                 commandType.IsInterface ||
+#endif
                 validatorRegistry.ContainsKey(commandType))
                 return;
 
@@ -140,11 +146,27 @@ namespace Bifrost.Validation
 
         Type GetCommandType(Type typeToRegister)
         {
-            var types = from interfaceType in typeToRegister.GetInterfaces()
-                        where interfaceType.IsGenericType
+            var types = from interfaceType in typeToRegister
+#if(NETFX_CORE)
+                                    .GetTypeInfo().ImplementedInterfaces
+#else
+                                    .GetInterfaces()
+#endif
+                        where interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().IsGenericType
+#else
+                                    .IsGenericType
+#endif
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == _validatesType
-                        select interfaceType.GetGenericArguments().FirstOrDefault();
+                        select interfaceType
+#if(NETFX_CORE)
+                                    .GetTypeInfo().GenericTypeParameters
+#else
+                                    .GetGenericArguments()
+#endif
+                            .FirstOrDefault();
 
             return types.FirstOrDefault();
         }

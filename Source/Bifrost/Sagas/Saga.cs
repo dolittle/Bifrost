@@ -46,7 +46,11 @@ namespace Bifrost.Sagas
             Partition = GetType().Name;
             Key = Guid.NewGuid().ToString();
             CurrentState = new SagaState();
+#if(NETFX_CORE)
+            ChapterProperties = GetType().GetTypeInfo().DeclaredProperties.Where(p => p.PropertyType.HasInterface<IChapter>()).ToArray();
+#else
             ChapterProperties = GetType().GetProperties().Where(p => p.PropertyType.HasInterface<IChapter>()).ToArray();
+#endif
         }
 
 #pragma warning disable 1591 // Xml Comments

@@ -24,30 +24,37 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Web;
 using System.Web.SessionState;
+using Bifrost.Configuration;
+using Bifrost.Execution;
 using Bifrost.Serialization;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Services.Execution
 {
     // Todo : add async support - performance gain! 
     public class RestServiceRouteHttpHandler : IHttpHandler, IRequiresSessionState // IHttpAsyncHandler
     {
-        readonly Type _type;
-        readonly string _url;
-        readonly IRequestParamsFactory _factory;
-        readonly IRestServiceMethodInvoker _invoker;
+        Type _type;
+        string _url;
+        IRequestParamsFactory _factory;
+        IRestServiceMethodInvoker _invoker;
+        IContainer _container;
 
         public RestServiceRouteHttpHandler(Type type, string url) 
-            : this(type,url,ServiceLocator.Current.GetInstance<IRequestParamsFactory>(),
-            ServiceLocator.Current.GetInstance<IRestServiceMethodInvoker>())
+            : this(
+                type,
+                url,
+                Configure.Instance.Container.Get<IRequestParamsFactory>(),
+                Configure.Instance.Container.Get<IRestServiceMethodInvoker>(),
+                Configure.Instance.Container)
         {}
 
-        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker)
+        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker, IContainer container)
         {
             _type = type;
             _url = url;
             _factory = factory;
             _invoker = invoker;
+            _container = container;
         }
 
         public bool IsReusable { get { return true; } }
@@ -57,7 +64,7 @@ namespace Bifrost.Services.Execution
             try
             {
                 var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
-                var serviceInstance = ServiceLocator.Current.GetInstance(_type);
+                var serviceInstance = _container.Get(_type);
                 var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
                 context.Response.Write(result);
             }

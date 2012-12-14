@@ -30,9 +30,9 @@ namespace Bifrost.Events
         /// <param name="message">Error Message</param>
         /// <param name="innerException">Inner Exception</param>
         public MigrationLevelOutOfRangeException(string message, Exception innerException) : base(message,innerException)
-        {}
+        { }
 
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
         /// Initializes a <see cref="MigrationLevelOutOfRangeException">MigrationLevelOutOfRangeException</see> for serialization
         /// </summary>

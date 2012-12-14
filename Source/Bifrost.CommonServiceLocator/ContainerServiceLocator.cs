@@ -21,9 +21,10 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Bifrost.Execution;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Bifrost.Execution
+namespace Bifrost.CommonServiceLocator
 {
 	/// <summary>
 	/// Represents a <see cref="IServiceLocator"/> that works with the generic <see cref="IContainer"/>

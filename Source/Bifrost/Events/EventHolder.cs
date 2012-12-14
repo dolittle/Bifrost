@@ -29,9 +29,6 @@ namespace Bifrost.Events
     /// Represents a holder for an <see cref="IEvent"/> to be used for purposes such as persisting or
     /// transferring across boundaries
     /// </summary>
-#if(!SILVERLIGHT)
-    [Serializable]
-#endif
     public class EventHolder
     {
         /// <summary>

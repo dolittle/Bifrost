@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider
     {
         static ICanValidate chapter_validator;
 
-        Establish context = () => service_locator_mock.Setup(sl => sl.GetInstance(typeof(TransitionalChapterValidator))).Returns(() => new TransitionalChapterValidator());
+        Establish context = () => container_mock.Setup(c => c.Get(typeof(TransitionalChapterValidator))).Returns(() => new TransitionalChapterValidator());
 
         Because of = () => chapter_validator = chapter_validator_provider.GetValidatorFor(new TransitionalChapter());
 

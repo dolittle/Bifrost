@@ -57,7 +57,7 @@ namespace Bifrost.Events
         {
         }
 
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
         /// Initializes an <see cref="InvalidFastForwardException">InvalidFastForwardException</see> for serialization
         /// </summary>

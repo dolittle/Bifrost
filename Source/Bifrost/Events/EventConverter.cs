@@ -24,6 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Serialization;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 
 namespace Bifrost.Events
 {
@@ -116,7 +119,12 @@ namespace Bifrost.Events
 		static IEvent CreateInstance(Type eventType, Guid eventSourceId)
 		{
 			IEvent @event;
-			var constructors = eventType.GetConstructors();
+			var constructors = eventType
+#if(NETFX_CORE)
+                .GetTypeInfo().DeclaredConstructors;
+#else
+                .GetConstructors();
+#endif
 			var query = from c in constructors
 						where c.GetParameters().Length == 0
 						select c;

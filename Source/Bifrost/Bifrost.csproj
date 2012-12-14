@@ -48,9 +48,6 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>..\Solutions\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +104,7 @@
     <Compile Include="Execution\IExecutionContextManager.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
+    <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
@@ -175,7 +173,6 @@
     <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />
     <Compile Include="Execution\BindingConventionManager.cs" />
-    <Compile Include="Execution\ContainerServiceLocator.cs" />
     <Compile Include="Execution\DefaultConvention.cs" />
     <Compile Include="Execution\IBindingConventionManager.cs" />
     <Compile Include="Execution\IContainer.cs" />

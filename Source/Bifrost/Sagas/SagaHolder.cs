@@ -27,9 +27,6 @@ namespace Bifrost.Sagas
     /// <summary>
     /// Represents a holder for a <see cref="ISaga"/> for persisting purposes
     /// </summary>
-#if(!SILVERLIGHT)
-    [Serializable]
-#endif
     public class SagaHolder
     {
         /// <summary>
