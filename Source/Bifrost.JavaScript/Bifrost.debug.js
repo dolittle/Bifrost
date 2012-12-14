@@ -676,29 +676,28 @@ Bifrost.namespace("Bifrost", {
 });
 
 Bifrost.namespace("Bifrost");
-Bifrost.hashString = (function () {
-    return {
-        decode: function (a) {
-            if (a == "") return {};
-            a = a.replace("/?", "").split('&');
+Bifrost.hashString = (function() {
+	return {
+		decode: function(a) {
+		    if (a == "") return { };
+			a = a.replace("/?","").split('&');
 
-            var b = {};
-            for (var i = 0; i < a.length; ++i) {
-                var p = a[i].split('=');
-                if (p.length != 2) continue;
+		    var b = { };
+		    for (var i = 0; i < a.length; ++i) {
+		        var p = a[i].split('=', 2);
+		        if (p.length != 2) continue;
+		
+				var value = decodeURIComponent(p[1].replace( /\+/g , " "));
 
-                var value = decodeURIComponent(p[1].replace(/\+/g, " "));
-                var valueAsFloat = parseFloat(value);
-                if (!isNaN(valueAsFloat)) {
-                    value = valueAsFloat;
-                }
+				if( value !== "" && !isNaN(value) ) {
+					value = parseFloat(value);
+				}
 
-                var parameter = p[0].split("?").join("");
-                b[parameter] = value;
-            }
-            return b;
-        }
-    }
+		        b[p[0]] = value;
+		    }
+		    return b;
+		}
+	}
 })();
 
 Bifrost.namespace("Bifrost");
@@ -919,11 +918,12 @@ Bifrost.validation.Validator = (function () {
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
-            this.commands = commands;
+            this.commands = ko.observable(commands);
             this.messages = ko.computed(function () {
                 var actualMessages = [];
-                $.each(self.commands, function (commandIndex, command) {
+                $.each(self.commands(), function (commandIndex, command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
+                    
                     $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
                         if (!validator.isValid()) {
                             actualMessages.push(validator.message());
@@ -937,14 +937,19 @@ Bifrost.validation.Validator = (function () {
 
     ko.bindingHandlers.validationSummaryFor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            var value = valueAccessor();
-            var target = ko.utils.unwrapObservable(value);
-            if (!(target instanceof Array)) {
-                target = [target];
-            }
-
+            var target = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
             var validationSummary = new Bifrost.validation.ValidationSummary(target);
+            ko.utils.domData.set(element, 'validationsummary', validationSummary);
             ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
+        },
+        update: function (element, valueAccessor) {
+            var validationSummary = ko.utils.domData.get(element, 'validationsummary');
+            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+        },
+        getValueAsArray: function (valueAccessor) {
+            var target = ko.utils.unwrapObservable(valueAccessor());
+            if (!(target instanceof Array)) { target = [target]; }
+            return target;
         }
     };
 }
@@ -2073,41 +2078,49 @@ if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof Histor
     };
 }
 Bifrost.namespace("Bifrost.navigation", {
+    navigateTo: function (featureName, queryString) {
+        var url = featureName;
+
+        if(featureName.charAt(0) !== "/")
+            url = "/" + url;
+        if(queryString)
+            url += queryString;
+        
+        // TODO: Support title somehow
+   	    History.pushState({feature:featureName}, "", url);
+    },
     navigationManager: {
         hookup: function () {
-            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
-                $("body").click(function (e) {
-                    var href = e.target.href;
-                    if (typeof href == "undefined") {
-                        var closestAnchor = $(e.target).closest("a")[0];
-                        if (!closestAnchor) {
-                            return;
-                        }
-                        href = closestAnchor.href;
+            $("body").click(function (e) {
+                var href = e.target.href;
+                if (typeof href == "undefined") {
+                    var closestAnchor = $(e.target).closest("a")[0];
+                    if (!closestAnchor) {
+                        return;
                     }
-                    if (href.indexOf("#") > 0) {
-                        href = href.substr(0, href.indexOf("#"));
-                    }
+                    href = closestAnchor.href;
+                }
+                if (href.indexOf("#") > 0) {
+                    href = href.substr(0, href.indexOf("#"));
+                }
 
-                    if (href.length == 0) {
-                        href = "/";
+                if (href.length == 0) {
+                    href = "/";
+                }
+                var targetUri = Bifrost.Uri.create(href);
+                if (targetUri.isSameAsOrigin) {
+                    var target = targetUri.path;
+                    while (target.indexOf("/") == 0) {
+                        target = target.substr(1);
                     }
-                    var targetUri = Bifrost.Uri.create(href);
-                    if (targetUri.isSameAsOrigin) {
-                        var target = targetUri.path;
-                        while (target.indexOf("/") == 0) {
-                            target = target.substr(1);
-                        }
-                        e.preventDefault();
-                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                        History.pushState({}, "", "/" + target + queryString);
-                    }
-                });
-            }
+                    e.preventDefault();
+                    var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                    History.pushState({}, "", "/" + target + queryString);
+                }
+            });
         }
     }
 });
-
 ﻿if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
     ko.observableQueryParameter = function (parameterName, defaultValue) {
         var self = this;
