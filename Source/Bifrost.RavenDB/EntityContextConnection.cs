@@ -28,7 +28,6 @@ namespace Bifrost.RavenDB
 {
     public class EntityContextConnection : IEntityContextConnection
     {
-
         EntityContextConfiguration _configuration;
 
         public string Url { get; set; }
@@ -60,7 +59,7 @@ namespace Bifrost.RavenDB
         {
             if (_configuration.EventsKeyGeneratorType != null)
             {
-                var keyGenerator = container.Get(_configuration.EventsKeyGeneratorType) as ISequentialKeyGenerator;
+                var keyGenerator = new SequentialKeyGenerator(DocumentStore);
                 var originalDocumentKeyGenerator = DocumentStore.Conventions.DocumentKeyGenerator;
                 DocumentStore.Conventions.DocumentKeyGenerator = o =>
                 {

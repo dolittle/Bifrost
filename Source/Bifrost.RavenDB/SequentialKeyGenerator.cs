@@ -20,9 +20,9 @@ namespace Bifrost.RavenDB
 
         DocumentStore _documentStore;
 
-        public SequentialKeyGenerator(IEntityContextConfiguration configuration)
+        public SequentialKeyGenerator(DocumentStore documentStore)
         {
-            _documentStore = ((EntityContextConnection)((EntityContextConfiguration)configuration).Connection).DocumentStore;
+            _documentStore = documentStore;
         }
         
 
