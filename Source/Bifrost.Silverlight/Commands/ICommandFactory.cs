@@ -16,6 +16,14 @@ namespace Bifrost.Commands
         /// <returns><see cref="ICommandBuilder"/> to use for building the command</returns>
         ICommandBuilder BuildFrom<TC>(Expression<Func<TC>> property, ICommandBuildingConventions conventions = null) where TC : ICommand;
 
+
+        /// <summary>
+        /// Build a command for a known command
+        /// </summary>
+        /// <typeparam name="TC"><see cref="ICommand"/> to build for</typeparam>
+        /// <returns><see cref="ICommandBuilder"/> to use for building the command</returns>
+        ICommandBuilder BuildFor<TC>() where TC : ICommand, new();
+
         /// <summary>
         /// Build all <see cref="ICommand">commands</see> based on conventions and populate the properties with the instance
         /// of the command

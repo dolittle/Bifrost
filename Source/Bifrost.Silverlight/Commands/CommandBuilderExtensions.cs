@@ -19,6 +19,17 @@ namespace Bifrost.Commands
         }
 
         /// <summary>
+        /// Indicates that the command builder should build with a specific type in mind
+        /// </summary>
+        /// <typeparam name="TC">Type of <see cref="ICommand"/> to build</typeparam>
+        /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
+        /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
+        public static ICommandBuilder WithType<TC>(this ICommandBuilder commandBuilder) where TC : ICommand, new()
+        {
+            return commandBuilder;
+        }
+
+        /// <summary>
         /// Gives default parameters to a command being built
         /// </summary>
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>

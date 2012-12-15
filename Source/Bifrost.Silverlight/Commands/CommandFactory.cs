@@ -35,6 +35,13 @@ namespace Bifrost.Commands
             return builder;
         }
 
+        public ICommandBuilder BuildFor<TC>() where TC : ICommand, new()
+        {
+            var builder = new CommandBuilder(_commandCoordinator);
+            builder.WithName(typeof(TC).Name);
+            return builder;
+        }
+
         public void BuildAndPopulateAll<T>(T target, ICommandBuildingConventions conventions = null)
         {
             if (conventions == null) conventions = _conventions;
@@ -59,5 +66,7 @@ namespace Bifrost.Commands
         {
             return type.GetProperties().Where(p => p.PropertyType.HasInterface<ICommand>() || p.PropertyType == typeof(ICommand));
         }
+
+
     }
 }
