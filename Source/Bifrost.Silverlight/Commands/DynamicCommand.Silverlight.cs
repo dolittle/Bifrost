@@ -21,6 +21,8 @@ namespace Bifrost.Commands
             }
         }
 
+        public ICommandCoordinator CommandCoordinator { get; set; }
+
         public bool CanExecute(object parameter)
         {
             return true;

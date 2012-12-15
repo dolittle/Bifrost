@@ -7,7 +7,6 @@ namespace Bifrost.Commands
 {
     public partial class Command : INotifyPropertyChanged
     {
-        ICommandCoordinator _commandCoordinator;
         dynamic _parameters;
 
         /// <summary>
@@ -16,7 +15,7 @@ namespace Bifrost.Commands
         /// <param name="commandCoordinator"><see cref="ICommandCoordinator"/> to use for handling the command</param>
         public Command(ICommandCoordinator commandCoordinator) : base()
         {
-            _commandCoordinator = commandCoordinator;
+            CommandCoordinator = commandCoordinator;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -56,6 +55,8 @@ namespace Bifrost.Commands
             }
         }
 
+        public ICommandCoordinator CommandCoordinator { get; set; }
+
         public bool CanExecute(object parameter)
         {
             return true;
@@ -64,8 +65,8 @@ namespace Bifrost.Commands
 
         public void Execute(object parameter)
         {
-            if( _commandCoordinator != null ) 
-                _commandCoordinator.Handle(this);
+            if( CommandCoordinator != null ) 
+                CommandCoordinator.Handle(this);
         }
 
 

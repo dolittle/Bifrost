@@ -42,5 +42,10 @@ namespace Bifrost.Commands
         /// Gets or sets wether or not the command is being processed
         /// </summary>
         bool IsProcessing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command coordinator used by the command when executing it
+        /// </summary>
+        ICommandCoordinator CommandCoordinator { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using Bifrost.Commands;
 
 namespace Bifrost.Domain
 {
@@ -21,6 +22,7 @@ namespace Bifrost.Domain
 
         public bool IsBusy { get; set; }
         public bool IsProcessing { get; set; }
+        public ICommandCoordinator CommandCoordinator { get; set; }
 
         public bool CanExecute(object parameter)
         {
