@@ -16,7 +16,6 @@ namespace Bifrost.Specs.Events.for_EventRepository
                                 {
                                     last_version = new EventSourceVersion(2, 0);
                                     last_event = new SimpleEvent(event_source_id) { Version = last_version };
-                                    event_converter_mock.Setup(c => c.ToEvent(last_event_for_event_source)).Returns(last_event);
                                 };
 
         Because of = () => version = event_repository.GetLastCommittedVersion(aggregate_root_type, event_source_id);

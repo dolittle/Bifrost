@@ -78,16 +78,13 @@
     <Compile Include="Dynamic\DynamicHelpers.cs" />
     <Compile Include="Entities\ISequentialKeyGenerator.cs" />
     <Compile Include="Events\AsyncEventStore.cs" />
-    <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventExtensions.cs" />
-    <Compile Include="Events\EventHolder.cs" />
     <Compile Include="Events\EventRepository.cs" />
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionHolder.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
     <Compile Include="Events\EventSubscriptionRepository.cs" />
-    <Compile Include="Events\IEventConverter.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
     <Compile Include="Events\IEventStoreChangeManager.cs" />
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />

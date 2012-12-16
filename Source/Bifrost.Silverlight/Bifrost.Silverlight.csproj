@@ -324,14 +324,8 @@
     <Compile Include="..\Bifrost\Events\Event.cs">
       <Link>Events\Event.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\EventConverter.cs">
-      <Link>Events\EventConverter.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\EventExtensions.cs">
       <Link>Events\EventExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Events\EventHolder.cs">
-      <Link>Events\EventHolder.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\EventMigrationHierarchy.cs">
       <Link>Events\EventMigrationHierarchy.cs</Link>
@@ -392,9 +386,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\IEvent.cs">
       <Link>Events\IEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Events\IEventConverter.cs">
-      <Link>Events\IEventConverter.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventMigrationHierarchyDiscoverer.cs">
       <Link>Events\IEventMigrationHierarchyDiscoverer.cs</Link>

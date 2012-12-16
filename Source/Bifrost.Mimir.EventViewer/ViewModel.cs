@@ -32,16 +32,22 @@ using Newtonsoft.Json;
 
 namespace Bifrost.Mimir.EventViewer
 {
+    public class ClientEvent : Event
+    {
+        public ClientEvent() : base(Guid.NewGuid()) { }
+    }
+
+
     public class ViewModel
 	{
     	public ViewModel()
         {
-            Events = new ObservableCollection<EventHolder>();
+            Events = new ObservableCollection<IEvent>();
             ReloadCommand = DelegateCommand.Create(Reload);
             Load();
         }
 
-        public virtual ObservableCollection<EventHolder> Events { get; private set; }
+        public virtual ObservableCollection<IEvent> Events { get; private set; }
         public virtual ICommand ReloadCommand { get; private set; }
 
         public void Load()
@@ -51,7 +57,7 @@ namespace Bifrost.Mimir.EventViewer
             {
                 var bytes = System.Text.Encoding.UTF8.GetBytes(e.Result);
                 var eventsAsJson = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                var events = JsonConvert.DeserializeObject<List<EventHolder>>(eventsAsJson);
+                var events = JsonConvert.DeserializeObject<List<ClientEvent>>(eventsAsJson);
                 Events.Clear();
                 foreach (var @event in events)
                     Events.Add(@event);

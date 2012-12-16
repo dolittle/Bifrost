@@ -15,7 +15,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 		protected const string expected_partition = "A_Magical_Partition";
 		protected static SagaConverter saga_converter;
 		protected static Mock<IContainer> container_mock;
-		protected static Mock<IEventConverter> event_converter_mock;
 		protected static Mock<ISerializer> serializer_mock;
 
 		Establish context = () =>
@@ -23,9 +22,8 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 		                    		saga = new SagaWithOneChapterProperty {Key = expected_key, Partition = expected_partition};
 
 									container_mock = new Mock<IContainer>();
-									event_converter_mock = new Mock<IEventConverter>();
 									serializer_mock = new Mock<ISerializer>();
-									saga_converter = new SagaConverter(container_mock.Object, event_converter_mock.Object, serializer_mock.Object);
+									saga_converter = new SagaConverter(container_mock.Object, serializer_mock.Object);
 		                    	};
 	}
 }

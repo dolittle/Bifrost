@@ -19,10 +19,13 @@
 // limitations under the License.
 //
 #endregion
+using System.Linq;
 using Bifrost.Entities;
 using Bifrost.Execution;
+using Bifrost.Extensions;
 using Raven.Client.Document;
 using Bifrost.Events;
+using Raven.Client.Indexes;
 
 namespace Bifrost.RavenDB
 {
@@ -57,16 +60,24 @@ namespace Bifrost.RavenDB
 
         public void Initialize(IContainer container)
         {
+            DocumentStore.Conventions.FindTypeTagName = t =>
+            {
+                if (t.HasInterface<IEvent>() || t == typeof(IEvent))
+                    return "Events";
+
+                return DocumentConvention.DefaultTypeTagName(t);
+            };
+
             if (_configuration.EventsKeyGeneratorType != null)
             {
                 var keyGenerator = new SequentialKeyGenerator(DocumentStore);
                 var originalDocumentKeyGenerator = DocumentStore.Conventions.DocumentKeyGenerator;
                 DocumentStore.Conventions.DocumentKeyGenerator = o =>
                 {
-                    if (o is EventHolder && ((EventHolder)o).Id == 0)
+                    if (o is IEvent && ((IEvent)o).Id == 0)
                     {
-                        var key = keyGenerator.NextFor<EventHolder>();
-                        return "EventHolders/" + key;
+                        var key = keyGenerator.NextFor<IEvent>();
+                        return string.Format("{0}/{1}",DocumentStore.Conventions.FindTypeTagName(o.GetType()), key);
                     }
                     return originalDocumentKeyGenerator(o);
                 };

@@ -2,6 +2,7 @@ using System.Linq;
 using Bifrost.Events;
 using Bifrost.Specs.Events.for_EventRepository.given;
 using Machine.Specifications;
+using Bifrost.Fakes.Events;
 
 namespace Bifrost.Specs.Events.for_EventRepository
 {
@@ -13,9 +14,7 @@ namespace Bifrost.Specs.Events.for_EventRepository
         Because of = () =>
                   {
                       id = 1;
-                      event_converter_mock.Setup(c => c.ToEventHolder(Moq.It.IsAny<IEvent>())).Returns(new EventHolder());
-                      
-                      entity_context_mock.Setup(ec => ec.Insert(Moq.It.IsAny<EventHolder>())).Callback((EventHolder e) => e.Id = id++);
+                      entity_context_mock.Setup(ec => ec.Insert(Moq.It.IsAny<IEvent>())).Callback((IEvent e) => e.Id = id++);
                       event_repository.Insert(event_source.UncommittedEvents);
                   };
 

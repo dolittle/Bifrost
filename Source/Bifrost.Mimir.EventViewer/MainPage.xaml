@@ -45,7 +45,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image Source="/Bifrost.Mimir.EventViewer;component/Event.png" Grid.Column="0"/>
-                                <TextBlock FontSize="48" Foreground="White" Text="{Binding LogicalEventName}" Grid.Column="1"/>
+                                <TextBlock FontSize="48" Foreground="White" Text="{Binding Name}" Grid.Column="1"/>
                             </Grid>
 
                             <Grid>
@@ -64,9 +64,12 @@
 
             <pivot:PivotViewer.PivotProperties>
                 <pivot:PivotViewerStringProperty Id="Command" Options="CanFilter" Binding="{Binding CommandName}"/>
-                <pivot:PivotViewerStringProperty Id="Event" Options="CanFilter" Binding="{Binding LogicalEventName}"/>
+                <pivot:PivotViewerStringProperty Id="Event" Options="CanFilter" Binding="{Binding Name}"/>
+                <pivot:PivotViewerStringProperty Id="EventSourceId" Options="CanFilter" Binding="{Binding EventSourceId}"/>
+                <pivot:PivotViewerStringProperty Id="EventSource" Options="CanFilter" Binding="{Binding EventSourceName}"/>
+                <pivot:PivotViewerStringProperty Id="Version" Options="CanFilter" Binding="{Binding Version}"/>
                 <pivot:PivotViewerStringProperty Id="AggregatedRoot" Options="CanFilter" Binding="{Binding AggregatedRoot}"/>
-                <pivot:PivotViewerStringProperty Id="Aggregated Id" Options="CanFilter" Binding="{Binding AggregatedId}"/>
+                <pivot:PivotViewerStringProperty Id="CausedBy" Options="CanFilter" Binding="{Binding CausedBy}"/>
                 <pivot:PivotViewerDateTimeProperty Id="Occured" Options="CanFilter" Binding="{Binding Occured}"/>
             </pivot:PivotViewer.PivotProperties>
 

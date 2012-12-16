@@ -21,7 +21,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 
 		protected static SagaConverter saga_converter;
 		protected static Mock<IContainer> container_mock;
-		protected static Mock<IEventConverter> event_converter_mock;
 		protected static Mock<ISerializer> serializer_mock;
 
 		protected static SagaWithOneChapterProperty expected_saga;
@@ -30,7 +29,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 		Establish context = () =>
 		                    	{
 									container_mock = new Mock<IContainer>();
-									event_converter_mock = new Mock<IEventConverter>();
 									serializer_mock = new Mock<ISerializer>();
 
 		                    		simple_event = new SimpleEvent(Guid.NewGuid());
@@ -62,7 +60,7 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 		                    			           	((List<ChapterHolder>)obj).Add(chapter_holder));
 		                    		container_mock.Setup(c => c.Get(typeof (SimpleChapter))).Returns(new SimpleChapter());
 
-									saga_converter = new SagaConverter(container_mock.Object, event_converter_mock.Object, serializer_mock.Object);
+									saga_converter = new SagaConverter(container_mock.Object, serializer_mock.Object);
 		                    	};
 
 	}

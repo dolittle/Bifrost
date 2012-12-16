@@ -83,7 +83,8 @@ namespace Bifrost.RavenDB
 
         string GetDocumentPathFor<T>()
         {
-            return string.Format("SequentialKeys/{0}", typeof(T).Name);
+            return string.Format("SequentialKeys/{0}", _documentStore.Conventions.FindTypeTagName(typeof(T)));
+                //typeof(T).Name);
         }
 
     }

@@ -12,11 +12,13 @@ namespace Bifrost.RavenDB
         IEntityContextConnection _connection;
         
         IDocumentSession _session;
+        string _indexName;
 
         public EntityContext(EntityContextConnection connection)
         {
             _connection = connection;
             _session = connection.DocumentStore.OpenSession();
+            _indexName = connection.DocumentStore.Conventions.FindTypeTagName(typeof(T));
         }
 
 
@@ -86,10 +88,5 @@ namespace Bifrost.RavenDB
         {
             return _session.Advanced.DocumentStore.Conventions.GetTypeTagName(typeof(T));
         }
-
-
-    
-
-
     }
 }

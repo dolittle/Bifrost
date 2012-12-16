@@ -35,52 +35,42 @@ namespace Bifrost.Events
     /// </summary>
     public class EventRepository : IEventRepository
     {
-        readonly IEntityContext<EventHolder> _entityContext;
-    	readonly IEventConverter _eventConverter;
+        readonly IEntityContext<IEvent> _entityContext;
         readonly IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
 
     	/// <summary>
     	/// Initializes a new instance of <see cref="EventRepository"/>
     	/// </summary>
     	/// <param name="entityContext"><see cref="IEntityContext{T}"/> for retrieving events</param>
-    	/// <param name="eventConverter"><see cref="IEventConverter"/> for converting events</param>
         /// <param name="eventMigrationHierarchyManager">A <see cref="IEventMigrationHierarchyManager"/> for managing event migrations</param>
         public EventRepository(
-            IEntityContext<EventHolder> entityContext, 
-            IEventConverter eventConverter, 
+            IEntityContext<IEvent> entityContext, 
             IEventMigrationHierarchyManager eventMigrationHierarchyManager)
     	{
     		_entityContext = entityContext;
-    		_eventConverter = eventConverter;
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
     	}
 
 #pragma warning disable 1591 // Xml Comments
         public IEvent GetById(long id)
         {
-        	var eventHolder = GetEventHolderById(id);
-        	return _eventConverter.ToEvent(eventHolder);
+        	var @event = GetEventById(id);
+        	return @event;
         }
-
-    	public string GetByIdAsJson(long id)
-    	{
-			var eventHolder = GetEventHolderById(id);
-    		return eventHolder.SerializedEvent;
-    	}
 
     	public IEnumerable<IEvent> GetByIds(IEnumerable<long> ids)
         {
-            var events = _entityContext.Entities.Where(e => ids.Contains(e.Id)).Select(_eventConverter.ToEvent);
+            var events = _entityContext.Entities.Where(e => ids.Contains(e.Id));
             return events.ToArray();
         }
 
         public IEnumerable<IEvent> GetForAggregatedRoot(Type aggregatedRootType, Guid aggregateId)
         {
             var query = (from e in _entityContext.Entities
-                        where e.AggregateId == aggregateId && e.AggregatedRoot == aggregatedRootType.AssemblyQualifiedName
+                        where e.EventSourceId == aggregateId && e.AggregatedRoot == aggregatedRootType.AssemblyQualifiedName
                         select e).ToList();
 
-            return query.Select(_eventConverter.ToEvent).ToArray();
+            return query.ToArray();
         }
 
         public IEnumerable<IEvent> GetUnprocessedEventsForSubscriptions(IEnumerable<EventSubscription> subscriptions)
@@ -89,9 +79,9 @@ namespace Bifrost.Events
             foreach (var subscription in subscriptions)
             {
                 var logicalType = _eventMigrationHierarchyManager.GetLogicalTypeFromName(subscription.EventName);
-                query = query.Where(e => e.LogicalEventName == logicalType.Name);
+                query = query.Where(e => e.Name == logicalType.Name);
             }
-            return query.Select(_eventConverter.ToEvent).ToArray();
+            return query.ToArray();
         }
 
         public void Insert(IEnumerable<IEvent> events)
@@ -100,9 +90,7 @@ namespace Bifrost.Events
             for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
             {
                 var @event = eventArray[eventIndex];
-                var eventHolder = _eventConverter.ToEventHolder(@event);
-                _entityContext.Insert(eventHolder);
-                @event.Id = eventHolder.Id;
+                _entityContext.Insert(@event);
             }
 
             _entityContext.Commit();
@@ -110,16 +98,15 @@ namespace Bifrost.Events
 
         public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
         {
-            var eventHolder = _entityContext.Entities.Where(e => e.AggregateId == aggregateId).OrderByDescending(e => e.Version).FirstOrDefault();
-            if (eventHolder == null)
+            var @event = _entityContext.Entities.Where(e => e.EventSourceId == aggregateId).OrderByDescending(e => e.Version).FirstOrDefault();
+            if (@event == null)
                 return EventSourceVersion.Zero;
 
-            var @event = _eventConverter.ToEvent(eventHolder);
             return @event.Version;
         }
 #pragma warning restore 1591 // Xml Comments
 
-		EventHolder GetEventHolderById(long id)
+		IEvent GetEventById(long id)
 		{
 			var eventHolder = _entityContext.Entities.Where(e => e.Id == id).SingleOrDefault();
 			if (eventHolder == null)

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Machine.Specifications;
 using Bifrost.Configuration;
-using Bifrost.Events;
 using Bifrost.Entities;
+using Bifrost.Events;
 using Bifrost.Fakes.Configuration;
 using Bifrost.Fakes.Entities;
+using Machine.Specifications;
 
 namespace Bifrost.Specs.Configuration.for_EventsConfiguration
 {
@@ -29,8 +26,7 @@ namespace Bifrost.Specs.Configuration.for_EventsConfiguration
 
         Because of = () => events_configuration.Initialize(container_mock.Object);
 
-        It should_bind_the_specific_storage_for_events = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<EventHolder>), Moq.It.IsAny<Type>()));
+        It should_bind_the_specific_storage_for_events = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<IEvent>), Moq.It.IsAny<Type>()));
         It should_bind_the_specific_storage_for_event_subscriptions= () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<EventSubscriptionHolder>), Moq.It.IsAny<Type>()));
-
     }
 }

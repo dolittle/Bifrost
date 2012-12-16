@@ -29,14 +29,14 @@ namespace Bifrost.Mimir.Web.Events
 {
     public class EventService
     {
-        IEntityContext<EventHolder> _entityContext;
+        IEntityContext<IEvent> _entityContext;
 
-        public EventService(IEntityContext<EventHolder> entityContext)
+        public EventService(IEntityContext<IEvent> entityContext)
         {
             _entityContext = entityContext;
         }
 
-        public IEnumerable<EventHolder> GetAll()
+        public IEnumerable<IEvent> GetAll()
         {
             return _entityContext.Entities.ToArray();
         }

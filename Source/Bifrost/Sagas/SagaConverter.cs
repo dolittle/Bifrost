@@ -61,19 +61,16 @@ namespace Bifrost.Sagas
 				};
 
 		readonly IContainer _container;
-		readonly IEventConverter _eventConverter;
 		readonly ISerializer _serializer;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SagaConverter"/>
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> for creating instances of types</param>
-        /// <param name="eventConverter">A <see cref="IEventConverter"/> for converting any <see cref="IEvent">events</see> in a <see cref="ISaga"/></param>
         /// <param name="serializer">A <see cref="ISerializer"/> to use for serialization</param>
-		public SagaConverter(IContainer container, IEventConverter eventConverter, ISerializer serializer)
+		public SagaConverter(IContainer container, ISerializer serializer)
 		{
 			_container = container;
-			_eventConverter = eventConverter;
 			_serializer = serializer;
 		}
 
@@ -102,10 +99,9 @@ namespace Bifrost.Sagas
 
 			if (!string.IsNullOrEmpty(sagaHolder.UncommittedEvents))
 			{
-				var uncommittedEvents = new List<EventHolder>();
+				var uncommittedEvents = new List<IEvent>();
 				_serializer.FromJson(uncommittedEvents,sagaHolder.UncommittedEvents);
-				var actualEvents = _eventConverter.ToEvents(uncommittedEvents);
-				saga.SetUncommittedEvents(actualEvents);
+				saga.SetUncommittedEvents(uncommittedEvents);
 			}
 
 			DeserializeChapters(sagaHolder, saga, currentChapterType);
@@ -130,7 +126,7 @@ namespace Bifrost.Sagas
 			sagaHolder.Partition = saga.Partition;
 		    sagaHolder.State = saga.CurrentState.ToString();
 			sagaHolder.SerializedSaga = _serializer.ToJson(saga, SerializationOptions);
-			sagaHolder.UncommittedEvents = _serializer.ToJson(_eventConverter.ToEventHolders(saga.GetUncommittedEvents()));
+			sagaHolder.UncommittedEvents = _serializer.ToJson(saga.GetUncommittedEvents());
 
 			var chapterHolders = (from c in saga.Chapters
 			                      select GetChapterHolderFromChapter(c)).ToArray();

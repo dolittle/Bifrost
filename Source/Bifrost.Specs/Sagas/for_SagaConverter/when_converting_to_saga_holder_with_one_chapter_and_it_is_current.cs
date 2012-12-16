@@ -16,6 +16,5 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter
 		It should_set_the_id = () => saga_holder.Id.ShouldEqual(saga.Id);
 		It should_set_the_type = () => saga_holder.Type = typeof (SagaWithOneChapterProperty).AssemblyQualifiedName;
 		It should_serialize_saga = () => serializer_mock.Verify(s=>s.ToJson(saga, Moq.It.IsAny<SerializationOptions>()));
-		It should_convert_uncommitted_events = () => event_converter_mock.Setup(e => e.ToEventHolders(Moq.It.IsAny<IEnumerable<IEvent>>()));
 	}
 }
