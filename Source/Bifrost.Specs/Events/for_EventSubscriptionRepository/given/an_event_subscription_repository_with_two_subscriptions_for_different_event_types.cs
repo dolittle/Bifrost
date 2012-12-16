@@ -11,8 +11,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionRepository.given
         {
             entity_context_mock.Setup(e => e.Entities).Returns(
                 new[] {
-                    new EventSubscriptionHolder { EventType = typeof(AnotherSimpleEvent).AssemblyQualifiedName, Owner=typeof(Subscribers).AssemblyQualifiedName, Method=ProcessMethodInvoker.ProcessMethodName },
-                    new EventSubscriptionHolder { EventType = typeof(SimpleEvent).AssemblyQualifiedName, Owner=typeof(Subscribers).AssemblyQualifiedName, Method=ProcessMethodInvoker.ProcessMethodName }
+                    new EventSubscription { EventType = typeof(AnotherSimpleEvent), Owner=typeof(Subscribers), Method=typeof(Subscribers).GetMethod(ProcessMethodInvoker.ProcessMethodName,new[] {typeof(AnotherSimpleEvent)}) },
+                    new EventSubscription { EventType = typeof(SimpleEvent), Owner=typeof(Subscribers), Method=typeof(Subscribers).GetMethod(ProcessMethodInvoker.ProcessMethodName,new[] {typeof(AnotherSimpleEvent)}) }
                 }.AsQueryable());
         };
 

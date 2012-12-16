@@ -369,9 +369,6 @@
     <Compile Include="..\Bifrost\Events\EventSubscription.cs">
       <Link>Events\EventSubscription.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\EventSubscriptionHolder.cs">
-      <Link>Events\EventSubscriptionHolder.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\EventSubscriptionManager.cs">
       <Link>Events\EventSubscriptionManager.cs</Link>
     </Compile>

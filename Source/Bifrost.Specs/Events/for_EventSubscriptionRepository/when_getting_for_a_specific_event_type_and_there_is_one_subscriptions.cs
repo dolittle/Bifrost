@@ -12,10 +12,10 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionRepository
         Because of = () => subscription = repository.GetForEvent(typeof(SimpleEvent)).Single();
 
         It should_get_subscription_with_correct_id = () => subscription.Id.ShouldEqual(subscription_holder.Id);
-        It should_get_subscription_with_correct_last_event_id = () => subscription.LastEventId.ShouldEqual(subscription_holder.LastEventId);
-        It should_get_subscription_with_correct_owner_type = () => subscription.Owner.AssemblyQualifiedName.ShouldEqual(subscription_holder.Owner);
+        It should_get_subscription_with_correct_last_event_id = () => subscription.LastEventId.ShouldEqual(subscription.LastEventId);
+        It should_get_subscription_with_correct_owner_type = () => subscription.Owner.ShouldEqual(subscription.Owner);
         It should_get_subscription_with_correct_method = () => subscription.Method.Name.ShouldEqual(ProcessMethodInvoker.ProcessMethodName);
-        It should_get_subscription_with_correct_event_type = () => subscription.EventType.AssemblyQualifiedName.ShouldEqual(subscription_holder.EventType);
-        It should_get_subscription_with_correct_event_name = () => subscription.EventName.ShouldEqual(subscription_holder.EventName);
+        It should_get_subscription_with_correct_event_type = () => subscription.EventType.ShouldEqual(subscription.EventType);
+        It should_get_subscription_with_correct_event_name = () => subscription.EventName.ShouldEqual(subscription.EventName);
     }
 }

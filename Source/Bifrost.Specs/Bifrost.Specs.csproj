@@ -194,11 +194,9 @@
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_two_subscriptions_for_different_event_types.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\Subscribers.cs" />
-    <Compile Include="Events\for_EventSubscriptionRepository\when_adding_a_subscription.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_all_subscribers_and_there_are_two_available.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_are_two_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_for_a_specific_event_type_and_there_is_no_subscriptions.cs" />
-    <Compile Include="Events\for_EventSubscriptionRepository\when_updating_a_subscription.cs" />
     <Compile Include="Events\for_EventSubscription\when_asking_if_it_should_process_for_event_that_has_higher_id_than_last_event_id.cs" />
     <Compile Include="Events\for_EventSubscription\when_asking_if_it_should_process_for_event_that_has_lower_id_than_last_event_id.cs" />
     <Compile Include="Events\for_Event\when_comparing_events_of_different_types.cs" />

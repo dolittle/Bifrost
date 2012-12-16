@@ -35,18 +35,15 @@ namespace Bifrost.Events
     /// </summary>
     public class EventSubscriptionRepository : IEventSubscriptionRepository
     {
-        readonly IEntityContext<EventSubscriptionHolder> _entityContext;
-        readonly ISerializer _serializer;
+        readonly IEntityContext<EventSubscription> _entityContext;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EventSubscriptionRepository"/>
         /// </summary>
         /// <param name="entityContext">An <see cref="IEntityContext{EventSubscriptionHolder}"/> for working with persisting of <see cref="EventSubscriptionHolder">EventSubscriptionHolders</see></param>
-        /// <param name="serializer">A <see cref="ISerializer"/> to use for serialization</param>
-        public EventSubscriptionRepository(IEntityContext<EventSubscriptionHolder> entityContext, ISerializer serializer)
+        public EventSubscriptionRepository(IEntityContext<EventSubscription> entityContext)
         {
             _entityContext = entityContext;
-            _serializer = serializer;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -54,11 +51,11 @@ namespace Bifrost.Events
         {
             var all = _entityContext.Entities.ToArray();
             var filtered = all.Where(e=>
-                e.EventType == eventType.AssemblyQualifiedName &&
+                e.EventType == eventType &&
                 EventTypeExists(e) &&
                 EventSubscriberExists(e)).ToArray();
             
-            return filtered.Select(ConvertToEventSubscription).ToArray();
+            return filtered.ToArray();
         }
 
         public IEnumerable<EventSubscription> GetAll()
@@ -68,12 +65,12 @@ namespace Bifrost.Events
                 EventTypeExists(e) &&
                 EventSubscriberExists(e)).ToArray();
 
-            return filtered.Select(ConvertToEventSubscription).ToArray();
+            return filtered.ToArray();
         }
 
         public EventSubscription Get(Guid id)
         {
-            var subscription = _entityContext.Entities.Where(e => e.Id == id).Select(ConvertToEventSubscription).Single();
+            var subscription = _entityContext.Entities.Where(e => e.Id == id).Single();
             return subscription;
         }
 
@@ -89,95 +86,27 @@ namespace Bifrost.Events
 
         public void Add(EventSubscription subscription)
         {
-            var holder = ConvertToEventSubscriptionHolder(subscription);
-            _entityContext.Insert(holder);
+            _entityContext.Insert(subscription);
             _entityContext.Commit();
         }
 
         public void Update(EventSubscription subscription)
         {
-            var holder = GetHolderFromSubscription(subscription);
-            if (holder == null)
-                Add(subscription);
-            else
-            {
-                CopyToEventSubscriptionHolder(subscription, holder);
-                _entityContext.Update(holder);
-                _entityContext.Commit();
-            }
+            _entityContext.Update(subscription);
+            _entityContext.Commit();
         }
 #pragma warning restore 1591 // Xml Comments
 
 
-        bool EventTypeExists(EventSubscriptionHolder holder)
+        bool EventTypeExists(EventSubscription subscription)
         {
-            var eventType = Type.GetType(holder.EventType);
-            return eventType != null;
+            return subscription.EventType != null;
         }
 
-        bool EventSubscriberExists(EventSubscriptionHolder holder)
+        bool EventSubscriberExists(EventSubscription subscription)
         {
-            var ownerType = Type.GetType(holder.Owner);
-            return ownerType != null;
+            return subscription.Owner != null;
         }
 
-        EventSubscriptionHolder GetHolderFromSubscription(EventSubscription subscription)
-        {
-            var specificHolder = ConvertToEventSubscriptionHolder(subscription);
-            var holder = _entityContext.Entities.Where(e =>
-                e.Owner == specificHolder.Owner &&
-                e.Method == specificHolder.Method &&
-                e.EventType == specificHolder.EventType).SingleOrDefault();
-            return holder;
-        }
-
-
-        EventSubscriptionHolder ConvertToEventSubscriptionHolder(EventSubscription subscription)
-        {
-            var holder = new EventSubscriptionHolder();
-            CopyToEventSubscriptionHolder(subscription, holder);
-            return holder;
-        }
-
-        void CopyToEventSubscriptionHolder(EventSubscription subscription, EventSubscriptionHolder holder)
-        {
-            holder.Id = subscription.Id;
-            holder.LastEventId = subscription.LastEventId;
-            holder.Owner = subscription.Owner.AssemblyQualifiedName;
-            holder.Method = subscription.Method.Name;
-            holder.EventType = subscription.EventType.AssemblyQualifiedName;
-            holder.EventName = subscription.EventName;
-            holder.LastEventId = subscription.LastEventId;
-        }
-
-
-        EventSubscription ConvertToEventSubscription(EventSubscriptionHolder holder)
-        {
-            var eventType = Type.GetType(holder.EventType);
-            var ownerType = Type.GetType(holder.Owner);
-#if(NETFX_CORE)
-            Func<MethodInfo, Type, bool> hasEventType = (MethodInfo m, Type e) =>
-            {
-                foreach (var p in m.GetParameters())
-                    if (p.ParameterType == e)
-                        return true;
-                return false;
-            };
-#endif
-            return new EventSubscription
-            {
-                Id = holder.Id,
-                EventName = holder.EventName,
-                EventType = eventType,
-                Owner = ownerType,
-#if(NETFX_CORE)
-                
-                Method = ownerType.GetTypeInfo().DeclaredMethods.Where(m => m.Name == ProcessMethodInvoker.ProcessMethodName && hasEventType(m, eventType)).Single(),
-#else
-                Method = ownerType.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { eventType }),
-#endif
-                LastEventId = holder.LastEventId
-            };
-        }
     }
 }

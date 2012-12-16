@@ -14,10 +14,10 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionRepository
         static EventSubscription    subscription;
 
         Establish context = () => entity_context_mock.Setup(e=>e.Entities).Returns((new[] { 
-            new EventSubscriptionHolder 
+            new EventSubscription 
             { 
-                EventType = typeof(SimpleEvent).AssemblyQualifiedName,
-                Owner = typeof(Subscribers).AssemblyQualifiedName,
+                EventType = typeof(SimpleEvent),
+                Owner = typeof(Subscribers),
                 Id = subscription_id 
             }
         }).AsQueryable());

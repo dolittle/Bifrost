@@ -61,7 +61,7 @@ namespace Bifrost.Configuration
             if (EntityContextConfiguration != null)
             {
                 EntityContextConfiguration.BindEntityContextTo<IEvent>(container);
-                EntityContextConfiguration.BindEntityContextTo<EventSubscriptionHolder>(container);
+                EntityContextConfiguration.BindEntityContextTo<EventSubscription>(container);
                 base.Initialize(container);
             }
         }

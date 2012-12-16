@@ -82,7 +82,6 @@
     <Compile Include="Events\EventRepository.cs" />
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
-    <Compile Include="Events\EventSubscriptionHolder.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
     <Compile Include="Events\EventSubscriptionRepository.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
