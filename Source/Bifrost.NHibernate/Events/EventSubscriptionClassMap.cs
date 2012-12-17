@@ -3,9 +3,9 @@ using FluentNHibernate.Mapping;
 
 namespace Bifrost.NHibernate.Events
 {
-    public class EventSubscriptionHolderClassMap : ClassMap<EventSubscriptionHolder>
+    public class EventSubscriptionClassMap : ClassMap<EventSubscription>
     {
-        public EventSubscriptionHolderClassMap()
+        public EventSubscriptionClassMap()
         {
             Table("EventSubscriptions");
             Id(e => e.Id).GeneratedBy.Assigned();

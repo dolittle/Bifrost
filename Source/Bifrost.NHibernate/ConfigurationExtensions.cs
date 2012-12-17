@@ -1,7 +1,4 @@
-﻿using Bifrost.Entities;
-using Bifrost.Events;
-using Bifrost.NHibernate;
-using Bifrost.Sagas;
+﻿using Bifrost.NHibernate;
 
 namespace Bifrost.Configuration
 {
@@ -10,10 +7,6 @@ namespace Bifrost.Configuration
         public static IConfigure UsingNHibernate(this IHaveStorage storage, EntityContextConfiguration entityContextConfiguration)
         {
             storage.EntityContextConfiguration = entityContextConfiguration;
-
-            //configure.Events.RepositoryType = typeof (EventRepository);
-            //configure.Sagas.LibrarianType = typeof (SagaLibrarian);
-
             return Configure.Instance;
         }
     }
