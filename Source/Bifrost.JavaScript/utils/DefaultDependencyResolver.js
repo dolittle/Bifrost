@@ -47,7 +47,7 @@
 
         this.canResolve = function (namespace, name) {
             var current = namespace;
-            while (current != null) {
+            while (current != null && current != window) {
                 if (self.doesNamespaceHave(current, name)) {
                     return true;
                 }
@@ -63,7 +63,7 @@
 
         this.resolve = function (namespace, name) {
             var current = namespace;
-            while (current != null) {
+            while (current != null && current != window) {
                 if (self.doesNamespaceHave(current,name)) {
                     return current[name];
                 }
