@@ -16,7 +16,7 @@ describe("when resolving asynchronous and resolver returns a system", function()
 	var result = null;
 	Bifrost.dependencyResolver
 		.beginResolve(ns, "something")
-		.continueWith(function(nextPromise, parameter) {
+		.continueWith(function(parameter, nextPromise) {
 			result = parameter;
 		});
 

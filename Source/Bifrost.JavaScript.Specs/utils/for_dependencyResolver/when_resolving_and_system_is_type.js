@@ -1,6 +1,6 @@
 describe("when resolving and system is type", function() {
 
-	var type = Bifrost.Type.define(function(dependency) {
+	var type = Bifrost.Type.extend(function(dependency) {
 		this.something = "Hello";
 		this.dependency = dependency;
 	});

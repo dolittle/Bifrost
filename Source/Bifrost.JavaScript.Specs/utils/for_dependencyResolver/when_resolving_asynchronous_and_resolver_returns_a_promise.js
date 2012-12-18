@@ -17,7 +17,7 @@ describe("when resolving asynchronous but resolver returns a promise", function(
 	var result = null;
 	Bifrost.dependencyResolver
 		.beginResolve(ns, "something")
-		.continueWith(function(nextPromise, arg) {
+		.continueWith(function(arg, nextPromise) {
 			result = arg;
 
 		});

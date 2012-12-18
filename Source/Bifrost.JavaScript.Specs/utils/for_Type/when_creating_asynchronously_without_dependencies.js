@@ -4,7 +4,7 @@ describe("when creating asynchronously without dependencies", function() {
 	});
 
 	var result = null;
-	type.beginCreate().continueWith(function(nextPromise, parameter) {
+	type.beginCreate().continueWith(function(parameter, nextPromise) {
 		result = parameter;
 	});
 

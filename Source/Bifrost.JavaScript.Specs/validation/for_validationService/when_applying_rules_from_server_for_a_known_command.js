@@ -1,11 +1,12 @@
 ﻿describe("when applying rules from server for a known command", sinon.test(function () {
+
     var expectedMessage = "Should be required";
     var test = this;
 
     var server = sinon.fakeServer.create();
 
     server.respondWith("GET", "/Validation/GetForCommand",
-        [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "'+expectedMessage+'" } } } }']);
+        [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
 
     var command = {
         name: "Whatevva",
@@ -23,6 +24,7 @@
     };
 
     Bifrost.validation.validationService.applyForCommand(command);
+
     server.respond();
 
     it("should set the rule in response from server", function () {

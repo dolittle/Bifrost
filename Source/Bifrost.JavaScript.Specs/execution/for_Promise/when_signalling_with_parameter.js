@@ -2,7 +2,7 @@ describe("when signalling with parameter", function() {
 	var promise = Bifrost.execution.Promise.create();
 	var parameter;
 
-	promise.continueWith(function(nextPromise, p) {
+	promise.continueWith(function(p) {
 		parameter = p;
 	});
 
@@ -11,5 +11,4 @@ describe("when signalling with parameter", function() {
 	it("should pass along the parameter", function() {
 		expect(parameter).toBe("Hello");
 	});
-
 });

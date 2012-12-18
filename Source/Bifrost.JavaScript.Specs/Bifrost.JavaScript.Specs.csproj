@@ -63,7 +63,9 @@
     <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
     <Content Include="commands\for_Command\when_validating_the_command.js" />
-    <Content Include="execution\for_Promise\when_continued.js" />
+    <Content Include="execution\for_Promise\when_signalling_without_parameter.js" />
+    <Content Include="execution\for_Promise\when_continued_with_parameter.js" />
+    <Content Include="execution\for_Promise\when_continued_without_parameter.js" />
     <Content Include="execution\for_Promise\when_creating_promise.js" />
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />

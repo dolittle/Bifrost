@@ -60,9 +60,9 @@ Bifrost.namespace("Bifrost", {
         var resolverPromise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
-                .continueWith(function(nextPromise, result) {
+                .continueWith(function(result, nextPromise) {
                     instances[index] = result;
-                    resolvedCallback(nextPromise, result);
+                    resolvedCallback(result, nextPromise);
                 });
     };
 
@@ -77,7 +77,7 @@ Bifrost.namespace("Bifrost", {
             var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
                 dependency = typeDefinition._dependencies[dependencyIndex];
-                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(nextPromise, result) {
+                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(result, nextPromise) {
                     solvedDependencies++;
                     if( solvedDependencies == dependenciesToResolve ) {
                         promise.signal(dependencyInstances);
@@ -180,14 +180,14 @@ Bifrost.namespace("Bifrost", {
         var superPromise = Bifrost.execution.Promise.create();
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function(nextPromise, _super) {
+            this._super.beginCreate().continueWith(function(_super, nextPromise) {
                 superPromise.signal(_super);
             });
         } else {
             superPromise.signal(null);
         }
 
-        superPromise.continueWith(function(nextPromise, _super) {
+        superPromise.continueWith(function(_super, nextPromise) {
             self.prototype = _super;
 
             if( self._dependencies == null || 
@@ -198,7 +198,7 @@ Bifrost.namespace("Bifrost", {
                 promise.signal(instance);
             } else {
                 beginGetDependencyInstances(self._namespace, self)
-                    .continueWith(function(nextPromise, dependencies) {
+                    .continueWith(function(dependencies, nextPromise) {
                         var instanceHash = {};
                         expandDependenciesToInstanceHash(self, dependencies, instanceHash);
                         var instance = self.create(instanceHash);

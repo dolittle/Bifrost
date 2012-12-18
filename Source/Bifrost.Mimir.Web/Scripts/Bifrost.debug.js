@@ -429,9 +429,9 @@ Bifrost.namespace("Bifrost", {
         var resolverPromise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
-                .continueWith(function(nextPromise, result) {
+                .continueWith(function(result, nextPromise) {
                     instances[index] = result;
-                    resolvedCallback(nextPromise, result);
+                    resolvedCallback(result,nextPromise);
                 });
     };
 
@@ -446,7 +446,7 @@ Bifrost.namespace("Bifrost", {
             var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
                 dependency = typeDefinition._dependencies[dependencyIndex];
-                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(nextPromise, result) {
+                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(result, nextPromise) {
                     solvedDependencies++;
                     if( solvedDependencies == dependenciesToResolve ) {
                         promise.signal(dependencyInstances);

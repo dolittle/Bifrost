@@ -3,7 +3,6 @@
     var test = this;
 
     var server = sinon.fakeServer.create();
-
     server.respondWith("POST", "/Validation/GetForCommand",
         [200, { "Content-Type": "application/json" }, '{ "properties": { "something.someOtherThing": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
 
