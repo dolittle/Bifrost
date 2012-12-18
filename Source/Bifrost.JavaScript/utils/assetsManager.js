@@ -1,10 +1,13 @@
 ﻿Bifrost.namespace("Bifrost", {
     assetsManager: {
         initialize: function () {
+            var promise = Bifrost.execution.Promise.create();
             $.get("/AssetsManager", { extension: "js" }, function (result) {
                 Bifrost.assetsManager.scripts = result;
                 Bifrost.namespaces.initialize();
+                promise.signal();
             }, "json");
+            return promise;
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;

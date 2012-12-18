@@ -2,14 +2,20 @@
     var extension = "";
     var scripts = ["something.js", "something_else.js"];
     var scriptsReturned = [];
+    var promiseCalled = false;
 
     beforeEach(function () {
+        Bifrost.namespaces = Bifrost.namespaces || {};
+        Bifrost.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, parameters, callback) {
             extension = parameters.extension;
             callback(scripts);
         });
 
-        Bifrost.assetsManager.initialize();
+        Bifrost.assetsManager.initialize().continueWith(function () {
+            promiseCalled = true;
+        });
+
         scriptsReturned = Bifrost.assetsManager.getScripts();
     });
 
@@ -17,7 +23,15 @@
         $.get.restore();
     });
 
-    it("should get scripts", function() {
+    it("should get scripts", function () {
         expect(scriptsReturned).toBe(scripts);
+    });
+
+    it("should initialize namespaces after scripts have been received", function () {
+        expect(Bifrost.namespaces.initialize.called).toBe(true);
+    });
+
+    it("should signal the promise after scripts have been received", function () {
+        expect(promiseCalled).toBe(true);
     });
 });

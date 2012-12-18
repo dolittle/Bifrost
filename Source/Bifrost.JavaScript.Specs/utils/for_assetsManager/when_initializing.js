@@ -1,7 +1,9 @@
-describe("when initializing", function() {
+describe("when initializing", function () {
     var extension = "";
 
     beforeEach(function () {
+        Bifrost.namespaces = Bifrost.namespaces || {};
+        Bifrost.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, parameters, callback) {
             extension = parameters.extension;
         });
@@ -20,6 +22,4 @@ describe("when initializing", function() {
     it("should get files with js extension", function () {
         expect(extension).toBe("js");
     });
-
-
 });

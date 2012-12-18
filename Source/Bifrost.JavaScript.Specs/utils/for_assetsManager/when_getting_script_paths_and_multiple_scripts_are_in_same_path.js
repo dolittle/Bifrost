@@ -3,6 +3,8 @@
     var paths = [];
 
     beforeEach(function () {
+        Bifrost.namespaces = Bifrost.namespaces || {};
+        Bifrost.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, options, callback, type) {
             callback([
                 "Something/cool.js",
