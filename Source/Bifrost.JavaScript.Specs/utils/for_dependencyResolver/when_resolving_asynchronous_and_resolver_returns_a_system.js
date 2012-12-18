@@ -13,6 +13,9 @@ describe("when resolving asynchronous and resolver returns a system", function()
 		}
 	};
 
+    Bifrost.configure.reset();
+    Bifrost.configure.onReady();
+
 	var result = null;
 	Bifrost.dependencyResolver
 		.beginResolve(ns, "something")

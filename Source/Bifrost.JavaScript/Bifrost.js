@@ -18,6 +18,7 @@
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
+@depends utils/configure.js
 @depends execution/Promise.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
@@ -55,5 +56,4 @@
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
-@depends startup.js
 */

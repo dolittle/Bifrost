@@ -18,6 +18,7 @@ describe("when namespace only has file matching system needed to be resolved reg
 
             callback();
         });
+
         canResolve = resolver.canResolve(ns, "something");
         resolved = resolver.resolve(ns, "something");
         resolved.continueWith(function (arg, nextPromise) {

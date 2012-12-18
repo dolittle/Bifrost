@@ -10,7 +10,7 @@
 
     beforeEach(function () {
         systemResolved = {
-            someValue : "value"
+            someValue: "value"
         };
         ns = {
             _path: "/Someplace/On/Server",
@@ -18,7 +18,7 @@
         };
         requireStub = sinon.stub(window, "require", function (arg, callback) {
             requireArg = arg[0];
-          
+
             callback(systemResolved);
         });
         canResolve = resolver.canResolve(ns, "something");

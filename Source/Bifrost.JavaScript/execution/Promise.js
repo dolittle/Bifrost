@@ -4,6 +4,9 @@ Bifrost.namespace("Bifrost.execution", {
 
         this.signalled = false;
         this.callback = null;
+        this.error = null;
+        this.hasFailed = false;
+        this.failedCallback = null;
 
         function onSignal() {
             if (self.callback != null && typeof self.callback !== "undefined") {
@@ -15,13 +18,26 @@ Bifrost.namespace("Bifrost.execution", {
             }
         }
 
+        this.fail = function (error) {
+            if (self.failedCallback != null) self.failedCallback(error);
+            self.hasFailed = true;
+            self.error = error;
+            throw error;
+        };
+
+        this.onFail = function (callback) {
+            if (self.hasFailed) {
+                callback(self.error);
+            } else {
+                self.failedCallback = callback;
+            }
+        };
+
+
         this.signal = function (parameter) {
             self.signalled = true;
-
             self.signalParameter = parameter;
-
             onSignal();
-
         };
 
         this.continueWith = function (callback) {

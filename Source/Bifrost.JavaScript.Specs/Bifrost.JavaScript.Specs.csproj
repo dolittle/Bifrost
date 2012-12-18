@@ -63,6 +63,8 @@
     <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_with_configuration.js" />
     <Content Include="commands\for_Command\when_validating_the_command.js" />
+    <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
+    <Content Include="execution\for_Promise\when_failing.js" />
     <Content Include="execution\for_Promise\when_signalling_without_parameter.js" />
     <Content Include="execution\for_Promise\when_continued_with_parameter.js" />
     <Content Include="execution\for_Promise\when_continued_without_parameter.js" />
@@ -109,6 +111,10 @@
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
     <Content Include="Utils\for_assetsManager\when_initializing.js" />
+    <Content Include="Utils\for_configure\when_asking_if_configure_is_ready_and_it_is_not.js" />
+    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_gets_ready_afterwards.js" />
+    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_is_ready.js" />
+    <Content Include="Utils\for_configure\when_asking_if_configure_is_ready_and_it_is.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_contains_system_for_resolving.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_has_script_needed_to_be_resolved_registered_but_not_in_namespace.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_only_has_file_matching_system_needed_to_be_resolved_registered_in_it.js" />
@@ -237,6 +243,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\for_namespacePaths\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utils\for_configure\when_assets_manager_is_initialized.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

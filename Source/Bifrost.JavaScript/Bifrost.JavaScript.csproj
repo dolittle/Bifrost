@@ -57,6 +57,7 @@
     <Content Include="commands\CommandCoordinator.js" />
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
+    <Content Include="utils\configure.js" />
     <Content Include="execution\Promise.js" />
     <Content Include="features\exceptions.js" />
     <Content Include="features\featureBindingHandler.js" />
@@ -79,7 +80,6 @@
     <Content Include="Libraries\text.js" />
     <Content Include="messaging\observableMessage.js" />
     <Content Include="navigation\observableQueryParameter.js" />
-    <Content Include="startup.js" />
     <Content Include="messaging\Messenger.js" />
     <Content Include="navigation\navigateTo.js" />
     <Content Include="navigation\navigationManager.js" />

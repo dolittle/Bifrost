@@ -16,6 +16,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/hashString.js
         - Bifrost.JavaScript/utils/stringExtensions.js
         - Bifrost.JavaScript/utils/extend.js
+        - Bifrost.JavaScript/utils/configure.js
         - Bifrost.JavaScript/execution/Promise.js
         - Bifrost.JavaScript/utils/guid.js
         - Bifrost.JavaScript/utils/isNumber.js
