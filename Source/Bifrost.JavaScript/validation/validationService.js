@@ -2,7 +2,7 @@
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
-            if ("extend" in target[property] && typeof target[property].extend === "function") {
+            if(target[property].hasOwnProperty("extend") && typeof target[property].extend === "function") {
                 target[property].extend({ validation: {} });
                 validators.push(target[property].validator);
             } else if (typeof target[property] === "object") {
