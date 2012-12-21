@@ -110,7 +110,7 @@ Bifrost.namespace("Bifrost", {
 		return Object.prototype.toString.call(o) === '[object Array]';
 	}
 });
-Bifrost.namespace("Bifrost", {
+﻿Bifrost.namespace("Bifrost", {
     path: {
         getPathWithoutFilename: function (fullPath) {
             var lastIndex = fullPath.lastIndexOf("/");
@@ -148,7 +148,7 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 
-Bifrost.namespace("Bifrost", {
+﻿Bifrost.namespace("Bifrost", {
     assetsManager: {
         initialize: function () {
             var promise = Bifrost.execution.Promise.create();
@@ -286,7 +286,7 @@ Bifrost.namespace("Bifrost", {
         };
     })()
 });
-Bifrost.namespace("Bifrost", {
+﻿Bifrost.namespace("Bifrost", {
     DefaultDependencyResolver: function () {
         var self = this;
 
@@ -582,7 +582,7 @@ Bifrost.namespace("Bifrost", {
         return promise;
     };
 })();
-Bifrost.namespace("Bifrost", {
+﻿Bifrost.namespace("Bifrost", {
     Singleton: function (typeDefinition) {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
         /*
@@ -789,7 +789,7 @@ Bifrost.Uri = (function(window, undefined) {
 		},
 	};
 })(window);
-Bifrost.namespace("Bifrost", {
+﻿Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
 
@@ -1005,7 +1005,7 @@ Bifrost.validation.Validator = (function () {
     }
 })();
 
-if (typeof ko !== 'undefined') {
+﻿if (typeof ko !== 'undefined') {
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
@@ -1074,7 +1074,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.validation");
+﻿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -2138,7 +2138,7 @@ Bifrost.namespace("Bifrost.messaging", {
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
 
-if (typeof ko !== 'undefined') {
+﻿if (typeof ko !== 'undefined') {
     ko.observableMessage = function (message, defaultValue) {
         var observable = ko.observable(defaultValue);
 
@@ -2184,39 +2184,39 @@ Bifrost.namespace("Bifrost.navigation", {
     },
     navigationManager: {
         hookup: function () {
-            $("body").click(function (e) {
-                var href = e.target.href;
-                if (typeof href == "undefined") {
-                    var closestAnchor = $(e.target).closest("a")[0];
-                    if (!closestAnchor) {
-                        return;
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                $("body").click(function (e) {
+                    var href = e.target.href;
+                    if (typeof href == "undefined") {
+                        var closestAnchor = $(e.target).closest("a")[0];
+                        if (!closestAnchor) {
+                            return;
+                        }
+                        href = closestAnchor.href;
                     }
-                    href = closestAnchor.href;
-                }
-                if (href.indexOf("#") > 0) {
-                    href = href.substr(0, href.indexOf("#"));
-                }
+                    if (href.indexOf("#") > 0) {
+                        href = href.substr(0, href.indexOf("#"));
+                    }
 
-                if (href.length == 0) {
-                    href = "/";
-                }
-                var targetUri = Bifrost.Uri.create(href);
-                if (targetUri.isSameAsOrigin) {
-                    var target = targetUri.path;
-                    while (target.indexOf("/") == 0) {
-                        target = target.substr(1);
+                    if (href.length == 0) {
+                        href = "/";
                     }
-                    e.preventDefault();
-                    var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                    if( typeof History !== "undefined" && typeof History.Adapter !== "undefined" ) {
+                    var targetUri = Bifrost.Uri.create(href);
+                    if (targetUri.isSameAsOrigin) {
+                        var target = targetUri.path;
+                        while (target.indexOf("/") == 0) {
+                            target = target.substr(1);
+                        }
+                        e.preventDefault();
+                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
                         History.pushState({}, "", "/" + target + queryString);
                     }
-                }
-            });
+                });
+            }
         }
     }
 });
-if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
+﻿if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
     ko.observableQueryParameter = function (parameterName, defaultValue) {
         var self = this;
         var observable = null;
@@ -2262,13 +2262,6 @@ if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && 
         return observable;
     }
 }
-(function ($) {
-    $(function () {
-        Bifrost.assetsManager.initialize();
-        Bifrost.navigation.navigationManager.hookup();
-        Bifrost.features.featureManager.hookup($);
-    });
-})(jQuery);
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
