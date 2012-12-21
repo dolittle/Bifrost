@@ -480,15 +480,13 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
-    Bifrost.Type.instancesPerScope = {};
-
-
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
+        typeDefinition._typeId = Bifrost.Guid.create();
         return typeDefinition;
     };
 
@@ -523,7 +521,8 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
-        var scope = this.scope.getFor(this._namespace, this._name);
+        this.instancesPerScope = this.instancesPerScope || {};
+        var scope = this.scope.getFor(this._namespace, this._name, this._typeId);
         if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
             return this.instancesPerScope[scope];
         }
@@ -583,6 +582,16 @@ Bifrost.namespace("Bifrost", {
 ﻿Bifrost.namespace("Bifrost", {
     Singleton: function (typeDefinition) {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
+        /*
+        var identifier = Bifrost.Guid.create();
+        var type = Bifrost.Type.extend(typeDefinition);
+        window._singletons = window._singletons || {};
+        return type.scopeTo(function (namespace, name) {
+            
+        var exists = typeof window._singletons[identifier] !== "undefined";
+        window._singletons[identifier] = true;
+        return window;
+        });*/
     }
 });
 Bifrost.namespace("Bifrost");
