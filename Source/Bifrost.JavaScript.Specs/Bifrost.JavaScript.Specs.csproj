@@ -159,6 +159,7 @@
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
+    <Content Include="Utils\for_Type\when_extending_two_different_types.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_function_as_scope.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_scope_to_same_object.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_with_specific_scope_returning_same_value.js" />
@@ -249,6 +250,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_configure\when_assets_manager_is_initialized.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utils\for_Singleton\when_creating_instance_of_two_definitions.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

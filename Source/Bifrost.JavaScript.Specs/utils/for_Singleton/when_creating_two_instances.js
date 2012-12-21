@@ -8,6 +8,7 @@
         };
 
         type = Bifrost.Singleton(function () {
+            this.something = "When creating two instances";
         });
         firstInstance = type.create();
         secondInstance = type.create();
@@ -17,7 +18,12 @@
         Bifrost.dependencyResolver = {};
     });
 
-    it("should return same instances", function () {
-        expect(firstInstance).toBe(secondInstance);
+    it("should return correct instance for the first", function () {
+        expect(firstInstance.something).toBe("When creating two instances");
     });
+
+    it("should return correct instance for the second", function () {
+        expect(secondInstance.something).toBe("When creating two instances");
+    });
+
 });

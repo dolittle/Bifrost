@@ -483,15 +483,13 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
-    Bifrost.Type.instancesPerScope = {};
-
-
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
+        typeDefinition._typeId = Bifrost.Guid.create();
         return typeDefinition;
     };
 
@@ -526,7 +524,8 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
-        var scope = this.scope.getFor(this._namespace, this._name);
+        this.instancesPerScope = this.instancesPerScope || {};
+        var scope = this.scope.getFor(this._namespace, this._name, this._typeId);
         if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
             return this.instancesPerScope[scope];
         }
@@ -586,6 +585,16 @@ Bifrost.namespace("Bifrost", {
 Bifrost.namespace("Bifrost", {
     Singleton: function (typeDefinition) {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
+        /*
+        var identifier = Bifrost.Guid.create();
+        var type = Bifrost.Type.extend(typeDefinition);
+        window._singletons = window._singletons || {};
+        return type.scopeTo(function (namespace, name) {
+            
+        var exists = typeof window._singletons[identifier] !== "undefined";
+        window._singletons[identifier] = true;
+        return window;
+        });*/
     }
 });
 Bifrost.namespace("Bifrost");
@@ -708,16 +717,16 @@ Bifrost.Uri = (function(window, undefined) {
 	/* parseUri JS v0.1, by Steven Levithan (http://badassery.blogspot.com)
 	Splits any well-formed URI into the following parts (all are optional):
 	----------------------
-	• source (since the exec() method returns backreference 0 [i.e., the entire match] as key 0, we might as well use it)
-	• protocol (scheme)
-	• authority (includes both the domain and port)
-	    • domain (part of the authority; can be an IP address)
-	    • port (part of the authority)
-	• path (includes both the directory path and filename)
-	    • directoryPath (part of the path; supports directories with periods, and without a trailing backslash)
-	    • fileName (part of the path)
-	• query (does not include the leading question mark)
-	• anchor (fragment)
+	â€¢ source (since the exec() method returns backreference 0 [i.e., the entire match] as key 0, we might as well use it)
+	â€¢ protocol (scheme)
+	â€¢ authority (includes both the domain and port)
+	    â€¢ domain (part of the authority; can be an IP address)
+	    â€¢ port (part of the authority)
+	â€¢ path (includes both the directory path and filename)
+	    â€¢ directoryPath (part of the path; supports directories with periods, and without a trailing backslash)
+	    â€¢ fileName (part of the path)
+	â€¢ query (does not include the leading question mark)
+	â€¢ anchor (fragment)
 	*/
 	function parseUri(sourceUri){
 	    var uriPartNames = ["source","protocol","authority","domain","port","path","directoryPath","fileName","query","anchor"];
@@ -2253,6 +2262,13 @@ if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && 
         return observable;
     }
 }
+(function ($) {
+    $(function () {
+        Bifrost.assetsManager.initialize();
+        Bifrost.navigation.navigationManager.hookup();
+        Bifrost.features.featureManager.hookup($);
+    });
+})(jQuery);
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
