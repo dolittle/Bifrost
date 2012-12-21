@@ -152,10 +152,14 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
-        this.instancesPerScope = this.instancesPerScope || {};
-        var scope = this.scope.getFor(this._namespace, this._name, this._typeId);
-        if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
-            return this.instancesPerScope[scope];
+        var scope = null;
+        if( this != Bifrost.Type ) {
+            this.instancesPerScope = this.instancesPerScope || {};
+
+            scope = this.scope.getFor(this._namespace, this._name, this._typeId);
+            if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
+                return this.instancesPerScope[scope];
+            }
         }
 
         var instance = null;
