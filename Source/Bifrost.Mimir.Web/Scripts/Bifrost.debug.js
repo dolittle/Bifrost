@@ -151,10 +151,13 @@ Bifrost.namespace("Bifrost", {
 ﻿Bifrost.namespace("Bifrost", {
     assetsManager: {
         initialize: function () {
+            var promise = Bifrost.execution.Promise.create();
             $.get("/AssetsManager", { extension: "js" }, function (result) {
                 Bifrost.assetsManager.scripts = result;
                 Bifrost.namespaces.initialize();
+                promise.signal();
             }, "json");
+            return promise;
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;
@@ -173,7 +176,7 @@ Bifrost.namespace("Bifrost", {
     }
 });
 Bifrost.namespace("Bifrost", {
-    dependencyResolver: (function() {
+    dependencyResolver: (function () {
         function resolveImplementation(namespace, name) {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
@@ -190,24 +193,24 @@ Bifrost.namespace("Bifrost", {
         }
 
         function handleSystemInstance(system) {
-            if( system != null &&
+            if (system != null &&
                 system._super !== null &&
                 typeof system._super !== "undefined" &&
-                system._super ===  Bifrost.Type ) {
+                system._super === Bifrost.Type) {
                 return system.create();
-            } 
+            }
             return system;
         }
 
         function beginHandleSystemInstance(system) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( system != null &&   
+            if (system != null &&
                 system._super !== null &&
                 typeof system._super !== "undefined" &&
-                system._super ===  Bifrost.Type ) {
+                system._super === Bifrost.Type) {
 
-                system.beginCreate().continueWith(function(next, result) {
+                system.beginCreate().continueWith(function (result, next) {
                     promise.signal(result);
                 });
             } else {
@@ -221,7 +224,7 @@ Bifrost.namespace("Bifrost", {
             getDependenciesFor: function (func) {
                 var dependencies = [];
                 var parameters = Bifrost.functionParser.parse(func);
-                for( var i=0; i<parameters.length; i++ ) {
+                for (var i = 0; i < parameters.length; i++) {
                     dependencies.push(parameters[i].name);
                 }
                 return dependencies;
@@ -233,32 +236,33 @@ Bifrost.namespace("Bifrost", {
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
-                if( resolvedSystem instanceof Bifrost.execution.Promise ) {
+                if (resolvedSystem instanceof Bifrost.execution.Promise) {
                     throw new Bifrost.AsynchronousDependenciesDetected();
                 }
 
                 return handleSystemInstance(resolvedSystem);
             },
 
-            beginResolve: function(namespace, name) {
+            beginResolve: function (namespace, name) {
                 var promise = Bifrost.execution.Promise.create();
-                var resolvedSystem = resolveImplementation(namespace, name);
+                Bifrost.configure.ready(function () {
+                    var resolvedSystem = resolveImplementation(namespace, name);
+                    if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                        promise.fail(new Bifrost.UnresolvedDependencies());
+                    }
 
-                if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                    throw new Bifrost.UnresolvedDependencies();
-                }
+                    if (resolvedSystem instanceof Bifrost.execution.Promise) {
+                        resolvedSystem.continueWith(function (system, innerPromise) {
 
-                if( resolvedSystem instanceof Bifrost.execution.Promise ) {
-                    resolvedSystem.continueWith(function(innerPromise, system) {
-
-                        beginHandleSystemInstance(system)
-                            .continueWith(function(next, actualSystem) {
+                            beginHandleSystemInstance(system)
+                            .continueWith(function (actualSystem, next) {
                                 promise.signal(handleSystemInstance(actualSystem));
                             });
-                    });
-                } else {
-                    promise.signal(handleSystemInstance(resolvedSystem));
-                }
+                        });
+                    } else {
+                        promise.signal(handleSystemInstance(resolvedSystem));
+                    }
+                });
 
                 return promise;
             }
@@ -286,15 +290,15 @@ Bifrost.namespace("Bifrost", {
     DefaultDependencyResolver: function () {
         var self = this;
 
-        this.doesNamespaceHave = function(namespace, name) {
+        this.doesNamespaceHave = function (namespace, name) {
             return namespace.hasOwnProperty(name);
         };
 
-        this.doesNamespaceHaveScriptReference = function(namespace, name) {
-            if( namespace.hasOwnProperty("_scripts") && Bifrost.isArray(namespace._scripts)) {
-                for( var i=0; i<namespace._scripts.length; i++ ) {
+        this.doesNamespaceHaveScriptReference = function (namespace, name) {
+            if (namespace.hasOwnProperty("_scripts") && Bifrost.isArray(namespace._scripts)) {
+                for (var i = 0; i < namespace._scripts.length; i++) {
                     var script = namespace._scripts[i];
-                    if( script === name ) {
+                    if (script === name) {
                         return true;
                     }
                 }
@@ -302,23 +306,23 @@ Bifrost.namespace("Bifrost", {
             return false;
         };
 
-        this.getFileName = function(namespace, name) {
+        this.getFileName = function (namespace, name) {
             var fileName = "";
-            if( typeof namespace._path !== "undefined" ) {
+            if (typeof namespace._path !== "undefined") {
                 fileName += namespace._path;
-                if( !fileName.endsWith("/") ) {
+                if (!fileName.endsWith("/")) {
                     fileName += "/";
                 }
-            } 
+            }
             fileName += name;
-            if( !fileName.endsWith(".js") ) {
+            if (!fileName.endsWith(".js")) {
                 fileName += ".js";
             }
             return fileName;
 
         };
 
-        this.loadScriptReference = function(namespace, name, promise) {
+        this.loadScriptReference = function (namespace, name, promise) {
             var fileName = self.getFileName(namespace, name);
             require([fileName], function (system) {
                 if (self.doesNamespaceHave(namespace, name)) {
@@ -331,11 +335,11 @@ Bifrost.namespace("Bifrost", {
 
         this.canResolve = function (namespace, name) {
             var current = namespace;
-            while (current != null) {
+            while (current != null && current != window) {
                 if (self.doesNamespaceHave(current, name)) {
                     return true;
                 }
-                if (self.doesNamespaceHaveScriptReference(current,name)) {
+                if (self.doesNamespaceHaveScriptReference(current, name) ) {
                     return true;
                 }
                 if (current === current.parent) break;
@@ -347,13 +351,12 @@ Bifrost.namespace("Bifrost", {
 
         this.resolve = function (namespace, name) {
             var current = namespace;
-            while (current != null) {
-                if (self.doesNamespaceHave(current,name)) {
+            while (current != null && current != window) {
+                if (self.doesNamespaceHave(current, name)) {
                     return current[name];
                 }
-                if (self.doesNamespaceHaveScriptReference(current,name)) {
-                    var promise = Bifrost.execution.Promise.create();
-
+                if (self.doesNamespaceHaveScriptReference(current, name) ) {
+                    var promise = Bifrost.execution.Promise.create();       
                     self.loadScriptReference(current, name, promise);
                     return promise;
                 }
@@ -431,7 +434,7 @@ Bifrost.namespace("Bifrost", {
                 .beginResolve(namespace, dependency)
                 .continueWith(function(result, nextPromise) {
                     instances[index] = result;
-                    resolvedCallback(result,nextPromise);
+                    resolvedCallback(result, nextPromise);
                 });
     };
 
@@ -480,15 +483,13 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
-    Bifrost.Type.instancesPerScope = {};
-
-
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
+        typeDefinition._typeId = Bifrost.Guid.create();
         return typeDefinition;
     };
 
@@ -523,9 +524,14 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
-        var scope = this.scope.getFor(this._namespace, this._name);
-        if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
-            return this.instancesPerScope[scope];
+        var scope = null;
+        if( this != Bifrost.Type ) {
+            this.instancesPerScope = this.instancesPerScope || {};
+
+            scope = this.scope.getFor(this._namespace, this._name, this._typeId);
+            if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
+                return this.instancesPerScope[scope];
+            }
         }
 
         var instance = null;
@@ -549,14 +555,14 @@ Bifrost.namespace("Bifrost", {
         var superPromise = Bifrost.execution.Promise.create();
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function(nextPromise, _super) {
+            this._super.beginCreate().continueWith(function(_super, nextPromise) {
                 superPromise.signal(_super);
             });
         } else {
             superPromise.signal(null);
         }
 
-        superPromise.continueWith(function(nextPromise, _super) {
+        superPromise.continueWith(function(_super, nextPromise) {
             self.prototype = _super;
 
             if( self._dependencies == null || 
@@ -567,7 +573,7 @@ Bifrost.namespace("Bifrost", {
                 promise.signal(instance);
             } else {
                 beginGetDependencyInstances(self._namespace, self)
-                    .continueWith(function(nextPromise, dependencies) {
+                    .continueWith(function(dependencies, nextPromise) {
                         var instanceHash = {};
                         expandDependenciesToInstanceHash(self, dependencies, instanceHash);
                         var instance = self.create(instanceHash);
@@ -777,33 +783,112 @@ Bifrost.Uri = (function(window, undefined) {
 		},
 	};
 })(window);
+﻿Bifrost.namespace("Bifrost", {
+    configure: (function () {
+        var self = this;
+
+        this.ready = false;
+        this.readyCallbacks = [];
+
+        function ready(callback) {
+            if (self.ready == true) {
+                callback();
+            } else {
+                readyCallbacks.push(callback);
+            }
+        }
+
+        function onReady() {
+            self.ready = true;
+            for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
+                self.readyCallbacks[callbackIndex]();
+            }
+        }
+
+        function onStartup() {
+            var self = this;
+
+            var promise = Bifrost.assetsManager.initialize();
+            promise.continueWith(function () {
+                self.onReady();
+            });
+
+            Bifrost.navigation.navigationManager.hookup();
+            Bifrost.features.featureManager.hookup($);
+        }
+
+        function reset() {
+            self.ready = false;
+            self.readyCallbacks = [];
+        }
+
+        return {
+            ready: ready,
+            onReady: onReady,
+            onStartup: onStartup,
+            reset: reset,
+            isReady: function () {
+                return self.ready;
+            }
+        }
+    })()
+});
+(function ($) {
+    $(function () {
+        if( typeof Bifrost.assetsManager !== "undefined" ) {
+            Bifrost.configure.onStartup();
+        }
+    });
+})(jQuery);
 Bifrost.namespace("Bifrost.execution", {
-	Promise: function() {
-		var self = this;
+    Promise: function () {
+        var self = this;
 
-		this.signalled = false;
-		this.callback = null;
+        this.signalled = false;
+        this.callback = null;
+        this.error = null;
+        this.hasFailed = false;
+        this.failedCallback = null;
 
-		this.signal = function(parameter) {
-			self.signalled = true;
+        function onSignal() {
+            if (self.callback != null && typeof self.callback !== "undefined") {
+                if (typeof self.signalParameter !== "undefined") {
+                    self.callback(self.signalParameter, Bifrost.execution.Promise.create());
+                } else {
+                    self.callback(Bifrost.execution.Promise.create());
+                }
+            }
+        }
 
-			self.signalParameter = parameter;
+        this.fail = function (error) {
+            if (self.failedCallback != null) self.failedCallback(error);
+            self.hasFailed = true;
+            self.error = error;
+            throw error;
+        };
 
-			if( self.callback != null && typeof self.callback !== "undefined" ) {
-				self.callback(Bifrost.execution.Promise.create(),self.signalParameter);
-			}
-		};
+        this.onFail = function (callback) {
+            if (self.hasFailed) {
+                callback(self.error);
+            } else {
+                self.failedCallback = callback;
+            }
+        };
 
-		this.continueWith = function(callback) {
-			var nextPromise = Bifrost.execution.Promise.create();
-			this.callback = callback;
 
-			if( self.signalled === true ) {
-				callback(nextPromise,self.signalParameter);
-			}
-			return nextPromise;
-		};
-	}
+        this.signal = function (parameter) {
+            self.signalled = true;
+            self.signalParameter = parameter;
+            onSignal();
+        };
+
+        this.continueWith = function (callback) {
+            var nextPromise = Bifrost.execution.Promise.create();
+            this.callback = callback;
+            if (self.signalled === true) onSignal();
+            return nextPromise;
+        };
+    }
 });
 
 Bifrost.execution.Promise.create = function() {
@@ -987,7 +1072,7 @@ if (typeof ko !== 'undefined') {
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
-            if ("extend" in target[property] && typeof target[property].extend === "function") {
+            if(target[property].hasOwnProperty("extend") && typeof target[property].extend === "function") {
                 target[property].extend({ validation: {} });
                 validators.push(target[property].validator);
             } else if (typeof target[property] === "object") {
@@ -2081,43 +2166,47 @@ Bifrost.namespace("Bifrost.navigation", {
     navigateTo: function (featureName, queryString) {
         var url = featureName;
 
-        if(featureName.charAt(0) !== "/")
+        if (featureName.charAt(0) !== "/")
             url = "/" + url;
-        if(queryString)
+        if (queryString)
             url += queryString;
-        
+
         // TODO: Support title somehow
-   	    History.pushState({feature:featureName}, "", url);
+        if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+            History.pushState({ feature: featureName }, "", url);
+        }
     },
     navigationManager: {
         hookup: function () {
-            $("body").click(function (e) {
-                var href = e.target.href;
-                if (typeof href == "undefined") {
-                    var closestAnchor = $(e.target).closest("a")[0];
-                    if (!closestAnchor) {
-                        return;
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                $("body").click(function (e) {
+                    var href = e.target.href;
+                    if (typeof href == "undefined") {
+                        var closestAnchor = $(e.target).closest("a")[0];
+                        if (!closestAnchor) {
+                            return;
+                        }
+                        href = closestAnchor.href;
                     }
-                    href = closestAnchor.href;
-                }
-                if (href.indexOf("#") > 0) {
-                    href = href.substr(0, href.indexOf("#"));
-                }
+                    if (href.indexOf("#") > 0) {
+                        href = href.substr(0, href.indexOf("#"));
+                    }
 
-                if (href.length == 0) {
-                    href = "/";
-                }
-                var targetUri = Bifrost.Uri.create(href);
-                if (targetUri.isSameAsOrigin) {
-                    var target = targetUri.path;
-                    while (target.indexOf("/") == 0) {
-                        target = target.substr(1);
+                    if (href.length == 0) {
+                        href = "/";
                     }
-                    e.preventDefault();
-                    var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                    History.pushState({}, "", "/" + target + queryString);
-                }
-            });
+                    var targetUri = Bifrost.Uri.create(href);
+                    if (targetUri.isSameAsOrigin) {
+                        var target = targetUri.path;
+                        while (target.indexOf("/") == 0) {
+                            target = target.substr(1);
+                        }
+                        e.preventDefault();
+                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                        History.pushState({}, "", "/" + target + queryString);
+                    }
+                });
+            }
         }
     }
 });
@@ -2167,13 +2256,6 @@ Bifrost.namespace("Bifrost.navigation", {
         return observable;
     }
 }
-﻿(function ($) {
-    $(function () {
-        Bifrost.assetsManager.initialize();
-        Bifrost.navigation.navigationManager.hookup();
-        Bifrost.features.featureManager.hookup($);
-    });
-})(jQuery);
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
@@ -2194,6 +2276,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
+@depends utils/configure.js
 @depends execution/Promise.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
@@ -2231,5 +2314,4 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
-@depends startup.js
 */

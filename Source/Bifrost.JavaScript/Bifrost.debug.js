@@ -110,7 +110,7 @@ Bifrost.namespace("Bifrost", {
 		return Object.prototype.toString.call(o) === '[object Array]';
 	}
 });
-Bifrost.namespace("Bifrost", {
+ï»¿Bifrost.namespace("Bifrost", {
     path: {
         getPathWithoutFilename: function (fullPath) {
             var lastIndex = fullPath.lastIndexOf("/");
@@ -148,7 +148,7 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 
-Bifrost.namespace("Bifrost", {
+ï»¿Bifrost.namespace("Bifrost", {
     assetsManager: {
         initialize: function () {
             var promise = Bifrost.execution.Promise.create();
@@ -286,7 +286,7 @@ Bifrost.namespace("Bifrost", {
         };
     })()
 });
-Bifrost.namespace("Bifrost", {
+ï»¿Bifrost.namespace("Bifrost", {
     DefaultDependencyResolver: function () {
         var self = this;
 
@@ -524,10 +524,14 @@ Bifrost.namespace("Bifrost", {
             dependencyInstances = getDependencyInstances(this._namespace, this);
         }
         
-        this.instancesPerScope = this.instancesPerScope || {};
-        var scope = this.scope.getFor(this._namespace, this._name, this._typeId);
-        if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
-            return this.instancesPerScope[scope];
+        var scope = null;
+        if( this != Bifrost.Type ) {
+            this.instancesPerScope = this.instancesPerScope || {};
+
+            scope = this.scope.getFor(this._namespace, this._name, this._typeId);
+            if (scope != null && this.instancesPerScope.hasOwnProperty(scope)) {
+                return this.instancesPerScope[scope];
+            }
         }
 
         var instance = null;
@@ -582,19 +586,9 @@ Bifrost.namespace("Bifrost", {
         return promise;
     };
 })();
-Bifrost.namespace("Bifrost", {
+ï»¿Bifrost.namespace("Bifrost", {
     Singleton: function (typeDefinition) {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
-        /*
-        var identifier = Bifrost.Guid.create();
-        var type = Bifrost.Type.extend(typeDefinition);
-        window._singletons = window._singletons || {};
-        return type.scopeTo(function (namespace, name) {
-            
-        var exists = typeof window._singletons[identifier] !== "undefined";
-        window._singletons[identifier] = true;
-        return window;
-        });*/
     }
 });
 Bifrost.namespace("Bifrost");
@@ -717,16 +711,16 @@ Bifrost.Uri = (function(window, undefined) {
 	/* parseUri JS v0.1, by Steven Levithan (http://badassery.blogspot.com)
 	Splits any well-formed URI into the following parts (all are optional):
 	----------------------
-	• source (since the exec() method returns backreference 0 [i.e., the entire match] as key 0, we might as well use it)
-	• protocol (scheme)
-	• authority (includes both the domain and port)
-	    • domain (part of the authority; can be an IP address)
-	    • port (part of the authority)
-	• path (includes both the directory path and filename)
-	    • directoryPath (part of the path; supports directories with periods, and without a trailing backslash)
-	    • fileName (part of the path)
-	• query (does not include the leading question mark)
-	• anchor (fragment)
+	â€¢ source (since the exec() method returns backreference 0 [i.e., the entire match] as key 0, we might as well use it)
+	â€¢ protocol (scheme)
+	â€¢ authority (includes both the domain and port)
+	    â€¢ domain (part of the authority; can be an IP address)
+	    â€¢ port (part of the authority)
+	â€¢ path (includes both the directory path and filename)
+	    â€¢ directoryPath (part of the path; supports directories with periods, and without a trailing backslash)
+	    â€¢ fileName (part of the path)
+	â€¢ query (does not include the leading question mark)
+	â€¢ anchor (fragment)
 	*/
 	function parseUri(sourceUri){
 	    var uriPartNames = ["source","protocol","authority","domain","port","path","directoryPath","fileName","query","anchor"];
@@ -789,7 +783,7 @@ Bifrost.Uri = (function(window, undefined) {
 		},
 	};
 })(window);
-Bifrost.namespace("Bifrost", {
+ï»¿Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
 
@@ -1005,7 +999,7 @@ Bifrost.validation.Validator = (function () {
     }
 })();
 
-if (typeof ko !== 'undefined') {
+ï»¿if (typeof ko !== 'undefined') {
     Bifrost.namespace("Bifrost.validation", {
         ValidationSummary: function (commands) {
             var self = this;
@@ -1074,7 +1068,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 
-Bifrost.namespace("Bifrost.validation");
+ï»¿Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.validationService = (function () {
     function extendProperties(target, validators) {
         for (var property in target) {
@@ -2138,7 +2132,7 @@ Bifrost.namespace("Bifrost.messaging", {
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
 
-if (typeof ko !== 'undefined') {
+ï»¿if (typeof ko !== 'undefined') {
     ko.observableMessage = function (message, defaultValue) {
         var observable = ko.observable(defaultValue);
 
@@ -2216,7 +2210,7 @@ Bifrost.namespace("Bifrost.navigation", {
         }
     }
 });
-if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
+ï»¿if (typeof History !== "undefined" && typeof History.Adapter !== "undefined" && typeof ko !== "undefined") {
     ko.observableQueryParameter = function (parameterName, defaultValue) {
         var self = this;
         var observable = null;
