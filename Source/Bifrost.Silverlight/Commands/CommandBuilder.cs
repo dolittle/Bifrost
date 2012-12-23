@@ -1,19 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Bifrost.Dynamic;
-using System.Dynamic;
-using System;
-using Castle.DynamicProxy;
+
 namespace Bifrost.Commands
 {
-    public class CommandInterceptor : IInterceptor
-    {
-        public void Intercept(IInvocation invocation)
-        {
-            invocation.Proceed();
-        }
-    }
-
     /// <summary>
     /// Represents a <see cref="ICommandBuilder"/> for building commands with
     /// </summary>
@@ -40,11 +31,7 @@ namespace Bifrost.Commands
 
             ICommand command;
 
-            if (Type != null)
-                command = CreateSpecificTypeInstance();
-            else 
-                command = new Command(_commandCoordinator);
-
+            command = new Command(_commandCoordinator);
             command.Name = Name;
 
             if (Parameters is IDictionary)
@@ -62,20 +49,6 @@ namespace Bifrost.Commands
         public Type Type { get; set; } 
 #pragma warning restore 1591 // Xml Comments
 
-
-        ICommand CreateSpecificTypeInstance()
-        {
-            //var options = new ProxyGenerationOptions();
-            //options.AddMixinInstance(new Command(_commandCoordinator));
-            var generator = new ProxyGenerator();
-
-            //var actualCommand = (ICommand)Activator.CreateInstance(Type);
-            //var command = generator.CreateInterfaceProxyWithTarget<ICommand>(
-                //CreateInterfaceProxyWithTarget<ICommand>(actualCommand, new CommandInterceptor());
-            var command = generator.CreateInterfaceProxyWithoutTarget<ICommand>(new CommandInterceptor());
-                //CreateClassProxy(Type, new CommandInterceptor()) as ICommand;
-            return command;
-        }
 
 
         void PopulateParametersFromDictionary(ICommand command)
