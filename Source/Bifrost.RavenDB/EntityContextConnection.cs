@@ -60,6 +60,10 @@ namespace Bifrost.RavenDB
 
         public void Initialize(IContainer container)
         {
+            DocumentStore.Conventions.CustomizeJsonSerializer = s =>
+            {
+                s.Converters.Add(new MethodInfoConverter());
+            };
             DocumentStore.Conventions.FindTypeTagName = t =>
             {
                 if (t.HasInterface<IEvent>() || t == typeof(IEvent))
