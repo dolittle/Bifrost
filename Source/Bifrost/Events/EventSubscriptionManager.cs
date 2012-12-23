@@ -36,6 +36,7 @@ namespace Bifrost.Events
     [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
+        IEnumerable<EventSubscription> _subscriptionsFromRepository;
         List<EventSubscription> _allSubscriptions;
         List<EventSubscription> _availableSubscriptions;
         IEventSubscriptionRepository _repository;
@@ -61,6 +62,7 @@ namespace Bifrost.Events
         {
             _allSubscriptions = new List<EventSubscription>();
             _availableSubscriptions = new List<EventSubscription>();
+            _subscriptionsFromRepository = _repository.GetAll();
             CollectAvailableSubscribers();
             MergeSubscribersFromRepository();
         }
@@ -124,7 +126,7 @@ namespace Bifrost.Events
 
             foreach (var eventSubscriberType in eventSubscriberTypes)
             {
-                var subscribers = (from m in 
+                var subscriptions = (from m in 
 #if(NETFX_CORE)
                                        eventSubscriberType.GetTypeInfo().DeclaredMethods
 #else
@@ -147,15 +149,29 @@ namespace Bifrost.Events
                                       LastEventId = 0
                                   }).ToArray();
 
-                _availableSubscriptions.AddRange(subscribers);
-                _allSubscriptions.AddRange(subscribers);
+                _availableSubscriptions.AddRange(subscriptions);
+                AddOrUseExistingSubscription(subscriptions);
+            }
+        }
+
+        void AddOrUseExistingSubscription(IEnumerable<EventSubscription> subscriptions)
+        {
+            foreach (var subscription in subscriptions)
+            {
+                if (_subscriptionsFromRepository.Contains(subscription))
+                {
+                    var existing = _subscriptionsFromRepository.Where(s => s.Equals(subscription)).Single();
+                    _allSubscriptions.Add(existing);
+                }
+                else
+                    _allSubscriptions.Add(subscription);
             }
         }
 
         void MergeSubscribersFromRepository()
         {
-            var subscribersFromRepository = _repository.GetAll();
-            var subscribersToUpdate = subscribersFromRepository.Where(s => _availableSubscriptions.Where(ss => ss.Equals(s)).Count() == 1);
+            /*
+            var subscribersToUpdate = _subscriptionsFromRepository.Where(s => _availableSubscriptions.Where(ss => ss.Equals(s)).Count() == 1);
             foreach (var subscriber in subscribersToUpdate)
             {
                 var subscriberToUpdate = _availableSubscriptions.Where(s => s.Equals(subscriber)).Single();
@@ -163,10 +179,11 @@ namespace Bifrost.Events
                 if (subscriber.LastEventId > subscriberToUpdate.LastEventId)
                     subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }
-            var subscribersNotInProcess = subscribersFromRepository.Where(s => !_availableSubscriptions.Contains(s));
+             * */
+            var subscribersNotInProcess = _subscriptionsFromRepository.Where(s => !_availableSubscriptions.Contains(s));
             _allSubscriptions.AddRange(subscribersNotInProcess);
-
-            var subscribersNotInRepository = _availableSubscriptions.Where(s => !subscribersFromRepository.Contains(s));
+            
+            var subscribersNotInRepository = _availableSubscriptions.Where(s => !_subscriptionsFromRepository.Contains(s));
             foreach (var subscriber in subscribersNotInRepository)
                 _repository.Add(subscriber);
         }
