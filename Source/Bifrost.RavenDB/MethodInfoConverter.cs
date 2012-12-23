@@ -19,7 +19,7 @@ namespace Bifrost.RavenDB
             var className = jsonObject.Property("ClassName").Value.ToString();
             var name = jsonObject.Property("Name").Value.ToString();
             var assemblyName = jsonObject.Property("AssemblyName").Value.ToString();
-            var signature = jsonObject.Property("Signature2").Value.ToString();
+            var signature = jsonObject.Property("Signature").Value.ToString();
 
             var start = signature.IndexOf('(') + 1;
             var end = signature.IndexOf(')');
