@@ -13,6 +13,18 @@ namespace Bifrost.Events
 		/// </summary>
         public static readonly EventSourceVersion Zero = new EventSourceVersion {Commit = 0, Sequence = 0};
 
+        /// <summary>
+        /// Creates an <see cref="EventSourceVersion"/> from a combined floating point
+        /// </summary>
+        /// <param name="combined"></param>
+        /// <returns></returns>
+        public static EventSourceVersion FromCombined(double combined)
+        {
+            var commit = (int)combined;
+            var sequence = (int)Math.Round(((combined - (double)commit) * SEQUENCE_DIVISOR));
+            return new EventSourceVersion { Commit = commit, Sequence = sequence };
+        }
+
 		/// <summary>
 		/// Initializes a new instance of <see cref="EventSourceVersion"/>
 		/// </summary>
@@ -88,10 +100,10 @@ namespace Bifrost.Events
         /// where the Commit is before the decimal place and Sequence is after.
         /// </summary>
         /// <returns></returns>
-        public float Combine()
+        public double Combine()
         {
-            var majorNumber = (float) Commit;
-            var minorNumber = ((float)Sequence / SEQUENCE_DIVISOR);
+            var majorNumber = (double) Commit;
+            var minorNumber = ((double)Sequence / SEQUENCE_DIVISOR);
             var versionAsFloat = majorNumber + minorNumber;
             return versionAsFloat;
         }

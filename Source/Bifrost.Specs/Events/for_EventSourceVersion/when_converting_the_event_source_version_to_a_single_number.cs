@@ -1,28 +1,29 @@
 ﻿using System;
 
 using Machine.Specifications;
+using Bifrost.Events;
 
 namespace Bifrost.Specs.Events.for_EventSourceVersion
 {
-    [Subject(typeof (Type))]
+    [Subject(typeof (EventSourceVersion))]
     public class when_converting_the_event_source_version_to_a_single_number : given.a_range_of_event_source_versions
     {
-        static float low_low_version;
-        static float low_high_version;
-        static float high_low_version;
-        static float high_high_version;
+        static double low_low_version;
+        static double low_high_version;
+        static double high_low_version;
+        static double high_high_version;
 
-        static float expected_low_low_version;
-        static float expected_low_high_version;
-        static float expected_high_low_version;
-        static float expected_high_high_version;
+        static double expected_low_low_version;
+        static double expected_low_high_version;
+        static double expected_high_low_version;
+        static double expected_high_high_version;
 
         Establish context = () =>
                          {
-                            expected_low_low_version = 1.0002f;
-                            expected_low_high_version = 1.02f;
-                            expected_high_low_version = 100000.0002f;
-                            expected_high_high_version = 100000.02f;
+                            expected_low_low_version = 1.0002;
+                            expected_low_high_version = 1.02;
+                            expected_high_low_version = 100000.0002;
+                            expected_high_high_version = 100000.02;
                          };
 
         Because of = () =>

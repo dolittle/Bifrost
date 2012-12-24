@@ -60,6 +60,7 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
+    <Compile Include="EventSourceVersionConverter.cs" />
     <Compile Include="MethodInfoConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequentialKeyGenerator.cs" />

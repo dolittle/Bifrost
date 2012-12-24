@@ -98,7 +98,11 @@ namespace Bifrost.Events
 
         public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
         {
-            var @event = _entityContext.Entities.Where(e => e.EventSourceId == aggregateId).OrderByDescending(e => e.Version).FirstOrDefault();
+            var @event = _entityContext.Entities
+                .Where(e => e.EventSourceId == aggregateId)
+                    .OrderByDescending(e => e.Version)
+                .FirstOrDefault();
+
             if (@event == null)
                 return EventSourceVersion.Zero;
 
