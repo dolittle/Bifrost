@@ -170,7 +170,6 @@ namespace Bifrost.Events
 
         void MergeSubscribersFromRepository()
         {
-            /*
             var subscribersToUpdate = _subscriptionsFromRepository.Where(s => _availableSubscriptions.Where(ss => ss.Equals(s)).Count() == 1);
             foreach (var subscriber in subscribersToUpdate)
             {
@@ -179,7 +178,7 @@ namespace Bifrost.Events
                 if (subscriber.LastEventId > subscriberToUpdate.LastEventId)
                     subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }
-             * */
+            
             var subscribersNotInProcess = _subscriptionsFromRepository.Where(s => !_availableSubscriptions.Contains(s));
             _allSubscriptions.AddRange(subscribersNotInProcess);
             
