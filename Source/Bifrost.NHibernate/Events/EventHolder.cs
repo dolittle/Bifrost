@@ -67,7 +67,7 @@ namespace Bifrost.NHibernate.Events
         /// <summary>
         /// Gets or sets the version for the event
         /// </summary>
-        public float Version { get; set; }
+        public double Version { get; set; }
 
         /// <summary>
         /// Gets or sets the serialized event.
