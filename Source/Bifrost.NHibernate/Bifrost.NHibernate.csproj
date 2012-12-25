@@ -60,13 +60,17 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
+    <Compile Include="Events\EventClassMap.cs" />
     <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventHolder.cs" />
     <Compile Include="Events\EventHolderClassMap.cs" />
+    <Compile Include="Events\EventSourceVersionCustomType.cs" />
     <Compile Include="Events\EventSubscriptionClassMap.cs" />
     <Compile Include="Events\IEventConverter.cs" />
     <Compile Include="Sagas\SagaHolderClassMap.cs" />
+    <Compile Include="UserTypes\MethodInfoUserType.cs" />
     <Compile Include="UserTypes\ImmutableUserType.cs" />
+    <Compile Include="UserTypes\TypeUserType.cs" />
     <Compile Include="UserTypes\UserTypeBase.cs" />
   </ItemGroup>
   <ItemGroup>

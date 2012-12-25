@@ -110,10 +110,10 @@ namespace Bifrost.Configuration
         
         private static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
         {
-            var configurationType = configuration.Connection.GetType();
+            var connectionType = configuration.Connection.GetType();
 
-            if(!container.HasBindingFor(configurationType))
-                container.Bind(configurationType, configuration.Connection);
+            if(!container.HasBindingFor(connectionType))
+                container.Bind(connectionType, configuration.Connection);
         }
 
     }

@@ -30,17 +30,8 @@ namespace Bifrost.NHibernate.Configuration
     [ElementName("NHibernate")]
     public class NHibernateStorageElement : StorageElement
     {
-        readonly IAssemblyLocator _assemblyLocator;
-        readonly ITypeDiscoverer _typeDiscoverer;
-
-        public NHibernateStorageElement()
-            : this(Configure.Instance.Container.Get<IAssemblyLocator>(),
-                Configure.Instance.Container.Get<ITypeDiscoverer>()) { }
-
         public NHibernateStorageElement(IAssemblyLocator assemblyLocator, ITypeDiscoverer typeDiscoverer)
         {
-            _assemblyLocator = assemblyLocator;
-            _typeDiscoverer = typeDiscoverer;
             EntityContextType = typeof(EntityContext<>);
         }
 
@@ -49,7 +40,7 @@ namespace Bifrost.NHibernate.Configuration
         public override IEntityContextConfiguration GetConfiguration()
         {
             var configuration = new EntityContextConfiguration();
-            var connection = new EntityContextConnection(_typeDiscoverer);
+            var connection = new EntityContextConnection();
             connection.FluentConfiguration.Database(
                 MsSqlConfiguration.MsSql2008.ConnectionString(ConnectionString));
 

@@ -26,34 +26,32 @@ using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
+using NHibernate.Event;
 
 namespace Bifrost.NHibernate
 {
 	public class EntityContextConnection : IEntityContextConnection
 	{
-        ITypeDiscoverer _typeDiscoverer;
-
 		public ISessionFactory SessionFactory { get; private set; }
 		public FluentConfiguration FluentConfiguration { get; private set; }
 		public global::NHibernate.Cfg.Configuration Configuration { get; private set; }
 
-		public EntityContextConnection(ITypeDiscoverer typeDiscoverer)
-		{
-            _typeDiscoverer = typeDiscoverer;
-			FluentConfiguration = Fluently.Configure().
-				Mappings(m => DiscoverClassMapsAndAddAssemblies(m));
-
-		}
-
-        void DiscoverClassMapsAndAddAssemblies(MappingConfiguration mappings)
+        public EntityContextConnection()
         {
-            var assemblies = _typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
+            FluentConfiguration = Fluently.Configure();
+        }
+
+        void DiscoverClassMapsAndAddAssemblies(ITypeDiscoverer typeDiscoverer, MappingConfiguration mappings)
+        {
+            var assemblies = typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
             foreach (var assembly in assemblies)
                 mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never());
         }
 
         public void Initialize(IContainer container)
         {
+            var typeDiscoverer = container.Get<ITypeDiscoverer>();
+            FluentConfiguration.Mappings(m => DiscoverClassMapsAndAddAssemblies(typeDiscoverer, m));
             Configuration = FluentConfiguration.BuildConfiguration();
             SessionFactory = Configuration.BuildSessionFactory();
         }

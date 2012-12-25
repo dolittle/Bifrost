@@ -22,6 +22,7 @@
 
 using Bifrost.Events;
 using FluentNHibernate.Mapping;
+using NHibernate.Persister.Entity;
 
 namespace Bifrost.NHibernate.Events
 {
@@ -30,6 +31,7 @@ namespace Bifrost.NHibernate.Events
 		public EventHolderClassMap()
 		{
 			Table("Events");
+
             Id(p => p.Id).GeneratedBy.Increment();
             Map(p => p.Name);
             Map(p => p.CommandName);

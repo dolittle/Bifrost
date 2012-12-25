@@ -86,13 +86,14 @@ namespace Bifrost.NHibernate
 
         public T GetById<TProperty>(TProperty id)
         {
-            throw new System.NotImplementedException();
+            return _session.Get<T>(id);
         }
 
 
         public void DeleteById<TProperty>(TProperty id)
         {
-            throw new System.NotImplementedException();
+            var entity = _session.Get<T>(id);
+            _session.Delete(entity);
         }
     }
 }
