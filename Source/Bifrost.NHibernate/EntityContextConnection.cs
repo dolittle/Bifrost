@@ -26,7 +26,6 @@ using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
-using NHibernate.Event;
 
 namespace Bifrost.NHibernate
 {
