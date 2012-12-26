@@ -20,7 +20,7 @@ namespace Bifrost.SignalR.Events
                 _commandCoordinatorEvents.EventsProcessed(commandContext);
         }
 
-        private static List<Guid> GetUniqueCommandContextsFromEvents(EventStream streamOfEvents)
+        List<Guid> GetUniqueCommandContextsFromEvents(EventStream streamOfEvents)
         {
             var commandContextsToNotify = new List<Guid>();
             foreach (var @event in streamOfEvents)
