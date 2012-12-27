@@ -753,12 +753,14 @@
     <Compile Include="..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\AmbiguousConstructorsException.cs" />
     <Compile Include="Commands\Command.Silverlight.cs" />
     <Compile Include="Commands\ClientCommandCoordinator.cs" />
     <Compile Include="Commands\CommandBuilder.cs" />
     <Compile Include="Commands\CommandBuilderExtensions.cs" />
     <Compile Include="Commands\CommandBuildingConventions.cs" />
     <Compile Include="Commands\CommandConstructorParameterConvention.cs" />
+    <Compile Include="Commands\CommandConstructorParameterMissing.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandNameConvention.cs" />
     <Compile Include="Commands\CommandNameMissingException.cs" />
