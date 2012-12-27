@@ -110,7 +110,7 @@ namespace Bifrost.Events
             MergeSubscribersFromRepository();
 
             var eventType = @event.GetType();
-            var subscriptionsToProcess = _availableSubscriptions.Where(s => s.EventType.Equals(eventType));
+            var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
             {
                 if (!subscriptionToProcess.ShouldProcess(@event))
