@@ -48,8 +48,11 @@ namespace Bifrost.Commands
 
             foreach (var property in GetCommandProperties(typeof(T)))
             {
-                var instance = BuildFromName(property.Name, conventions).GetInstance();
-                property.SetValue(target, instance, null);
+                if (property.GetValue(target, null) == null)
+                {
+                    var instance = BuildFromName(property.Name, conventions).GetInstance();
+                    property.SetValue(target, instance, null);
+                }
             }
             
         }
