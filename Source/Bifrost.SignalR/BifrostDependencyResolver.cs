@@ -9,6 +9,7 @@ namespace Bifrost.SignalR
     public class BifrostDependencyResolver : DefaultDependencyResolver
     {
         IContainer _container;
+
         public BifrostDependencyResolver(IContainer container)
         {
             _container = container;
@@ -16,26 +17,25 @@ namespace Bifrost.SignalR
 
         public override object GetService(Type serviceType)
         {
-            try
-            {
+            if (!IsSignalRInternalType(serviceType) )
                 return _container.Get(serviceType);
-            }
-            catch
-            {
-                return base.GetService(serviceType);
-            }
+
+            return base.GetService(serviceType);
         }
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            try
-            {
+            if (!IsSignalRInternalType(serviceType) )
                 return _container.GetAll(serviceType).Concat(base.GetServices(serviceType));
-            }
-            catch
-            {
-                return base.GetServices(serviceType);
-            }
+
+            return base.GetServices(serviceType);
         }
+
+
+        bool IsSignalRInternalType(Type serviceType)
+        {
+            return serviceType.Namespace.StartsWith("SignalR");
+        }
+
     }
 }
