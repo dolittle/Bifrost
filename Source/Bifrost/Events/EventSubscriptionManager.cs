@@ -19,11 +19,10 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
-using Bifrost.Time;
+
 #if(NETFX_CORE)
 using System.Reflection;
 #endif
@@ -58,17 +57,7 @@ namespace Bifrost.Events
             Initialize();
         }
 
-        void Initialize()
-        {
-            _allSubscriptions = new List<EventSubscription>();
-            _availableSubscriptions = new List<EventSubscription>();
-            _subscriptionsFromRepository = _repository.GetAll();
-            CollectAvailableSubscribers();
-            MergeSubscribersFromRepository();
-        }
-
 #pragma warning disable 1591 // Xml Comments
-
         public IEnumerable<EventSubscription> GetAllSubscriptions()
         {
             return _allSubscriptions;
@@ -120,6 +109,17 @@ namespace Bifrost.Events
             }
         }
 #pragma warning restore 1591 // Xml Comments
+
+        void Initialize()
+        {
+            _allSubscriptions = new List<EventSubscription>();
+            _availableSubscriptions = new List<EventSubscription>();
+            _subscriptionsFromRepository = _repository.GetAll();
+            CollectAvailableSubscribers();
+            MergeSubscribersFromRepository();
+        }
+
+
         void CollectAvailableSubscribers()
         {
             var eventSubscriberTypes = _typeDiscoverer.FindMultiple<IEventSubscriber>();

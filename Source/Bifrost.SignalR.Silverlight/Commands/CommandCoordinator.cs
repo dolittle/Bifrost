@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
@@ -8,7 +9,6 @@ using Bifrost.Sagas;
 using Bifrost.Serialization;
 using Bifrost.SignalR.Silverlight.Hubs;
 using SignalR.Client.Hubs;
-using System.Collections.Generic;
 
 namespace Bifrost.SignalR.Silverlight.Commands
 {
