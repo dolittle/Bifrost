@@ -71,6 +71,7 @@
     <Compile Include="Commands\for_CommandBuilderExtensions\given\an_empty_command_builder.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_name.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters.cs" />
+    <Compile Include="Commands\for_CommandBuilder\given\an_empty_command_builder_for_known_command.cs" />
     <Compile Include="Commands\for_CommandBuilder\KnownCommand.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_calling_execute_on_command_from_builder.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_a_known_command.cs" />

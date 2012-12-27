@@ -26,18 +26,18 @@ namespace Bifrost.Commands
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ICommandBuilder BuildFrom<TC>(Expression<Func<TC>> property, ICommandBuildingConventions conventions = null) where TC:ICommand
+        public ICommandBuilder<TC> BuildFrom<TC>(Expression<Func<TC>> property, ICommandBuildingConventions conventions = null) where TC:ICommand
         {
             if (conventions == null) conventions = _conventions;
 
             var propertyName = property.GetPropertyInfo().Name;
-            var builder = BuildFromName(propertyName, conventions);
+            var builder = BuildFromName<TC>(propertyName, conventions);
             return builder;
         }
 
-        public ICommandBuilder BuildFor<TC>() where TC : ICommand, new()
+        public ICommandBuilder<TC> BuildFor<TC>() where TC : ICommand, new()
         {
-            var builder = new CommandBuilder(_commandCoordinator);
+            var builder = new CommandBuilder<TC>(_commandCoordinator);
             builder.WithName(typeof(TC).Name);
             return builder;
         }
@@ -50,7 +50,7 @@ namespace Bifrost.Commands
             {
                 if (property.GetValue(target, null) == null)
                 {
-                    var instance = BuildFromName(property.Name, conventions).GetInstance();
+                    var instance = BuildFromName<Command>(property.Name, conventions).GetInstance();
                     property.SetValue(target, instance, null);
                 }
             }
@@ -58,9 +58,9 @@ namespace Bifrost.Commands
         }
 #pragma warning restore 1591 // Xml Comments
 
-        CommandBuilder BuildFromName(string name, ICommandBuildingConventions conventions)
+        CommandBuilder<TC> BuildFromName<TC>(string name, ICommandBuildingConventions conventions) where TC:ICommand
         {
-            var builder = new CommandBuilder(_commandCoordinator);
+            var builder = new CommandBuilder<TC>(_commandCoordinator);
             builder.WithName(conventions.CommandName(name));
             return builder;
         }

@@ -6,7 +6,7 @@ namespace Bifrost.Silverlight.Specs.Commands.for_CommandFactory
     public class when_building_from_a_property_with_custom_conventions : given.a_command_factory
     {
         static ViewModelWithCommandsOnly view_model;
-        static ICommandBuilder builder;
+        static ICommandBuilder<ICommand> builder;
         static CommandBuildingConventions custom_conventions;
 
         Establish context = () =>

@@ -14,7 +14,7 @@ namespace Bifrost.Commands
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
         /// <param name="name">Name of command</param>
         /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
-        public static ICommandBuilder WithName(this ICommandBuilder commandBuilder, string name)
+        public static ICommandBuilder<TC> WithName<TC>(this ICommandBuilder<TC> commandBuilder, string name) where TC:ICommand
         {
             commandBuilder.Name = name;
             return commandBuilder;
@@ -26,7 +26,7 @@ namespace Bifrost.Commands
         /// <typeparam name="TC">Type of <see cref="ICommand"/> to build</typeparam>
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
         /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
-        public static ICommandBuilder WithType<TC>(this ICommandBuilder commandBuilder) where TC : ICommand, new()
+        public static ICommandBuilder<TC> WithType<TC>(this ICommandBuilder<TC> commandBuilder) where TC : ICommand, new()
         {
             return commandBuilder;
         }
@@ -37,7 +37,7 @@ namespace Bifrost.Commands
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
         /// <param name="parameters">Default parameters to use</param>
         /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
-        public static ICommandBuilder WithParameters(this ICommandBuilder commandBuilder, dynamic parameters)
+        public static ICommandBuilder<TC> WithParameters<TC>(this ICommandBuilder<TC> commandBuilder, dynamic parameters) where TC : ICommand
         {
             commandBuilder.Parameters = parameters;
             return commandBuilder;
@@ -50,7 +50,7 @@ namespace Bifrost.Commands
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
         /// <param name="populateParameters"><see cref="Action"/> that gets called for populating the parameters</param>
         /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
-        public static ICommandBuilder WithParameters(this ICommandBuilder commandBuilder, Action<dynamic> populateParameters)
+        public static ICommandBuilder<TC> WithParameters<TC>(this ICommandBuilder<TC> commandBuilder, Action<dynamic> populateParameters) where TC:ICommand
         {
             commandBuilder.Parameters = new ExpandoObject();
             populateParameters(commandBuilder.Parameters);

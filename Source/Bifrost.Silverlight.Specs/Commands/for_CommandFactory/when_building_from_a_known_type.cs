@@ -5,7 +5,7 @@ namespace Bifrost.Silverlight.Specs.Commands.for_CommandFactory
 {
     public class when_building_from_a_known_type : given.a_command_factory
     {
-        static ICommandBuilder builder;
+        static ICommandBuilder<KnownCommand> builder;
 
         Establish context = () => { };
 

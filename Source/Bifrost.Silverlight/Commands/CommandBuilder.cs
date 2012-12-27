@@ -8,7 +8,8 @@ namespace Bifrost.Commands
     /// <summary>
     /// Represents a <see cref="ICommandBuilder"/> for building commands with
     /// </summary>
-    public class CommandBuilder : ICommandBuilder
+    public class CommandBuilder<T> : ICommandBuilder<T> 
+        where T:ICommand
     {
         ICommandCoordinator _commandCoordinator;
 
@@ -22,16 +23,23 @@ namespace Bifrost.Commands
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ICommand GetInstance()
+        public T GetInstance()
         {
             ThrowIfNameIsMissing();
 
             if (Parameters != null)
                 ThrowIfParametersAreAnonymousType();
 
-            ICommand command;
+            T command;
 
-            command = new Command(_commandCoordinator);
+            var typeToCreate = typeof(T);
+            if (typeToCreate == typeof(ICommand))
+            {
+                typeToCreate = typeof(Command);
+            }
+
+            command = (T)Activator.CreateInstance(typeToCreate);
+            command.CommandCoordinator = _commandCoordinator;
             command.Name = Name;
 
             if (Parameters is IDictionary)
