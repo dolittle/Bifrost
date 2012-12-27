@@ -46,17 +46,32 @@ namespace Bifrost.Commands
         {
             if (conventions == null) conventions = _conventions;
 
+            ICommand instance = null;
             foreach (var property in GetCommandProperties(typeof(T)))
             {
                 if (property.GetValue(target, null) == null)
                 {
-                    var instance = BuildFromName<Command>(property.Name, conventions).GetInstance();
+                    if (property.PropertyType == typeof(ICommand))
+                        instance = BuildFromName<Command>(property.Name, conventions).GetInstance();
+                    else
+                    {
+                        var builder = CreateCommandBuilderFor(property.PropertyType);
+                        instance = (ICommand)builder.GetType().GetMethod("GetInstance").Invoke(builder,null);
+                    }
                     property.SetValue(target, instance, null);
                 }
             }
             
         }
 #pragma warning restore 1591 // Xml Comments
+
+        object CreateCommandBuilderFor(Type commandType)
+        {
+            var genericType = typeof(CommandBuilder<>).MakeGenericType(commandType);
+            var builder = Activator.CreateInstance(genericType, _commandCoordinator, _conventions);
+            return builder;
+        }
+
 
         CommandBuilder<TC> BuildFromName<TC>(string name, ICommandBuildingConventions conventions) where TC:ICommand
         {

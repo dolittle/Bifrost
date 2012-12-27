@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Dynamic;
+
 namespace Bifrost.Commands
 {
     /// <summary>
@@ -20,14 +20,16 @@ namespace Bifrost.Commands
             return commandBuilder;
         }
 
+
         /// <summary>
         /// Indicates that the command builder should build with a specific type in mind
         /// </summary>
         /// <typeparam name="TC">Type of <see cref="ICommand"/> to build</typeparam>
         /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
         /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
-        public static ICommandBuilder<TC> WithType<TC>(this ICommandBuilder<TC> commandBuilder) where TC : ICommand, new()
+        public static ICommandBuilder<TC> WithType<TC>(this ICommandBuilder<TC> commandBuilder, Type type) where TC : ICommand
         {
+            commandBuilder.Type = type;
             return commandBuilder;
         }
 
@@ -54,6 +56,23 @@ namespace Bifrost.Commands
         {
             commandBuilder.Parameters = new ExpandoObject();
             populateParameters(commandBuilder.Parameters);
+            return commandBuilder;
+        }
+
+        /// <summary>
+        /// Gives a command being built, its constructor parameters for when it gets created
+        /// </summary>
+        /// <typeparam name="TC"></typeparam>
+        /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
+        /// <param name="constructorParameters">The constructor parameters used when creating an instance of the <see cref="ICommand"/></param>
+        /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
+        /// <remarks>
+        /// The order of the parameters must match the constructor.
+        /// Also; the amount of parameters must match as well
+        /// </remarks>
+        public static ICommandBuilder<TC> WithConstructorParameters<TC>(this ICommandBuilder<TC> commandBuilder, params object[] constructorParameters) where TC : ICommand
+        {
+            commandBuilder.ConstructorParameters = constructorParameters;
             return commandBuilder;
         }
 

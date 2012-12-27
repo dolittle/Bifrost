@@ -21,9 +21,7 @@
 #endregion
 using System;
 using System.Reflection;
-#if(NETFX_CORE)
 using System.Linq;
-#endif
 
 namespace Bifrost.Extensions
 {
@@ -54,6 +52,39 @@ namespace Bifrost.Extensions
         {
             return GetTypeInfo(type).HasDefaultConstructor;
         }
+
+
+        /// <summary>
+        /// Check if a type has a non default constructor
+        /// </summary>
+        /// <param name="type">Type to check</param>
+        /// <returns>true if it has a non default constructor, false if not</returns>
+        public static bool HasNonDefaultConstructor(this Type type)
+        {
+            return type.GetConstructors().Any(c => c.GetParameters().Length > 0);
+        }
+
+
+        /// <summary>
+        /// Get the default constructor from a type
+        /// </summary>
+        /// <param name="type">Type to get from</param>
+        /// <returns>The default <see cref="ConstructorInfo"/></returns>
+        public static ConstructorInfo GetDefaultConstructor(this Type type)
+        {
+            return type.GetConstructors().Where(c => c.GetParameters().Length == 0).Single();
+        }
+
+        /// <summary>
+        /// Get the non default constructor, assuming there is only one
+        /// </summary>
+        /// <param name="type">Type to get from</param>
+        /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
+        public static ConstructorInfo GetNonDefaultConstructor(this Type type)
+        {
+            return type.GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
+        }
+
 
 		/// <summary>
 		/// Check if a type implements a specific interface

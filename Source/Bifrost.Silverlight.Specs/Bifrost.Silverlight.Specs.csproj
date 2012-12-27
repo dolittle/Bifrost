@@ -68,10 +68,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_constructor_parameters.cs" />
+    <Compile Include="Commands\for_CommandBuilderExtensions\KnownCommand.cs" />
+    <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_type.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\given\an_empty_command_builder.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_name.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters.cs" />
+    <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters_with_callback.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_setting_type_and_name_is_specified.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_setting_type.cs" />
     <Compile Include="Commands\for_CommandBuilder\given\an_empty_command_builder_for_known_command_with_constructor_parameter.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_and_type_is_specified.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_command_with_constructor_and_parameters_is_null.cs" />
     <Compile Include="Commands\for_CommandBuilder\KnownCommandWithAmbiguousConstructors.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_creating_instance_for_icommand.cs" />
@@ -84,6 +91,7 @@
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_a_known_command.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_command_with_ambiguous_constructors.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_command_with_constructor_and_parameters_are_missing.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_command_with_constructor_parameters_set.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_without_any_parameters.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_with_name_and_default_parameters_as_dynamic.cs" />
     <Compile Include="Commands\for_CommandBuilder\given\an_empty_command_builder.cs" />

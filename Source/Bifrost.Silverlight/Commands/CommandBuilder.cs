@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Dynamic;
+using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
@@ -15,6 +16,7 @@ namespace Bifrost.Commands
     {
         ICommandCoordinator _commandCoordinator;
         ICommandBuildingConventions _conventions;
+        Type _type;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandBuilder"/>
@@ -38,17 +40,9 @@ namespace Bifrost.Commands
                 ThrowIfParametersAreAnonymousType();
 
             ThrowIfAmbiguousConstructors();
-            ThrowIfNonDefaultConstructorAndParametersAreMissing();
+            ThrowIfNonDefaultConstructorAndConstructorParametersAreMissing();
 
-            T command;
-
-            var typeToCreate = typeof(T);
-            if (typeToCreate == typeof(ICommand))
-            {
-                typeToCreate = typeof(Command);
-            }
-
-            command = (T)Activator.CreateInstance(typeToCreate);
+            T command = CreateInstanceOfCommand();
             command.CommandCoordinator = _commandCoordinator;
             command.Name = Name;
 
@@ -58,26 +52,48 @@ namespace Bifrost.Commands
             if (Parameters is IDictionary<string, object>)
                 PopulateParametersFromGenericDictionary(command);
 
-
             return command;
         }
 
         public string Name { get; set; }
         public dynamic Parameters { get; set; }
-        public Type Type { get; set; } 
+        public object[] ConstructorParameters { get; set; }
+        public Type Type 
+        { 
+            get { return _type; }
+            set
+            {
+                _type = value;
+                if( string.IsNullOrEmpty(Name) )
+                    Name = _conventions.CommandName(value.Name);
+            }
+        } 
 #pragma warning restore 1591 // Xml Comments
 
-        bool HasDefaultConstructor()
+
+        T CreateInstanceOfCommand()
         {
-            return typeof(T).GetConstructors().Any(c => c.GetParameters().Length == 0);
+            T command;
+            Type typeToCreate = null;
+            if (Type != null)
+                typeToCreate = Type;
+            else
+            {
+                typeToCreate = typeof(T);
+                if (typeToCreate == typeof(ICommand))
+                    typeToCreate = typeof(Command);
+            }
+
+            ConstructorInfo constructor;
+            if (typeToCreate.HasNonDefaultConstructor() &&
+                !typeToCreate.HasDefaultConstructor())
+                constructor = typeToCreate.GetNonDefaultConstructor();
+            else
+                constructor = typeToCreate.GetDefaultConstructor();
+
+            command = (T)constructor.Invoke(ConstructorParameters);
+            return command;
         }
-
-
-        ConstructorInfo GetNonDefaultConstructor()
-        {
-            return typeof(T).GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
-        }
-
 
         void PopulateParametersFromDictionary(ICommand command)
         {
@@ -121,21 +137,16 @@ namespace Bifrost.Commands
                 throw new AmbiguousConstructorsException(typeof(T));
         }
 
-        void ThrowIfNonDefaultConstructorAndParametersAreMissing()
+        void ThrowIfNonDefaultConstructorAndConstructorParametersAreMissing()
         {
-            if (HasDefaultConstructor())
+            var type = typeof(T);
+            if (type.HasDefaultConstructor())
                 return;
 
-            if (Parameters == null)
+            var constructor = type.GetNonDefaultConstructor();
+            if (ConstructorParameters == null || 
+                constructor.GetParameters().Length != ConstructorParameters.Length)
                 throw new CommandConstructorParameterMissing(typeof(T));
-
-            var constructor = GetNonDefaultConstructor();
-            var constructorParameters = constructor.GetParameters();
-            var queryableParameters = ((IEnumerable)Parameters).OfType<string>();
-
-            foreach( var parameter in constructorParameters )
-                if( !queryableParameters.Any(p=>_conventions.CommandConstructorName(p) == parameter.Name) )
-                    throw new CommandConstructorParameterMissing(typeof(T));
         }
     }
 }
