@@ -1,9 +1,6 @@
-﻿using Bifrost.Entities;
-using System.Linq;
+﻿using System.Linq;
+using Bifrost.Entities;
 using Raven.Client;
-using System.Linq.Expressions;
-using System;
-using Bifrost.Extensions;
 
 namespace Bifrost.RavenDB
 {
@@ -68,14 +65,6 @@ namespace Bifrost.RavenDB
             return _session.Load<T>(keyId);
         }
 
-        private string GetDocumentIdForType<TProperty>(TProperty id)
-        {
-            var documentKeyName = GetDocumentKeyForType();
-
-            var keyId = string.Format("{0}/{1}", documentKeyName, id);
-            return keyId;
-        } 
-        
         public void DeleteById<TProperty>(TProperty id)
         {
             var keyId = GetDocumentIdForType<TProperty>(id);
@@ -84,7 +73,15 @@ namespace Bifrost.RavenDB
         }
 
 
-        private string GetDocumentKeyForType()
+        string GetDocumentIdForType<TProperty>(TProperty id)
+        {
+            var documentKeyName = GetDocumentKeyForType();
+
+            var keyId = string.Format("{0}/{1}", documentKeyName, id);
+            return keyId;
+        } 
+
+        string GetDocumentKeyForType()
         {
             return _session.Advanced.DocumentStore.Conventions.GetTypeTagName(typeof(T));
         }
