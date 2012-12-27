@@ -470,6 +470,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\for_DynamicCommand\" />
+    <Folder Include="Events\for_UncommittedEventStreamCoordinator\" />
     <Folder Include="Globalization\for_Localizer\given\" />
   </ItemGroup>
   <ItemGroup>
