@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 
 namespace Bifrost.Commands
 {
@@ -74,6 +75,11 @@ namespace Bifrost.Commands
         /// Gets or sets the exception, if any, that occured during a handle
         /// </summary>
         public Exception Exception { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exception message, if any
+        /// </summary>
+        public string ExceptionMessage { get; set; }
 
         /// <summary>
         /// Gets the success state of the result
@@ -157,5 +163,23 @@ namespace Bifrost.Commands
             CommandValidationMessages = commandErrorMessages.ToArray();
         }
 
+        /// <summary>
+        /// Returns a string that represents the state of the <see cref="CommandResult"/>
+        /// </summary>
+        /// <returns><see cref="String"/> with full detail from the <see cref="CommandResult"/></returns>
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("Success : {0}", Success);
+            stringBuilder.AppendFormat(", Invalid : {0}", Invalid);
+
+            if (Exception != null)
+                stringBuilder.AppendFormat(", Exception : {0}", Exception.Message);
+
+            if (ExceptionMessage != null)
+                stringBuilder.AppendFormat(", ExceptionMesssage : {0}", ExceptionMessage);
+
+            return stringBuilder.ToString();
+        }
     }
 }

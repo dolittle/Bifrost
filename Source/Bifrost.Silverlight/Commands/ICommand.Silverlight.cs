@@ -21,7 +21,7 @@
 #endregion
 namespace Bifrost.Commands
 {
-    public partial interface ICommand : System.Windows.Input.ICommand
+    public partial interface ICommand : System.Windows.Input.ICommand, INotifyCommandResultsReceived, INotifyEventsProcessed
     {
         /// <summary>
         /// Gets or sets the name of the command

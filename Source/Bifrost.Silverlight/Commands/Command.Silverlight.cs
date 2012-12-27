@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Bifrost.Dynamic;
 using Bifrost.Extensions;
+using System.Windows;
 
 namespace Bifrost.Commands
 {
@@ -21,6 +22,8 @@ namespace Bifrost.Commands
 #pragma warning disable 1591 // Xml Comments
         public event EventHandler CanExecuteChanged = (s, e) => { };
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+        public event CommandResultsReceived CommandResultsReceived = (c, r) => { };
+        public event EventsProcessed EventsProcessed = (p) => { };
 
         public string Name { get; set; }
         public dynamic Parameters
@@ -65,11 +68,25 @@ namespace Bifrost.Commands
 
         public void Execute(object parameter)
         {
-            if( CommandCoordinator != null ) 
+            if (CommandCoordinator != null)
                 CommandCoordinator.Handle(this);
         }
 
 
+        public void OnCommandResultsReceived(Guid commandContextId, CommandResult result)
+        {
+            if (CommandResultsReceived != null)
+                Deployment.Current.Dispatcher.BeginInvoke(() => CommandResultsReceived(commandContextId, result));
+        }
+
+        public void OnEventsProcessed(Guid commandContextId)
+        {
+            if(EventsProcessed != null)
+                Deployment.Current.Dispatcher.BeginInvoke(() => EventsProcessed(commandContextId));
+        }
+
 #pragma warning restore 1591 // Xml Comments
+
+
     }
 }

@@ -32,6 +32,21 @@ namespace Bifrost.Commands
         public void Execute(object parameter)
         {
         }
+
+        public event CommandResultsReceived CommandResultsReceived = (c, r) => { };
+
+        public void OnCommandResultsReceived(Guid commandContextId, CommandResult result)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public event EventsProcessed EventsProcessed = (c) => { };
+
+        public void OnEventsProcessed(Guid commandContextId)
+        {
+            throw new NotImplementedException();
+        }
     }
 #pragma warning restore 1591 // Xml Comments
 }

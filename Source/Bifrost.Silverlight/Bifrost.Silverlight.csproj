@@ -764,12 +764,16 @@
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandNameConvention.cs" />
     <Compile Include="Commands\CommandNameMissingException.cs" />
+    <Compile Include="Commands\CommandResultsReceived.cs" />
     <Compile Include="Commands\DefaultCommandBuildingConventions.cs" />
     <Compile Include="Commands\DynamicCommand.Silverlight.cs" />
+    <Compile Include="Commands\EventsProcessed.cs" />
     <Compile Include="Commands\ICommand.Silverlight.cs" />
     <Compile Include="Commands\ICommandBuilder.cs" />
     <Compile Include="Commands\ICommandBuildingConventions.cs" />
     <Compile Include="Commands\ICommandFactory.cs" />
+    <Compile Include="Commands\INotifyCommandResultsReceived.cs" />
+    <Compile Include="Commands\INotifyEventsProcessed.cs" />
     <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
     <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />

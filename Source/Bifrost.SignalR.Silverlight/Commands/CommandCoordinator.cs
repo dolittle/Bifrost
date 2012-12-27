@@ -32,8 +32,15 @@ namespace Bifrost.SignalR.Silverlight.Commands
         {
             if (_commands.ContainsKey(commandContext))
             {
-                _commands[commandContext].IsProcessing = false;
+                var command = _commands[commandContext];
+                command.IsProcessing = false;
+
+                if (command is INotifyEventsProcessed)
+                    ((INotifyEventsProcessed)command).OnEventsProcessed(commandContext);
+
                 _commands.Remove(commandContext);
+
+                
             }
         }
 
@@ -47,6 +54,7 @@ namespace Bifrost.SignalR.Silverlight.Commands
             var validationResults = new ObservableCollection<ValidationResult>();
             var commandValidationMessages = new ObservableCollection<string>();
             var commandResult = new CommandResult();
+            commandResult.CommandName = command.Name;
             commandResult.ValidationResults = validationResults;
             commandResult.CommandValidationMessages = commandValidationMessages;
 
@@ -67,8 +75,12 @@ namespace Bifrost.SignalR.Silverlight.Commands
                     validationResults.Add(validationResult);
 
                 commandResult.Exception = a.Result.Exception;
+                commandResult.ExceptionMessage = a.Result.ExceptionMessage;
 
                 command.IsBusy = false;
+
+                if( command is INotifyCommandResultsReceived ) 
+                    ((INotifyCommandResultsReceived)command).OnCommandResultsReceived(descriptor.Id, commandResult);
             });
 
             return commandResult;

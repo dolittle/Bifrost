@@ -1,6 +1,7 @@
 ﻿using Bifrost.Commands;
 using Bifrost.Serialization;
 using SignalR.Hubs;
+using System;
 
 namespace Bifrost.SignalR.Commands
 {
@@ -25,12 +26,22 @@ namespace Bifrost.SignalR.Commands
 
         public CommandResult Handle(CommandDescriptor descriptor)
         {
-            var commandType = _commandTypeManager.GetFromName(descriptor.Name);
-            var command = (ICommand)_serializer.FromJson(commandType, descriptor.Command);
-            command.Id = descriptor.Id;
-            _commandContextConnectionManager.Register(Context.ConnectionId, command.Id);
-            var commandResult = _commandCoordinator.Handle(command);
-            return commandResult;
+            try
+            {
+                var commandType = _commandTypeManager.GetFromName(descriptor.Name);
+                var command = (ICommand)_serializer.FromJson(commandType, descriptor.Command);
+                command.Id = descriptor.Id;
+                _commandContextConnectionManager.Register(Context.ConnectionId, command.Id);
+                var commandResult = _commandCoordinator.Handle(command);
+                return commandResult;
+            }
+            catch (Exception ex)
+            {
+                return new CommandResult { 
+                    Exception = ex, 
+                    ExceptionMessage = string.Format("Exception occured of type '{0}' with message '{1}'. StackTrace : {2}",ex.GetType().Name,ex.Message,ex.StackTrace)
+                };
+            }
         }
     }
 }
