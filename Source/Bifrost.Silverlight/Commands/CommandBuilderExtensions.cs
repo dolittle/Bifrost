@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Dynamic;
 namespace Bifrost.Commands
 {
     /// <summary>
@@ -40,5 +42,20 @@ namespace Bifrost.Commands
             commandBuilder.Parameters = parameters;
             return commandBuilder;
         }
+
+
+        /// <summary>
+        /// Populate the default parameters to a command being build
+        /// </summary>
+        /// <param name="commandBuilder"><see cref="ICommandBuilder"/> to build on</param>
+        /// <param name="populateParameters"><see cref="Action"/> that gets called for populating the parameters</param>
+        /// <returns>Chainable <see cref="ICommandBuilder"/></returns>
+        public static ICommandBuilder WithParameters(this ICommandBuilder commandBuilder, Action<dynamic> populateParameters)
+        {
+            commandBuilder.Parameters = new ExpandoObject();
+            populateParameters(commandBuilder.Parameters);
+            return commandBuilder;
+        }
+
     }
 }
