@@ -28,12 +28,12 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRaven(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
+        public static IConfigure UsingRavenDb(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
         {
-            return UsingRaven(storage, Configure.Instance, url, configureCallback);
+            return UsingRavenDb(storage, Configure.Instance, url, configureCallback);
         }
 
-        public static IConfigure UsingRaven(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
+        public static IConfigure UsingRavenDb(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
