@@ -198,7 +198,9 @@ namespace Bifrost.Configuration
             TypeDiscoverer.ExcludeNamespaceStartingWith("Ninject");
             TypeDiscoverer.ExcludeNamespaceStartingWith("Microsoft");
             TypeDiscoverer.ExcludeNamespaceStartingWith("AutoMapper");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("NServiceBus");
+            TypeDiscoverer.ExcludeNamespaceStartingWith("SignalR");
+            TypeDiscoverer.ExcludeNamespaceStartingWith("RavenDb");
+            TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
         }
     }
 }
