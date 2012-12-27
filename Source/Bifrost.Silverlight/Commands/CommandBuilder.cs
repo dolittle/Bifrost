@@ -12,14 +12,16 @@ namespace Bifrost.Commands
         where T:ICommand
     {
         ICommandCoordinator _commandCoordinator;
+        ICommandBuildingConventions _conventions;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandBuilder"/>
         /// </summary>
         /// <param name="commandCoordinator"><see cref="ICommandCoordinator"/> to use</param>
-        public CommandBuilder(ICommandCoordinator commandCoordinator)
+        public CommandBuilder(ICommandCoordinator commandCoordinator, ICommandBuildingConventions conventions)
         {
             _commandCoordinator = commandCoordinator;
+            _conventions = conventions;
         }
 
 #pragma warning disable 1591 // Xml Comments

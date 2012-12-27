@@ -8,8 +8,10 @@ namespace Bifrost.Commands
         public CommandBuildingConventions()
         {
             CommandName = DefaultCommandBuildingConventions.TrimCommandFromName;
+            CommandConstructorName = DefaultCommandBuildingConventions.CamelCaseConstructorParameters;
         }
 
         public CommandNameConvention CommandName { get; set; }
+        public CommandConstructorParameterConvention CommandConstructorName { get; set; }
     }
 }

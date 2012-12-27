@@ -37,7 +37,7 @@ namespace Bifrost.Commands
 
         public ICommandBuilder<TC> BuildFor<TC>() where TC : ICommand, new()
         {
-            var builder = new CommandBuilder<TC>(_commandCoordinator);
+            var builder = new CommandBuilder<TC>(_commandCoordinator, _conventions);
             builder.WithName(typeof(TC).Name);
             return builder;
         }
@@ -60,7 +60,7 @@ namespace Bifrost.Commands
 
         CommandBuilder<TC> BuildFromName<TC>(string name, ICommandBuildingConventions conventions) where TC:ICommand
         {
-            var builder = new CommandBuilder<TC>(_commandCoordinator);
+            var builder = new CommandBuilder<TC>(_commandCoordinator, _conventions);
             builder.WithName(conventions.CommandName(name));
             return builder;
         }

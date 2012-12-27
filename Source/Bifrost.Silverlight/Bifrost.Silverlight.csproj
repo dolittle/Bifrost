@@ -758,6 +758,7 @@
     <Compile Include="Commands\CommandBuilder.cs" />
     <Compile Include="Commands\CommandBuilderExtensions.cs" />
     <Compile Include="Commands\CommandBuildingConventions.cs" />
+    <Compile Include="Commands\CommandConstructorParameterConvention.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandNameConvention.cs" />
     <Compile Include="Commands\CommandNameMissingException.cs" />
