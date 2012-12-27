@@ -12,7 +12,7 @@
     <AssemblyName>Bifrost.SignalR.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,31 +34,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Machine.Specifications">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
     <Reference Include="pnunit.framework">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+      <HintPath>..\Solutions\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SignalR">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\SignalR.Server.0.5.3\lib\net40\SignalR.dll</HintPath>
+      <HintPath>..\Solutions\packages\SignalR.Server.0.5.3\lib\net40\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="SignalR.Hosting.AspNet">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\SignalR.Hosting.AspNet.0.5.3\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
+      <HintPath>..\Solutions\packages\SignalR.Hosting.AspNet.0.5.3\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="SignalR.Hosting.Common">
-      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\SignalR.Hosting.Common.0.5.3\lib\net40\SignalR.Hosting.Common.dll</HintPath>
+      <HintPath>..\Solutions\packages\SignalR.Hosting.Common.0.5.3\lib\net40\SignalR.Hosting.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
