@@ -116,6 +116,8 @@
     <EmbeddedResource Include="Features\Home\index.js" />
     <EmbeddedResource Include="Features\EventSubscriptions\index.html" />
     <EmbeddedResource Include="Features\EventSubscriptions\index.js" />
+    <Content Include="Features\ApplicationBar\view.html" />
+    <Content Include="Features\ApplicationBar\viewModel.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
