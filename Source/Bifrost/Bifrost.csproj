@@ -137,6 +137,9 @@
     <Compile Include="Sagas\SagaHolder.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Tasks\ITaskManager.cs" />
+    <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskId.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
