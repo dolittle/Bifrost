@@ -13,7 +13,7 @@
                 VerticalAlignment="Stretch"
                 Width="Auto"
                 Height="Auto"
-                Margin="0,0,260,60"
+                Margin="0,0,260,0"
                 >
 
     <UserControl.DataContext>
@@ -21,18 +21,8 @@
     </UserControl.DataContext>
     
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Content="Republish" Command="{Binding RepublishFilteredCommand}"/>
-            <Button Content="Reload" Command="{Binding ReloadCommand}" />
-        </StackPanel>
-
-        <pivot:PivotViewer x:Name="_pivotViewer" Grid.Row="1" ItemsSource="{Binding Events}">
+        <pivot:PivotViewer x:Name="_pivotViewer" ItemsSource="{Binding Events}">
             <pivot:PivotViewer.ItemTemplates>
                 <pivot:PivotViewerItemTemplate>
                     <Grid Background="#9bba59">

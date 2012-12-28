@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
+using System.Windows.Browser;
 using System.Windows.Input;
 using Bifrost.Events;
 using Bifrost.Interaction;
@@ -37,11 +38,11 @@ namespace Bifrost.Mimir.EventViewer
         public ClientEvent() : base(Guid.NewGuid()) { }
     }
 
-
     public class ViewModel
 	{
     	public ViewModel()
         {
+            HtmlPage.RegisterScriptableObject("eventViewerViewModel", this);
             Events = new ObservableCollection<IEvent>();
             ReloadCommand = DelegateCommand.Create(Reload);
             Load();
@@ -73,6 +74,7 @@ namespace Bifrost.Mimir.EventViewer
             webClient.DownloadStringAsync(new Uri(url));
         }
 
+        [ScriptableMember]
         public void Reload()
         {
             Load();
