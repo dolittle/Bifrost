@@ -190,6 +190,7 @@
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_subscriber_has_processed_it.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_there_is_one_subscription_for_the_event.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_two_events_that_same_subscriber_can_process.cs" />
+    <Compile Include="Events\for_EventSubscriptionRepository\when_resetting_last_event_id_for_all_subscriptions.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_resetting_last_event_id_by_id.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_one_subscription.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_by_id.cs" />

@@ -82,6 +82,15 @@ namespace Bifrost.Events
             _entityContext.Commit();
         }
 
+        public void ResetLastEventForAllSubscriptions()
+        {
+            foreach (var subscription in _entityContext.Entities)
+            {
+                subscription.LastEventId = 0;
+                _entityContext.Update(subscription);
+            }
+            _entityContext.Commit();
+        }
 
 
         public void Add(EventSubscription subscription)
@@ -107,6 +116,8 @@ namespace Bifrost.Events
         {
             return subscription.Owner != null;
         }
+
+
 
     }
 }

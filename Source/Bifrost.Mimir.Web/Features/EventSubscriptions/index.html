@@ -28,9 +28,13 @@
     </table>
 
     <div data-bind="applicationBarContent: true">
-        <div class="applicationBarButton" title="Replay all events for all subscriptions" data-bind="command: replayAllSubscriptions">
+        <div class="applicationBarButton" title="Replay all events for all subscriptions" data-bind="command: replayAll">
             <i class="icon-play"></i>
             <span>Replay all</span>
+        </div>
+        <div class="applicationBarButton" title="Replay all events for all subscriptions" data-bind="click: refresh">
+            <i class="icon-refresh"></i>
+            <span>Refresh</span>
         </div>
     </div>
 

@@ -2,8 +2,8 @@
     var self = this;
     this.subscriptions = ko.observableArray();
 
-    this.replayAllSubscriptions = Bifrost.commands.Command.create({
-        name: "ReplayAllEventSubscriptions",
+    this.replayAll = Bifrost.commands.Command.create({
+        name: "ReplayAll",
         complete: function () {
             setTimeout(function () {
                 self.loadSubscriptions();
@@ -13,6 +13,7 @@
 
 
     this.loadSubscriptions = function () {
+        self.subscriptions([]);
         $.get("/EventSubscriptions/GetAll", {}, function (result) {
             $.each(result, function (index, item) {
                 item.replayAllForSubscription = Bifrost.commands.Command.create({
@@ -29,7 +30,11 @@
             });
             self.subscriptions(result);
         }, "json");
-    }
+    };
+
+    this.refresh = function () {
+        self.loadSubscriptions();
+    };
 
     this.loadSubscriptions();
 });

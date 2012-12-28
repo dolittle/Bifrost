@@ -51,6 +51,11 @@ namespace Bifrost.Events
         void ResetLastEventId(Guid id);
 
         /// <summary>
+        /// Reset last event id for all subscriptions
+        /// </summary>
+        void ResetLastEventForAllSubscriptions();
+
+        /// <summary>
         /// Get all subscriptions available
         /// </summary>
         /// <returns>All available <see cref="EventSubscription">EventSubscriptions</see> </returns>
