@@ -57,7 +57,8 @@ namespace Bifrost.SignalR.Silverlight.Commands
             commandResult.ValidationResults = validationResults;
             commandResult.CommandValidationMessages = commandValidationMessages;
 
-            CopyPropertyValuesToParameters(command);
+            if( !command.GetType().Equals(typeof(Command)) )
+                CopyPropertyValuesToParameters(command);
 
             var descriptor = new CommandDescriptor
             {
