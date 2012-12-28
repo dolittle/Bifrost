@@ -103,9 +103,12 @@ namespace Bifrost.Commands
                 return;
 
             foreach (string key in dictionary.Keys)
-                expandoObject[key] = dictionary[key];
+            {
+                var value = dictionary[key];
+                expandoObject[key] = value;
+                SetPropertyValueFromParameterIfExist(command, key, value);
+            }
         }
-
 
         void PopulateParametersFromGenericDictionary(ICommand command)
         {
@@ -115,8 +118,20 @@ namespace Bifrost.Commands
                 return;
 
             foreach (string key in dictionary.Keys)
-                expandoObject[key] = dictionary[key];
+            {
+                var value = dictionary[key];
+                expandoObject[key] = value;
+                SetPropertyValueFromParameterIfExist(command, key, value);
+            }
         }
+
+        void SetPropertyValueFromParameterIfExist(ICommand command, string parameter, object value)
+        {
+            var property = command.GetType().GetProperty(parameter);
+            if (property != null)
+                property.SetValue(command, value, null);
+        }
+
 
         void ThrowIfNameIsMissing()
         {

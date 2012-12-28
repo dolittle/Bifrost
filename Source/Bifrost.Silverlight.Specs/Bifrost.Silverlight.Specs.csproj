@@ -75,6 +75,8 @@
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_name.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters.cs" />
     <Compile Include="Commands\for_CommandBuilderExtensions\when_specifying_parameters_with_callback.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_known_command_with_parameters_as_dynamic.cs" />
+    <Compile Include="Commands\for_CommandBuilder\when_getting_an_instance_of_known_command_with_parameters_as_dictionary.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_setting_type_and_name_is_specified.cs" />
     <Compile Include="Commands\for_CommandBuilder\when_setting_type.cs" />
     <Compile Include="Commands\for_CommandBuilder\given\an_empty_command_builder_for_known_command_with_constructor_parameter.cs" />

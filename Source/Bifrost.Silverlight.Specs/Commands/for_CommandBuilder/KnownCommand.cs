@@ -11,5 +11,6 @@ namespace Bifrost.Silverlight.Specs.Commands.for_CommandBuilder
         }
 
         public string Something { get; set; }
+        public int Integer { get; set; }
     }
 }

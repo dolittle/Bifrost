@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Linq.Expressions;
 using Bifrost.Commands;
 using Bifrost.Domain;
+using Bifrost.Dynamic;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
 using Bifrost.SignalR.Silverlight.Hubs;
@@ -18,7 +20,6 @@ namespace Bifrost.SignalR.Silverlight.Commands
         ISerializer _serializer;
         Proxies.ICommandCoordinator _proxy;
         Dictionary<Guid, ICommand> _commands = new Dictionary<Guid, ICommand>();
-
 
         public CommandCoordinator(ISerializer serializer, IHubProxyManager hubProxyFactory)
         {
@@ -39,8 +40,6 @@ namespace Bifrost.SignalR.Silverlight.Commands
                     ((INotifyEventsProcessed)command).OnEventsProcessed(commandContext);
 
                 _commands.Remove(commandContext);
-
-                
             }
         }
 
@@ -57,6 +56,8 @@ namespace Bifrost.SignalR.Silverlight.Commands
             commandResult.CommandName = command.Name;
             commandResult.ValidationResults = validationResults;
             commandResult.CommandValidationMessages = commandValidationMessages;
+
+            CopyPropertyValuesToParameters(command);
 
             var descriptor = new CommandDescriptor
             {
@@ -84,6 +85,18 @@ namespace Bifrost.SignalR.Silverlight.Commands
             });
 
             return commandResult;
+        }
+
+        private static void CopyPropertyValuesToParameters(ICommand command)
+        {
+            var parameters = command.Parameters as BindableExpandoObject;
+            var commandType = command.GetType();
+            var properties = commandType.GetProperties().Where(p => p.DeclaringType == commandType);
+            foreach (var property in properties )
+            {
+                var value = property.GetValue(command, null);
+                parameters[property.Name] = value;
+            }
         }
 
         public CommandResult Handle<T>(ISaga saga, Guid aggregatedRootId, Expression<System.Action<T>> method) where T : AggregatedRoot
