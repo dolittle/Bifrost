@@ -23,10 +23,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bifrost.JSON.Serialization
 {
@@ -66,7 +69,7 @@ namespace Bifrost.JSON.Serialization
                         instance = serializer.Deserialize(reader, type);
                     else
                     {
-                        instance = CreateInstanceOf(type);
+                        instance = CreateInstanceOf(type, json);
                         serializer.Populate(reader, instance);
                     }
 					return instance;
@@ -105,12 +108,52 @@ namespace Bifrost.JSON.Serialization
 #pragma warning restore 1591 // Xml Comments
 
 
-        object CreateInstanceOf(Type type)
+        object CreateInstanceOf(Type type, string json)
         {
             if (type.HasDefaultConstructor())
                 return Activator.CreateInstance(type);
             else
-                return _container.Get(type);
+            {
+                if( DoesPropertiesMatchConstructor(type, json) ) 
+                    return CreateInstanceByPropertiesMatchingConstructor(type, json);
+                else
+                    return _container.Get(type);
+            }
+        }
+
+
+        bool DoesPropertiesMatchConstructor(Type type, string json)
+        {
+                var hash = JObject.Load(new JsonTextReader(new StringReader(json)));
+                var constructor = type.GetNonDefaultConstructor();
+                var parameters = constructor.GetParameters();
+                var properties = hash.Properties();
+                var matchingParameters = parameters.Where(cp => properties.Select(p=>p.Name.ToCamelCase()).Contains(cp.Name.ToCamelCase()));
+                return matchingParameters.Count() == parameters.Length;
+        }
+
+        object CreateInstanceByPropertiesMatchingConstructor(Type type, string json)
+        {
+            var hash = JObject.Load(new JsonTextReader(new StringReader(json)));
+            var properties = hash.Properties();
+
+            var constructor = type.GetNonDefaultConstructor();
+
+            var parameters = constructor.GetParameters();
+            var parameterInstances = new List<object>();
+
+            var toObjectMethod = typeof(JToken).GetMethod("ToObject", new Type[0]);
+
+            foreach (var parameter in parameters)
+            {
+                var property = properties.Single(p => p.Name.ToCamelCase() == parameter.Name.ToCamelCase());
+                var genericToObjectMethod = toObjectMethod.MakeGenericMethod(parameter.ParameterType);
+                var parameterInstance = genericToObjectMethod.Invoke(property.Value, null);
+                parameterInstances.Add(parameterInstance);
+            }
+
+            var instance = constructor.Invoke(parameterInstances.ToArray());
+            return instance;
         }
 
         JsonSerializer CreateSerializerForDeserialization(SerializationOptions options)
