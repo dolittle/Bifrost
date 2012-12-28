@@ -1,8 +1,19 @@
-var applicationDir = "/Mimir";
+var applicationDir = "/";
+var path = window.location.pathname.toLowerCase();
+if (path.indexOf("/mimir") == 0 || path.indexOf("mimir") == 0) {
+    applicationDir = "/Mimir";
+}
+
+function combinePaths(base, path) {
+    if (base.lastIndexOf("/") == base.length - 1 && path.indexOf("/") == 0) {
+        path = path.substr(1);
+    }
+    return base + path;
+}
 
 require.config({
     appDir: applicationDir,
-    baseUrl: applicationDir+"/Scripts",
+    baseUrl: combinePaths(applicationDir,"/Scripts"),
     optimize: "none",
 
     paths: {
@@ -16,22 +27,20 @@ require.config({
     }
 });
 
+
 require(
     ["jquery", "knockout"], function () {
         require(["jquery.history"], function () {
             require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
-                Bifrost.features.featureMapper.add("{feature}/{subFeature}", applicationDir + "/Features/{feature}/{subFeature}", false);
-                Bifrost.features.featureMapper.add("{feature}", applicationDir + "/Features/{feature}", true);
+                Bifrost.features.featureMapper.add("{feature}/{subFeature}", combinePaths(applicationDir,"/Features/{feature}/{subFeature}"), false);
+                Bifrost.features.featureMapper.add("{feature}", combinePaths(applicationDir,"/Features/{feature}"), true);
 
                 require([
-                    applicationDir + "/bootstrap/js/bootstrap.min.js",
-                    applicationDir + "/Scripts/libs/google-code-prettify/prettify.js",
-                    applicationDir + "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js",
-                    applicationDir + "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js",
-
-                ], function () {
-
-                });
+                    combinePaths(applicationDir, "/bootstrap/js/bootstrap.min.js"),
+                    combinePaths(applicationDir, "/Scripts/libs/google-code-prettify/prettify.js"),
+                    combinePaths(applicationDir, "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js"),
+                    combinePaths(applicationDir, "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js"),
+                ], function () {});
             });
         });
     }
