@@ -20,6 +20,8 @@ namespace Bifrost.Mimir.Web.Events
             {
                 Id = e.Id,
                 Owner = e.Owner.Name,
+                OwnerNamespace = e.Owner.Namespace,
+                OwnerAssembly = e.Owner.Assembly.FullName,
                 Event = e.EventName,
                 LastEventId = e.LastEventId
             });

@@ -15,7 +15,7 @@
         </thead>
         <tbody data-bind="foreach: subscriptions">
             <tr class="odd">
-                <td data-bind="text: owner"></td>
+                <td data-bind="text: owner, attr: { title: ownerNamespace+'.'+owner+', '+ownerAssembly }"></td>
                 <td data-bind="text: event"></td>
                 <td data-bind="text: lastEventId"></td>
                 <td>
