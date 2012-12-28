@@ -140,7 +140,7 @@ namespace Bifrost.Commands
         void ThrowIfNonDefaultConstructorAndConstructorParametersAreMissing()
         {
             var type = typeof(T);
-            if (type.HasDefaultConstructor())
+            if (type.HasDefaultConstructor() || type.IsInterface)
                 return;
 
             var constructor = type.GetNonDefaultConstructor();
