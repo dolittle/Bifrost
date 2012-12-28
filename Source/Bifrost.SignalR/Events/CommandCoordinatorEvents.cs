@@ -15,9 +15,12 @@ namespace Bifrost.SignalR.Events
 
         public void EventsProcessed(Guid commandContext)
         {
-            var connectionId = _commandContextConnectionManager.GetConnectionForCommandContext(commandContext);
-            var hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
-            hubContext.Clients[connectionId].EventsProcessed(commandContext);
+            if (_commandContextConnectionManager.HasConnectionForCommandContext(commandContext))
+            {
+                var connectionId = _commandContextConnectionManager.GetConnectionForCommandContext(commandContext);
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
+                hubContext.Clients[connectionId].EventsProcessed(commandContext);
+            }
         }
     }
 }

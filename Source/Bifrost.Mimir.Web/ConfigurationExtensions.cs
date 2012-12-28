@@ -3,6 +3,7 @@ using Bifrost.Web.Applications;
 using Bifrost.Mimir.Web.Events;
 using Bifrost.Services.Execution;
 using Bifrost.Services;
+using Bifrost.Services.Commands;
 
 namespace Bifrost.Mimir.Web
 {
@@ -21,6 +22,7 @@ namespace Bifrost.Configuration
             RouteTable.Routes.AddService<EventService>("Events");
             RouteTable.Routes.AddService<EventSubscriptionService>("EventSubscriptions");
             RouteTable.Routes.AddService<ValidationService>();
+            RouteTable.Routes.AddService<CommandCoordinatorService>();
             return configure;
         }
     }

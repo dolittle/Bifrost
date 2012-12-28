@@ -65,10 +65,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\for_CommandContextConnectionManager\when_asking_if_connection_exists_from_command_context_and_it_does_not.cs" />
+    <Compile Include="Commands\for_CommandContextConnectionManager\when_asking_if_connection_exists_from_command_context_and_it_does.cs" />
     <Compile Include="Commands\for_CommandContextConnectionManager\when_getting_an_existing_connection_from_a_command_context.cs" />
     <Compile Include="Commands\for_CommandContextConnectionManager\when_getting_a_connection_from_a_non_registered_command_context.cs" />
     <Compile Include="Commands\for_CommandContextConnectionManager\when_removing_a_connection_registered_for_two_command_contexts.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_a_command_descriptor.cs" />
+    <Compile Include="Events\for_CommandCoordinatorEvents\given\a_command_coordinator_events.cs" />
+    <Compile Include="Events\for_CommandCoordinatorEvents\when_events_are_processed_for_a_non_existing_command_context.cs" />
     <Compile Include="Events\for_EventStoreChangeNotifier\when_notifying_with_three_events_from_two_different_command_contexts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

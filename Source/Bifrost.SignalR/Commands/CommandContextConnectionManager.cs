@@ -19,6 +19,10 @@ namespace Bifrost.SignalR.Commands
                 commandContexts.Add(commandContext);
         }
 
+        public bool HasConnectionForCommandContext(Guid commandContext)
+        {
+            return connectionIdsByCommandContext.ContainsKey(commandContext);
+        }
 
         public void RemoveConnectionIfPresent(string connectionId)
         {

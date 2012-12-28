@@ -40,6 +40,7 @@ require(
                     combinePaths(applicationDir, "/Scripts/libs/google-code-prettify/prettify.js"),
                     combinePaths(applicationDir, "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js"),
                     combinePaths(applicationDir, "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js"),
+                    combinePaths(applicationDir, "/Scripts/applicationBar.js")
                 ], function () {});
             });
         });

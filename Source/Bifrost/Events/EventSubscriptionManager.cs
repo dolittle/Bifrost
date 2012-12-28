@@ -33,7 +33,6 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents an implementation of <see cref="IEventSubscriptionManager"/>
     /// </summary>
-    [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
         IEventSubscriptionRepository _repository;
@@ -41,7 +40,7 @@ namespace Bifrost.Events
         IContainer _container;
         IEnumerable<EventSubscription> _subscriptionsFromRepository;
         IEnumerable<EventSubscription> _subscriptionsInProcess;
-        List<EventSubscription> _allSubscriptions;
+        List<EventSubscription> _allSubscriptions = new List<EventSubscription>();
 
         /// <summary>
         /// Initializes an instance of <see cref="EventSubscriptionManager"/>
@@ -54,8 +53,7 @@ namespace Bifrost.Events
             _repository = repository;
             _typeDiscoverer = typeDiscoverer;
             _container = container;
-
-            Initialize();
+            RefreshAndMergeSubscriptionsFromRepository();
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -154,14 +152,6 @@ namespace Bifrost.Events
         }
 
 
-        void Initialize()
-        {
-            _allSubscriptions = new List<EventSubscription>();
-            CollectInProcessSubscribers();
-            RefreshAndMergeSubscriptionsFromRepository();
-        }
-
-
         void CollectInProcessSubscribers()
         {
             var subscriptionsInProcess = new List<EventSubscription>();
@@ -200,6 +190,8 @@ namespace Bifrost.Events
 
         void RefreshAndMergeSubscriptionsFromRepository()
         {
+            _allSubscriptions.Clear();
+            CollectInProcessSubscribers();
             _allSubscriptions.Clear();
             _subscriptionsFromRepository = _repository.GetAll();
             AddSubscriptionsFromRepository();

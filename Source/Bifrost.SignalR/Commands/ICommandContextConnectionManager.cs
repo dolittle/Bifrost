@@ -6,6 +6,7 @@ namespace Bifrost.SignalR.Commands
     {
         void Register(string connectionId, Guid commandContext);
         void RemoveConnectionIfPresent(string connectionId);
+        bool HasConnectionForCommandContext(Guid commandContext);
         string GetConnectionForCommandContext(Guid commandContext);
     }
 }

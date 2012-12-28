@@ -116,8 +116,10 @@
     <EmbeddedResource Include="Features\Home\index.js" />
     <EmbeddedResource Include="Features\EventSubscriptions\index.html" />
     <EmbeddedResource Include="Features\EventSubscriptions\index.js" />
-    <Content Include="Features\ApplicationBar\view.html" />
-    <Content Include="Features\ApplicationBar\viewModel.js" />
+    <EmbeddedResource Include="Styles\applicationBar.css" />
+    <EmbeddedResource Include="Features\ApplicationBar\view.html" />
+    <EmbeddedResource Include="Features\ApplicationBar\viewModel.js" />
+    <EmbeddedResource Include="Images\applicationBarBackground.jpg" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
@@ -227,6 +229,7 @@
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Events\EventSubscriptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Scripts\applicationBar.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="fonts\font-awesome\fontawesome-webfont.eot" />
