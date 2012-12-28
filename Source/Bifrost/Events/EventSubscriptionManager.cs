@@ -35,12 +35,12 @@ namespace Bifrost.Events
     [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
-        IEnumerable<EventSubscription> _subscriptionsFromRepository;
-        List<EventSubscription> _allSubscriptions;
-        List<EventSubscription> _availableSubscriptions;
         IEventSubscriptionRepository _repository;
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
+        IEnumerable<EventSubscription> _subscriptionsFromRepository;
+        IEnumerable<EventSubscription> _subscriptionsInProcess;
+        List<EventSubscription> _allSubscriptions;
 
         /// <summary>
         /// Initializes an instance of <see cref="EventSubscriptionManager"/>
@@ -65,7 +65,7 @@ namespace Bifrost.Events
 
         public IEnumerable<EventSubscription> GetAvailableSubscriptions()
         {
-            var availableSubscriptions = _allSubscriptions.Where(s => _availableSubscriptions.Contains(s));
+            var availableSubscriptions = _allSubscriptions.Where(s => _subscriptionsInProcess.Contains(s));
             return availableSubscriptions;
         }
 
@@ -78,13 +78,9 @@ namespace Bifrost.Events
 
         public void Process(EventSubscription subscription, IEvent @event)
         {
-            var subscriberType = subscription.Owner;
-            var method = subscription.Method;
-            var subscriberInstance = _container.Get(subscriberType);
-            method.Invoke(subscriberInstance, new[] { @event });
-
-            subscription.LastEventId = @event.Id;
-            _repository.Update(subscription);
+            var subscriberInstance = _container.Get(subscription.Owner);
+            subscription.Method.Invoke(subscriberInstance, new[] { @event });
+            UpdateExistingSubscriptionFrom(subscription, @event.Id);
         }
 
 
@@ -110,18 +106,25 @@ namespace Bifrost.Events
         }
 #pragma warning restore 1591 // Xml Comments
 
+        void UpdateExistingSubscriptionFrom(EventSubscription subscription, long eventId)
+        {
+            var subscriptionToUpdate = _allSubscriptions.Where(e=>e.Equals(subscription)).Single();
+            subscriptionToUpdate.LastEventId = eventId;
+            _repository.Update(subscriptionToUpdate);
+        }
+
+
         void Initialize()
         {
             _allSubscriptions = new List<EventSubscription>();
-            _availableSubscriptions = new List<EventSubscription>();
-            _subscriptionsFromRepository = _repository.GetAll();
-            CollectAvailableSubscribers();
+            CollectInProcessSubscribers();
             MergeSubscribersFromRepository();
         }
 
 
-        void CollectAvailableSubscribers()
+        void CollectInProcessSubscribers()
         {
+            var subscriptionsInProcess = new List<EventSubscription>();
             var eventSubscriberTypes = _typeDiscoverer.FindMultiple<IEventSubscriber>();
 
             foreach (var eventSubscriberType in eventSubscriberTypes)
@@ -149,14 +152,32 @@ namespace Bifrost.Events
                                       LastEventId = 0
                                   }).ToArray();
 
-                _availableSubscriptions.AddRange(subscriptions);
-                AddOrUseExistingSubscription(subscriptions);
+                subscriptionsInProcess.AddRange(subscriptions);
             }
+            _subscriptionsInProcess = subscriptionsInProcess;
         }
 
-        void AddOrUseExistingSubscription(IEnumerable<EventSubscription> subscriptions)
+
+        void MergeSubscribersFromRepository()
         {
-            foreach (var subscription in subscriptions)
+            _allSubscriptions.Clear();
+            _subscriptionsFromRepository = _repository.GetAll();
+            AddSubscriptionsFromRepository();
+            AddInMemoryOrUseRepositorySubscriptions();
+            UpdateInMemorySubscriptions();
+            RegisterSubscriptionsThatIsOnlyInMemory();
+        }
+
+        void RegisterSubscriptionsThatIsOnlyInMemory()
+        {
+            var subscribersNotInRepository = _subscriptionsInProcess.Where(s => !_subscriptionsFromRepository.Contains(s));
+            foreach (var subscriber in subscribersNotInRepository)
+                _repository.Add(subscriber);
+        }
+
+        void AddInMemoryOrUseRepositorySubscriptions()
+        {
+            foreach (var subscription in _subscriptionsInProcess)
             {
                 if (_subscriptionsFromRepository.Contains(subscription))
                 {
@@ -168,23 +189,22 @@ namespace Bifrost.Events
             }
         }
 
-        void MergeSubscribersFromRepository()
+        void AddSubscriptionsFromRepository()
         {
-            var subscribersToUpdate = _subscriptionsFromRepository.Where(s => _availableSubscriptions.Where(ss => ss.Equals(s)).Count() == 1);
+            var subscribersNotInProcess = _subscriptionsFromRepository.Where(s => !_subscriptionsInProcess.Contains(s));
+            _allSubscriptions.AddRange(subscribersNotInProcess);
+        }
+
+        void UpdateInMemorySubscriptions()
+        {
+            var subscribersToUpdate = _subscriptionsFromRepository.Where(s => _subscriptionsInProcess.Where(ss => ss.Equals(s)).Count() == 1);
             foreach (var subscriber in subscribersToUpdate)
             {
-                var subscriberToUpdate = _availableSubscriptions.Where(s => s.Equals(subscriber)).Single();
+                var subscriberToUpdate = _subscriptionsInProcess.Where(s => s.Equals(subscriber)).Single();
                 subscriberToUpdate.Id = subscriber.Id;
                 if (subscriber.LastEventId > subscriberToUpdate.LastEventId)
                     subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }
-            
-            var subscribersNotInProcess = _subscriptionsFromRepository.Where(s => !_availableSubscriptions.Contains(s));
-            _allSubscriptions.AddRange(subscribersNotInProcess);
-            
-            var subscribersNotInRepository = _availableSubscriptions.Where(s => !_subscriptionsFromRepository.Contains(s));
-            foreach (var subscriber in subscribersNotInRepository)
-                _repository.Add(subscriber);
         }
     }
 }
