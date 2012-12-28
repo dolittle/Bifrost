@@ -176,6 +176,8 @@
     <Compile Include="Events\for_EventStore\given\an_event_store.cs" />
     <Compile Include="Events\for_EventStore\when_creating_an_instance_and_an_event_is_in_repository_and_a_subscription_has_not_received_it.cs" />
     <Compile Include="Events\for_EventStore\when_saving_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\EventSubscriberForTwoEvents.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\SomeOtherEvent.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_and_in_running_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\given\an_event_subscription_manager_with_one_subscriber_from_repository.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Events\for_EventSubscriptionManager\when_creating_and_there_is_no_subscription_in_repository_but_one_in_process.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_subscriber_has_processed_it.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_processing_an_event_and_there_is_one_subscription_for_the_event.cs" />
+    <Compile Include="Events\for_EventSubscriptionManager\when_processing_two_events_that_same_subscriber_can_process.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_resetting_last_event_id_by_id.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\given\an_event_subscription_repository_with_one_subscription.cs" />
     <Compile Include="Events\for_EventSubscriptionRepository\when_getting_by_id.cs" />

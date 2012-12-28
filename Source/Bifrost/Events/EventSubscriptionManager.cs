@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
@@ -69,7 +70,6 @@ namespace Bifrost.Events
             return availableSubscriptions;
         }
 
-
         public void Process(EventSubscription subscription, IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
@@ -78,22 +78,57 @@ namespace Bifrost.Events
 
         public void Process(EventSubscription subscription, IEvent @event)
         {
-            var subscriberInstance = _container.Get(subscription.Owner);
-            subscription.Method.Invoke(subscriberInstance, new[] { @event });
-            UpdateExistingSubscriptionFrom(subscription, @event.Id);
+            var subscriber = _container.Get(subscription.Owner) as IEventSubscriber;
+            Process(subscription, subscriber, @event);
         }
 
 
         public void Process(IEnumerable<IEvent> events)
         {
+            RefreshAndMergeSubscriptionsFromRepository();
+            var subscribers = GetSubscriberInstancesFromEvents(events);
+
             foreach (var @event in events)
-                Process(@event);
+                Process(subscribers, @event);
         }
 
         public void Process(IEvent @event)
         {
-            MergeSubscribersFromRepository();
+            RefreshAndMergeSubscriptionsFromRepository();
+            var subscribers = GetSubscriberInstancesFromEvents(new[] { @event });
+            Process(subscribers, @event);
+        }
 
+#pragma warning restore 1591 // Xml Comments
+
+        Dictionary<Type, IEventSubscriber> GetSubscriberInstancesFromEvents(IEnumerable<IEvent> events)
+        {
+            var subscribersBySubscriberTypes = new Dictionary<Type, IEventSubscriber>();
+
+            foreach (var @event in events)
+            {
+                var eventType = @event.GetType();
+                var subscriptions = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
+                foreach (var subscription in subscriptions)
+                {
+                    IEventSubscriber instance = null;
+                    if (subscribersBySubscriberTypes.ContainsKey(subscription.Owner))
+                        instance = subscribersBySubscriberTypes[subscription.Owner];
+                    else
+                    {
+                        instance = _container.Get(subscription.Owner) as IEventSubscriber;
+                        subscribersBySubscriberTypes[subscription.Owner] = instance;
+                    }
+
+                }
+            }
+
+            return subscribersBySubscriberTypes;
+        }
+
+
+        void Process(Dictionary<Type, IEventSubscriber> subscribers, IEvent @event)
+        {
             var eventType = @event.GetType();
             var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
@@ -101,10 +136,15 @@ namespace Bifrost.Events
                 if (!subscriptionToProcess.ShouldProcess(@event))
                     continue;
 
-                Process(subscriptionToProcess, @event);
+                Process(subscriptionToProcess, subscribers[subscriptionToProcess.Owner], @event);
             }
         }
-#pragma warning restore 1591 // Xml Comments
+
+        void Process(EventSubscription subscription, IEventSubscriber subscriber, IEvent @event)
+        {
+            subscription.Method.Invoke(subscriber, new[] { @event });
+            UpdateExistingSubscriptionFrom(subscription, @event.Id);
+        }
 
         void UpdateExistingSubscriptionFrom(EventSubscription subscription, long eventId)
         {
@@ -118,7 +158,7 @@ namespace Bifrost.Events
         {
             _allSubscriptions = new List<EventSubscription>();
             CollectInProcessSubscribers();
-            MergeSubscribersFromRepository();
+            RefreshAndMergeSubscriptionsFromRepository();
         }
 
 
@@ -158,7 +198,7 @@ namespace Bifrost.Events
         }
 
 
-        void MergeSubscribersFromRepository()
+        void RefreshAndMergeSubscriptionsFromRepository()
         {
             _allSubscriptions.Clear();
             _subscriptionsFromRepository = _repository.GetAll();
