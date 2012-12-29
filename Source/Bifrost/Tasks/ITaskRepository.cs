@@ -19,42 +19,44 @@
 // limitations under the License.
 //
 #endregion
-
 using System.Collections.Generic;
+
 namespace Bifrost.Tasks
 {
     /// <summary>
-    /// Defines a task that can run and can potentially be paused, resumed and persisted
+    /// Defines a repository for working with <see cref="Task">tasks</see>
     /// </summary>
-    public abstract class Task
+    public interface ITaskRepository
     {
         /// <summary>
-        /// <see cref="TaskId">Identifier</see> of the task
+        /// Load all tasks
         /// </summary>
-        public TaskId Id { get; set; }
+        /// <returns>A collection of <see cref="Task">Tasks</see></returns>
+        IEnumerable<Task> LoadAll();
 
         /// <summary>
-        /// Get the operations for the task
+        /// Load a specific <see cref="Task"/>
         /// </summary>
-        public abstract IEnumerable<TaskOperation> Operations { get; }
+        /// <param name="taskId"><see cref="TaskId"/> of the task</param>
+        /// <returns>The loaded <see cref="Task"/></returns>
+        Task Load(TaskId taskId);
 
         /// <summary>
-        /// Gets wether or not operations can run asynchronously, default is true
+        /// Save a <see cref="Task"/>
         /// </summary>
-        /// <remarks>
-        /// Override this to change the default behavior of it running everything asynchronously
-        /// </remarks>
-        public virtual bool CanRunOperationsAsynchronously { get { return true; } }
-
+        /// <param name="task"><see cref="Task"/> to save</param>
+        void Save(Task task);
 
         /// <summary>
-        /// Gets called when the task is about to begin
+        /// Delete a task <see cref="Task"/>
         /// </summary>
-        public virtual void Begin() { }
+        /// <param name="task"><see cref="Task"/> to delete</param>
+        void Delete(Task task);
 
         /// <summary>
-        /// Gets called when the task is ended, meaning when all the operations are done
+        /// Delete a <see cref="Task"/> by its <see cref="TaskId">identifier</see>
         /// </summary>
-        public virtual void End() { }
+        /// <param name="taskId"><see cref="TaskId"/> of the task</param>
+        void DeleteById(TaskId taskId);
     }
 }
