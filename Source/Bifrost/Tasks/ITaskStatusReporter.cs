@@ -19,46 +19,42 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
 
 namespace Bifrost.Tasks
 {
     /// <summary>
-    /// Defines a task that can run and can potentially be paused, resumed and persisted
+    /// Defines a interface for receiving status reports for tasks
     /// </summary>
-    public abstract class Task
+    public interface ITaskStatusReporter
     {
         /// <summary>
-        /// Gets or sets the current operation the task is on
+        /// Gets called when a task has been started
         /// </summary>
-        public int CurrentOperation { get; set; }
+        /// <param name="task"><see cref="Task"/> that was started</param>
+        void Started(Task task);
 
         /// <summary>
-        /// <see cref="TaskId">Identifier</see> of the task
+        /// Gets called when a task has been stopped
         /// </summary>
-        public TaskId Id { get; set; }
+        /// <param name="task"><see cref="Task"/> that was stopped</param>
+        void Stopped(Task task);
 
         /// <summary>
-        /// Get the operations for the task
+        /// Gets called when a task has been paused
         /// </summary>
-        public abstract IEnumerable<TaskOperation> Operations { get; }
+        /// <param name="task"></param>
+        void Paused(Task task);
 
         /// <summary>
-        /// Gets wether or not operations can run asynchronously, default is true
+        /// Gets called when a task has been resumed
         /// </summary>
-        /// <remarks>
-        /// Override this to change the default behavior of it running everything asynchronously
-        /// </remarks>
-        public virtual bool CanRunOperationsAsynchronously { get { return true; } }
+        /// <param name="task"><see cref="Task"/> that was resumed</param>
+        void Resumed(Task task);
 
         /// <summary>
-        /// Gets called when the task is about to begin
+        /// Gets called when a task changes status
         /// </summary>
-        public virtual void Begin() { }
-
-        /// <summary>
-        /// Gets called when the task is ended, meaning when all the operations are done
-        /// </summary>
-        public virtual void End() { }
+        /// <param name="task"><see cref="Task"/> that was changed</param>
+        void StatusChanged(Task task);
     }
 }

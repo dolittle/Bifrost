@@ -21,6 +21,7 @@
 #endregion
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace Bifrost.Extensions
 {
@@ -45,6 +46,32 @@ namespace Bifrost.Extensions
 			}
 			return null;
 		}
+
+        /// <summary>
+        /// Get all argument instances from a method expression
+        /// </summary>
+        /// <param name="expression"><see cref="Expression"/> to get argument instances from</param>
+        /// <returns>Array of argument instances</returns>
+        public static object[] GetMethodArguments(this Expression expression)
+        {
+			var lambda = expression as LambdaExpression;
+            if (null != lambda &&
+                lambda.Body is MethodCallExpression)
+            {
+                var methodCall = lambda.Body as MethodCallExpression;
+                var arguments = new List<object>();
+
+                foreach (var argument in methodCall.Arguments)
+                {
+                    var member = argument as MemberExpression;
+                    var value = member.GetInstance();
+                    arguments.Add(value);
+                }
+
+                return arguments.ToArray();
+            }
+            return new object[0];
+        } 
 
 
 		/// <summary>
@@ -100,19 +127,7 @@ namespace Bifrost.Extensions
 		public static object GetInstance(this Expression expression)
 		{
 			var memberExpression = GetMemberExpression(expression);
-			var constantExpression = memberExpression.Expression as ConstantExpression;
-			if (null == constantExpression)
-			{
-				
-				var innerMember = memberExpression.Expression as MemberExpression;
-				constantExpression = innerMember.Expression as ConstantExpression;
-				if( null != innerMember && innerMember.Member is PropertyInfo )
-				{
-					var value = ((PropertyInfo) innerMember.Member).GetValue(constantExpression.Value, null);
-					return value;
-				}
-			}
-			return constantExpression.Value;
+            return GetInstance(memberExpression);
 			
 		}
 
@@ -126,5 +141,34 @@ namespace Bifrost.Extensions
 		{
 			return (T)GetInstance(expression);
 		}
+
+        static object GetInstance(this MemberExpression memberExpression)
+        {
+            var constantExpression = memberExpression.Expression as ConstantExpression;
+            if (null == constantExpression)
+            {
+                var innerMember = memberExpression.Expression as MemberExpression;
+                constantExpression = innerMember.Expression as ConstantExpression;
+                return GetValue(innerMember, constantExpression);
+            }
+            return GetValue(memberExpression, constantExpression);
+        }
+
+        static object GetValue(MemberExpression memberExpression, ConstantExpression constantExpression)
+        {
+            if (memberExpression.Member is PropertyInfo)
+            {
+                var value = ((PropertyInfo)memberExpression.Member).GetValue(constantExpression.Value, null);
+                return value;
+            }
+            if (memberExpression.Member is FieldInfo)
+            {
+                var value = ((FieldInfo)memberExpression.Member).GetValue(constantExpression.Value);
+                return value;
+            }
+
+            return constantExpression.Value;
+        }
+
 	}
 }
