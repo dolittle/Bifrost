@@ -39,8 +39,8 @@ namespace Bifrost.Tasks
         /// Start a given task
         /// </summary>
         /// <typeparam name="T">Type of <see cref="Task"/> to start</typeparam>
-        /// <param name="task">The <see cref="Task"/> to start</param>
-        void Start<T>(T task) where T : Task;
+        /// <returns>The <see cref="Task"/> that was started</returns>
+        T Start<T>() where T : Task;
 
         /// <summary>
         /// Stop a task by its <see cref="TaskId"/>

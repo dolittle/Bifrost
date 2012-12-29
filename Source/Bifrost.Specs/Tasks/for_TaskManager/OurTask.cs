@@ -5,7 +5,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager
 {
     public class OurTask : Task
     {
-        public override IEnumerable<TaskOperation> Operations
+        public override TaskOperation[] Operations
         {
             get 
             {

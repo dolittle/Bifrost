@@ -41,7 +41,7 @@ namespace Bifrost.Tasks
         /// <summary>
         /// Get the operations for the task
         /// </summary>
-        public abstract IEnumerable<TaskOperation> Operations { get; }
+        public abstract TaskOperation[] Operations { get; }
 
         /// <summary>
         /// Gets wether or not operations can run asynchronously, default is true
