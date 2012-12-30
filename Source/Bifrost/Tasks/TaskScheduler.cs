@@ -48,18 +48,21 @@ namespace Bifrost.Tasks
 
 
 #pragma warning disable 1591 // Xml Comments
-        public void Start(Task task)
+        public void Start(Task task, Action<Task> taskDone=null)
         {
             if (task.IsDone)
+            {
+                taskDone(task);
                 return;
+            }
 
             if (!_tasks.Contains(task))
                 _tasks.Add(task);            
 
             if (task.CanRunOperationsAsynchronously)
-                ScheduleOperations(task);
+                ScheduleOperations(task, taskDone);
             else
-                ExecuteOperations(task);
+                ExecuteOperations(task, taskDone);
         }
 
 
@@ -71,19 +74,15 @@ namespace Bifrost.Tasks
         }
 #pragma warning restore 1591 // Xml Comments
 
-        void ScheduleOperations(Task task)
+        void ScheduleOperations(Task task, Action<Task> taskDone)
         {
             _taskOperationIds[task] = new Guid[task.Operations.Length];
             var operationsDone = new bool[task.Operations.Length];
+            for (var operationIndex = 0; operationIndex < task.CurrentOperation; operationIndex++)
+                operationsDone[operationIndex] = true;
 
             for (var operationIndex = task.CurrentOperation; operationIndex < task.Operations.Length; operationIndex++)
-            {
-                _taskOperationIds[task][operationIndex] = _scheduler.Start<Task>(t => t.Operations[operationIndex](t, operationIndex), task, t =>
-                {
-                    task.CurrentOperation = operationIndex + 1;
-                    operationsDone[operationIndex] = true;
-                });
-            }
+                ScheduleOperation(task, operationsDone, operationIndex, taskDone);
 
             if (!_tasks.Contains(task))
                 StopOperationsForTask(task);
@@ -92,7 +91,20 @@ namespace Bifrost.Tasks
                 _taskOperationIds.Remove(task);
         }
 
-        void ExecuteOperations(Task task)
+        void ScheduleOperation(Task task, bool[] operationsDone, int operationIndex, Action<Task> taskDone)
+        {
+            var currentOperationIndex = operationIndex;
+            _taskOperationIds[task][currentOperationIndex] = _scheduler.Start<Task>(t => t.Operations[currentOperationIndex](t, currentOperationIndex), task, t =>
+            {
+                task.CurrentOperation = currentOperationIndex + 1;
+                operationsDone[currentOperationIndex] = true;
+
+                if (!operationsDone.Any(b => b == false))
+                    taskDone(task);
+            });
+        }
+
+        void ExecuteOperations(Task task, Action<Task> taskDone)
         {
             _scheduler.Start<Task>(t =>
             {
@@ -103,6 +115,9 @@ namespace Bifrost.Tasks
                     if (!_tasks.Contains(task))
                         break;
                 }
+
+                _tasks.Remove(task);
+                taskDone(task);
             }, task);
         }
 

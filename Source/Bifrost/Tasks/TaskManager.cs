@@ -33,7 +33,7 @@ namespace Bifrost.Tasks
     public class TaskManager : ITaskManager
     {
         ITaskRepository _taskRepository;
-        ITaskScheduler _taskExecutor;
+        ITaskScheduler _taskScheduler;
         IContainer _container;
         IEnumerable<ITaskStatusReporter> _reporters;
 
@@ -42,13 +42,13 @@ namespace Bifrost.Tasks
         /// Initializes a new instance of the <see cref="TaskManager"/>
         /// </summary>
         /// <param name="taskRepository">A <see cref="ITaskRepository"/> to load / save <see cref="Task">tasks</see></param>
-        /// <param name="taskExecutor">A <see cref="ITaskScheduler"/> for executing tasks and their operations</param>
+        /// <param name="taskScheduler">A <see cref="ITaskScheduler"/> for executing tasks and their operations</param>
         /// <param name="typeImporter">A <see cref="ITypeImporter"/> used for importing <see cref="ITaskStatusReporter"/></param>
         /// <param name="container">A <see cref="IContainer"/> to use for getting instances</param>
-        public TaskManager(ITaskRepository taskRepository, ITaskScheduler taskExecutor, ITypeImporter typeImporter, IContainer container)
+        public TaskManager(ITaskRepository taskRepository, ITaskScheduler taskScheduler, ITypeImporter typeImporter, IContainer container)
         {
             _taskRepository = taskRepository;
-            _taskExecutor = taskExecutor;
+            _taskScheduler = taskScheduler;
             _container = container;
             _reporters = typeImporter.ImportMany<ITaskStatusReporter>();
         }
@@ -57,9 +57,19 @@ namespace Bifrost.Tasks
         public T Start<T>() where T : Task
         {
             var task = _container.Get<T>();
+            task.Id = Guid.NewGuid();
+            task.StateChange += t =>
+            {
+                _taskRepository.Save(task);
+                Report(tt => tt.StateChanged(task));
+            };
+
+            _taskRepository.Save(task);
+
             task.CurrentOperation = 0;
             task.Begin();
-            _taskExecutor.Start(task);
+
+            _taskScheduler.Start(task, t => Stop(t.Id));
             Report(t => t.Started(task));
 
             return task;
@@ -69,7 +79,7 @@ namespace Bifrost.Tasks
         {
             var task = _taskRepository.Load(taskId) as T;
             task.Begin();
-            _taskExecutor.Start(task);
+            _taskScheduler.Start(task);
             Report(t => t.Resumed(task));
             return task;
         }
@@ -85,7 +95,7 @@ namespace Bifrost.Tasks
         public void Pause(TaskId taskId)
         {
             var task = _taskRepository.Load(taskId);
-            _taskExecutor.Stop(task);
+            _taskScheduler.Stop(task);
             Report(t => t.Paused(task));
         }
 #pragma warning restore 1591 // Xml Comments

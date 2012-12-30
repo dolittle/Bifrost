@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Bifrost.Tasks;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
@@ -20,6 +21,11 @@ namespace Bifrost.Specs.Tasks.for_TaskRepository
                 AnInteger = 43
             };
 
+            var task_entities = new[] {
+                new TaskEntity { Id = task.Id }
+            };
+
+            entity_context_mock.Setup(e => e.Entities).Returns(task_entities.AsQueryable());
             entity_context_mock.Setup(e=>e.Delete(Moq.It.IsAny<TaskEntity>())).Callback((TaskEntity t) => task_entity = t);
         };
 

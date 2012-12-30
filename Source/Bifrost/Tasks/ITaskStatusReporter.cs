@@ -52,9 +52,9 @@ namespace Bifrost.Tasks
         void Resumed(Task task);
 
         /// <summary>
-        /// Gets called when a task changes status
+        /// Gets called when a task changes state
         /// </summary>
         /// <param name="task"><see cref="Task"/> that was changed</param>
-        void StatusChanged(Task task);
+        void StateChanged(Task task);
     }
 }

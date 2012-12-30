@@ -19,26 +19,11 @@
 // limitations under the License.
 //
 #endregion
-
-using System;
 namespace Bifrost.Tasks
 {
     /// <summary>
-    /// Defines an executor for executing <see cref="Task">tasks</see>
+    /// Represents the method that gets called from a <see cref="Task"/> when it has progress or state change
     /// </summary>
-    public interface ITaskScheduler
-    {
-        /// <summary>
-        /// Start a <see cref="Task"/> and its <see cref="TaskOperation">operations</see>
-        /// </summary>
-        /// <param name="task"><see cref="Task"/> to execute</param>
-        /// <param name="taskDone">Optional <see cref="Action{Task}"/> that gets called when the task is done</param>
-        void Start(Task task, Action<Task> taskDone=null);
-
-        /// <summary>
-        /// Stops a <see cref="Task"/> that is executing
-        /// </summary>
-        /// <param name="task"><see cref="Task"/> to stop</param>
-        void Stop(Task task);
-    }
+    /// <param name="task"><see cref="Task"/> that changed</param>
+    public delegate void TaskStateChange(Task task);
 }

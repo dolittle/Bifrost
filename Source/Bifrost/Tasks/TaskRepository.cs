@@ -65,16 +65,24 @@ namespace Bifrost.Tasks
                 _entityContext.Update(ToTaskEntity(task, existing));
             else
                 _entityContext.Insert(ToTaskEntity(task));
+
+            _entityContext.Commit();
         }
 
         public void Delete(Task task)
         {
-            _entityContext.Delete(new TaskEntity { Id = task.Id });
+            var existing = _entityContext.Entities.SingleOrDefault(t => t.Id == task.Id);
+            if (existing != null)
+            {
+                _entityContext.Delete(existing);
+                _entityContext.Commit();
+            }
         }
 
         public void DeleteById(TaskId taskId)
         {
             _entityContext.DeleteById(taskId.Value);
+            _entityContext.Commit();
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -119,7 +127,8 @@ namespace Bifrost.Tasks
             var sourceType = source.GetType();
             var taskType = typeof(Task);
             var taskProperties = taskType.GetProperties();
-            var sourceProperties = sourceType.GetProperties().Where(p => p.DeclaringType == sourceType && !taskProperties.Any(pp=>pp.Name == p.Name) );
+            var declaringTypeProperties = sourceType.GetProperties().Where(p => p.DeclaringType == sourceType);
+            var sourceProperties = declaringTypeProperties.Where(p=>!taskProperties.Any(pp=>pp.Name == p.Name));
             target.State = sourceProperties.ToDictionary(p=>p.Name, p=>p.GetValue(source, null).ToString());
         }
     }

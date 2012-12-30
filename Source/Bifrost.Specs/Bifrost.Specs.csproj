@@ -336,6 +336,8 @@
     <Compile Include="Sagas\for_Saga\when_loading_events_and_saga_has_events_from_multiple_aggregatedroots.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter.cs" />
     <Compile Include="Security\for_SecurityDescriptor\TestDescriptor.cs" />
+    <Compile Include="Tasks\for_TaskManager\when_starting_and_it_gets_done.cs" />
+    <Compile Include="Tasks\for_TaskManager\when_progress_is_made_on_started_task.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_deleting_task_by_id.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_deleting_task.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_saving_existing_task.cs" />

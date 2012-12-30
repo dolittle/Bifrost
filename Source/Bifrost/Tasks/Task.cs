@@ -29,6 +29,11 @@ namespace Bifrost.Tasks
     public abstract class Task
     {
         /// <summary>
+        /// The event that gets called when a state change has occured on the <see cref="Task"/>
+        /// </summary>
+        public event TaskStateChange StateChange;
+
+        /// <summary>
         /// Gets or sets the current operation the task is on
         /// </summary>
         public int CurrentOperation { get; set; }
@@ -66,5 +71,14 @@ namespace Bifrost.Tasks
         /// </summary>
         /// <returns></returns>
         public bool IsDone { get { return CurrentOperation >= Operations.Length; } }
+
+        /// <summary>
+        /// Progress the state, causes a <see cref="TaskStateChange"/> event
+        /// </summary>
+        public void Progress()
+        {
+            if (StateChange != null)
+                StateChange(this);
+        }
     }
 }

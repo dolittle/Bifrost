@@ -23,7 +23,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager
 
         It should_return_the_task = () => result.ShouldEqual(task);
         It should_call_begin_on_the_task = () => result.BeginCalled.ShouldBeTrue();
-        It should_execute_the_task = () => task_executor_mock.Verify(t => t.Start(task), Moq.Times.Once());
+        It should_execute_the_task = () => task_scheduler_mock.Verify(t => t.Start(task,null), Moq.Times.Once());
         It should_call_the_status_reporter = () => task_status_reporter_mock.Verify(t => t.Resumed(task), Moq.Times.Once());
     }
 }

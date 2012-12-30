@@ -29,6 +29,15 @@ namespace Bifrost.Tasks
     public struct TaskId
     {
         /// <summary>
+        /// Create a new <see cref="TaskId"/>
+        /// </summary>
+        /// <returns></returns>
+        public static TaskId New()
+        {
+            return Guid.NewGuid();
+        }
+
+        /// <summary>
         /// Gets or sets the actual value
         /// </summary>
         public Guid Value { get; set; }

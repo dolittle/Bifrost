@@ -150,6 +150,7 @@
     <Compile Include="Tasks\TaskId.cs" />
     <Compile Include="Tasks\TaskManager.cs" />
     <Compile Include="Tasks\TaskOperation.cs" />
+    <Compile Include="Tasks\TaskStateChange.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />

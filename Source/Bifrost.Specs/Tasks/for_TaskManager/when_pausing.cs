@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager
 
         Because of = () => task_manager.Pause(task_id);
 
-        It should_stop_the_executor = () => task_executor_mock.Verify(t => t.Stop(task), Moq.Times.Once());
+        It should_stop_the_executor = () => task_scheduler_mock.Verify(t => t.Stop(task), Moq.Times.Once());
         It should_call_the_status_reporter = () => task_status_reporter_mock.Verify(t => t.Paused(task), Moq.Times.Once());
     }
 }

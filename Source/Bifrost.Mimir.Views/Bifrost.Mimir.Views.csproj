@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EventsSubscriptions\EventSubscribers.cs" />
     <Compile Include="EventStores\EventSubscribers.cs" />
+    <Compile Include="EventStores\ResetAllEventsForAllSubscriptionsTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
