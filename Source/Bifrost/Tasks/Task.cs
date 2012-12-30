@@ -60,5 +60,11 @@ namespace Bifrost.Tasks
         /// Gets called when the task is ended, meaning when all the operations are done
         /// </summary>
         public virtual void End() { }
+
+        /// <summary>
+        /// Gets a boolean telling if the task is done or not
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDone { get { return CurrentOperation >= Operations.Length; } }
     }
 }

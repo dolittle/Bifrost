@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager.given
     public class a_task_manager_with_one_reporter
     {
         protected static Mock<ITaskRepository> task_repository_mock;
-        protected static Mock<ITaskExecutor> task_executor_mock;
+        protected static Mock<ITaskScheduler> task_executor_mock;
         protected static Mock<ITypeImporter> type_importer_mock;
         protected static Mock<IContainer> container_mock;
         protected static Mock<ITaskStatusReporter> task_status_reporter_mock;
@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager.given
         Establish context = () =>
         {
             task_repository_mock = new Mock<ITaskRepository>();
-            task_executor_mock = new Mock<ITaskExecutor>();
+            task_executor_mock = new Mock<ITaskScheduler>();
             type_importer_mock = new Mock<ITypeImporter>();
             container_mock = new Mock<IContainer>();
             task_status_reporter_mock = new Mock<ITaskStatusReporter>();

@@ -33,7 +33,7 @@ namespace Bifrost.Tasks
     public class TaskManager : ITaskManager
     {
         ITaskRepository _taskRepository;
-        ITaskExecutor _taskExecutor;
+        ITaskScheduler _taskExecutor;
         IContainer _container;
         IEnumerable<ITaskStatusReporter> _reporters;
 
@@ -42,10 +42,10 @@ namespace Bifrost.Tasks
         /// Initializes a new instance of the <see cref="TaskManager"/>
         /// </summary>
         /// <param name="taskRepository">A <see cref="ITaskRepository"/> to load / save <see cref="Task">tasks</see></param>
-        /// <param name="taskExecutor">A <see cref="ITaskExecutor"/> for executing tasks and their operations</param>
+        /// <param name="taskExecutor">A <see cref="ITaskScheduler"/> for executing tasks and their operations</param>
         /// <param name="typeImporter">A <see cref="ITypeImporter"/> used for importing <see cref="ITaskStatusReporter"/></param>
         /// <param name="container">A <see cref="IContainer"/> to use for getting instances</param>
-        public TaskManager(ITaskRepository taskRepository, ITaskExecutor taskExecutor, ITypeImporter typeImporter, IContainer container)
+        public TaskManager(ITaskRepository taskRepository, ITaskScheduler taskExecutor, ITypeImporter typeImporter, IContainer container)
         {
             _taskRepository = taskRepository;
             _taskExecutor = taskExecutor;
@@ -59,7 +59,7 @@ namespace Bifrost.Tasks
             var task = _container.Get<T>();
             task.CurrentOperation = 0;
             task.Begin();
-            _taskExecutor.Execute(task);
+            _taskExecutor.Start(task);
             Report(t => t.Started(task));
 
             return task;
@@ -69,7 +69,7 @@ namespace Bifrost.Tasks
         {
             var task = _taskRepository.Load(taskId) as T;
             task.Begin();
-            _taskExecutor.Execute(task);
+            _taskExecutor.Start(task);
             Report(t => t.Resumed(task));
             return task;
         }

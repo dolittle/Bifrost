@@ -19,28 +19,24 @@
 // limitations under the License.
 //
 #endregion
-using System.Linq;
-using SystemTask = System.Threading.Tasks.Task;
 
 namespace Bifrost.Tasks
 {
     /// <summary>
-    /// Represents a <see cref="ITaskExecutor"/>
+    /// Defines an executor for executing <see cref="Task">tasks</see>
     /// </summary>
-    public class TaskExecutor : ITaskExecutor
+    public interface ITaskScheduler
     {
-#pragma warning disable 1591 // Xml Comments
-        public void Execute(Task task)
-        {
-            
-            for (var operationIndex = task.CurrentOperation; operationIndex < task.Operations.Length; operationIndex++)
-                SystemTask.Factory.StartNew(t => ((Task)t).Operations[operationIndex]((Task)t), task);
-        }
+        /// <summary>
+        /// Start a <see cref="Task"/> and its <see cref="TaskOperation">operations</see>
+        /// </summary>
+        /// <param name="task"><see cref="Task"/> to execute</param>
+        void Start(Task task);
 
-        public void Stop(Task task)
-        {
-            throw new System.NotImplementedException();
-        }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Stops a <see cref="Task"/> that is executing
+        /// </summary>
+        /// <param name="task"><see cref="Task"/> to stop</param>
+        void Stop(Task task);
     }
 }

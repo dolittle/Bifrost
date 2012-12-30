@@ -62,6 +62,8 @@
     <Compile Include="Commands\DynamicCommandHandler.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
     <Compile Include="Commands\IDynamicCommandFactory.cs" />
+    <Compile Include="Concurrency\IScheduler.cs" />
+    <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\ConfigSection\ConfigurationManager.cs" />
     <Compile Include="Configuration\ConfigSection\IConfigurationManager.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
@@ -137,12 +139,12 @@
     <Compile Include="Sagas\SagaHolder.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Tasks\ITaskExecutor.cs" />
+    <Compile Include="Tasks\ITaskScheduler.cs" />
     <Compile Include="Tasks\ITaskManager.cs" />
     <Compile Include="Tasks\ITaskRepository.cs" />
     <Compile Include="Tasks\ITaskStatusReporter.cs" />
     <Compile Include="Tasks\Task.cs" />
-    <Compile Include="Tasks\TaskExecutor.cs" />
+    <Compile Include="Tasks\TaskScheduler.cs" />
     <Compile Include="Tasks\TaskId.cs" />
     <Compile Include="Tasks\TaskManager.cs" />
     <Compile Include="Tasks\TaskOperation.cs" />

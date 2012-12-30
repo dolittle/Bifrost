@@ -18,14 +18,14 @@ namespace Bifrost.Specs.Tasks.for_TaskManager
 
 
         public bool FirstOperationCalled = false;
-        public void FirstOperation(Task task)
+        public void FirstOperation(Task task, int operationIndex)
         {
             FirstOperationCalled = true;
         }
 
 
         public bool SecondOperationCalled = false;
-        public void SecondOperation(Task task)
+        public void SecondOperation(Task task, int operationIndex)
         {
             SecondOperationCalled = true;
         }

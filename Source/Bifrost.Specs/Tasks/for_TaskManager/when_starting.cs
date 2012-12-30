@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Tasks.for_TaskManager
 
         It should_return_the_created_task = () => result.ShouldEqual(task);
         It should_call_begin_on_the_task = () => task.BeginCalled.ShouldBeTrue();
-        It should_execute_the_task = () => task_executor_mock.Verify(t => t.Execute(task), Moq.Times.Once());
+        It should_execute_the_task = () => task_executor_mock.Verify(t => t.Start(task), Moq.Times.Once());
         It should_reset_current_operation = () => task.CurrentOperation.ShouldEqual(0);
         It should_call_the_status_reporter = () => task_status_reporter_mock.Verify(t => t.Started(task), Moq.Times.Once());
     }
