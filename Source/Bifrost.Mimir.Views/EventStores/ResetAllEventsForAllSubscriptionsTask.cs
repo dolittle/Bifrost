@@ -14,13 +14,12 @@ namespace Bifrost.Mimir.Views.EventStores
 
         void Perform(Task task, int operationIndex)
         {
-            /*
             while (Counter < 10)
             {
                 Counter++;
                 Progress();
                 Thread.Sleep(1000);
-            }*/
+            }
         }
     }
 }

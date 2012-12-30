@@ -120,6 +120,8 @@
     <EmbeddedResource Include="Features\ApplicationBar\view.html" />
     <EmbeddedResource Include="Features\ApplicationBar\viewModel.js" />
     <EmbeddedResource Include="Images\applicationBarBackground.jpg" />
+    <EmbeddedResource Include="Features\Tasks\index.html" />
+    <EmbeddedResource Include="Features\Tasks\index.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
