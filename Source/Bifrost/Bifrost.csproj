@@ -144,6 +144,8 @@
     <Compile Include="Tasks\ITaskRepository.cs" />
     <Compile Include="Tasks\ITaskStatusReporter.cs" />
     <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskEntity.cs" />
+    <Compile Include="Tasks\TaskRepository.cs" />
     <Compile Include="Tasks\TaskScheduler.cs" />
     <Compile Include="Tasks\TaskId.cs" />
     <Compile Include="Tasks\TaskManager.cs" />

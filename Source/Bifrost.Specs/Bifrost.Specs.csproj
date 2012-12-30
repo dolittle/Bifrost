@@ -336,6 +336,14 @@
     <Compile Include="Sagas\for_Saga\when_loading_events_and_saga_has_events_from_multiple_aggregatedroots.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter.cs" />
     <Compile Include="Security\for_SecurityDescriptor\TestDescriptor.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_deleting_task_by_id.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_deleting_task.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_saving_existing_task.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_saving_task.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_loading_by_id.cs" />
+    <Compile Include="Tasks\for_TaskRepository\given\a_task_repository.cs" />
+    <Compile Include="Tasks\for_TaskRepository\MyTask.cs" />
+    <Compile Include="Tasks\for_TaskRepository\when_loading_all.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_stopping_asynchronous_task_with_two_operations_after_first_operation.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_stopping_synchronous_task_with_two_operations_after_first_operation.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_starting_synchronous_task_with_two_operations_and_all_operations_are_done.cs" />
