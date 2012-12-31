@@ -14,7 +14,7 @@ namespace Bifrost.Mimir.Views.EventStores
 
         void Perform(Task task, int operationIndex)
         {
-            while (Counter < 10)
+            while (Counter < 3)
             {
                 Counter++;
                 Progress();

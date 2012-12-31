@@ -22,9 +22,7 @@ namespace Bifrost.Specs.Tasks.for_TaskRepository
                 AnInteger = 43
             };
 
-            entity_context_mock.Setup(e => e.Entities).Returns(new[] {
-                new TaskEntity { Id = task.Id }
-            }.AsQueryable());
+            entity_context_mock.Setup(e => e.GetById(task.Id.Value)).Returns(new TaskEntity { Id = task.Id.Value });
             entity_context_mock.Setup(e=>e.Update(Moq.It.IsAny<TaskEntity>())).Callback((TaskEntity t) => task_entity = t);
         };
 

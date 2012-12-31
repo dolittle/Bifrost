@@ -100,6 +100,61 @@ Bifrost.namespace("Bifrost", {
         };
     })()
 });
+Bifrost.namespace("Bifrost.execution", {
+    Promise: function () {
+        var self = this;
+
+        this.signalled = false;
+        this.callback = null;
+        this.error = null;
+        this.hasFailed = false;
+        this.failedCallback = null;
+
+        function onSignal() {
+            if (self.callback != null && typeof self.callback !== "undefined") {
+                if (typeof self.signalParameter !== "undefined") {
+                    self.callback(self.signalParameter, Bifrost.execution.Promise.create());
+                } else {
+                    self.callback(Bifrost.execution.Promise.create());
+                }
+            }
+        }
+
+        this.fail = function (error) {
+            if (self.failedCallback != null) self.failedCallback(error);
+            self.hasFailed = true;
+            self.error = error;
+            throw error;
+        };
+
+        this.onFail = function (callback) {
+            if (self.hasFailed) {
+                callback(self.error);
+            } else {
+                self.failedCallback = callback;
+            }
+        };
+
+
+        this.signal = function (parameter) {
+            self.signalled = true;
+            self.signalParameter = parameter;
+            onSignal();
+        };
+
+        this.continueWith = function (callback) {
+            var nextPromise = Bifrost.execution.Promise.create();
+            this.callback = callback;
+            if (self.signalled === true) onSignal();
+            return nextPromise;
+        };
+    }
+});
+
+Bifrost.execution.Promise.create = function() {
+	var promise = new Bifrost.execution.Promise();
+	return promise;
+};
 Bifrost.namespace("Bifrost", {
     isNumber: function (number) {
         return !isNaN(parseFloat(number)) && isFinite(number);
@@ -783,118 +838,6 @@ Bifrost.Uri = (function(window, undefined) {
 		},
 	};
 })(window);
-﻿Bifrost.namespace("Bifrost", {
-    configure: (function () {
-        var self = this;
-
-        this.ready = false;
-        this.readyCallbacks = [];
-
-        function ready(callback) {
-            if (self.ready == true) {
-                callback();
-            } else {
-                readyCallbacks.push(callback);
-            }
-        }
-
-        function onReady() {
-            self.ready = true;
-            for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
-                self.readyCallbacks[callbackIndex]();
-            }
-        }
-
-        function onStartup() {
-            var self = this;
-
-            var promise = Bifrost.assetsManager.initialize();
-            promise.continueWith(function () {
-                self.onReady();
-            });
-
-            Bifrost.navigation.navigationManager.hookup();
-            Bifrost.features.featureManager.hookup($);
-        }
-
-        function reset() {
-            self.ready = false;
-            self.readyCallbacks = [];
-        }
-
-        return {
-            ready: ready,
-            onReady: onReady,
-            onStartup: onStartup,
-            reset: reset,
-            isReady: function () {
-                return self.ready;
-            }
-        }
-    })()
-});
-(function ($) {
-    $(function () {
-        if( typeof Bifrost.assetsManager !== "undefined" ) {
-            Bifrost.configure.onStartup();
-        }
-    });
-})(jQuery);
-Bifrost.namespace("Bifrost.execution", {
-    Promise: function () {
-        var self = this;
-
-        this.signalled = false;
-        this.callback = null;
-        this.error = null;
-        this.hasFailed = false;
-        this.failedCallback = null;
-
-        function onSignal() {
-            if (self.callback != null && typeof self.callback !== "undefined") {
-                if (typeof self.signalParameter !== "undefined") {
-                    self.callback(self.signalParameter, Bifrost.execution.Promise.create());
-                } else {
-                    self.callback(Bifrost.execution.Promise.create());
-                }
-            }
-        }
-
-        this.fail = function (error) {
-            if (self.failedCallback != null) self.failedCallback(error);
-            self.hasFailed = true;
-            self.error = error;
-            throw error;
-        };
-
-        this.onFail = function (callback) {
-            if (self.hasFailed) {
-                callback(self.error);
-            } else {
-                self.failedCallback = callback;
-            }
-        };
-
-
-        this.signal = function (parameter) {
-            self.signalled = true;
-            self.signalParameter = parameter;
-            onSignal();
-        };
-
-        this.continueWith = function (callback) {
-            var nextPromise = Bifrost.execution.Promise.create();
-            this.callback = callback;
-            if (self.signalled === true) onSignal();
-            return nextPromise;
-        };
-    }
-});
-
-Bifrost.execution.Promise.create = function() {
-	var promise = new Bifrost.execution.Promise();
-	return promise;
-};
 Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
 Bifrost.Exception.define("Bifrost.validation.NotANumber", "Value is not a number");
@@ -2256,10 +2199,68 @@ Bifrost.namespace("Bifrost.navigation", {
         return observable;
     }
 }
+﻿Bifrost.namespace("Bifrost", {
+    configure: (function () {
+        var self = this;
+
+        this.ready = false;
+        this.readyCallbacks = [];
+
+        function ready(callback) {
+            if (self.ready == true) {
+                callback();
+            } else {
+                readyCallbacks.push(callback);
+            }
+        }
+
+        function onReady() {
+            self.ready = true;
+            for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
+                self.readyCallbacks[callbackIndex]();
+            }
+        }
+
+        function onStartup() {
+            var self = this;
+
+            var promise = Bifrost.assetsManager.initialize();
+            promise.continueWith(function () {
+                self.onReady();
+            });
+
+            Bifrost.navigation.navigationManager.hookup();
+            Bifrost.features.featureManager.hookup($);
+        }
+
+        function reset() {
+            self.ready = false;
+            self.readyCallbacks = [];
+        }
+
+        return {
+            ready: ready,
+            onReady: onReady,
+            onStartup: onStartup,
+            reset: reset,
+            isReady: function () {
+                return self.ready;
+            }
+        }
+    })()
+});
+(function ($) {
+    $(function () {
+        if( typeof Bifrost.assetsManager !== "undefined" ) {
+            Bifrost.configure.onStartup();
+        }
+    });
+})(jQuery);
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends utils/namespaces.js
+@depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
 @depends utils/path.js
@@ -2276,8 +2277,6 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
-@depends utils/configure.js
-@depends execution/Promise.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -2314,4 +2313,5 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
+@depends utils/configure.js
 */

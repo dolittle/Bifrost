@@ -2,6 +2,7 @@
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends utils/namespaces.js
+@depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
 @depends utils/path.js
@@ -18,8 +19,6 @@
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
-@depends utils/configure.js
-@depends execution/Promise.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -56,4 +55,5 @@
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
+@depends utils/configure.js
 */

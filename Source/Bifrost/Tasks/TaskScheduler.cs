@@ -99,8 +99,9 @@ namespace Bifrost.Tasks
                 task.CurrentOperation = currentOperationIndex + 1;
                 operationsDone[currentOperationIndex] = true;
 
-                if (!operationsDone.Any(b => b == false))
-                    taskDone(task);
+                if( taskDone != null ) 
+                    if (!operationsDone.Any(b => b == false))
+                        taskDone(task);
             });
         }
 
@@ -117,7 +118,8 @@ namespace Bifrost.Tasks
                 }
 
                 _tasks.Remove(task);
-                taskDone(task);
+                if( taskDone != null )
+                    taskDone(task);
             }, task);
         }
 

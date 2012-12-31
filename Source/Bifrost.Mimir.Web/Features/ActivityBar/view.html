@@ -4,25 +4,25 @@
     <title></title>
 </head>
 <body>
-<style>
-</style>
-<div id="activityBar">
     <link rel="stylesheet" type="text/css" href="/Styles/activityBar.css" />
-    <ul>
-        <li>
-            <!--
-            <div class="activityBarButton" title="Details">
-                <div>DETAILS</div>
-                <i class="icon-asterisk"></i>
-            </div>
-            -->
-            <div class="activityBarButton" title="Ok">
-                <div>Ok</div>
-                <i class="icon-ok"></i>
-            </div>
-        </li>
-    </ul>
-</div>
-
+    <div data-bind="foreach: tasks">
+        <div id="activityBar">
+            <span data-bind="text:Type"></span>
+            <ul>
+                <li>
+                    <!--
+        <div class="activityBarButton" title="Details">
+            <div>DETAILS</div>
+            <i class="icon-asterisk"></i>
+        </div>
+        -->
+                    <div class="activityBarButton" title="Ok" data-bind="click: $root.removeTask.bind($data)">
+                        <div>Ok</div>
+                        <i class="icon-ok"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

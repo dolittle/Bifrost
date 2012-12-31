@@ -55,34 +55,43 @@ namespace Bifrost.Tasks
 
         public Task Load(TaskId taskId)
         {
-            return _entityContext.Entities.Where(e => e.Id == taskId.Value).Select(ToTask).Single();
+            return ToTask(_entityContext.GetById(taskId.Value));
         }
 
         public void Save(Task task)
         {
-            var existing = _entityContext.Entities.SingleOrDefault(t => t.Id == task.Id);
-            if ( existing != null )
-                _entityContext.Update(ToTaskEntity(task, existing));
-            else
-                _entityContext.Insert(ToTaskEntity(task));
+            lock (_entityContext)
+            {
+                var existing = _entityContext.GetById(task.Id.Value);
+                if (existing != null)
+                    _entityContext.Update(ToTaskEntity(task, existing));
+                else
+                    _entityContext.Insert(ToTaskEntity(task));
 
-            _entityContext.Commit();
+                _entityContext.Commit();
+            }
         }
 
         public void Delete(Task task)
         {
-            var existing = _entityContext.Entities.SingleOrDefault(t => t.Id == task.Id);
-            if (existing != null)
+            lock (_entityContext)
             {
-                _entityContext.Delete(existing);
-                _entityContext.Commit();
+                var existing = _entityContext.GetById(task.Id.Value);
+                if (existing != null)
+                {
+                    _entityContext.Delete(existing);
+                    _entityContext.Commit();
+                }
             }
         }
 
         public void DeleteById(TaskId taskId)
         {
-            _entityContext.DeleteById(taskId.Value);
-            _entityContext.Commit();
+            lock (_entityContext)
+            {
+                _entityContext.DeleteById(taskId.Value);
+                _entityContext.Commit();
+            }
         }
 #pragma warning restore 1591 // Xml Comments
 

@@ -105,8 +105,10 @@ namespace Bifrost.Web.Applications
             }
             else
             {
-
-                if (line.Contains(attribute + "=") && !line.Contains(attribute + "=\"http") && !line.Contains(attribute + "='http"))
+                if (line.Contains(attribute + "=") && 
+                    !line.Contains(attribute + "=\"http") && 
+                    !line.Contains(attribute + "='http") &&
+                    !line.Contains("signalr/hubs") )
                 {
                     if (line.Contains(attribute + "=\"/") && line.Contains(attribute + "='/"))
                     {

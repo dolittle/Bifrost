@@ -8,13 +8,21 @@
   margin: 0;
   text-align: center;
   z-index: 5000;
-  
 }
 #activityBar
 {
     background-color: #495461;  
     color: #ffffff;
 }
+#activityBar span
+{
+    left: 16px;
+    display: block;
+    top: 30px;
+    position: relative;
+    text-align: left;
+}
+
 #activityBar ul
 {
     position: relative;
@@ -65,4 +73,5 @@
     top:18px;
     right:10px;
     width:auto;
+    text-transform: uppercase;
 }
