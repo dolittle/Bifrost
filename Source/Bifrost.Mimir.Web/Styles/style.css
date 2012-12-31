@@ -645,3 +645,15 @@ textarea,
 /* }=== BUTTONS === */
 /* === FIXES ==={ */
 /* }=== FIXES === */
+
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 0 3px;
+  border: 0;
+  margin: 0;
+  text-align: center;
+  z-index: 5000;
+}

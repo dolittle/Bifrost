@@ -122,6 +122,8 @@
     <EmbeddedResource Include="Images\applicationBarBackground.jpg" />
     <EmbeddedResource Include="Features\Tasks\index.html" />
     <EmbeddedResource Include="Features\Tasks\index.js" />
+    <Content Include="Features\ActivityBar\view.html" />
+    <Content Include="Features\ActivityBar\viewModel.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
@@ -224,6 +226,7 @@
     <EmbeddedResource Include="Scripts\libs\jquery.tablesorter\themes\green\style.css" />
     <EmbeddedResource Include="js\madmin.js" />
     <EmbeddedResource Include="Scripts\Silverlight.js" />
+    <Content Include="Styles\activityBar.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

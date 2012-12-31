@@ -8,11 +8,11 @@
   margin: 0;
   text-align: center;
   z-index: 5000;
-  
 }
 #applicationBar li {
    display: inline-block;
    position: relative;
+   list-style: none;
 }
 #applicationBar {
   background: #3C454F;

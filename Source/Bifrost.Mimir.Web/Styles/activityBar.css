@@ -1,0 +1,68 @@
+﻿#activityBar {
+  position: fixed;
+  bottom: 60px;
+  width: 100%;
+  
+  padding: 0 3px;
+  border: 0;
+  margin: 0;
+  text-align: center;
+  z-index: 5000;
+  
+}
+#activityBar
+{
+    background-color: #495461;  
+    color: #ffffff;
+}
+#activityBar ul
+{
+    position: relative;
+    right:0px;
+    float:right;
+    margin-right:10px;
+}
+#activityBar li 
+{
+    height: 55px;
+    list-style: none;
+}
+#activityBar .activityBarButton {
+    display: inline-block;
+    width:auto;
+    cursor: pointer; 
+    margin-right: 20px;
+}
+
+#activityBar .activityBarButton i {
+    position: relative;
+    top: 10px;
+    font-size: 25px;
+    color: white;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+
+    display:block;
+    width:30px;
+    height:30px;
+    border-radius:33px;
+    border:2px solid white;
+    font-size:20px;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    line-height: 27px;
+    float:right;
+}
+
+#activityBar .activityBarButton div
+{
+    position:relative;
+    float:left;
+    text-align: right;
+    vertical-align: center;
+    top:18px;
+    right:10px;
+    width:auto;
+}
