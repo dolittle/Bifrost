@@ -1,18 +1,23 @@
-﻿#activityBar {
+﻿#activityContainer 
+{
   position: fixed;
   bottom: 60px;
   width: 100%;
+}
+#activityBar {
+  height:55px;
   
-  padding: 0 3px;
   border: 0;
   margin: 0;
+  padding-bottom: 20px;
+  
   text-align: center;
   z-index: 5000;
 }
 #activityBar
 {
     background-color: #495461;  
-    color: #ffffff;
+    color: #ffffff;    
 }
 #activityBar span
 {
@@ -25,7 +30,7 @@
 
 #activityBar ul
 {
-    position: relative;
+    position: absolute;
     right:0px;
     float:right;
     margin-right:10px;
@@ -35,7 +40,8 @@
     height: 55px;
     list-style: none;
 }
-#activityBar .activityBarButton {
+#activityBar .activityBarButton 
+{
     display: inline-block;
     width:auto;
     cursor: pointer; 
@@ -44,7 +50,7 @@
 
 #activityBar .activityBarButton i {
     position: relative;
-    top: 10px;
+    top: 0px;
     font-size: 25px;
     color: white;
     vertical-align: middle;
@@ -54,7 +60,7 @@
     display:block;
     width:30px;
     height:30px;
-    border-radius:33px;
+    border-radius:20px;
     border:2px solid white;
     font-size:20px;
     color:white;
@@ -70,7 +76,7 @@
     float:left;
     text-align: right;
     vertical-align: center;
-    top:18px;
+    top:9px;
     right:10px;
     width:auto;
     text-transform: uppercase;

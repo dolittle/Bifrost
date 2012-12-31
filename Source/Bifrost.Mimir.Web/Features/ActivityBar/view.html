@@ -5,7 +5,7 @@
 </head>
 <body>
     <link rel="stylesheet" type="text/css" href="/Styles/activityBar.css" />
-    <div data-bind="foreach: tasks">
+    <div data-bind="template: { foreach: tasks, beforeRemove: hideTask, afterAdd: showTask}" id="activityContainer">
         <div id="activityBar">
             <span data-bind="text:Type"></span>
             <ul>
@@ -16,7 +16,7 @@
             <i class="icon-asterisk"></i>
         </div>
         -->
-                    <div class="activityBarButton" title="Ok" data-bind="click: $root.removeTask.bind($data)">
+                    <div class="activityBarButton" title="Ok" data-bind="click: $root.removeTask.bind($data, $data)">
                         <div>Ok</div>
                         <i class="icon-ok"></i>
                     </div>

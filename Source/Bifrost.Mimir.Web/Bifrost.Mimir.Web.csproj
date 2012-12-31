@@ -144,6 +144,7 @@
     <EmbeddedResource Include="Features\ActivityBar\viewModel.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-0.5.3.min.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-0.5.3.js" />
+    <EmbeddedResource Include="Scripts\bindingHandlers.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />

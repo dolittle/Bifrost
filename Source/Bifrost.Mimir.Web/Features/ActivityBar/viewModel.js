@@ -5,8 +5,8 @@
 
     this.setTask = function (task) {
         var foundIndex = -1;
-        $.each(self.tasks(), function (index, task) {
-            if (task.id == task.id) {
+        $.each(self.tasks(), function (index, currentTask) {
+            if (currentTask.Id == task.Id) {
                 foundIndex = index;
                 return false;
             }
@@ -20,8 +20,8 @@
     };
     this.removeTask = function (task) {
         var foundIndex = -1;
-        $.each(self.tasks(), function (index, task) {
-            if (task.id == task.id) {
+        $.each(self.tasks(), function (index, currentTask) {
+            if (currentTask.Id == task.Id) {
                 foundIndex = index;
                 return false;
             }
@@ -42,4 +42,11 @@
     });
 
     connection.start();
+
+    this.tasks.push({ Id: 12314323, Type: "DoStuff" });
+    this.tasks.push({ Id: 123123, Type: "DoOtherStuff" });
+
+    this.showTask = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown() }
+    this.hideTask = function (elem) { if (elem.nodeType === 1) $(elem).slideUp(function () { $(elem).remove(); }) }
+
 });
