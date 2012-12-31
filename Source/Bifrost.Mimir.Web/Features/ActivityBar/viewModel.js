@@ -43,10 +43,6 @@
 
     connection.start();
 
-    this.tasks.push({ Id: 12314323, Type: "DoStuff" });
-    this.tasks.push({ Id: 123123, Type: "DoOtherStuff" });
-
     this.showTask = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown() }
     this.hideTask = function (elem) { if (elem.nodeType === 1) $(elem).slideUp(function () { $(elem).remove(); }) }
-
 });

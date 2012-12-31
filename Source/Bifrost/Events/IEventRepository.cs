@@ -31,6 +31,14 @@ namespace Bifrost.Events
     public interface IEventRepository
     {
         /// <summary>
+        /// Get a "page" of events
+        /// </summary>
+        /// <param name="pageSize">Size of page</param>
+        /// <param name="pageNumber">Page number</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IEvent"/> containing the events</returns>
+        IEnumerable<IEvent> GetPage(int pageSize, int pageNumber);
+
+        /// <summary>
         /// Get a specific event by its Id
         /// </summary>
         /// <param name="id">Id of the event</param>

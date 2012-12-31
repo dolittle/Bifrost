@@ -1,5 +1,10 @@
 ﻿using Bifrost.Tasks;
+using System.Linq;
 using System.Threading;
+using Bifrost.Events;
+using Bifrost.Entities;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Bifrost.Mimir.Views.EventStores
 {
@@ -10,16 +15,35 @@ namespace Bifrost.Mimir.Views.EventStores
             get { return new TaskOperation[] { Perform }; }
         }
 
-        public int Counter { get; set; }
+        public int PageNumber { get; set; }
+
+        IEventSubscriptionManager _eventSubscriptionManager;
+        IEventRepository _eventRepository;
+
+        public ResetAllEventsForAllSubscriptionsTask(
+                IEventSubscriptionManager eventSubcriptionManager,
+                IEventRepository eventRepository
+            )
+        {
+            _eventSubscriptionManager = eventSubcriptionManager;
+            _eventRepository = eventRepository;
+        }
+
 
         void Perform(Task task, int operationIndex)
         {
-            while (Counter < 3)
+            IEnumerable<IEvent> events;
+            do
             {
-                Counter++;
+                events = _eventRepository.GetPage(10, PageNumber);
+                if (events.Count() <= 0)
+                    break;
+
+                var actualEvents = events.Where(e => !e.GetType().Namespace.Contains("Mimir"));
+                _eventSubscriptionManager.Process(actualEvents);
+                PageNumber++;
                 Progress();
-                Thread.Sleep(1000);
-            }
+            } while (events.Count() > 0 && events != null);
         }
     }
 }

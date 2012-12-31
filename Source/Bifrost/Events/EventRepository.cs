@@ -58,6 +58,13 @@ namespace Bifrost.Events
         	return @event;
         }
 
+        public IEnumerable<IEvent> GetPage(int pageSize, int pageNumber)
+        {
+            var events = _entityContext.Entities.Skip(pageSize * pageNumber).Take(pageSize);
+            return events.ToArray();
+        }
+
+
     	public IEnumerable<IEvent> GetByIds(IEnumerable<long> ids)
         {
             var events = _entityContext.Entities.Where(e => ids.Contains(e.Id));
