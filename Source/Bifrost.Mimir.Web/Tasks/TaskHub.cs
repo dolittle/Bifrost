@@ -10,8 +10,34 @@ namespace Bifrost.Mimir.Web.Tasks
     [HubName("Tasks")]
     public class TaskHub : Hub
     {
+        ITaskRepository _taskRepository;
 
-        static dynamic GetTaskObjectToSend(Task task)
+        public TaskHub(ITaskRepository taskRepository)
+        {
+            _taskRepository = taskRepository;
+        }
+        
+        public IEnumerable<dynamic> GetAllTasks()
+        {
+            return _taskRepository.LoadAll().Select(t=>ToDynamic(t));
+        }
+
+        public static void Started(Task task)
+        {
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Started(ToDynamic(task));
+        }
+
+        public static void Stopped(Task task)
+        {
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Stopped(ToDynamic(task));
+        }
+
+        public static void StateChanged(Task task)
+        {
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.StateChanged(ToDynamic(task));
+        }
+
+        static dynamic ToDynamic(Task task)
         {
             dynamic dynamicTask = new ExpandoObject();
             dynamicTask.Type = task.GetType().Name;
@@ -29,25 +55,10 @@ namespace Bifrost.Mimir.Web.Tasks
             var declaringTypeProperties = sourceType.GetProperties().Where(p => p.DeclaringType == sourceType);
             var sourceProperties = declaringTypeProperties.Where(p => !taskProperties.Any(pp => pp.Name == p.Name));
             var dictionary = sourceProperties.ToDictionary(p => p.Name, p => p.GetValue(source, null).ToString());
-          
+
             foreach (var key in dictionary.Keys)
-                ((IDictionary<string,object>)target)[key] = dictionary[key];
+                ((IDictionary<string, object>)target)[key] = dictionary[key];
         }
 
-
-        public static void Started(Task task)
-        {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Started(GetTaskObjectToSend(task));
-        }
-
-        public static void Stopped(Task task)
-        {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Stopped(GetTaskObjectToSend(task));
-        }
-
-        public static void StateChanged(Task task)
-        {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.StateChanged(GetTaskObjectToSend(task));
-        }
     }
 }

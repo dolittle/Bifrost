@@ -12,15 +12,15 @@
     </script>    
 
 
-    <div data-bind="tasks: tasks">
+    <div data-bind="foreach: tasks">
         <div class="panel">
             <header>
                 <i class="icon-asterisk"></i>
-                <span data-bind="text: name"></span>
+                <span data-bind="text: Type"></span>
             </header>
             <div class="content">
                 Content
-                <div data-bind="template: taskTemplate">
+                <div data-bind="template: Type()">
                 </div>
             </div>
         </div>

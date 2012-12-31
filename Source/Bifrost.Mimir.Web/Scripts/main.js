@@ -53,13 +53,10 @@ require(
                 ], function () { });
 
                 $(function () {
-                    $.connection.hub.logging = true;
                     $.connection.hub.start()
                         .done(function () {
-                            console.log("Hubs started");
                         })
                         .fail(function () {
-                            console.log("Hubs Failed");
                         });
 
                     $(window).load();
