@@ -1,5 +1,5 @@
 describe("when creating instance with dependencies and super having dependencies", function() {
-	var super = null; 
+	var _super = null; 
 	var type = null;
     var ns = null;
 
@@ -43,9 +43,9 @@ describe("when creating instance with dependencies and super having dependencies
 		}
 
         var namespace = { name : "Somewhere" };
-		super = Bifrost.Type.extend(superFunction);
-        super._namespace = namespace;
-		type = super.extend(typeFunction);
+		_super = Bifrost.Type.extend(superFunction);
+        _super._namespace = namespace;
+		type = _super.extend(typeFunction);
         type._namespace = namespace;
 
 		instance = type.create();

@@ -21,7 +21,7 @@
           
             callback(systemResolved);
         });
-        debugger;
+        
         canResolve = resolver.canResolve(ns, "something");
         resolved = resolver.resolve(ns, "something");
         resolved.continueWith(function (nextPromise, arg) {
