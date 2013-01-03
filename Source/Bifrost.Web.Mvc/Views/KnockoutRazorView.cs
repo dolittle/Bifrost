@@ -59,25 +59,72 @@ namespace Bifrost.Web.Mvc.Views
                 routeData.Values["feature"]);
         }
 
+        string GetViewModelDivStart(string divTagId, string viewModelRelativePath)
+        {
+            return string.Format("<div id=\"{0}\" data-viewmodel=\"{1}\">",
+                    divTagId,
+                    viewModelRelativePath);
+        }
+
+
         protected override void RenderView(ViewContext viewContext, TextWriter writer, object instance)
         {
+            
+
+
             var featureRelativePath = GetFeaturePathFrom(viewContext.RouteData);
             var featurePath = viewContext.HttpContext.Server.MapPath(featureRelativePath);
             var featureNamespace = GetNamespaceFrom(viewContext.RouteData);
             var viewModelRelativePath = GetPathFromRoute(_viewName, "js", viewContext.RouteData);
             var viewModelPath = viewContext.HttpContext.Server.MapPath(viewModelRelativePath);
             var hasViewModel = File.Exists(viewModelPath);
+
+            if (!hasViewModel)
+            {
+                base.RenderView(viewContext, writer, instance);
+                return;
+            }
+
             var divTagId = string.Format("{0}_ViewModel", _viewName);
 
+            if (_isPartial)
+                RenderPartial(viewContext, writer, instance, viewModelRelativePath, hasViewModel, divTagId);
+            else
+            {
+                var viewStringBuilder = new StringBuilder();
+                var viewStringWriter = new StringWriter(viewStringBuilder);
+                base.RenderView(viewContext, viewStringWriter, instance);
+
+                var html = viewStringBuilder.ToString();
+                var stringBuilder = new StringBuilder();
+
+                var bodyIndex = html.IndexOf("<body");
+                var endOfBodyIndex = html.IndexOf(">", bodyIndex);
+                var closeBodyIndex = html.IndexOf("</body>");
+
+                stringBuilder.Append(html.Substring(0, endOfBodyIndex + 1));
+
+                stringBuilder.Append(GetViewModelDivStart(divTagId, viewModelRelativePath));
+
+                stringBuilder.Append(html.Substring(endOfBodyIndex + 1, closeBodyIndex - endOfBodyIndex - 1));
+                stringBuilder.Append("</div>");
+                stringBuilder.Append(html.Substring(closeBodyIndex));
+
+                writer.Write(stringBuilder.ToString());
+            }
+        }
+
+        void RenderPartial(ViewContext viewContext, TextWriter writer, object instance, string viewModelRelativePath, bool hasViewModel, string divTagId)
+        {
             if (hasViewModel)
-                writer.WriteLine("<div id=\"{0}\" data-viewmodel=\"{1}\">",
-                    divTagId,
-                    viewModelRelativePath);
+                writer.WriteLine(GetViewModelDivStart(divTagId, viewModelRelativePath));
 
             base.RenderView(viewContext, writer, instance);
 
             if (hasViewModel)
                 writer.WriteLine("</div>");
         }
+
+
     }
 }
