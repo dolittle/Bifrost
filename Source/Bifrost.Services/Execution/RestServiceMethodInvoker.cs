@@ -38,31 +38,40 @@ namespace Bifrost.Services.Execution
             _serializer = serializer;
         }
 
-        public string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection form)
+        public string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection inputParameters)
         {
+            FilterInputParameters(inputParameters);
+
             var type = instance.GetType();
             var methodName = GetMethodNameFromUri(baseUrl, uri);
             ThrowIfMethodNameNotSpecified(methodName, instance, uri);
             ThrowIfMethodMissing(methodName, instance, uri);
 
             var method = type.GetMethod(methodName);
-            ThrowIfParameterCountMismatches(method, type, uri, form);
-            ThrowIfParameterMissing(method, type, uri, form);
+            ThrowIfParameterCountMismatches(method, type, uri, inputParameters);
+            ThrowIfParameterMissing(method, type, uri, inputParameters);
 
-            var values = GetParameterValues(form, method);
+            var values = GetParameterValues(inputParameters, method);
             var result = method.Invoke(instance, values);
 
             var serializedResult = _serializer.ToJson(result, new SerializationOptions { UseCamelCase = true });
             return serializedResult;
         }
 
-        private object[] GetParameterValues(NameValueCollection form, MethodInfo method)
+        void FilterInputParameters(NameValueCollection inputParameters)
+        {
+            if (inputParameters.AllKeys.Contains("_"))
+                inputParameters.Remove("_");
+            
+        }
+
+        object[] GetParameterValues(NameValueCollection inputParameters, MethodInfo method)
         {
             var values = new List<object>();
             var parameters = method.GetParameters();
             foreach (var parameter in parameters)
             {
-                var parameterAsString = form[parameter.Name];
+                var parameterAsString = inputParameters[parameter.Name];
                 values.Add(HandleValue(parameter, parameterAsString));
             }
             return values.ToArray();
@@ -93,19 +102,19 @@ namespace Bifrost.Services.Execution
             return string.Empty;
         }
 
-        void ThrowIfParameterMissing(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection form)
+        void ThrowIfParameterMissing(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection inputParameters)
         {
             var parameters = methodInfo.GetParameters();
             foreach (var parameter in parameters)
-                if (!form.AllKeys.Contains(parameter.Name))
+                if (!inputParameters.AllKeys.Contains(parameter.Name))
                     throw new MissingParameterException(parameter.Name, type.Name, uri);
         }
 
-        void ThrowIfParameterCountMismatches(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection form)
+        void ThrowIfParameterCountMismatches(MethodInfo methodInfo, Type type, Uri uri, NameValueCollection inputParameters)
         {
             var parameters = methodInfo.GetParameters();
-            if( form.Count != parameters.Length )
-                throw new ParameterCountMismatchException(uri, type.Name, form.Count, parameters.Length);
+            if( inputParameters.Count != parameters.Length )
+                throw new ParameterCountMismatchException(uri, type.Name, inputParameters.Count, parameters.Length);
         }
 
         void ThrowIfMethodNameNotSpecified(string methodName, object instance, Uri uri)
