@@ -61,7 +61,9 @@ namespace Bifrost.Commands
             {
                 var name = commandType.Name;
                 if (_commandTypes.ContainsKey(name))
-                    throw new AmbiguousCommandException(_commandTypes[name], commandType);
+                    continue;
+                    // Todo : Look @ issue #141
+                    //throw new AmbiguousCommandException(_commandTypes[name], commandType); 
 
                 _commandTypes[name] = commandType;
             }
