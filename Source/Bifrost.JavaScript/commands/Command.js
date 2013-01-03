@@ -42,33 +42,53 @@ Bifrost.commands.Command = (function (window) {
                 self.viewModel = window;
             }
 
-            //TODO: create a list of validators to loop through  //DONE
             Bifrost.validation.validationService.applyForCommand(self);
 
-            //TODO: loop through list of validations, not parameters object //DONE
-            self.parametersAreValid = ko.computed(function () {
-                for (var property in this.validatorsList) {
-                    if (this.validatorsList[property].validator &&
-						this.validatorsList[property].validator.isValid() == false) {
-                        return false;
-                    }
-                }
-                return true;
-            }, self);
+            self.parametersAreValid = ko.observable(true);
         };
 
         this.validator = Bifrost.validation.Validator.create({ required: true });
 
+        this.updateParametersAreValid = function () {
+            for (var property in this.validatorsList) {
+                if (this.validatorsList[property].validator &&
+					this.validatorsList[property].validator.isValid() == false) {
+                    self.parametersAreValid(false);
+                    return;
+                }
+            }
+            for (var parameter in self.parameters) {
+                if (self.parameters.hasOwnProperty(parameter)) {
+                    if (ko.isObservable(self.parameters[parameter]) && typeof self.parameters[parameter].validator != "undefined") {
+                        if (self.parameters[parameter].validator.isValid() == false) {
+                            self.parametersAreValid(false);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            self.parametersAreValid(true);
+        };
+
         this.validate = function () {
             self.validator.validate(true);
             if (self.validator.isValid()) {
-                //TODO: loop through list of validations, not parameters object //DONE
+                for (var parameter in self.parameters) {
+                    if (self.parameters.hasOwnProperty(parameter)) {
+                        if (ko.isObservable(self.parameters[parameter]) && typeof self.parameters[parameter].validator != "undefined") {
+                            self.parameters[parameter].validator.validate();
+                        }
+                    }
+                }
+
                 for (var property in self.validatorsList) {
                     if (self.validatorsList[property].validator) {
                         self.validatorsList[property].validator.validate(self.validatorsList[property]());
                     }
                 }
             }
+            self.updateParametersAreValid();
         };
 
         this.applyValidationMessageToMembers = function (members, message) {
@@ -157,7 +177,7 @@ Bifrost.commands.Command = (function (window) {
         this.onError = function () {
             self.hasError = true;
             if (self.result.hasOwnProperty("validationResults")) {
-                if(self.result.validationResult && typeof self.result.validationResult !== "undefined") {
+                if (self.result.validationResults && typeof self.result.validationResults !== "undefined") {
                     self.applyServerValidation(self.result.validationResults);
                 }
             }
