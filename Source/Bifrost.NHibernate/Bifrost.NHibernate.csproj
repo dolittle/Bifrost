@@ -55,6 +55,8 @@
     <Compile Include="..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Concepts\ConceptValueType.cs" />
+    <Compile Include="Concepts\MappingExtensions.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Configuration\NHibernateStorageElement.cs" />
     <Compile Include="EntityContext.cs" />
