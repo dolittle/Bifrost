@@ -77,7 +77,8 @@ Bifrost.commands.Command = (function (window) {
                 for (var parameter in self.parameters) {
                     if (self.parameters.hasOwnProperty(parameter)) {
                         if (ko.isObservable(self.parameters[parameter]) && typeof self.parameters[parameter].validator != "undefined") {
-                            self.parameters[parameter].validator.validate();
+                            var value = ko.utils.unwrapObservable(self.parameters[parameter]);
+                            self.parameters[parameter].validator.validate(value);
                         }
                     }
                 }
