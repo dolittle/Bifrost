@@ -4,7 +4,7 @@ describe("when function has two arguments", function() {
 	var result = Bifrost.functionParser.parse(func);
 		
 	it("should return array with one argument", function() {
-		expect(result.length).toBe(2ß);
+		expect(result.length).toBe(2);
 	});
 	
 	it("should have the first argument as name of the element", function() {
