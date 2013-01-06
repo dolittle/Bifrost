@@ -94,7 +94,8 @@ namespace Bifrost.Configuration
             BindEntityContextConfigurationInstance(configuration, container);
 
             var source = typeof(IEntityContext<>).MakeGenericType(typeof(T));
-            container.Bind(source, configuration.EntityContextType);
+            var target = configuration.EntityContextType.MakeGenericType(typeof(T));
+            container.Bind(source, target);
         }
 
         /// <summary>
