@@ -146,6 +146,8 @@
     <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
+    <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
+    <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_repository_with_persisted_events.cs" />
     <Compile Include="Events\for_EventRepository\given\an_event_source_with_10_applied_events.cs" />
@@ -509,7 +511,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\for_DynamicCommand\" />
-    <Folder Include="Events\for_UncommittedEventStreamCoordinator\" />
     <Folder Include="Globalization\for_Localizer\given\" />
   </ItemGroup>
   <ItemGroup>
