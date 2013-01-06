@@ -129,21 +129,13 @@ namespace Bifrost.Unity
             switch (lifecycle)
             {
                 case BindingLifecycle.Singleton:
-                    {
-                        return new ContainerControlledLifetimeManager();
-                    } break;
+                    return new ContainerControlledLifetimeManager();
                 case BindingLifecycle.Thread : 
-                    {
-                        return new PerThreadLifetimeManager();
-                    } break;
+                    return new PerThreadLifetimeManager();
+                case BindingLifecycle.None:
                 case BindingLifecycle.Transient:
-                    {
-                        return new TransientLifetimeManager();
-                    } break;
+                    return new TransientLifetimeManager();
             }
-
-
-            
 
             return new PerResolveLifetimeManager();
         }
