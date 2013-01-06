@@ -16,9 +16,10 @@ namespace Bifrost.Windsor
 				
                 case BindingLifecycle.Thread : 
 					return registration.LifeStyle.Is(LifestyleType.Thread);
-				
+
+                case BindingLifecycle.None:
                 case BindingLifecycle.Transient:
-					return registration.LifeStyle.Is(LifestyleType.Transient);
+                    return registration.LifeStyle.Is(LifestyleType.Transient);
 				
 				case BindingLifecycle.Request:
 					return registration.LifeStyle.Is(LifestyleType.PerWebRequest);
