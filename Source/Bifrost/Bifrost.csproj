@@ -71,6 +71,8 @@
     <Compile Include="Configuration\IConfigurationElement.cs" />
     <Compile Include="Configuration\IDefaultStorageConfiguration.cs" />
     <Compile Include="Configuration\IHaveStorage.cs" />
+    <Compile Include="Configuration\ITasksConfiguration.cs" />
+    <Compile Include="Configuration\TasksConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />
     <Compile Include="Configuration\Xml\SagasElement.cs" />
     <Compile Include="Configuration\IConfigure.cs" />

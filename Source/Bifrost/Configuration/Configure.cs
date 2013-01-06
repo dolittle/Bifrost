@@ -129,6 +129,7 @@ namespace Bifrost.Configuration
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
+        public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
         public IApplicationManager ApplicationManager { get; private set; }
@@ -152,6 +153,7 @@ namespace Bifrost.Configuration
 			Serialization.Initialize(Container);
             Commands.Initialize(Container);
             Events.Initialize(Container);
+            Tasks.Initialize(Container);
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
             InitializeApplication();
@@ -165,6 +167,7 @@ namespace Bifrost.Configuration
         {
             Commands = Container.Get<ICommandsConfiguration>();
             Events = Container.Get<IEventsConfiguration>();
+            Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();
         	Sagas = Container.Get<ISagasConfiguration>();

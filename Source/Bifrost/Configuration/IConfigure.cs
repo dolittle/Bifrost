@@ -51,6 +51,12 @@ namespace Bifrost.Configuration
 		/// </summary>
 		IEventsConfiguration Events { get; }
 
+        /// <summary>
+        /// Gets the configuration for <see cref="Bifrost.Tasks.Task">Tasks</see>
+        /// Supports specific storage
+        /// </summary>
+        ITasksConfiguration Tasks { get; }
+
 		/// <summary>
 		/// Gets the configuration for views
 		/// </summary>
