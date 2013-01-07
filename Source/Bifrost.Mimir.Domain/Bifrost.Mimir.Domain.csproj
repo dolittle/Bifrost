@@ -39,10 +39,6 @@
     <Compile Include="EventStores\CommandHandlers.cs" />
     <Compile Include="EventStores\Commands\ReplayAll.cs" />
     <Compile Include="EventStores\EventStore.cs" />
-    <Compile Include="EventSubscriptions\CommandHandlers.cs" />
-    <Compile Include="EventSubscriptions\Commands\ReplayAllForEventSubscription.cs" />
-    <Compile Include="EventSubscriptions\Commands\ResetEventSubscriberToSpecificEventId.cs" />
-    <Compile Include="EventSubscriptions\EventSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

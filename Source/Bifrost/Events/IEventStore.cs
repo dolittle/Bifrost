@@ -51,7 +51,6 @@ namespace Bifrost.Events
         /// <returns>The last committed <see cref="EventSourceVersion">version</see></returns>
 	    EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId);
 
-
         /// <summary>
         /// Get a batch of <see cref="IEvent">events</see> in the form of a 
         /// <see cref="CommittedEventStream">stream of events</see> 

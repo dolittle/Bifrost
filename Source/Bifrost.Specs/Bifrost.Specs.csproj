@@ -146,18 +146,15 @@
     <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
+    <Compile Include="Events\for_EventStore\given\an_event_store_with_persisted_events.cs" />
+    <Compile Include="Events\for_EventStore\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
+    <Compile Include="Events\for_EventStore\when_getting_the_events_for_a_specific_event_source.cs" />
+    <Compile Include="Events\for_EventStore\when_getting_the_last_committed_version_for_an_event_source_with_events.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
-    <Compile Include="Events\for_EventRepository\given\an_event_repository_with_persisted_events.cs" />
-    <Compile Include="Events\for_EventRepository\given\an_event_source_with_10_applied_events.cs" />
-    <Compile Include="Events\for_EventRepository\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
-    <Compile Include="Events\for_EventRepository\Subjects.cs" />
-    <Compile Include="Events\for_EventRepository\Subscribers.cs" />
-    <Compile Include="Events\for_EventRepository\when_getting_the_events_for_a_specific_event_source.cs" />
-    <Compile Include="Events\for_EventRepository\when_getting_the_last_committed_version_for_an_event_source_with_events.cs" />
-    <Compile Include="Events\for_EventRepository\when_getting_unprocessed_events_for_one_subscription_and_there_is_one_event_that_is_unprocessed.cs" />
-    <Compile Include="Events\for_EventRepository\when_saving_uncommitted_events.cs" />
     <Compile Include="Events\for_EventSourceVersion\given\a_range_of_event_source_versions.cs" />
     <Compile Include="Events\for_EventSourceVersion\when_comparing_event_source_versions.cs" />
     <Compile Include="Events\for_EventSourceVersion\when_converting_the_event_source_version_to_a_single_number.cs" />

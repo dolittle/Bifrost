@@ -83,7 +83,6 @@
     <Compile Include="Entities\ISequentialKeyGenerator.cs" />
     <Compile Include="Events\AsyncEventStore.cs" />
     <Compile Include="Events\EventExtensions.cs" />
-    <Compile Include="Events\EventRepository.cs" />
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
@@ -261,7 +260,6 @@
     <Compile Include="Events\IEventMigrationHierarchyManager.cs" />
     <Compile Include="Events\IEventMigratorManager.cs" />
     <Compile Include="Events\IEventMigrator.cs" />
-    <Compile Include="Events\IEventRepository.cs" />
     <Compile Include="Events\InvalidMigrationTypeException.cs" />
     <Compile Include="Events\NotAMigratedEventTypeException.cs" />
     <Compile Include="Events\MigrationLevelOutOfRangeException.cs" />

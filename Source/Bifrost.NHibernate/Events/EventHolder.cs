@@ -50,11 +50,6 @@ namespace Bifrost.NHibernate.Events
         public Guid AggregateId { get; set; }
 
         /// <summary>
-        /// Gets or sets the aggregated root name the event applies to.
-        /// </summary>
-        public string AggregatedRoot { get; set; }
-
-        /// <summary>
         /// Gets or sets the logical name of the event
         /// </summary>
         public string LogicalEventName { get; set; }
@@ -62,7 +57,7 @@ namespace Bifrost.NHibernate.Events
         /// <summary>
         /// Gets or sets the name of the EventSource
         /// </summary>
-        public string EventSourceName { get; set; }
+        public string EventSource { get; set; }
 
         /// <summary>
         /// Gets or sets the version for the event

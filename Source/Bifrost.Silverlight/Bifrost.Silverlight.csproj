@@ -159,6 +159,12 @@
     <Compile Include="..\Bifrost\Commands\UnhandledCommandException.cs">
       <Link>Commands\UnhandledCommandException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concurrency\IScheduler.cs">
+      <Link>Concurrency\IScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Concurrency\Scheduler.cs">
+      <Link>Concurrency\Scheduler.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\CommandsConfiguration.cs">
       <Link>Configuration\CommandsConfiguration.cs</Link>
     </Compile>
@@ -222,6 +228,9 @@
     <Compile Include="..\Bifrost\Configuration\IStorageConfiguration.cs">
       <Link>Configuration\IStorageConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\ITasksConfiguration.cs">
+      <Link>ITasksConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>
@@ -230,6 +239,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\SerializationConfiguration.cs">
       <Link>Configuration\SerializationConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\TasksConfiguration.cs">
+      <Link>TasksConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
@@ -342,9 +354,6 @@
     <Compile Include="..\Bifrost\Events\EventOutOfSequenceException.cs">
       <Link>Events\EventOutOfSequenceException.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\EventRepository.cs">
-      <Link>Events\EventRepository.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\EventSource.cs">
       <Link>Events\EventSource.cs</Link>
     </Compile>
@@ -395,9 +404,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventMigratorManager.cs">
       <Link>Events\IEventMigratorManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Events\IEventRepository.cs">
-      <Link>Events\IEventRepository.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventSource.cs">
       <Link>Events\IEventSource.cs</Link>
@@ -656,6 +662,42 @@
     </Compile>
     <Compile Include="..\Bifrost\Serialization\SerializationOptions.cs">
       <Link>Serialization\SerializationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\ITaskManager.cs">
+      <Link>Tasks\ITaskManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\ITaskRepository.cs">
+      <Link>Tasks\ITaskRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\ITaskScheduler.cs">
+      <Link>Tasks\ITaskScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\ITaskStatusReporter.cs">
+      <Link>Tasks\ITaskStatusReporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\Task.cs">
+      <Link>Tasks\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskEntity.cs">
+      <Link>Tasks\TaskEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskId.cs">
+      <Link>Tasks\TaskId.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskManager.cs">
+      <Link>Tasks\TaskManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskOperation.cs">
+      <Link>Tasks\TaskOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskRepository.cs">
+      <Link>Tasks\TaskRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskScheduler.cs">
+      <Link>Tasks\TaskScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tasks\TaskStateChange.cs">
+      <Link>Tasks\TaskStateChange.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Time\Month.cs">
       <Link>Time\Month.cs</Link>

@@ -40,12 +40,10 @@ namespace Bifrost.Configuration
         public EventsConfiguration(IEventStoreChangeManager eventStoreChangeManager)
         {
             _eventStoreChangeManager = eventStoreChangeManager;
-            RepositoryType = typeof(EventRepository);
             EventStoreType = typeof(EventStore);
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public Type RepositoryType { get; set; }
         public Type EventStoreType { get; set; }
 
         public void AddEventStoreChangeNotifier(Type type)

@@ -30,11 +30,6 @@ namespace Bifrost.Configuration
 	/// </summary>
     public interface IEventsConfiguration : IConfigurationElement, IHaveStorage
     {
-		/// <summary>
-		/// Gets or sets the type of <see cref="IEventRepository"/> to use for persisting for events
-		/// </summary>
-        Type RepositoryType { get; set; }
-
         /// <summary>
         /// Gets or sets the type of <see cref="IEventStore"/> to use for handling events
         /// </summary>

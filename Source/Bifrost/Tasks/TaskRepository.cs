@@ -113,7 +113,7 @@ namespace Bifrost.Tasks
                 var property = targetType.GetProperty(key);
                 if (property != null)
                 {
-                    var value = Convert.ChangeType(source.State[key], property.PropertyType);
+                    var value = Convert.ChangeType(source.State[key], property.PropertyType, null);
                     property.SetValue(target, value, null);
                 }
             }

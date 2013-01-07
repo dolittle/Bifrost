@@ -20,7 +20,6 @@
 //
 #endregion
 using Bifrost.Entities;
-using Raven.Client.Document;
 using Raven.Client.Embedded;
 
 namespace Bifrost.RavenDB.Embeddable
