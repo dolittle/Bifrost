@@ -89,7 +89,7 @@ namespace Bifrost.Commands
 					events.MarkEventsWithCommandDetails(Command);
                     events.ExpandExecutionContext(ExecutionContext);
                     foreach (var eventStore in EventStores)
-                        eventStore.Save(events);
+                        eventStore.Commit(events);
 
                     trackedObject.Commit();
 				}

@@ -100,13 +100,6 @@ namespace Bifrost.Events
         
 
 #pragma warning restore 1591 // Xml Comments
-
-
-        /// <summary>
-        /// Get the aggregated root type
-        /// </summary>
-		protected virtual Type AggregatedRootType { get { return GetType(); } }
-
         /// <summary>
         /// Get the event source type
         /// </summary>
@@ -122,8 +115,7 @@ namespace Bifrost.Events
         {
             if (isNew)
             {
-                @event.AggregatedRoot = AggregatedRootType.AssemblyQualifiedName;
-            	@event.EventSourceName = EventSourceType.AssemblyQualifiedName;
+            	@event.EventSource = EventSourceType.AssemblyQualifiedName;
                 UncommittedEvents.Append(@event);
                 Version = Version.NextSequence();
                 @event.Version = Version;

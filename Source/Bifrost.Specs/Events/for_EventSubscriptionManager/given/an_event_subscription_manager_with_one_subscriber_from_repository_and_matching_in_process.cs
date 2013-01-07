@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
 {
     public class an_event_subscription_manager_with_one_subscriber_from_repository_and_matching_in_process
     {
-        protected const string EventSourceName = "MyEventSource";
+        protected const string event_source = "MyEventSource";
         protected static EventSubscriptionManager event_subscription_manager;
         protected static Mock<IEventSubscriptionRepository> event_subscription_repository_mock;
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;

@@ -74,7 +74,7 @@ namespace Bifrost.Events
         public IEnumerable<IEvent> GetForAggregatedRoot(Type aggregatedRootType, Guid aggregateId)
         {
             var query = (from e in _entityContext.Entities
-                        where e.EventSourceId == aggregateId && e.AggregatedRoot == aggregatedRootType.AssemblyQualifiedName
+                        where e.EventSourceId == aggregateId && e.EventSource == aggregatedRootType.AssemblyQualifiedName
                         select e).ToList();
 
             return query.ToArray();

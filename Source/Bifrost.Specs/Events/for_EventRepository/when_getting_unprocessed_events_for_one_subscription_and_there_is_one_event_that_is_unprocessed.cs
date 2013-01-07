@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Events.for_EventRepository
 {
     public class when_getting_unprocessed_events_for_one_subscription_and_there_is_one_event_that_is_unprocessed
     {
-        const string EventSourceName = "MyEventSource";
+        const string event_source = "MyEventSource";
         static Mock<IEntityContext<IEvent>>    entity_context_mock;
         static Mock<IEventMigrationHierarchyManager> event_migration_hierarchy_manager_mock;
         static EventRepository repository;
@@ -34,7 +34,7 @@ namespace Bifrost.Specs.Events.for_EventRepository
             };
 
             expected_event = new SimpleEvent(Guid.NewGuid());
-            expected_event.EventSourceName = EventSourceName;
+            expected_event.EventSource = event_source;
             expected_event.Occured = DateTime.Now;
 
             entity_context_mock = new Mock<IEntityContext<IEvent>>();

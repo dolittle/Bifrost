@@ -36,13 +36,13 @@ namespace Bifrost.Specs.Events.for_EventRepository.given
                     var aggregateId = i%2 == 0 ? event_source_id : other_event_source_id;
                     var @event = new SimpleEvent(aggregateId)
                                      {
-                                         AggregatedRoot = aggregate_root_type.AssemblyQualifiedName,
+                                         EventSource = aggregate_root_type.AssemblyQualifiedName,
                                          Version = new EventSourceVersion(1,i)
                                      };
 					var eventEntity = new SimpleEvent(@event.EventSourceId)
                                      {
 										 Id = @event.Id,
-                                         AggregatedRoot = @event.AggregatedRoot,
+                                         EventSource = @event.EventSource,
                                          CausedBy = "Some Command",
                                          Name = @event.Name,
                                          Origin = "Somewhere",

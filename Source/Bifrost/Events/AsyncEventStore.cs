@@ -21,6 +21,7 @@
 #endregion
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Bifrost.Events
 {
@@ -41,20 +42,26 @@ namespace Bifrost.Events
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public CommittedEventStream Load(Type aggregatedRootType, Guid aggregateId)
+        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
         {
-            return _actualEventStore.Load(aggregatedRootType, aggregateId);
+            return _actualEventStore.GetForEventSource(eventSource, eventSourceId);
         }
 
-        public void Save(UncommittedEventStream eventsToSave)
+        public void Commit(UncommittedEventStream eventsToSave)
         {
-            Task.Factory.StartNew(() => _actualEventStore.Save(eventsToSave));
+            Task.Factory.StartNew(() => _actualEventStore.Commit(eventsToSave));
         }
 
-        public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
         {
-            return _actualEventStore.GetLastCommittedVersion(aggregatedRootType, aggregateId);
+            return _actualEventStore.GetLastCommittedVersion(eventSource, eventSourceId);
         }
+
+        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
+        {
+            return _actualEventStore.GetBatch(batchesToSkip, batchSize);
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }

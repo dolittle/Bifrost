@@ -176,8 +176,7 @@
     <Compile Include="Events\for_EventStoreChangeManager\when_notifying_changes_with_one_notifier.cs" />
     <Compile Include="Events\for_EventStoreChangeManager\when_registering_a_notifier_that_does_not_implement_the_notifier_interface.cs" />
     <Compile Include="Events\for_EventStore\given\an_event_store.cs" />
-    <Compile Include="Events\for_EventStore\when_creating_an_instance_and_an_event_is_in_repository_and_a_subscription_has_not_received_it.cs" />
-    <Compile Include="Events\for_EventStore\when_saving_uncommitted_events.cs" />
+    <Compile Include="Events\for_EventStore\when_committing_two_uncommitted_events.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\EventSubscriberForTwoEvents.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\SomeOtherEvent.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_and_in_running_process.cs" />

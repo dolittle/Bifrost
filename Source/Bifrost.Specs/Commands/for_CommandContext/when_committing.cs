@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Commands.for_CommandContext
     {
         static UncommittedEventStream   event_stream;
 
-        Establish context = () => event_store_mock.Setup(e=>e.Save(Moq.It.IsAny<UncommittedEventStream>())).Callback((UncommittedEventStream s) => event_stream = s);
+        Establish context = () => event_store_mock.Setup(e=>e.Commit(Moq.It.IsAny<UncommittedEventStream>())).Callback((UncommittedEventStream s) => event_stream = s);
 
         Because of = () => command_context.Commit();
 

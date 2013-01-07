@@ -92,7 +92,7 @@ namespace Bifrost.Sagas
                 	events.MarkEventsWithCommandDetails(Command);
                     events.ExpandExecutionContext(ExecutionContext);
                     ProcessEvents(events);
-                    _saga.Save(events);
+                    _saga.Commit(events);
                     trackedObject.Commit();
                     _sagaLibrarian.Catalogue(_saga);
                 }

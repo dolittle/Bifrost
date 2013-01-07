@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Sagas.for_Saga
 	{
 		static CommittedEventStream event_stream;
 
-		Because of = () => event_stream = saga.Load(null, second_aggregated_root_id);
+        Because of = () => event_stream = saga.GetForEventSource(Moq.It.IsAny<EventSource>(), second_aggregated_root_id);
 
 		It should_return_only_one_event = () => event_stream.Count().ShouldEqual(1);
 		It should_return_only_the_events_for_the_specific_aggregated_root = () => event_stream.First().EventSourceId.ShouldEqual(second_aggregated_root_id);

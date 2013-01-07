@@ -54,14 +54,9 @@ namespace Bifrost.Events
 		Guid EventSourceId { get; set; }
 
 		/// <summary>
-		/// Gets and sets the aggregated root name
+		/// Gets and sets the eventsource
 		/// </summary>
-		string AggregatedRoot { get; set; }
-
-		/// <summary>
-		/// Gets and sets the name of the eventsource
-		/// </summary>
-    	string EventSourceName { get; set; }
+    	string EventSource { get; set; }
 
         /// <summary>
         /// Gets or sets the version of the event (ChangeSet or something)

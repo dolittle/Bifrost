@@ -128,19 +128,19 @@ namespace Bifrost.Sagas
                 foreach (var @event in events)
                     uncommittedEventStream.Append(@event);
 
-                eventStore.Save(uncommittedEventStream);
+                eventStore.Commit(uncommittedEventStream);
             }
         }
 
-        public CommittedEventStream Load(Type aggregatedRootType, Guid aggregateId)
+        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
         {
-            var eventStream = new CommittedEventStream(aggregateId);
-            if( _aggregatedRootEvents.ContainsKey(aggregateId))
-                eventStream.Append(_aggregatedRootEvents[aggregateId]);
+            var eventStream = new CommittedEventStream(eventSourceId);
+            if( _aggregatedRootEvents.ContainsKey(eventSourceId))
+                eventStream.Append(_aggregatedRootEvents[eventSourceId]);
             return eventStream;
         }
 
-        public void Save(UncommittedEventStream eventsToSave)
+        public void Commit(UncommittedEventStream eventsToSave)
         {
             if (!_aggregatedRootEvents.ContainsKey(eventsToSave.EventSourceId))
                 _aggregatedRootEvents[eventsToSave.EventSourceId] = new List<IEvent>();
@@ -148,16 +148,21 @@ namespace Bifrost.Sagas
             _aggregatedRootEvents[eventsToSave.EventSourceId].AddRange(eventsToSave);
         }
 
-        public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
         {
-            if (!_aggregatedRootEvents.ContainsKey(aggregateId))
+            if (!_aggregatedRootEvents.ContainsKey(eventSourceId))
                 return EventSourceVersion.Zero;
 
-            var @event = _aggregatedRootEvents[aggregateId].OrderByDescending(e => e.Version).FirstOrDefault();
+            var @event = _aggregatedRootEvents[eventSourceId].OrderByDescending(e => e.Version).FirstOrDefault();
             if( @event == null ) 
                 return EventSourceVersion.Zero;
 
             return @event.Version;
+        }
+
+        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
+        {
+            throw new NotImplementedException();
         }
 
         public SagaState CurrentState { get; set; }
