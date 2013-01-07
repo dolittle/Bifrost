@@ -438,6 +438,9 @@
     <Compile Include="..\Bifrost\Events\IProcessMethodInvoker.cs">
       <Link>Events\IProcessMethodInvoker.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Events\IUncommittedEventStreamCoordinator.cs">
+      <Link>Events\IUncommittedEventStreamCoordinator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Events\MethodEvent.cs">
       <Link>Events\MethodEvent.cs</Link>
     </Compile>
@@ -461,6 +464,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\UncommittedEventStream.cs">
       <Link>Events\UncommittedEventStream.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\UncommittedEventStreamCoordinator.cs">
+      <Link>Events\UncommittedEventStreamCoordinator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\UnregisteredEventException.cs">
       <Link>Events\UnregisteredEventException.cs</Link>

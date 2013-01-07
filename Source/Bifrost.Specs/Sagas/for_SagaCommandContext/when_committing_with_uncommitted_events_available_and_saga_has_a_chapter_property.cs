@@ -20,6 +20,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext
                                         command_mock.Object,
                                         execution_context_mock.Object,
                                         event_store_mock.Object,
+                                        uncommitted_event_stream_coordinator_mock.Object,
                                         process_method_invoker_mock.Object,
                                         saga_librarian_mock.Object);
 

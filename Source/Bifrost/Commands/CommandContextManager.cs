@@ -31,10 +31,11 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContextManager : ICommandContextManager
     {
-        readonly IEventStore _eventStore;
-        readonly ISagaLibrarian _sagaLibrarian;
-        readonly IProcessMethodInvoker _processMethodInvoker;
-        readonly IExecutionContextManager _executionContextManager;
+        IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
+        IEventStore _eventStore;
+        ISagaLibrarian _sagaLibrarian;
+        IProcessMethodInvoker _processMethodInvoker;
+        IExecutionContextManager _executionContextManager;
 
         [ThreadStatic] static ICommandContext _currentContext;
 
@@ -49,19 +50,22 @@ namespace Bifrost.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="CommandContextManager">CommandContextManager</see>
         /// </summary>
-        /// <param name="eventStore">A <see cref="IEventStore">IEventStore</see> to use for saving events</param>
+        /// <param name="uncommittedEventStreamCoordinator">A <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinator an <see cref="UncommittedEventStream"/></param>
         /// <param name="sagaLibrarian">A <see cref="ISagaLibrarian"/> for saving sagas to</param>
         /// <param name="processMethodInvoker">A <see cref="IProcessMethodInvoker"/> for processing events</param>
         /// <param name="executionContextManager">A <see cref="IExecutionContextManager"/> for getting execution context from</param>
+        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
         public CommandContextManager(
-            IEventStore eventStore,
+            IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator,
             ISagaLibrarian sagaLibrarian,
             IProcessMethodInvoker processMethodInvoker,
-            IExecutionContextManager executionContextManager)
+            IExecutionContextManager executionContextManager,
+            IEventStore eventStore)
         {
-            _eventStore = eventStore;
+            _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
             _sagaLibrarian = sagaLibrarian;
             _processMethodInvoker = processMethodInvoker;
+            _eventStore = eventStore;
             _executionContextManager = executionContextManager;
         }
 
@@ -93,7 +97,8 @@ namespace Bifrost.Commands
                 var commandContext = new CommandContext(
                     command,
                     _executionContextManager.Current,
-                    _eventStore
+                    _eventStore,
+                    _uncommittedEventStreamCoordinator
                     );
 
                 _currentContext = commandContext;
@@ -110,6 +115,7 @@ namespace Bifrost.Commands
                         command,
                         _executionContextManager.Current,
                         _eventStore,
+                        _uncommittedEventStreamCoordinator,
                         _processMethodInvoker,
                         _sagaLibrarian
                     );

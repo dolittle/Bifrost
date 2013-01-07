@@ -17,14 +17,14 @@ namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
                                 {
                                     expected_version = new EventSourceVersion(0,0);
                                     event_stream = new CommittedEventStream(aggregated_root_id);
-                                    event_store_mock.Setup(e => e.GetForEventSource(Moq.It.IsAny<EventSource>(), Moq.It.IsAny<Guid>())).Returns(
+                                    command_context_mock.Setup(e => e.GetCommittedEventsFor(Moq.It.IsAny<EventSource>(), Moq.It.IsAny<Guid>())).Returns(
                                         event_stream);
                                 };
 
         Because of = () => stateful_aggregated_root = repository.Get(aggregated_root_id);
 
         It should_return_an_instance = () => stateful_aggregated_root.ShouldNotBeNull();
-        It should_get_events_for_the_aggregated_root = () => event_store_mock.Verify(e => e.GetForEventSource(Moq.It.IsAny<EventSource>(), aggregated_root_id));
+        It should_get_events_for_the_aggregated_root = () => command_context_mock.Verify(e => e.GetCommittedEventsFor(Moq.It.IsAny<EventSource>(), aggregated_root_id));
         It should_not_re_apply_any_events_for_the_aggregated_root = () => stateful_aggregated_root.ReApplyCalled.ShouldBeFalse();
         It should_be_the_initial_version = () => stateful_aggregated_root.Version.ShouldEqual(expected_version);
         It should_register_the_aggregate_root_for_tracking_within_this_context = () => command_context_mock.Verify(cc => cc.RegisterForTracking(stateful_aggregated_root));

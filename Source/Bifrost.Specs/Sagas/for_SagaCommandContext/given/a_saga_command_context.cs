@@ -14,6 +14,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
 		protected static Mock<ISaga> saga_mock;
 		protected static Mock<ICommand> command_mock;
 		protected static Mock<IEventStore> event_store_mock;
+        protected static Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator_mock;
 		protected static Mock<IProcessMethodInvoker> process_method_invoker_mock;
 		protected static Mock<ISagaLibrarian> saga_librarian_mock;
         protected static Mock<IExecutionContextManager> execution_context_manager_mock;
@@ -25,6 +26,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
 									saga_mock = new Mock<ISaga>();
 									command_mock = new Mock<ICommand>();
 									event_store_mock = new Mock<IEventStore>();
+                                    uncommitted_event_stream_coordinator_mock = new Mock<IUncommittedEventStreamCoordinator>();
 									process_method_invoker_mock = new Mock<IProcessMethodInvoker>();
 									saga_librarian_mock = new Mock<ISagaLibrarian>();
                                     execution_context_manager_mock = new Mock<IExecutionContextManager>();
@@ -37,6 +39,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
 											command_mock.Object,
 											execution_context_mock.Object,
 											event_store_mock.Object,
+                                            uncommitted_event_stream_coordinator_mock.Object,
 											process_method_invoker_mock.Object,
 											saga_librarian_mock.Object
 										);

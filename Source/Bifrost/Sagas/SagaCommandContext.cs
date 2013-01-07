@@ -19,7 +19,9 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
@@ -32,11 +34,13 @@ namespace Bifrost.Sagas
     /// </summary>
     public class SagaCommandContext : ICommandContext
     {
-        readonly ISaga _saga;
-        readonly IEventStore _eventStore;
-        readonly IProcessMethodInvoker _processMethodInvoker;
-        readonly ISagaLibrarian _sagaLibrarian;
-        private readonly List<IAggregatedRoot> _objectsTracked = new List<IAggregatedRoot>();
+        ISaga _saga;
+        IEventStore _eventStore;
+        IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
+        IProcessMethodInvoker _processMethodInvoker;
+        ISagaLibrarian _sagaLibrarian;
+        List<IAggregatedRoot> _objectsTracked = new List<IAggregatedRoot>();
+
 
         /// <summary>
         /// Initializes an instance of the <see cref="SagaCommandContext"/> for a saga
@@ -45,6 +49,7 @@ namespace Bifrost.Sagas
         /// <param name="command"><see cref="ICommand"/> that will be applied </param>
         /// <param name="executionContext">A <see cref="IExecutionContext"/> that is the context of execution for the <see cref="ICommand"/></param>
         /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
+        /// <param name="uncommittedEventStreamCoordinator">A <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinating a <see cref="UncommittedEventStream"/></param>
         /// <param name="processMethodInvoker">A <see cref="IProcessMethodInvoker"/> for processing events on the <see cref="ISaga"/></param>
         /// <param name="sagaLibrarian">A <see cref="ISagaLibrarian"/> for dealing with the <see cref="ISaga"/> and persistence</param>
         public SagaCommandContext(
@@ -52,6 +57,7 @@ namespace Bifrost.Sagas
             ICommand command,
             IExecutionContext executionContext,
             IEventStore eventStore,
+            IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator,
             IProcessMethodInvoker processMethodInvoker,
             ISagaLibrarian sagaLibrarian)
         {
@@ -59,16 +65,14 @@ namespace Bifrost.Sagas
             ExecutionContext = executionContext;
             _saga = saga;
             _eventStore = eventStore;
+            _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
             _processMethodInvoker = processMethodInvoker;
             _sagaLibrarian = sagaLibrarian;
-
-            EventStores = new[] {_eventStore, saga};
         }
 
 #pragma warning disable 1591 // Xml Comments
         public ICommand Command { get; private set; }
         public IExecutionContext ExecutionContext { get; private set; }
-        public IEnumerable<IEventStore> EventStores { get; private set; }
 
         public void RegisterForTracking(IAggregatedRoot aggregatedRoot)
         {
@@ -99,8 +103,6 @@ namespace Bifrost.Sagas
             }
         }
 
-
-
         public void Rollback()
         {
 
@@ -110,6 +112,22 @@ namespace Bifrost.Sagas
         {
             Commit();
         }
+
+        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId)
+        {
+            var stream = _eventStore.GetForEventSource(eventSource, eventSourceId);
+            var sagaStream = _saga.GetForEventSource(eventSource, eventSourceId);
+            stream.Append(sagaStream);
+            return stream;
+        }
+
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        {
+            var eventStoreVersion = _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
+            var sagaVersion = _saga.GetLastCommittedVersion(eventSource, eventSourceId);
+            return new[] { eventStoreVersion, sagaVersion }.Max();
+        }
+
 #pragma warning restore 1591 // Xml Comments
 
 
@@ -124,6 +142,5 @@ namespace Bifrost.Sagas
                 _processMethodInvoker.TryProcess(_saga, @event);
             }
         }
-
     }
 }
