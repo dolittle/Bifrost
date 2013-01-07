@@ -31,6 +31,11 @@ namespace Bifrost.Configuration
     public interface IEventsConfiguration : IConfigurationElement, IHaveStorage
     {
         /// <summary>
+        /// Gets or sets the type of <see cref="IUncommittedEventStreamCoordinator"/> used for coordinating events that will be committed
+        /// </summary>
+        Type UncommittedEventStreamCoordinatorType { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of <see cref="IEventStore"/> to use for handling events
         /// </summary>
         Type EventStoreType { get; set; }

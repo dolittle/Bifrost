@@ -324,8 +324,8 @@
     <Compile Include="..\Bifrost\Entities\IEntityContextConnection.cs">
       <Link>Entities\IEntityContextConnection.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\AsyncEventStore.cs">
-      <Link>Events\AsyncEventStore.cs</Link>
+    <Compile Include="..\Bifrost\Events\AsynchronousUncommittedEventStreamCoordinator.cs">
+      <Link>Events\AsynchronousUncommittedEventStreamCoordinator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\CommittedEventStream.cs">
       <Link>Events\CommittedEventStream.cs</Link>

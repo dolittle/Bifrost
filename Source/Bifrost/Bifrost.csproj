@@ -81,7 +81,7 @@
     <Compile Include="Domain\AggregatedRootOf.cs" />
     <Compile Include="Dynamic\DynamicHelpers.cs" />
     <Compile Include="Entities\ISequentialKeyGenerator.cs" />
-    <Compile Include="Events\AsyncEventStore.cs" />
+    <Compile Include="Events\AsynchronousUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
