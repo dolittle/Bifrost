@@ -8,7 +8,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventStore.given
 {
-    public class a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots : Globalization.given.a_localizer_mock
+    public class a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots
     {
 		protected static IQueryable<IEvent> persisted_events;
         protected static Guid event_source_id;

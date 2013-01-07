@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         {
             type_discoverer_mock.Setup(t => t.FindMultiple<IEventSubscriber>()).Returns(new[] { typeof(EventSubscriberForTwoEvents) });
             container_mock.Setup(c => c.Get(typeof(EventSubscriberForTwoEvents))).Returns(new EventSubscriberForTwoEvents());
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object);
+            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
 
         Because of = () => event_subscription_manager.Process(events);

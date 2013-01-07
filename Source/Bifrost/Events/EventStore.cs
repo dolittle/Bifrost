@@ -35,30 +35,18 @@ namespace Bifrost.Events
     {
         IEntityContext<IEvent> _entityContext;
         IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
-        IEventStoreChangeManager _eventStoreChangeManager;
-        IEventSubscriptionManager _eventSubscriptionManager;
-	    ILocalizer _localizer;
 
 	    /// <summary>
 	    /// Initializes a new instance of <see cref="EventStore"/>
 	    /// </summary>
 	    /// <param name="entityContext"><see cref="IEntityContext{IEvent}"/> that persists events</param>
         /// <param name="eventMigrationHierarchyManager"><see cref="IEventMigrationHierarchyManager"/> for dealing with migration hierarchies for events</param>
-        /// <param name="eventStoreChangeManager">A <see cref="IEventStoreChangeManager"/> for managing changes to the event store</param>
-        /// <param name="eventSubscriptionManager">A <see cref="IEventSubscriptionManager"/> for managing event subscriptions</param>
-	    /// <param name="localizer"><see cref="ILocalizer" /> that ensures thread has the correct culture.</param>
 	    public EventStore(
             IEntityContext<IEvent> entityContext,
-            IEventMigrationHierarchyManager eventMigrationHierarchyManager,
-            IEventStoreChangeManager eventStoreChangeManager, 
-            IEventSubscriptionManager eventSubscriptionManager,
-            ILocalizer localizer)
+            IEventMigrationHierarchyManager eventMigrationHierarchyManager)
         {
             _entityContext = entityContext;
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
-            _eventStoreChangeManager = eventStoreChangeManager;
-            _eventSubscriptionManager = eventSubscriptionManager;
-		    _localizer = localizer;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -78,15 +66,17 @@ namespace Bifrost.Events
             return stream;
         }
 
-        public void Commit(UncommittedEventStream eventsToSave)
+        public void Commit(UncommittedEventStream events)
         {
-            using (_localizer.BeginScope())
+            var eventArray = events.ToArray();
+            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
             {
-                Insert(eventsToSave);
-                _eventSubscriptionManager.Process(eventsToSave);
-                _eventStoreChangeManager.NotifyChanges(this, eventsToSave);
+                var @event = eventArray[eventIndex];
+                _entityContext.Insert(@event);
             }
-		}
+
+            _entityContext.Commit();
+        }
 
 	    public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
 	    {
@@ -108,18 +98,5 @@ namespace Bifrost.Events
             return events.ToArray();
         }
 #pragma warning restore 1591 // Xml Comments
-
-
-        void Insert(IEnumerable<IEvent> events)
-        {
-            var eventArray = events.ToArray();
-            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
-            {
-                var @event = eventArray[eventIndex];
-                _entityContext.Insert(@event);
-            }
-
-            _entityContext.Commit();
-        }
     }
 }

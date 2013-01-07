@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         Establish context = () =>
         {
             subscription.LastEventId = 42;
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object);
+            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
 
         Because of = () => subscriptions = event_subscription_manager.GetAvailableSubscriptions();

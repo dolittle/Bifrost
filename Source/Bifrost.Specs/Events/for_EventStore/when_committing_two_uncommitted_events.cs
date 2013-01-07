@@ -29,7 +29,5 @@ namespace Bifrost.Specs.Events.for_EventStore
 
         It should_insert_first_event = () => entity_context_mock.Verify(e => e.Insert(first_event), Times.Once());
         It should_insert_second_event = () => entity_context_mock.Verify(e => e.Insert(second_event), Times.Once());
-        It should_notify_changes_with_event_stream = () => event_store_change_manager_mock.Verify(e => e.NotifyChanges(event_store, event_stream), Times.Once());
-        It should_ensure_events_are_persisted_in_a_localized_scope = () => localizer_mock.Verify(s => s.BeginScope(), Times.Once());
     }
 }

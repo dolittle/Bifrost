@@ -3,16 +3,19 @@ using Bifrost.Events;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Bifrost.Time;
-
+using Moq;
+using Bifrost.Globalization;
+using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 {
     public class when_creating_and_there_is_no_subscription_in_repository_but_one_in_process
     {
         protected static EventSubscriptionManager event_subscription_manager;
-        protected static Moq.Mock<IEventSubscriptionRepository> event_subscription_repository_mock;
-        protected static Moq.Mock<ITypeDiscoverer> type_discoverer_mock;
-        protected static Moq.Mock<IContainer> container_mock;
+        protected static Mock<IEventSubscriptionRepository> event_subscription_repository_mock;
+        protected static Mock<ITypeDiscoverer> type_discoverer_mock;
+        protected static Mock<IContainer> container_mock;
+        protected static Mock<ILocalizer> localizer_mock;
 
         static EventSubscription    expected_subscription;
         static EventSubscription    actual_subscription;
@@ -22,6 +25,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
             event_subscription_repository_mock = new Moq.Mock<IEventSubscriptionRepository>();
             type_discoverer_mock = new Moq.Mock<ITypeDiscoverer>();
             container_mock = new Moq.Mock<IContainer>();
+
+            localizer_mock = new Mock<ILocalizer>();
 
             event_subscription_repository_mock.Setup(s=>s.Add(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s)=>actual_subscription=s);
             type_discoverer_mock.Setup(s=>s.FindMultiple<IEventSubscriber>()).Returns(new[] { typeof(SomeEventSubscriber)});
@@ -34,7 +39,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
             };
         };
 
-        Because of = () => event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object);
+        Because of = () => event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
 
         It should_add_subscription = () => actual_subscription.ShouldEqual(expected_subscription);
     }

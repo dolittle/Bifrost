@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
+using Bifrost.Globalization;
 
 #if(NETFX_CORE)
 using System.Reflection;
@@ -38,6 +39,7 @@ namespace Bifrost.Events
         IEventSubscriptionRepository _repository;
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
+        ILocalizer _localizer;
         IEnumerable<EventSubscription> _subscriptionsFromRepository;
         IEnumerable<EventSubscription> _subscriptionsInProcess;
         List<EventSubscription> _allSubscriptions = new List<EventSubscription>();
@@ -48,11 +50,18 @@ namespace Bifrost.Events
         /// <param name="repository">A <see cref="IEventSubscriptionRepository"/> that will be used to maintain subscriptions from a datasource</param>
         /// <param name="typeDiscoverer">A <see cref="ITypeDiscoverer"/> for discovering <see cref="IEventSubscriber"/>s in current process</param>
         /// <param name="container">A <see cref="IContainer"/> for creating instances of objects/services</param>
-        public EventSubscriptionManager(IEventSubscriptionRepository repository, ITypeDiscoverer typeDiscoverer, IContainer container)
+        /// <param name="localizer">A <see cref="ILocalizer"/> for controlling localization while executing subscriptions</param>
+        public EventSubscriptionManager(
+            IEventSubscriptionRepository repository, 
+            ITypeDiscoverer typeDiscoverer, 
+            IContainer container,
+            ILocalizer localizer)
         {
             _repository = repository;
             _typeDiscoverer = typeDiscoverer;
             _container = container;
+            _localizer = localizer;
+
             RefreshAndMergeSubscriptionsFromRepository();
         }
 
@@ -140,8 +149,11 @@ namespace Bifrost.Events
 
         void Process(EventSubscription subscription, IEventSubscriber subscriber, IEvent @event)
         {
-            subscription.Method.Invoke(subscriber, new[] { @event });
-            UpdateExistingSubscriptionFrom(subscription, @event.Id);
+            using (_localizer.BeginScope())
+            {
+                subscription.Method.Invoke(subscriber, new[] { @event });
+                UpdateExistingSubscriptionFrom(subscription, @event.Id);
+            }
         }
 
         void UpdateExistingSubscriptionFrom(EventSubscription subscription, long eventId)
