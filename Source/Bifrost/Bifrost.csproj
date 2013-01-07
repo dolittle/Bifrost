@@ -295,7 +295,6 @@
     <Compile Include="Events\CommittedEventStream.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\EventSource.cs" />
-    <Compile Include="Events\ICanPublishEvents.cs" />
     <Compile Include="Events\IEventSource.cs" />
     <Compile Include="Events\IEventStore.cs" />
     <Compile Include="Events\MethodEvent.cs" />

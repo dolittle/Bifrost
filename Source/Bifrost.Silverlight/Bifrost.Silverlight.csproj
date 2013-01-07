@@ -387,9 +387,6 @@
     <Compile Include="..\Bifrost\Events\IAmNextGenerationOf.cs">
       <Link>Events\IAmNextGenerationOf.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\ICanPublishEvents.cs">
-      <Link>Events\ICanPublishEvents.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\IEvent.cs">
       <Link>Events\IEvent.cs</Link>
     </Compile>
