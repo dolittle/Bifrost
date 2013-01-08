@@ -62,6 +62,7 @@
     <Compile Include="Commands\DynamicCommandHandler.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
     <Compile Include="Commands\IDynamicCommandFactory.cs" />
+    <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\ConfigSection\ConfigurationManager.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Execution\AssemblyComparer.cs" />
     <Compile Include="Execution\ExecutionContext.cs" />
     <Compile Include="Execution\ExecutionContextManager.cs" />
+    <Compile Include="Execution\HashCodeHelper.cs" />
     <Compile Include="Execution\IExecutionContext.cs" />
     <Compile Include="Execution\IExecutionContextManager.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />

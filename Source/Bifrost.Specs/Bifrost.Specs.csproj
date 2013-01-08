@@ -113,6 +113,9 @@
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_constant.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_field.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_property.cs" />
+    <Compile Include="Concepts\given\concepts.cs" />
+    <Compile Include="Concepts\when_equating.cs" />
+    <Compile Include="Concepts\when_getting_hash_code.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_multiple_bindings_for_specific_storage.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeOtherType.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeType.cs" />
