@@ -140,12 +140,16 @@ namespace Bifrost.Sagas
             return eventStream;
         }
 
-        public void Commit(UncommittedEventStream eventsToSave)
+        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            if (!_aggregatedRootEvents.ContainsKey(eventsToSave.EventSourceId))
-                _aggregatedRootEvents[eventsToSave.EventSourceId] = new List<IEvent>();
+            if (!_aggregatedRootEvents.ContainsKey(uncommittedEventStream.EventSourceId))
+                _aggregatedRootEvents[uncommittedEventStream.EventSourceId] = new List<IEvent>();
 
-            _aggregatedRootEvents[eventsToSave.EventSourceId].AddRange(eventsToSave);
+            _aggregatedRootEvents[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream);
+
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+            committedEventStream.Append(uncommittedEventStream);
+            return committedEventStream;
         }
 
         public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)

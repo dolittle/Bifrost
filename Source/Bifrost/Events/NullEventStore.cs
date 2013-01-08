@@ -35,8 +35,11 @@ namespace Bifrost.Events
             return new CommittedEventStream(eventSourceId);
         }
 
-        public void Commit(UncommittedEventStream eventsToSave)
+        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+            committedEventStream.Append(uncommittedEventStream);
+            return committedEventStream;
         }
 
         public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)

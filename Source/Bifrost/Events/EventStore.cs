@@ -66,9 +66,9 @@ namespace Bifrost.Events
             return stream;
         }
 
-        public void Commit(UncommittedEventStream events)
+        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            var eventArray = events.ToArray();
+            var eventArray = uncommittedEventStream.ToArray();
             for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
             {
                 var @event = eventArray[eventIndex];
@@ -76,6 +76,10 @@ namespace Bifrost.Events
             }
 
             _entityContext.Commit();
+
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+            committedEventStream.Append(uncommittedEventStream);
+            return committedEventStream;
         }
 
 	    public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)

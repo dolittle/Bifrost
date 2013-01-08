@@ -41,7 +41,8 @@ namespace Bifrost.Events
 		/// Save events for a specific aggregated root
 		/// </summary>
 		/// <param name="eventsToSave"><see cref="UncommittedEventStream"></see><see cref="IEvent"/> to save as an Event Stream</param>
-		void Commit(UncommittedEventStream eventsToSave);
+        /// <returns>The <see cref="CommittedEventStream"/> with all the events that was committed with their updated Ids</returns>
+		CommittedEventStream Commit(UncommittedEventStream eventsToSave);
 
         /// <summary>
         /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="EventSource"/>

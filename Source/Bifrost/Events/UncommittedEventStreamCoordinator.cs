@@ -50,11 +50,11 @@ namespace Bifrost.Events
 
 
 #pragma warning disable 1591 // Xml Comments
-        public void Commit(UncommittedEventStream eventStream)
+        public void Commit(UncommittedEventStream uncommittedEventStream)
         {
-            _eventStore.Commit(eventStream);
-            _eventSubscriptionManager.Process(eventStream);
-            _eventStoreChangeManager.NotifyChanges(_eventStore, eventStream);
+            var committedEventStream = _eventStore.Commit(uncommittedEventStream);
+            _eventSubscriptionManager.Process(committedEventStream);
+            _eventStoreChangeManager.NotifyChanges(_eventStore, committedEventStream);
         }
 #pragma warning restore 1591 // Xml Comments
     }
