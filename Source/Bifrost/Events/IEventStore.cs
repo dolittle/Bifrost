@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Events
 {
@@ -28,26 +29,35 @@ namespace Bifrost.Events
 	/// </summary>
 	public interface IEventStore
 	{
-		/// <summary>
-		/// Load events for a specific aggregated root 
-		/// </summary>
-		/// <param name="aggregatedRootType">Type of aggregated root</param>
-		/// <param name="aggregateId">Id of the aggregated root</param>
+        /// <summary>
+        /// Get a <see cref="CommittedEventStream"/> with events for specific given <see cref="EventSource"/>
+        /// </summary>
+        /// <param name="eventSource"><see cref="EventSource"/> to get <see cref="IEvent">events</see> for</param>
+        /// <param name="eventSourceId"><see cref="Guid">Id</see> of the specific <see cref="EventSource"/></param>
 		/// <returns>All events for the aggregated root in an Event Stream</returns>
-		CommittedEventStream Load(Type aggregatedRootType, Guid aggregateId);
+        CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId);
 
 		/// <summary>
 		/// Save events for a specific aggregated root
 		/// </summary>
-		/// <param name="eventsToSave">Events to save as an Event Stream</param>
-		void Save(UncommittedEventStream eventsToSave);
+		/// <param name="eventsToSave"><see cref="UncommittedEventStream"></see><see cref="IEvent"/> to save as an Event Stream</param>
+		void Commit(UncommittedEventStream eventsToSave);
 
         /// <summary>
-        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the aggregate root
+        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="EventSource"/>
         /// </summary>
-        /// <param name="aggregatedRootType">Type of the aggregrate root</param>
-        /// <param name="aggregateId">Id of the aggregate root</param>
-        /// <returns></returns>
-	    EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId);
+        /// <param name="eventSource"><see cref="EventSource"/> to get <see cref="EventSourceVersion">version</see> for</param>
+        /// <param name="eventSourceId"><see cref="Guid">Id</see> of the specific <see cref="EventSource"/></param>
+        /// <returns>The last committed <see cref="EventSourceVersion">version</see></returns>
+	    EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId);
+
+        /// <summary>
+        /// Get a batch of <see cref="IEvent">events</see> in the form of a 
+        /// <see cref="CommittedEventStream">stream of events</see> 
+        /// </summary>
+        /// <param name="batchesToSkip">Number of batches to skip</param>
+        /// <param name="batchSize">Size of each batch</param>
+        /// <returns>A batch of <see cref="IEvent">events</see></returns>
+        IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize);
 	}
 }

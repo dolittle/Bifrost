@@ -11,12 +11,12 @@ namespace Bifrost.Specs.Commands.for_CommandContext
     {
         static UncommittedEventStream   event_stream;
 
-        Establish context = () => event_store_mock.Setup(e=>e.Save(Moq.It.IsAny<UncommittedEventStream>())).Callback((UncommittedEventStream s) => event_stream = s);
+        Establish context = () => uncommitted_event_stream_coordinator.Setup(e=>e.Commit(Moq.It.IsAny<UncommittedEventStream>())).Callback((UncommittedEventStream s) => event_stream = s);
 
         Because of = () => command_context.Commit();
 
-        It should_call_save = () => event_stream.ShouldNotBeNull();
-        It should_call_save_with_the_event_in_event_stream = () => event_stream.ShouldContainOnly(uncommitted_event);
+        It should_commit_on_the_uncommitted_event_stream_coordinator = () => event_stream.ShouldNotBeNull();
+        It should_commit_on_the_uncommitted_event_stream_coordinator_with_the_event_in_event_stream = () => event_stream.ShouldContainOnly(uncommitted_event);
         It should_commit_aggregated_root = () => aggregated_root.CommitCalled.ShouldBeTrue();
     }
 }

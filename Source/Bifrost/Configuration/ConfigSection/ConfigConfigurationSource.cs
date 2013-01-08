@@ -59,11 +59,6 @@ namespace Bifrost.Configuration.ConfigSection
                     configure.Container.Bind(configuration.Connection.GetType(), configuration.Connection);
                     configure.Container.Bind(typeof(IEntityContext<>), section.DefaultStorage.EntityContextType);
                 }
-
-                if( section.Events != null )
-                {
-                    configure.Events.RepositoryType = section.Events.RepositoryType;
-                }
 				if( section.Sagas != null )
 				{
 					configure.Sagas.LibrarianType = section.Sagas.LibrarianType;

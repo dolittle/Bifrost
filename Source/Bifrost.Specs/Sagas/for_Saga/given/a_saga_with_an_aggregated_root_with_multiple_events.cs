@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Sagas.for_Saga.given
             second_event = new SimpleEvent(aggregated_root_id) { Version = new EventSourceVersion(1, 1) };
             eventStream.Append(second_event);
 
-            saga.Save(eventStream);
+            saga.Commit(eventStream);
         };
 	}
 }

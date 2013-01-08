@@ -34,30 +34,33 @@ namespace Bifrost.Commands
 	/// </summary>
 	public class CommandContext : ICommandContext
 	{
-		private readonly List<IAggregatedRoot> _objectsTracked = new List<IAggregatedRoot>();
+        IEventStore _eventStore;
+        IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
+		List<IAggregatedRoot> _objectsTracked = new List<IAggregatedRoot>();
 
 		/// <summary>
 		/// Initializes a new <see cref="CommandContext">CommandContext</see>
 		/// </summary>
 		/// <param name="command">The <see cref="ICommand">command</see> the context is for</param>
 		/// <param name="executionContext">The <see cref="IExecutionContext"/> for the command</param>
-		/// <param name="eventStore">The <see cref="IEventStore">event store</see> that will get all the events and persist them</param>
+        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
+        /// <param name="uncommittedEventStreamCoordinator">The <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinating the committing of events</param>
 		public CommandContext(
 			ICommand command,
 			IExecutionContext executionContext,
-			IEventStore eventStore)
+            IEventStore eventStore,
+			IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator)
 		{
 			Command = command;
 			ExecutionContext = executionContext;
-			EventStores = new[] {eventStore};
+            _eventStore = eventStore;
+            _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
 		}
 
 
 #pragma warning disable 1591 // Xml Comments
 		public ICommand Command { get; private set; }
 		public IExecutionContext ExecutionContext { get; private set; }
-
-		public IEnumerable<IEventStore> EventStores { get; private set; }
 
 		public void RegisterForTracking(IAggregatedRoot aggregatedRoot)
 		{
@@ -88,9 +91,7 @@ namespace Bifrost.Commands
 				{
 					events.MarkEventsWithCommandDetails(Command);
                     events.ExpandExecutionContext(ExecutionContext);
-                    foreach (var eventStore in EventStores)
-                        eventStore.Save(events);
-
+                    _uncommittedEventStreamCoordinator.Commit(events);
                     trackedObject.Commit();
 				}
 			}
@@ -101,6 +102,20 @@ namespace Bifrost.Commands
 			// Todo : Should rollback any aggregated roots that are being tracked - 
 			// PS: What do you do with events that has already been dispatched and stored?
 		}
+
+
+        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId)
+        {
+            return _eventStore.GetForEventSource(eventSource, eventSourceId);
+        }
+
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        {
+            return _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
+        }
+
 #pragma warning restore 1591 // Xml Comments
-	}
+
+
+    }
 }

@@ -63,9 +63,9 @@ namespace Bifrost.Configuration
         /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
         /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
         /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure WithAsynchronousEventStore(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
+        public static IConfigure Asynchronous(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
         {
-            configuration.EventStoreType = typeof(AsyncEventStore);
+            configuration.UncommittedEventStreamCoordinatorType = typeof(AsynchronousUncommittedEventStreamCoordinator);
             if (configurationAction != null)
                 configurationAction(configuration);
             return Configure.Instance;

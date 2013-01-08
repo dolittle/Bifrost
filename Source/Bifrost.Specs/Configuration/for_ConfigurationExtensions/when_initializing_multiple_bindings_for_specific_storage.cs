@@ -16,13 +16,6 @@ namespace Bifrost.Specs.Configuration.for_ConfigurationExtensions
     [Subject(typeof(ConfigurationStorageElement))]
     public class when_initializing_multiple_bindings_for_specific_storage : given.a_configuration_element_with_storage
     {
-        static Type default_type;
-        Establish context = () =>
-        {
-            default_type = typeof(EntityContext<>);
-        };
-
-
         Because of = () => 
                         {
                             var listOfOperations = new Queue<bool>(new []{false, true, true, true, true, true});
@@ -33,8 +26,8 @@ namespace Bifrost.Specs.Configuration.for_ConfigurationExtensions
                         };
 
         It should_bind_the_specific_connection_only_once = () => container_mock.Verify(c => c.Bind(typeof(EntityContextConnection), connection), Times.Once());
-        It should_bind_specific_storage_for_type = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<SomeType>), default_type), Times.Once());
-        It should_bind_specific_storage_for_other_type = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<SomeOtherType>), default_type), Times.Once());
+        It should_bind_specific_storage_for_type = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<SomeType>), typeof(EntityContext<SomeType>)), Times.Once());
+        It should_bind_specific_storage_for_other_type = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<SomeOtherType>), typeof(EntityContext<SomeOtherType>)), Times.Once());
 
         It should_not_set_the_default_storage = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<>),Moq.It.IsAny<Type>()),Times.Never());
 

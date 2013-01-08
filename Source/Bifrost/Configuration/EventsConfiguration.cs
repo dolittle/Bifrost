@@ -40,13 +40,12 @@ namespace Bifrost.Configuration
         public EventsConfiguration(IEventStoreChangeManager eventStoreChangeManager)
         {
             _eventStoreChangeManager = eventStoreChangeManager;
-            RepositoryType = typeof(EventRepository);
             EventStoreType = typeof(EventStore);
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public Type RepositoryType { get; set; }
         public Type EventStoreType { get; set; }
+        public Type UncommittedEventStreamCoordinatorType { get; set; }
 
         public void AddEventStoreChangeNotifier(Type type)
         {
@@ -55,6 +54,9 @@ namespace Bifrost.Configuration
 
         public override void Initialize(IContainer container)
         {
+            if (UncommittedEventStreamCoordinatorType != null)
+                container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinatorType);
+
             if (EventStoreType != null)
                 container.Bind<IEventStore>(EventStoreType);
 
@@ -66,6 +68,7 @@ namespace Bifrost.Configuration
             }
         }
 #pragma warning restore 1591 // Xml Comments
+
 
     }
 }

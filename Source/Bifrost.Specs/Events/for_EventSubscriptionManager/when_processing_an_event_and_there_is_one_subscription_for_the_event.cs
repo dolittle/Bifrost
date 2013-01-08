@@ -1,6 +1,8 @@
 ﻿using System;
 using Bifrost.Events;
 using Machine.Specifications;
+using Moq;
+using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 {
@@ -14,7 +16,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         {
             @event = new SomeEvent(Guid.NewGuid());
             @event.Id = 42;
-            @event.EventSourceName = EventSourceName;
+            @event.EventSource = event_source;
             event_subscription_repository_mock.Setup(e => e.Update(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s) => actual_subscription = s);
             event_subscriber = new SomeEventSubscriber();
             container_mock.Setup(c=>c.Get(typeof(SomeEventSubscriber))).Returns(event_subscriber);
@@ -25,5 +27,6 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         It should_update_subscription = () => actual_subscription.ShouldEqual(subscription);
         It should_update_subscriptions_last_event_id_with_event_id = () => actual_subscription.LastEventId.ShouldEqual(@event.Id);
         It should_call_subscription_method = () => event_subscriber.ProcessCalled.ShouldBeTrue();
+        It should_ensure_events_are_persisted_in_a_localized_scope = () => localizer_mock.Verify(s => s.BeginScope(), Times.Once());
     }
 }

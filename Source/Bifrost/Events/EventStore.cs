@@ -20,8 +20,11 @@
 //
 #endregion
 using System;
+using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Globalization;
+using Bifrost.Entities;
+using System.Collections.Generic;
 
 namespace Bifrost.Events
 {
@@ -30,55 +33,70 @@ namespace Bifrost.Events
 	/// </summary>
     public class EventStore : IEventStore
     {
-        readonly IEventRepository _repository;
-        readonly IEventStoreChangeManager _eventStoreChangeManager;
-        readonly IEventSubscriptionManager _eventSubscriptionManager;
-	    readonly ILocalizer _localizer;
+        IEntityContext<IEvent> _entityContext;
+        IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
 
 	    /// <summary>
 	    /// Initializes a new instance of <see cref="EventStore"/>
 	    /// </summary>
-	    /// <param name="repository"><see cref="IEventRepository"/> that persists events</param>
-        /// <param name="eventStoreChangeManager">A <see cref="IEventStoreChangeManager"/> for managing changes to the event store</param>
-        /// <param name="eventSubscriptionManager">A <see cref="IEventSubscriptionManager"/> for managing event subscriptions</param>
-	    /// <param name="localizer"><see cref="ILocalizer" /> that ensures thread has the correct culture.</param>
+	    /// <param name="entityContext"><see cref="IEntityContext{IEvent}"/> that persists events</param>
+        /// <param name="eventMigrationHierarchyManager"><see cref="IEventMigrationHierarchyManager"/> for dealing with migration hierarchies for events</param>
 	    public EventStore(
-            IEventRepository repository, 
-            IEventStoreChangeManager eventStoreChangeManager, 
-            IEventSubscriptionManager eventSubscriptionManager,
-            ILocalizer localizer)
+            IEntityContext<IEvent> entityContext,
+            IEventMigrationHierarchyManager eventMigrationHierarchyManager)
         {
-            _repository = repository;
-            _eventStoreChangeManager = eventStoreChangeManager;
-            _eventSubscriptionManager = eventSubscriptionManager;
-		    _localizer = localizer;
+            _entityContext = entityContext;
+            _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
         }
 
 #pragma warning disable 1591 // Xml Comments
-		public CommittedEventStream Load(Type aggregatedRootType, Guid aggregateId)
+        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
         {
-            var events = _repository.GetForAggregatedRoot(aggregatedRootType, aggregateId);
-            var stream = new CommittedEventStream(aggregateId);
+            var eventSourceType = eventSource.GetType();
+
+            var events = _entityContext
+                            .Entities
+                                .Where(
+                                    e => e.EventSourceId == eventSourceId && 
+                                         e.EventSource == eventSourceType.AssemblyQualifiedName
+                                    ).ToArray();
+
+            var stream = new CommittedEventStream(eventSourceId);
             stream.Append(events);
             return stream;
         }
 
-        public void Save(UncommittedEventStream eventsToSave)
+        public void Commit(UncommittedEventStream events)
         {
-            using (_localizer.BeginScope())
+            var eventArray = events.ToArray();
+            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
             {
-                _repository.Insert(eventsToSave);
-                _eventSubscriptionManager.Process(eventsToSave);
-                _eventStoreChangeManager.NotifyChanges(this, eventsToSave);
+                var @event = eventArray[eventIndex];
+                _entityContext.Insert(@event);
             }
-		}
 
-	    public EventSourceVersion GetLastCommittedVersion(Type aggregatedRootType, Guid aggregateId)
+            _entityContext.Commit();
+        }
+
+	    public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
 	    {
-	        return _repository.GetLastCommittedVersion(aggregatedRootType, aggregateId);
+            var @event = _entityContext.Entities
+                .Where(e => e.EventSourceId == eventSourceId)
+                    .OrderByDescending(e => e.Version)
+                .FirstOrDefault();
+
+            if (@event == null)
+                return EventSourceVersion.Zero;
+
+            return @event.Version;
 	    }
+
+
+        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
+        {
+            var events = _entityContext.Entities.Skip(batchSize * batchesToSkip).Take(batchSize);
+            return events.ToArray();
+        }
 #pragma warning restore 1591 // Xml Comments
-
-
     }
 }

@@ -14,8 +14,7 @@ namespace Bifrost.NHibernate.Events
             Map(e => e.CommandName);
             Map(e => e.Name);
             Map(e => e.EventSourceId);
-            Map(e => e.AggregatedRoot);
-            Map(e => e.EventSourceName);
+            Map(e => e.EventSource);
             Map(e => e.Version).CustomType<EventSourceVersionCustomType>();
             Map(e => e.CausedBy);
             Map(e => e.Origin);

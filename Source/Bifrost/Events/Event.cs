@@ -46,8 +46,7 @@ namespace Bifrost.Events
         public string Name { get; set; }
 		public string CommandName { get; set; }
         public Guid EventSourceId { get; set; }
-        public string AggregatedRoot { get; set; }
-    	public string EventSourceName { get; set; }
+    	public string EventSource { get; set; }
     	public EventSourceVersion Version { get; set; }
         public string CausedBy { get; set; }
         public string Origin { get; set; }

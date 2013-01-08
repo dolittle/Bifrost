@@ -4,6 +4,7 @@ using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
 using Bifrost.Time;
+using Bifrost.Globalization;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
 {
@@ -14,6 +15,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
         protected static Mock<IEventSubscriptionRepository> event_subscription_repository_mock;
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;
         protected static Mock<IContainer> container_mock;
+        protected static Mock<ILocalizer> localizer_mock;
 
         protected static EventSubscription    subscription;
         protected static Type event_type;
@@ -38,7 +40,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
 
             event_subscription_repository_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });
 
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object);
+            localizer_mock = new Mock<ILocalizer>();
+            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
     }
 }

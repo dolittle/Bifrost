@@ -76,13 +76,12 @@ namespace Bifrost.NHibernate.Events
 			var eventType = @event.GetType();
 			var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
 			var generation = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
-			var aggregatedRootName = GetAggregatedRootNameFromEvent(@event);
+			var eventSourceName = GetEventSourceFromEvent(@event);
 			eventHolder.Id = @event.Id;
 			eventHolder.CommandName = @event.CommandName;
 			eventHolder.Name = @event.Name;
 			eventHolder.AggregateId = @event.EventSourceId;
-			eventHolder.AggregatedRoot = aggregatedRootName;
-            eventHolder.EventSourceName = @event.EventSourceName;
+            eventHolder.EventSource = eventSourceName;
 			eventHolder.SerializedEvent = _serializer.ToJson(@event);
 			eventHolder.LogicalEventName = logicalEventType.Name;
 			eventHolder.Generation = generation;
@@ -106,12 +105,12 @@ namespace Bifrost.NHibernate.Events
 #pragma warning restore 1591 // Xml Comments
 
 
-        static string GetAggregatedRootNameFromEvent(IEvent @event)
+        static string GetEventSourceFromEvent(IEvent @event)
 		{
-			var aggregatedRootName = "[Not Available]";
-			if (!string.IsNullOrEmpty(@event.AggregatedRoot))
-				aggregatedRootName = @event.AggregatedRoot;
-			return aggregatedRootName;
+			var eventSource = "[Not Available]";
+			if (!string.IsNullOrEmpty(@event.EventSource))
+				eventSource = @event.EventSource;
+			return eventSource;
 		}
 
 		static IEvent CreateInstance(Type eventType, Guid eventSourceId)

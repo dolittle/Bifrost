@@ -20,7 +20,6 @@ namespace Bifrost.Configuration
 
         public static IConfigure UsingJson(this IEventsConfiguration eventsConfiguration, string path)
         {
-            eventsConfiguration.RepositoryType = typeof(EventRepository);
             return Configure.Instance;
         }
             

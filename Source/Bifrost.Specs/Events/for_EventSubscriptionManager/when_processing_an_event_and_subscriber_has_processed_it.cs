@@ -1,6 +1,8 @@
 ﻿using System;
 using Bifrost.Events;
 using Machine.Specifications;
+using Moq;
+using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 {
@@ -16,12 +18,12 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 
             @event = new SomeEvent(Guid.NewGuid());
             @event.Id = 1;
-            @event.EventSourceName = EventSourceName;
+            @event.EventSource = event_source;
             
             event_subscription_repository_mock.Setup(e => e.Update(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s) => actual_subscription = s);
             event_subscriber = new SomeEventSubscriber();
             container_mock.Setup(c => c.Get(typeof(SomeEventSubscriber))).Returns(event_subscriber);
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object);
+            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
 
         Because of = () => event_subscription_manager.Process(@event);

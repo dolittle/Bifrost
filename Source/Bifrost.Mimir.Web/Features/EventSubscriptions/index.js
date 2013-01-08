@@ -11,23 +11,9 @@
         }
     });
 
-
     this.loadSubscriptions = function () {
         self.subscriptions([]);
         $.get("/EventSubscriptions/GetAll", {}, function (result) {
-            $.each(result, function (index, item) {
-                item.replayAllForSubscription = Bifrost.commands.Command.create({
-                    name: "ReplayAllForEventSubscription",
-                    parameters: {
-                        eventSubscriptionId: ko.observable(item.id)
-                    },
-                    complete: function () {
-                        setTimeout(function () {
-                            self.loadSubscriptions();
-                        }, 500);
-                    }
-                });
-            });
             self.subscriptions(result);
         }, "json");
     };

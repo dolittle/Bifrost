@@ -18,15 +18,15 @@ namespace Bifrost.Mimir.Views.EventStores
         public int PageNumber { get; set; }
 
         IEventSubscriptionManager _eventSubscriptionManager;
-        IEventRepository _eventRepository;
+        IEventStore _eventStore;
 
         public ResetAllEventsForAllSubscriptionsTask(
                 IEventSubscriptionManager eventSubcriptionManager,
-                IEventRepository eventRepository
+                IEventStore eventStore
             )
         {
             _eventSubscriptionManager = eventSubcriptionManager;
-            _eventRepository = eventRepository;
+            _eventStore = eventStore;
         }
 
 
@@ -35,7 +35,7 @@ namespace Bifrost.Mimir.Views.EventStores
             IEnumerable<IEvent> events;
             do
             {
-                events = _eventRepository.GetPage(10, PageNumber);
+                events = _eventStore.GetBatch(PageNumber, 10);
                 if (events.Count() <= 0)
                     break;
 

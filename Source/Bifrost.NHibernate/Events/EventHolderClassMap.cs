@@ -38,7 +38,7 @@ namespace Bifrost.NHibernate.Events
 			Map(p => p.AggregateId);
 			Map(p => p.LogicalEventName);
 		    Map(p => p.Generation);
-			Map(p => p.AggregatedRoot);
+			Map(p => p.EventSource);
 			Map(p => p.SerializedEvent);
 			Map(p => p.CausedBy);
 			Map(p => p.Origin);

@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator
 
         Because of = () => coordinator.Commit(event_stream);
 
-        It should_insert_event_stream_into_repository = () => event_store_mock.Verify(e => e.Save(event_stream), Times.Once());
+        It should_insert_event_stream_into_repository = () => event_store_mock.Verify(e => e.Commit(event_stream), Times.Once());
         It should_notify_changes_with_event_stream = () => event_store_change_manager_mock.Verify(e => e.NotifyChanges(event_store_mock.Object, event_stream), Times.Once());
         It should_delegate_processing_to_the_subscription_manager = () => event_subscription_manager_mock.Verify(e => e.Process(event_stream), Times.Once());
     }

@@ -55,16 +55,14 @@ namespace Bifrost.Domain
 			{
                 if(!aggregatedRoot.IsStateless())
                 {
-                    foreach (var stream in commandContext.EventStores.Select(eventStore => eventStore.Load(type, id)).Where(stream => stream.HasEvents))
-                    {
+                    var stream = commandContext.GetCommittedEventsFor(aggregatedRoot, id);
+                    if( stream.HasEvents )
                         aggregatedRoot.ReApply(stream);
-                    }  
                 }
                 else
                 {
-                    var versions = commandContext.EventStores.Select(eventStore => eventStore.GetLastCommittedVersion(type, id)).ToList();
-
-                    aggregatedRoot.FastForward(versions.Max());
+                    var version = commandContext.GetLastCommittedVersion(aggregatedRoot, id);
+                    aggregatedRoot.FastForward(version);
                 }
 			}
             commandContext.RegisterForTracking(aggregatedRoot);

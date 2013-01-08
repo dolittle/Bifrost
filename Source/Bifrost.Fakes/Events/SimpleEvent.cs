@@ -13,5 +13,8 @@ namespace Bifrost.Fakes.Events
         public SimpleEvent(Guid eventSourceId) : this(eventSourceId,0)
         {
         }
+
+
+        public string Content { get; set; }
     }
 }

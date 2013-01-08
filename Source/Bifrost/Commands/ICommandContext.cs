@@ -19,12 +19,12 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
-using System.Security.Principal;
 using Bifrost.Domain;
 using Bifrost.Events;
-using Bifrost.Lifecycle;
 using Bifrost.Execution;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Commands
 {
@@ -44,12 +44,6 @@ namespace Bifrost.Commands
 		/// </summary>
 		IExecutionContext ExecutionContext { get; }
 
-
-		/// <summary>
-		/// Gets the <see cref="IEventStore">EventStores</see> to use for the <see cref="ICommandContext"/>
-		/// </summary>
-		IEnumerable<IEventStore> EventStores { get; }
-
 		/// <summary>
 		/// Register an aggregated root for tracking
 		/// </summary>
@@ -61,5 +55,21 @@ namespace Bifrost.Commands
 		/// </summary>
 		/// <returns>All tracked objects</returns>
 		IEnumerable<IAggregatedRoot> GetObjectsBeingTracked();
+
+        /// <summary>
+        /// Get commmitted events for a specific <see cref="EventSource"/>
+        /// </summary>
+        /// <param name="eventSource"><see cref="EventSource"/> to get from</param>
+        /// <param name="eventSourceId"><see cref="Guid">Id</see> of <see cref="EventSource"/> to get from</param>
+        /// <returns><see cref="CommittedEventStream"/> for the <see cref="EventSource"/></returns>
+        CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId);
+
+        /// <summary>
+        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="EventSource"/>
+        /// </summary>
+        /// <param name="eventSource"><see cref="EventSource"/> to get <see cref="EventSourceVersion">version</see> for</param>
+        /// <param name="eventSourceId"><see cref="Guid">Id</see> of the specific <see cref="EventSource"/></param>
+        /// <returns>The last committed <see cref="EventSourceVersion">version</see></returns>
+        EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId);
 	}
 }
