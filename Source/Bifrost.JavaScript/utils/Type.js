@@ -105,6 +105,30 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    resolveDependencyInstancesThatHasNotBeenResolved = function(dependencyInstances, typeDefinition) {
+        $.each(dependencyInstances, function(index, dependencyInstance) {
+            if( dependencyInstance == null || typeof dependencyInstance == "undefined" ) {
+                var dependency = typeDefinition._dependencies[index];
+                dependencyInstances[index] = Bifrost.dependencyResolver.resolve(typeDefinition._namespace, dependency);
+            }
+        });
+    };
+
+    resolveDependencyInstances = function(instanceHash, typeDefinition) {
+        var dependencyInstances = [];
+        if( typeof instanceHash === "object" ) {
+            expandInstancesHashToDependencies(typeDefinition, instanceHash, dependencyInstances);
+        } 
+        if( typeof typeDefinition._dependencies !== "undefined" && typeDefinition._dependencies.length > 0 ) {
+            if( dependencyInstances.length > 0 ) {
+                resolveDependencyInstancesThatHasNotBeenResolved(dependencyInstances, typeDefinition);
+            } else {
+                dependencyInstances = getDependencyInstances(typeDefinition._namespace, typeDefinition);
+            }
+        }
+        return dependencyInstances;
+    }
+
     Bifrost.Type.scope = {
         getFor : function(namespace, name) {
             return null;
@@ -145,13 +169,7 @@ Bifrost.namespace("Bifrost", {
         if( this._super != null ) {
             actualType.prototype = this._super.create();
         }
-        var dependencyInstances = [];
-        if( typeof instanceHash === "object" ) {
-            expandInstancesHashToDependencies(this, instanceHash, dependencyInstances);
-        } else {
-            dependencyInstances = getDependencyInstances(this._namespace, this);
-        }
-        
+        var dependencyInstances = resolveDependencyInstances(instanceHash, this);
         var scope = null;
         if( this != Bifrost.Type ) {
             this.instancesPerScope = this.instancesPerScope || {};
@@ -176,7 +194,7 @@ Bifrost.namespace("Bifrost", {
         return instance;
     };
 
-    Bifrost.Type.beginCreate = function() {
+    Bifrost.Type.beginCreate = function(instanceHash) {
         var self = this;
 
         var promise = Bifrost.execution.Promise.create();
@@ -202,9 +220,15 @@ Bifrost.namespace("Bifrost", {
             } else {
                 beginGetDependencyInstances(self._namespace, self)
                     .continueWith(function(dependencies, nextPromise) {
-                        var instanceHash = {};
-                        expandDependenciesToInstanceHash(self, dependencies, instanceHash);
-                        var instance = self.create(instanceHash);
+                        var dependencyInstances = {};
+                        expandDependenciesToInstanceHash(self, dependencies, dependencyInstances);
+                        if( typeof instanceHash === "object" ) {
+                            for( var property in instanceHash ) {
+                                dependencyInstances[property] = instanceHash[property];
+                            }
+                        }
+
+                        var instance = self.create(dependencyInstances);
                         promise.signal(instance);
                     });
 

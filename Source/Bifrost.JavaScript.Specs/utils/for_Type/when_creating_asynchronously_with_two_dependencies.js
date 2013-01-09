@@ -27,4 +27,8 @@ describe("when creating asynchronously with two dependencies", function() {
 		expect(result.first).toBe("first");
 	});
 
+    it("should resolve the second dependency", function () {
+        expect(result.second).toBe("second");
+    });
+
 });

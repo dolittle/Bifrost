@@ -159,6 +159,7 @@
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
+    <Content Include="Utils\for_Type\when_creating_asynchronously_with_one_dependency_and_other_parameters.js" />
     <Content Include="Utils\for_Type\when_extending_two_different_types.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_function_as_scope.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_scope_to_same_object.js" />
