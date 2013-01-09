@@ -36,9 +36,9 @@
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js
+@depends commands/CommandCoordinator.js
 @depends commands/Command.js
 @depends commands/CommandDescriptor.js
-@depends commands/CommandCoordinator.js
 @depends commands/CommandResult.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
