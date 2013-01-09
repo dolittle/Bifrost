@@ -57,12 +57,10 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
-    <Content Include="commands\for_Command\when_an_error_occurs_while_executing_a_command.js" />
-    <Content Include="commands\for_Command\when_applying_validation_results.js" />
-    <Content Include="commands\for_Command\when_executing_a_command_which_can_not_execute.js" />
-    <Content Include="commands\for_Command\when_executing_a_command_which_can_execute.js" />
-    <Content Include="commands\for_Command\when_creating_with_configuration.js" />
-    <Content Include="commands\for_Command\when_validating_the_command.js" />
+    <Content Include="commands\for_Command\when_creating.js" />
+    <Content Include="commands\for_Command\when_executing_with_validation_error.js" />
+    <Content Include="commands\for_Command\when_executing_without_success.js" />
+    <Content Include="commands\for_Command\when_executing.js" />
     <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
     <Content Include="execution\for_Promise\when_failing.js" />
     <Content Include="execution\for_Promise\when_signalling_without_parameter.js" />
@@ -159,6 +157,8 @@
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
+    <Content Include="Utils\for_Type\when_creating_with_one_dependency_and_defined_parameters.js" />
+    <Content Include="Utils\for_Type\when_creating_asynchronously_with_defined_parameters.js" />
     <Content Include="Utils\for_Type\when_creating_asynchronously_with_one_dependency_and_other_parameters.js" />
     <Content Include="Utils\for_Type\when_extending_two_different_types.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_function_as_scope.js" />
@@ -254,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_Singleton\when_creating_instance_of_two_definitions.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="commands\for_Command\when_executing_with_success_and_valid.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

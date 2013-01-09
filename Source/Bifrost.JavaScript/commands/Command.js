@@ -1,4 +1,75 @@
-Bifrost.namespace("Bifrost.commands");
+/*
+Bifrost.namespace("Bifrost.commands", {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
+        var self = this;
+        this.isBusy = ko.observable(false);
+
+        this.commandCoordinator = commandCoordinator;
+        this.commandValidationService = commandValidationService;
+
+        this.options = {
+            beforeExecute: function () { },
+            error: function () { },
+            success: function () { },
+            complete: function () { }
+        };
+
+        this.setOptions = function (options) {
+            Bifrost.extend(self.options, options);
+        }
+
+        this.onBeforeExecute = function () {
+            self.options.beforeExecute();
+        };
+
+        this.onError = function (commandResult) {
+            self.options.error(commandResult);
+        };
+
+        this.onSuccess = function (commandResult) {
+            self.options.success(commandResult);
+        };
+
+        this.onComplete = function (commandResult) {
+            self.options.complete(commandResult);
+        };
+
+        this.handleCommandResult = function (commandResult) {
+            self.isBusy(false);
+            if (commandResult.success === false || commandResult.invalid === true) {
+                self.onError(commandResult);
+            } else {
+                self.onSuccess(commandResult);
+            }
+            self.onComplete(commandResult);
+        };
+
+        this.getCommandResultFromValidationResult = function (validationResult) {
+            var result = Bifrost.commands.CommandResult.create();
+            result.invalid = true;
+            return result;
+        };
+
+        this.execute = function () {
+            self.isBusy(true);
+            self.onBeforeExecute();
+            var validationResult = self.commandValidationService.validate(this);
+            if (validationResult.valid === true) {
+                self.commandCoordinator.handle(self).continueWith(function (commandResult) {
+                    self.handleCommandResult(commandResult);
+                });
+            } else {
+                var commandResult = self.getCommandResultFromValidationResult(validationResult);
+                self.handleCommandResult(commandResult);
+            }
+        };
+
+        commandValidationService.applyRulesToProperties(this);
+        this.setOptions(options);
+    })
+});
+*/
+
 Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;

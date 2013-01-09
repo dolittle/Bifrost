@@ -186,6 +186,10 @@ Bifrost.namespace("Bifrost", {
         } else {
             instance = new actualType();    
         }
+        instance._type = {
+            _name : this._name,
+            _namespace : this._namespace
+        };
 
         if( scope != null ) {
             this.instancesPerScope[scope] = instance;

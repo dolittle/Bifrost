@@ -18,7 +18,7 @@ Bifrost.namespace = function (ns, content) {
 
     if (typeof content === "object") {
         Bifrost.namespace.current = parent;
-        Bifrost.extend(parent, content);
+        Bifrost.extend.call(parent, parent, content);
 
         for (var property in parent) {
             if (parent.hasOwnProperty(property)) {

@@ -23,6 +23,12 @@
                 commandHandled = command;
                 return handlePromise;
             }
+        },
+        commandValidationService: {
+            applyRulesToProperties: function () { },
+            validate: function (command) {
+                return { valid: true };
+            }
         }
     }
     var command = Bifrost.commands.Command.create(parameters);
