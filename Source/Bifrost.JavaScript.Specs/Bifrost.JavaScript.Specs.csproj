@@ -58,6 +58,7 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
     <Content Include="commands\for_Command\when_creating.js" />
+    <Content Include="commands\for_Command\when_creating_with_properties.js" />
     <Content Include="commands\for_Command\when_executing_with_validation_error.js" />
     <Content Include="commands\for_Command\when_executing_without_success.js" />
     <Content Include="commands\for_Command\when_executing.js" />
@@ -257,6 +258,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="commands\for_Command\when_executing_with_success_and_valid.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="commands\for_Command\when_creating_from_an_extended_command_with_properties.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

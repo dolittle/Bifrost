@@ -1,4 +1,3 @@
-/*
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
@@ -11,12 +10,25 @@ Bifrost.namespace("Bifrost.commands", {
             beforeExecute: function () { },
             error: function () { },
             success: function () { },
-            complete: function () { }
+            complete: function () { },
+            properties: {}
         };
 
         this.setOptions = function (options) {
             Bifrost.extend(self.options, options);
-        }
+        };
+
+        this.copyPropertiesFromOptions = function () {
+            for (var property in self.options.properties) {
+                self[property] = self.options.properties[property];
+            }
+        };
+
+        this.makePropertiesObservable = function () {
+            for (var property in self) {
+                
+            }
+        };
 
         this.onBeforeExecute = function () {
             self.options.beforeExecute();
@@ -68,8 +80,8 @@ Bifrost.namespace("Bifrost.commands", {
         this.setOptions(options);
     })
 });
-*/
 
+/*
 Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
@@ -276,4 +288,4 @@ Bifrost.commands.Command = (function (window) {
             return command;
         }
     };
-})(window);
+})(window);*/
