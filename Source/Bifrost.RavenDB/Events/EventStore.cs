@@ -22,7 +22,7 @@ namespace Bifrost.RavenDB.Events
             InsertOrModifyEventSourceIdAndVersionIndex();
         }
 
-        private void InitializeDocumentStore()
+        void InitializeDocumentStore()
         {
             _documentStore = new Raven.Client.Document.DocumentStore
             {
