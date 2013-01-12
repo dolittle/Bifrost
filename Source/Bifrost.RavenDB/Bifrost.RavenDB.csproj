@@ -60,7 +60,8 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
-    <Compile Include="EventSourceVersionConverter.cs" />
+    <Compile Include="Events\EventMetaDataListener.cs" />
+    <Compile Include="Events\EventSourceVersionConverter.cs" />
     <Compile Include="Events\EventStore.cs" />
     <Compile Include="Events\EventStoreConfiguration.cs" />
     <Compile Include="MethodInfoConverter.cs" />

@@ -2,7 +2,7 @@
 using Bifrost.Events;
 using Newtonsoft.Json;
 
-namespace Bifrost.RavenDB
+namespace Bifrost.RavenDB.Events
 {
     public class EventSourceVersionConverter : JsonConverter
     {

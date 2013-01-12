@@ -45,6 +45,8 @@ namespace Bifrost.RavenDB.Events
             };
             _documentStore.Conventions.FindTypeTagName = t => CollectionName;
 
+            _documentStore.RegisterListener(new EventMetaDataListener(_eventMigrationHierarchyManager));
+
             _documentStore.Initialize();
         }
 
@@ -74,6 +76,7 @@ namespace Bifrost.RavenDB.Events
                 for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
                 {
                     var @event = eventArray[eventIndex];
+                    //session.Advanced.
                     session.Store(@event);
                 }
 
