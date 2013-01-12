@@ -56,6 +56,8 @@
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
     <Compile Include="EventClassMap.cs" />
+    <Compile Include="Events\EventStore.cs" />
+    <Compile Include="Events\EventStoreConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">

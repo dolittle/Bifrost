@@ -19,13 +19,37 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Entities;
 using Bifrost.MongoDB;
+using Bifrost.MongoDB.Events;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
+        public static IConfigure usingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
+        {
+            eventsConfiguration.EventStoreType = typeof(EventStore);
+            var configuration = new EventStoreConfiguration();
+            configureCallback(configuration);
+            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            return Configure.Instance;
+        }
+
+        public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
+        {
+            configuration.Url = url;
+            return configuration;
+        }
+
+
+        public static EventStoreConfiguration WithDefaultDatabase(this EventStoreConfiguration configuration, string defaultDatabase)
+        {
+            configuration.DefaultDatabase = defaultDatabase;
+            return configuration;
+        }
+
         public static IConfigure UsingMongoDb(this IHaveStorage storage, string connectionString, string databaseName)
         {
             var entityContextConfiguration = new EntityContextConfiguration();

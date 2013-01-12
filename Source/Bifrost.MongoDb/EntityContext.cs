@@ -87,7 +87,7 @@ namespace Bifrost.MongoDB
             return _collection.FindOneById(objectId);
         }
 
-        private static BsonValue GetObjectId<TProperty>(TProperty id)
+        BsonValue GetObjectId<TProperty>(TProperty id)
         {
             var idAsValue = BsonValue.Create(id);
             return idAsValue;
