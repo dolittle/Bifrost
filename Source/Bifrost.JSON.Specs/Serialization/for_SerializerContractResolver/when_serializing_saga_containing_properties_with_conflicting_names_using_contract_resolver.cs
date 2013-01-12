@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
 using Newtonsoft.Json;

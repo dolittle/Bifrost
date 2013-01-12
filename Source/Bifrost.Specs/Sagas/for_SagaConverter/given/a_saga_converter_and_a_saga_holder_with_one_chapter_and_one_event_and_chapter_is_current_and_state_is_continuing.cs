@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Fakes.Events;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Events;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
 using Machine.Specifications;

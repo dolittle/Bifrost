@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bifrost.Events;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Bifrost.Specs.Events.for_EventStream.behaviors;
 using Machine.Specifications;
 

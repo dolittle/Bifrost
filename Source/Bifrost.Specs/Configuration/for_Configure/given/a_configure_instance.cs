@@ -3,7 +3,6 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
-using Bifrost.Fakes.Entities;
 
 namespace Bifrost.Specs.Configuration.for_Configure.given
 {

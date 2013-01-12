@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{47835DE6-FA79-4888-83B6-F6891891CBB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost.Testing</RootNamespace>
+    <AssemblyName>Bifrost.Testing</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="CommandScenario.cs" />
+    <Compile Include="Fakes\Commands\AnotherSimpleCommand.cs" />
+    <Compile Include="Fakes\Commands\AnotherSimpleCommandBusinessValidator.cs" />
+    <Compile Include="Fakes\Commands\AnotherSimpleCommandInputValidator.cs" />
+    <Compile Include="Fakes\Commands\SimpleCommand.cs" />
+    <Compile Include="Fakes\Commands\SimpleCommandBusinessValidator.cs" />
+    <Compile Include="Fakes\Commands\SimpleCommandInputValidator.cs" />
+    <Compile Include="Fakes\Configuration\EntityContextConfiguration.cs" />
+    <Compile Include="Fakes\Domain\AnotherStatefulAggregatedRoot.cs" />
+    <Compile Include="Fakes\Domain\StatefulAggregatedRoot.cs" />
+    <Compile Include="Fakes\Domain\StatelessAggregatedRoot.cs" />
+    <Compile Include="Fakes\Domain\StatelessAggregatedRootWithOneMethod.cs" />
+    <Compile Include="Fakes\Entities\EntityContext.cs" />
+    <Compile Include="Fakes\Entities\FakeEntityContextConnection.cs" />
+    <Compile Include="Fakes\Events\AnotherSimpleEvent.cs" />
+    <Compile Include="Fakes\Events\SimpleEvent.cs" />
+    <Compile Include="Fakes\Events\SimpleEventV1ToV2Migrator.cs" />
+    <Compile Include="Fakes\Events\SimpleEventV2ToV3Migrator.cs" />
+    <Compile Include="Fakes\Events\SimpleEventWithDefaultConstructor.cs" />
+    <Compile Include="Fakes\Events\SimpleEventWithOneProperty.cs" />
+    <Compile Include="Fakes\Events\v2\SimpleEvent.cs" />
+    <Compile Include="Fakes\Events\v3\SimpleEvent.cs" />
+    <Compile Include="Fakes\Sagas\AnotherTransitionalChapter.cs" />
+    <Compile Include="Fakes\Sagas\NonTransitionalChapter.cs" />
+    <Compile Include="Fakes\Sagas\NonTransitionalChapterValidator.cs" />
+    <Compile Include="Fakes\Sagas\SagaWithOneChapterProperty.cs" />
+    <Compile Include="Fakes\Sagas\SagaWithTwoChapterProperties.cs" />
+    <Compile Include="Fakes\Sagas\SimpleChapter.cs" />
+    <Compile Include="Fakes\Sagas\SimpleChapterValidator.cs" />
+    <Compile Include="Fakes\Sagas\SimpleSaga.cs" />
+    <Compile Include="Fakes\Sagas\SimpleSagaWithConflictingPropertyNames.cs" />
+    <Compile Include="Fakes\Sagas\TransitionalChapter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

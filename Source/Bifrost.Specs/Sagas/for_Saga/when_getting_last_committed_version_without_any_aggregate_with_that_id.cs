@@ -1,6 +1,5 @@
 ﻿using System;
 using Bifrost.Events;
-using Bifrost.Fakes.Commands;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_Saga

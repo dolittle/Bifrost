@@ -1,7 +1,7 @@
 ﻿using System;
 using Bifrost.Configuration;
 using Bifrost.Entities;
-using Bifrost.Fakes.Entities;
+using Bifrost.Testing.Fakes.Entities;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;

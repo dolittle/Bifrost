@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 using Bifrost.Events;
-using Bifrost.Fakes.Events;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionRepository.given
 {

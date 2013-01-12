@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
 

@@ -1,5 +1,5 @@
 ﻿using Bifrost.Commands;
-using Bifrost.Fakes.Domain;
+using Bifrost.Testing.Fakes.Domain;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Commands.for_DynamicCommandFactory.given

@@ -1,5 +1,5 @@
 ﻿using System;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Machine.Specifications;
 using Bifrost.Sagas;
 

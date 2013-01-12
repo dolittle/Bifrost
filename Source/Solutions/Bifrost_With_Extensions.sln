@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Silverlight", "..\B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.MSpec", "..\Bifrost.MSpec\Bifrost.MSpec.csproj", "{FFE4E208-67F2-47B5-AA92-BA35AB3F4730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Fakes", "..\Bifrost.Fakes\Bifrost.Fakes.csproj", "{47835DE6-FA79-4888-83B6-F6891891CBB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Testing", "..\Bifrost.Fakes\Bifrost.Testing.csproj", "{47835DE6-FA79-4888-83B6-F6891891CBB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JSON", "..\Bifrost.JSON\Bifrost.JSON.csproj", "{DB77EB6A-DB79-4839-AB30-90593BCE470F}"
 EndProject

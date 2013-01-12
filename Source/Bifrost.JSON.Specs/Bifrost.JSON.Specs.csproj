@@ -60,6 +60,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Testing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
@@ -67,10 +71,6 @@
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
       <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
       <Name>Bifrost.JSON</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
-      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
-      <Name>Bifrost.Fakes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.MSpec\Bifrost.MSpec.csproj">
       <Project>{FFE4E208-67F2-47B5-AA92-BA35AB3F4730}</Project>

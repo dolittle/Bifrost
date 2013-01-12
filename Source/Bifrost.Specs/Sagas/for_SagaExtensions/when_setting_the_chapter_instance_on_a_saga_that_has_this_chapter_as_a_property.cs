@@ -1,4 +1,3 @@
-using Bifrost.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
 

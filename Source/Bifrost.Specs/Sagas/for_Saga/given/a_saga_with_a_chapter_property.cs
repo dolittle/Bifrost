@@ -1,4 +1,4 @@
-﻿using Bifrost.Fakes.Sagas;
+﻿using Bifrost.Testing.Fakes.Sagas;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_Saga.given

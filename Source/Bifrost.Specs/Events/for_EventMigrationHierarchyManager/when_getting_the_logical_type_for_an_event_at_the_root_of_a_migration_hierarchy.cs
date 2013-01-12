@@ -1,4 +1,5 @@
 using System;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
@@ -10,7 +11,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
 
         Because of = () =>
         {
-            root_type = typeof(Fakes.Events.AnotherSimpleEvent);
+            root_type = typeof(AnotherSimpleEvent);
             logical_type = event_migration_hierarchy_manager.GetLogicalTypeForEvent(root_type);
         };
 

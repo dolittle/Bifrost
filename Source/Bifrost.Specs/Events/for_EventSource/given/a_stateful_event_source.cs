@@ -1,6 +1,6 @@
 ﻿using System;
 using Bifrost.Events;
-using Bifrost.Fakes.Domain;
+using Bifrost.Testing.Fakes.Domain;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventSource.given

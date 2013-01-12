@@ -1,10 +1,10 @@
-﻿using Bifrost.Globalization;
+﻿using Bifrost.Testing.Fakes.Events;
+using Bifrost.Globalization;
 using Moq;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 using Bifrost.Events;
 using System;
-using Bifrost.Fakes.Events;
 
 
 namespace Bifrost.Specs.Events.for_EventStoreChangeManager

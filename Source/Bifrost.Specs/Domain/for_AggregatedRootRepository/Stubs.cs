@@ -1,7 +1,7 @@
 ﻿using System;
 using Bifrost.Domain;
 using Bifrost.Events;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 
 namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
 {

@@ -1,5 +1,5 @@
 using System;
-using Bifrost.Fakes.Commands;
+using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Specs.Validation.for_CommandValidatorProvider.given;
 using Bifrost.Validation;
 using Machine.Specifications;

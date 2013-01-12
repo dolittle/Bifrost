@@ -1,4 +1,4 @@
-﻿using Bifrost.Fakes.Events;
+﻿using Bifrost.Testing.Fakes.Events;
 
 namespace Bifrost.Specs.Events.for_ProcessMethodInvoker
 {

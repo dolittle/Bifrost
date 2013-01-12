@@ -1,5 +1,5 @@
 ﻿using System;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Bifrost.NHibernate.Events;
 using Bifrost.Serialization;
 using Machine.Specifications;

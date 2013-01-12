@@ -1,7 +1,6 @@
 using System;
+using Bifrost.Testing.Fakes.Events.v2;
 using Machine.Specifications;
-using v2 = Bifrost.Fakes.Events.v2;
-using v3 = Bifrost.Fakes.Events.v3;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
 {
@@ -16,7 +15,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
                              level_two_type = event_migration_hierarchy.GetConcreteTypeForLevel(2);
                          };
 
-        It should_get_the_correct_type_for_level_one = () => level_one_type.ShouldEqual(typeof(v2.SimpleEvent));
-        It should_get_the_correct_type_for_level_two = () => level_two_type.ShouldEqual(typeof(v3.SimpleEvent));
+        It should_get_the_correct_type_for_level_one = () => level_one_type.ShouldEqual(typeof(SimpleEvent));
+        It should_get_the_correct_type_for_level_two = () => level_two_type.ShouldEqual(typeof(Testing.Fakes.Events.v3.SimpleEvent));
     }
 }

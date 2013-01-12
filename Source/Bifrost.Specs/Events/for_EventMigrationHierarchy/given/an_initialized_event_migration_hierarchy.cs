@@ -1,5 +1,6 @@
 using System;
 using Bifrost.Events;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy.given
@@ -11,7 +12,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy.given
 
         private Establish context = () =>
                                         {
-                                            hierarchy_for_type = typeof (Fakes.Events.SimpleEvent);
+                                            hierarchy_for_type = typeof (SimpleEvent);
                                             event_migration_hierarchy = new EventMigrationHierarchy(hierarchy_for_type);
                                         };
     }

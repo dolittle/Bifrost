@@ -1,7 +1,7 @@
 using System;
 using Bifrost.Events;
-using Bifrost.Fakes.Domain;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Domain;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventSource.given

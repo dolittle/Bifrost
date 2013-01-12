@@ -45,11 +45,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Projects\Bifrost\Source\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
+    <ProjectReference Include="..\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
       <Project>{3e9048bc-11c1-4278-acbf-2b0dbe7ef9f4}</Project>
       <Name>Bifrost.Mimir.Events</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Projects\Bifrost\Source\Bifrost\Bifrost.csproj">
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
       <Name>Bifrost</Name>
     </ProjectReference>

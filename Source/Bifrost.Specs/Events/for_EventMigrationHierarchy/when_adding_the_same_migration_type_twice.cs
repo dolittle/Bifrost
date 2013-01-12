@@ -1,5 +1,6 @@
 using System;
 using Bifrost.Events;
+using Bifrost.Testing.Fakes.Events.v2;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
@@ -10,8 +11,8 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
 
         Because of = () =>
                          {
-                             event_migration_hierarchy.AddMigrationLevel(typeof(Fakes.Events.v2.SimpleEvent));
-                             Exception = Catch.Exception(() => event_migration_hierarchy.AddMigrationLevel(typeof(Fakes.Events.v2.SimpleEvent)));
+                             event_migration_hierarchy.AddMigrationLevel(typeof(SimpleEvent));
+                             Exception = Catch.Exception(() => event_migration_hierarchy.AddMigrationLevel(typeof(SimpleEvent)));
                          };
 
         It should_throw_a_duplicate_in_event_migration_hierarchy_exception = () => Exception.ShouldBeOfType(typeof(DuplicateInEventMigrationHierarchyException));

@@ -1,5 +1,5 @@
 using System;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
         };
 
         It should_get_the_logical_type_when_asking_for_level_zero = () => concrete_type_for_level_zero.ShouldEqual(typeof(SimpleEvent));
-        It should_get_the_correct_concrete_type_for_level_one = () => concrete_type_for_level_one.ShouldEqual(typeof(Fakes.Events.v2.SimpleEvent));
-        It should_get_the_correct_concrete_type_for_level_two = () => concrete_type_for_level_two.ShouldEqual(typeof(Fakes.Events.v3.SimpleEvent));
+        It should_get_the_correct_concrete_type_for_level_one = () => concrete_type_for_level_one.ShouldEqual(typeof(Testing.Fakes.Events.v2.SimpleEvent));
+        It should_get_the_correct_concrete_type_for_level_two = () => concrete_type_for_level_two.ShouldEqual(typeof(Testing.Fakes.Events.v3.SimpleEvent));
     }
 }

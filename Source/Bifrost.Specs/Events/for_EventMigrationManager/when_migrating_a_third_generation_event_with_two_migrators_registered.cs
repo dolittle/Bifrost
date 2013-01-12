@@ -1,8 +1,7 @@
 using Bifrost.Events;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Bifrost.Specs.Events.for_EventMigrationService.given;
 using Machine.Specifications;
-using V3 = Bifrost.Fakes.Events.v3;
 
 namespace Bifrost.Specs.Events.for_EventMigrationService
 {
@@ -17,11 +16,11 @@ namespace Bifrost.Specs.Events.for_EventMigrationService
         It should_migrate_the_event_to_the_second_generation_type = () => result.ShouldBeOfType(typeof(SimpleEvent));
         It should_migrate_the_correct_values = () =>
         {
-            var v3 = result as V3.SimpleEvent;
+            var v3 = result as Testing.Fakes.Events.v3.SimpleEvent;
             v3.Id.ShouldEqual(source_event.Id);
             v3.EventSourceId.ShouldEqual(source_event.EventSourceId);
-            v3.SecondGenerationProperty.ShouldEqual(Fakes.Events.v2.SimpleEvent.DEFAULT_VALUE_FOR_SECOND_GENERATION_PROPERTY);
-            v3.ThirdGenerationProperty.ShouldEqual(V3.SimpleEvent.DEFAULT_VALUE_FOR_THIRD_GENERATION_PROPERTY);
+            v3.SecondGenerationProperty.ShouldEqual(Testing.Fakes.Events.v2.SimpleEvent.DEFAULT_VALUE_FOR_SECOND_GENERATION_PROPERTY);
+            v3.ThirdGenerationProperty.ShouldEqual(Testing.Fakes.Events.v3.SimpleEvent.DEFAULT_VALUE_FOR_THIRD_GENERATION_PROPERTY);
         };
     }
 }

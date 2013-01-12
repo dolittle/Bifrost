@@ -1,6 +1,6 @@
 ﻿using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
 using Machine.Specifications;

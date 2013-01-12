@@ -1,7 +1,7 @@
 using Bifrost.Events;
+using Bifrost.Testing.Fakes.Events.v2;
 using Bifrost.Specs.Events.for_EventMigrationService.given;
 using Machine.Specifications;
-using Bifrost.Fakes.Events.v2;
 
 namespace Bifrost.Specs.Events.for_EventMigrationService
 {

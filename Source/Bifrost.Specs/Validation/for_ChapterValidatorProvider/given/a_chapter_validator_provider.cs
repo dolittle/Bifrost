@@ -1,4 +1,5 @@
 using Bifrost.Execution;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
@@ -20,8 +21,8 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
                                     type_discoverer_mock.Setup(td => td.FindMultiple(typeof(IChapterValidator)))
                                         .Returns(new[]
                                                 {
-                                                    typeof(Fakes.Sagas.TransitionalChapterValidator),
-                                                    typeof(Fakes.Sagas.NonTransitionalChapterValidator),
+                                                    typeof(TransitionalChapterValidator),
+                                                    typeof(NonTransitionalChapterValidator),
                                                     typeof(NullChapterValidator)
                                                 }
                                         );

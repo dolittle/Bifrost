@@ -1,9 +1,7 @@
 using System;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Fakes.Events;
-using v2 = Bifrost.Fakes.Events.v2;
-using v3 = Bifrost.Fakes.Events.v3;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 using Moq;
 
@@ -21,8 +19,8 @@ namespace Bifrost.Specs.Events.for_EventMigrationLevelDiscoverer.given
                                                       {
                                                          typeof(AnotherSimpleEvent),
                                                          typeof(SimpleEvent),
-                                                         typeof(v2.SimpleEvent),
-                                                         typeof(v3.SimpleEvent)
+                                                         typeof(Testing.Fakes.Events.v2.SimpleEvent),
+                                                         typeof(Testing.Fakes.Events.v3.SimpleEvent)
                                                       };
 
                                     type_discoverer_mock = new Mock<ITypeDiscoverer>();

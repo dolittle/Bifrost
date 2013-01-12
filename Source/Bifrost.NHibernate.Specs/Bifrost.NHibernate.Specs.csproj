@@ -65,13 +65,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.Fakes\Bifrost.Fakes.csproj">
-      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
-      <Name>Bifrost.Fakes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.NHibernate\Bifrost.NHibernate.csproj">
       <Project>{3AD8BA49-6972-42B2-81F5-0D45C626F1DF}</Project>
       <Name>Bifrost.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>

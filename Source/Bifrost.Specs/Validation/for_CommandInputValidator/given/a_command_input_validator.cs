@@ -1,5 +1,5 @@
 using System;
-using Bifrost.Fakes.Commands;
+using Bifrost.Testing.Fakes.Commands;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Validation.for_CommandInputValidator.given

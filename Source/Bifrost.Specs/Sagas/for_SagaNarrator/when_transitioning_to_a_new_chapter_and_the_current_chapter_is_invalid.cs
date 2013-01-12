@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Bifrost.Fakes.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
 using Moq;

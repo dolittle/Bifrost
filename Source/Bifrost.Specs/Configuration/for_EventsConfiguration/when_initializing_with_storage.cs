@@ -2,8 +2,8 @@
 using Bifrost.Configuration;
 using Bifrost.Entities;
 using Bifrost.Events;
-using Bifrost.Fakes.Configuration;
-using Bifrost.Fakes.Entities;
+using Bifrost.Testing.Fakes.Configuration;
+using Bifrost.Testing.Fakes.Entities;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Configuration.for_EventsConfiguration

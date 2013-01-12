@@ -1,5 +1,5 @@
 ﻿using System;
-using Bifrost.Fakes.Commands;
+using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Web.Mvc.Commands;
 using Machine.Specifications;
 using It = Machine.Specifications.It;

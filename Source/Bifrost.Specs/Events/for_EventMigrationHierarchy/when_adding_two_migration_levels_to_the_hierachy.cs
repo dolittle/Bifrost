@@ -1,5 +1,4 @@
-using v2 = Bifrost.Fakes.Events.v2;
-using v3 = Bifrost.Fakes.Events.v3;
+using Bifrost.Testing.Fakes.Events.v2;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
@@ -8,8 +7,8 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
     {
         Because of = () =>
                             {
-                                event_migration_hierarchy.AddMigrationLevel(typeof(v2.SimpleEvent));
-                                event_migration_hierarchy.AddMigrationLevel(typeof(v3.SimpleEvent));
+                                event_migration_hierarchy.AddMigrationLevel(typeof(SimpleEvent));
+                                event_migration_hierarchy.AddMigrationLevel(typeof(Testing.Fakes.Events.v3.SimpleEvent));
                             };
 
         It should_have_still_have_the_logical_event_set_correctly = () => event_migration_hierarchy.LogicalEvent.ShouldEqual(hierarchy_for_type);

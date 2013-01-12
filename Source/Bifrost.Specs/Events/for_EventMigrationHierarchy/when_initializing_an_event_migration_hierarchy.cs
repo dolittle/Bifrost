@@ -1,4 +1,4 @@
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy

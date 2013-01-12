@@ -1,6 +1,6 @@
 using System;
 using Bifrost.Events;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Bifrost.Specs.Events.for_EventMigrationLevelDiscoverer.given;
 using Machine.Specifications;
 

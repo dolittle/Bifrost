@@ -1,6 +1,5 @@
+using Bifrost.Testing.Fakes.Events.v2;
 using Machine.Specifications;
-using v2 = Bifrost.Fakes.Events.v2;
-using v3 = Bifrost.Fakes.Events.v3;
 
 namespace Bifrost.Specs.Events.for_EventMigrationHierarchy.given
 {
@@ -8,8 +7,8 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy.given
     {
         Establish context = () =>
                                 {
-                                    event_migration_hierarchy.AddMigrationLevel(typeof(v2.SimpleEvent));
-                                    event_migration_hierarchy.AddMigrationLevel(typeof(v3.SimpleEvent));
+                                    event_migration_hierarchy.AddMigrationLevel(typeof(SimpleEvent));
+                                    event_migration_hierarchy.AddMigrationLevel(typeof(Testing.Fakes.Events.v3.SimpleEvent));
                                 };
     }
 }

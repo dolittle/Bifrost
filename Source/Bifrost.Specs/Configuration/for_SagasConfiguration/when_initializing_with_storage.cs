@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bifrost.Testing.Fakes.Configuration;
+using Bifrost.Testing.Fakes.Entities;
 using Machine.Specifications;
 using Bifrost.Configuration;
 using Bifrost.Events;
 using Bifrost.Entities;
-using Bifrost.Fakes.Configuration;
-using Bifrost.Fakes.Entities;
 using Bifrost.Sagas;
 
 namespace Bifrost.Specs.Configuration.for_SagasConfiguration

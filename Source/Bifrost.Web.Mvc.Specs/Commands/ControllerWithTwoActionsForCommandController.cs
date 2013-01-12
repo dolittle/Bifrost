@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Bifrost.Fakes.Commands;
+using Bifrost.Testing.Fakes.Commands;
 
 namespace Bifrost.Web.Mvc.Specs.Commands
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 using Moq;
 

@@ -1,4 +1,5 @@
 using Bifrost.Execution;
+using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
@@ -16,12 +17,12 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
 
 
         protected static Type[] input_validators = new[] {
-                                                               typeof(Fakes.Commands.SimpleCommandInputValidator),
-                                                               typeof(Fakes.Commands.AnotherSimpleCommandInputValidator)
+                                                               typeof(SimpleCommandInputValidator),
+                                                               typeof(AnotherSimpleCommandInputValidator)
                                                          };
         protected static Type[] business_validators = new[] {
-                                                                typeof(Fakes.Commands.SimpleCommandBusinessValidator),
-                                                                typeof(Fakes.Commands.AnotherSimpleCommandBusinessValidator)
+                                                                typeof(SimpleCommandBusinessValidator),
+                                                                typeof(AnotherSimpleCommandBusinessValidator)
                                                             };
 
         protected static BindingLifecycle lifecycle;
@@ -34,8 +35,8 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
                                     type_discoverer_mock.Setup(td => td.FindMultiple(typeof (ICommandInputValidator)))
                                         .Returns(new []
                                                 {
-                                                    typeof(Fakes.Commands.SimpleCommandInputValidator),
-                                                    typeof(Fakes.Commands.AnotherSimpleCommandInputValidator),
+                                                    typeof(SimpleCommandInputValidator),
+                                                    typeof(AnotherSimpleCommandInputValidator),
                                                     typeof(NullCommandInputValidator)
                                                 }
                                         );
@@ -43,8 +44,8 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
                                     type_discoverer_mock.Setup(td => td.FindMultiple(typeof (ICommandBusinessValidator)))
                                         .Returns(new []
                                                 {
-                                                    typeof(Fakes.Commands.SimpleCommandBusinessValidator),
-                                                    typeof(Fakes.Commands.AnotherSimpleCommandBusinessValidator),
+                                                    typeof(SimpleCommandBusinessValidator),
+                                                    typeof(AnotherSimpleCommandBusinessValidator),
                                                     typeof(NullCommandBusinessValidator)
                                                 }
                                         );
