@@ -149,12 +149,6 @@
     <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
-    <Compile Include="Events\for_EventStore\given\an_event_store_with_persisted_events.cs" />
-    <Compile Include="Events\for_EventStore\given\a_persisted_stream_of_20_events_belonging_to_2_different_aggregate_roots.cs" />
-    <Compile Include="Events\for_EventStore\when_getting_the_events_for_a_specific_event_source.cs" />
-    <Compile Include="Events\for_EventStore\when_getting_the_last_committed_version_for_an_event_source_with_events.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
@@ -175,8 +169,6 @@
     <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_notifier.cs" />
     <Compile Include="Events\for_EventStoreChangeManager\when_notifying_changes_with_one_notifier.cs" />
     <Compile Include="Events\for_EventStoreChangeManager\when_registering_a_notifier_that_does_not_implement_the_notifier_interface.cs" />
-    <Compile Include="Events\for_EventStore\given\an_event_store.cs" />
-    <Compile Include="Events\for_EventStore\when_committing_two_uncommitted_events.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\EventSubscriberForTwoEvents.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\SomeOtherEvent.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_and_in_running_process.cs" />

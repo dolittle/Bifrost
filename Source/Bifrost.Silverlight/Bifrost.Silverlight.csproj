@@ -363,9 +363,6 @@
     <Compile Include="..\Bifrost\Events\EventSourceVersion.cs">
       <Link>Events\EventSourceVersion.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\EventStore.cs">
-      <Link>Events\EventStore.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\EventStoreChangeManager.cs">
       <Link>Events\EventStoreChangeManager.cs</Link>
     </Compile>

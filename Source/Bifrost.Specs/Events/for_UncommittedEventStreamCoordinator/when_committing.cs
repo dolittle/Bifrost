@@ -7,7 +7,7 @@ using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator
 {
-    [Subject(typeof(EventStore))]
+    [Subject(typeof(UncommittedEventStream))]
     public class when_committing : given.an_uncommitted_event_stream_coordinator
     {
         static Guid event_source_id = Guid.NewGuid();

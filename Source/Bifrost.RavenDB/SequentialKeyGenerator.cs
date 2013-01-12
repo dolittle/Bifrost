@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Transactions;
-using Bifrost.Configuration;
-using Bifrost.Entities;
 using Raven.Abstractions.Data;
 using Raven.Abstractions.Exceptions;
 using Raven.Client.Document;
@@ -9,7 +7,7 @@ using Raven.Json.Linq;
 
 namespace Bifrost.RavenDB
 {
-    public class SequentialKeyGenerator : ISequentialKeyGenerator
+    public class SequentialKeyGenerator
     {
         const string CurrentPropertyName = "Current";
 
@@ -84,8 +82,6 @@ namespace Bifrost.RavenDB
         string GetDocumentPathFor<T>()
         {
             return string.Format("SequentialKeys/{0}", _documentStore.Conventions.FindTypeTagName(typeof(T)));
-                //typeof(T).Name);
         }
-
     }
 }

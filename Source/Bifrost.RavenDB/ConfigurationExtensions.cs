@@ -20,20 +20,47 @@
 //
 #endregion
 using System;
-using Bifrost.Entities;
+using System.Net;
 using Bifrost.RavenDB;
-using Bifrost.Execution;
+using Bifrost.RavenDB.Events;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenDb(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
+        public static IConfigure UsingRavenDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
         {
-            return UsingRavenDb(storage, Configure.Instance, url, configureCallback);
+            eventsConfiguration.EventStoreType = typeof(EventStore);
+            var configuration = new EventStoreConfiguration();
+            configureCallback(configuration);
+            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            return Configure.Instance;
         }
 
-        public static IConfigure UsingRavenDb(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
+        public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
+        {
+            configuration.Url = url;
+            return configuration;
+        }
+
+        public static EventStoreConfiguration WithCredentials(this EventStoreConfiguration configuration, ICredentials credentials)
+        {
+            configuration.Credentials = credentials;
+            return configuration;
+        }
+
+        public static EventStoreConfiguration WithDefaultDatabase(this EventStoreConfiguration configuration, string defaultDatabase)
+        {
+            configuration.DefaultDatabase = defaultDatabase;
+            return configuration;
+        }
+
+        public static IConfigure UsingRavenDB(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
+        {
+            return UsingRavenDB(storage, Configure.Instance, url, configureCallback);
+        }
+
+        public static IConfigure UsingRavenDB(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
@@ -47,11 +74,6 @@ namespace Bifrost.Configuration
             storage.EntityContextConfiguration = entityContextConfiguration;
 
             return configure;
-        }
-
-        public static void EventKeyGenerator<T>(this EntityContextConfiguration configuration) where T : ISequentialKeyGenerator
-        {
-            configuration.EventsKeyGeneratorType = typeof(T);
         }
     }
 }

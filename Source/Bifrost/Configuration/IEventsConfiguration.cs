@@ -28,7 +28,7 @@ namespace Bifrost.Configuration
 	/// <summary>
 	/// Defines the configuration for events
 	/// </summary>
-    public interface IEventsConfiguration : IConfigurationElement, IHaveStorage
+    public interface IEventsConfiguration : IConfigurationElement
     {
         /// <summary>
         /// Gets or sets the type of <see cref="IUncommittedEventStreamCoordinator"/> used for coordinating events that will be committed
