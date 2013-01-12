@@ -22,11 +22,10 @@
 
 using Bifrost.Configuration;
 using Bifrost.Configuration.Xml;
-using Bifrost.MongoDB;
 
-namespace Bifrost.MongoDb
+namespace Bifrost.MongoDB
 {
-    [ElementName("MongoDb")]
+    [ElementName("MongoDB")]
     public class MongoDbStorageElement : StorageElement
     {
         public MongoDbStorageElement()
