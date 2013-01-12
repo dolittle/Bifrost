@@ -9,6 +9,7 @@ namespace Bifrost.Commands
     public partial class Command : INotifyPropertyChanged
     {
         dynamic _parameters;
+        string _name;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Command"/>
@@ -25,7 +26,18 @@ namespace Bifrost.Commands
         public event CommandResultsReceived CommandResultsReceived = (c, r) => { };
         public event EventsProcessed EventsProcessed = (p) => { };
 
-        public string Name { get; set; }
+        
+        public string Name 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_name))
+                    _name = GetType().Name;
+
+                return _name;
+            }
+            set { _name = value; }
+        }
         public dynamic Parameters
         {
             get
