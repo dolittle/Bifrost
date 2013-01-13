@@ -14,12 +14,12 @@ namespace Bifrost.MongoDB.Events
         const string CollectionName = "Events";
         const string EventType = "EventType";
         const string Generation = "Generation";
+        const string Version = "Version";
+        const string LogicalEventType = "LogicalEventType";
 
         EventStoreConfiguration _configuration;
         MongoServer _server;
         MongoDatabase _database;
-        //MongoCollection<IEvent> _collection;
-
         MongoCollection _collection;
         IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
 
@@ -38,8 +38,6 @@ namespace Bifrost.MongoDB.Events
                 _database.CreateCollection(CollectionName);
 
             _collection = _database.GetCollection(CollectionName);
-            //_collection = _database.GetCollection<IEvent>(CollectionName);
-            //BsonSerializer.RegisterSerializer(typeof(IEvent), new EventSerializer());
         }
 
         public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
@@ -62,14 +60,17 @@ namespace Bifrost.MongoDB.Events
             var eventArray = uncommittedEventStream.ToArray();
             for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
             {
+                var @event = eventArray[eventIndex];
+                var eventType = @event.GetType();
+
                 var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
                 var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
 
-                var @event = eventArray[eventIndex];
-                var eventType = @event.GetType();
                 var eventDocument = @event.ToBsonDocument();
                 eventDocument[EventType] = string.Format("{0}, {1}", eventType.FullName, eventType.Assembly.GetName().Name);
+                eventDocument[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
                 eventDocument[Generation] = migrationLevel;
+                eventDocument[Version] = @event.Version.Combine();
                 _collection.Insert(eventDocument);
             }
 
@@ -80,22 +81,13 @@ namespace Bifrost.MongoDB.Events
 
         public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
         {
-            return EventSourceVersion.Zero;
-
             var query = Query.EQ("EventSourceId", eventSourceId);
-
-            var cursor = _collection.FindAs<BsonDocument>(query);
-            
-
-            var @event = _collection.FindAllAs<IEvent>().AsQueryable()
-                            .Where(e => e.EventSourceId == eventSourceId)
-                                .OrderByDescending(e => e.Version)
-                            .FirstOrDefault();
-
+            var sort = SortBy.Descending(Version);
+            var @event = _collection.FindAs<BsonDocument>(query).SetSortOrder(sort).FirstOrDefault();
             if (@event == null)
                 return EventSourceVersion.Zero;
 
-            return @event.Version;
+            return EventSourceVersion.FromCombined(@event[Version].AsDouble);
         }
 
         public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
