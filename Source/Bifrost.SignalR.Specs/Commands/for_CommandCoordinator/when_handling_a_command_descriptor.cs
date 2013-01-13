@@ -5,7 +5,7 @@ using Bifrost.SignalR.Commands;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
-using Bifrost.Fakes.Commands;
+using Bifrost.Testing.Fakes.Commands;
 
 namespace Bifrost.SignalR.Specs.Commands.for_CommandCoordinator
 {

@@ -112,6 +112,15 @@ namespace Bifrost.RavenDB.Events
             }
         }
 
+        public IEnumerable<IEvent> GetAll()
+        {
+            using (var session = _documentStore.OpenSession())
+            {
+                return session.Query<IEvent>().ToArray();
+            }
+        }
+
+
         void InsertOrModifyEventSourceIdAndVersionIndex()
         {
             var alreadyExists = true;

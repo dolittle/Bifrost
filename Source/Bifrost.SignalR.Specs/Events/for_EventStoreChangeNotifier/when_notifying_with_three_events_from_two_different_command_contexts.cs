@@ -3,7 +3,7 @@ using Machine.Specifications;
 using Moq;
 using Bifrost.Events;
 using System;
-using Bifrost.Fakes.Events;
+using Bifrost.Testing.Fakes.Events;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.SignalR.Specs.Events.for_EventStoreChangeNotifier

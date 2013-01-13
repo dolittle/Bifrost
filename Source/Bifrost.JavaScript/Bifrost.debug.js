@@ -1402,6 +1402,7 @@ Bifrost.commands.commandCoordinator = (function () {
     };
 })();
 
+/*
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
@@ -1484,8 +1485,8 @@ Bifrost.namespace("Bifrost.commands", {
         this.setOptions(options);
     })
 });
+*/
 
-/*
 Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
@@ -1692,7 +1693,7 @@ Bifrost.commands.Command = (function (window) {
             return command;
         }
     };
-})(window);*/
+})(window);
 Bifrost.namespace("Bifrost.commands");
 Bifrost.commands.CommandDescriptor = (function () {
     function CommandDescriptor(name, id, commandParameters) {

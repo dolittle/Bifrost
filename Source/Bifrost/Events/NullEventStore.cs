@@ -51,6 +51,11 @@ namespace Bifrost.Events
         {
             return new IEvent[0];
         }
+
+        public IEnumerable<IEvent> GetAll()
+        {
+            return new IEvent[0];
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

@@ -169,6 +169,11 @@ namespace Bifrost.Sagas
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IEvent> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public SagaState CurrentState { get; set; }
 
         public virtual void OnConclude()

@@ -19,26 +19,23 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bifrost.Events;
-using Bifrost.Entities;
 
 namespace Bifrost.Mimir.Web.Events
 {
     public class EventService
     {
-        IEntityContext<IEvent> _entityContext;
+        IEventStore _eventStore;
 
-        public EventService(IEntityContext<IEvent> entityContext)
+        public EventService(IEventStore eventStore)
         {
-            _entityContext = entityContext;
+            _eventStore = eventStore;
         }
 
         public IEnumerable<IEvent> GetAll()
         {
-            return _entityContext.Entities.ToArray();
+            return _eventStore.GetAll();
         }
     }
 }

@@ -60,5 +60,11 @@ namespace Bifrost.Events
         /// <param name="batchSize">Size of each batch</param>
         /// <returns>A batch of <see cref="IEvent">events</see></returns>
         IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize);
+
+        /// <summary>
+        /// Get all <see cref="IEvent">events</see> in the <see cref="IEventStore"/>
+        /// </summary>
+        /// <returns>A collection of <see cref="IEvent">events</see></returns>
+        IEnumerable<IEvent> GetAll();
 	}
 }

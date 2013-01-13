@@ -29,7 +29,7 @@ namespace Bifrost.Events
 	public interface IEvent
 	{
 		/// <summary>
-		/// Gets the id of the event
+		/// Gets or sets the id of the event
 		/// </summary>
         long Id { get; set; }
 
