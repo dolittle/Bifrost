@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0CD61BA6-E5F1-48EF-B1A1-F45B397B2CF9}</ProjectGuid>
+    <ProjectGuid>{47835DE6-FA79-4888-83B6-F6891891CBB0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.Testing</RootNamespace>
@@ -51,6 +51,7 @@
       <Link>AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CommandScenario.cs" />
+    <Compile Include="Exceptions\CommandScenarioNotRunException.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommand.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommandBusinessValidator.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommandInputValidator.cs" />

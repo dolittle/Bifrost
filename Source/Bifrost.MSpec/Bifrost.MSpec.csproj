@@ -46,9 +46,14 @@
     <Compile Include="Events\EventSequenceValidation.cs" />
     <Compile Include="Events\EventStreamValidation.cs" />
     <Compile Include="Events\EventValueValidation.cs" />
+    <Compile Include="Extensions\CommandScenarioExtensions.cs" />
     <Compile Include="Extensions\UncommittedEventStreamExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Testing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
