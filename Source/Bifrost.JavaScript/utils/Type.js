@@ -90,6 +90,7 @@ Bifrost.namespace("Bifrost", {
     };
 
     expandInstancesHashToDependencies = function(typeDefinition, instanceHash, dependencyInstances) {
+        if( typeof typeDefinition._dependencies === "undefined" || typeDefinition._dependencies == null ) return;
         for( var dependency in instanceHash ) {
             for( var dependencyIndex=0; dependencyIndex<typeDefinition._dependencies.length; dependencyIndex++ ) {
                 if( typeDefinition._dependencies[dependencyIndex] == dependency ) {
@@ -167,7 +168,7 @@ Bifrost.namespace("Bifrost", {
     Bifrost.Type.create = function (instanceHash) {
         var actualType = this;
         if( this._super != null ) {
-            actualType.prototype = this._super.create();
+            actualType.prototype = this._super.create(instanceHash);
         }
         var dependencyInstances = resolveDependencyInstances(instanceHash, this);
         var scope = null;
@@ -186,6 +187,11 @@ Bifrost.namespace("Bifrost", {
         } else {
             instance = new actualType();    
         }
+
+        if( typeof instance.onCreated === "function" ) {
+            instance.onCreated();
+        }
+
         instance._type = {
             _name : this._name,
             _namespace : this._namespace
