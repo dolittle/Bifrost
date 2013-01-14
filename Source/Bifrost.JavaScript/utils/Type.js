@@ -128,7 +128,19 @@ Bifrost.namespace("Bifrost", {
             }
         }
         return dependencyInstances;
-    }
+    };
+
+    handleOnCreate = function(type, lastDescendant, currentInstance) {
+        if( currentInstance == null || typeof currentInstance === "undefined" ) return;
+
+        if( typeof type !== "undefined" && typeof type.prototype !== "undefined" ) {
+            handleOnCreate(type._super, lastDescendant, type.prototype);
+        }
+
+        if( typeof currentInstance.onCreated === "function" ) {
+            currentInstance.onCreated(lastDescendant);
+        }
+    };
 
     Bifrost.Type.scope = {
         getFor : function(namespace, name) {
@@ -165,10 +177,10 @@ Bifrost.namespace("Bifrost", {
         return this;
     };
 
-    Bifrost.Type.create = function (instanceHash) {
+    Bifrost.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {
-            actualType.prototype = this._super.create(instanceHash);
+            actualType.prototype = this._super.create(instanceHash, true);
         }
         var dependencyInstances = resolveDependencyInstances(instanceHash, this);
         var scope = null;
@@ -188,9 +200,10 @@ Bifrost.namespace("Bifrost", {
             instance = new actualType();    
         }
 
-        if( typeof instance.onCreated === "function" ) {
-            instance.onCreated();
+        if( isSuper !== true ) {
+            handleOnCreate(actualType, instance, instance);
         }
+
 
         instance._type = {
             _name : this._name,

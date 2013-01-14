@@ -3,6 +3,7 @@ describe("when creating instance with on created function specified also for sup
     var _super = null;
     var _superOnCreatedCallCount = 0;
     var onCreatedCallCount = 0;
+    var descendant = null;
 
     var instance = null;
     beforeEach(function () {
@@ -14,8 +15,11 @@ describe("when creating instance with on created function specified also for sup
         };
 
         _super = Bifrost.Type.extend(function () {
-            this.onCreated = function () {
+            this.someValue = "Hello";
+
+            this.onCreated = function (lastDescendant) {
                 _superOnCreatedCallCount++;
+                descendant = lastDescendant;
             };
         });
 
@@ -38,5 +42,9 @@ describe("when creating instance with on created function specified also for sup
 
     it("should call the on created function once for the type", function () {
         expect(onCreatedCallCount).toBe(1);
+    });
+
+    it("should pass the correct descendant in as parameter", function () {
+        expect(descendant).toBe(instance);
     });
 });
