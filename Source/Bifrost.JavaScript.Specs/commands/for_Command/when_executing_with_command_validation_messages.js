@@ -26,7 +26,7 @@
             }
         },
         commandValidationService: {
-            applyRulesToProperties: function () { },
+            applyRulesTo: function () { },
             applyValidationResultToProperties: function (command, validationResults) {
                 commandAppliedTo = command;
                 validationResultsApplied = validationResults;

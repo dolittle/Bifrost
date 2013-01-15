@@ -25,7 +25,7 @@
             }
         },
         commandValidationService: {
-            applyRulesToProperties: function () { },
+            applyRulesTo: function () { },
             validate: function (command) {
                 return { valid: true };
             }

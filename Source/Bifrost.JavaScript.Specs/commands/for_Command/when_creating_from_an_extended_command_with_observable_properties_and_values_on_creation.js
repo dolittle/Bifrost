@@ -6,7 +6,7 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesToProperties: function (command) {
+            applyRulesTo: function (command) {
                 commandAppliedTo = command
             }
         },

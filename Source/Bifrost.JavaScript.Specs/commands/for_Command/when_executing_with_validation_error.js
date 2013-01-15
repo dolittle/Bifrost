@@ -9,7 +9,7 @@
             handle: sinon.stub()
         },
         commandValidationService: {
-            applyRulesToProperties: function () { },
+            applyRulesTo: function () { },
             validate: function (command) {
                 return {
                     valid: false

@@ -1,6 +1,7 @@
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
+        this.name = "";
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.isBusy = ko.observable(false);
@@ -37,6 +38,9 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.setOptions = function (options) {
             Bifrost.extend(self.options, options);
+            if (typeof options.name !== "undefined" && typeof options.name === "string") {
+                self.name = options.name;
+            }
         };
 
         this.copyPropertiesFromOptions = function (lastDescendant) {
@@ -124,10 +128,12 @@ Bifrost.namespace("Bifrost.commands", {
 
 
         this.onCreated = function (lastDescendant) {
-            this.setOptions(options);
-            this.copyPropertiesFromOptions(lastDescendant);
+            if (typeof options !== "undefined") {
+                this.setOptions(options);
+                this.copyPropertiesFromOptions(lastDescendant);
+            }
             this.makePropertiesObservable(lastDescendant);
-            var validators = commandValidationService.applyRulesToProperties(lastDescendant);
+            var validators = commandValidationService.applyRulesTo(lastDescendant);
             if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
         };
     })

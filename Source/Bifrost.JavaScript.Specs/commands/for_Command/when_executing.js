@@ -33,7 +33,7 @@
             }
         },
         commandValidationService: {
-            applyRulesToProperties: function () { },
+            applyRulesTo: function () { },
             validate: function (command) {
                 validatedCommand = command;
                 return { valid: true };

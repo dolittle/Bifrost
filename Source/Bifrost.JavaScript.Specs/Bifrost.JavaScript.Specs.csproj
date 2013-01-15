@@ -57,6 +57,8 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
+    <Content Include="commands\for_Command\when_executing_with_command_validation_messages.js" />
+    <Content Include="commands\for_Command\when_executing_with_server_side_validation_error.js" />
     <Content Include="commands\for_Command\when_creating_from_an_extended_command_with_observable_properties_and_values_on_creation.js" />
     <Content Include="commands\for_Command\when_creating_from_an_extended_command_with_properties_and_values_on_creation.js" />
     <Content Include="commands\for_Command\when_creating.js" />
