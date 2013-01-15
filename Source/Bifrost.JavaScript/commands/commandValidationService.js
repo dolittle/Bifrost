@@ -40,7 +40,7 @@
                     }
 
                 } else if (typeof target[property] === "object") {
-                    validatePropertiesFor(target[property]);
+                    validatePropertiesFor(target[property], result);
                 }
             }
         }

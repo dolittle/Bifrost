@@ -1,4 +1,4 @@
-﻿describe("when validating with invalid properties", function () {
+﻿describe("when validating with invalid deep properties", function () {
     var command = {
         name: "something",
         something: ko.observable(),
@@ -13,7 +13,7 @@
         this.validate = sinon.stub();
     }
 
-    command.something.validator = new validator(false);
+    command.something.validator = new validator(true);
     command.deep.property.validator = new validator(false);
 
     var parameters = {
@@ -23,7 +23,6 @@
 
     var commandValidationService = Bifrost.commands.commandValidationService.create(parameters);
     var result = commandValidationService.validate(command);
-
     it("should return a result with valid set to false", function () {
         expect(result.valid).toBe(false);
     });
