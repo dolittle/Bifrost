@@ -1,8 +1,28 @@
-/*
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
+        this.validators = ko.observableArray();
+        this.validationMessages = ko.observableArray();
         this.isBusy = ko.observable(false);
+        this.isValid = ko.computed(function () {
+            var success = true;
+            $.each(self.validators(), function (index, validator) {
+                if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
+                    success = false;
+                    return false;
+                }
+            });
+
+            if (self.validationMessages().length > 0) {
+                return false;
+            }
+
+            return success;
+        });
+        this.canExecute = ko.computed(function () {
+            return self.isValid();
+        });
+
 
         this.commandCoordinator = commandCoordinator;
         this.commandValidationService = commandValidationService;
@@ -19,15 +39,33 @@ Bifrost.namespace("Bifrost.commands", {
             Bifrost.extend(self.options, options);
         };
 
-        this.copyPropertiesFromOptions = function () {
-            for (var property in self.options.properties) {
-                self[property] = self.options.properties[property];
+        this.copyPropertiesFromOptions = function (lastDescendant) {
+            for (var property in lastDescendant.options.properties) {
+                var value = lastDescendant.options.properties[property];
+                if (!ko.isObservable(value)) {
+                    value = ko.observable(value);
+                }
+
+                lastDescendant[property] = value;
             }
         };
 
-        this.makePropertiesObservable = function () {
-            for (var property in self) {
-                
+        this.makePropertiesObservable = function (lastDescendant) {
+            for (var property in lastDescendant) {
+                if (lastDescendant.hasOwnProperty(property) && !self.hasOwnProperty(property)) {
+                    var value = null;
+                    var propertyValue = lastDescendant[property];
+                    if (!ko.isObservable(propertyValue)) {
+                        if (typeof propertyValue !== "function") {
+                            if (Bifrost.isArray(propertyValue)) {
+                                value = ko.observableArray(propertyValue);
+                            } else {
+                                value = ko.observable(propertyValue);
+                            }
+                            lastDescendant[property] = value;
+                        }
+                    }
+                }
             }
         };
 
@@ -49,7 +87,14 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.handleCommandResult = function (commandResult) {
             self.isBusy(false);
+            if (typeof commandResult.commandValidationMessages !== "undefined") {
+                self.validationMessages(commandResult.commandValidationMessages);
+            }
+
             if (commandResult.success === false || commandResult.invalid === true) {
+                if (commandResult.invalid && typeof commandResult.validationResults !== "undefined") {
+                    self.commandValidationService.applyValidationResultToProperties(self, commandResult.validationResults);
+                }
                 self.onError(commandResult);
             } else {
                 self.onSuccess(commandResult);
@@ -77,12 +122,18 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
-        commandValidationService.applyRulesToProperties(this);
-        this.setOptions(options);
+
+        this.onCreated = function (lastDescendant) {
+            this.setOptions(options);
+            this.copyPropertiesFromOptions(lastDescendant);
+            this.makePropertiesObservable(lastDescendant);
+            var validators = commandValidationService.applyRulesToProperties(lastDescendant);
+            if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
+        };
     })
 });
-*/
 
+/*
 Bifrost.commands.Command = (function (window) {
     function Command(options) {
         var self = this;
@@ -289,4 +340,4 @@ Bifrost.commands.Command = (function (window) {
             return command;
         }
     };
-})(window);
+})(window);*/

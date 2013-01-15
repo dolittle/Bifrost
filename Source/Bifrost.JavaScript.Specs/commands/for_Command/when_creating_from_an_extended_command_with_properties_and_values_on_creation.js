@@ -1,4 +1,4 @@
-﻿describe("when creating from an extended command with properties", function () {
+﻿describe("when creating from an observable extended command with properties and values on creation", function () {
     var commandAppliedTo = null;
     var command = null;
 
@@ -8,6 +8,14 @@
         commandValidationService: {
             applyRulesToProperties: function (command) {
                 commandAppliedTo = command
+            }
+        },
+        options: {
+            properties: {
+                integer: 5,
+                number: 5.3,
+                string: "hello",
+                arrayOfIntegers: [1, 2, 3]
             }
         }
     }
@@ -28,7 +36,6 @@
     command = commandType.create(parameters);
 
     it("should make the integer property as an observable", function () {
-
         expect(ko.isObservable(command.integer)).toBe(true);
     });
 
