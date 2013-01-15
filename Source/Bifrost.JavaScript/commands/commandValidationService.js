@@ -32,7 +32,7 @@
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (typeof target[property].validator !== "undefined") {
-                    target[property].validator.validate();
+                    target[property].validator.validate(target[property]());
 
                     if (target[property].validator.isValid() == false) {
                         result.valid = false;

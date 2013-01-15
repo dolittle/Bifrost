@@ -1,9 +1,9 @@
 ﻿describe("when validating", function () {
     var command = {
         name: "something",
-        something: ko.observable(),
+        something: ko.observable("somethingObservable"),
         deep: {
-            property: ko.observable()
+            property: ko.observable("deepProperty")
         }
     };
 
@@ -35,7 +35,15 @@
         expect(command.something.validator.validate.called).toBe(true);
     });
 
+    it("should call validate with the actual top level value", function () { 
+        expect(command.something.validator.validate.calledWith("somethingObservable")).toBe(true);
+    });
+
     it("should call validate on the deep level property", function () {
         expect(command.deep.property.validator.validate.called).toBe(true);
+    });
+
+    it("should call validate with the actual deep level value", function () {
+        expect(command.deep.property.validator.validate.calledWith("deepProperty")).toBe(true);
     });
 });
