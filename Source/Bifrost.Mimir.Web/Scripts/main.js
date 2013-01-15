@@ -45,6 +45,7 @@ require(
                 Bifrost.features.featureMapper.add("{feature}", combinePaths(applicationDir, "/Features/{feature}"), true);
 
                 require([
+                    "noext!/Bifrost/Proxies",
                     combinePaths(applicationDir, "/bootstrap/js/bootstrap.min.js"),
                     combinePaths(applicationDir, "/Scripts/libs/google-code-prettify/prettify.js"),
                     combinePaths(applicationDir, "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js"),

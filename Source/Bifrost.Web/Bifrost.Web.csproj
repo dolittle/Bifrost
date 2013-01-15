@@ -59,7 +59,12 @@
     <Compile Include="Applications\AssetManagerRouteHttpHandler.cs" />
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
+    <Compile Include="Proxies\ProxyRoute.cs" />
+    <Compile Include="Proxies\ProxyRouteActivator.cs" />
+    <Compile Include="Proxies\ProxyRouteHandler.cs" />
+    <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\CommandProxies.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="HttpModule.cs" />
@@ -90,4 +95,10 @@
   </Target>
   -->
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\Bifrost.debug.js" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
+  </PropertyGroup>
 </Project>

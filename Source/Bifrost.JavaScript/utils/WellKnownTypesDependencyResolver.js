@@ -13,4 +13,5 @@
 });
 
 Bifrost.WellKnownTypesDependencyResolver.types = {
+    options: {}
 };

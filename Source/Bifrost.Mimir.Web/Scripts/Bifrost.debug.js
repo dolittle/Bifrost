@@ -308,6 +308,7 @@ Bifrost.namespace("Bifrost", {
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
+                    console.log("Unable to resolve '" + name + "'");
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
@@ -460,6 +461,7 @@ Bifrost.namespace("Bifrost", {
 });
 
 Bifrost.WellKnownTypesDependencyResolver.types = {
+    options: {}
 };
 
 Bifrost.namespace("Bifrost", {

@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
+using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
@@ -47,6 +48,7 @@ namespace Bifrost.Commands
 #pragma warning disable 1591 // Xml Comments
         public Type GetFromName (string name)
 		{
+            name = name.ToPascalCase();
 			if( !_commandTypes.ContainsKey(name) )
 				throw new UnknownCommandException(name);
 			
