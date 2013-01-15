@@ -121,7 +121,10 @@
     <Content Include="validation\validationService.js" />
     <Content Include="validation\validationSummaryFor.js" />
     <Content Include="validation\Validator.js" />
-    <Content Include="views\view.js" />
+    <Content Include="views\viewBindingHandler.js" />
+    <Content Include="views\View.js" />
+    <Content Include="views\viewMapper.js" />
+    <Content Include="views\ViewModel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -142,6 +145,7 @@ juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
   -->
   <ItemGroup>
     <Compile Include="DummyClass.cs" />
+    <Content Include="utils\InternalDependencyResolver.js" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
