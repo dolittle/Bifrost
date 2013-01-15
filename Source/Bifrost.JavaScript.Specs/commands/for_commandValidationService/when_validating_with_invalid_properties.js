@@ -1,4 +1,4 @@
-﻿describe("when validating", function () {
+﻿describe("when validating with invalid properties", function () {
     var command = {
         name: "something",
         something: ko.observable(),
@@ -9,9 +9,7 @@
 
     function validator() {
         var self = this;
-
-        this.isValid = ko.observable(true);
-
+        this.isValid = ko.observable(false);
         this.validate = sinon.stub();
     }
 
@@ -26,16 +24,7 @@
     var commandValidationService = Bifrost.commands.commandValidationService.create(parameters);
     var result = commandValidationService.validate(command);
 
-    it("should return a result", function () {
-        expect(result).toBeDefined();
-    });
-
-
-    it("should call validate on the top level property", function () {
-        expect(command.something.validator.validate.called).toBe(true);
-    });
-
-    it("should call validate on the deep level property", function () {
-        expect(command.deep.property.validator.validate.called).toBe(true);
+    it("should return a result with valid set to false", function () {
+        expect(result.valid).toBe(false);
     });
 });

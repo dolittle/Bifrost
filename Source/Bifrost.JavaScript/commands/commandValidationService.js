@@ -3,9 +3,23 @@
         var self = this;
         this.validationService = validationService;
 
+        function shouldSkipProperty(target, property) {
+            if (!target.hasOwnProperty(property)) return true;
+            if (ko.isObservable(target[property])) return false;
+            if (typeof target[property] === "function") return true;
+            if (target[property] instanceof Bifrost.Type) return true;
+            if (property == "_type") return true;
+            if (property == "_namespace") return true;
+
+            return false;
+        }
+
+
         function extendProperties(target) {
             for (var property in target) {
-                if (target[property].hasOwnProperty("extend") && typeof target[property].extend === "function") {
+                if (shouldSkipProperty(target, property)) continue;
+
+                if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
                 } else if (typeof target[property] === "object") {
                     extendProperties(target[property]);
@@ -13,10 +27,18 @@
             }
         }
 
-        function validatePropertiesFor(target) {
+        function validatePropertiesFor(target, result) {
             for (var property in target) {
+                if (shouldSkipProperty(target, property)) continue;
+
                 if (typeof target[property].validator !== "undefined") {
                     target[property].validator.validate();
+
+                    if (target[property].validator.isValid() == false) {
+                        result.valid = false;
+                        return;
+                    }
+
                 } else if (typeof target[property] === "object") {
                     validatePropertiesFor(target[property]);
                 }
@@ -63,7 +85,9 @@
         };
 
         this.validate = function (command) {
-            validatePropertiesFor(command);
+            var result = { valid: true };
+            validatePropertiesFor(command, result);
+            return result;
         };
 
         this.applyRulesTo = function (command) {

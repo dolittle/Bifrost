@@ -34,7 +34,7 @@ namespace Bifrost.Services
                 var metaData = _validationMetaDataGenerator.GenerateFrom(inputValidator);
                 return metaData;
             }
-            return null;
+            return new ValidationMetaData();
 		}
     }
 }

@@ -4,13 +4,21 @@ Bifrost.commands.CommandDescriptor = (function () {
         this.Name = name;
         //recursively create JSON from mix of objects and knockout observables/computed values
         var commandContent = ko.toJS(commandParameters);
-        commandContent.Id = id;
+        commandContent.Id = Bifrost.Guid.create();
         this.Command = ko.toJSON(commandContent);
     };
 
     return {
         createFrom: function (command) {
-            var commandDescriptor = new CommandDescriptor(command.name, command.id, command.parameters);
+            var properties = {};
+
+            for (var property in command) {
+                if (command.hasOwnProperty(property) && ko.isObservable(command[property])) {
+                    properties[property] = command[property];
+                }
+            }
+
+            var commandDescriptor = new CommandDescriptor(command.name, command.id, properties);
             return commandDescriptor;
         }
     };

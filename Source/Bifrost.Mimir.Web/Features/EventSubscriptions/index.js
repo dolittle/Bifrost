@@ -3,11 +3,14 @@
     this.subscriptions = ko.observableArray();
 
     this.replayAll = Bifrost.commands.Command.create({
-        name: "ReplayAll",
-        complete: function () {
-            setTimeout(function () {
-                self.loadSubscriptions();
-            }, 500);
+        options: {
+            name: "ReplayAll",
+
+            complete: function () {
+                setTimeout(function () {
+                    self.loadSubscriptions();
+                }, 500);
+            }
         }
     });
 

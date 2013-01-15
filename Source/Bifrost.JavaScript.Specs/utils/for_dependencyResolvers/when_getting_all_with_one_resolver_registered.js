@@ -1,7 +1,7 @@
 ﻿describe("when getting all with one resolver registered", function () {
 
-    Bifrost.InternalDependencyResolver = function () {
-        this.isInternal = true;
+    Bifrost.WellKnownTypesDependencyResolver = function () {
+        this.isWellKnown = true;
     };
 
     Bifrost.DefaultDependencyResolver = function () {
@@ -30,8 +30,8 @@
         expect(resolvers[resolvers.length - 1].identifier).toBe("Hello");
     });
 
-    it("should have the internal resolver at the second place", function () {
-        expect(resolvers[0].isInternal).toBe(true);
+    it("should have the well known type resolver at the second place", function () {
+        expect(resolvers[0].isWellKnown).toBe(true);
     });
 
     it("should have the default resolver at the second place", function () {

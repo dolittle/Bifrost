@@ -12,6 +12,7 @@
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
+@depends utils/WellKnownTypesDependencyResolver.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js
@@ -37,6 +38,7 @@
 @depends validation/regex.js
 @depends commands/bindingHandlers.js
 @depends commands/CommandCoordinator.js
+@depends commands/commandValidationService.js
 @depends commands/Command.js
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
