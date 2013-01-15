@@ -26,6 +26,10 @@ using System;
 
 namespace Bifrost.NHibernate.UserTypes
 {
+    /// <summary>
+    /// Helps create NHibernate Custom Mappings for Types
+    /// </summary>
+    /// <typeparam name="T">Type that this user type maps</typeparam>
     public abstract class ImmutableUserType<T> : UserTypeBase<T>
     {
 #pragma warning disable 1591 // Xml Comments

@@ -57,7 +57,7 @@
     </Compile>
     <Compile Include="Concepts\ConceptValueType.cs" />
     <Compile Include="Concepts\MappingExtensions.cs" />
-    <Compile Include="Concepts\OracleGuidValueType.cs" />
+    <Compile Include="Concepts\ConceptAsOracleGuid.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Configuration\NHibernateStorageElement.cs" />
     <Compile Include="EntityContext.cs" />
@@ -75,7 +75,6 @@
     <Compile Include="UserTypes\NullSafeMapping.cs" />
     <Compile Include="UserTypes\MethodInfoUserType.cs" />
     <Compile Include="UserTypes\ImmutableUserType.cs" />
-    <Compile Include="UserTypes\OracleGuidConverter.cs" />
     <Compile Include="UserTypes\OracleGuidMapping.cs" />
     <Compile Include="UserTypes\OracleGuidUserType.cs" />
     <Compile Include="UserTypes\TypeUserType.cs" />

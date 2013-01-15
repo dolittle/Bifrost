@@ -6,11 +6,14 @@ using NHibernate.UserTypes;
 
 namespace Bifrost.NHibernate.UserTypes
 {
+    /// <summary>
+    /// A User type that wraps up transforming between a .NET type of Guid and the RAW(16) data type in Oracle
+    /// </summary>
     public class OracleGuidUserType : IUserType
     {
         static SqlType[] _types = new [] { new SqlType(DbType.Binary) };
         static Type _type = typeof (Guid);
-
+#pragma warning disable 1591
         public object Assemble(object cached, object owner)
         {
             return DeepCopy(cached);
@@ -77,6 +80,7 @@ namespace Bifrost.NHibernate.UserTypes
         public SqlType[] SqlTypes
         {
             get { return _types; }
-        }        
+        }
+#pragma warning enable 1591
     }
 }
