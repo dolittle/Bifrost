@@ -42,7 +42,23 @@ namespace Bifrost.NHibernate.UserTypes
     /// <typeparam name="T"></typeparam>
     public abstract class UserTypeBase<T> : ICompositeUserType
     {
-        readonly List<PropertyInfo> _mappedProperties = new List<PropertyInfo>();
+        static NullSafeMapping defaultMapping = new InferredMapping();
+
+        readonly List<KeyValuePair<PropertyInfo,NullSafeMapping>> _mappedProperties = new List<KeyValuePair<PropertyInfo, NullSafeMapping>>();
+        /// <summary>
+        /// Maps a property for the composite user type.  Can only map properties, not fields.
+        /// </summary>
+        /// <param name="property">A expression representing the property to map.</param>
+        /// <param name="property">A custom mapping to use when Getting and Setting a Property</param>
+        protected virtual void MapProperty<U>(Expression<Func<T, U>> property, NullSafeMapping mapping)
+        {
+            if (property == null)
+                throw new ArgumentNullException("property", "Cannot map an empty property expression");
+
+            var propertyInfo = GetPropertyInfo(property);
+
+            _mappedProperties.Add(new KeyValuePair<PropertyInfo, NullSafeMapping>(propertyInfo,mapping));
+        }
 
         /// <summary>
         /// Maps a property for the composite user type.  Can only map properties, not fields.
@@ -50,12 +66,7 @@ namespace Bifrost.NHibernate.UserTypes
         /// <param name="property">A expression representing the property to map.</param>
         protected virtual void MapProperty<U>(Expression<Func<T, U>> property)
         {
-            if (property == null)
-                throw new ArgumentNullException("property", "Cannot map an empty property expression");
-
-            var propertyInfo = GetPropertyInfo(property);
-
-            _mappedProperties.Add(propertyInfo);
+            MapProperty(property,defaultMapping);
         }
 
         PropertyInfo GetPropertyInfo<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyLambda)
@@ -100,7 +111,7 @@ namespace Bifrost.NHibernate.UserTypes
         /// </returns>
         public object GetPropertyValue(object component, int property)
         {
-            var propInfo = _mappedProperties[property];
+            var propInfo = _mappedProperties[property].Key;
             return propInfo.GetValue(component, null);
         }
 
@@ -115,7 +126,7 @@ namespace Bifrost.NHibernate.UserTypes
             if (!IsMutable)
                 throw new InvalidOperationException(string.Format("{0} is an immutable type.  SetPropertyValue is not supported."));
 
-            var propInfo = _mappedProperties[property];
+            var propInfo = _mappedProperties[property].Key;
             propInfo.SetValue(component, value, null);
         }
 
@@ -151,7 +162,10 @@ namespace Bifrost.NHibernate.UserTypes
 
             var values = new object[names.Length];
             for (var i = 0; i < names.Length; i++)
-                values[i] = NHibernateUtil.GuessType(_mappedProperties[i].PropertyType).NullSafeGet(dr, names[i], session, owner);
+            {
+                var mappedProperty = _mappedProperties[i];
+                values[i] = mappedProperty.Value.Get(mappedProperty.Key, dr, names[i], session, owner);
+            }
             return CreateInstance(values);
         }
 
@@ -169,12 +183,9 @@ namespace Bifrost.NHibernate.UserTypes
                 return;
 
             var propIndex = index;
-            foreach (var property in _mappedProperties)
+            foreach (var mappedProperty in _mappedProperties)
             {
-                //if (!settable[index])
-                //    continue;
-                var propValue = property.GetValue(value, null);
-                NHibernateUtil.GuessType(property.PropertyType).NullSafeSet(cmd, propValue, propIndex, session);
+                mappedProperty.Value.Set(mappedProperty.Key, value, cmd, propIndex, session);
                 propIndex++;
             }
         }
@@ -192,7 +203,7 @@ namespace Bifrost.NHibernate.UserTypes
         /// </summary>
         public string[] PropertyNames
         {
-            get { return _mappedProperties.Select(p => p.Name).ToArray(); }
+            get { return _mappedProperties.Select(p => p.Key.Name).ToArray(); }
         }
 
         /// <summary>
@@ -200,7 +211,7 @@ namespace Bifrost.NHibernate.UserTypes
         /// </summary>
         public virtual IType[] PropertyTypes
         {
-            get { return _mappedProperties.Select(p => NHibernateUtil.GuessType(p.PropertyType)).ToArray(); }
+            get { return _mappedProperties.Select(p => NHibernateUtil.GuessType(p.Key.PropertyType)).ToArray(); }
         }
 
         /// <summary>
@@ -208,7 +219,7 @@ namespace Bifrost.NHibernate.UserTypes
         /// </summary>
         public PropertyInfo[] Properties
         {
-            get { return _mappedProperties.ToArray(); }
+            get { return _mappedProperties.Select(p => p.Key).ToArray(); }
         }
 
         /// <summary>

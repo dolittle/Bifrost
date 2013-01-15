@@ -11,5 +11,10 @@ namespace Bifrost.NHibernate.Concepts
         {
             MapProperty(concept => concept.Value);
         }
+
+        public ConceptValueType(NullSafeMapping mapping)
+        {
+            MapProperty(concept => concept.Value, mapping);
+        }
     }
 }
