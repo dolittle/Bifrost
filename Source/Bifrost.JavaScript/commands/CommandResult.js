@@ -11,7 +11,7 @@ Bifrost.commands.CommandResult = (function () {
         } else {
             this.commandName = "";
             this.commandId = Bifrost.Guid.empty;
-            this.validationResult = [];
+            this.validationResults = [];
             this.success = true;
             this.invalid = false;
             this.exception = undefined;
