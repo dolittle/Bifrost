@@ -2,6 +2,7 @@ Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
         this.name = "";
+        this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.isBusy = ko.observable(false);
@@ -117,7 +118,7 @@ Bifrost.namespace("Bifrost.commands", {
             self.onBeforeExecute();
             var validationResult = self.commandValidationService.validate(this);
             if (validationResult.valid === true) {
-                self.commandCoordinator.handle(self).continueWith(function (commandResult) {
+                self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
                     self.handleCommandResult(commandResult);
                 });
             } else {
@@ -128,6 +129,7 @@ Bifrost.namespace("Bifrost.commands", {
 
 
         this.onCreated = function (lastDescendant) {
+            self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
                 this.copyPropertiesFromOptions(lastDescendant);

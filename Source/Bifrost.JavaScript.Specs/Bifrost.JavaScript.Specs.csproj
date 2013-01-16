@@ -62,6 +62,7 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_executing_descendant.js" />
     <Content Include="commands\for_Command\when_creating_with_name.js" />
     <Content Include="commands\for_Command\when_executing_with_command_validation_messages.js" />
     <Content Include="commands\for_Command\when_executing_with_server_side_validation_error.js" />
