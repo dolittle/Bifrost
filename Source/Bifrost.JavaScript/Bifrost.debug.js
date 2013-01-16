@@ -1420,7 +1420,7 @@ Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.comm
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (typeof target[property].validator !== "undefined") {
-                    target[property].validator.validate();
+                    target[property].validator.validate(target[property]());
 
                     if (target[property].validator.isValid() == false) {
                         result.valid = false;
@@ -1428,7 +1428,7 @@ Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.comm
                     }
 
                 } else if (typeof target[property] === "object") {
-                    validatePropertiesFor(target[property]);
+                    validatePropertiesFor(target[property], result);
                 }
             }
         }
@@ -1891,7 +1891,7 @@ Bifrost.commands.CommandResult = (function () {
         } else {
             this.commandName = "";
             this.commandId = Bifrost.Guid.empty;
-            this.validationResult = [];
+            this.validationResults = [];
             this.success = true;
             this.invalid = false;
             this.exception = undefined;
