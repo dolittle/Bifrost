@@ -7,6 +7,9 @@
             applyRulesTo: function (command) {
                 commandAppliedTo = command
             }
+        },
+        options: {
+            name:"something"
         }
     }
     var command = Bifrost.commands.Command.create(parameters);

@@ -14,7 +14,8 @@
                 number: 5.3,
                 string: "hello",
                 arrayOfIntegers: [1, 2, 3]
-            }
+            },
+            name:"something"
         }
     }
     var command = Bifrost.commands.Command.create(parameters);

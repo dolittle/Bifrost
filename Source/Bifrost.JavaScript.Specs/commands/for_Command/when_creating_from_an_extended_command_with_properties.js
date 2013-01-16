@@ -16,7 +16,9 @@
         this.integer = 0;
         this.number = 0.1;
         this.string = "";
-        this.arrayOfIntegers = [];
+        this.arrayOfIntegers = [1, 2];
+
+        this.objectLiteral = {};
 
         this.onCreated = function () {
         };
@@ -28,7 +30,6 @@
     command = commandType.create(parameters);
 
     it("should make the integer property as an observable", function () {
-
         expect(ko.isObservable(command.integer)).toBe(true);
     });
 
@@ -42,5 +43,9 @@
 
     it("should make the array property as an observable", function () {
         expect(ko.isObservable(command.arrayOfIntegers)).toBe(true);
+    });
+
+    it("should not make the object literal an observable", function () {
+        expect(ko.isObservable(command.objectLiteral)).toBe(false);
     });
 });

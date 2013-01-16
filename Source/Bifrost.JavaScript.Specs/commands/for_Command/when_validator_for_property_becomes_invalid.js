@@ -14,6 +14,9 @@
                     isValid: isValid
                 }];
             }
+        },
+        options: {
+            name:"something"
         }
     };
 
