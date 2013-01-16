@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,6 +7,7 @@ using System.Text;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+
 
 namespace Bifrost.Web.Proxies
 {
@@ -35,7 +37,22 @@ namespace Bifrost.Web.Proxies
 
                 var properties = GetPropertiesForCommand(type);
                 foreach (var property in properties)
-                    builder.AppendFormat("\t\tthis.{0} = ko.observable();\n", property.Name.ToCamelCase());
+                {
+                    if (property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
+                        property.PropertyType.HasInterface<IDictionary>())
+                    {
+                        builder.AppendFormat("\t\tthis.{0} = {{}};\n", property.Name.ToCamelCase());
+                    }
+                    else if ((property.PropertyType.HasInterface(typeof(IEnumerable<>)) ||
+                              property.PropertyType.HasInterface<IEnumerable>()) && property.PropertyType != typeof(string))
+                    {
+                        builder.AppendFormat("\t\tthis.{0} = ko.observableArray();\n", property.Name.ToCamelCase());
+                    }
+                    else
+                    {
+                        builder.AppendFormat("\t\tthis.{0} = ko.observable();\n", property.Name.ToCamelCase());
+                    }
+                }
 
                 builder.Append("\t})");
 
