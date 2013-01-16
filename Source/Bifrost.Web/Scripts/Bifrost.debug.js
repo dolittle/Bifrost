@@ -1420,7 +1420,7 @@ Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.comm
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (typeof target[property].validator !== "undefined") {
-                    target[property].validator.validate();
+                    target[property].validator.validate(target[property]());
 
                     if (target[property].validator.isValid() == false) {
                         result.valid = false;
@@ -1428,7 +1428,7 @@ Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.comm
                     }
 
                 } else if (typeof target[property] === "object") {
-                    validatePropertiesFor(target[property]);
+                    validatePropertiesFor(target[property], result);
                 }
             }
         }
@@ -1507,6 +1507,7 @@ Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
         var self = this;
         this.name = "";
+        this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.isBusy = ko.observable(false);
@@ -1622,7 +1623,7 @@ Bifrost.namespace("Bifrost.commands", {
             self.onBeforeExecute();
             var validationResult = self.commandValidationService.validate(this);
             if (validationResult.valid === true) {
-                self.commandCoordinator.handle(self).continueWith(function (commandResult) {
+                self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
                     self.handleCommandResult(commandResult);
                 });
             } else {
@@ -1633,6 +1634,7 @@ Bifrost.namespace("Bifrost.commands", {
 
 
         this.onCreated = function (lastDescendant) {
+            self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
                 this.copyPropertiesFromOptions(lastDescendant);
@@ -1891,7 +1893,7 @@ Bifrost.commands.CommandResult = (function () {
         } else {
             this.commandName = "";
             this.commandId = Bifrost.Guid.empty;
-            this.validationResult = [];
+            this.validationResults = [];
             this.success = true;
             this.invalid = false;
             this.exception = undefined;
@@ -1910,6 +1912,18 @@ Bifrost.commands.CommandResult = (function () {
         }
     };
 })();
+﻿Bifrost.dependencyResolvers.command = {
+    canResolve: function (namespace, name) {
+        if (typeof commands !== "undefined") {
+            return name in commands;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return commands[name].create();
+    }
+};
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {
     function Saga() {
@@ -2598,6 +2612,7 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends commands/Command.js
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
+@depends commands/commandDependencyResolver.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js

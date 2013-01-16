@@ -42,6 +42,7 @@
 @depends commands/Command.js
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
+@depends commands/commandDependencyResolver.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js
