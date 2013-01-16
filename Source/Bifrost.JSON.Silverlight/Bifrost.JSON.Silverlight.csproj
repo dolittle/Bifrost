@@ -76,6 +76,12 @@
     <Compile Include="..\Bifrost.JSON\EntityContextConnection.cs">
       <Link>EntityContextConnection.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.JSON\Serialization\ConceptConverter.cs">
+      <Link>Serialization\ConceptConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.JSON\Serialization\ConceptDictionaryConverter.cs">
+      <Link>Serialization\ConceptDictionaryConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.JSON\Serialization\Serializer.cs">
       <Link>Serialization\Serializer.cs</Link>
     </Compile>

@@ -60,12 +60,14 @@ namespace Bifrost.Events
 
         public IEnumerable<EventSubscription> GetAll()
         {
+            return new EventSubscription[0];
+            /*
             var all = _entityContext.Entities.ToArray();
             var filtered = all.Where(e =>
                 EventTypeExists(e) &&
                 EventSubscriberExists(e)).ToArray();
 
-            return filtered.ToArray();
+            return filtered.ToArray();*/
         }
 
         public EventSubscription Get(Guid id)
@@ -95,14 +97,15 @@ namespace Bifrost.Events
 
         public void Add(EventSubscription subscription)
         {
-            _entityContext.Insert(subscription);
-            _entityContext.Commit();
+            return;
+            //_entityContext.Insert(subscription);
+            //_entityContext.Commit();
         }
 
         public void Update(EventSubscription subscription)
         {
-            _entityContext.Update(subscription);
-            _entityContext.Commit();
+            //_entityContext.Update(subscription);
+            //_entityContext.Commit();
         }
 #pragma warning restore 1591 // Xml Comments
 

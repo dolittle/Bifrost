@@ -179,6 +179,8 @@ namespace Bifrost.JSON.Serialization
 			                 		TypeNameHandling = typeNameHandling,
 									ContractResolver = contractResolver,
 			                 	};
+            serializer.Converters.Add(new ConceptConverter());
+            serializer.Converters.Add(new ConceptDictionaryConverter());
 
             
 			return serializer;
