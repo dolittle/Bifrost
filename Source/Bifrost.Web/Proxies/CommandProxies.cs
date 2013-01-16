@@ -31,13 +31,21 @@ namespace Bifrost.Web.Proxies
             {
                 if (type.IsGenericType) continue;
                 if (!first) builder.Append(",\n");
-                
-                builder.AppendFormat("\t{0} : Bifrost.commands.Command.extend(function() {{\n", type.Name.ToCamelCase());
-                builder.AppendFormat("\t\tthis.name = '{0}';\n", type.Name.ToCamelCase());
+
+                var name = type.Name.ToCamelCase();
+
+                if (name == "delete") name = "_delete";
+
+
+                builder.AppendFormat("\t{0} : Bifrost.commands.Command.extend(function() {{\n", name);
+                builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
 
                 var properties = GetPropertiesForCommand(type);
                 foreach (var property in properties)
                 {
+                    
+
+
                     if (property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
                         property.PropertyType.HasInterface<IDictionary>())
                     {
