@@ -35,8 +35,9 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.handle = function (command) {
             var promise = Bifrost.execution.Promise.create();
+            var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
             var methodParameters = {
-                commandDescriptor: JSON.stringify(Bifrost.commands.CommandDescriptor.createFrom(command))
+                commandDescriptor: JSON.stringify(commandDescriptor)
             };
 
             sendToHandler(baseUrl + "/Handle", JSON.stringify(methodParameters), function (jqXHR) {
