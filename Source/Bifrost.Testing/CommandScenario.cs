@@ -52,6 +52,7 @@ namespace Bifrost.Testing
         readonly Mock<IEventStore> event_store;
         readonly Mock<ISagaLibrarian> saga_librarian;
         readonly Mock<IProcessMethodInvoker> process_method_invoker;
+        readonly Mock<ICommandSecurityManager> command_security_manager_mock;
         readonly IExecutionContextManager execution_context_manager;
         readonly ICanValidate<T> null_validator = new NullCommandInputValidator();
 
@@ -81,8 +82,15 @@ namespace Bifrost.Testing
             command_validator_provider = new Mock<ICommandValidatorProvider>();
             command_validation_service = new CommandValidationService(command_validator_provider.Object);
 
-            command_coordinator = new CommandCoordinator(command_handler_manager.Object, command_context_manager, command_validation_service,
-                                                                                                                dynamic_command_factory.Object, localizer.Object);
+            command_security_manager_mock = new Mock<ICommandSecurityManager>();
+
+            command_coordinator = new CommandCoordinator(
+                                        command_handler_manager.Object, 
+                                        command_context_manager, 
+                                        command_security_manager_mock.Object,
+                                        command_validation_service,
+                                        dynamic_command_factory.Object, 
+                                        localizer.Object);
 
             input_validator = null_validator;
             business_validator = null_validator;

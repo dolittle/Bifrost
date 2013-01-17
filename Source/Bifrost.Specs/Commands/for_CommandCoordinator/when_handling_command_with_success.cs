@@ -8,7 +8,7 @@ using Bifrost.Validation;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
 {
-    [Subject(Subjects.handling_command)]
+    [Subject(typeof(CommandCoordinator))]
     public class when_handling_command_with_success : given.a_command_coordinator
     {
         static CommandResult Result;

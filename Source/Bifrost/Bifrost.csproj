@@ -61,6 +61,7 @@
     <Compile Include="Commands\DynamicCommandFactory.cs" />
     <Compile Include="Commands\DynamicCommandHandler.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
+    <Compile Include="Commands\ICommandSecurityManager.cs" />
     <Compile Include="Commands\IDynamicCommandFactory.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concurrency\IScheduler.cs" />

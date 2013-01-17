@@ -39,6 +39,7 @@ namespace Bifrost.Commands
         {
             ValidationResults = new ValidationResult[0];
             CommandValidationMessages = new string[0];
+            PassedSecurity = true;
         }
 
 
@@ -102,6 +103,11 @@ namespace Bifrost.Commands
         {
             get { return (ValidationResults != null && ValidationResults.Any()) || (CommandValidationMessages != null && CommandValidationMessages.Any()); }
         }
+
+        /// <summary>
+        /// Gets or sets wether or not command passed security
+        /// </summary>
+        public bool PassedSecurity { get; set;  }
 
         /// <summary>
         /// Merges another CommandResult instance into the current instance

@@ -11,7 +11,7 @@ namespace Bifrost.JSON.Serialization
     {
         public override bool CanConvert(Type objectType)
         {
-            if (objectType.HasInterface(typeof(IDictionary<,>))) 
+            if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.IsGenericType ) 
             {
                 var keyType = objectType.GetGenericArguments()[0].BaseType;
                 if (keyType.IsGenericType)

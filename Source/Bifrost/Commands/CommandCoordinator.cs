@@ -34,9 +34,10 @@ namespace Bifrost.Commands
 	/// </summary>
 	public class CommandCoordinator : ICommandCoordinator
 	{
-		private readonly ICommandHandlerManager _commandHandlerManager;
-		private readonly ICommandContextManager _commandContextManager;
-	    private readonly ICommandValidationService _commandValidationService;
+		readonly ICommandHandlerManager _commandHandlerManager;
+		readonly ICommandContextManager _commandContextManager;
+	    readonly ICommandValidationService _commandValidationService;
+        readonly ICommandSecurityManager _commandSecurityManager;
 	    readonly IDynamicCommandFactory _dynamicCommandFactory;
 		readonly ILocalizer _localizer;
 
@@ -46,18 +47,21 @@ namespace Bifrost.Commands
 		/// </summary>
 		/// <param name="commandHandlerManager">A <see cref="ICommandHandlerManager"/> for handling commands</param>
 		/// <param name="commandContextManager">A <see cref="ICommandContextManager"/> for establishing a <see cref="CommandContext"/></param>
+        /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
 		/// <param name="commandValidationService">A <see cref="ICommandValidationService"/> for validating a <see cref="ICommand"/> before handling</param>
 		/// <param name="dynamicCommandFactory">A <see cref="IDynamicCommandFactory"/> creating dynamic commands</param>
 		/// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
 		public CommandCoordinator(
 			ICommandHandlerManager commandHandlerManager,
 			ICommandContextManager commandContextManager,
+            ICommandSecurityManager commandSecurityManager,
             ICommandValidationService commandValidationService,
             IDynamicCommandFactory dynamicCommandFactory,
 			ILocalizer localizer)
 		{
 			_commandHandlerManager = commandHandlerManager;
 			_commandContextManager = commandContextManager;
+            _commandSecurityManager = commandSecurityManager;
 		    _commandValidationService = commandValidationService;
 	        _dynamicCommandFactory = dynamicCommandFactory;
 	    	_localizer = localizer;
@@ -79,6 +83,13 @@ namespace Bifrost.Commands
             using (_localizer.BeginScope())
             {
                 var commandResult = CommandResult.ForCommand(command);
+
+                if (!_commandSecurityManager.CanHandle(command))
+                {
+                    commandResult.PassedSecurity = false;
+                    return commandResult;
+                }
+
                 var validationResult = _commandValidationService.Validate(command);
                 commandResult.ValidationResults = validationResult.ValidationResults;
                 commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;

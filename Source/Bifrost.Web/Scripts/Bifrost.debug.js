@@ -313,6 +313,7 @@ Bifrost.namespace("Bifrost", {
                 }
 
                 if (resolvedSystem instanceof Bifrost.execution.Promise) {
+                    console.log("'" + name + "' was resolved as an asynchronous dependency, consider using beginCreate() or make the dependency available prior to calling create");
                     throw new Bifrost.AsynchronousDependenciesDetected();
                 }
 
@@ -716,6 +717,8 @@ Bifrost.namespace("Bifrost", {
                                 dependencyInstances[property] = instanceHash[property];
                             }
                         }
+
+                        print("Instances : "+dependencyInstances.something);
 
                         var instance = self.create(dependencyInstances);
                         promise.signal(instance);
