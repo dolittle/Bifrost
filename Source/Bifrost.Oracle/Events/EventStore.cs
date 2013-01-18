@@ -26,13 +26,12 @@ namespace Bifrost.Oracle.Events
         const string READ_STATEMENT_FOR_EVENTS_BY_AGGREGATE_ROOT =
             SELECT_INFO_FOR_EVENT + " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID";
 
-        const string READ_STATEMENT_FOR_EVENTS_BY_PAGE = 
-            "SELECT a.ID, a.COMMANDCONTEXT, a.NAME, a.LOGICALNAME, a.EVENTSOURCEID, a.EVENTSOURCE, a.GENERATION, a.DATA, a.CAUSEDBY, a.ORIGIN, a.OCCURED, a.VERSION"
-                + " FROM (SELECT b.RowNum row_num, b.ID, b.COMMANDCONTEXT, b.NAME, b.LOGICALNAME, b.EVENTSOURCEID, b.EVENTSOURCE, b.GENERATION, b.DATA, b.CAUSEDBY, b.ORIGIN, b.OCCURED, b.VERSION"
-                    + " FROM SELECT c.ID, c.COMMANDCONTEXT, c.NAME, c.LOGICALNAME, c.EVENTSOURCEID, c.EVENTSOURCE, c.GENERATION, c.DATA, c.CAUSEDBY, c.ORIGIN, c.OCCURED, c.VERSION"
-                        + " ORDER BY ID ASC) b" 
-                        + " WHERE  RowNum <= :END) a"
-                        + " WHERE row_num >= :START";
+        const string READ_STATEMENT_FOR_EVENTS_BY_PAGE =
+        "SELECT a.ID, a.COMMANDCONTEXT, a.NAME, a.LOGICALNAME, a.EVENTSOURCEID, a.EVENTSOURCE, a.GENERATION, a.DATA, a.CAUSEDBY, a.ORIGIN, a.OCCURED, a.VERSION FROM"
+            + " (SELECT b.ID, b.COMMANDCONTEXT, b.NAME, b.LOGICALNAME, b.EVENTSOURCEID, b.EVENTSOURCE, b.GENERATION, b.DATA, b.CAUSEDBY, b.ORIGIN, b.OCCURED, b.VERSION, rownum b_rownum"
+            + " FROM (SELECT c.ID, c.COMMANDCONTEXT, c.NAME, c.LOGICALNAME, c.EVENTSOURCEID, c.EVENTSOURCE, c.GENERATION, c.DATA, c.CAUSEDBY, c.ORIGIN, c.OCCURED, c.VERSION FROM EVENTS c ORDER BY ID ASC) b"
+            + " WHERE rownum <= :END_OF_BATCH) a"
+            + " WHERE b_rownum >= :START_OF_BATCH";
  
 
         const string LAST_VERSION_STATEMENT =
@@ -135,10 +134,10 @@ namespace Bifrost.Oracle.Events
             var start = batchesToSkip*batchSize + 1;
             var end = batchesToSkip*batchSize + batchSize;
 
-            var startParam = new OracleParameter("START", OracleDbType.Int32, 510);
+            var startParam = new OracleParameter("START_OF_BATCH", OracleDbType.Int32, 510);
             startParam.Value = start;
 
-            var endParam = new OracleParameter("END", OracleDbType.Int32, 10);
+            var endParam = new OracleParameter("END_OF_BATCH", OracleDbType.Int32, 10);
             endParam.Value = end;
 
             try
@@ -147,6 +146,9 @@ namespace Bifrost.Oracle.Events
                 using (var command = _connection.CreateCommand())
                 {
                     command.CommandText = READ_STATEMENT_FOR_EVENTS_BY_PAGE;
+                    command.Parameters.Add(startParam);
+                    command.Parameters.Add(endParam);
+                    command.BindByName = true;
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
