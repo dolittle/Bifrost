@@ -334,6 +334,8 @@
     <Compile Include="Security\for_SecurityDescriptor\when_securing_type_using_generics.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_securing_namespace_from_type.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_securing_namespace_by_name.cs" />
+    <Compile Include="Security\for_SecurityManager\given\a_security_manager.cs" />
+    <Compile Include="Security\for_SecurityManager\when_asking_for_securable_having_access_without_any_security_descriptors.cs" />
     <Compile Include="Security\for_SecurityObject\SecurityRule.cs" />
     <Compile Include="Security\for_SecurityObject\when_asking_if_has_access_with_two_rules_and_second_returns_false.cs" />
     <Compile Include="Security\for_SecurityObject\when_asking_if_has_access_with_one_rule_that_returns_false.cs" />

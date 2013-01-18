@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using Bifrost.Execution;
 
 namespace Bifrost.Security
 {
@@ -28,10 +29,22 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityManager : ISecurityManager
     {
+        ITypeDiscoverer _typeDiscoverer;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="SecurityManager"/>
+        /// </summary>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to discover any <see cref="SecurityDescriptor">security descriptors</see></param>
+        public SecurityManager(ITypeDiscoverer typeDiscoverer)
+        {
+            _typeDiscoverer = typeDiscoverer;
+        }
+
+
 #pragma warning disable 1591 // Xml Comments
         public bool HasAccess(object securable)
         {
-            throw new NotImplementedException();
+            return true;
         }
 #pragma warning restore 1591 // Xml Comments
     }
