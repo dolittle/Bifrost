@@ -47,7 +47,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ConfigurationExtensions.cs" />
+    <Compile Include="Events\DataEventParameter.cs" />
+    <Compile Include="Events\EventDto.cs" />
+    <Compile Include="Events\EventMetaData.cs" />
+    <Compile Include="Events\EventParameter.cs" />
+    <Compile Include="Events\EventParameters.cs" />
     <Compile Include="Events\EventStore.cs" />
+    <Compile Include="Events\EventStoreConfiguration.cs" />
+    <Compile Include="Events\IdEventParameter.cs" />
+    <Compile Include="Events\IEventParameters.cs" />
+    <Compile Include="Events\MetaDataEventParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
