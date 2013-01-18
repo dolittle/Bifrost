@@ -57,6 +57,7 @@
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
+    <Compile Include="Commands\CommandSecurityManager.cs" />
     <Compile Include="Commands\DynamicCommand.cs" />
     <Compile Include="Commands\DynamicCommandFactory.cs" />
     <Compile Include="Commands\DynamicCommandHandler.cs" />
@@ -127,10 +128,14 @@
     <Compile Include="Security\ISecurityRoleProvider.cs" />
     <Compile Include="Security\ISecurable.cs" />
     <Compile Include="Security\ISecurityRule.cs" />
+    <Compile Include="Security\NamespaceSecurable.cs" />
+    <Compile Include="Security\Securable.cs" />
     <Compile Include="Security\SecurableExtensions.cs" />
     <Compile Include="Security\SecurityContextExtensions.cs" />
     <Compile Include="Security\SecurityDescriptor.cs" />
+    <Compile Include="Security\SecurityManager.cs" />
     <Compile Include="Security\SecurityObjectExtensions.cs" />
+    <Compile Include="Security\TypeSecurable.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />

@@ -19,23 +19,25 @@
 // limitations under the License.
 //
 #endregion
-
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines a manager for dealing with security for types and namespaces
+    /// Represents a <see cref="Securable"/> that applies to a specific namespace
     /// </summary>
-    public interface ISecurityManager
+    public class NamespaceSecurable : Securable
     {
         /// <summary>
-        /// Ask if a <see cref="ISecurable"/> has access
+        /// Initializes a new instance of <see cref="NamespaceSecurable"/>
         /// </summary>
-        /// <param name="securable">Object that is subject of security</param>
-        /// <returns>True if access is granted for the <see cref="ISecurable"/>, false if not</returns>
-        /// <remarks>
-        /// <see cref="ISecurable"/> is a concept used when describing security, not an interface
-        /// a securable item needs to implement
-        /// </remarks>
-        bool HasAccess(object securable);
+        /// <param name="namespace">Namespace to secure</param>
+        public NamespaceSecurable(string @namespace)
+        {
+            Namespace = @namespace;
+        }
+
+        /// <summary>
+        /// Gets the namespace that is secured
+        /// </summary>
+        public string Namespace { get; private set; }
     }
 }

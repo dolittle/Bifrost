@@ -19,23 +19,33 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.Security;
 
-namespace Bifrost.Security
+namespace Bifrost.Commands
 {
     /// <summary>
-    /// Defines a manager for dealing with security for types and namespaces
+    /// Represents an implementation of <see cref="ICommandSecurityManager"/>
     /// </summary>
-    public interface ISecurityManager
+    public class CommandSecurityManager : ICommandSecurityManager
     {
+        ISecurityManager _securityManager;
+
         /// <summary>
-        /// Ask if a <see cref="ISecurable"/> has access
+        /// Initializes a new instance of <see cref="CommandSecurityManager"/>
         /// </summary>
-        /// <param name="securable">Object that is subject of security</param>
-        /// <returns>True if access is granted for the <see cref="ISecurable"/>, false if not</returns>
-        /// <remarks>
-        /// <see cref="ISecurable"/> is a concept used when describing security, not an interface
-        /// a securable item needs to implement
-        /// </remarks>
-        bool HasAccess(object securable);
+        /// <param name="securityManager"><see cref="ISecurityManager"/> for forwarding requests related to security to</param>
+        public CommandSecurityManager(ISecurityManager securityManager)
+        {
+            _securityManager = securityManager;
+        }
+
+
+#pragma warning disable 1591 // Xml Comments
+        public bool CanHandle(ICommand command)
+        {
+            return _securityManager.HasAccess(command);
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

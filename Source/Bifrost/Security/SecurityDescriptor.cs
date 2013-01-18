@@ -31,22 +31,26 @@ namespace Bifrost.Security
 #pragma warning disable 1591 // Xml Comments
         public ISecurable ForNamespace(string @namespace)
         {
-            throw new NotImplementedException();
+            var securable = new NamespaceSecurable(@namespace);
+            return securable;
         }
 
         public ISecurable ForNamespaceOf<T>()
         {
-            throw new NotImplementedException();
+            var securable = new NamespaceSecurable(typeof(T).Namespace);
+            return securable;
         }
 
         public ISecurable For<T>()
         {
-            throw new NotImplementedException();
+            var securable = new TypeSecurable(typeof(T));
+            return securable;
         }
 
         public ISecurable For(Type type)
         {
-            throw new NotImplementedException();
+            var securable = new TypeSecurable(type);
+            return securable;
         }
 #pragma warning restore 1591 // Xml Comments
     }

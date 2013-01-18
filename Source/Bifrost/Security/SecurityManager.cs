@@ -19,23 +19,20 @@
 // limitations under the License.
 //
 #endregion
+using System;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines a manager for dealing with security for types and namespaces
+    /// Represents an implementation of <see cref="ISecurityManager"/>
     /// </summary>
-    public interface ISecurityManager
+    public class SecurityManager : ISecurityManager
     {
-        /// <summary>
-        /// Ask if a <see cref="ISecurable"/> has access
-        /// </summary>
-        /// <param name="securable">Object that is subject of security</param>
-        /// <returns>True if access is granted for the <see cref="ISecurable"/>, false if not</returns>
-        /// <remarks>
-        /// <see cref="ISecurable"/> is a concept used when describing security, not an interface
-        /// a securable item needs to implement
-        /// </remarks>
-        bool HasAccess(object securable);
+#pragma warning disable 1591 // Xml Comments
+        public bool HasAccess(object securable)
+        {
+            throw new NotImplementedException();
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }
