@@ -19,26 +19,32 @@
 // limitations under the License.
 //
 #endregion
-using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines the security object that defines the security
+    /// Represents an implementation of <see cref="ISecurityObject"/>
     /// </summary>
-    public interface ISecurityObject
+    public class SecurityObject : ISecurityObject
     {
-        /// <summary>
-        /// Add a rule to the <see cref="ISecurityObject"/>
-        /// </summary>
-        /// <param name="rule"><see cref="ISecurityRule"/> to add</param>
-        void AddRule(ISecurityRule rule);
+        List<ISecurityRule> _rules = new List<ISecurityRule>();
 
-        /// <summary>
-        /// Check if a securable instance has access
-        /// </summary>
-        /// <param name="securable">The securable instance to check for</param>
-        /// <returns>True if has access, false if not</returns>
-        bool HasAccess(object securable);
+#pragma warning disable 1591 // Xml Comments
+        public void AddRule(ISecurityRule rule)
+        {
+            _rules.Add(rule);
+        }
+
+        public bool HasAccess(object securable)
+        {
+            if (_rules.Count == 0) return true;
+
+            foreach (var rule in _rules)
+                if (!rule.HasAccess(securable)) return false;
+
+            return false;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

@@ -19,26 +19,12 @@
 // limitations under the License.
 //
 #endregion
-using System;
-
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines the security object that defines the security
+    /// Represents a concrete <see cref="SecurityObject"/> for a user
     /// </summary>
-    public interface ISecurityObject
+    public class UserSecurityObject : SecurityObject
     {
-        /// <summary>
-        /// Add a rule to the <see cref="ISecurityObject"/>
-        /// </summary>
-        /// <param name="rule"><see cref="ISecurityRule"/> to add</param>
-        void AddRule(ISecurityRule rule);
-
-        /// <summary>
-        /// Check if a securable instance has access
-        /// </summary>
-        /// <param name="securable">The securable instance to check for</param>
-        /// <returns>True if has access, false if not</returns>
-        bool HasAccess(object securable);
     }
 }

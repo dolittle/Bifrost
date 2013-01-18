@@ -134,8 +134,10 @@
     <Compile Include="Security\SecurityContextExtensions.cs" />
     <Compile Include="Security\SecurityDescriptor.cs" />
     <Compile Include="Security\SecurityManager.cs" />
+    <Compile Include="Security\SecurityObject.cs" />
     <Compile Include="Security\SecurityObjectExtensions.cs" />
     <Compile Include="Security\TypeSecurable.cs" />
+    <Compile Include="Security\UserSecurityObject.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
