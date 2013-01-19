@@ -19,6 +19,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
@@ -27,5 +28,15 @@ namespace Bifrost.Security
     /// </summary>
     public interface ISecurityDescriptorBuilder
     {
+        /// <summary>
+        /// Add a <see cref="ISecurityActionBuilder"/> to the <see cref="ISecurityDescriptorBuilder"/>
+        /// </summary>
+        /// <param name="securityActionBuilder"></param>
+        void AddActionBuilder(ISecurityActionBuilder securityActionBuilder);
+
+        /// <summary>
+        /// Get the <see cref="ISecurityActionBuilder">action builders</see>
+        /// </summary>
+        IEnumerable<ISecurityActionBuilder> Actions { get; }
     }
 }

@@ -29,6 +29,15 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityDescriptor : ISecurityDescriptor
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="SecurityDescriptor"/>
+        /// </summary>
+        public SecurityDescriptor()
+        {
+            When = new SecurityDescriptorBuilder();
+        }
+
+
 #pragma warning disable 1591 // Xml Comments
 
         public ISecurityDescriptorBuilder When { get; private set; }
