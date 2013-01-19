@@ -21,6 +21,5 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptorBuilder
 
         It should_have_one_action_builder = () => descriptor_builder.Actions.Count().ShouldEqual(1);
         It should_have_the_added_action_builder = () => descriptor_builder.Actions.First().ShouldEqual(action_builder_mock.Object);
-        
     }
 }
