@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Bifrost.Events;
 using Bifrost.Serialization;
@@ -14,15 +12,27 @@ namespace Bifrost.Oracle.Events
 {
     public class EventStore : IEventStore
     {
+        const string SELECT_INFO_FOR_EVENT =
+            "SELECT ID, COMMANDCONTEXT, NAME, LOGICALNAME, EVENTSOURCEID, EVENTSOURCE, GENERATION, DATA, CAUSEDBY, ORIGIN, OCCURED, VERSION" +
+            " FROM EVENTS";
+
+        const string READ_ALL_EVENTS = SELECT_INFO_FOR_EVENT + " ORDER BY ID ASC";
+
         const string INSERT_STATEMENT =
             "INSERT INTO EVENTS (COMMANDCONTEXT,NAME,LOGICALNAME,EVENTSOURCEID,EVENTSOURCE,GENERATION,DATA,CAUSEDBY,ORIGIN,OCCURED,VERSION)"
             + " VALUES(:COMMANDCONTEXT_{0},:NAME_{0},:LOGICALNAME_{0},:EVENTSOURCEID_{0},:EVENTSOURCE_{0},:GENERATION_{0},:DATA_{0},:CAUSEDBY_{0},:ORIGIN_{0},:OCCURED_{0},:VERSION_{0})"
             + " RETURNING ID INTO :ID_{0};";
 
-        const string READ_STATEMENT =
-            "SELECT ID, COMMANDCONTEXT, NAME, LOGICALNAME, EVENTSOURCEID, EVENTSOURCE, GENERATION, DATA, CAUSEDBY, ORIGIN, OCCURED, VERSION" +
-            " FROM EVENTS" +
-            " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID";
+        const string READ_STATEMENT_FOR_EVENTS_BY_AGGREGATE_ROOT =
+            SELECT_INFO_FOR_EVENT + " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID";
+
+        const string READ_STATEMENT_FOR_EVENTS_BY_PAGE =
+        "SELECT a.ID, a.COMMANDCONTEXT, a.NAME, a.LOGICALNAME, a.EVENTSOURCEID, a.EVENTSOURCE, a.GENERATION, a.DATA, a.CAUSEDBY, a.ORIGIN, a.OCCURED, a.VERSION FROM"
+            + " (SELECT b.ID, b.COMMANDCONTEXT, b.NAME, b.LOGICALNAME, b.EVENTSOURCEID, b.EVENTSOURCE, b.GENERATION, b.DATA, b.CAUSEDBY, b.ORIGIN, b.OCCURED, b.VERSION, rownum b_rownum"
+            + " FROM (SELECT c.ID, c.COMMANDCONTEXT, c.NAME, c.LOGICALNAME, c.EVENTSOURCEID, c.EVENTSOURCE, c.GENERATION, c.DATA, c.CAUSEDBY, c.ORIGIN, c.OCCURED, c.VERSION FROM EVENTS c ORDER BY ID ASC) b"
+            + " WHERE rownum <= :END_OF_BATCH) a"
+            + " WHERE b_rownum >= :START_OF_BATCH";
+ 
 
         const string LAST_VERSION_STATEMENT =
             "SELECT VERSION" +
@@ -119,12 +129,68 @@ namespace Bifrost.Oracle.Events
 
         public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
         {
-            throw new System.NotImplementedException();
+            var eventDtos = new List<EventDto>();
+
+            var start = batchesToSkip*batchSize + 1;
+            var end = batchesToSkip*batchSize + batchSize;
+
+            var startParam = new OracleParameter("START_OF_BATCH", OracleDbType.Int32, 510);
+            startParam.Value = start;
+
+            var endParam = new OracleParameter("END_OF_BATCH", OracleDbType.Int32, 10);
+            endParam.Value = end;
+
+            try
+            {
+                OpenConnection();
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandText = READ_STATEMENT_FOR_EVENTS_BY_PAGE;
+                    command.Parameters.Add(startParam);
+                    command.Parameters.Add(endParam);
+                    command.BindByName = true;
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        eventDtos.Add(MapReaderToEventDto(reader));
+                    }
+                }
+            }
+            finally
+            {
+                EnsureConnectionClosed(_connection);
+            }
+
+            return eventDtos.Select(BuildEventInstanceFromDto)
+                                    .Select(@event => _eventMigratorManager.Migrate(@event))
+                                    .ToArray();
         }
 
         public IEnumerable<IEvent> GetAll()
         {
-            throw new System.NotImplementedException();
+            var eventDtos = new List<EventDto>();
+
+            try
+            {
+                OpenConnection();
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandText = READ_ALL_EVENTS;
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        eventDtos.Add(MapReaderToEventDto(reader));
+                    }
+                }
+            }
+            finally
+            {
+                EnsureConnectionClosed(_connection);
+            }
+
+            return eventDtos.Select(BuildEventInstanceFromDto)
+                                    .Select(@event => _eventMigratorManager.Migrate(@event))
+                                    .ToArray();
         }
 
         public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
@@ -144,7 +210,7 @@ namespace Bifrost.Oracle.Events
                 OpenConnection();
                 using (var command = _connection.CreateCommand())
                 {
-                    command.CommandText = READ_STATEMENT;
+                    command.CommandText = READ_STATEMENT_FOR_EVENTS_BY_AGGREGATE_ROOT;
                     command.Parameters.Add(eventSourceIdParam);
                     command.Parameters.Add(eventSourceParam);
                     command.BindByName = true;
@@ -283,244 +349,5 @@ namespace Bifrost.Oracle.Events
             public const int Occured = 10;
             public const int Version = 11;
         }
-    }
-
-    public class EventParameter
-    {
-        readonly string _name;
-        readonly OracleDbType _dbType;
-        readonly int _size;
-
-        protected string Name { get { return _name; } }
-        protected OracleDbType DbType { get { return _dbType; } }
-        protected int Size { get { return _size; } }
-
-        public EventParameter(string name, OracleDbType dbType, int size)
-        {
-            _name = name;
-            _dbType = dbType;
-            _size = size;
-        }
-
-        public EventParameter(string name, OracleDbType dbType)
-            : this(name, dbType, 0)
-        {
-        }
-
-        public virtual OracleParameter BuildParameter(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData, int position)
-        {
-            var param = _size > 0 ? new OracleParameter(GetFormattedParameterName(position), _dbType, _size) : new OracleParameter(GetFormattedParameterName(position), _dbType);
-            param.Value = GetValue(propertiesOnEvent, @event, metaData);
-            return param;
-        }
-
-        protected virtual object GetValue(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData)
-        {
-            var property = propertiesOnEvent.Single(pi => pi.Name.Equals(_name, StringComparison.InvariantCultureIgnoreCase));
-            var value = property.GetValue(@event, null);
-
-            if (value is Guid)
-                return ((Guid)value).ToByteArray();
-
-            if (value is EventSourceVersion)
-                return ((EventSourceVersion)value).Combine();
-
-            return value;
-        }
-
-        protected string GetFormattedParameterName(int position)
-        {
-            return string.Concat(_name, "_", position);
-        }
-    }
-
-    public class IdEventParameter : EventParameter
-    {
-        public IdEventParameter()
-            : base(EventParameters.ID, OracleDbType.Int64, 10)
-        {
-        }
-
-        public override OracleParameter BuildParameter(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData, int position)
-        {
-            return new OracleParameter(GetFormattedParameterName(position), DbType, ParameterDirection.Output);
-        }
-
-        protected override object GetValue(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData)
-        {
-            return null;
-        }
-    }
-
-    public class MetaDataEventParameter : EventParameter
-    {
-        readonly Func<EventMetaData, object> _valueFromMetaData;
-
-        public MetaDataEventParameter(string name, OracleDbType dbType, int size, Func<EventMetaData, object> valueFromMetaData)
-            : base(name, dbType, size)
-        {
-            _valueFromMetaData = valueFromMetaData;
-        }
-
-        public MetaDataEventParameter(string name, OracleDbType dbType, Func<EventMetaData, object> valueFromMetaData)
-            : this(name, dbType, 0, valueFromMetaData)
-        {
-        }
-
-        protected override object GetValue(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData)
-        {
-            return _valueFromMetaData.Invoke(metaData);
-        }
-    }
-
-    public class DataEventParameter : EventParameter
-    {
-        readonly Func<IEvent, IEnumerable<PropertyInfo>> _getDataProperties;
-        readonly Func<dynamic, string> _serializer;
-
-        public DataEventParameter(Func<IEvent, IEnumerable<PropertyInfo>> getDataProperties, Func<dynamic, string> serializer)
-            : base(EventParameters.DATA, OracleDbType.NClob, 0)
-        {
-            _getDataProperties = getDataProperties;
-            _serializer = serializer;
-        }
-
-        public override OracleParameter BuildParameter(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData, int position)
-        {
-            var value = GetValue(propertiesOnEvent, @event, metaData) as string;
-
-            var param = new OracleParameter(GetFormattedParameterName(position), DbType);
-            param.Size = value.Length;
-            param.Value = value;
-            return param;
-        }
-
-        protected override object GetValue(PropertyInfo[] propertiesOnEvent, IEvent @event, EventMetaData metaData)
-        {
-            return SerializeDataPropertiesToString(_getDataProperties.Invoke(@event), @event);
-        }
-
-        string SerializeDataPropertiesToString(IEnumerable<PropertyInfo> properties, IEvent @event)
-        {
-            var eventData = new ExpandoObject();
-            var dictionary = (IDictionary<string, object>)eventData;
-            foreach (var property in properties)
-            {
-                dictionary[property.Name] = property.GetValue(@event, null);
-            }
-            return _serializer.Invoke(eventData);
-        }
-    }
-
-    public class EventMetaData
-    {
-        public string LogicalName { get; set; }
-        public int Generation { get; set; }
-    }
-
-    public class EventDto
-    {
-        public long Id { get; set; }
-        public Guid CommandContext { get; set; }
-        public string Name { get; set; }
-        public string LogicalName { get; set; }
-        public Guid EventSourceId { get; set; }
-        public string EventSource { get; set; }
-        public int Generation { get; set; }
-        public string Data { get; set; }
-        public string CausedBy { get; set; }
-        public string Origin { get; set; }
-        public DateTime Occurred { get; set; }
-        public double Version { get; set; }
-    }
-
-    public class EventParameters : IEventParameters
-    {
-        public const string ID = "ID";
-        public const string COMMANDCONTEXT = "COMMANDCONTEXT";
-        public const string NAME = "NAME";
-        public const string LOGICALNAME = "LOGICALNAME";
-        public const string EVENTSOURCEID = "EVENTSOURCEID";
-        public const string EVENTSOURCE = "EVENTSOURCE";
-        public const string GENERATION = "GENERATION";
-        public const string DATA = "DATA";
-        public const string CAUSEDBY = "CAUSEDBY";
-        public const string ORIGIN = "ORIGIN";
-        public const string OCCURED = "OCCURED";
-        public const string VERSION = "VERSION";
-
-        readonly ISerializer _serializer;
-        readonly IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
-        readonly PropertyInfo[] _eventProperties;
-        readonly Dictionary<Type, PropertyInfo[]> _cachedEventProperties = new Dictionary<Type, PropertyInfo[]>();
-        readonly Dictionary<Type, EventMetaData> _cachedEventMetaData = new Dictionary<Type, EventMetaData>();
-
-        public EventParameters(ISerializer serializer, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
-        {
-            _serializer = serializer;
-            _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
-            _eventProperties = typeof(IEvent).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            Parameters = new[]
-            {
-                new EventParameter(COMMANDCONTEXT,OracleDbType.Raw,16), 
-                new EventParameter(NAME,OracleDbType.NVarchar2,512),
-                new MetaDataEventParameter(LOGICALNAME, OracleDbType.NVarchar2, 512, m => m.LogicalName), 
-                new EventParameter(EVENTSOURCEID,OracleDbType.Raw,16), 
-                new EventParameter(EVENTSOURCE,OracleDbType.NVarchar2,512),
-                new MetaDataEventParameter(GENERATION, OracleDbType.Int32, m => m.Generation),
-                new DataEventParameter(GetDataProperties, d => _serializer.ToJson(d,null)), 
-                new EventParameter(CAUSEDBY,OracleDbType.NVarchar2,512), 
-                new EventParameter(ORIGIN,OracleDbType.NVarchar2,512), 
-                new EventParameter(OCCURED,OracleDbType.Date),
-                new EventParameter(VERSION,OracleDbType.Double), 
-                new IdEventParameter()
-            };
-        }
-
-        public EventParameter[] Parameters { get; private set; }
-
-        IEnumerable<PropertyInfo> GetDataProperties(IEvent @event)
-        {
-            var eventType = @event.GetType();
-            if (!_cachedEventProperties.Keys.Contains(eventType))
-            {
-                _cachedEventProperties.Add(eventType,
-                                           eventType.GetProperties(BindingFlags.Public | BindingFlags.Instance |
-                                                                   BindingFlags.DeclaredOnly));
-            }
-
-            return _cachedEventProperties[eventType];
-        }
-
-        public EventMetaData GetMetaDataFor(IEvent @event)
-        {
-            var eventType = @event.GetType();
-            if (!_cachedEventMetaData.Keys.Contains(eventType))
-            {
-                var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
-                var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
-                var name = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
-                _cachedEventMetaData.Add(eventType, new EventMetaData { Generation = migrationLevel, LogicalName = name });
-            }
-
-            return _cachedEventMetaData[eventType];
-        }
-
-        public IEnumerable<OracleParameter> BuildFromEvent(int position, IEvent @event)
-        {
-            return Parameters.Select(parameter => parameter.BuildParameter(_eventProperties, @event, GetMetaDataFor(@event), position));
-        }
-    }
-
-    public interface IEventParameters
-    {
-        EventParameter[] Parameters { get; }
-        EventMetaData GetMetaDataFor(IEvent @event);
-        IEnumerable<OracleParameter> BuildFromEvent(int position, IEvent @event);
-    }
-
-    public class EventStoreConfiguration
-    {
-        public OracleConnection Connection { get; set; }
     }
 }
