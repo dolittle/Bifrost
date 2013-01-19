@@ -19,31 +19,33 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Commands;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a <see cref="ISecurityDescriptor"/>
+    /// Provides a set of extensions for building rules
     /// </summary>
-    public class SecurityDescriptor : ISecurityDescriptor
+    public static class SecurityRuleBuilderExtensions
     {
-#pragma warning disable 1591 // Xml Comments
-
-        public ISecurityDescriptorBuilder When { get; private set; }
-
-#pragma warning restore 1591 // Xml Comments
-    }
-
-    /*
-    public class MyDescriptor : SecurityDescriptor
-    {
-        public MyDescriptor()
+        /// <summary>
+        /// Specifies in a specific namespace
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="namespace"></param>
+        /// <returns></returns>
+        public static ISecurableBuilder InNamespace(this ISecurityRuleBuilder builder, string @namespace)
         {
-
-            When.Handling().Commands().InNamespace("asdasd").User().MustBeInRole("asdasd");
-                
+            return null;
         }
-    }*/
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="securityRuleBuilder"></param>
+        /// <returns></returns>
+        public static ISecurityObject User(this ISecurableBuilder securityRuleBuilder)
+        {
+            return null;
+        }
+    }
 }

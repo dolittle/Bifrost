@@ -20,30 +20,22 @@
 //
 #endregion
 using System;
-using Bifrost.Commands;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a <see cref="ISecurityDescriptor"/>
+    /// Represents an implementation of <see cref="ISecurityContext"/>
     /// </summary>
-    public class SecurityDescriptor : ISecurityDescriptor
+    public class SecurityContext : ISecurityContext
     {
 #pragma warning disable 1591 // Xml Comments
-
-        public ISecurityDescriptorBuilder When { get; private set; }
-
+        public ISecurityProvider SecurityProvider
+        {
+            get { throw new NotImplementedException(); }
+        }
 #pragma warning restore 1591 // Xml Comments
     }
-
-    /*
-    public class MyDescriptor : SecurityDescriptor
-    {
-        public MyDescriptor()
-        {
-
-            When.Handling().Commands().InNamespace("asdasd").User().MustBeInRole("asdasd");
-                
-        }
-    }*/
 }

@@ -28,8 +28,8 @@ namespace Bifrost.Security
     public interface ISecurityContext
     {
         /// <summary>
-        /// Gets the user 
+        /// Gets the <see cref="ISecurityProvider"/> for the <see cref="ISecurityContext"/>
         /// </summary>
-        ISecurityObject User { get; }
+        ISecurityProvider SecurityProvider { get; }
     }
 }

@@ -19,8 +19,6 @@
 // limitations under the License.
 //
 #endregion
-using System;
-
 namespace Bifrost.Security
 {
     /// <summary>
@@ -36,6 +34,7 @@ namespace Bifrost.Security
         /// <returns><see cref="ISecurityObject"/> to continue the chain with</returns>
         public static ISecurityObject MustBeInRole(this ISecurityObject securityObject, string role)
         {
+            securityObject.AddRule(new RoleRule(role));
             return securityObject;
         }
 
@@ -47,17 +46,7 @@ namespace Bifrost.Security
         /// <returns><see cref="ISecurityObject"/> to continue the chain with</returns>
         public static ISecurityObject MustBeInRoles(this ISecurityObject securityObject, params string[] roles)
         {
-            return securityObject;
-        }
-
-        /// <summary>
-        /// Declares that the <see cref="ISecurityObject"/> must satisfy a certain condition that is specified by a callback
-        /// </summary>
-        /// <param name="securityObject"><see cref="ISecurityObject"/> to declare it for</param>
-        /// <param name="func">The callback that gets called</param>
-        /// <returns><see cref="ISecurityObject"/> to continue the chain with</returns>
-        public static ISecurityObject MustSatisfy(this ISecurityObject securityObject, Func<ISecurityObject, bool> func)
-        {
+            foreach (var role in roles) securityObject.AddRule(new RoleRule(role));
             return securityObject;
         }
     }

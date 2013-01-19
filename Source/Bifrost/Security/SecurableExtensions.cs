@@ -33,7 +33,7 @@ namespace Bifrost.Security
         /// </summary>
         /// <param name="securable">The <see cref="ISecurable"/> that is being secured</param>
         /// <returns>A new <see cref="ISecurityContext"/></returns>
-        public static ISecurityContext When(this ISecurable securable)
+        public static ISecurityRuleBuilder When(this ISecurable securable)
         {
             throw new NotImplementedException();
         }

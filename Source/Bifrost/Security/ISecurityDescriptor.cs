@@ -29,31 +29,8 @@ namespace Bifrost.Security
     public interface ISecurityDescriptor
     {
         /// <summary>
-        /// Define security for a specific namespace
+        /// Get the entry point for builidng a <see cref="ISecurityDescriptor"/>
         /// </summary>
-        /// <param name="namespace">Namespace to define for</param>
-        /// <returns>The <see cref="ISecurable"/> representing the namespace</returns>
-        ISecurable ForNamespace(string @namespace);
-
-        /// <summary>
-        /// Define security for the namespace of a given type
-        /// </summary>
-        /// <typeparam name="T">Type that represents the namespace</typeparam>
-        /// <returns>The <see cref="ISecurable"/> representing the namespace</returns>
-        ISecurable ForNamespaceOf<T>();
-
-        /// <summary>
-        /// Define security for a specific type
-        /// </summary>
-        /// <typeparam name="T">Type to define for</typeparam>
-        /// <returns>The <see cref="ISecurable"/> representing the type</returns>
-        ISecurable For<T>();
-
-        /// <summary>
-        /// Define security for a specific type
-        /// </summary>
-        /// <param name="type">Type to define for</param>
-        /// <returns>The <see cref="ISecurable"/> representing the type</returns>
-        ISecurable For(Type type);
+        ISecurityDescriptorBuilder When { get; }
     }
 }

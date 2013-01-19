@@ -23,9 +23,9 @@
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines the role provider for security
+    /// Defines the builder for building a <see cref="ISecurityDescriptor"/>
     /// </summary>
-    public interface ISecurityRoleProvider
+    public interface ISecurityDescriptorBuilder
     {
     }
 }

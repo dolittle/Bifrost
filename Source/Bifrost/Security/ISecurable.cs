@@ -28,9 +28,5 @@ namespace Bifrost.Security
     /// </summary>
     public interface ISecurable
     {
-        /// <summary>
-        /// Gets the User
-        /// </summary>
-        ISecurityObject User { get; }
     }
 }

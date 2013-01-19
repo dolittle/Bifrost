@@ -20,30 +20,33 @@
 //
 #endregion
 using System;
-using Bifrost.Commands;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a <see cref="ISecurityDescriptor"/>
+    /// Represents a specific <see cref="ISecurityRule"/> for roles
     /// </summary>
-    public class SecurityDescriptor : ISecurityDescriptor
+    public class RoleRule : ISecurityRule
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="RoleRule"/>
+        /// </summary>
+        /// <param name="role"></param>
+        public RoleRule(string role)
+        {
+            Role = role;
+        }
+
+        /// <summary>
+        /// Gets the role for the rule
+        /// </summary>
+        public string Role { get; private set; }
+
 #pragma warning disable 1591 // Xml Comments
-
-        public ISecurityDescriptorBuilder When { get; private set; }
-
+        public bool HasAccess(object securable)
+        {
+            throw new NotImplementedException();
+        }
 #pragma warning restore 1591 // Xml Comments
     }
-
-    /*
-    public class MyDescriptor : SecurityDescriptor
-    {
-        public MyDescriptor()
-        {
-
-            When.Handling().Commands().InNamespace("asdasd").User().MustBeInRole("asdasd");
-                
-        }
-    }*/
 }
