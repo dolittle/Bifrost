@@ -19,12 +19,34 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
+
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a concrete <see cref="SecurityObject"/> for a user
+    /// Represents an implementation of <see cref="ISecurityActor"/>
     /// </summary>
-    public class UserSecurityObject : SecurityObject
+    public class SecurityActor : ISecurityActor
     {
+        List<ISecurityRule> _rules = new List<ISecurityRule>();
+
+#pragma warning disable 1591 // Xml Comments
+        public void AddRule(ISecurityRule rule)
+        {
+            _rules.Add(rule);
+        }
+
+        public IEnumerable<ISecurityRule> Rules { get { return _rules; } }
+
+        public bool HasAccess(object securable)
+        {
+            if (_rules.Count == 0) return true;
+
+            foreach (var rule in _rules)
+                if (!rule.HasAccess(securable)) return false;
+
+            return false;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

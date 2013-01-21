@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
@@ -28,5 +29,15 @@ namespace Bifrost.Security
     /// </summary>
     public interface ISecurable
     {
+        /// <summary>
+        /// Add a <see cref="ISecurityActor"/> as context for rules
+        /// </summary>
+        /// <param name="securityObject">The <see cref="ISecurityActor"/> providing context for the rule</param>
+        void AddActor(ISecurityActor securityObject);
+
+        /// <summary>
+        /// Gets a collection of <see cref="ISecurityActor">security objects</see>
+        /// </summary>
+        IEnumerable<ISecurityActor> Actors { get; }
     }
 }

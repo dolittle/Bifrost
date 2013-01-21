@@ -19,15 +19,26 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
 namespace Bifrost.Security
 {
     /// <summary>
     /// Represents an implementation <see cref="ISecurable"/>
     /// </summary>
-    public abstract class Securable : ISecurable
+    public class Securable : ISecurable
     {
+        List<ISecurityActor> _actors = new List<ISecurityActor>();
+
 #pragma warning disable 1591 // Xml Comments
-        public ISecurityObject User { get; set; }
+        public ISecurityActor User { get; set; }
+
+        public void AddActor(ISecurityActor actor)
+        {
+            _actors.Add(actor);
+        }
+
+        public IEnumerable<ISecurityActor> Actors { get { return _actors;  } }
 #pragma warning restore 1591 // Xml Comments
+
     }
 }

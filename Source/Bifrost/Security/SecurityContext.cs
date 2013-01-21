@@ -31,11 +31,5 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityContext : ISecurityContext
     {
-#pragma warning disable 1591 // Xml Comments
-        public ISecurityProvider SecurityProvider
-        {
-            get { throw new NotImplementedException(); }
-        }
-#pragma warning restore 1591 // Xml Comments
     }
 }

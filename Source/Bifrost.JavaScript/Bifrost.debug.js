@@ -718,8 +718,6 @@ Bifrost.namespace("Bifrost", {
                             }
                         }
 
-                        print("Instances : "+dependencyInstances.something);
-
                         var instance = self.create(dependencyInstances);
                         promise.signal(instance);
                     });

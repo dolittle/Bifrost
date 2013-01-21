@@ -24,7 +24,11 @@ namespace Bifrost.Security
     /// <summary>
     /// Defines a builder for building <see cref="ISecurityAction"/>
     /// </summary>
-    public interface ISecurityActionBuilder
+    public interface ISecurityActionBuilder<T> where T:ISecurityAction
     {
+        /// <summary>
+        /// Gets tje action the builder is working on
+        /// </summary>
+        T Action { get; }
     }
 }

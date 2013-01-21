@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
 namespace Bifrost.Security
 {
     /// <summary>
@@ -27,15 +26,19 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityDescriptorBuilder : ISecurityDescriptorBuilder
     {
-        List<ISecurityActionBuilder> _actionBuilders = new List<ISecurityActionBuilder>();
-
-#pragma warning disable 1591 // Xml Comments
-        public void AddActionBuilder(ISecurityActionBuilder securityActionBuilder)
+        /// <summary>
+        /// Initializes a new instance of <see cref="SecurityDescriptorBuilder"/>
+        /// </summary>
+        /// <param name="securityDescriptor">The <see cref="ISecurityDescriptor"/> we are building</param>
+        public SecurityDescriptorBuilder(ISecurityDescriptor securityDescriptor)
         {
-            _actionBuilders.Add(securityActionBuilder);
         }
 
-        public IEnumerable<ISecurityActionBuilder> Actions { get { return _actionBuilders;  } }
+#pragma warning disable 1591 // Xml Comments
+        public ISecurityDescriptor Descriptor
+        {
+            get { throw new System.NotImplementedException(); }
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

@@ -19,13 +19,14 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Security;
 
-namespace Bifrost.Security
+namespace Bifrost.Commands
 {
     /// <summary>
-    /// Defines a security context
+    /// Represents a <see cref="ISecurityAction"/> for handling <see cref="ICommand">commands</see>
     /// </summary>
-    public interface ISecurityContext
+    public class HandleCommand : SecurityAction
     {
     }
 }

@@ -29,14 +29,8 @@ namespace Bifrost.Security
     public interface ISecurityDescriptorBuilder
     {
         /// <summary>
-        /// Add a <see cref="ISecurityActionBuilder"/> to the <see cref="ISecurityDescriptorBuilder"/>
+        /// Gets the <see cref="ISecurityDescriptor"/> that is used by the builder
         /// </summary>
-        /// <param name="securityActionBuilder"></param>
-        void AddActionBuilder(ISecurityActionBuilder securityActionBuilder);
-
-        /// <summary>
-        /// Get the <see cref="ISecurityActionBuilder">action builders</see>
-        /// </summary>
-        IEnumerable<ISecurityActionBuilder> Actions { get; }
+        ISecurityDescriptor Descriptor { get; }
     }
 }

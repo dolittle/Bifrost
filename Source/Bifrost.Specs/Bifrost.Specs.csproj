@@ -107,6 +107,10 @@
     <Compile Include="Commands\for_CommandResult\when_having_an_exception_without_validation_results.cs" />
     <Compile Include="Commands\for_CommandResult\when_having_no_validation_results_and_no_exception.cs" />
     <Compile Include="Commands\for_CommandResult\when_merging_with_another_command_result.cs" />
+    <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_a_specific_command_type.cs" />
+    <Compile Include="Commands\for_CommandSecurityExtensions\when_handling.cs" />
+    <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_namespace.cs" />
+    <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_asking_if_command_can_be_handled.cs" />
     <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory.cs" />
@@ -330,17 +334,16 @@
     <Compile Include="Sagas\for_Saga\when_getting_chapter_by_type_and_it_is_not_in_saga.cs" />
     <Compile Include="Sagas\for_Saga\when_loading_events_and_saga_has_events_from_multiple_aggregatedroots.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter.cs" />
-    <Compile Include="Security\for_SecurityDescriptorBuilder\when_adding_a_security_action_builder.cs" />
+    <Compile Include="Security\for_SecurableBuilderExtensions\when_specifying_user.cs" />
+    <Compile Include="Security\for_Securable\when_adding_a_security_actor.cs" />
+    <Compile Include="Security\for_SecurityAction\when_adding_a_target.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_adding_an_action.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_configuring.cs" />
     <Compile Include="Security\for_SecurityManager\given\a_security_manager.cs" />
     <Compile Include="Security\for_SecurityManager\when_asking_for_securable_having_access_without_any_security_descriptors.cs" />
-    <Compile Include="Security\for_SecurityObjectExtensions\when_object_must_be_in_two_roles.cs" />
-    <Compile Include="Security\for_SecurityObjectExtensions\given\a_fresh_security_object.cs" />
-    <Compile Include="Security\for_SecurityObjectExtensions\when_object_must_be_in_role.cs" />
-    <Compile Include="Security\for_SecurityObject\SecurityRule.cs" />
-    <Compile Include="Security\for_SecurityObject\when_asking_if_has_access_with_two_rules_and_second_returns_false.cs" />
-    <Compile Include="Security\for_SecurityObject\when_asking_if_has_access_with_one_rule_that_returns_false.cs" />
-    <Compile Include="Security\for_SecurityObject\when_asking_if_has_access_without_any_rules.cs" />
+    <Compile Include="Security\for_SecurityTarget\when_adding_a_securable.cs" />
+    <Compile Include="Security\for_UserSecurityActorExtensions\when_user_must_be_in_multiple_roles.cs" />
+    <Compile Include="Security\for_UserSecurityActorExtensions\when_user_must_be_in_role.cs" />
     <Compile Include="Tasks\for_TaskManager\when_starting_and_it_gets_done.cs" />
     <Compile Include="Tasks\for_TaskManager\when_progress_is_made_on_started_task.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_deleting_task_by_id.cs" />
@@ -515,6 +518,9 @@
   <ItemGroup>
     <Folder Include="Commands\for_DynamicCommand\" />
     <Folder Include="Globalization\for_Localizer\given\" />
+    <Folder Include="Security\for_SecurityActorExtensions\" />
+    <Folder Include="Security\for_SecurityActor\" />
+    <Folder Include="Security\for_SecurityDescriptorBuilder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

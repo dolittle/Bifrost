@@ -19,32 +19,25 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ISecurityObject"/>
+    /// Represents a base class for any <see cref="ISecurableBuilder"/>
     /// </summary>
-    public class SecurityObject : ISecurityObject
+    public class SecurableBuilder<T> : ISecurableBuilder<T> where T:ISecurable
     {
-        List<ISecurityRule> _rules = new List<ISecurityRule>();
-
-#pragma warning disable 1591 // Xml Comments
-        public void AddRule(ISecurityRule rule)
+        /// <summary>
+        /// Initializes a new instance of <see cref="SecurableBuilder{T}"/>
+        /// </summary>
+        /// <param name="securable"><see cref="ISecurable"/> that will be built</param>
+        public SecurableBuilder(T securable)
         {
-            _rules.Add(rule);
+            Securable = securable;
         }
 
-        public bool HasAccess(object securable)
-        {
-            if (_rules.Count == 0) return true;
-
-            foreach (var rule in _rules)
-                if (!rule.HasAccess(securable)) return false;
-
-            return false;
-        }
-#pragma warning restore 1591 // Xml Comments
+#pragma warning disable 1591
+        public T Securable { get; private set; }
+#pragma warning restore 1591
     }
 }

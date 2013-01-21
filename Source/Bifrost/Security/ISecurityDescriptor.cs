@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
@@ -32,5 +33,17 @@ namespace Bifrost.Security
         /// Get the entry point for builidng a <see cref="ISecurityDescriptor"/>
         /// </summary>
         ISecurityDescriptorBuilder When { get; }
+
+
+        /// <summary>
+        /// Add a <see cref="ISecurityAction"/> to the <see cref="ISecurityDescriptor"/>
+        /// </summary>
+        /// <param name="securityAction"><see cref="ISecurityAction"/> to add</param>
+        void AddAction(ISecurityAction securityAction);
+
+        /// <summary>
+        /// Get the <see cref="ISecurityAction">action builders</see>
+        /// </summary>
+        IEnumerable<ISecurityAction> Actions { get; }
     }
 }

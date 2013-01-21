@@ -19,23 +19,24 @@
 // limitations under the License.
 //
 #endregion
-using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Extensions for <see cref="ISecurable"/>
+    /// Defines an action that is subject to security
     /// </summary>
-    public static class SecurableExtensions
+    public interface ISecurityAction
     {
         /// <summary>
-        /// Adds a when clause in the form of a <see cref="ISecurityContext">context</see>
+        /// Add a <see cref="ISecurityTarget"/> 
         /// </summary>
-        /// <param name="securable">The <see cref="ISecurable"/> that is being secured</param>
-        /// <returns>A new <see cref="ISecurityContext"/></returns>
-        public static ISecurityRuleBuilder When(this ISecurable securable)
-        {
-            throw new NotImplementedException();
-        }
+        /// <param name="securityTarget"><see cref="ISecurityTarget"/> to add</param>
+        void AddTarget(ISecurityTarget securityTarget);
+
+        /// <summary>
+        /// Get all <see cref="ISecurityTargets">security targets</see>
+        /// </summary>
+        IEnumerable<ISecurityTarget> Targets { get; }
     }
 }

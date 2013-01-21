@@ -19,38 +19,20 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Commands;
-using System.Collections.Generic;
-
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a <see cref="ISecurityDescriptor"/>
+    /// Represents a builder for building <see cref="TypeSecurable"/>
     /// </summary>
-    public class SecurityDescriptor : ISecurityDescriptor
+    public class TypeSecurableBuilder : SecurableBuilder<TypeSecurable>
     {
-        List<ISecurityAction> _actions = new List<ISecurityAction>();
-
         /// <summary>
-        /// Initializes a new instance of <see cref="SecurityDescriptor"/>
+        /// Initializes a new instance of <see cref="TypeSecurableBuilder"/>
         /// </summary>
-        public SecurityDescriptor()
+        /// <param name="securable"><see cref="TypeSecurable"/> that it will build</param>
+        public TypeSecurableBuilder(TypeSecurable securable)
+            : base(securable)
         {
-            When = new SecurityDescriptorBuilder(this);
         }
-
-
-#pragma warning disable 1591 // Xml Comments
-
-        public ISecurityDescriptorBuilder When { get; private set; }
-
-        public void AddAction(ISecurityAction securityAction)
-        {
-            _actions.Add(securityAction);
-        }
-
-        public IEnumerable<ISecurityAction> Actions { get { return _actions; } }
-#pragma warning restore 1591 // Xml Comments
     }
 }

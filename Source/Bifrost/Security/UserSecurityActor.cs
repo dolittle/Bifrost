@@ -19,13 +19,19 @@
 // limitations under the License.
 //
 #endregion
+using System.Security.Principal;
+using System.Threading;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines the role provider for security
+    /// Represents a concrete <see cref="SecurityActor"/> for a user
     /// </summary>
-    public interface ISecurityProvider
+    public class UserSecurityActor : SecurityActor
     {
+        /// <summary>
+        /// Gets the current identity for the actor
+        /// </summary>
+        public IIdentity Identity { get { return Thread.CurrentPrincipal.Identity; } }
     }
 }

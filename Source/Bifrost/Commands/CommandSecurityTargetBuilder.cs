@@ -19,13 +19,21 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Security;
 
-namespace Bifrost.Security
+namespace Bifrost.Commands
 {
     /// <summary>
-    /// Defines a security context
+    /// Represents a <see cref="ISecurityBuilder"/> for building security for <see cref="ICommand">commands</see>
     /// </summary>
-    public interface ISecurityContext
+    public class CommandSecurityTargetBuilder : SecurityTargetBuilder<CommandSecurityTarget>
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandSecurityTargetBuilder"/>
+        /// </summary>
+        /// <param name="target">The <see cref="CommandSecurityTarget"/> we are building</param>
+        public CommandSecurityTargetBuilder(CommandSecurityTarget target) : base(target)
+        {
+        }
     }
 }

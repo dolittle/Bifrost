@@ -19,33 +19,14 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Security;
 
-namespace Bifrost.Security
+namespace Bifrost.Commands
 {
     /// <summary>
-    /// Provides a set of extensions for building rules
+    /// Represents a specific <see cref="ISecurityTarget"/> for <see cref="ICommand">commands</see>
     /// </summary>
-    public static class SecurityRuleBuilderExtensions
+    public class CommandSecurityTarget : SecurityTarget
     {
-        /// <summary>
-        /// Specifies in a specific namespace
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="namespace"></param>
-        /// <returns></returns>
-        public static ISecurableBuilder InNamespace(this ISecurityRuleBuilder builder, string @namespace)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="securityRuleBuilder"></param>
-        /// <returns></returns>
-        public static ISecurityObject User(this ISecurableBuilder securityRuleBuilder)
-        {
-            return null;
-        }
     }
 }

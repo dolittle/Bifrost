@@ -25,7 +25,11 @@ namespace Bifrost.Security
     /// <summary>
     /// Defines the builder for building a <see cref="ISecurable"/> for a <see cref="ISecurityDescriptor"/>
     /// </summary>
-    public interface ISecurableBuilder
+    public interface ISecurableBuilder<T> where T:ISecurable
     {
+        /// <summary>
+        /// Gets the <see cref="ISecurable"/> being built
+        /// </summary>
+        T Securable { get; }
     }
 }
