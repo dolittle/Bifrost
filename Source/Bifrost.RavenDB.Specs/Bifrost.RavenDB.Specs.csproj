@@ -31,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\Solutions\packages\RavenDB.Client.1.0.971\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +49,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_long.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_string.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_guid.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_long_to_json.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_string_to_json.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_string.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_long.cs" />
+    <Compile Include="for_ConceptTypeConverter\given\a_concept_type_converter.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_guid.cs" />
+    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_guid_to_json.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
+      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
+      <Name>Bifrost.JSON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
+      <Project>{CB331526-55BF-4887-A0D8-EE721B7FCDD7}</Project>
+      <Name>Bifrost.RavenDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

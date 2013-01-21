@@ -60,6 +60,8 @@ namespace Bifrost.RavenDB
             {
                 s.Converters.Add(new MethodInfoConverter());
             };
+
+            DocumentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
         }
     }
 }
