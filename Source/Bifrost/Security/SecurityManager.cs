@@ -42,7 +42,7 @@ namespace Bifrost.Security
 
 
 #pragma warning disable 1591 // Xml Comments
-        public bool HasAccess(object securable)
+        public bool IsAllowed<T>(object target) where T : ISecurityAction
         {
             return true;
         }

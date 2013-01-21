@@ -58,8 +58,6 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\CommandSecurityTarget.cs" />
-    <Compile Include="Commands\HandleCommandSecurityActionBuilder.cs" />
-    <Compile Include="Commands\CommandSecurityTargetBuilder.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
     <Compile Include="Commands\DynamicCommand.cs" />
@@ -125,10 +123,7 @@
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
-    <Compile Include="Security\ISecurableBuilder.cs" />
     <Compile Include="Security\ISecurityAction.cs" />
-    <Compile Include="Security\ISecurityActionBuilder.cs" />
-    <Compile Include="Security\ISecurityActorBuilder.cs" />
     <Compile Include="Security\ISecurityCondition.cs" />
     <Compile Include="Security\ISecurityContext.cs" />
     <Compile Include="Security\ISecurityDescriptor.cs" />
@@ -139,15 +134,11 @@
     <Compile Include="Security\ISecurityRule.cs" />
     <Compile Include="Security\ISecurityRuleBuilder.cs" />
     <Compile Include="Security\ISecurityTarget.cs" />
-    <Compile Include="Security\ISecurityTargetBuilder.cs" />
     <Compile Include="Security\NamespaceSecurable.cs" />
-    <Compile Include="Security\NamespaceSecurableBuilder.cs" />
     <Compile Include="Security\RoleRule.cs" />
     <Compile Include="Security\Securable.cs" />
-    <Compile Include="Security\SecurableBuilder.cs" />
-    <Compile Include="Security\SecurableBuilderExtensions.cs" />
+    <Compile Include="Security\SecurableExtensions.cs" />
     <Compile Include="Security\SecurityAction.cs" />
-    <Compile Include="Security\SecurityActionBuilder.cs" />
     <Compile Include="Security\SecurityContext.cs" />
     <Compile Include="Security\SecurityContextExtensions.cs" />
     <Compile Include="Security\SecurityDescriptor.cs" />
@@ -155,9 +146,7 @@
     <Compile Include="Security\SecurityManager.cs" />
     <Compile Include="Security\SecurityActor.cs" />
     <Compile Include="Security\SecurityTarget.cs" />
-    <Compile Include="Security\SecurityTargetBuilder.cs" />
     <Compile Include="Security\TypeSecurable.cs" />
-    <Compile Include="Security\TypeSecurableBuilder.cs" />
     <Compile Include="Security\UserSecurityActor.cs" />
     <Compile Include="Security\UserSecurityActorExtensions.cs" />
     <Compile Include="Serialization\SerializationOptions.cs" />

@@ -1,4 +1,5 @@
 ﻿using Machine.Specifications;
+using Bifrost.Commands;
 
 namespace Bifrost.Specs.Security.for_SecurityManager
 {
@@ -8,7 +9,7 @@ namespace Bifrost.Specs.Security.for_SecurityManager
 
         static bool result;
 
-        Because of = () => result = security_manager.HasAccess(securable);
+        Because of = () => result = security_manager.IsAllowed<HandleCommand>(securable);
 
         It should_return_true = () => result.ShouldBeTrue();
     }

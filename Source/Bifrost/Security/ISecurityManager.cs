@@ -30,12 +30,12 @@ namespace Bifrost.Security
         /// <summary>
         /// Ask if a <see cref="ISecurable"/> has access
         /// </summary>
-        /// <param name="securable">Object that is subject of security</param>
-        /// <returns>True if access is granted for the <see cref="ISecurable"/>, false if not</returns>
+        /// <param name="target">Object that is subject of security</param>
+        /// <returns>True if allowed, false if not</returns>
         /// <remarks>
         /// <see cref="ISecurable"/> is a concept used when describing security, not an interface
         /// a securable item needs to implement
         /// </remarks>
-        bool HasAccess(object securable);
+        bool IsAllowed<T>(object target) where T : ISecurityAction;
     }
 }

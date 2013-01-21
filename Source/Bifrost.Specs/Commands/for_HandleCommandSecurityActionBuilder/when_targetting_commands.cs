@@ -7,18 +7,13 @@ namespace Bifrost.Specs.Commands.for_HandleCommandSecurityActionBuilder
     public class when_targetting_commands
     {
         static HandleCommand action;
-        static HandleCommandSecurityActionBuilder action_builder;
-        static CommandSecurityTargetBuilder target_builder;
+        static CommandSecurityTarget target;
 
-        Establish context = () => 
-        {
-            action = new HandleCommand();
-            action_builder = new HandleCommandSecurityActionBuilder(action);
-        };
+        Establish context = () => action = new HandleCommand();
 
-        Because of = () => target_builder = action_builder.Commands();
+        Because of = () => target = action.Commands();
 
-        It should_return_a_command_security_target_builder = () => target_builder.ShouldNotBeNull();
+        It should_return_a_command_security_target_builder = () => target.ShouldNotBeNull();
         It should_add_a_command_security_target = () => action.Targets.First().ShouldBeOfType<CommandSecurityTarget>();
     }
 }

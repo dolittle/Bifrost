@@ -30,48 +30,56 @@ namespace Bifrost.Commands
     public static class CommandSecurityExtensions
     {
         /// <summary>
-        /// Add a <see cref="HandleCommandSecurityActionBuilder"/> to describe the handling of <see cref="ICommand">commands</see>
+        /// Add a <see cref="HandleCommandSecurityAction"/> to describe the handling of <see cref="ICommand">commands</see>
         /// </summary>
         /// <param name="descriptorBuilder"><see cref="ISecurityDescriptorBuilder"/> to extend</param>
-        /// <returns><see cref="HandleCommandSecurityActionBuilder"/> for describing the action</returns>
-        public static HandleCommandSecurityActionBuilder Handling(this ISecurityDescriptorBuilder descriptorBuilder)
+        /// <returns><see cref="HandleCommandSecurityAction"/> for describing the action</returns>
+        public static HandleCommand Handling(this ISecurityDescriptorBuilder descriptorBuilder)
         {
             var action = new HandleCommand();
-            var actionBuilder = new HandleCommandSecurityActionBuilder(action);
             descriptorBuilder.Descriptor.AddAction(action);
-            return actionBuilder;
+            return action;
         }
 
         /// <summary>
-        /// Add a <see cref="NamespaceSecurable"/> to the <see cref="CommandSecurityTargetBuilder"/> for a given namespace
+        /// Add a <see cref="CommandSecurable"/> to the <see cref="HandleCommandSecurityAction"/>
         /// </summary>
-        /// <param name="securityTargetBuilder"><see cref="CommandSecurityTargetBuilder"/> to add to</param>
+        /// <returns><see cref="CommandSecurable"/></returns>
+        public static CommandSecurityTarget Commands(this HandleCommand action)
+        {
+            var target = new CommandSecurityTarget();
+            action.AddTarget(target);
+            return target;
+        }
+
+        /// <summary>
+        /// Add a <see cref="NamespaceSecurable"/> to the <see cref="CommandSecurityTarget"/> for a given namespace
+        /// </summary>
+        /// <param name="target"><see cref="CommandSecurityTarget"/> to add to</param>
         /// <param name="namespace">Namespace to secure</param>
         /// <param name="continueWith">Callback for continuing the fluent interface</param>
         /// <returns><see cref="NamespaceSecurable"/> for the specific namespace</returns>
-        public static CommandSecurityTargetBuilder InNamespace(this CommandSecurityTargetBuilder securityTargetBuilder, string @namespace, Action<NamespaceSecurableBuilder> continueWith)
+        public static CommandSecurityTarget InNamespace(this CommandSecurityTarget target, string @namespace, Action<NamespaceSecurable> continueWith)
         {
             var securable = new NamespaceSecurable(@namespace);
-            var securableBuilder = new NamespaceSecurableBuilder(securable);
-            securityTargetBuilder.Target.AddSecurable(securable);
-            continueWith(securableBuilder);
-            return securityTargetBuilder;
+            target.AddSecurable(securable);
+            continueWith(securable);
+            return target;
         }
 
         /// <summary>
-        /// Add a <see cref="TypeSecurable"/> to the <see cref="CommandSecurityTargetBuilder"/> for a given type
+        /// Add a <see cref="TypeSecurable"/> to the <see cref="CommandSecurityTarget"/> for a given type
         /// </summary>
         /// <typeparam name="T">Type of <see cref="ICommand"/> to secure</typeparam>
-        /// <param name="securityTargetBuilder"><see cref="CommandSecurityTargetBuilder"/> to add to</param>
+        /// <param name="target"><see cref="CommandSecurityTarget"/> to add to</param>
         /// <param name="continueWith">Callback for continuing the fluent interface</param>
         /// <returns><see cref="TypeSecurable"/> for the specific type</returns>
-        public static CommandSecurityTargetBuilder InstanceOf<T>(this CommandSecurityTargetBuilder securityTargetBuilder, Action<TypeSecurableBuilder> continueWith) where T : ICommand
+        public static CommandSecurityTarget InstanceOf<T>(this CommandSecurityTarget target, Action<TypeSecurable> continueWith) where T : ICommand
         {
             var securable = new TypeSecurable(typeof(T));
-            var securableBuilder = new TypeSecurableBuilder(securable);
-            securityTargetBuilder.Target.AddSecurable(securable);
-            continueWith(securableBuilder);
-            return securityTargetBuilder;
+            target.AddSecurable(securable);
+            continueWith(securable);
+            return target;
         }
     }
 }

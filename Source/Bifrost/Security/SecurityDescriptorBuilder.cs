@@ -29,16 +29,14 @@ namespace Bifrost.Security
         /// <summary>
         /// Initializes a new instance of <see cref="SecurityDescriptorBuilder"/>
         /// </summary>
-        /// <param name="securityDescriptor">The <see cref="ISecurityDescriptor"/> we are building</param>
-        public SecurityDescriptorBuilder(ISecurityDescriptor securityDescriptor)
+        /// <param name="descriptor">The <see cref="ISecurityDescriptor"/> we are building</param>
+        public SecurityDescriptorBuilder(ISecurityDescriptor descriptor)
         {
+            Descriptor = descriptor;
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ISecurityDescriptor Descriptor
-        {
-            get { throw new System.NotImplementedException(); }
-        }
+        public ISecurityDescriptor Descriptor { get; private set; } 
 #pragma warning restore 1591 // Xml Comments
     }
 }

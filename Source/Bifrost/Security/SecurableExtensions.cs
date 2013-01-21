@@ -19,25 +19,25 @@
 // limitations under the License.
 //
 #endregion
+using System;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a base class for any <see cref="ISecurableBuilder"/>
+    /// Extensions for <see cref="ISecurable"/>
     /// </summary>
-    public class SecurableBuilder<T> : ISecurableBuilder<T> where T:ISecurable
+    public static class SecurableExtensions
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="SecurableBuilder{T}"/>
+        /// Define a user actor for a <see cref="ISecurable">securable</see>
         /// </summary>
-        /// <param name="securable"><see cref="ISecurable"/> that will be built</param>
-        public SecurableBuilder(T securable)
+        /// <param name="securable"><see cref="ISecurable"/> to secure</param>
+        /// <returns>The <see cref="UserSecurityActor"/></returns>
+        public static UserSecurityActor User(this ISecurable securable)
         {
-            Securable = securable;
+            var actor = new UserSecurityActor();
+            securable.AddActor(actor);
+            return actor;
         }
-
-#pragma warning disable 1591
-        public T Securable { get; private set; }
-#pragma warning restore 1591
     }
 }

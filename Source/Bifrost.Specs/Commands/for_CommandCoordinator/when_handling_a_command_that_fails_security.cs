@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         Establish context = () => 
         {
             command = new SimpleCommand();
-            command_security_manager_mock.Setup(c => c.CanHandle(Moq.It.IsAny<ICommand>())).Returns(false);
+            command_security_manager_mock.Setup(c => c.IsAllowedToHandle(Moq.It.IsAny<ICommand>())).Returns(false);
         };
 
         Because of = () => result = coordinator.Handle(command);

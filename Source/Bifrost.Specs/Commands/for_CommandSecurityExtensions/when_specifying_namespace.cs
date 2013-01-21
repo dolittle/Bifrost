@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Machine.Specifications;
 using Bifrost.Commands;
 using Bifrost.Security;
+using Machine.Specifications;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Commands.for_CommandSecurityExtensions
@@ -9,19 +9,14 @@ namespace Bifrost.Specs.Commands.for_CommandSecurityExtensions
     public class when_specifying_namespace
     {
         static CommandSecurityTarget target;
-        static CommandSecurityTargetBuilder builder;
-        static NamespaceSecurableBuilder namespace_builder;
+        static NamespaceSecurable securable;
 
-        Establish context = () =>
-        {
-            target = new CommandSecurityTarget();
-            builder = new CommandSecurityTargetBuilder(target);
-        };
+        Establish context = () => target = new CommandSecurityTarget();
 
-        Because of = () => builder.InNamespace("MyNamespace", n => namespace_builder = n);
+        Because of = () => target.InNamespace("MyNamespace", n => securable = n);
 
-        It should_add_a_namespace_securable = () => builder.Target.Securables.First().ShouldBeOfType<NamespaceSecurable>();
-        It should_set_the_name_of_the_namespace_on_the_securable = () => ((NamespaceSecurable)builder.Target.Securables.First()).Namespace.ShouldEqual("MyNamespace");
-        It should_continue_the_fluent_interface_with_namespace_securable_builder = () => namespace_builder.ShouldNotBeNull();
+        It should_add_a_namespace_securable = () => target.Securables.First().ShouldBeOfType<NamespaceSecurable>();
+        It should_set_the_name_of_the_namespace_on_the_securable = () => ((NamespaceSecurable)target.Securables.First()).Namespace.ShouldEqual("MyNamespace");
+        It should_continue_the_fluent_interface_with_namespace_securable_builder = () => securable.ShouldNotBeNull();
     }
 }
