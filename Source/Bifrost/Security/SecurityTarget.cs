@@ -20,6 +20,7 @@
 //
 #endregion
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Security
 {
@@ -28,7 +29,7 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityTarget : ISecurityTarget
     {
-        List<ISecurable> _securables = new List<ISecurable>();
+        readonly List<ISecurable> _securables = new List<ISecurable>();
 
 #pragma warning disable 1591
         public void AddSecurable(ISecurable securityObject)
@@ -37,6 +38,21 @@ namespace Bifrost.Security
         }
 
         public IEnumerable<ISecurable> Securables { get { return _securables; } }
+
+        public bool CanAuthorize(object actionToAuthorize)
+        {
+            return _securables.Any(s => s.CanAuthorize(actionToAuthorize));
+        }
+
+        public AuthorizeTargetResult Authorize(object actionToAuthorize)
+        {
+            var result = new AuthorizeTargetResult(this);
+            foreach (var securable in Securables)
+            {
+                result.AddAuthorizeSecurableResult(securable.Authorize(actionToAuthorize));
+            }
+            return result;
+        }
 #pragma warning restore 1591
     }
 }

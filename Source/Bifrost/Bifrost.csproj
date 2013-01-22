@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\Bifrost.XML</DocumentationFile>
+    <NoWarn>1584, 1574, 1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -123,6 +124,11 @@
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
+    <Compile Include="Security\AuthorizationResult.cs" />
+    <Compile Include="Security\AuthorizeActionResult.cs" />
+    <Compile Include="Security\AuthorizeActorResult.cs" />
+    <Compile Include="Security\AuthorizeSecurableResult.cs" />
+    <Compile Include="Security\AuthorizeTargetResult.cs" />
     <Compile Include="Security\ISecurityAction.cs" />
     <Compile Include="Security\ISecurityCondition.cs" />
     <Compile Include="Security\ISecurityContext.cs" />
@@ -136,6 +142,7 @@
     <Compile Include="Security\ISecurityTarget.cs" />
     <Compile Include="Security\NamespaceSecurable.cs" />
     <Compile Include="Security\RoleRule.cs" />
+    <Compile Include="Security\RuleEvaluationError.cs" />
     <Compile Include="Security\Securable.cs" />
     <Compile Include="Security\SecurableExtensions.cs" />
     <Compile Include="Security\SecurityAction.cs" />

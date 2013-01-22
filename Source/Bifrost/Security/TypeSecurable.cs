@@ -43,5 +43,9 @@ namespace Bifrost.Security
         /// </summary>
         public Type Type { get; private set; }
 
+        public override bool CanAuthorize(object actionToAuthorize)
+        {
+            return actionToAuthorize!= null && Type == actionToAuthorize.GetType();
+        }
     }
 }

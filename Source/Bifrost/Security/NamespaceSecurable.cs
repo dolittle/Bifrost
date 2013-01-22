@@ -19,6 +19,9 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
+
 namespace Bifrost.Security
 {
     /// <summary>
@@ -39,5 +42,10 @@ namespace Bifrost.Security
         /// Gets the namespace that is secured
         /// </summary>
         public string Namespace { get; private set; }
+
+        public override bool CanAuthorize(object actionToAuthorize)
+        {
+            return actionToAuthorize != null && actionToAuthorize.GetType().Namespace.StartsWith(Namespace, StringComparison.InvariantCulture);
+        }
     }
 }

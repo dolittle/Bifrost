@@ -28,12 +28,16 @@ namespace Bifrost.Security
     /// </summary>
     public class RoleRule : ISecurityRule
     {
+        UserSecurityActor _userToAuthorize;
+
         /// <summary>
         /// Initializes a new instance of <see cref="RoleRule"/>
         /// </summary>
-        /// <param name="role"></param>
-        public RoleRule(string role)
+        /// <param name="userToAuthorize">The <see cref="UserSecurityActor" /> to check the role against.</param>
+        /// <param name="role">The role to check for</param>
+        public RoleRule(UserSecurityActor userToAuthorize, string role)
         {
+            _userToAuthorize = userToAuthorize;
             Role = role;
         }
 
@@ -43,9 +47,9 @@ namespace Bifrost.Security
         public string Role { get; private set; }
 
 #pragma warning disable 1591 // Xml Comments
-        public bool HasAccess(object securable)
+        public bool IsAuthorized(object securable)
         {
-            throw new NotImplementedException();
+            return string.IsNullOrWhiteSpace(Role) || _userToAuthorize.IsInRole(Role);
         }
 #pragma warning restore 1591 // Xml Comments
     }

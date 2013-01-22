@@ -55,6 +55,8 @@
     <Compile Include="Fakes\Commands\AnotherSimpleCommand.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommandBusinessValidator.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommandInputValidator.cs" />
+    <Compile Include="Fakes\Commands\CommandInADifferentNamespace.cs" />
+    <Compile Include="Fakes\Commands\SecurityDescriptor.cs" />
     <Compile Include="Fakes\Commands\SimpleCommand.cs" />
     <Compile Include="Fakes\Commands\SimpleCommandBusinessValidator.cs" />
     <Compile Include="Fakes\Commands\SimpleCommandInputValidator.cs" />

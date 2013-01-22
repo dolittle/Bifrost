@@ -28,10 +28,11 @@ namespace Bifrost.Security
     public interface ISecurityRule
     {
         /// <summary>
-        /// Check if a securable instance has access
+        /// Check if a securable instance is authorized
         /// </summary>
-        /// <param name="securable">The securable instance to check for</param>
+        /// <param name="securable">The securable instance to check</param>
         /// <returns>True if has access, false if not</returns>
-        bool HasAccess(object securable);
+        bool IsAuthorized(object securable);
+
     }
 }

@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Linq;
 using Bifrost.Commands;
 using System.Collections.Generic;
 
@@ -51,6 +52,21 @@ namespace Bifrost.Security
         }
 
         public IEnumerable<ISecurityAction> Actions { get { return _actions; } }
+        
+        public bool CanAuthorize(object instanceToAuthorize)
+        {
+            return _actions.Any(a => a.CanAuthorize(instanceToAuthorize));
+        }
+
+        public AuthorizationResult Authorize(object instanceToAuthorize)
+        {
+            var result = new AuthorizationResult();
+            foreach (var action in Actions)
+            {
+                result.AddAuthorizeActionResult(action.Authorize(instanceToAuthorize));
+            }
+            return result;
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

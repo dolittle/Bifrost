@@ -19,7 +19,7 @@
 // limitations under the License.
 //
 #endregion
-using System;
+
 using System.Collections.Generic;
 
 namespace Bifrost.Security
@@ -34,7 +34,6 @@ namespace Bifrost.Security
         /// </summary>
         ISecurityDescriptorBuilder When { get; }
 
-
         /// <summary>
         /// Add a <see cref="ISecurityAction"/> to the <see cref="ISecurityDescriptor"/>
         /// </summary>
@@ -45,5 +44,19 @@ namespace Bifrost.Security
         /// Get the <see cref="ISecurityAction">action builders</see>
         /// </summary>
         IEnumerable<ISecurityAction> Actions { get; }
+
+        /// <summary>
+        /// Indicates whether this security descriptor can authorize this particular object
+        /// </summary>
+        /// <param name="instanceToAuthorize">Instance of the object that we wish to authorize</param>
+        /// <returns>True if this descriptor can authorize, False otherwise</returns>
+        bool CanAuthorize(object instanceToAuthorize);
+
+        /// <summary>
+        /// Authorizes an object that represents a particular action being undertaken
+        /// </summary>
+        /// <param name="instanceToAuthorize">instance of the action being undertaken</param>
+        /// <returns>An <see cref="AuthorizationResult"/> indicating the result of the authorization attempt</returns>
+        AuthorizationResult Authorize(object instanceToAuthorize);
     }
 }

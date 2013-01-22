@@ -23,14 +23,13 @@ using System.Collections.Generic;
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents an implementation <see cref="ISecurable"/>
+    /// Represents a base implementation of<see cref="ISecurable"/>
     /// </summary>
     public class Securable : ISecurable
     {
         List<ISecurityActor> _actors = new List<ISecurityActor>();
 
 #pragma warning disable 1591 // Xml Comments
-        public ISecurityActor User { get; set; }
 
         public void AddActor(ISecurityActor actor)
         {
@@ -38,6 +37,21 @@ namespace Bifrost.Security
         }
 
         public IEnumerable<ISecurityActor> Actors { get { return _actors;  } }
+
+        public virtual bool CanAuthorize(object actionToAuthorize)
+        {
+            return false;
+        }
+
+        public virtual AuthorizeSecurableResult Authorize(object actionToAuthorize)
+        {
+            var result = new AuthorizeSecurableResult(this);
+            foreach (var actor in _actors)
+            {
+                result.AddAuthorizeActorResult(actor.IsAuthorized(actionToAuthorize));
+            }
+            return result;
+        }
 #pragma warning restore 1591 // Xml Comments
 
     }

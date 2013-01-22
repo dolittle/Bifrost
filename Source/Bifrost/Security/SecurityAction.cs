@@ -20,6 +20,8 @@
 //
 #endregion
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Bifrost.Security
 {
     /// <summary>
@@ -27,7 +29,7 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityAction : ISecurityAction
     {
-        List<ISecurityTarget> _targets = new List<ISecurityTarget>();
+        readonly List<ISecurityTarget> _targets = new List<ISecurityTarget>();
 
 #pragma warning disable 1591 // Xml Comments
         public void AddTarget(ISecurityTarget securityTarget)
@@ -35,7 +37,22 @@ namespace Bifrost.Security
             _targets.Add(securityTarget);
         }
 
-        public IEnumerable<ISecurityTarget> Targets { get { return _targets; } }
+        public bool CanAuthorize(object actionToAuthorize)
+        {
+            return _targets.Any(s => s.CanAuthorize(actionToAuthorize));
+        }
+
+        public AuthorizeActionResult Authorize(object actionToAuthorize)
+        {
+            var result = new AuthorizeActionResult(this);
+            foreach (var target in Targets)
+            {
+                result.AddAuthorizeTargetResult(target.Authorize(this));
+            }
+            return result;
+        }
+
+        public IEnumerable<ISecurityTarget> Targets { get { return _targets.AsEnumerable(); } }
 #pragma warning restore 1591 // Xml Comments
     }
 }

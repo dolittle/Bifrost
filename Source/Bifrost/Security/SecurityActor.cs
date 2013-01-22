@@ -19,7 +19,10 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Security
 {
@@ -38,14 +41,22 @@ namespace Bifrost.Security
 
         public IEnumerable<ISecurityRule> Rules { get { return _rules; } }
 
-        public bool HasAccess(object securable)
+        public AuthorizeActorResult IsAuthorized(object actionToAuthorize)
         {
-            if (_rules.Count == 0) return true;
-
+            var result = new AuthorizeActorResult(this);
             foreach (var rule in _rules)
-                if (!rule.HasAccess(securable)) return false;
-
-            return false;
+            {
+                try
+                {
+                    if(!rule.IsAuthorized(actionToAuthorize))
+                        result.AddBrokenRule(rule);
+                }
+                catch (Exception ex)
+                {
+                    result.AddErrorRule(rule,ex);
+                }
+            }
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
     }

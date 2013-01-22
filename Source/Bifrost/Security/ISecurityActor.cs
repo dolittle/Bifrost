@@ -28,5 +28,11 @@ namespace Bifrost.Security
     /// </summary>
     public interface ISecurityActor
     {
+        /// <summary>
+        /// Authorizes an instance of an action
+        /// </summary>
+        /// <param name="actionToAuthorize">An instance of the action to authorize</param>
+        /// <returns>A <see cref="AuthorizeActorResult"/> which encapsulates the result of the authorization attempt of this instance of an action</returns>
+        AuthorizeActorResult IsAuthorized(object actionToAuthorize);
     }
 }

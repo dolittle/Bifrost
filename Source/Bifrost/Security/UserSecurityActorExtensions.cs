@@ -18,7 +18,7 @@ namespace Bifrost.Security
         /// <returns><see cref="UserSecurityActor"/> to continue the chain with</returns>
         public static UserSecurityActor MustBeInRole(this UserSecurityActor securityActor, string role)
         {
-            securityActor.AddRule(new RoleRule(role));
+            securityActor.AddRule(new RoleRule(securityActor,role));
             return securityActor;
         }
 
@@ -30,7 +30,7 @@ namespace Bifrost.Security
         /// <returns><see cref="UserSecurityActor"/> to continue the chain with</returns>
         public static UserSecurityActor MustBeInRoles(this UserSecurityActor securityActor, params string[] roles)
         {
-            foreach (var role in roles) securityActor.AddRule(new RoleRule(role));
+            foreach (var role in roles) securityActor.AddRule(new RoleRule(securityActor,role));
 
             return securityActor;
         }

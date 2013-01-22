@@ -39,5 +39,21 @@ namespace Bifrost.Security
         /// Gets a collection of <see cref="ISecurityActor">security objects</see>
         /// </summary>
         IEnumerable<ISecurityActor> Actors { get; }
+
+        /// <summary>
+        /// Indicates whether this securable can authorize the action 
+        /// </summary>
+        /// <param name="actionToAuthorize">Instance of an action to be authorized</param>
+        /// <returns>True for can authorize, False for cannot</returns>
+        bool CanAuthorize(object actionToAuthorize);
+
+        /// <summary>
+        /// Result of the authorization of this securable
+        /// </summary>
+        /// <param name="actionToAuthorize">Instance of an action to be authorized</param>
+        /// <returns>An <see cref="AuthorizeSecurableResult"/> </returns>
+        AuthorizeSecurableResult Authorize(object actionToAuthorize);
+
+
     }
 }

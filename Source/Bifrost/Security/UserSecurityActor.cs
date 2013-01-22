@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-using System.Security.Principal;
 using System.Threading;
 
 namespace Bifrost.Security
@@ -30,8 +29,13 @@ namespace Bifrost.Security
     public class UserSecurityActor : SecurityActor
     {
         /// <summary>
-        /// Gets the current identity for the actor
+        /// Checks whether the Current user has the requested role.
         /// </summary>
-        public IIdentity Identity { get { return Thread.CurrentPrincipal.Identity; } }
+        /// <param name="role">Role to check for</param>
+        /// <returns>True is the user has the role, False otherwise</returns>
+        public bool IsInRole(string role)
+        {
+            return Thread.CurrentPrincipal.IsInRole(role);
+        }
     }
 }
