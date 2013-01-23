@@ -37,5 +37,7 @@ namespace Bifrost.Security
         {
             return Thread.CurrentPrincipal.IsInRole(role);
         }
+
+
     }
 }

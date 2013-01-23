@@ -49,7 +49,9 @@ namespace Bifrost.Security
             var result = new AuthorizeTargetResult(this);
             foreach (var securable in Securables)
             {
-                result.AddAuthorizeSecurableResult(securable.Authorize(actionToAuthorize));
+                var authResult = securable.Authorize(actionToAuthorize);
+                if(!authResult.IsAuthorized)
+                    result.AddAuthorizeSecurableResult(authResult);
             }
             return result;
         }

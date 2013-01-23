@@ -12,6 +12,7 @@ namespace Bifrost.Specs.Security.for_SecurityAction
         static SecurityAction action;
         static Mock<ISecurityTarget> target_that_authorizes;
         static Mock<ISecurityTarget> target_that_does_not_authorize;
+        static Mock<ISecurityTarget> target_that_cannot_authorize;
         static AuthorizeTargetResult authorized_target;
         static AuthorizeTargetResult unauthorized_target;
         static AuthorizeActionResult result;
@@ -24,8 +25,9 @@ namespace Bifrost.Specs.Security.for_SecurityAction
                 unauthorizedSecurable.AddAuthorizeActorResult(unauthorisedActor);
 
                 action = new SecurityAction();
-                target_that_authorizes = new Mock<ISecurityTarget>();
-                target_that_does_not_authorize = new Mock<ISecurityTarget>();
+                target_that_authorizes = CreateTarget(canAuthorize:true);
+                target_that_does_not_authorize = CreateTarget(canAuthorize: true);
+                target_that_cannot_authorize = CreateTarget(canAuthorize: false);
                 authorized_target = new AuthorizeTargetResult(target_that_authorizes.Object);
                 unauthorized_target = new AuthorizeTargetResult(target_that_does_not_authorize.Object);
                 unauthorized_target.AddAuthorizeSecurableResult(unauthorizedSecurable);
@@ -35,17 +37,26 @@ namespace Bifrost.Specs.Security.for_SecurityAction
 
                 action.AddTarget(target_that_authorizes.Object);
                 action.AddTarget(target_that_does_not_authorize.Object);
+                action.AddTarget(target_that_cannot_authorize.Object);
             };
 
         Because of = () => result = action.Authorize(new object());
 
         It should_not_the_authorized = () => result.IsAuthorized.ShouldBeFalse();
-        It should_hold_the_results_of_each_target_authorization = () =>
+        It should_hold_the_results_of_each_failed_target_authorization = () =>
         {
-            result.AuthorizeTargetResults.Count().ShouldEqual(2);
-            result.AuthorizeTargetResults.Count(r => r == authorized_target).ShouldEqual(1);
+            result.AuthorizeTargetResults.Count().ShouldEqual(1);
             result.AuthorizeTargetResults.Count(r => r == unauthorized_target).ShouldEqual(1);
         };
+        It should_not_attempt_to_authorize_target_that_cannot_authorize = () => target_that_cannot_authorize.Verify(t => t.Authorize(Moq.It.IsAny<object>()), Times.Never());
         It should_have_a_reference_to_the_action = () => result.Action.ShouldEqual(action);
+
+
+        static Mock<ISecurityTarget> CreateTarget(bool canAuthorize)
+        {
+            var mock = new Mock<ISecurityTarget>();
+            mock.Setup(m => m.CanAuthorize(Moq.It.IsAny<object>())).Returns(canAuthorize);
+            return mock;
+        }
     }
 }

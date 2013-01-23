@@ -45,9 +45,11 @@ namespace Bifrost.Security
         public AuthorizeActionResult Authorize(object actionToAuthorize)
         {
             var result = new AuthorizeActionResult(this);
-            foreach (var target in Targets)
+            foreach (var target in Targets.Where(t => t.CanAuthorize(actionToAuthorize)))
             {
-                result.AddAuthorizeTargetResult(target.Authorize(this));
+                var authResult = target.Authorize(actionToAuthorize);
+                if(!authResult.IsAuthorized)
+                    result.AddAuthorizeTargetResult(authResult);
             }
             return result;
         }

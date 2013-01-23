@@ -33,13 +33,7 @@ namespace Bifrost.Specs.Security.for_Securable
         Because of = () => result = target.Authorize(new object());
 
         It should_be_authorized = () => result.IsAuthorized.ShouldBeTrue();
-        It should_hold_the_results_of_each_actor_authorization = () =>
-            {
-                result.AuthorizeSecurableResults.Count().ShouldEqual(2);
-                result.AuthorizeSecurableResults.Count(r => r == securable_authorized).ShouldEqual(1);
-                result.AuthorizeSecurableResults.Count(r => r == another_securable_authorized).ShouldEqual(1);
-            };
-
+        It should_not_have_any_actor_authorizations = () => result.AuthorizeSecurableResults.Any().ShouldBeFalse();
         It should_have_a_reference_to_the_target = () => result.Target.ShouldEqual(target);
     }
 }

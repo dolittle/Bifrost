@@ -353,6 +353,11 @@
     <Compile Include="Security\for_SecurityActor\when_authorizing_action_with_a_rule_that_causes_an_error.cs" />
     <Compile Include="Security\for_SecurityDescriptor\given\a_configured_security_descriptor.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_adding_an_action.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_authorizing_on_command_in_secured_namespace_and_user_is_in_role.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_authorizing_on_command_in_secured_namespace_and_user_is_not_in_role.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_authorizing_on_command_type_and_namespace_and_user_is_in_only_namespace_role.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_authorizing_on_command_type_and_namespace_and_user_is_in_only_type_role.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_authorizing_on_command_type_and_namespace_and_user_is_in_roles.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_authorizing_with_actions_that_authorize.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_authorizing_with_an_action_that_is_not_authorized.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_on_command_in_secured_namespace.cs" />
