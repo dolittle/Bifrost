@@ -79,7 +79,7 @@ namespace Bifrost.Services.Execution
                 else
                 {
                     context.Response.StatusCode = 500;
-                    context.Response.StatusDescription = e.Message;
+                    context.Response.StatusDescription = e.Message.Substring(0,e.Message.Length >= 512 ? 512: e.Message.Length);
                 }
             }
         }
