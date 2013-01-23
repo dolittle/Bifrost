@@ -39,7 +39,7 @@ namespace Bifrost.Oracle.Events
             " FROM EVENTS" +
             " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID" +
             " AND ROWNUM = 1 " +
-            " ORDER BY VERSION DESCENDING";
+            " ORDER BY VERSION DESC";
 
 
         readonly OracleConnection _connection;
@@ -280,7 +280,7 @@ namespace Bifrost.Oracle.Events
                     var reader = command.ExecuteReader(CommandBehavior.SingleResult);
                     if (reader.Read())
                     {
-                        version = EventSourceVersion.FromCombined(reader.GetDouble(0));
+                        version = EventSourceVersion.FromCombined(Convert.ToDouble(reader.GetDecimal(0)));
                     }
                 }
             }
