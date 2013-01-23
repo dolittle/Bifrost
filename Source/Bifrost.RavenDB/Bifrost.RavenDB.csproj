@@ -55,6 +55,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptTypeConverter.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Configuration\RavenDbStorageElement.cs" />
     <Compile Include="EntityContext.cs" />
@@ -74,6 +75,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
+      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
+      <Name>Bifrost.JSON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
       <Name>Bifrost</Name>

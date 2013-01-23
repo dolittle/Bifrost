@@ -7,9 +7,9 @@
             if (!target.hasOwnProperty(property)) return true;
             if (ko.isObservable(target[property])) return false;
             if (typeof target[property] === "function") return true;
-            if (target[property] instanceof Bifrost.Type) return true;
             if (property == "_type") return true;
             if (property == "_namespace") return true;
+            if ((target[property].prototype != null) && (target[property] instanceof Bifrost.Type)) return true;
 
             return false;
         }
@@ -102,7 +102,8 @@
                         if (step in member) {
                             member = member[step];
                         } else {
-                            throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
+//                            throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
+                            console.log( "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")");
                         }
                     }
 

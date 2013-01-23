@@ -20,6 +20,8 @@
 //
 #endregion
 
+using System;
+using System.ComponentModel;
 namespace Bifrost.Extensions
 {
     /// <summary>
@@ -62,5 +64,18 @@ namespace Bifrost.Extensions
             }
             return str;
         }
+
+#if(!SILVERLIGHT && !NETFX_CORE)
+        /// <summary>
+        /// Convert a string into the desired type using inbuilt Type Converters
+        /// </summary>
+        /// <param name="str">the string to parse</param>
+        /// <param name="type">the desired type</param>
+        /// <returns>value as the desired type</returns>
+        public static object ParseTo(this string str, Type type)
+        {
+            return TypeDescriptor.GetConverter(type).ConvertFromInvariantString(str);
+        }
+#endif
     }
 }
