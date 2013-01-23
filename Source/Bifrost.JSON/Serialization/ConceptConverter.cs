@@ -9,7 +9,7 @@ namespace Bifrost.JSON.Serialization
     {
         public override bool CanConvert(Type objectType)
         {
-            if( objectType.BaseType.IsGenericType ) 
+            if( objectType.BaseType != null && objectType.BaseType.IsGenericType ) 
             {
                 var genericArgumentType = objectType.BaseType.GetGenericArguments()[0];
                 if( genericArgumentType.HasInterface(typeof(IEquatable<>)) ) 
