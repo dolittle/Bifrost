@@ -1,6 +1,6 @@
 Bifrost.namespace("Bifrost.commands", {
     commandCoordinator: Bifrost.Singleton(function () {
-        var baseUrl = "/CommandCoordinator";
+        var baseUrl = "/Bifrost/CommandCoordinator";
         function sendToHandler(url, data, completeHandler) {
             $.ajax({
                 url: url,

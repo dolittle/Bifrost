@@ -97,7 +97,7 @@ namespace Bifrost.Services.Execution
 
             var segments = path.Split('/');
             if (segments.Length > 1)
-                return segments[1];
+                return segments[segments.Length-1];
 
             return string.Empty;
         }

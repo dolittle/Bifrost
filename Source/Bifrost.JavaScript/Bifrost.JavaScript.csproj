@@ -58,6 +58,8 @@
     <Content Include="commands\commandDependencyResolver.js" />
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
+    <Content Include="read\Query.js" />
+    <Content Include="read\queryDependencyResolver.js" />
     <Content Include="utils\configure.js" />
     <Content Include="execution\Promise.js" />
     <Content Include="features\exceptions.js" />
@@ -155,4 +157,5 @@ juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
   <ItemGroup>
     <None Include="merge.cmd" />
   </ItemGroup>
+  <ItemGroup />
 </Project>
