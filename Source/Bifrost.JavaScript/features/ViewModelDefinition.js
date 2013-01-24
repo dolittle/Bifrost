@@ -9,24 +9,35 @@ Bifrost.features.ViewModelDefinition = (function () {
         Bifrost.extend(this.options, options);
 
         this.getInstance = function () {
-			var instance = null;
+            var instance = null;
             if (self.options.isSingleton) {
                 if (!self.instance) {
-                    self.instance = new self.target();
+                    if (typeof self.target.create === "function") {
+                        self.instance = self.target.create();
+                    } else {
+                        self.instance = new self.target();
+                    }
                 }
 
                 instance = self.instance;
             } else {
-				instance = new self.target();
-			}
-			instance.onActivated();
+                if (typeof self.target.create === "function") {
+                    self.instance = self.target.create();
+                } else {
+                    self.instance = new self.target();
+                }
+                instance = self.instance;
+            }
+            if (typeof instance.onActivated == "function") {
+                instance.onActivated();
+            }
             return instance;
         };
     }
 
     return {
         define: function (target, options) {
-			Bifrost.features.ViewModel.baseFor(target);
+            Bifrost.features.ViewModel.baseFor(target);
             var viewModel = new ViewModelDefinition(target, options);
             return viewModel;
         }
