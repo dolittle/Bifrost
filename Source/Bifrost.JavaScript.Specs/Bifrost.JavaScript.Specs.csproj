@@ -263,6 +263,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="read\" />
     <Folder Include="Utils\for_namespacePaths\" />
   </ItemGroup>
   <ItemGroup>

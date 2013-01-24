@@ -3,7 +3,7 @@
         this.getForCommand = function (name) {
             var promise = Bifrost.execution.Promise.create();
 
-            $.getJSON("/Validation/GetForCommand?name=" + name, function (e) {
+            $.getJSON("/Bifrost/Validation/GetForCommand?name=" + name, function (e) {
                 promise.signal(e.properties);
             });
             return promise;

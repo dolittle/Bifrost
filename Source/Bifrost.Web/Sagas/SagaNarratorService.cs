@@ -1,7 +1,7 @@
 ﻿using System;
 using Bifrost.Sagas;
 
-namespace Bifrost.Services.Sagas
+namespace Bifrost.Web.Sagas
 {
     public class SagaNarratorService
     {

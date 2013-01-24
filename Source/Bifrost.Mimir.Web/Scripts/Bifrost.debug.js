@@ -227,7 +227,7 @@ Bifrost.namespace("Bifrost", {
     assetsManager: {
         initialize: function () {
             var promise = Bifrost.execution.Promise.create();
-            $.get("/AssetsManager", { extension: "js" }, function (result) {
+            $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
                 Bifrost.assetsManager.scripts = result;
                 Bifrost.namespaces.initialize();
                 promise.signal();
@@ -1103,7 +1103,7 @@ if (typeof ko !== 'undefined') {
         this.getForCommand = function (name) {
             var promise = Bifrost.execution.Promise.create();
 
-            $.getJSON("/Validation/GetForCommand?name=" + name, function (e) {
+            $.getJSON("/Bifrost/Validation/GetForCommand?name=" + name, function (e) {
                 promise.signal(e.properties);
             });
             return promise;
@@ -1335,7 +1335,7 @@ if (typeof ko !== 'undefined') {
 }
 Bifrost.namespace("Bifrost.commands", {
     commandCoordinator: Bifrost.Singleton(function () {
-        var baseUrl = "/CommandCoordinator";
+        var baseUrl = "/Bifrost/CommandCoordinator";
         function sendToHandler(url, data, completeHandler) {
             $.ajax({
                 url: url,
@@ -1397,9 +1397,9 @@ Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.comm
             if (!target.hasOwnProperty(property)) return true;
             if (ko.isObservable(target[property])) return false;
             if (typeof target[property] === "function") return true;
-            if (target[property] instanceof Bifrost.Type) return true;
             if (property == "_type") return true;
             if (property == "_namespace") return true;
+            if ((target[property].prototype != null) && (target[property] instanceof Bifrost.Type)) return true;
 
             return false;
         }
@@ -1745,6 +1745,48 @@ Bifrost.commands.CommandResult = (function () {
         return commands[name].create();
     }
 };
+﻿Bifrost.namespace("Bifrost.read", {
+    Query: Bifrost.Type.extend(function () {
+        var self = this;
+        this.name = "";
+        this.allObservable = ko.observableArray();
+
+        this.all = function () {
+            var methodParameters = {
+                descriptor: JSON.stringify({
+                    nameOfQuery: this.name,
+                    parameters: {}
+                })
+            };
+
+            $.ajax({
+                url: "/Bifrost/Query/Execute",
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(methodParameters),
+                contentType: 'application/json; charset=utf-8',
+                complete: function (result) {
+                    var items = $.parseJSON(result.responseText);
+                    self.allObservable(items);
+                }
+            });
+
+            return self.allObservable;
+        }
+    })
+});
+﻿Bifrost.dependencyResolvers.query = {
+    canResolve: function (namespace, name) {
+        if (typeof queries !== "undefined") {
+            return name in queries;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return queries[name].create();
+    }
+};
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {
     function Saga() {
@@ -1779,7 +1821,7 @@ Bifrost.sagas.Saga = (function () {
 
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.sagaNarrator = (function () {
-    var baseUrl = "/SagaNarrator";
+    var baseUrl = "/Bifrost/SagaNarrator";
     // Todo : abstract away into general Service code - look at CommandCoordinator.js for the other copy of this!s
     function post(url, data, completeHandler) {
         $.ajax({
@@ -2434,6 +2476,8 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
 @depends commands/commandDependencyResolver.js
+@depends read/Query.js
+@depends read/queryDependencyResolver.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js

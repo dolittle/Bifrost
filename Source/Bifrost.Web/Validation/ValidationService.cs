@@ -4,7 +4,7 @@ using Bifrost.Validation.MetaData;
 using FluentValidation;
 using Bifrost.Serialization;
 
-namespace Bifrost.Services
+namespace Bifrost.Web.Validation
 {
     public class ValidationService
     {

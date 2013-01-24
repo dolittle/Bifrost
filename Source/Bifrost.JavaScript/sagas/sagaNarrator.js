@@ -1,6 +1,6 @@
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.sagaNarrator = (function () {
-    var baseUrl = "/SagaNarrator";
+    var baseUrl = "/Bifrost/SagaNarrator";
     // Todo : abstract away into general Service code - look at CommandCoordinator.js for the other copy of this!s
     function post(url, data, completeHandler) {
         $.ajax({

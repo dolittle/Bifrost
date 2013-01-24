@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -54,17 +57,20 @@
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
     <Compile Include="Applications\AssetManagerRoute.cs" />
-    <Compile Include="Applications\AssetManagerRouteActivator.cs" />
     <Compile Include="Applications\AssetManagerRouteHandler.cs" />
     <Compile Include="Applications\AssetManagerRouteHttpHandler.cs" />
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
+    <Compile Include="Commands\CommandCoordinatorService.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
-    <Compile Include="Proxies\ProxyRouteActivator.cs" />
+    <Compile Include="Read\QueryDescriptor.cs" />
+    <Compile Include="Read\QueryService.cs" />
+    <Compile Include="RouteActivator.cs" />
     <Compile Include="Proxies\ProxyRouteHandler.cs" />
     <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\CommandProxies.cs" />
+    <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="HttpModule.cs" />
@@ -73,10 +79,16 @@
     <Compile Include="Pipeline\SinglePageApplication.cs" />
     <Compile Include="IWebContext.cs" />
     <Compile Include="IWebRequest.cs" />
+    <Compile Include="Sagas\SagaNarratorService.cs" />
+    <Compile Include="Validation\ValidationService.cs" />
     <Compile Include="WebContext.cs" />
     <Compile Include="WebConfigurationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
+      <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
+      <Name>Bifrost.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>

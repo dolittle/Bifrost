@@ -21,13 +21,12 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
 
-namespace Bifrost.Services.Commands
+namespace Bifrost.Web.Commands
 {
     public class CommandCoordinatorService
     {
