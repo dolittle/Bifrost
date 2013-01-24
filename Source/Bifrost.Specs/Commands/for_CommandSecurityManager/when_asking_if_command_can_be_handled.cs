@@ -10,8 +10,8 @@ namespace Bifrost.Specs.Commands.for_CommandSecurityManager
 
         Establish context = () => command = new SimpleCommand();
 
-        Because of = () => command_security_manager.IsAllowedToHandle(command);
+        Because of = () => command_security_manager.IsAuthorizedToHandle(command);
 
-        It should_delegate_the_request_for_security_to_the_security_manager = () => security_manager_mock.Verify(s => s.IsAllowed<HandleCommand>(command), Moq.Times.Once());
+        It should_delegate_the_request_for_security_to_the_security_manager = () => security_manager_mock.Verify(s => s.IsAuthorized<HandleCommand>(command), Moq.Times.Once());
     }
 }

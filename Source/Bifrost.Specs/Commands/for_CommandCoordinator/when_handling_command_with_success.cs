@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Bifrost.Commands;
+﻿using Bifrost.Commands;
 using Machine.Specifications;
-using Moq;
 using It = Machine.Specifications.It;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Validation;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator

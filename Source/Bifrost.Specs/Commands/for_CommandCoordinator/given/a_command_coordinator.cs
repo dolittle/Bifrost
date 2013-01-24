@@ -26,6 +26,9 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                     command_context_manager_mock.Setup(c => c.EstablishForCommand(Moq.It.IsAny<ICommand>())).
                                         Returns(commandContextMock.Object);
                                     command_security_manager_mock = new Mock<ICommandSecurityManager>();
+                                    command_security_manager_mock.Setup(
+                                        s => s.IsAuthorizedToHandle(Moq.It.IsAny<ICommand>()))
+                                                                 .Returns(true);
 
                                     coordinator = new CommandCoordinator(
                                         command_handler_manager_mock.Object,

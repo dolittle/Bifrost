@@ -84,12 +84,11 @@ namespace Bifrost.Commands
             {
                 var commandResult = CommandResult.ForCommand(command);
 
-                /*
-                if (!_commandSecurityManager.IsAllowedToHandle(command))
+                if (!_commandSecurityManager.IsAuthorizedToHandle(command))
                 {
                     commandResult.PassedSecurity = false;
                     return commandResult;
-                }*/
+                }
 
                 var validationResult = _commandValidationService.Validate(command);
                 commandResult.ValidationResults = validationResult.ValidationResults;

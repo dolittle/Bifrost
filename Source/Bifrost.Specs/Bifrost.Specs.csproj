@@ -362,12 +362,15 @@
     <Compile Include="Security\for_SecurityDescriptor\when_authorizing_with_an_action_that_is_not_authorized.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_on_command_in_secured_namespace.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_on_command_in_secured_namespace_and_secured_type.cs" />
+    <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_on_command_in_secured_namespace_for_when_not_handling_command.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_on_command_not_in_secured_namespace.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_with_no_targets_that_can_authorize.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_checking_can_authorize_with_target_that_can_authorize.cs" />
     <Compile Include="Security\for_SecurityDescriptor\when_configuring.cs" />
-    <Compile Include="Security\for_SecurityManager\given\a_security_manager.cs" />
-    <Compile Include="Security\for_SecurityManager\when_asking_for_securable_having_access_without_any_security_descriptors.cs" />
+    <Compile Include="Security\for_SecurityManager\given\a_security_manager_with_discovered_descriptors.cs" />
+    <Compile Include="Security\for_SecurityManager\given\a_security_manager_with_no_descriptors.cs" />
+    <Compile Include="Security\for_SecurityManager\when_checking_is_authorized_without_any_security_descriptors.cs" />
+    <Compile Include="Security\for_SecurityManager\when_creating_a_security_manager.cs" />
     <Compile Include="Security\for_SecurityTarget\when_adding_a_securable.cs" />
     <Compile Include="Security\for_SecurityTarget\when_authorizing_action_that_is_authorized_by_all_securables.cs" />
     <Compile Include="Security\for_SecurityTarget\when_authorizing_action_that_is_not_authorized_by_an_actor.cs" />

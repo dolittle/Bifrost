@@ -48,9 +48,10 @@ namespace Bifrost.Security
         /// <summary>
         /// Indicates whether this security descriptor can authorize this particular object
         /// </summary>
+        /// <typeparam name="T">The type of <see cref="ISecurityAction"/> that we wish to authorize</typeparam>
         /// <param name="instanceToAuthorize">Instance of the object that we wish to authorize</param>
         /// <returns>True if this descriptor can authorize, False otherwise</returns>
-        bool CanAuthorize(object instanceToAuthorize);
+        bool CanAuthorize<T>(object instanceToAuthorize) where T : ISecurityAction;
 
         /// <summary>
         /// Authorizes an object that represents a particular action being undertaken

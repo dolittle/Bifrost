@@ -4,6 +4,7 @@ using Bifrost.Testing.Fakes.Commands;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
 {
+    [Subject(typeof(CommandCoordinator))]
     public class when_handling_a_command_that_fails_security : given.a_command_coordinator
     {
         static ICommand command;
@@ -12,7 +13,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         Establish context = () => 
         {
             command = new SimpleCommand();
-            command_security_manager_mock.Setup(c => c.IsAllowedToHandle(Moq.It.IsAny<ICommand>())).Returns(false);
+            command_security_manager_mock.Setup(c => c.IsAuthorizedToHandle(Moq.It.IsAny<ICommand>())).Returns(false);
         };
 
         Because of = () => result = coordinator.Handle(command);

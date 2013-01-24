@@ -42,9 +42,9 @@ namespace Bifrost.Commands
 
 
 #pragma warning disable 1591 // Xml Comments
-        public bool IsAllowedToHandle(ICommand command)
+        public bool IsAuthorizedToHandle(ICommand command)
         {
-            return _securityManager.IsAllowed<HandleCommand>(command);
+            return _securityManager.IsAuthorized<HandleCommand>(command);
         }
 #pragma warning restore 1591 // Xml Comments
     }

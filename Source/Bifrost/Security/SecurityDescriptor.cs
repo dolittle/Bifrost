@@ -41,7 +41,6 @@ namespace Bifrost.Security
             When = new SecurityDescriptorBuilder(this);
         }
 
-
 #pragma warning disable 1591 // Xml Comments
 
         public ISecurityDescriptorBuilder When { get; private set; }
@@ -53,9 +52,9 @@ namespace Bifrost.Security
 
         public IEnumerable<ISecurityAction> Actions { get { return _actions; } }
         
-        public bool CanAuthorize(object instanceToAuthorize)
+        public bool CanAuthorize<T>(object instanceToAuthorize) where T : ISecurityAction
         {
-            return _actions.Any(a => a.CanAuthorize(instanceToAuthorize));
+            return _actions.Where(a => a.GetType() == typeof(T)).Any(a => a.CanAuthorize(instanceToAuthorize));
         }
 
         public AuthorizationResult Authorize(object instanceToAuthorize)

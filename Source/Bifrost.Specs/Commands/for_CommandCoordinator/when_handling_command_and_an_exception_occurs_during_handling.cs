@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
 using Machine.Specifications;
-using Moq;
 using It = Machine.Specifications.It;
 using Bifrost.Validation;
 

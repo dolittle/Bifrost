@@ -1,6 +1,7 @@
 ﻿using System;
 using Bifrost.SomeRandomNamespace;
 using Bifrost.Testing.Fakes.Commands;
+using Bifrost.Testing.Fakes.Security;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Security.for_SecurityDescriptor.given

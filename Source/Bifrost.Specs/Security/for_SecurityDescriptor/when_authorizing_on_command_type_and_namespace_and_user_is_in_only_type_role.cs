@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
             {
                 Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(""), new[]
                     {
-                        Testing.Fakes.Commands.SecurityDescriptor.SIMPLE_COMMAND_ROLE
+                        Testing.Fakes.Security.SecurityDescriptor.SIMPLE_COMMAND_ROLE
                     });
             };
 

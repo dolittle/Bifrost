@@ -1,9 +1,10 @@
-﻿using Bifrost.Commands;
+using Bifrost.Commands;
 using Bifrost.Security;
+using Bifrost.Testing.Fakes.Commands;
 
-namespace Bifrost.Testing.Fakes.Commands
+namespace Bifrost.Testing.Fakes.Security
 {
-    public class SecurityDescriptor : Security.SecurityDescriptor
+    public class SecurityDescriptor : Bifrost.Security.SecurityDescriptor
     {
         public const string NAMESPACE_ROLE = "CanExecuteCommandsInNamespace";
         public const string SIMPLE_COMMAND_ROLE = "CanExecuteSimpleCommands";

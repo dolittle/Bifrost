@@ -28,14 +28,11 @@ namespace Bifrost.Security
     public interface ISecurityManager
     {
         /// <summary>
-        /// Ask if a <see cref="ISecurable"/> has access
+        /// Ask if an instance of a action is authorized
         /// </summary>
+        /// <typeparam name="T">The type of <see cref="ISecurityAction"/> that we with to authorize</typeparam>
         /// <param name="target">Object that is subject of security</param>
-        /// <returns>True if allowed, false if not</returns>
-        /// <remarks>
-        /// <see cref="ISecurable"/> is a concept used when describing security, not an interface
-        /// a securable item needs to implement
-        /// </remarks>
-        bool IsAllowed<T>(object target) where T : ISecurityAction;
+        /// <returns>True if authorized, false if not</returns>
+        bool IsAuthorized<T>(object target) where T : ISecurityAction;
     }
 }

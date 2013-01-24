@@ -20,6 +20,8 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Execution;
 
 namespace Bifrost.Security
@@ -29,22 +31,40 @@ namespace Bifrost.Security
     /// </summary>
     public class SecurityManager : ISecurityManager
     {
-        ITypeDiscoverer _typeDiscoverer;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly IContainer _container;
+        IEnumerable<ISecurityDescriptor> _securityDescriptors;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SecurityManager"/>
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to discover any <see cref="SecurityDescriptor">security descriptors</see></param>
-        public SecurityManager(ITypeDiscoverer typeDiscoverer)
+        /// <param name="container"><see cref="IContainer"/> to instantiate instances of <see cref="ISecurityDescriptor"/></param>
+        public SecurityManager(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
+            _container = container;
+
+            PopulateSecurityDescriptors();
         }
 
+        void PopulateSecurityDescriptors()
+        {
+            var securityDesciptorTypes = _typeDiscoverer.FindMultiple<ISecurityDescriptor>();
+            var instances = new List<ISecurityDescriptor>();
+            instances.AddRange(securityDesciptorTypes.Select(t => _container.Get(t) as ISecurityDescriptor));
+            _securityDescriptors = instances;
+        }
 
 #pragma warning disable 1591 // Xml Comments
-        public bool IsAllowed<T>(object target) where T : ISecurityAction
+        public bool IsAuthorized<T>(object target) where T : ISecurityAction
         {
-            return true;
+            if (!_securityDescriptors.Any())
+                return true;
+
+            var applicableSecurityDescriptors = _securityDescriptors.Where(sd => sd.CanAuthorize<T>(target));
+
+            return !applicableSecurityDescriptors.Any() || applicableSecurityDescriptors.All(sd => sd.Authorize(target).IsAuthorized);
         }
 #pragma warning restore 1591 // Xml Comments
     }

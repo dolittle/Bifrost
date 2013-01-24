@@ -32,6 +32,6 @@ namespace Bifrost.Commands
         /// </summary>
         /// <param name="command"><see cref="ICommand"/> to ask for</param>
         /// <returns>true if it is allowed to go on and be handler, false if not</returns>
-        bool IsAllowedToHandle(ICommand command);
+        bool IsAuthorizedToHandle(ICommand command);
     }
 }

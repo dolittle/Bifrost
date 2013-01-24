@@ -56,7 +56,6 @@
     <Compile Include="Fakes\Commands\AnotherSimpleCommandBusinessValidator.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommandInputValidator.cs" />
     <Compile Include="Fakes\Commands\CommandInADifferentNamespace.cs" />
-    <Compile Include="Fakes\Commands\SecurityDescriptor.cs" />
     <Compile Include="Fakes\Commands\SimpleCommand.cs" />
     <Compile Include="Fakes\Commands\SimpleCommandBusinessValidator.cs" />
     <Compile Include="Fakes\Commands\SimpleCommandInputValidator.cs" />
@@ -85,6 +84,8 @@
     <Compile Include="Fakes\Sagas\SimpleSaga.cs" />
     <Compile Include="Fakes\Sagas\SimpleSagaWithConflictingPropertyNames.cs" />
     <Compile Include="Fakes\Sagas\TransitionalChapter.cs" />
+    <Compile Include="Fakes\Security\MySecurityAction.cs" />
+    <Compile Include="Fakes\Security\SecurityDescriptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
