@@ -116,6 +116,9 @@
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
+    <Compile Include="Read\IQueryFor.cs" />
+    <Compile Include="Read\IReadModelRepository.cs" />
+    <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
     <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
