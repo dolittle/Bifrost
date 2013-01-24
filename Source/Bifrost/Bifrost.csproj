@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Debug\Bifrost.XML</DocumentationFile>
-    <NoWarn>1584, 1574, 1591</NoWarn>
+    <NoWarn>1584, 1574</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

@@ -10,6 +10,10 @@ namespace Bifrost.Security
     {
         readonly List<AuthorizeActorResult> _authorizeActorResults = new List<AuthorizeActorResult>();
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="AuthorizeSecurableResult"/> for the specificed <see cref="ISecurable"/>
+        /// </summary>
+        /// <param name="securable"><see cref="ISecurable"/> that this <see cref="AuthorizeSecurableResult"/> pertains to.</param>
         public AuthorizeSecurableResult(ISecurable securable)
         {
             Securable = securable;

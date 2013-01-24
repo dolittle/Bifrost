@@ -43,9 +43,11 @@ namespace Bifrost.Security
         /// </summary>
         public Type Type { get; private set; }
 
+#pragma warning disable 1591
         public override bool CanAuthorize(object actionToAuthorize)
         {
             return actionToAuthorize!= null && Type == actionToAuthorize.GetType();
         }
+#pragma warning restore 1591
     }
 }

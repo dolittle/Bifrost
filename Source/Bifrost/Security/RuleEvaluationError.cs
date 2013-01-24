@@ -7,6 +7,11 @@ namespace Bifrost.Security
     /// </summary>
     public class RuleEvaluationError
     {
+        /// <summary>
+        /// Instantiates an instance of <see cref="RuleEvaluationError"/>
+        /// </summary>
+        /// <param name="rule"><see cref="ISecurityRule"/> that encounted the error when evaluating.</param>
+        /// <param name="error">The error that was encountered</param>
         public RuleEvaluationError(ISecurityRule rule, Exception error)
         {
             Error = error;

@@ -21,28 +21,49 @@ namespace Bifrost.Security
             Actor = actorThatResultIsFor;
         }
 
+        /// <summary>
+        /// Gets the <see cref="ISecurityActor"/> that this <see cref="AuthorizeActorResult"/> pertains to.
+        /// </summary>
         public ISecurityActor Actor { get; private set; }
 
+        /// <summary>
+        /// Gets any <see cref="ISecurityRule"/> that were broken in the Authorization attempt.
+        /// </summary>
         public IEnumerable<ISecurityRule> BrokenRules
         {
             get { return _brokenRules.AsEnumerable(); }
         }
 
+        /// <summary>
+        /// Add an instance of an <see cref="ISecurityRule"/> that was broken during Authorization
+        /// </summary>
+        /// <param name="rule">An instance of a broken <see cref="ISecurityRule"/></param>
         public void AddBrokenRule(ISecurityRule rule)
         {
             _brokenRules.Add(rule);
         }
 
+        /// <summary>
+        /// Add an instance of an <see cref="ISecurityRule"/> that was unable to be evaluted because it encountered an exception
+        /// </summary>
+        /// <param name="rule">The instance of the <see cref="ISecurityRule"/> that could not be evaluted.</param>
+        /// <param name="exception">The exception that prevented the <see cref="ISecurityRule"/> from being evaluated.</param>
         public void AddErrorRule(ISecurityRule rule, Exception exception)
         {
             _rulesThatCausedError.Add(new RuleEvaluationError(rule,exception));
         }
 
+        /// <summary>
+        /// Gets any <see cref="RuleEvaluationError"/> that were encountered in the Authorization attempt.
+        /// </summary>
         public IEnumerable<RuleEvaluationError> RulesThatEncounteredAnErrorWhenEvaluating
         {
             get { return _rulesThatCausedError.AsEnumerable(); }
         }
 
+        /// <summary>
+        /// Indicates whether the Authorization attempt was successful or not
+        /// </summary>
         public bool IsAuthorized
         {
             get { return !RulesThatEncounteredAnErrorWhenEvaluating.Any() && !BrokenRules.Any(); }
