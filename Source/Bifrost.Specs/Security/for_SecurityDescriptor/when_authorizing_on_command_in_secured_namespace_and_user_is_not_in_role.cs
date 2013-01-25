@@ -3,7 +3,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Security.for_SecurityDescriptor
 {
-    [Subject(typeof(SecurityDescriptor))]
+    [Subject(typeof(BaseSecurityDescriptor))]
     public class when_authorizing_on_command_in_secured_namespace_and_user_is_not_in_role : given.a_configured_security_descriptor
     {
         static AuthorizationResult can_authorize;

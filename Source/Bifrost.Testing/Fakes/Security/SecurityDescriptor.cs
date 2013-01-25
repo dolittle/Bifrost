@@ -4,7 +4,7 @@ using Bifrost.Testing.Fakes.Commands;
 
 namespace Bifrost.Testing.Fakes.Security
 {
-    public class SecurityDescriptor : Bifrost.Security.SecurityDescriptor
+    public class SecurityDescriptor : Bifrost.Security.BaseSecurityDescriptor
     {
         public const string NAMESPACE_ROLE = "CanExecuteCommandsInNamespace";
         public const string SIMPLE_COMMAND_ROLE = "CanExecuteSimpleCommands";

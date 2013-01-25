@@ -6,10 +6,10 @@ using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Security.for_SecurityDescriptor
 {
-    [Subject(typeof(SecurityDescriptor))]
+    [Subject(typeof(BaseSecurityDescriptor))]
     public class when_authorizing_with_actions_that_authorize
     {
-        static SecurityDescriptor descriptor;
+        static BaseSecurityDescriptor descriptor;
         static Mock<ISecurityAction> action_that_authorizes;
         static Mock<ISecurityAction> another_action_that_authorizes;
         static Mock<ISecurityAction> action_that_cannot_authorize;
@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
 
         Establish context = () =>
         {
-            descriptor = new SecurityDescriptor();
+            descriptor = new BaseSecurityDescriptor();
             action_that_authorizes = new Mock<ISecurityAction>();
             another_action_that_authorizes = new Mock<ISecurityAction>();
             action_that_cannot_authorize = new Mock<ISecurityAction>();

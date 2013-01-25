@@ -7,12 +7,12 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
 {
     public class when_adding_an_action
     {
-        static SecurityDescriptor security_descriptor;
+        static BaseSecurityDescriptor security_descriptor;
         static Mock<ISecurityAction> security_action_mock;
 
         Establish context = () => 
         {
-            security_descriptor = new SecurityDescriptor();
+            security_descriptor = new BaseSecurityDescriptor();
             security_action_mock = new Mock<ISecurityAction>();
         };
 

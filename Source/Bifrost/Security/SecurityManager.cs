@@ -38,7 +38,7 @@ namespace Bifrost.Security
         /// <summary>
         /// Initializes a new instance of <see cref="SecurityManager"/>
         /// </summary>
-        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to discover any <see cref="SecurityDescriptor">security descriptors</see></param>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to discover any <see cref="BaseSecurityDescriptor">security descriptors</see></param>
         /// <param name="container"><see cref="IContainer"/> to instantiate instances of <see cref="ISecurityDescriptor"/></param>
         public SecurityManager(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
@@ -50,9 +50,9 @@ namespace Bifrost.Security
 
         void PopulateSecurityDescriptors()
         {
-            var securityDesciptorTypes = _typeDiscoverer.FindMultiple<ISecurityDescriptor>();
+            var securityDescriptorTypes = _typeDiscoverer.FindMultiple<ISecurityDescriptor>();
             var instances = new List<ISecurityDescriptor>();
-            instances.AddRange(securityDesciptorTypes.Select(t => _container.Get(t) as ISecurityDescriptor));
+            instances.AddRange(securityDescriptorTypes.Select(t => _container.Get(t) as ISecurityDescriptor));
             _securityDescriptors = instances;
         }
 

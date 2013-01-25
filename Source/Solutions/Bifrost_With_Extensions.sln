@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Unity", "..\Bifrost
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Testing", "..\Bifrost.Testing\Bifrost.Testing.csproj", "{47835DE6-FA79-4888-83B6-F6891891CBB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Windsor", "..\Bifrost.Windsor\Bifrost.Windsor.csproj", "{7048A168-BF11-48C1-886E-39DBF2EB8B04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,16 @@ Global
 		{47835DE6-FA79-4888-83B6-F6891891CBB0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{47835DE6-FA79-4888-83B6-F6891891CBB0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{47835DE6-FA79-4888-83B6-F6891891CBB0}.Release|x86.ActiveCfg = Release|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -202,6 +214,7 @@ Global
 		{27089447-9E63-45C4-B14B-7AEF8B933294} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{4CDE2CC3-5D02-431B-BCCE-E332B9FDD665} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{47835DE6-FA79-4888-83B6-F6891891CBB0} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
+		{7048A168-BF11-48C1-886E-39DBF2EB8B04} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ..\Samples\SimpleConsole\SimpleConsole.csproj

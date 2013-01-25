@@ -151,7 +151,7 @@
     <Compile Include="Security\SecurityAction.cs" />
     <Compile Include="Security\SecurityContext.cs" />
     <Compile Include="Security\SecurityContextExtensions.cs" />
-    <Compile Include="Security\SecurityDescriptor.cs" />
+    <Compile Include="Security\BaseSecurityDescriptor.cs" />
     <Compile Include="Security\SecurityDescriptorBuilder.cs" />
     <Compile Include="Security\SecurityManager.cs" />
     <Compile Include="Security\SecurityActor.cs" />
