@@ -47,16 +47,19 @@ namespace Bifrost.Read
         public void Insert(T readModel)
         {
             _entityContext.Insert(readModel);
+            _entityContext.Commit();
         }
 
         public void Update(T readModel)
         {
             _entityContext.Update(readModel);
+            _entityContext.Commit();
         }
 
         public void Delete(T readModel)
         {
             _entityContext.Delete(readModel);
+            _entityContext.Commit();
         }
 
         public T GetById(object id)

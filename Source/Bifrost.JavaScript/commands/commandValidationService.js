@@ -36,9 +36,7 @@
 
                     if (target[property].validator.isValid() == false) {
                         result.valid = false;
-                        return;
                     }
-
                 } else if (typeof target[property] === "object") {
                     validatePropertiesFor(target[property], result);
                 }
