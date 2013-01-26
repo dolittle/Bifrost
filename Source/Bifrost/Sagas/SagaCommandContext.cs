@@ -97,6 +97,7 @@ namespace Bifrost.Sagas
                     events.ExpandExecutionContext(ExecutionContext);
                     ProcessEvents(events);
                     _saga.Commit(events);
+					_uncommittedEventStreamCoordinator.Commit(events);
                     trackedObject.Commit();
                     _sagaLibrarian.Catalogue(_saga);
                 }
