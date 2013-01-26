@@ -57,7 +57,7 @@ namespace Bifrost.Concurrency
         {
             var id = Guid.NewGuid();
             var cancellationTokenSource = new CancellationTokenSource();
-            var cancellationToken = cancellationTokenSource.Token;
+            //var cancellationToken = cancellationTokenSource.Token;
             _cancellationTokens[id] = cancellationTokenSource;
 
             var task = Task.Factory.StartNew(o=>action((T)o), objectState);
