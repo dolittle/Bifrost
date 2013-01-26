@@ -1,30 +1,42 @@
 ﻿Bifrost.namespace("Bifrost.read", {
-    Query: Bifrost.Type.extend(function () {
+    Query: Bifrost.Type.extend(function (queryService) {
         var self = this;
         this.name = "";
-        this.allObservable = ko.observableArray();
+        this.queryService = queryService;
+
+        var queryables = {};
+
+        this.target = this;
+
+        function createQueryable() {
+            var observable = ko.observableArray();
+            observable.execute = function() {
+                self.queryService.execute(self.target);
+            };
+            return observable;
+        }
+
+        function observeProperties(query) {
+            for( var property in query ) {
+                if( ko.isObservable(query[property]) == true ) {
+                    query[property].subscribe(function() {
+                        for( var queryable in queryables ) {
+                            queryables[queryable].execute();
+                        }
+                    });
+                }
+            }
+        }
 
         this.all = function () {
-            var methodParameters = {
-                descriptor: JSON.stringify({
-                    nameOfQuery: this.name,
-                    parameters: {}
-                })
-            };
+            if( typeof queryables.all === "undefined") queryables.all = createQueryable();
+            queryables.all.execute();
+            return queryables.all;
+        };
 
-            $.ajax({
-                url: "/Bifrost/Query/Execute",
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(methodParameters),
-                contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
-                    var items = $.parseJSON(result.responseText);
-                    self.allObservable(items);
-                }
-            });
-
-            return self.allObservable;
-        }
+        this.onCreated = function(query) {
+            self.target = query;
+            observeProperties(query);
+        };
     })
 });
