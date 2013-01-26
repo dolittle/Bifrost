@@ -81,6 +81,6 @@ namespace Bifrost.NHibernate.UserTypes
         {
             get { return _types; }
         }
-#pragma warning enable 1591
+#pragma warning restore 1591
     }
 }
