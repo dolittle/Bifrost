@@ -15,9 +15,9 @@
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -25,7 +25,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -50,23 +50,14 @@
     <Reference Include="Lucene.Net.Contrib.SpellChecker">
       <HintPath>..\Solutions\packages\RavenDB.Database.1.0.960\lib\net40\Lucene.Net.Contrib.SpellChecker.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NLog">
       <HintPath>..\Solutions\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\Solutions\packages\RavenDB.Client.1.0.980\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Backup">
       <HintPath>..\Solutions\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Backup.exe</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded">
       <HintPath>..\Solutions\packages\RavenDB.Embedded.1.0.960\lib\net40\Raven.Client.Embedded.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\Solutions\packages\RavenDB.Client.1.0.980\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database">
       <HintPath>..\Solutions\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Database.dll</HintPath>
@@ -105,13 +96,13 @@
     <Compile Include="EntityContextConnection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
-      <Project>{cb331526-55bf-4887-a0d8-ee721b7fcdd7}</Project>
-      <Name>Bifrost.RavenDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
+      <Project>{CB331526-55BF-4887-A0D8-EE721B7FCDD7}</Project>
+      <Name>Bifrost.RavenDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
