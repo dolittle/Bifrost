@@ -32,14 +32,16 @@ namespace Bifrost.Oracle.Events
             + " FROM (SELECT c.ID, c.COMMANDCONTEXT, c.NAME, c.LOGICALNAME, c.EVENTSOURCEID, c.EVENTSOURCE, c.GENERATION, c.DATA, c.CAUSEDBY, c.ORIGIN, c.OCCURED, c.VERSION FROM EVENTS c ORDER BY ID ASC) b"
             + " WHERE rownum <= :END_OF_BATCH) a"
             + " WHERE b_rownum >= :START_OF_BATCH";
- 
+
 
         const string LAST_VERSION_STATEMENT =
-            "SELECT VERSION" +
+            "SELECT VERSION FROM " +
+            "(SELECT VERSION" +
             " FROM EVENTS" +
             " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID" +
-            " AND ROWNUM = 1 " +
-            " ORDER BY VERSION DESC";
+            " ORDER BY VERSION DESC)" +
+            " WHERE ROWNUM = 1 ";
+            
 
 
         readonly OracleConnection _connection;
