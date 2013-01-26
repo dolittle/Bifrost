@@ -21,6 +21,6 @@ namespace Bifrost.NHibernate.UserTypes
             var propValue = property.GetValue(value, null);
             NHibernateUtil.GuessType(property.PropertyType).NullSafeSet(cmd, propValue, index, session);
         }
-#pragma wanring restore 1591
+#pragma warning restore 1591
     }
 }
