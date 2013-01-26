@@ -29,6 +29,10 @@ namespace Bifrost.Web.Read
             if (queryType != null)
             {
                 var instance = _container.Get(queryType);
+
+				PopulateProperties (descriptor, queryType, instance);
+
+
                 var queryProperty = queryType.GetProperty("Query");
                 var queryable = queryProperty.GetValue(instance, null) as IQueryable;
                 return queryable;
@@ -36,5 +40,17 @@ namespace Bifrost.Web.Read
             
             return new object[0];
         }
+
+		void PopulateProperties (QueryDescriptor descriptor, Type queryType, object instance)
+		{
+			foreach (var key in descriptor.Parameters.Keys) {
+				var propertyName = key.ToPascalCase ();
+				var property = queryType.GetProperty (propertyName);
+				if (property != null) {
+					var value = Convert.ChangeType (descriptor.Parameters [key], property.PropertyType);
+					property.SetValue (instance, value, null);
+				}
+			}
+		}
     }
 }
