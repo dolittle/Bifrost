@@ -27,7 +27,7 @@ namespace Bifrost.Read
     /// Defines a repository for dealing with ReadModels
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReadModelRepositoryFor<T>
+    public interface IReadModelRepositoryFor<T> where T:IReadModel
     {
         /// <summary>
         /// Gets a queryable to use for querying
@@ -35,25 +35,25 @@ namespace Bifrost.Read
         IQueryable<T> Query { get; }
 
         /// <summary>
-        /// Insert a newly created ReadModel
+        /// Insert a newly created <see cref="IReadModel"/>
         /// </summary>
-        /// <param name="readModel">ReadModel to insert</param>
+        /// <param name="readModel"><see cref="IReadModel"/> to insert</param>
         void Insert(T readModel);
 
         /// <summary>
-        /// Update an existing ReadModel
+		/// Update an existing <see cref="IReadModel"/>
         /// </summary>
-        /// <param name="readModel">ReadModel to update</param>
+		/// <param name="readModel"><see cref="IReadModel"/> to update</param>
         void Update(T readModel);
 
         /// <summary>
-        /// Delete an existing ReadModel
+		/// Delete an existing <see cref="IReadModel"/>
         /// </summary>
-        /// <param name="readModel">ReadModel to delete</param>
+		/// <param name="readModel"><see cref="IReadModel"/> to delete</param>
         void Delete(T readModel);
 
         /// <summary>
-        /// Get a ReadModel by its id
+		/// Get a <see cref="IReadModel"/> by its id
         /// </summary>
         /// <param name="id">Id to lookup</param>
         /// <returns></returns>

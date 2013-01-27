@@ -115,7 +115,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Read\IQueryFor.cs" />
-    <Compile Include="Read\IReadModelRepository.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
@@ -367,6 +366,8 @@
     <Compile Include="Commands\UnknownCommandException.cs" />
     <Compile Include="Configuration\ISerializationConfiguration.cs" />
     <Compile Include="Configuration\SerializationConfiguration.cs" />
+    <Compile Include="Read\IReadModel.cs" />
+    <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
