@@ -28,11 +28,13 @@ namespace Bifrost.Security
     /// </summary>
     public class TypeSecurable : Securable
     {
+        const string TYPE = "OfType_{{{0}}}";
+
         /// <summary>
         /// Initializes an instance of <see cref="TypeSecurable"/>
         /// </summary>
         /// <param name="type"><see cref="System.Type"/> to secure</param>
-        public TypeSecurable(Type type)
+        public TypeSecurable(Type type) : base(string.Format(TYPE,type.FullName))
         {
             Type = type;
         }

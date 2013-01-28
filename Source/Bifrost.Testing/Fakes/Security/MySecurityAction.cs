@@ -29,5 +29,7 @@ namespace Bifrost.Testing.Fakes.Security
         {
             return _authorize.Invoke(actionToAuthorize);
         }
+
+        public string ActionType { get { return "MySecurityAction"; } }
     }
 }

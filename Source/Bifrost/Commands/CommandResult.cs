@@ -64,6 +64,11 @@ namespace Bifrost.Commands
         public IEnumerable<string> CommandValidationMessages { get; set; }
 
         /// <summary>
+        /// Gets the messages that are related to broken security rules
+        /// </summary>
+        public IEnumerable<string> SecurityMessages { get; set; }
+
+        /// <summary>
         /// Gets any validation errors (for properties or for the full command) as a simple string enumerbale.
         /// To relate property validation errors to the relevant property, use the <see cref="ValidationResult">ValidationResults</see> property.
         /// </summary>

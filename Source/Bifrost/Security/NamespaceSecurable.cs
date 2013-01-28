@@ -29,11 +29,13 @@ namespace Bifrost.Security
     /// </summary>
     public class NamespaceSecurable : Securable
     {
+        const string NAMESPACE = "InNamespace_{{{0}}}";
+
         /// <summary>
         /// Initializes a new instance of <see cref="NamespaceSecurable"/>
         /// </summary>
         /// <param name="namespace">Namespace to secure</param>
-        public NamespaceSecurable(string @namespace)
+        public NamespaceSecurable(string @namespace) : base(string.Format(NAMESPACE,@namespace))
         {
             Namespace = @namespace;
         }

@@ -52,5 +52,10 @@ namespace Bifrost.Security
         /// <param name="actionToAuthorize">Instance of an action to be authorized</param>
         /// <returns>An <see cref="AuthorizeTargetResult"/> that indicates if the action was authorized or not</returns>
         AuthorizeTargetResult Authorize(object actionToAuthorize);
+
+        /// <summary>
+        /// Gets a description of the SecurityTarget.
+        /// </summary>
+        string Description { get; }
     }
 }

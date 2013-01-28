@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Security
 {
@@ -34,5 +35,10 @@ namespace Bifrost.Security
         /// <param name="actionToAuthorize">An instance of the action to authorize</param>
         /// <returns>A <see cref="AuthorizeActorResult"/> which encapsulates the result of the authorization attempt of this instance of an action</returns>
         AuthorizeActorResult IsAuthorized(object actionToAuthorize);
+
+        /// <summary>
+        /// Gets a description of the SecurityActor.
+        /// </summary>
+        string Description { get; }
     }
 }

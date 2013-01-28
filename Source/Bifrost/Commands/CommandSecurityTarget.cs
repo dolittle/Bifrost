@@ -28,5 +28,13 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandSecurityTarget : SecurityTarget
     {
+        const string COMMAND = "Command";
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="CommandSecurityTarget"/>
+        /// </summary>
+        public CommandSecurityTarget() : base(COMMAND)
+        {
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Bifrost.Specs.Security.for_Securable
                 another_securable_authorized = new AuthorizeSecurableResult(another_securable_that_is_authorized.Object);
                 securable_that_is_authorized.Setup(a => a.Authorize(Moq.It.IsAny<object>())).Returns(securable_authorized);
                 another_securable_that_is_authorized.Setup(a => a.Authorize(Moq.It.IsAny<object>())).Returns(another_securable_authorized);
-                target = new SecurityTarget();
+                target = new SecurityTarget(string.Empty);
                 target.AddSecurable(securable_that_is_authorized.Object);
                 target.AddSecurable(another_securable_that_is_authorized.Object);
             };
@@ -33,7 +33,7 @@ namespace Bifrost.Specs.Security.for_Securable
         Because of = () => result = target.Authorize(new object());
 
         It should_be_authorized = () => result.IsAuthorized.ShouldBeTrue();
-        It should_not_have_any_actor_authorizations = () => result.AuthorizeSecurableResults.Any().ShouldBeFalse();
+        It should_not_have_any_actor_authorizations = () => result.AuthorizationFailures.Any().ShouldBeFalse();
         It should_have_a_reference_to_the_target = () => result.Target.ShouldEqual(target);
     }
 }

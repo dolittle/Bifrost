@@ -26,7 +26,7 @@ namespace Bifrost.Specs.Security.for_Securable
                 actor_does_not_authorize.AddBrokenRule(new Mock<ISecurityRule>().Object);
                 actor_that_is_authorized.Setup(a => a.IsAuthorized(Moq.It.IsAny<object>())).Returns(actor_authorized);
                 actor_that_is_not_authorized.Setup(a => a.IsAuthorized(Moq.It.IsAny<object>())).Returns(actor_does_not_authorize);
-                securable = new Securable();
+                securable = new Securable(string.Empty);
                 securable.AddActor(actor_that_is_authorized.Object);
                 securable.AddActor(actor_that_is_not_authorized.Object);
             };
@@ -36,10 +36,9 @@ namespace Bifrost.Specs.Security.for_Securable
         It should_not_be_authorized = () => result.IsAuthorized.ShouldBeFalse();
         It should_hold_the_results_of_each_failed_actor_authorization = () =>
             {
-                result.AuthorizeActorResults.Count().ShouldEqual(1);
-                result.AuthorizeActorResults.Count(r => r == actor_does_not_authorize).ShouldEqual(1);
+                result.AuthorizationFailures.Count().ShouldEqual(1);
+                result.AuthorizationFailures.Count(r => r == actor_does_not_authorize).ShouldEqual(1);
             };
         It should_have_a_reference_to_the_securable_authorizing = () => result.Securable.ShouldEqual(securable);
-
     }
 }

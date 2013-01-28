@@ -8,14 +8,14 @@ namespace Bifrost.Security
     /// </summary>
     public class AuthorizationResult
     {
-        readonly List<AuthorizeActionResult> _authorizeActionResults = new List<AuthorizeActionResult>();
+        readonly List<AuthorizeActionResult> _authorizationFailures = new List<AuthorizeActionResult>();
 
         /// <summary>
         /// Gets any <see cref="AuthorizeActionResult"> results</see> that were not authorized
         /// </summary>
-        public IEnumerable<AuthorizeActionResult> AuthorizeActionResults
+        public IEnumerable<AuthorizeActionResult> AuthorizationFailures
         {
-            get { return _authorizeActionResults.AsEnumerable(); }
+            get { return _authorizationFailures.AsEnumerable(); }
         } 
 
         /// <summary>
@@ -23,16 +23,31 @@ namespace Bifrost.Security
         /// </summary>
         public bool IsAuthorized 
         {
-            get { return _authorizeActionResults.All(r => r.IsAuthorized); }
+            get { return !_authorizationFailures.Any(); }
         }
 
         /// <summary>
-        /// Adds an instance of an <see cref="AuthorizeActionResult"/>
+        /// Processes instance of an <see cref="AuthorizeActionResult"/>, adding failed authorizations to the AuthorizationFailures collection
         /// </summary>
-        /// <param name="result">Result to add</param>
-        public void AddAuthorizeActionResult(AuthorizeActionResult result)
+        /// <param name="result">Result to process</param>
+        public void ProcessAuthorizeActionResult(AuthorizeActionResult result)
         {
-            _authorizeActionResults.Add(result);
+            if(!result.IsAuthorized)
+                _authorizationFailures.Add(result);
+        }
+
+        /// <summary>
+        /// Gets all the broken <see cref="ISecurityRule">rules</see> for this authorization attempt
+        /// </summary>
+        /// <returns>A string describing each broken rule or an empty enumerable if there are none</returns>
+        public IEnumerable<string> GetFailedAuthorizationMessages()
+        {
+            var messages = new List<string>();
+            foreach (var result in AuthorizationFailures)
+            {
+                messages.AddRange(result.BuildFailedAuthorizationMessages());
+            }
+            return messages;
         }
     }
 }

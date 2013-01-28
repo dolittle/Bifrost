@@ -54,6 +54,9 @@ namespace Bifrost.Security
         /// <returns>An <see cref="AuthorizeSecurableResult"/> </returns>
         AuthorizeSecurableResult Authorize(object actionToAuthorize);
 
-
+        /// <summary>
+        /// Gets a description of the Securable.
+        /// </summary>
+        string Description { get; } 
     }
 }

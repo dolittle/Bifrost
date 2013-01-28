@@ -64,9 +64,22 @@ namespace Bifrost.Security
         /// <summary>
         /// Indicates whether the Authorization attempt was successful or not
         /// </summary>
-        public bool IsAuthorized
+        public virtual bool IsAuthorized
         {
             get { return !RulesThatEncounteredAnErrorWhenEvaluating.Any() && !BrokenRules.Any(); }
+        }
+
+        /// <summary>
+        /// Builds a collection of strings that show Actor/Rule for each broken or erroring rule <see cref="AuthorizeActorResult"/>
+        /// </summary>
+        /// <returns>A collection of strings</returns>
+        public virtual IEnumerable<string> BuildFailedAuthorizationMessages()
+        {
+            foreach (var brokenRule in BrokenRules)
+                yield return Actor.Description + "/" + brokenRule.Description;
+
+            foreach (var errorRule in RulesThatEncounteredAnErrorWhenEvaluating)
+                yield return Actor.Description + "/" + errorRule.BuildErrorMessage();
         }
     }
 }

@@ -28,5 +28,11 @@ namespace Bifrost.Commands
     /// </summary>
     public class HandleCommand : SecurityAction
     {
+#pragma warning disable 1591 // Xml Comments
+        public override string ActionType
+        {
+            get { return "Handle"; }
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

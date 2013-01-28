@@ -61,9 +61,7 @@ namespace Bifrost.Security
             var result = new AuthorizationResult();
             foreach (var action in Actions.Where(a => a.CanAuthorize(instanceToAuthorize)))
             {
-                var authResult = action.Authorize(instanceToAuthorize);
-                if(!authResult.IsAuthorized)
-                    result.AddAuthorizeActionResult(action.Authorize(instanceToAuthorize));
+               result.ProcessAuthorizeActionResult(action.Authorize(instanceToAuthorize));
             }
             return result;
         }
