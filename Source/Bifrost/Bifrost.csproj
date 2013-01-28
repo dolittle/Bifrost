@@ -125,6 +125,7 @@
     <Compile Include="Sagas\SagaConverter.cs" />
     <Compile Include="Sagas\SagaState.cs" />
     <Compile Include="Sagas\State.cs" />
+    <Compile Include="Security\AuthorizeDescriptorResult.cs" />
     <Compile Include="Security\AuthorizationResult.cs" />
     <Compile Include="Security\AuthorizeActionResult.cs" />
     <Compile Include="Security\AuthorizeActorResult.cs" />

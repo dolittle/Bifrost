@@ -57,7 +57,7 @@ namespace Bifrost.Security
         /// Authorizes an object that represents a particular action being undertaken
         /// </summary>
         /// <param name="instanceToAuthorize">instance of the action being undertaken</param>
-        /// <returns>An <see cref="AuthorizationResult"/> indicating the result of the authorization attempt</returns>
-        AuthorizationResult Authorize(object instanceToAuthorize);
+        /// <returns>An <see cref="AuthorizeDescriptorResult"/> indicating the result of the authorization attempt</returns>
+        AuthorizeDescriptorResult Authorize(object instanceToAuthorize);
     }
 }

@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
         static Mock<ISecurityAction> action_that_cannot_authorize;
         static AuthorizeActionResult authorized_target;
         static AuthorizeActionResult another_authorized_target;
-        static AuthorizationResult result;
+        static AuthorizeDescriptorResult result;
 
         Establish context = () =>
         {

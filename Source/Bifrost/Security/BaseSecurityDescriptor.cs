@@ -56,9 +56,9 @@ namespace Bifrost.Security
             return _actions.Where(a => a.GetType() == typeof(T)).Any(a => a.CanAuthorize(instanceToAuthorize));
         }
 
-        public AuthorizationResult Authorize(object instanceToAuthorize)
+        public AuthorizeDescriptorResult Authorize(object instanceToAuthorize)
         {
-            var result = new AuthorizationResult();
+            var result = new AuthorizeDescriptorResult();
             foreach (var action in Actions.Where(a => a.CanAuthorize(instanceToAuthorize)))
             {
                result.ProcessAuthorizeActionResult(action.Authorize(instanceToAuthorize));

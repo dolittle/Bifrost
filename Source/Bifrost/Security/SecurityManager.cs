@@ -57,14 +57,21 @@ namespace Bifrost.Security
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public bool IsAuthorized<T>(object target) where T : ISecurityAction
+        public AuthorizationResult Authorize<T>(object target) where T : ISecurityAction
         {
+            var result = new AuthorizationResult();
             if (!_securityDescriptors.Any())
-                return true;
+                return result;
 
             var applicableSecurityDescriptors = _securityDescriptors.Where(sd => sd.CanAuthorize<T>(target));
 
-            return !applicableSecurityDescriptors.Any() || applicableSecurityDescriptors.All(sd => sd.Authorize(target).IsAuthorized);
+            if (!applicableSecurityDescriptors.Any())
+                return result;
+
+            foreach(var securityDescriptor in applicableSecurityDescriptors)
+                result.ProcessAuthorizeDescriptorResult(securityDescriptor.Authorize(target));
+
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
     }

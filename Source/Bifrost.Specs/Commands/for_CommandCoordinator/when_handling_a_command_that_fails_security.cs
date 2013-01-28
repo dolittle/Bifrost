@@ -1,6 +1,9 @@
 ﻿using Bifrost.Commands;
+using Bifrost.Security;
 using Machine.Specifications;
 using Bifrost.Testing.Fakes.Commands;
+using Moq;
+using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
 {
@@ -9,11 +12,15 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
     {
         static ICommand command;
         static CommandResult result;
+        static Mock<AuthorizationResult> authorization_result;
 
         Establish context = () => 
         {
+            authorization_result = new Mock<AuthorizationResult>();
+            authorization_result.Setup(r => r.IsAuthorized).Returns(false);
+            authorization_result.Setup(r => r.BuildFailedAuthorizationMessages()).Returns(new[] { "Something went wrong" });
             command = new SimpleCommand();
-            command_security_manager_mock.Setup(c => c.IsAuthorizedToHandle(Moq.It.IsAny<ICommand>())).Returns(false);
+            command_security_manager_mock.Setup(c => c.Authorize(Moq.It.IsAny<ICommand>())).Returns(authorization_result.Object);
         };
 
         Because of = () => result = coordinator.Handle(command);

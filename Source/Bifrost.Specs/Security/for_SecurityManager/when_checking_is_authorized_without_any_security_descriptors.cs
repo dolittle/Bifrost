@@ -10,10 +10,10 @@ namespace Bifrost.Specs.Security.for_SecurityManager
     {
         const string securable = "something";
 
-        static bool result;
+        static AuthorizationResult result;
 
-        Because of = () => result = security_manager.IsAuthorized<HandleCommand>(securable);
+        Because of = () => result = security_manager.Authorize<HandleCommand>(securable);
 
-        It should_return_true = () => result.ShouldBeTrue();
+        It should_return_true = () => result.IsAuthorized.ShouldBeTrue();
     }
 }
