@@ -21,7 +21,7 @@ namespace Bifrost.Security
         /// <summary>
         /// Gets the result of the Authorization attempt for this action and <see cref="ISecurityDescriptor"/>
         /// </summary>
-        public bool IsAuthorized
+        public virtual bool IsAuthorized
         {
             get { return !_authorizationFailures.Any(); }
         }
@@ -40,7 +40,7 @@ namespace Bifrost.Security
         /// Gets all the broken <see cref="ISecurityRule">rules</see> for this authorization attempt
         /// </summary>
         /// <returns>A string describing each broken rule or an empty enumerable if there are none</returns>
-        public IEnumerable<string> BuildFailedAuthorizationMessages()
+        public virtual IEnumerable<string> BuildFailedAuthorizationMessages()
         {
             var messages = new List<string>();
             foreach (var result in AuthorizationFailures)

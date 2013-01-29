@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
 using Bifrost.Security;
 using Machine.Specifications;
 
@@ -10,6 +12,11 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
     {
         static AuthorizeDescriptorResult authorize_descriptor_result;
         static IEnumerable<string> authorization_messages;
+
+        Establish context = () =>
+        {
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(""), new string[0]);
+        };
 
         Because of = () =>
             {
