@@ -45,6 +45,7 @@
 @depends commands/commandDependencyResolver.js
 @depends read/Query.js
 @depends read/queryDependencyResolver.js
+@depends read/queryService.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js

@@ -9,8 +9,8 @@ Bifrost.namespace("Bifrost.read", {
 	        };
 
 	        for( var property in query ) {
-	        	if( ko.isObervable(query[property]) == true ) {
-	        		decsriptor.parameters[property] = query[property]();
+	        	if( ko.isObservable(query[property]) == true ) {
+	        		descriptor.parameters[property] = query[property]();
 	        	}
 	        }
 
@@ -26,7 +26,7 @@ Bifrost.namespace("Bifrost.read", {
 	            contentType: 'application/json; charset=utf-8',
 	            complete: function (result) {
 	                var items = $.parseJSON(result.responseText);
-	                self.allObservable(items);
+	                //self.allObservable(items);
 	            }
 	        });
     	}
