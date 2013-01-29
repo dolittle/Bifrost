@@ -604,7 +604,7 @@ Bifrost.namespace("Bifrost", {
             handleOnCreate(type._super, lastDescendant, type.prototype);
         }
 
-        if( typeof currentInstance.onCreated === "function" ) {
+        if( currentInstance.hasOwnProperty("onCreated") && typeof currentInstance.onCreated === "function" ) {
             currentInstance.onCreated(lastDescendant);
         }
     };
@@ -1755,17 +1755,19 @@ Bifrost.commands.CommandResult = (function () {
 
         function createQueryable() {
             var observable = ko.observableArray();
-            observable.execute = function() {
-                self.queryService.execute(self.target);
+            observable.execute = function () {
+                self.queryService.execute(self.target).continueWith(function (data) {
+                    observable(data);
+                });
             };
             return observable;
         }
 
         function observeProperties(query) {
-            for( var property in query ) {
-                if( ko.isObservable(query[property]) == true ) {
-                    query[property].subscribe(function() {
-                        for( var queryable in queryables ) {
+            for (var property in query) {
+                if (ko.isObservable(query[property]) == true) {
+                    query[property].subscribe(function () {
+                        for (var queryable in queryables) {
                             queryables[queryable].execute();
                         }
                     });
@@ -1774,12 +1776,12 @@ Bifrost.commands.CommandResult = (function () {
         }
 
         this.all = function () {
-            if( typeof queryables.all === "undefined") queryables.all = createQueryable();
+            if (typeof queryables.all === "undefined") queryables.all = createQueryable();
             queryables.all.execute();
             return queryables.all;
         };
 
-        this.onCreated = function(query) {
+        this.onCreated = function (query) {
             self.target = query;
             observeProperties(query);
         };
@@ -1798,38 +1800,48 @@ Bifrost.commands.CommandResult = (function () {
     }
 };
 Bifrost.namespace("Bifrost.read", {
-	queryService: Bifrost.Singleton(function() {
-		var self = this;
+    queryService: Bifrost.Singleton(function () {
+        var self = this;
 
-		this.execute = function(query) {
-			var descriptor = {
-	                nameOfQuery: this.name,
-	                parameters: {}
-	        };
+        function createDescriptorFrom(query) {
+            var descriptor = {
+                nameOfQuery: query.name,
+                parameters: {}
+            };
 
-	        for( var property in query ) {
-	        	if( ko.isObservable(query[property]) == true ) {
-	        		descriptor.parameters[property] = query[property]();
-	        	}
-	        }
+            for (var property in query) {
+                if (ko.isObservable(query[property]) == true) {
+                    descriptor.parameters[property] = query[property]();
+                }
+            }
 
-	        var methodParameters = {
-	            descriptor: JSON.stringify(descriptor)
-	        };
+            return descriptor;
+        }
 
-	        $.ajax({
-	            url: "/Bifrost/Query/Execute",
-	            type: 'POST',
-	            dataType: 'json',
-	            data: JSON.stringify(methodParameters),
-	            contentType: 'application/json; charset=utf-8',
-	            complete: function (result) {
-	                var items = $.parseJSON(result.responseText);
-	                //self.allObservable(items);
-	            }
-	        });
-    	}
-	})
+
+        this.execute = function (query) {
+            var promise = Bifrost.execution.Promise.create();
+            var descriptor = createDescriptorFrom(query);
+
+            var methodParameters = {
+                descriptor: JSON.stringify(descriptor)
+            };
+
+            $.ajax({
+                url: "/Bifrost/Query/Execute",
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(methodParameters),
+                contentType: 'application/json; charset=utf-8',
+                complete: function (result) {
+                    var items = $.parseJSON(result.responseText);
+                    promise.signal(items);
+                }
+            });
+
+            return promise;
+        }
+    })
 });
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {

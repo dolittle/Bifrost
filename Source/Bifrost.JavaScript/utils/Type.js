@@ -137,7 +137,7 @@ Bifrost.namespace("Bifrost", {
             handleOnCreate(type._super, lastDescendant, type.prototype);
         }
 
-        if( typeof currentInstance.onCreated === "function" ) {
+        if( currentInstance.hasOwnProperty("onCreated") && typeof currentInstance.onCreated === "function" ) {
             currentInstance.onCreated(lastDescendant);
         }
     };
