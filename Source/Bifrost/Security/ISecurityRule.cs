@@ -34,5 +34,10 @@ namespace Bifrost.Security
         /// <returns>True if has access, false if not</returns>
         bool IsAuthorized(object securable);
 
+        /// <summary>
+        /// Returns a description of the rule
+        /// </summary>
+        string Description { get; }
+
     }
 }

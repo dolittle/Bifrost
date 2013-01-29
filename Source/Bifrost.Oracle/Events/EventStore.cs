@@ -36,12 +36,20 @@ namespace Bifrost.Oracle.Events
 
         const string LAST_VERSION_STATEMENT =
             "SELECT VERSION FROM " +
+<<<<<<< HEAD
             "(SELECT VERSION" +
             " FROM EVENTS" +
             " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID" +
             " ORDER BY VERSION DESC)" +
             " WHERE ROWNUM = 1 ";
             
+=======
+            " (SELECT VERSION" +
+            " FROM EVENTS" +
+            " WHERE EVENTSOURCE = :EVENTSOURCE AND EVENTSOURCEID = :EVENTSOURCEID" +
+            " ORDER BY VERSION DESC)" +
+            " WHERE ROWNUM = 1";
+>>>>>>> b994c912a49119d6c14d299f65a63375129981d3
 
 
         readonly OracleConnection _connection;

@@ -1,4 +1,5 @@
 ﻿using Bifrost.Commands;
+using Bifrost.Security;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
@@ -27,8 +28,8 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                         Returns(commandContextMock.Object);
                                     command_security_manager_mock = new Mock<ICommandSecurityManager>();
                                     command_security_manager_mock.Setup(
-                                        s => s.IsAuthorizedToHandle(Moq.It.IsAny<ICommand>()))
-                                                                 .Returns(true);
+                                        s => s.Authorize(Moq.It.IsAny<ICommand>()))
+                                                                 .Returns(new AuthorizationResult());
 
                                     coordinator = new CommandCoordinator(
                                         command_handler_manager_mock.Object,

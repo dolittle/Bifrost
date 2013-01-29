@@ -47,12 +47,12 @@ namespace Bifrost.Security
             var result = new AuthorizeActionResult(this);
             foreach (var target in Targets.Where(t => t.CanAuthorize(actionToAuthorize)))
             {
-                var authResult = target.Authorize(actionToAuthorize);
-                if(!authResult.IsAuthorized)
-                    result.AddAuthorizeTargetResult(authResult);
+                result.ProcessAuthorizeTargetResult(target.Authorize(actionToAuthorize));
             }
             return result;
         }
+
+        public virtual string ActionType { get { return string.Empty; } }
 
         public IEnumerable<ISecurityTarget> Targets { get { return _targets.AsEnumerable(); } }
 #pragma warning restore 1591 // Xml Comments

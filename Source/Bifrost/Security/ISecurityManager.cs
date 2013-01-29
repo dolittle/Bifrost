@@ -32,7 +32,7 @@ namespace Bifrost.Security
         /// </summary>
         /// <typeparam name="T">The type of <see cref="ISecurityAction"/> that we with to authorize</typeparam>
         /// <param name="target">Object that is subject of security</param>
-        /// <returns>True if authorized, false if not</returns>
-        bool IsAuthorized<T>(object target) where T : ISecurityAction;
+        /// <returns><see cref="AuthorizationResult"/> that contains the result</returns>
+        AuthorizationResult Authorize<T>(object target) where T : ISecurityAction;
     }
 }

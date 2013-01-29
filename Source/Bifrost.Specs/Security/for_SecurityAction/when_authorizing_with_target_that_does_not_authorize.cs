@@ -22,7 +22,7 @@ namespace Bifrost.Specs.Security.for_SecurityAction
                 var unauthorisedActor = new AuthorizeActorResult(null);
                 unauthorisedActor.AddBrokenRule(new Mock<ISecurityRule>().Object);
                 var unauthorizedSecurable = new AuthorizeSecurableResult(null);
-                unauthorizedSecurable.AddAuthorizeActorResult(unauthorisedActor);
+                unauthorizedSecurable.ProcessAuthorizeActorResult(unauthorisedActor);
 
                 action = new SecurityAction();
                 target_that_authorizes = CreateTarget(canAuthorize:true);
@@ -30,7 +30,7 @@ namespace Bifrost.Specs.Security.for_SecurityAction
                 target_that_cannot_authorize = CreateTarget(canAuthorize: false);
                 authorized_target = new AuthorizeTargetResult(target_that_authorizes.Object);
                 unauthorized_target = new AuthorizeTargetResult(target_that_does_not_authorize.Object);
-                unauthorized_target.AddAuthorizeSecurableResult(unauthorizedSecurable);
+                unauthorized_target.ProcessAuthorizeSecurableResult(unauthorizedSecurable);
 
                 target_that_authorizes.Setup(t => t.Authorize(Moq.It.IsAny<object>())).Returns(authorized_target);
                 target_that_does_not_authorize.Setup(t => t.Authorize(Moq.It.IsAny<object>())).Returns(unauthorized_target);
@@ -45,8 +45,8 @@ namespace Bifrost.Specs.Security.for_SecurityAction
         It should_not_the_authorized = () => result.IsAuthorized.ShouldBeFalse();
         It should_hold_the_results_of_each_failed_target_authorization = () =>
         {
-            result.AuthorizeTargetResults.Count().ShouldEqual(1);
-            result.AuthorizeTargetResults.Count(r => r == unauthorized_target).ShouldEqual(1);
+            result.AuthorizationFailures.Count().ShouldEqual(1);
+            result.AuthorizationFailures.Count(r => r == unauthorized_target).ShouldEqual(1);
         };
         It should_not_attempt_to_authorize_target_that_cannot_authorize = () => target_that_cannot_authorize.Verify(t => t.Authorize(Moq.It.IsAny<object>()), Times.Never());
         It should_have_a_reference_to_the_action = () => result.Action.ShouldEqual(action);

@@ -26,5 +26,14 @@ namespace Bifrost.Security
         /// The rule instance that encountered the exception when evaluation
         /// </summary>
         public ISecurityRule Rule { get; private set; }
+
+        /// <summary>
+        /// Returns a descriptive message describing the rule
+        /// </summary>
+        /// <returns>String descibing the rule</returns>
+        public string BuildErrorMessage()
+        {
+            return Rule.Description + "/" + "Error";
+        }
     }
 }

@@ -29,15 +29,24 @@ namespace Bifrost.Security
     public class UserSecurityActor : SecurityActor
     {
         /// <summary>
+        /// Description of the <see cref="UserSecurityActor"/>
+        /// </summary>
+        public const string USER = "User";
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="UserSecurityActor"/>
+        /// </summary>
+        public UserSecurityActor() : base(USER)
+        {}
+
+        /// <summary>
         /// Checks whether the Current user has the requested role.
         /// </summary>
         /// <param name="role">Role to check for</param>
         /// <returns>True is the user has the role, False otherwise</returns>
-        public bool IsInRole(string role)
+        public virtual bool IsInRole(string role)
         {
             return Thread.CurrentPrincipal.IsInRole(role);
         }
-
-
     }
 }

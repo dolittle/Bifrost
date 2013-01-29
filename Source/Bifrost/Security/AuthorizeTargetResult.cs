@@ -8,7 +8,7 @@ namespace Bifrost.Security
     /// </summary>
     public class AuthorizeTargetResult
     {
-        readonly List<AuthorizeSecurableResult> _securableResults = new List<AuthorizeSecurableResult>(); 
+        readonly List<AuthorizeSecurableResult> _authorizationFailures = new List<AuthorizeSecurableResult>(); 
 
         /// <summary>
         /// Instantiates an instance of <see cref="AuthorizeTargetResult"/> for the specificed <see cref="ISecurityTarget"/>
@@ -25,28 +25,38 @@ namespace Bifrost.Security
         public ISecurityTarget Target { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="AuthorizeSecurableResult"/> for each <see cref="ISecurable"/> on the <see cref="ISecurityTarget"/>
+        /// Gets the <see cref="AuthorizeSecurableResult"/> for each failed <see cref="ISecurable"/> on the <see cref="ISecurityTarget"/>
         /// </summary>
-        public IEnumerable<AuthorizeSecurableResult> AuthorizeSecurableResults
+        public IEnumerable<AuthorizeSecurableResult> AuthorizationFailures
         {
-            get { return _securableResults.AsEnumerable(); }
+            get { return _authorizationFailures.AsEnumerable(); }
         }
         
         /// <summary>
         /// Indicates if the action instance has been authorized by the <see cref="ISecurityTarget"/>
         /// </summary>
-        public bool IsAuthorized
+        public virtual bool IsAuthorized
         {
-            get { return AuthorizeSecurableResults.All(r => r.IsAuthorized); }
+            get { return !AuthorizationFailures.Any(); }
         }
 
         /// <summary>
-        /// Adds an <see cref="AuthorizeSecurableResult"/> to the collection of results
+        /// Processes an <see cref="AuthorizeSecurableResult"/>, adding it to the collection of AuthorizationFailures if appropriate
         /// </summary>
         /// <param name="result">An <see cref="AuthorizeSecurableResult"/> for a <see cref="ISecurable"/></param>
-        public void AddAuthorizeSecurableResult(AuthorizeSecurableResult result)
+        public void ProcessAuthorizeSecurableResult(AuthorizeSecurableResult result)
         {
-            _securableResults.Add(result);
+            if(!result.IsAuthorized)
+                _authorizationFailures.Add(result);
+        }
+
+        /// <summary>
+        /// Builds a collection of strings that show Target/Securable for each broken or erroring rule in<see cref="AuthorizeTargetResult"/>
+        /// </summary>
+        /// <returns>A collection of strings</returns>
+        public virtual IEnumerable<string> BuildFailedAuthorizationMessages()
+        {
+            return from result in AuthorizationFailures from message in result.BuildFailedAuthorizationMessages() select Target.Description + "/" + message;
         }
     }
 }

@@ -20,6 +20,8 @@
 //
 #endregion
 
+using Bifrost.Security;
+
 namespace Bifrost.Commands
 {
     /// <summary>
@@ -32,6 +34,6 @@ namespace Bifrost.Commands
         /// </summary>
         /// <param name="command"><see cref="ICommand"/> to ask for</param>
         /// <returns>true if it is allowed to go on and be handler, false if not</returns>
-        bool IsAuthorizedToHandle(ICommand command);
+        AuthorizationResult Authorize(ICommand command);
     }
 }

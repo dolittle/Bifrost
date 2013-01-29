@@ -84,9 +84,10 @@ namespace Bifrost.Commands
             {
                 var commandResult = CommandResult.ForCommand(command);
 
-                if (!_commandSecurityManager.IsAuthorizedToHandle(command))
+                var authorizationResult = _commandSecurityManager.Authorize(command);
+                if (!authorizationResult.IsAuthorized)
                 {
-                    commandResult.PassedSecurity = false;
+                    commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
                     return commandResult;
                 }
 

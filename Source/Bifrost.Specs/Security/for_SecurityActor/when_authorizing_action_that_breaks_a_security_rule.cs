@@ -21,7 +21,7 @@ namespace Bifrost.Specs.Security.for_SecurityActor
                 rule_that_is_not_broken_by_action = new Mock<ISecurityRule>();
                 rule_that_is_not_broken_by_action.Setup(r => r.IsAuthorized(Moq.It.IsAny<object>())).Returns(true);
 
-                security_actor = new SecurityActor();
+                security_actor = new SecurityActor(string.Empty);
                 security_actor.AddRule(rule_that_is_not_broken_by_action.Object);
                 security_actor.AddRule(rule_that_is_broken_by_action.Object);
             };

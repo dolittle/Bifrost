@@ -51,6 +51,12 @@ namespace Bifrost.Security
         {
             return string.IsNullOrWhiteSpace(Role) || _userToAuthorize.IsInRole(Role);
         }
+        
+        public const string DescriptionFormat = @"RequiredRole_{{{0}}}";
+        public string Description
+        {
+            get { return string.Format(DescriptionFormat, Role); }
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

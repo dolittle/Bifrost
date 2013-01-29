@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Security.for_SecurityTarget
 
         Establish context = () => 
         {
-            security_target = new SecurityTarget();
+            security_target = new SecurityTarget(string.Empty);
             securable_mock = new Mock<ISecurable>();
         };
 

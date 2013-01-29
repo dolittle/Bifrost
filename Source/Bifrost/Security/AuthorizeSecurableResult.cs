@@ -8,7 +8,7 @@ namespace Bifrost.Security
     /// </summary>
     public class AuthorizeSecurableResult
     {
-        readonly List<AuthorizeActorResult> _authorizeActorResults = new List<AuthorizeActorResult>();
+        readonly List<AuthorizeActorResult> _authorizationFailures = new List<AuthorizeActorResult>();
 
         /// <summary>
         /// Instantiates an instance of <see cref="AuthorizeSecurableResult"/> for the specificed <see cref="ISecurable"/>
@@ -25,28 +25,38 @@ namespace Bifrost.Security
         public ISecurable Securable { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="AuthorizeActorResult"/> for all <see cref="ISecurityActor"> Actors </see> on the <see cref="ISecurable"/>
+        /// Gets the <see cref="AuthorizeActorResult"/> for all failed <see cref="ISecurityActor"> Actors </see> on the <see cref="ISecurable"/>
         /// </summary>
-        public IEnumerable<AuthorizeActorResult> AuthorizeActorResults
+        public IEnumerable<AuthorizeActorResult> AuthorizationFailures
         {
-            get { return _authorizeActorResults.AsEnumerable(); }
+            get { return _authorizationFailures.AsEnumerable(); }
         }
 
         /// <summary>
-        /// Adds an <see cref="AuthorizeActorResult"/> for an <see cref="ISecurityActor"> Actor</see>
+        /// Processes an <see cref="AuthorizeActorResult"/> for an <see cref="ISecurityActor"> Actor</see>, adding it to the AuthorizationFailures collection if appropriate
         /// </summary>
-        /// <param name="authorizeActorResult">Result to add</param>
-        public void AddAuthorizeActorResult(AuthorizeActorResult authorizeActorResult)
+        /// <param name="authorizeActorResult">Result to process</param>
+        public void ProcessAuthorizeActorResult(AuthorizeActorResult authorizeActorResult)
         {
-            _authorizeActorResults.Add(authorizeActorResult);
+            if(!authorizeActorResult.IsAuthorized)
+                _authorizationFailures.Add(authorizeActorResult);
         }
 
         /// <summary>
         /// Gets the result of the Authorization for the <see cref="ISecurable"/>
         /// </summary>
-        public bool IsAuthorized
+        public virtual bool IsAuthorized
         {
-            get { return AuthorizeActorResults.All(r => r.IsAuthorized); }
+            get { return !AuthorizationFailures.Any(); }
+        }
+
+        /// <summary>
+        /// Builds a collection of strings that show Securable/Actor for each broken or erroring rule in <see cref="AuthorizeSecurableResult"/>
+        /// </summary>
+        /// <returns>A collection of strings</returns>
+        public virtual IEnumerable<string> BuildFailedAuthorizationMessages()
+        {
+            return from result in AuthorizationFailures from message in result.BuildFailedAuthorizationMessages() select Securable.Description + "/" + message;
         }
     }
 }

@@ -40,11 +40,10 @@ namespace Bifrost.Commands
             _securityManager = securityManager;
         }
 
-
 #pragma warning disable 1591 // Xml Comments
-        public bool IsAuthorizedToHandle(ICommand command)
+        public AuthorizationResult Authorize(ICommand command)
         {
-            return _securityManager.IsAuthorized<HandleCommand>(command);
+            return _securityManager.Authorize<HandleCommand>(command);
         }
 #pragma warning restore 1591 // Xml Comments
     }

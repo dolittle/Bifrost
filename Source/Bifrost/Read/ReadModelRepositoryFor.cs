@@ -28,7 +28,7 @@ namespace Bifrost.Read
     /// Represents an implementation of <see cref="IReadModelRepositoryFor{T}"/>
     /// </summary>
     /// <typeparam name="T">Type of ReadModel the repository represents</typeparam>
-    public class ReadModelRepositoryFor<T> : IReadModelRepositoryFor<T>
+    public class ReadModelRepositoryFor<T> : IReadModelRepositoryFor<T> where T:IReadModel
     {
         IEntityContext<T> _entityContext;
 

@@ -43,8 +43,11 @@
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
 @depends commands/commandDependencyResolver.js
+@depends read/queryService.js
 @depends read/Query.js
+@depends read/ReadModel.js
 @depends read/queryDependencyResolver.js
+@depends read/queryService.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends features/exceptions.js

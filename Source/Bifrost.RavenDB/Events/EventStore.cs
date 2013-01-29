@@ -40,7 +40,11 @@ namespace Bifrost.RavenDB.Events
             var keyGenerator = new SequentialKeyGenerator(_documentStore);
             _documentStore.Conventions.DocumentKeyGenerator = o => string.Format("{0}/{1}", CollectionName, keyGenerator.NextFor<IEvent>());
 
-            _documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
+            //_documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter<long>());
+            //_documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter<int>());
+            //_documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter<string>());
+            //_documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter<Guid>());
+            //_documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter<short>());
 
             _documentStore.Conventions.CustomizeJsonSerializer = s =>
             {

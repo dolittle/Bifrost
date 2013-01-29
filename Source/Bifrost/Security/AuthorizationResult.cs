@@ -4,35 +4,50 @@ using System.Linq;
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents the result of an authorization attempt
+    /// Contains the result of an attempt to authorize an action.
     /// </summary>
     public class AuthorizationResult
     {
-        readonly List<AuthorizeActionResult> _authorizeActionResults = new List<AuthorizeActionResult>();
+        readonly List<AuthorizeDescriptorResult> _authorizationFailures = new List<AuthorizeDescriptorResult>();
 
         /// <summary>
-        /// Gets any <see cref="AuthorizeActionResult"> results</see> that were not authorized
+        /// Gets any <see cref="AuthorizeDescriptorResult"> results</see> that were not authorized
         /// </summary>
-        public IEnumerable<AuthorizeActionResult> AuthorizeActionResults
+        public IEnumerable<AuthorizeDescriptorResult> AuthorizationFailures
         {
-            get { return _authorizeActionResults.AsEnumerable(); }
-        } 
+            get { return _authorizationFailures.AsEnumerable(); }
+        }
 
         /// <summary>
         /// Gets the result of the Authorization attempt for this action and <see cref="ISecurityDescriptor"/>
         /// </summary>
-        public bool IsAuthorized 
+        public bool IsAuthorized
         {
-            get { return _authorizeActionResults.All(r => r.IsAuthorized); }
+            get { return !_authorizationFailures.Any(); }
         }
 
         /// <summary>
-        /// Adds an instance of an <see cref="AuthorizeActionResult"/>
+        /// Processes instance of an <see cref="AuthorizeDescriptorResult"/>, adding failed authorizations to the AuthorizationFailures collection
         /// </summary>
-        /// <param name="result">Result to add</param>
-        public void AddAuthorizeActionResult(AuthorizeActionResult result)
+        /// <param name="result">Result to process</param>
+        public void ProcessAuthorizeDescriptorResult(AuthorizeDescriptorResult result)
         {
-            _authorizeActionResults.Add(result);
+            if (!result.IsAuthorized)
+                _authorizationFailures.Add(result);
+        }
+
+        /// <summary>
+        /// Gets all the broken <see cref="ISecurityRule">rules</see> for this authorization attempt
+        /// </summary>
+        /// <returns>A string describing each broken rule or an empty enumerable if there are none</returns>
+        public IEnumerable<string> BuildFailedAuthorizationMessages()
+        {
+            var messages = new List<string>();
+            foreach (var result in AuthorizationFailures)
+            {
+                messages.AddRange(result.BuildFailedAuthorizationMessages());
+            }
+            return messages;
         }
     }
 }

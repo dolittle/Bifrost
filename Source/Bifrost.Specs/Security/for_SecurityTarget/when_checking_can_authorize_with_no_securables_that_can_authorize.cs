@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Security.for_SecurityTarget
                 securable_that_cannot_authorize.Setup(s => s.CanAuthorize(Moq.It.IsAny<object>())).Returns(false);
                 another_securable_that_cannot_authorize = new Mock<ISecurable>();
                 another_securable_that_cannot_authorize.Setup(s => s.CanAuthorize(Moq.It.IsAny<object>())).Returns(false);
-                target = new SecurityTarget();
+                target = new SecurityTarget(string.Empty);
                 target.AddSecurable(securable_that_cannot_authorize.Object);
                 target.AddSecurable(another_securable_that_cannot_authorize.Object);
             };

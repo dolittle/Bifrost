@@ -20,6 +20,8 @@
 //
 #endregion
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Bifrost.Security
 {
     /// <summary>
@@ -27,7 +29,16 @@ namespace Bifrost.Security
     /// </summary>
     public class Securable : ISecurable
     {
-        List<ISecurityActor> _actors = new List<ISecurityActor>();
+        readonly List<ISecurityActor> _actors = new List<ISecurityActor>();
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="Securable"/>
+        /// </summary>
+        /// <param name="securableDescription">Description of the Securable</param>
+        public Securable(string securableDescription)
+        {
+            Description = securableDescription ?? string.Empty;
+        }
 
 #pragma warning disable 1591 // Xml Comments
 
@@ -48,12 +59,12 @@ namespace Bifrost.Security
             var result = new AuthorizeSecurableResult(this);
             foreach (var actor in _actors)
             {
-                var actorAuthResult = actor.IsAuthorized(actionToAuthorize);
-                if(!actorAuthResult.IsAuthorized)
-                    result.AddAuthorizeActorResult(actorAuthResult);
+                result.ProcessAuthorizeActorResult(actor.IsAuthorized(actionToAuthorize));
             }
             return result;
         }
+
+        public string Description { get; private set; }
 #pragma warning restore 1591 // Xml Comments
 
     }

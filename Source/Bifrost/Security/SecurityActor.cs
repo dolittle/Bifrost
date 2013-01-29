@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Security
 {
@@ -31,6 +32,15 @@ namespace Bifrost.Security
     public class SecurityActor : ISecurityActor
     {
         List<ISecurityRule> _rules = new List<ISecurityRule>();
+
+        /// <summary>
+        /// Instantiates an instance of <see cref="SecurityActor"/>
+        /// </summary>
+        /// <param name="description">String that describes this actor type</param>
+        public SecurityActor(string description)
+        {
+            Description = description ?? string.Empty;
+        }
 
 #pragma warning disable 1591 // Xml Comments
         public void AddRule(ISecurityRule rule)
@@ -57,6 +67,8 @@ namespace Bifrost.Security
             }
             return result;
         }
+
+        public string Description { get; private set; }
 #pragma warning restore 1591 // Xml Comments
     }
 }

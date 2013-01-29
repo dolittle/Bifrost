@@ -31,6 +31,15 @@ namespace Bifrost.Security
     {
         readonly List<ISecurable> _securables = new List<ISecurable>();
 
+        /// <summary>
+        /// Instantiats an instance of <see cref="SecurityTarget"/>
+        /// </summary>
+        /// <param name="description">A description for this <see cref="SecurityTarget"/></param>
+        public SecurityTarget(string description)
+        {
+            Description = description ?? string.Empty;
+        }
+
 #pragma warning disable 1591
         public void AddSecurable(ISecurable securityObject)
         {
@@ -49,12 +58,12 @@ namespace Bifrost.Security
             var result = new AuthorizeTargetResult(this);
             foreach (var securable in Securables)
             {
-                var authResult = securable.Authorize(actionToAuthorize);
-                if(!authResult.IsAuthorized)
-                    result.AddAuthorizeSecurableResult(authResult);
+                result.ProcessAuthorizeSecurableResult(securable.Authorize(actionToAuthorize));
             }
             return result;
         }
+
+        public string Description { get; private set; }
 #pragma warning restore 1591
     }
 }

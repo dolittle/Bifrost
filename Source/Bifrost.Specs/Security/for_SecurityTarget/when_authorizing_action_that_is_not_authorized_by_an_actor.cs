@@ -26,10 +26,10 @@ namespace Bifrost.Specs.Security.for_Securable
 
                 securable_authorized = new AuthorizeSecurableResult(securable_that_is_authorized.Object);
                 securable_does_not_authorize = new AuthorizeSecurableResult(securable_that_is_not_authorized.Object);
-                securable_does_not_authorize.AddAuthorizeActorResult(actor_not_authorised);
+                securable_does_not_authorize.ProcessAuthorizeActorResult(actor_not_authorised);
                 securable_that_is_authorized.Setup(a => a.Authorize(Moq.It.IsAny<object>())).Returns(securable_authorized);
                 securable_that_is_not_authorized.Setup(a => a.Authorize(Moq.It.IsAny<object>())).Returns(securable_does_not_authorize);
-                target = new SecurityTarget();
+                target = new SecurityTarget(string.Empty);
                 target.AddSecurable(securable_that_is_authorized.Object);
                 target.AddSecurable(securable_that_is_not_authorized.Object);
             };
@@ -39,8 +39,8 @@ namespace Bifrost.Specs.Security.for_Securable
         It should_not_be_authorized = () => result.IsAuthorized.ShouldBeFalse();
         It should_hold_the_results_of_each_failed_securable_authorization = () =>
             {
-                result.AuthorizeSecurableResults.Count().ShouldEqual(1);
-                result.AuthorizeSecurableResults.Count(r => r == securable_does_not_authorize).ShouldEqual(1);
+                result.AuthorizationFailures.Count().ShouldEqual(1);
+                result.AuthorizationFailures.Count(r => r == securable_does_not_authorize).ShouldEqual(1);
             };
         It should_have_a_reference_to_the_target = () => result.Target.ShouldEqual(target);
     }
