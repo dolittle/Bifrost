@@ -10,8 +10,10 @@
                 var target = $(this)[0];
                 var viewName = $(this).attr("data-view");
                 var path = self.viewLocationMapper.resolve(viewName);
-                var view = self.viewFactory.createFrom(path);
-                target.view = view;
+                self.viewFactory.createFrom(path).continueWith(function (view) {
+                    target.view = view;
+                    $(target).append($(view.content));
+                });
             });
         };
     })

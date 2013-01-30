@@ -61,5 +61,11 @@
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
+@depends views/View.js
+@depends views/viewBindingHandler.js
+@depends views/viewFactory.js
+@depends views/viewLocationMapper.js
+@depends views/viewManager.js
+@depends views/ViewModel.js
 @depends utils/configure.js
 */

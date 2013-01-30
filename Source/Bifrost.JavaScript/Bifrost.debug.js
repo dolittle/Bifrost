@@ -2441,6 +2441,52 @@ Bifrost.namespace("Bifrost.navigation", {
         return observable;
     }
 }
+Bifrost.namespace("Bifrost.views", {
+    View: Bifrost.Type.extend(function () {
+        var self = this;
+
+    })
+});
+if (typeof ko !== 'undefined') {
+    ko.bindingHandlers.view = {
+        init: function (element, valueAccessor, allBindingAccessor, viewModel) {
+        },
+        update: function (element, valueAccessor, allBindingAccessor, viewModel) {
+        }
+    };
+}
+
+﻿Bifrost.namespace("Bifrost.views", {
+    viewFactory: Bifrost.Singleton(function() {
+    });
+});
+﻿Bifrost.namespace("Bifrost.views", {
+    viewLocationMapper: Bifrost.Singleton.extend(function () {
+    })
+});
+﻿Bifrost.namespace("Bifrost.views", {
+    viewManager: Bifrost.Singleton(function (viewLocationMapper, viewFactory) {
+        var self = this;
+
+        this.viewLocationMapper = viewLocationMapper;
+        this.viewFactory = viewFactory;
+
+        this.expandFor = function (element) {
+            $("[data-view]", element).each(function () {
+                var target = $(this)[0];
+                var viewName = $(this).attr("data-view");
+                var path = self.viewLocationMapper.resolve(viewName);
+                var view = self.viewFactory.createFrom(path);
+                target.view = view;
+            });
+        };
+    })
+});
+
+﻿Bifrost.namespace("Bifrost.views", {
+    ViewModel: Bifrost.Type.extend(function () {
+    })
+});
 ﻿Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
@@ -2561,5 +2607,11 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
+@depends views/View.js
+@depends views/viewBindingHandler.js
+@depends views/viewFactory.js
+@depends views/viewLocationMapper.js
+@depends views/viewManager.js
+@depends views/ViewModel.js
 @depends utils/configure.js
 */
