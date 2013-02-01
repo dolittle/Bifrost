@@ -6,7 +6,6 @@ describe("when resolving and there are two resolvers and first resolver can not 
 	var secondResolverResolveSpy = sinon.spy();
 
 	beforeEach(function() {
-		Bifrost.views.viewResolver = Bifrost.Type.extend(function() {});
 		Bifrost.views.viewResolvers.firstResolver = Bifrost.views.viewResolver.extend(function() {
 			this.canResolve = function() { return false; };
 			this.resolve = firstResolverResolveStub;
@@ -23,7 +22,6 @@ describe("when resolving and there are two resolvers and first resolver can not 
 	afterEach(function() {
 		Bifrost.views.viewResolvers.firstResolver = undefined;
 		Bifrost.views.viewResolvers.secondResolver = undefined;
-		Bifrost.views.viewResolver = undefined;
 	});
 
 	it("should not use first resolver for resolving", function() {

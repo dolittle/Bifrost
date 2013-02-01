@@ -3,7 +3,6 @@ describe("when asking if can resolve and there are two resolvers and first resol
 	var element = document.createElement("div");
 	var canResolveSpy = sinon.spy();
 	beforeEach(function() {
-		Bifrost.views.viewResolver = Bifrost.Type.extend(function() {});
 		Bifrost.views.viewResolvers.firstResolver = Bifrost.views.viewResolver.extend(function() {
 			this.canResolve = function() { return false; };
 		});
@@ -19,7 +18,6 @@ describe("when asking if can resolve and there are two resolvers and first resol
 	afterEach(function() {
 		Bifrost.views.viewResolvers.firstResolver = undefined;
 		Bifrost.views.viewResolvers.secondResolver = undefined;
-		Bifrost.views.viewResolver = undefined;
 	});
 
 	it("should not ask the second resolver", function() {
