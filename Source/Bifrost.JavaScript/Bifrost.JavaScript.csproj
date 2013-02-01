@@ -128,9 +128,11 @@
     <Content Include="views\viewBindingHandler.js" />
     <Content Include="views\View.js" />
     <Content Include="views\viewFactory.js" />
+    <Content Include="views\viewLoader.js" />
     <Content Include="views\viewLocationMapper.js" />
     <Content Include="views\viewManager.js" />
     <Content Include="views\ViewModel.js" />
+    <Content Include="views\viewModelManager.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
