@@ -61,6 +61,7 @@
     <Content Include="read\Query.js" />
     <Content Include="read\queryDependencyResolver.js" />
     <Content Include="read\queryService.js" />
+    <Content Include="read\ReadModel.js" />
     <Content Include="utils\configure.js" />
     <Content Include="execution\Promise.js" />
     <Content Include="features\exceptions.js" />

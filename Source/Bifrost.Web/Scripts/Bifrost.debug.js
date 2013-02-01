@@ -1743,62 +1743,6 @@ Bifrost.commands.CommandResult = (function () {
         return commands[name].create();
     }
 };
-﻿Bifrost.namespace("Bifrost.read", {
-    Query: Bifrost.Type.extend(function (queryService) {
-        var self = this;
-        this.name = "";
-        this.queryService = queryService;
-
-        var queryables = {};
-
-        this.target = this;
-
-        function createQueryable() {
-            var observable = ko.observableArray();
-            observable.execute = function () {
-                self.queryService.execute(self.target).continueWith(function (data) {
-                    observable(data);
-                });
-            };
-            return observable;
-        }
-
-        function observeProperties(query) {
-            for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
-                    query[property].subscribe(function () {
-                        for (var queryable in queryables) {
-                            queryables[queryable].execute();
-                        }
-                    });
-                }
-            }
-        }
-
-        this.all = function () {
-            if (typeof queryables.all === "undefined") queryables.all = createQueryable();
-            queryables.all.execute();
-            return queryables.all;
-        };
-
-        this.onCreated = function (query) {
-            self.target = query;
-            observeProperties(query);
-        };
-    })
-});
-﻿Bifrost.dependencyResolvers.query = {
-    canResolve: function (namespace, name) {
-        if (typeof queries !== "undefined") {
-            return name in queries;
-        }
-        return false;
-    },
-
-    resolve: function (namespace, name) {
-        return queries[name].create();
-    }
-};
 Bifrost.namespace("Bifrost.read", {
     queryService: Bifrost.Singleton(function () {
         var self = this;
@@ -1843,6 +1787,71 @@ Bifrost.namespace("Bifrost.read", {
         }
     })
 });
+﻿Bifrost.namespace("Bifrost.read", {
+    Query: Bifrost.Type.extend(function (queryService) {
+        var self = this;
+        this.name = "";
+        this.queryService = queryService;
+
+        var queryables = {};
+
+        this.target = this;
+
+        function createQueryable() {
+            var observable = ko.observableArray();
+            observable.execute = function () {
+                self.queryService.execute(self.target).continueWith(function (data) {
+                    observable(data);
+                });
+            };
+            return observable;
+        }
+
+        function observeProperties(query) {
+            for (var property in query) {
+                if (ko.isObservable(query[property]) == true) {
+                    query[property].subscribe(function () {
+                        for (var queryable in queryables) {
+                            queryables[queryable].execute();
+                        }
+                    });
+                }
+            }
+        }
+
+        this.all = function () {
+            if (typeof queryables.all === "undefined") queryables.all = createQueryable();
+            queryables.all.execute();
+            return queryables.all;
+        };
+
+        this.onCreated = function (query) {
+            self.target = query;
+            observeProperties(query);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.read", {
+	ReadModel: Bifrost.Type.extend(function() {
+		var self = this;
+
+		this.by = function(propertyName, value) {
+
+		}
+	})
+});
+﻿Bifrost.dependencyResolvers.query = {
+    canResolve: function (namespace, name) {
+        if (typeof queries !== "undefined") {
+            return name in queries;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return queries[name].create();
+    }
+};
 Bifrost.namespace("Bifrost.sagas");
 Bifrost.sagas.Saga = (function () {
     function Saga() {
@@ -2441,6 +2450,112 @@ Bifrost.namespace("Bifrost.navigation", {
         return observable;
     }
 }
+Bifrost.namespace("Bifrost.views", {
+    View: Bifrost.Type.extend(function (viewLoader, viewModelManager, viewManager) {
+        var self = this;
+        this.path = "";
+        this.content = "[CONTENT NOT LOADED]";
+        
+        this.viewLoader = viewLoader;
+        this.viewModelManager = viewModelManager;
+        this.viewManager = viewManager;
+
+
+        function applyViewModelsByAttribute(path, container) {
+            var viewModelApplied = false;
+
+            $("[data-viewmodel]", container).each(function () {
+                viewModelApplied = true;
+                var target = $(this)[0];
+                var viewModelName = $(this).attr("data-viewmodel");
+                self.viewModelManager.get(viewModelName, path).continueWith(function (instance) {
+                    ko.applyBindings(instance, target);
+                });
+            });
+
+            return viewModelApplied;
+        }
+
+        function applyViewModelByConventionFromPath(path, container) {
+            if (self.viewModelManager.hasForView(path)) {
+                self.viewModelManager.getForView(path).continueWith(function (instance) {
+                    ko.applyBindings(instance, container);
+                });
+            }
+        }
+
+
+        this.load = function (path) {
+            self.path = path;
+            self.viewLoader.load(path).continueWith(function (html) {
+                var container = $("<div/>").html(html);
+
+                var viewModelApplied = applyViewModelsByAttribute(path, container);
+                if (viewModelApplied == false) {
+                    applyViewModelByConventionFromPath(path, container);
+                }
+
+                self.viewManager.expandFor(container[0]);
+                self.content = html;
+            });
+        };
+    })
+});
+if (typeof ko !== 'undefined') {
+    ko.bindingHandlers.view = {
+        init: function (element, valueAccessor, allBindingAccessor, viewModel) {
+        },
+        update: function (element, valueAccessor, allBindingAccessor, viewModel) {
+        }
+    };
+}
+
+﻿Bifrost.namespace("Bifrost.views", {
+    viewFactory: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.createFrom = function (path) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var view = Bifrost.views.View.create();
+
+            view.load(path).continueWith(function () {
+                promise.signal(view);
+            });
+
+            return promise;
+        };
+    })
+});
+﻿Bifrost.namespace("Bifrost.views", {
+    viewLocationMapper: Bifrost.Singleton(function () {
+    })
+});
+﻿Bifrost.namespace("Bifrost.views", {
+    viewManager: Bifrost.Singleton(function (viewLocationMapper, viewFactory) {
+        var self = this;
+
+        this.viewLocationMapper = viewLocationMapper;
+        this.viewFactory = viewFactory;
+
+        this.expandFor = function (element) {
+            $("[data-view]", element).each(function () {
+                var target = $(this)[0];
+                var viewName = $(this).attr("data-view");
+                var path = self.viewLocationMapper.resolve(viewName);
+                self.viewFactory.createFrom(path).continueWith(function (view) {
+                    target.view = view;
+                    $(target).append($(view.content));
+                });
+            });
+        };
+    })
+});
+
+﻿Bifrost.namespace("Bifrost.views", {
+    ViewModel: Bifrost.Type.extend(function () {
+    })
+});
 ﻿Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
@@ -2543,7 +2658,9 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
 @depends commands/commandDependencyResolver.js
+@depends read/queryService.js
 @depends read/Query.js
+@depends read/ReadModel.js
 @depends read/queryDependencyResolver.js
 @depends read/queryService.js
 @depends sagas/Saga.js
@@ -2561,5 +2678,11 @@ Bifrost.namespace("Bifrost.navigation", {
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
+@depends views/View.js
+@depends views/viewBindingHandler.js
+@depends views/viewFactory.js
+@depends views/viewLocationMapper.js
+@depends views/viewManager.js
+@depends views/ViewModel.js
 @depends utils/configure.js
 */
