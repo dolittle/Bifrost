@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Bifrost.Testing.Fakes.Concepts;
 using Machine.Specifications;
 
 namespace Bifrost.RavenDB.Specs.for_ConceptTypeConverter
 {
-    [Subject(typeof(ConceptTypeConverter))]
-    public class when_checking_can_convert_from_a_concept_of_long : given.a_concept_type_converter
+    [Subject(typeof(ConceptTypeConverter<,>))]
+    public class when_checking_can_convert_from_a_concept_of_long : given.concept_converters
     {
-        static bool can_convert;
+        static bool guid_converter_can_convert;
+        static bool long_converter_can_convert;
+        static bool string_converter_can_convert;
 
-        Because of = () => can_convert = converter.CanConvertFrom(typeof(given.ConceptAsLong));
+        Because of = () =>
+        {
+            guid_converter_can_convert = converter_of_guid_concept.CanConvertFrom(typeof(ConceptAsLong));
+            long_converter_can_convert = converter_of_long_concept.CanConvertFrom(typeof (ConceptAsLong));
+            string_converter_can_convert = converter_of_string_concept.CanConvertFrom(typeof(ConceptAsLong));
+        };
 
-        It should_be_able_to_convert = () => can_convert.ShouldBeTrue();
+        It should_not_be_convertable_by_guid_converter = () => guid_converter_can_convert.ShouldBeFalse();
+        It should_not_be_convertable_by_string_converter = () => string_converter_can_convert.ShouldBeFalse();
+        It should_be_convertable_by_long_converter = () => long_converter_can_convert.ShouldBeTrue();
     }
 }

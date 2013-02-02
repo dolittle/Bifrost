@@ -64,7 +64,8 @@ namespace Bifrost.Configuration
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
-                Url = url
+                Url = url,
+                IdPropertyRegister = new NullIdPropertyRegister()
             };
             if (configureCallback != null)
                 configureCallback(entityContextConfiguration);

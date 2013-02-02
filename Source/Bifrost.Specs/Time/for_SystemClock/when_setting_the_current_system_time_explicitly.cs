@@ -5,6 +5,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Time.for_SystemClock
 {
+    [Subject(typeof(SystemClock))]
     public class when_setting_the_current_system_time_explicitly
     {
         static readonly DateTime explicitly_set_datetime = new DateTime(2010, 1, 1);

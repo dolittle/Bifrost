@@ -21,6 +21,7 @@
 #endregion
 using Bifrost.Entities;
 using Bifrost.Execution;
+using Bifrost.JSON.Serialization;
 using Raven.Client.Document;
 
 namespace Bifrost.RavenDB
@@ -42,6 +43,9 @@ namespace Bifrost.RavenDB
                 Url = configuration.Url
             };
 
+            DocumentStore.Conventions.FindIdentityProperty  =  prop => _configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop);
+            DocumentStore.Conventions.IdentityTypeConvertors.AddRange(_configuration.IdPropertyRegister.GetTypeConvertersForConceptIds());
+
             if (configuration.DefaultDatabase != null)
                 DocumentStore.DefaultDatabase = configuration.DefaultDatabase;
 
@@ -59,9 +63,11 @@ namespace Bifrost.RavenDB
             DocumentStore.Conventions.CustomizeJsonSerializer = s =>
             {
                 s.Converters.Add(new MethodInfoConverter());
+                s.Converters.Add(new ConceptConverter());
+                s.Converters.Add(new ConceptDictionaryConverter());
             };
 
-            DocumentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
+            //DocumentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
         }
     }
 }

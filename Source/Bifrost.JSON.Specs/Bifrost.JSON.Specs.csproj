@@ -47,15 +47,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Serialization\for_ConceptConverter\given\a_concept_converter.cs" />
+    <Compile Include="Serialization\for_ConceptConverter\when_checking_can_convert_on_a_concept.cs" />
+    <Compile Include="Serialization\for_ConceptConverter\when_checking_can_convert_on_a_non_concept.cs" />
     <Compile Include="Serialization\for_Serializer\ClassToSerialize.cs" />
+    <Compile Include="Serialization\for_Serializer\ClassWithConcepts.cs" />
+    <Compile Include="Serialization\for_Serializer\ClassWithNestedConcepts.cs" />
     <Compile Include="Serialization\for_Serializer\given\a_serializer.cs" />
     <Compile Include="Serialization\for_Serializer\ISomething.cs" />
     <Compile Include="Serialization\for_Serializer\SomethingImplementation.cs" />
     <Compile Include="Serialization\for_Serializer\when_deserializing_type_with_an_interface_property_and_json_contains_type_reference.cs" />
+    <Compile Include="Serialization\for_Serializer\when_deserialzing_a_type_with_concepts.cs" />
+    <Compile Include="Serialization\for_Serializer\when_deserialzing_a_type_with_nested_concepts.cs" />
     <Compile Include="Serialization\for_Serializer\when_serializing_type_with_an_interface_property_and_instance_set_to_implementation.cs" />
     <Compile Include="Serialization\for_SerializerContractResolver\given\a_saga_contract_resolver.cs" />
     <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_containing_properties_with_conflicting_names_using_contract_resolver.cs" />
     <Compile Include="Serialization\for_SerializerContractResolver\when_serializing_saga_using_contract_resolver.cs" />
+    <Compile Include="Serialization\for_Serializer\when_serialzing_a_type_with_concepts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

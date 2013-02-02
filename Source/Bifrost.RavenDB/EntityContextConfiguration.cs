@@ -12,5 +12,6 @@ namespace Bifrost.RavenDB
         public ICredentials Credentials { get; set; }
         public Type EntityContextType { get { return typeof(EntityContext<>); } }
         public IEntityContextConnection Connection { get; set; }
+        public IEntityIdPropertyRegister IdPropertyRegister { get; set; }
     }
 }

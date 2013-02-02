@@ -22,13 +22,14 @@
 
 using System;
 using System.Security.Principal;
-using System.Threading;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Globalization;
+using Bifrost.Principal;
 using Bifrost.Sagas;
+using Bifrost.Security;
 using Bifrost.Testing.Exceptions;
 using Bifrost.Validation;
 using Moq;
@@ -59,12 +60,13 @@ namespace Bifrost.Testing
         dynamic command_handler;
         ICanValidate<T> input_validator;
         ICanValidate<T> business_validator;
+        IPrincipal principal;
 
         CommandResult result_of_scenario;
 
         public CommandScenario()
         {
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("test"), new string[] { });
+            principal = new GenericPrincipal(new GenericIdentity("test"), new string[] { });
             GeneratedEvents = new UncommittedEventStream(Guid.Empty);
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
             event_store = new Mock<IEventStore>();
@@ -83,6 +85,8 @@ namespace Bifrost.Testing
             command_validation_service = new CommandValidationService(command_validator_provider.Object);
 
             command_security_manager_mock = new Mock<ICommandSecurityManager>();
+            //TODO: Allow spec'ing of Security
+            command_security_manager_mock.Setup(s => s.Authorize(It.IsAny<ICommand>())).Returns(new AuthorizationResult());
 
             command_coordinator = new CommandCoordinator(
                                         command_handler_manager.Object, 
@@ -138,6 +142,15 @@ namespace Bifrost.Testing
         }
 
         /// <summary>
+        /// Specifies the IPrincipal instance to be used for handling of the command in this scenario.
+        /// </summary>
+        /// <param name="thisPrincipal">IPrincipal to be used</param>
+        public void AsPrincipal(IPrincipal thisPrincipal)
+        {
+            principal = thisPrincipal;
+        }
+
+        /// <summary>
         /// Initiates the scenario by handling a concrete instance of the <see cref="ICommand"/>
         /// </summary>
         /// <param name="command">Concrete instance of the command to be handled</param>
@@ -150,8 +163,11 @@ namespace Bifrost.Testing
             command_validator_provider.Setup(p => p.GetInputValidatorFor(command)).Returns(input_validator);
             command_validator_provider.Setup(p => p.GetBusinessValidatorFor(command)).Returns(business_validator);
 
-            result_of_scenario =  command_coordinator.Handle(command);
-            return result_of_scenario;
+            using(var currentPrincipal = CurrentPrincipal.SetPrincipalTo(principal))
+            {
+                result_of_scenario = command_coordinator.Handle(command);
+                return result_of_scenario;
+            }
         }
 
         void RecordGeneratedEvents(UncommittedEventStream ues)

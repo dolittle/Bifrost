@@ -64,9 +64,18 @@
     <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_string_to_json.cs" />
     <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_string.cs" />
     <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_long.cs" />
-    <Compile Include="for_ConceptTypeConverter\given\a_concept_type_converter.cs" />
+    <Compile Include="for_ConceptTypeConverter\given\concept_converters.cs" />
     <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_guid.cs" />
     <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_guid_to_json.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\given\an_entity_id_property_register_with_ids_registered.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_another_property_is_the_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_an_unregistered_id_property_is_the_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_the_registered_id_property_is_the_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_already_registered_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_unregistered_concept_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_unregistered_non_concept_id_property.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_registering_with_field_id.cs" />
+    <Compile Include="for_EntityIdPropertyRegister\when_registering_with_no_id_property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +86,10 @@
     <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
       <Project>{CB331526-55BF-4887-A0D8-EE721B7FCDD7}</Project>
       <Name>Bifrost.RavenDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
+      <Name>Bifrost.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>

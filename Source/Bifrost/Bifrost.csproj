@@ -114,6 +114,7 @@
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
+    <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Read\IQueryFor.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Sagas\Constants.cs" />
