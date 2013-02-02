@@ -44,6 +44,7 @@ namespace Bifrost.RavenDB
             };
 
             DocumentStore.Conventions.FindIdentityProperty  =  prop => _configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop);
+            DocumentStore.Conventions.IdentityTypeConvertors.AddRange(_configuration.IdPropertyRegister.GetTypeConvertersForConceptIds());
 
             if (configuration.DefaultDatabase != null)
                 DocumentStore.DefaultDatabase = configuration.DefaultDatabase;

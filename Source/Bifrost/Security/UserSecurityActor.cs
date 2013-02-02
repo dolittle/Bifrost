@@ -20,6 +20,7 @@
 //
 #endregion
 using System.Threading;
+using Bifrost.Principal;
 
 namespace Bifrost.Security
 {
@@ -46,7 +47,7 @@ namespace Bifrost.Security
         /// <returns>True is the user has the role, False otherwise</returns>
         public virtual bool IsInRole(string role)
         {
-            return Thread.CurrentPrincipal.IsInRole(role);
+            return CurrentPrincipal.Get().IsInRole(role);
         }
     }
 }

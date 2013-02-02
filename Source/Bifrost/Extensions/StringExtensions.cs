@@ -65,17 +65,18 @@ namespace Bifrost.Extensions
             return str;
         }
 
-#if(!SILVERLIGHT && !NETFX_CORE)
         /// <summary>
-        /// Convert a string into the desired type using inbuilt Type Converters
+        /// Convert a string into the desired type
         /// </summary>
         /// <param name="str">the string to parse</param>
         /// <param name="type">the desired type</param>
         /// <returns>value as the desired type</returns>
         public static object ParseTo(this string str, Type type)
         {
-            return TypeDescriptor.GetConverter(type).ConvertFromInvariantString(str);
+            if (type == typeof(Guid))
+                return Guid.Parse(str);
+
+            return Convert.ChangeType(str, type, null);           
         }
-#endif
     }
 }

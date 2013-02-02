@@ -6,7 +6,7 @@ namespace Bifrost.RavenDB.Specs.for_ConceptTypeConverter
     [Subject(typeof(ConceptTypeConverter<,>))]
     public class when_converting_from_json_to_concept_as_string : given.concept_converters
     {
-        static string tag = "ConceptAStringId";
+        static string tag = "ConceptAsStringId/";
         static string value = "What have the Romans ever done for us?";
         static ConceptAsString concept;
         static string json_representation;
@@ -15,10 +15,9 @@ namespace Bifrost.RavenDB.Specs.for_ConceptTypeConverter
         Establish context = () =>
         {
             concept = new ConceptAsString { Value = value };
-            json_representation = converter_of_string_concept.ConvertFrom(tag, concept, false);
         };
 
-        Because of = () => deserialized_object = converter_of_string_concept.ConvertTo(json_representation);
+        Because of = () => deserialized_object = converter_of_string_concept.ConvertTo(value);
 
         It should_create_a_concept_of_guid = () => deserialized_object.ShouldBeOfType<ConceptAsString>();
         It should_populate_the_correct_value = () => ((ConceptAsString)deserialized_object).Value.ShouldEqual(value);

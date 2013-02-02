@@ -20,6 +20,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
 namespace Bifrost.Time
 {
@@ -34,7 +35,7 @@ namespace Bifrost.Time
         /// </summary>
         public static readonly DateTime MinimumTime = new DateTime(1900, 1, 1);
 
-        private static DateTime? _explicitNow;
+         static Stack<DateTime?> _explicitNows = new Stack<DateTime?>();
 
         /// <summary>
         /// Retrieves the current system date and time
@@ -42,7 +43,9 @@ namespace Bifrost.Time
         /// <returns>The current system date and time</returns>
         public static DateTime GetCurrentTime()
         {
-            return _explicitNow.GetValueOrDefault(DateTime.Now);
+            if (_explicitNows.Count == 0)
+                return DateTime.Now;
+            return _explicitNows.Peek().GetValueOrDefault(DateTime.Now);
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace Bifrost.Time
         /// <returns>A new instance of the SystemClock class which will return the explicitly set current time when queried.</returns>
         public static IDisposable SetNowTo(DateTime dateTime)
         {
-            _explicitNow = dateTime;
+            _explicitNows.Push(dateTime);
             return new SystemClock();
         }
 
@@ -62,7 +65,8 @@ namespace Bifrost.Time
         /// </summary>
         public void Dispose()
         {
-            _explicitNow = null;
+            if(_explicitNows.Count > 0)
+                _explicitNows.Pop();
         }
     };
 }
