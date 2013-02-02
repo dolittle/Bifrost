@@ -5,5 +5,5 @@ Bifrost.namespace("Bifrost.read", {
 		this.by = function(propertyName, value) {
 
 		}
-	});
+	})
 });

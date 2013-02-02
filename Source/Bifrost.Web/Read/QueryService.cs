@@ -47,7 +47,7 @@ namespace Bifrost.Web.Read
 				var propertyName = key.ToPascalCase ();
 				var property = queryType.GetProperty (propertyName);
 				if (property != null) {
-					var value = Convert.ChangeType (descriptor.Parameters [key], property.PropertyType);
+                    var value = descriptor.Parameters[key].ToString().ParseTo(property.PropertyType);
 					property.SetValue (instance, value, null);
 				}
 			}

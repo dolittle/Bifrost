@@ -34,7 +34,7 @@ namespace Bifrost.Web.Proxies
                 var name = type.Name.ToCamelCase();
 
                 builder.AppendFormat("\t{0} : Bifrost.read.ReadModel.extend(function() {{\n", name);
-				builder.AppendFormat("\t\ttvar self = this;\n");
+				builder.AppendFormat("\t\tvar self = this;\n");
                 builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
 
                 var properties = GetPropertiesForReadModel(type);
@@ -51,9 +51,9 @@ namespace Bifrost.Web.Proxies
 						continue;
                     }
 
-					builder.AppendFormat("\t\tthis.by{0} = function(value) {\n", property.Name.ToPascalCase());
+					builder.AppendFormat("\t\tthis.by{0} = function(value) {{\n", property.Name.ToPascalCase());
 					builder.AppendFormat("\t\t\treturn self.by(\"{0}\",value);\n",property.Name.ToCamelCase());
-					builder.AppendLine("\t\t};");
+					builder.AppendLine("\t\t}");
                 }
 
                 builder.AppendFormat("\t}})");
