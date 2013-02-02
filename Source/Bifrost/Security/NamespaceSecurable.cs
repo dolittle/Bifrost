@@ -48,7 +48,12 @@ namespace Bifrost.Security
 #pragma warning disable 1591
         public override bool CanAuthorize(object actionToAuthorize)
         {
-            return actionToAuthorize != null && actionToAuthorize.GetType().Namespace.StartsWith(Namespace, StringComparison.InvariantCulture);
+            return actionToAuthorize != null && actionToAuthorize.GetType().Namespace.StartsWith(Namespace,
+#if(NETFX_CORE)
+                StringComparison.Ordinal);
+#else
+                StringComparison.InvariantCulture);
+#endif
         }
 #pragma warning restore 1591
     }

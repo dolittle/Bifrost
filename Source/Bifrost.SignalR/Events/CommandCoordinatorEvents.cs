@@ -1,6 +1,7 @@
 ﻿using System;
 using Bifrost.SignalR.Commands;
-using SignalR;
+using Microsoft.AspNet.SignalR;
+
 
 namespace Bifrost.SignalR.Events
 {
@@ -19,7 +20,7 @@ namespace Bifrost.SignalR.Events
             {
                 var connectionId = _commandContextConnectionManager.GetConnectionForCommandContext(commandContext);
                 var hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandCoordinator>();
-                hubContext.Clients[connectionId].EventsProcessed(commandContext);
+                hubContext.Clients.Client(connectionId).EventsProcessed(commandContext);
             }
         }
     }

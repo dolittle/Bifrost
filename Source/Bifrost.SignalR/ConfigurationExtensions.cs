@@ -1,7 +1,7 @@
 ﻿using System.Web.Routing;
 using Bifrost.SignalR;
 using Bifrost.SignalR.Events;
-using SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace Bifrost.Configuration
 {

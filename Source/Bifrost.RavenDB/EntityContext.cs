@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Bifrost.Entities;
+using Raven.Abstractions.Commands;
 using Raven.Client;
 
 namespace Bifrost.RavenDB
@@ -68,8 +69,7 @@ namespace Bifrost.RavenDB
         public void DeleteById<TProperty>(TProperty id)
         {
             var keyId = GetDocumentIdForType<TProperty>(id);
-
-            _session.Advanced.DatabaseCommands.Delete(keyId, null);
+            _session.Advanced.DocumentStore.DatabaseCommands.Delete(keyId, null);
         }
 
 

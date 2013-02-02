@@ -1,6 +1,6 @@
 ﻿using System;
 using Bifrost.Events;
-using Newtonsoft.Json;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace Bifrost.RavenDB.Events
 {

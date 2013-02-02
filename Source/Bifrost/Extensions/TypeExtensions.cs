@@ -61,7 +61,11 @@ namespace Bifrost.Extensions
         /// <returns>true if it has a non default constructor, false if not</returns>
         public static bool HasNonDefaultConstructor(this Type type)
         {
+#if(NETFX_CORE)
+            return type.GetTypeInfo().DeclaredConstructors.Any(c => c.GetParameters().Length > 0);
+#else
             return type.GetConstructors().Any(c => c.GetParameters().Length > 0);
+#endif
         }
 
 
@@ -72,7 +76,11 @@ namespace Bifrost.Extensions
         /// <returns>The default <see cref="ConstructorInfo"/></returns>
         public static ConstructorInfo GetDefaultConstructor(this Type type)
         {
+#if(NETFX_CORE)
+            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length == 0).Single();
+#else
             return type.GetConstructors().Where(c => c.GetParameters().Length == 0).Single();
+#endif
         }
 
         /// <summary>
@@ -82,7 +90,11 @@ namespace Bifrost.Extensions
         /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
         public static ConstructorInfo GetNonDefaultConstructor(this Type type)
         {
+#if(NETFX_CORE)
+            return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length > 0).Single();
+#else
             return type.GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
+#endif
         }
 
 

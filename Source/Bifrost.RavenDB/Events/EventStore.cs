@@ -4,7 +4,8 @@ using System.Linq;
 using Bifrost.Events;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Document;
-using Bifrost.JSON.Serialization;
+using Bifrost.RavenDB.Serialization;
+using Raven.Client.Connection;
 
 namespace Bifrost.RavenDB.Events
 {
@@ -38,8 +39,7 @@ namespace Bifrost.RavenDB.Events
 
 
             var keyGenerator = new SequentialKeyGenerator(_documentStore);
-            _documentStore.Conventions.DocumentKeyGenerator = o => string.Format("{0}/{1}", CollectionName, keyGenerator.NextFor<IEvent>());
-
+            _documentStore.Conventions.DocumentKeyGenerator = (a,b,c) => string.Format("{0}/{1}", CollectionName, keyGenerator.NextFor<IEvent>());
             _documentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
 
             _documentStore.Conventions.CustomizeJsonSerializer = s =>

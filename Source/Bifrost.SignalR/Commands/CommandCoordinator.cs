@@ -1,7 +1,7 @@
-﻿using Bifrost.Commands;
+﻿using System;
+using Bifrost.Commands;
 using Bifrost.Serialization;
-using SignalR.Hubs;
-using System;
+using Microsoft.AspNet.SignalR;
 
 namespace Bifrost.SignalR.Commands
 {
