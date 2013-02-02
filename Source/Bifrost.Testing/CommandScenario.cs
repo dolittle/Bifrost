@@ -29,6 +29,7 @@ using Bifrost.Execution;
 using Bifrost.Globalization;
 using Bifrost.Principal;
 using Bifrost.Sagas;
+using Bifrost.Security;
 using Bifrost.Testing.Exceptions;
 using Bifrost.Validation;
 using Moq;
@@ -84,6 +85,8 @@ namespace Bifrost.Testing
             command_validation_service = new CommandValidationService(command_validator_provider.Object);
 
             command_security_manager_mock = new Mock<ICommandSecurityManager>();
+            //TODO: Allow spec'ing of Security
+            command_security_manager_mock.Setup(s => s.Authorize(It.IsAny<ICommand>())).Returns(new AuthorizationResult());
 
             command_coordinator = new CommandCoordinator(
                                         command_handler_manager.Object, 
