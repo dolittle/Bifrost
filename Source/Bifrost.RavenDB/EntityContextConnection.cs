@@ -38,18 +38,13 @@ namespace Bifrost.RavenDB
             _configuration = configuration;
 
             Url = configuration.Url;
-            DocumentStore = new Raven.Client.Document.DocumentStore
+            DocumentStore = new DocumentStore
             {
                 Url = configuration.Url
             };
 
             var originalFindIdentityProperty = DocumentStore.Conventions.FindIdentityProperty;
-            DocumentStore.Conventions.FindIdentityProperty = prop =>
-            {
-                if (_configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop))
-                    return originalFindIdentityProperty(prop);
-                return true;
-            };
+            DocumentStore.Conventions.FindIdentityProperty = prop => configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop) || originalFindIdentityProperty(prop);
             DocumentStore.Conventions.IdentityTypeConvertors.AddRange(_configuration.IdPropertyRegister.GetTypeConvertersForConceptIds());
 
             if (configuration.DefaultDatabase != null)
