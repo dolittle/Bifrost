@@ -606,6 +606,9 @@
     <Compile Include="..\Bifrost\Lifecycle\IUnitOfWork.cs">
       <Link>Lifecycle\IUnitOfWork.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Principal\CurrentPrincipal.cs">
+      <Link>Principal\CurrentPrincipal.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Sagas\Chapter.cs">
       <Link>Sagas\Chapter.cs</Link>
     </Compile>

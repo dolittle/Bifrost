@@ -26,7 +26,11 @@ namespace Bifrost.Principal
         {
             if (_principals.Count > 0)
                 return _principals.Peek();
+#if(NETFX_CORE)
+            throw new NotImplementedException();
+#else
             return Thread.CurrentPrincipal;
+#endif
         }
 
         /// <summary>
