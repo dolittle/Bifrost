@@ -21,7 +21,7 @@
 #endregion
 using Bifrost.Entities;
 using Bifrost.Execution;
-using Bifrost.JSON.Serialization;
+using Bifrost.RavenDB.Serialization;
 using Raven.Client.Document;
 
 namespace Bifrost.RavenDB
@@ -43,7 +43,13 @@ namespace Bifrost.RavenDB
                 Url = configuration.Url
             };
 
-            DocumentStore.Conventions.FindIdentityProperty  =  prop => _configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop);
+            var originalFindIdentityProperty = DocumentStore.Conventions.FindIdentityProperty;
+            DocumentStore.Conventions.FindIdentityProperty = prop =>
+            {
+                if (_configuration.IdPropertyRegister.IsIdProperty(prop.DeclaringType, prop))
+                    return originalFindIdentityProperty(prop);
+                return true;
+            };
             DocumentStore.Conventions.IdentityTypeConvertors.AddRange(_configuration.IdPropertyRegister.GetTypeConvertersForConceptIds());
 
             if (configuration.DefaultDatabase != null)
@@ -67,6 +73,7 @@ namespace Bifrost.RavenDB
                 s.Converters.Add(new ConceptDictionaryConverter());
             };
 
+            DocumentStore.Conventions.AllowQueriesOnId = true;
             //DocumentStore.Conventions.IdentityTypeConvertors.Add(new ConceptTypeConverter());
         }
     }
