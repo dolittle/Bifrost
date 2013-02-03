@@ -1,5 +1,4 @@
 ﻿using Bifrost.Tasks;
-using SignalR;
 
 namespace Bifrost.Mimir.Web.Tasks
 {

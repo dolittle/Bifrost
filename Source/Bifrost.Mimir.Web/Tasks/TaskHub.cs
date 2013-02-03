@@ -1,9 +1,9 @@
-﻿using SignalR.Hubs;
-using SignalR;
-using Bifrost.Tasks;
+﻿using Bifrost.Tasks;
 using System.Dynamic;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Bifrost.Mimir.Web.Tasks
 {
@@ -24,17 +24,17 @@ namespace Bifrost.Mimir.Web.Tasks
 
         public static void Started(Task task)
         {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Started(ToDynamic(task));
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.All.Started(ToDynamic(task));
         }
 
         public static void Stopped(Task task)
         {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.Stopped(ToDynamic(task));
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.All.Stopped(ToDynamic(task));
         }
 
         public static void StateChanged(Task task)
         {
-            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.StateChanged(ToDynamic(task));
+            GlobalHost.ConnectionManager.GetHubContext<TaskHub>().Clients.All.StateChanged(ToDynamic(task));
         }
 
         static dynamic ToDynamic(Task task)
