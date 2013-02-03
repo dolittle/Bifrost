@@ -6,6 +6,7 @@ namespace Bifrost.Web
 		IWebRequest Request { get; }
 		RouteCollection Routes { get; }
 		void RewritePath(string path);
+        bool HasRouteForCurrentRequest { get; }
 	}
 }
 

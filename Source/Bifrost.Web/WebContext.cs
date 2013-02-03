@@ -22,6 +22,15 @@ namespace Bifrost.Web
 
 		public IWebRequest Request { get; private set; }
 		public RouteCollection Routes { get; private set; }
-	}
+
+
+        public bool HasRouteForCurrentRequest
+        {
+            get 
+            {
+                return RouteTable.Routes.GetRouteData(new HttpContextWrapper(_actualHttpContext)) != null;
+            }
+        }
+    }
 }
 

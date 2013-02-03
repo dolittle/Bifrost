@@ -10,6 +10,7 @@ namespace Bifrost.Web.Specs.Pipeline.for_SinglePageApplication
 		Establish context = () => {
 			route_collection.Add(new Route("something/going/on",null));
 			web_request_mock.SetupGet(c=>c.Path).Returns("/something/going/on");
+            web_context_mock.SetupGet(c => c.HasRouteForCurrentRequest).Returns(true);
 		};
 		
 		Because of = () => single_page_application.Before(web_context_mock.Object);

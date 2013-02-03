@@ -1,4 +1,5 @@
 using System.IO;
+using System.Web;
 using System.Web.Routing;
 
 namespace Bifrost.Web.Pipeline
@@ -8,7 +9,7 @@ namespace Bifrost.Web.Pipeline
 		public void Before (IWebContext webContext)
 		{
 			if( !HasExtension(webContext) &&
-			    !HasRoute(webContext) ||
+			    !webContext.HasRouteForCurrentRequest ||
                 IsDefault(webContext))
 				webContext.RewritePath("/index.html");
 		}
@@ -23,11 +24,15 @@ namespace Bifrost.Web.Pipeline
             return path.Length == 0;
         }
 
+        /*
 		bool HasRoute(IWebContext webContext)
 		{
 			var path = StripLeadingSlashIfAny(webContext.Request.Path);
+            var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
 			foreach( var route in webContext.Routes ) 
 			{
+                
+
 				if( route is Route )
 				{
 					var actualRoute = route as Route;
@@ -39,7 +44,7 @@ namespace Bifrost.Web.Pipeline
 				}
 			}
 			return false;
-		}
+		}*/
 		
 		bool HasExtension(IWebContext webContext)
 		{
