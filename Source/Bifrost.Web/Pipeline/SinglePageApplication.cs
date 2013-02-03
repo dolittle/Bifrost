@@ -24,28 +24,6 @@ namespace Bifrost.Web.Pipeline
             return path.Length == 0;
         }
 
-        /*
-		bool HasRoute(IWebContext webContext)
-		{
-			var path = StripLeadingSlashIfAny(webContext.Request.Path);
-            var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
-			foreach( var route in webContext.Routes ) 
-			{
-                
-
-				if( route is Route )
-				{
-					var actualRoute = route as Route;
-					var routePath = StripLeadingSlashIfAny(actualRoute.Url);
-                    routePath = GetPathTillPlaceholdersStartIfAny(routePath);
-					if( routePath.Length > 0 && 
-                        path.StartsWith(routePath) )
-						return true;
-				}
-			}
-			return false;
-		}*/
-		
 		bool HasExtension(IWebContext webContext)
 		{
 			var path = webContext.Request.Path;
