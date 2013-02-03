@@ -34,7 +34,7 @@ namespace Bifrost.SignalR
 
         bool IsSignalRInternalType(Type serviceType)
         {
-            return serviceType.Namespace.StartsWith("SignalR");
+            return serviceType.Namespace.StartsWith("Microsoft.AspNet.SignalR");
         }
 
     }
