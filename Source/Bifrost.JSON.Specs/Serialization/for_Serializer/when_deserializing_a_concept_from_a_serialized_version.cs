@@ -23,6 +23,6 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
                              deserialized = serializer.FromJson(typeof(ConceptAsGuid), serialized_version);
                          };
 
-        It should_create_the_guid_ = () => (deserialized as ConceptAsGuid).Value.ToString().ShouldEqual(serialized_version);
+        It should_create_the_guid_ = () => (deserialized as ConceptAsGuid).ShouldEqual(to_serialize);
     }
 }

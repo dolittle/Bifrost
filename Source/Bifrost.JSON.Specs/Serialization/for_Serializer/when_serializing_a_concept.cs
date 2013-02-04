@@ -18,6 +18,6 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 
         Because of = () => serialized_version = serializer.ToJson(to_serialize);
 
-        It should_contain_the_guid_value = () => serialized_version.ShouldEqual(to_serialize.Value.ToString());
+        It should_contain_the_guid_value = () => serialized_version.ShouldEqual("\"" + to_serialize.Value.ToString() + "\"");
     }
 }

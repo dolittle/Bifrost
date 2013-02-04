@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Concepts;
+using Bifrost.Extensions;
 using Bifrost.Serialization;
 using System.ComponentModel;
 
@@ -85,6 +87,13 @@ namespace Bifrost.Services.Execution
 
             if (parameter.ParameterType.IsValueType)
                 return TypeDescriptor.GetConverter(parameter.ParameterType).ConvertFromInvariantString(input);
+
+            if(parameter.ParameterType.IsConcept())
+            {
+                var genericArgumentType = parameter.ParameterType.BaseType.GetGenericArguments()[0];
+                var value = input.ParseTo(genericArgumentType);
+                return ConceptFactory.CreateConceptInstance(parameter.ParameterType, value);
+            }
 
             return _serializer.FromJson(parameter.ParameterType, input);
         }
