@@ -12,7 +12,7 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 
         Establish context = () =>
                                 {
-                                    serialized_version = "03f1d667-063b-4d15-b892-06f89818e9a8";
+                                    serialized_version = "\"03f1d667-063b-4d15-b892-06f89818e9a8\"";
                                 };
 
         Because of = () =>
@@ -20,6 +20,6 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
                              deserialized = serializer.FromJson(typeof(ConceptAsGuid), serialized_version);
                          };
 
-        It should_create_the_guid = () => (deserialized as ConceptAsGuid).Value.ToString().ShouldEqual(serialized_version);
+        It should_create_the_guid = () => (deserialized as ConceptAsGuid).Value.ToString().ShouldEqual("03f1d667-063b-4d15-b892-06f89818e9a8");
     }
 }

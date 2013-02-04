@@ -1,5 +1,4 @@
 ﻿using System;
-using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Raven.Imports.Newtonsoft.Json;
 
