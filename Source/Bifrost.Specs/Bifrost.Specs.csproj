@@ -248,6 +248,11 @@
     <Compile Include="Dynamic\for_DynamicHelpers\when_populating_from_anonymous_object.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_camel_casing_to_pascal_casing.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_pascal_casing_to_camel_casing.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\ConceptType.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_if_non_nullable_type_is_nullable.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_that_is_not_a_concept_if_is_a_concept.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_that_is_a_concept_if_is_a_concept.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_if_nullable_type_is_nullable.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_getting_default_constructor_from_type_with_non_default_and_default_constructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_getting_non_default_constructor_from_type_with_non_default_and_default_constructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_getting_non_default_constructor_from_type_with_non_default_constructor.cs" />

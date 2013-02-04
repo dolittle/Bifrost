@@ -22,6 +22,7 @@
 using System;
 using System.Reflection;
 using System.Linq;
+using Bifrost.Concepts;
 
 namespace Bifrost.Extensions
 {
@@ -42,6 +43,36 @@ namespace Bifrost.Extensions
         }
 #pragma warning restore 1591 // Xml Comments
 
+
+        /// <summary>
+        /// Check if a type is a concept or not
+        /// </summary>
+        /// <param name="objectType"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a concept, false if not</returns>
+        public static bool IsConcept(this Type objectType)
+        {
+            if (objectType.BaseType != null && objectType.BaseType.IsGenericType)
+            {
+                var genericArgumentType = objectType.BaseType.GetGenericArguments()[0];
+                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
+                {
+                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(objectType);
+                    return isConcept;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if a type is nullable or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is nullable, false if not</returns>
+        public static bool IsNullable(this Type type)
+        {
+            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
+        }
 
         /// <summary>
         /// Check if a type has a default constructor that does not take any arguments

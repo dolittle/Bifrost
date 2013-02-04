@@ -9,16 +9,7 @@ namespace Bifrost.RavenDB.Serialization
     {
         public override bool CanConvert(Type objectType)
         {
-            if( objectType.BaseType != null && objectType.BaseType.IsGenericType ) 
-            {
-                var genericArgumentType = objectType.BaseType.GetGenericArguments()[0];
-                if( genericArgumentType.HasInterface(typeof(IEquatable<>)) ) 
-                {
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(objectType);
-                    return isConcept;
-                }
-            }
-            return false;
+            return objectType.IsConcept();
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
