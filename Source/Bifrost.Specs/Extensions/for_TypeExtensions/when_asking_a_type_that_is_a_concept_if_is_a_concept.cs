@@ -1,4 +1,5 @@
 ﻿using Machine.Specifications;
+using Bifrost.Concepts;
 using Bifrost.Extensions;
 
 namespace Bifrost.Specs.Extensions.for_TypeExtensions

@@ -219,6 +219,9 @@
     <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
       <Link>Concepts\ConceptAs.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concepts\ConceptExtensions.cs">
+      <Link>Concepts\ConceptExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
       <Link>Concepts\ConceptFactory.cs</Link>
     </Compile>

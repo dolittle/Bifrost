@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Bifrost.Concepts;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;

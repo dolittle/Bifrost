@@ -50,6 +50,8 @@
     <Compile Include="..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Concepts\ConceptSerializationProvider.cs" />
+    <Compile Include="Concepts\ConceptSerializer.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Configuration\MongoDbStorageElement.cs" />
     <Compile Include="EntityContext.cs" />

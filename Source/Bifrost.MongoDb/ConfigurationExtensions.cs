@@ -28,7 +28,7 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure usingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
+        public static IConfigure UsingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
         {
             eventsConfiguration.EventStoreType = typeof(EventStore);
             var configuration = new EventStoreConfiguration();
@@ -50,7 +50,7 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-        public static IConfigure UsingMongoDb(this IHaveStorage storage, string connectionString, string databaseName)
+        public static IConfigure UsingMongoDB(this IHaveStorage storage, string connectionString, string databaseName)
         {
             var entityContextConfiguration = new EntityContextConfiguration();
             var connection = new EntityContextConnection(connectionString, databaseName);

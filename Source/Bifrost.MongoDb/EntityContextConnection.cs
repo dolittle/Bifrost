@@ -1,6 +1,8 @@
 ﻿using Bifrost.Entities;
-using MongoDB.Driver;
 using Bifrost.Execution;
+using Bifrost.MongoDB.Concepts;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
 namespace Bifrost.MongoDB
 {
@@ -19,6 +21,7 @@ namespace Bifrost.MongoDB
 
             Server = MongoServer.Create(connectionString);
             Database = Server.GetDatabase(databaseName);
+            BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
         }
 
         public void Initialize(IContainer container)
