@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Serialization;
@@ -63,6 +64,13 @@ namespace Bifrost.JSON.Serialization
 				using (var reader = new JsonTextReader(textReader))
 				{
                     object instance;
+                    
+                    if(type.IsConcept())
+                    {
+                        var genericArgumentType = type.BaseType.GetGenericArguments()[0];
+                        var value = serializer.Deserialize(reader, genericArgumentType);
+                        return ConceptFactory.CreateConceptInstance(type, value);
+                    } 
 
                     if (type.IsValueType ||
                         type.HasInterface<IEnumerable>())

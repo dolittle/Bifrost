@@ -67,6 +67,7 @@
     <Compile Include="Commands\ICommandSecurityManager.cs" />
     <Compile Include="Commands\IDynamicCommandFactory.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
+    <Compile Include="Concepts\ConceptFactory.cs" />
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\ConfigSection\ConfigurationManager.cs" />
