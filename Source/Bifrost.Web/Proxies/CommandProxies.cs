@@ -7,8 +7,6 @@ using System.Text;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
-using System.Diagnostics;
-
 
 namespace Bifrost.Web.Proxies
 {
@@ -16,6 +14,14 @@ namespace Bifrost.Web.Proxies
     {
         ITypeDiscoverer _typeDiscoverer;
         IEnumerable<PropertyInfo> _baseProperties = typeof(ICommand).GetProperties();
+
+        static List<string> _namespacesToExclude = new List<string>();
+
+        public static void ExcludeCommandsStartingWithNamespace(string @namespace)
+        {
+            _namespacesToExclude.Add(@namespace);
+        }
+
 
         public CommandProxies(ITypeDiscoverer typeDiscoverer)
         {
@@ -26,7 +32,7 @@ namespace Bifrost.Web.Proxies
         {
             var first = true;
             var builder = new StringBuilder();
-            var types = _typeDiscoverer.FindMultiple<ICommand>();
+            var types = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n)));
             builder.AppendLine("Bifrost.namespace(\"commands\", {");
             foreach (var type in types)
             {
@@ -41,7 +47,6 @@ namespace Bifrost.Web.Proxies
                 builder.AppendFormat("\t{0} : Bifrost.commands.Command.extend(function() {{\n", name);
                 builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
 
-                Debug.WriteLine("CommandType : "+type);
                 var properties = GetPropertiesForCommand(type);
                 foreach (var property in properties)
                 {
@@ -57,20 +62,27 @@ namespace Bifrost.Web.Proxies
             return builder.ToString();
         }
 
-        void AppendProperty(StringBuilder builder, PropertyInfo property, int level)
+        bool AppendProperty(StringBuilder builder, PropertyInfo property, int level)
         {
-            for (var i = 0; i < level; i++) Debug.Write("\t");
-            Debug.Write("Property : " + property.Name + ", Type : " + property.PropertyType.Name);
-            Debug.Write("\n");
+            var subProperty = level > 1;
+
+            var thisString = subProperty ? string.Empty : "this.";
+            var valueAssignment = subProperty ? ":" : "=";
+            var lineEnding = subProperty ? string.Empty : ";\n";
+
+            var propertyName = property.Name.ToCamelCase();
+
+            for (var i = 1; i < level; i++) builder.Append("\t");
+
             if (property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
                 property.PropertyType.HasInterface<IDictionary>())
             {
-                builder.AppendFormat("\t\tthis.{0} = {{}};\n", property.Name.ToCamelCase());
+                builder.AppendFormat("\t\t{0}{1} {2} {{}}{3}", thisString, propertyName,valueAssignment, lineEnding);
             }
             else if ((property.PropertyType.HasInterface(typeof(IEnumerable<>)) ||
                       property.PropertyType.HasInterface<IEnumerable>()) && property.PropertyType != typeof(string))
             {
-                builder.AppendFormat("\t\tthis.{0} = ko.observableArray();\n", property.Name.ToCamelCase());
+                builder.AppendFormat("\t\t{0}{1} {2} ko.observableArray(){3}", thisString, propertyName, valueAssignment, lineEnding);
             }
             else if (   property.PropertyType.IsValueType ||
                         property.PropertyType == typeof(string) ||
@@ -80,13 +92,35 @@ namespace Bifrost.Web.Proxies
                         property.PropertyType.IsNullable() ||
                         property.PropertyType.IsConcept())
             {
-                builder.AppendFormat("\t\tthis.{0} = ko.observable();\n", property.Name.ToCamelCase());
+                builder.AppendFormat("\t\t{0}{1} {2} ko.observable(){3}", thisString, propertyName,valueAssignment, lineEnding);
             }
             else
             {
-                foreach (var childProperty in property.PropertyType.GetProperties())
-                    AppendProperty(builder, childProperty, level+1);
+                builder.AppendFormat("\t\t{0}{1} {2} {{\n", thisString, propertyName,valueAssignment);
+
+                var first = true;
+                foreach (var childProperty in property.PropertyType.GetProperties()) 
+                {
+                    if( !first )
+                        builder.Append(",\n");
+
+                    var appended = AppendProperty(builder, childProperty, level+1);
+                    if (appended)
+                    {
+                        if (first)
+                            first = false;
+                    }
+                }
+
+                builder.Append("\n");
+
+                for (var i = 1; i < level; i++) builder.Append("\t");
+                builder.Append("\t\t}");
+                if (!subProperty) builder.Append(";");
+                builder.Append("\n");
             }
+
+            return true;
         }
 
         IEnumerable<PropertyInfo> GetPropertiesForCommand(Type type)
