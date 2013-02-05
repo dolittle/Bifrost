@@ -16,11 +16,15 @@ namespace Bifrost.Concepts
         public static object CreateConceptInstance(Type type, object value)
         {
             var instance = Activator.CreateInstance(type);
+#if(NETFX_CORE)
+
+#else
             var genericArgumentType = type.BaseType.GetGenericArguments()[0];
             if (genericArgumentType == typeof(Guid))
                 value = Guid.Parse(value.ToString());
 
             type.GetProperty("Value").SetValue(instance, value, null);
+#endif
             return instance;
         }
     }

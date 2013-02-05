@@ -216,6 +216,12 @@
     <Compile Include="..\Bifrost\Commands\UnknownCommandException.cs">
       <Link>Commands\UnknownCommandException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
+      <Link>Concepts\ConceptAs.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
+      <Link>Concepts\ConceptFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concurrency\IScheduler.cs">
       <Link>Concurrency\IScheduler.cs</Link>
     </Compile>
@@ -530,6 +536,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\ExecutionContextManager.cs">
       <Link>Execution\ExecutionContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
+      <Link>Execution\HashCodeHelper.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\IApplication.cs">
       <Link>Execution\IApplication.cs</Link>

@@ -1,7 +1,7 @@
 ﻿using Bifrost.Concepts;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Concepts.given
+namespace Bifrost.Specs.Concepts.for_ConceptAs.given
 {
     public class concepts
     {

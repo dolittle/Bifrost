@@ -1,7 +1,7 @@
 using Bifrost.Concepts;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Concepts
+namespace Bifrost.Specs.Concepts.for_ConceptAs
 {
     [Subject(typeof(ConceptAs<>))]
     public class when_equating : given.concepts

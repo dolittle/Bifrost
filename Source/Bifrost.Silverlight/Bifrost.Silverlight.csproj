@@ -162,6 +162,9 @@
     <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
       <Link>Concepts\ConceptAs.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
+      <Link>Concepts\ConceptFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concurrency\IScheduler.cs">
       <Link>Concurrency\IScheduler.cs</Link>
     </Compile>
