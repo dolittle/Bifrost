@@ -58,7 +58,7 @@ namespace Bifrost.Configuration
                 container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinatorType);
 
             if (EventStoreType != null)
-                container.Bind<IEventStore>(EventStoreType);
+                container.Bind<IEventStore>(EventStoreType, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {

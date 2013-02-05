@@ -29,6 +29,7 @@ namespace Bifrost.Security
     /// <summary>
     /// Represents an implementation of <see cref="ISecurityManager"/>
     /// </summary>
+    [Singleton]
     public class SecurityManager : ISecurityManager
     {
         readonly ITypeDiscoverer _typeDiscoverer;

@@ -26,10 +26,9 @@
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();
+                Bifrost.navigation.navigationManager.hookup();
+                Bifrost.features.featureManager.hookup($);
             });
-
-            Bifrost.navigation.navigationManager.hookup();
-            Bifrost.features.featureManager.hookup($);
         }
 
         function reset() {

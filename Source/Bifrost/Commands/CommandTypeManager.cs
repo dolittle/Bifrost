@@ -30,7 +30,8 @@ namespace Bifrost.Commands
     /// <summary>
     /// Represents a <see cref="ICommandTypeManager"/>
     /// </summary>
-	public class CommandTypeManager : ICommandTypeManager
+	[Singleton]
+    public class CommandTypeManager : ICommandTypeManager
 	{
         ITypeDiscoverer _typeDiscoverer;
         Dictionary<string, Type> _commandTypes = new Dictionary<string, Type>();

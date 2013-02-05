@@ -36,7 +36,7 @@ namespace Bifrost.Configuration
         public void Initialize (IContainer container)
 		{
 			if( SerializerType != null )
-				container.Bind<ISerializer>(SerializerType);
+				container.Bind<ISerializer>(SerializerType, BindingLifecycle.Singleton);
 		}
 #pragma warning restore 1591 // Xml Comments
     }
