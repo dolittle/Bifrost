@@ -122,6 +122,7 @@
     <Content Include="navigation\for_observableQueryParameter\when_value_changes.js" />
     <Content Include="read\for_queryService\when_executing.js" />
     <Content Include="read\for_Query\when_getting_all.js" />
+    <Content Include="read\for_Query\when_loading.js" />
     <Content Include="read\for_Query\when_property_changes_and_all_query_is_used.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />

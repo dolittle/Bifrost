@@ -30,6 +30,9 @@
             }
         }
 
+        this.load = function () {
+        };
+
         this.all = function () {
             if (typeof queryables.all === "undefined") queryables.all = createQueryable();
             queryables.all.execute();
