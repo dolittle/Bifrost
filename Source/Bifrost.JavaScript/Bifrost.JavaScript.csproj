@@ -137,8 +137,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd ../..
-juicer merge Bifrost.js -o Bifrost.debug.js -s --force -m none</PostBuildEvent>
+    <PostBuildEvent>cd $(ProjectDir)
+$(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
