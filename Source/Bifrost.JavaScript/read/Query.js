@@ -3,8 +3,7 @@
         var self = this;
         this.name = "";
         this.queryService = queryService;
-
-        var queryables = {};
+        this.queryables = {};
 
         this.target = this;
 
@@ -22,21 +21,22 @@
             for (var property in query) {
                 if (ko.isObservable(query[property]) == true) {
                     query[property].subscribe(function () {
-                        for (var queryable in queryables) {
-                            queryables[queryable].execute();
-                        }
+                        query.execute();
                     });
                 }
             }
         }
 
-        this.load = function () {
+        this.execute = function () {
+            for (var queryable in self.queryables) {
+                self.queryables[queryable].execute();
+            }
         };
 
         this.all = function () {
-            if (typeof queryables.all === "undefined") queryables.all = createQueryable();
-            queryables.all.execute();
-            return queryables.all;
+            if (typeof self.queryables.all === "undefined") self.queryables.all = createQueryable();
+            self.queryables.all.execute();
+            return self.queryables.all;
         };
 
         this.onCreated = function (query) {
