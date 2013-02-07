@@ -1,14 +1,15 @@
 ﻿namespace Bifrost.Web.Proxies.JavaScript
 {
-    public class KeyAssignment : LanguageElement
+    public class KeyAssignment : Assignment
     {
-        public string Key { get; set; }
-        public LanguageElement Value { get; set; }
+        public KeyAssignment(string key, ILanguageElement value = null) : base(key, value)
+        {
+        }
 
         public override void Write(ICodeWriter writer)
         {
-            writer.WriteWithIndentation("{0} : ", Key);
-            Value.Write(writer);
+            writer.WriteWithIndentation("{0} : ", Name);
+            if( Value != null ) Value.Write(writer);
         }
     }
 }

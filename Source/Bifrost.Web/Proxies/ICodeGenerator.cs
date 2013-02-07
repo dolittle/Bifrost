@@ -2,5 +2,6 @@
 {
     public interface ICodeGenerator
     {
+        string GenerateFrom(ILanguageElement languageElement);
     }
 }
