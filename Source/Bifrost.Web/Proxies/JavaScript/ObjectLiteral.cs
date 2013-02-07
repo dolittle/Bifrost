@@ -1,7 +1,7 @@
 ﻿
 namespace Bifrost.Web.Proxies.JavaScript
 {
-    public class ObjectLiteral : LanguageElement
+    public class ObjectLiteral : Container
     {
         public override void Write(ICodeWriter writer)
         {

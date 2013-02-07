@@ -1,6 +1,6 @@
 ﻿namespace Bifrost.Web.Proxies.JavaScript
 {
-    public class TypeExtension : LanguageElement
+    public class TypeExtension : Container
     {
         public TypeExtension(string superType="Bifrost.Type")
         {

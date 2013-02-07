@@ -65,9 +65,13 @@
     <Compile Include="Proxies\ICodeWriter.cs" />
     <Compile Include="Proxies\ILanguageElement.cs" />
     <Compile Include="Proxies\CodeWriter.cs" />
+    <Compile Include="Proxies\JavaScript\AssignmentExtensions.cs" />
     <Compile Include="Proxies\JavaScript\CodeGeneratorExtensions.cs" />
     <Compile Include="Proxies\JavaScript\Assignment.cs" />
+    <Compile Include="Proxies\JavaScript\Container.cs" />
+    <Compile Include="Proxies\JavaScript\FunctionExtensions.cs" />
     <Compile Include="Proxies\JavaScript\This.cs" />
+    <Compile Include="Proxies\JavaScript\TypeExtensions.cs" />
     <Compile Include="Proxies\JavaScript\VariantAssignment.cs" />
     <Compile Include="Proxies\JavaScript\Function.cs" />
     <Compile Include="Proxies\JavaScript\FunctionBody.cs" />
