@@ -65,6 +65,7 @@
     <Compile Include="Proxies\ICodeWriter.cs" />
     <Compile Include="Proxies\ILanguageElement.cs" />
     <Compile Include="Proxies\CodeWriter.cs" />
+    <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\JavaScript\AssignmentExtensions.cs" />
     <Compile Include="Proxies\JavaScript\CodeGeneratorExtensions.cs" />
     <Compile Include="Proxies\JavaScript\Assignment.cs" />
