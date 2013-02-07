@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Bifrost.Web.Proxies
 {
-    public class LanguageElement : ILanguageElement
+    public abstract class LanguageElement : ILanguageElement
     {
         List<ILanguageElement> _children = new List<ILanguageElement>();
 

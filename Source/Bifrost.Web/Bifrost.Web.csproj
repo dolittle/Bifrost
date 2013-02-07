@@ -60,12 +60,16 @@
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
-    <Compile Include="Proxies\IJavaScriptCodeGenerator.cs" />
-    <Compile Include="Proxies\IJavaScriptLanguageElement.cs" />
-    <Compile Include="Proxies\IJavaScriptWriter.cs" />
-    <Compile Include="Proxies\JavaScriptLanguageElement.cs" />
-    <Compile Include="Proxies\JavaScriptNamespace.cs" />
+    <Compile Include="Proxies\ICodeGenerator.cs" />
+    <Compile Include="Proxies\ICodeWriter.cs" />
+    <Compile Include="Proxies\ILanguageElement.cs" />
+    <Compile Include="Proxies\JavaScript\FunctionCall.cs" />
+    <Compile Include="Proxies\JavaScript\KeyAssignment.cs" />
+    <Compile Include="Proxies\JavaScript\Namespace.cs" />
+    <Compile Include="Proxies\JavaScript\Type.cs" />
+    <Compile Include="Proxies\LanguageElement.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
+    <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="RouteActivator.cs" />
@@ -73,9 +77,6 @@
     <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\CommandProxies.cs" />
-    <Compile Include="Proxies\QueryProxies.cs">
-      <DependentUpon>QueryProxies.cs</DependentUpon>
-    </Compile>
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="HttpModule.cs" />
