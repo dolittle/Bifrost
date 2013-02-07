@@ -14,12 +14,9 @@
 
         public override void Write(ICodeWriter writer)
         {
-            writer.WriteWithIndentation("Bifrost.namespace(\"{0}\", {{", Name);
-            writer.Newline();
-            writer.Indent();
+            writer.WriteWithIndentation("Bifrost.namespace(\"{0}\", ", Name);
             Content.Write(writer);
-            writer.Unindent();
-            writer.WriteWithIndentation("}});");
+            writer.WriteWithIndentation(");");
             writer.Newline();
         }
     }

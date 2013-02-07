@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Bifrost.Concepts;
+using Bifrost.Extensions;
 
 namespace Bifrost.Web.Proxies.JavaScript
 {
@@ -16,6 +22,71 @@ namespace Bifrost.Web.Proxies.JavaScript
             var propertyAssignment = new PropertyAssignment(name);
             functionBody.AddChild(propertyAssignment);
             callback(propertyAssignment);
+            return functionBody;
+        }
+
+        static void AddPropertiesFromType(LanguageElement parent, IEnumerable<PropertyInfo> properties)
+        {
+            foreach (var property in properties)
+            {
+                var propertyName = property.Name.ToCamelCase();
+
+                Assignment assignment;
+                if (parent is FunctionBody)
+                    assignment = new PropertyAssignment(propertyName);
+                else
+                    assignment = new KeyAssignment(propertyName);
+
+                if (property.IsDictionary())
+                    assignment.WithObjectLiteral();
+                else if (property.IsEnumerable())
+                    assignment.WithObservableArray();
+                else if (property.IsObservable())
+                    assignment.WithObservable();
+                else
+                {
+                    var objectLiteral = new ObjectLiteral();
+                    assignment.Value = objectLiteral;
+                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties());
+                }
+
+                parent.AddChild(assignment);
+
+            }
+        }
+
+        static bool IsEnumerable(this PropertyInfo property)
+        {
+            return (property.PropertyType.HasInterface(typeof(IEnumerable<>)) ||
+                   property.PropertyType.HasInterface<IEnumerable>()) && property.PropertyType != typeof(string);
+        }
+
+        static bool IsDictionary(this PropertyInfo property)
+        {
+            return  property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
+                    property.PropertyType.HasInterface<IDictionary>();
+        }
+
+        static bool IsObservable(this PropertyInfo property)
+        {
+            return property.PropertyType.IsValueType ||
+                    property.PropertyType == typeof(string) ||
+                    property.PropertyType == typeof(Type) ||
+                    property.PropertyType == typeof(MethodInfo) ||
+                    property.PropertyType == typeof(Guid) ||
+                    property.PropertyType.IsNullable() ||
+                    property.PropertyType.IsConcept();
+        }
+
+
+        public static FunctionBody WithPropertiesFrom(this FunctionBody functionBody, Type type, Type excludePropertiesFrom = null)
+        {
+            var properties = type.GetProperties();
+            if( excludePropertiesFrom != null )
+                properties = properties.Where(p=>!excludePropertiesFrom.GetProperties().Select(pi=>pi.Name).Contains(p.Name)).ToArray();
+
+            AddPropertiesFromType(functionBody, properties);
+
             return functionBody;
         }
 
@@ -56,18 +127,6 @@ namespace Bifrost.Web.Proxies.JavaScript
             return assignment;
         }
 
-        public static FunctionCall WithParameters(this FunctionCall functionCall, params string[] parameters)
-        {
-            functionCall.Parameters = parameters;
-            return functionCall;
-        }
-
-        public static FunctionCall WithName(this FunctionCall functionCall, string name)
-        {
-            functionCall.Function = name;
-            return functionCall;
-        }
-
         public static Assignment WithObservable(this Assignment assignment, string defaultValue = null)
         {
             return assignment.WithFunctionCall(f => {
@@ -81,14 +140,26 @@ namespace Bifrost.Web.Proxies.JavaScript
             return assignment.WithFunctionCall(f => f.WithName("ko.observableArray"));
         }
 
-        public static Assignment WithObjectLiteral(this Assignment assignment, Action<ObjectLiteral> callback)
+        public static Assignment WithObjectLiteral(this Assignment assignment, Action<ObjectLiteral> callback=null)
         {
             var objectLiteral = new ObjectLiteral();
-            callback(objectLiteral);
+            if( callback != null ) callback(objectLiteral);
             assignment.Value = objectLiteral;
             return assignment;
         }
-        
+
+
+        public static FunctionCall WithParameters(this FunctionCall functionCall, params string[] parameters)
+        {
+            functionCall.Parameters = parameters;
+            return functionCall;
+        }
+
+        public static FunctionCall WithName(this FunctionCall functionCall, string name)
+        {
+            functionCall.Function = name;
+            return functionCall;
+        }
 
         public static TypeExtension WithSuper(this TypeExtension typeExtension, string super)
         {

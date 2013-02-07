@@ -8,16 +8,30 @@ namespace Bifrost.Web.Proxies.JavaScript
             var childIndex = 0;
             var numberOfChildren = Children.Count;
 
-            foreach (var child in Children)
-            {
-                child.Write(writer);
-                childIndex++;
+            writer.Write("{{");
 
-                if (childIndex > 0 && childIndex < numberOfChildren)
-                    writer.Write(",");
+            if (numberOfChildren > 0)
+            {
                 writer.Newline();
+                writer.Indent();
+
+                foreach (var child in Children)
+                {
+                    child.Write(writer);
+                    childIndex++;
+
+                    if (childIndex > 0 && childIndex < numberOfChildren)
+                        writer.Write(",");
+                    writer.Newline();
+                }
+
+                writer.Unindent();
+                writer.WriteWithIndentation("}}");
             }
-            
+            else
+            {
+                writer.Write("}}");
+            }
         }
     }
 }
