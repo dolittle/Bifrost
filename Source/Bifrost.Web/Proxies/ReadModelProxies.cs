@@ -33,7 +33,7 @@ namespace Bifrost.Web.Proxies
                 if (!first) builder.Append(",\n");
                 var name = type.Name.ToCamelCase();
 
-                builder.AppendFormat("\t{0} : Bifrost.read.ReadModel.extend(function() {{\n", name);
+                builder.AppendFormat("\treadModelOf{0} : Bifrost.read.ReadModelFor.extend(function() {{\n", name);
 				builder.AppendFormat("\t\tvar self = this;\n");
                 builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
 

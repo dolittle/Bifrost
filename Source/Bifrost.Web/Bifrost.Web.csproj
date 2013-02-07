@@ -60,6 +60,11 @@
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
+    <Compile Include="Proxies\IJavaScriptCodeGenerator.cs" />
+    <Compile Include="Proxies\IJavaScriptLanguageElement.cs" />
+    <Compile Include="Proxies\IJavaScriptWriter.cs" />
+    <Compile Include="Proxies\JavaScriptLanguageElement.cs" />
+    <Compile Include="Proxies\JavaScriptNamespace.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
