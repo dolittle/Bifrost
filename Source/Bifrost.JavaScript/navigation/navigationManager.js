@@ -9,7 +9,7 @@ Bifrost.namespace("Bifrost.navigation", {
 
         // TODO: Support title somehow
         if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
-            History.pushState({ feature: featureName }, "", url);
+            History.pushState({}, "", url);
         }
     },
     navigationManager: {
