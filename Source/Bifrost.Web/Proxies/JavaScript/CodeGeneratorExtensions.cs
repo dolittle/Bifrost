@@ -17,7 +17,7 @@ namespace Bifrost.Web.Proxies.JavaScript
             return ns;
         }
 
-        static void AddPropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties)
+        static void AddPropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor)
         {
             foreach (var property in properties)
             {
@@ -39,8 +39,10 @@ namespace Bifrost.Web.Proxies.JavaScript
                 {
                     var objectLiteral = new ObjectLiteral();
                     assignment.Value = objectLiteral;
-                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties());
+                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
                 }
+
+                if (assignmentVisitor != null) assignmentVisitor(assignment);
 
                 parent.AddChild(assignment);
 
@@ -71,13 +73,13 @@ namespace Bifrost.Web.Proxies.JavaScript
         }
 
 
-        public static Container WithPropertiesFrom(this Container contaier, Type type, Type excludePropertiesFrom = null)
+        public static Container WithPropertiesFrom(this Container contaier, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
-            AddPropertiesFromType(contaier, properties);
+            AddPropertiesFromType(contaier, properties, assignmentVisitor);
 
             return contaier;
         }

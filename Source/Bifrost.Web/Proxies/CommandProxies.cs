@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -14,7 +13,6 @@ namespace Bifrost.Web.Proxies
 
         ITypeDiscoverer _typeDiscoverer;
         ICodeGenerator _codeGenerator;
-        IEnumerable<PropertyInfo> _baseProperties = typeof(ICommand).GetProperties();
 
         public static void ExcludeCommandsStartingWithNamespace(string @namespace)
         {

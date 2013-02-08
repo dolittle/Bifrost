@@ -7,70 +7,51 @@ using System.Text;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
+using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {
-    public class ReadModelProxies
+    public class ReadModelProxies : IProxyGenerator
     {
         ITypeDiscoverer _typeDiscoverer;
-        IEnumerable<PropertyInfo> _baseProperties = typeof(IReadModel).GetProperties();
+        ICodeGenerator _codeGenerator;
 
-        public ReadModelProxies(ITypeDiscoverer typeDiscoverer)
+        public ReadModelProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator)
         {
             _typeDiscoverer = typeDiscoverer;
+            _codeGenerator = codeGenerator;
         }
-
 
         public string Generate()
         {
-            var first = true;
-            var builder = new StringBuilder();
             var types = _typeDiscoverer.FindMultiple(typeof(IReadModel));
-            builder.AppendLine("Bifrost.namespace(\"readModels\", {");
 
-            foreach (var type in types)
-            {
-                if (!first) builder.Append(",\n");
-                var name = type.Name.ToCamelCase();
-
-                builder.AppendFormat("\treadModelOf{0} : Bifrost.read.ReadModelFor.extend(function() {{\n", name);
-				builder.AppendFormat("\t\tvar self = this;\n");
-                builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
-
-                var properties = GetPropertiesForReadModel(type);
-                foreach (var property in properties)
+            var ns = _codeGenerator.Namespace("readModels",
+                o =>
                 {
-                    if (property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
-                        property.PropertyType.HasInterface<IDictionary>())
+                    foreach (var type in types)
                     {
-						continue;
+                        var name = type.Name.ToCamelCase();
+                        o.Assign(name)
+                            .WithType(t =>
+                                t.WithSuper("Bifrost.read.ReadModel")
+                                    .Function
+                                        .Body
+                                            .Variant("self", v => v.WithThis())
+                                            .WithPropertiesFrom(type, typeof(IReadModel)));
+
+                        o.Assign("readModelOf" + name)
+                            .WithType(t =>
+                                t.WithSuper("Bifrost.read.ReadModelOf")
+                                    .Function
+                                        .Body
+                                            .Variant("self", v => v.WithThis())
+                                            .WithPropertiesFrom(type, typeof(IReadModel), a => a.Name = "by" + a.Name.ToPascalCase()));
                     }
-                    else if ((property.PropertyType.HasInterface(typeof(IEnumerable<>)) ||
-                              property.PropertyType.HasInterface<IEnumerable>()) && property.PropertyType != typeof(string))
-                    {
-						continue;
-                    }
+                });
 
-					builder.AppendFormat("\t\tthis.by{0} = function(value) {{\n", property.Name.ToPascalCase());
-					builder.AppendFormat("\t\t\treturn self.by(\"{0}\",value);\n",property.Name.ToCamelCase());
-					builder.AppendLine("\t\t}");
-                }
-
-                builder.AppendFormat("\t}})");
-
-                first = false;
-            }
-
-            builder.AppendLine("\n});");
-
-            return builder.ToString();
+            var result = _codeGenerator.GenerateFrom(ns);
+            return result;
         }
-
-        IEnumerable<PropertyInfo> GetPropertiesForReadModel(Type type)
-        {
-            var properties = type.GetProperties().Where(p => !_baseProperties.Select(pi => pi.Name).Contains(p.Name));
-            return properties;
-        }
-
     }
 }

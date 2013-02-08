@@ -1,76 +1,42 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Bifrost.Execution;
+﻿using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
+using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {
-    public class QueryProxies
+    public class QueryProxies : IProxyGenerator
     {
         ITypeDiscoverer _typeDiscoverer;
-        IEnumerable<PropertyInfo> _baseProperties = typeof(IQueryFor<>).GetProperties();
+        ICodeGenerator _codeGenerator;
 
-        public QueryProxies(ITypeDiscoverer typeDiscoverer)
+        public QueryProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator)
         {
             _typeDiscoverer = typeDiscoverer;
+            _codeGenerator = codeGenerator;
         }
-
 
         public string Generate()
         {
-            var first = true;
-            var builder = new StringBuilder();
             var types = _typeDiscoverer.FindMultiple(typeof(IQueryFor<>));
-            builder.AppendLine("Bifrost.namespace(\"queries\", {");
-
-            foreach (var type in types)
-            {
-                if (!first) builder.Append(",\n");
-                var name = type.Name.ToCamelCase();
-
-                builder.AppendFormat("\t{0} : Bifrost.read.Query.extend(function() {{\n", name);
-                builder.AppendFormat("\t\tthis.name = '{0}';\n", name);
-
-                var properties = GetPropertiesForQuery(type);
-                foreach (var property in properties)
+            var ns = _codeGenerator.Namespace("queries",
+                o =>
                 {
-                    if (property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
-                        property.PropertyType.HasInterface<IDictionary>())
+                    foreach (var type in types)
                     {
-                        builder.AppendFormat("\t\tthis.{0} = {{}};\n", property.Name.ToCamelCase());
+                        var name = type.Name.ToCamelCase();
+                        o.Assign(name)
+                            .WithType(t =>
+                                t.WithSuper("Bifrost.read.Query")
+                                    .Function
+                                        .Body
+                                            .Variant("self", v => v.WithThis())
+                                            .WithPropertiesFrom(type, typeof(IQueryFor<>)));
                     }
-                    else if ((property.PropertyType.HasInterface(typeof(IEnumerable<>)) ||
-                              property.PropertyType.HasInterface<IEnumerable>()) && property.PropertyType != typeof(string))
-                    {
-                        builder.AppendFormat("\t\tthis.{0} = ko.observableArray();\n", property.Name.ToCamelCase());
-                    }
-                    else
-                    {
-                        builder.AppendFormat("\t\tthis.{0} = ko.observable();\n", property.Name.ToCamelCase());
-                    }
-                }
+                });
 
-                builder.AppendFormat("\t}})");
-
-                first = false;
-            }
-
-
-
-            builder.AppendLine("\n});");
-
-            return builder.ToString();
-        }
-
-        IEnumerable<PropertyInfo> GetPropertiesForQuery(Type type)
-        {
-            var properties = type.GetProperties().Where(p => !_baseProperties.Select(pi => pi.Name).Contains(p.Name));
-            return properties;
+            var result = _codeGenerator.GenerateFrom(ns);
+            return result;
         }
 
     }
