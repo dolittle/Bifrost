@@ -32,7 +32,6 @@ namespace Bifrost.Web.Read
 
 				PopulateProperties (descriptor, queryType, instance);
 
-
                 var queryProperty = queryType.GetProperty("Query");
                 var queryable = queryProperty.GetValue(instance, null) as IQueryable;
                 return queryable;

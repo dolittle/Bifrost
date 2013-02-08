@@ -118,6 +118,8 @@
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Read\IQueryFor.cs" />
+    <Compile Include="Read\IReadModelOf.cs" />
+    <Compile Include="Read\ReadModelOf.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />

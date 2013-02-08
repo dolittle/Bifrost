@@ -1818,12 +1818,17 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
+    ReadModel: Bifrost.Type.extend(function () {
+        var self = this;
+    })
+});
+Bifrost.namespace("Bifrost.read", {
 	ReadModelOf: Bifrost.Type.extend(function() {
 		var self = this;
 
-		this.by = function(keyValuePairs) {
+		this.by = function (keyValuePairs) {
 
-		}
+		};
 	})
 });
 Bifrost.dependencyResolvers.query = {
@@ -2389,15 +2394,9 @@ Bifrost.namespace("Bifrost.navigation", {
         if (queryString)
             url += queryString;
 
-
-        if (typeof history !== "undefined") {
-            history.pushState({}, "", url);
-        } else {
-            // TODO: Support title somehow
-            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
-
-                History.pushState({}, "", url);
-            }
+        // TODO: Support title somehow
+        if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+            History.pushState({}, "", url);
         }
     },
     navigationManager: {

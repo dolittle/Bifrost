@@ -87,6 +87,8 @@
     <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
+    <Compile Include="Read\ReadModelQueryDescriptor.cs" />
+    <Compile Include="Read\ReadModelService.cs" />
     <Compile Include="RouteActivator.cs" />
     <Compile Include="Proxies\ProxyRouteHandler.cs" />
     <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />

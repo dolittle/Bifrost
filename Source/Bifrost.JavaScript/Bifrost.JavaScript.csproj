@@ -63,6 +63,7 @@
     <Content Include="read\queryService.js" />
     <Content Include="read\ReadModel.js" />
     <Content Include="read\ReadModelOf.js" />
+    <Content Include="read\readModelService.js" />
     <Content Include="utils\configure.js" />
     <Content Include="execution\Promise.js" />
     <Content Include="features\exceptions.js" />

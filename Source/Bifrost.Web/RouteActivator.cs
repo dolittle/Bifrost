@@ -20,6 +20,7 @@ namespace Bifrost.Web
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
             RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
+            RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
         }
     }
 }
