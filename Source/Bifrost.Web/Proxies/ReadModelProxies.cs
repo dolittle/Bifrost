@@ -40,7 +40,7 @@ namespace Bifrost.Web.Proxies
                                             .Variant("self", v => v.WithThis())
                                             .WithPropertiesFrom(type, typeof(IReadModel)));
 
-                        o.Assign("readModelOf" + name)
+                        o.Assign("readModelOf" + name.ToPascalCase())
                             .WithType(t =>
                                 t.WithSuper("Bifrost.read.ReadModelOf")
                                     .Function
