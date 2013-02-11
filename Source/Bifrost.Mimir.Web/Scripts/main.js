@@ -36,33 +36,30 @@ function loadHubs() {
     document.body.appendChild(script);
 }
 
-require(
-    ["jquery", "knockout"], function () {
-        require(["signalr", "order!noext!signalr/hubs", "jquery.history"], function () {
-            //loadHubs();
-            require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
-                Bifrost.features.featureMapper.add("{feature}/{subFeature}", combinePaths(applicationDir, "/Features/{feature}/{subFeature}"), false);
-                Bifrost.features.featureMapper.add("{feature}", combinePaths(applicationDir, "/Features/{feature}"), true);
+require(["jquery", "knockout"], function () {
+    require(["signalr", "order!noext!signalr/hubs", "jquery.history"], function () {
+        require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
+            Bifrost.features.featureMapper.add("{feature}/{subFeature}", combinePaths(applicationDir, "/Features/{feature}/{subFeature}"), false);
+            Bifrost.features.featureMapper.add("{feature}", combinePaths(applicationDir, "/Features/{feature}"), true);
 
-                require([
-                    "noext!/Bifrost/Proxies",
-                    combinePaths(applicationDir, "/bootstrap/js/bootstrap.min.js"),
-                    combinePaths(applicationDir, "/Scripts/libs/google-code-prettify/prettify.js"),
-                    combinePaths(applicationDir, "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js"),
-                    combinePaths(applicationDir, "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js"),
-                    combinePaths(applicationDir, "/Scripts/applicationBar.js")
-                ], function () { });
+            require([
+                "noext!/Bifrost/Proxies",
+                combinePaths(applicationDir, "/bootstrap/js/bootstrap.min.js"),
+                combinePaths(applicationDir, "/Scripts/libs/google-code-prettify/prettify.js"),
+                combinePaths(applicationDir, "/Scripts/libs/jquery.tablesorter/jquery.tablesorter.min.js"),
+                combinePaths(applicationDir, "/Scripts/libs/jquery.pageslide/jquery.pageslide.min.js"),
+                combinePaths(applicationDir, "/Scripts/applicationBar.js")
+            ], function () { });
 
-                $(function () {
-                    $.connection.hub.start()
-                        .done(function () {
-                        })
-                        .fail(function () {
-                        });
+            $(function () {
+                $.connection.hub.start()
+                    .done(function () {
+                    })
+                    .fail(function () {
+                    });
 
-                    $(window).load();
-                });
+                $(window).load();
             });
         });
-    }
-);
+    });
+});

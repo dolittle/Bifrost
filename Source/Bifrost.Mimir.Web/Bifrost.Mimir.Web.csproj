@@ -296,9 +296,9 @@
       <Project>{3E9048BC-11C1-4278-ACBF-2B0DBE7EF9F4}</Project>
       <Name>Bifrost.Mimir.Events</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Views\Bifrost.Mimir.Views.csproj">
-      <Project>{0527B124-4719-4358-9214-83858E0353DB}</Project>
-      <Name>Bifrost.Mimir.Views</Name>
+    <ProjectReference Include="..\Bifrost.Mimir.Read\Bifrost.Mimir.Read.csproj">
+      <Project>{0527b124-4719-4358-9214-83858e0353db}</Project>
+      <Name>Bifrost.Mimir.Read</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
       <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>

@@ -1827,6 +1827,7 @@ Bifrost.namespace("Bifrost.read", {
 	    var self = this;
 	    this.name = "";
 	    this.target = null;
+	    this.readModelType = Bifrost.Type.extend(function () { });
 
 		this.instance = ko.observable();
 
