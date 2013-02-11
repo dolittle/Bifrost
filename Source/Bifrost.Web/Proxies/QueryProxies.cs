@@ -1,7 +1,8 @@
-﻿using Bifrost.Execution;
+﻿using Bifrost.CodeGeneration;
+using Bifrost.CodeGeneration.JavaScript;
+using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
-using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {

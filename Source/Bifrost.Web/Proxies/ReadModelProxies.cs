@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using Bifrost.CodeGeneration;
+using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
-using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {

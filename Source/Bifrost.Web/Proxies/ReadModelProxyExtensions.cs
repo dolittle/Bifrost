@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Extensions;
 using Bifrost.Read;
-using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {

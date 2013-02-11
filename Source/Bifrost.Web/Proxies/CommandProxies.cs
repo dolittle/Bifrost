@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Bifrost.CodeGeneration;
+using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
-using Bifrost.Web.Proxies.JavaScript;
 
 namespace Bifrost.Web.Proxies
 {
