@@ -17,11 +17,31 @@ namespace Bifrost.Web.Proxies.JavaScript
             return assignment;
         }
 
+        public static Assignment WithLiteral(this Assignment assignment, string literal)
+        {
+            assignment.Value = new Literal(literal);
+            return assignment;
+        }
+
+        public static Assignment WithString(this Assignment assignment, string theString)
+        {
+            assignment.WithLiteral(string.Format("\"{0}\"", theString));
+            return assignment;
+        }
+
         public static Assignment WithType(this Assignment assignment, Action<TypeExtension> callback)
         {
             var typeExtension = new TypeExtension();
             assignment.Value = typeExtension;
             callback(typeExtension);
+            return assignment;
+        }
+
+        public static Assignment WithFunction(this Assignment assignment, Action<Function> callback, params string[] dependencies)
+        {
+            var function = new Function(dependencies);
+            assignment.Value = function;
+            callback(function);
             return assignment;
         }
 

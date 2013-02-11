@@ -19,6 +19,9 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Bifrost.Read
 {
@@ -28,10 +31,27 @@ namespace Bifrost.Read
     /// <typeparam name="T">Type of <see cref="IReadModel"/></typeparam>
     public class ReadModelOf<T> : IReadModelOf<T> where T:IReadModel
     {
-#pragma warning disable 1591 // Xml Comments
-        public T InstanceMatching(params System.Linq.Expressions.Expression<System.Func<T, bool>>[] propertyExpressions)
+        IReadModelRepositoryFor<T> _repository;
+
+        /// <summary>
+        /// Initializes an instance of <see cref="ReadModelOf{T}"/>
+        /// </summary>
+        /// <param name="repository">Repository to use getting instances</param>
+        public ReadModelOf(IReadModelRepositoryFor<T> repository)
         {
-            return default(T);
+            _repository = repository;
+        }
+
+
+#pragma warning disable 1591 // Xml Comments
+        public T InstanceMatching(params Expression<Func<T, bool>>[] propertyExpressions)
+        {
+            var query = _repository.Query;
+
+            foreach( var expression in propertyExpressions )
+                query = query.Where(expression);
+
+            return query.SingleOrDefault();
         }
 #pragma warning restore 1591 // Xml Comments
     }

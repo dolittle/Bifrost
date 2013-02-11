@@ -73,15 +73,15 @@ namespace Bifrost.Web.Proxies.JavaScript
         }
 
 
-        public static Container WithPropertiesFrom(this Container contaier, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
+        public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
-            AddPropertiesFromType(contaier, properties, assignmentVisitor);
+            AddPropertiesFromType(container, properties, assignmentVisitor);
 
-            return contaier;
+            return container;
         }
 
 

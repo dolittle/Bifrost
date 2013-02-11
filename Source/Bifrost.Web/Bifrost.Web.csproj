@@ -71,6 +71,9 @@
     <Compile Include="Proxies\JavaScript\Assignment.cs" />
     <Compile Include="Proxies\JavaScript\Container.cs" />
     <Compile Include="Proxies\JavaScript\FunctionExtensions.cs" />
+    <Compile Include="Proxies\JavaScript\Literal.cs" />
+    <Compile Include="Proxies\JavaScript\Scope.cs" />
+    <Compile Include="Proxies\JavaScript\ScopeExtensions.cs" />
     <Compile Include="Proxies\JavaScript\This.cs" />
     <Compile Include="Proxies\JavaScript\TypeExtensions.cs" />
     <Compile Include="Proxies\JavaScript\VariantAssignment.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Proxies\LanguageElement.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
+    <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="Read\ReadModelQueryDescriptor.cs" />

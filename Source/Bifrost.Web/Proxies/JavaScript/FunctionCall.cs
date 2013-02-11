@@ -3,7 +3,7 @@
     public class FunctionCall : LanguageElement
     {
         public string Function { get; set; }
-        public string[] Parameters { get; set; }
+        public LanguageElement[] Parameters { get; set; }
 
         public override void Write(ICodeWriter writer)
         {
@@ -15,7 +15,7 @@
                 {
                     if (count != 0) writer.Write(", ");
 
-                    writer.Write(parameter);
+                    parameter.Write(writer);
 
                     count++;
                 }

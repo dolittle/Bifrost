@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Linq;
 
 namespace Bifrost.Web.Proxies.JavaScript
 {
     public static class FunctionExtensions
     {
-        public static Function WithDependencies(this Function function, params string[] dependencies)
+        public static Function WithParameters(this Function function, params string[] parameters)
         {
-            function.Dependencies = dependencies;
+            function.Parameters = parameters;
             return function;
         }
 
@@ -26,7 +27,23 @@ namespace Bifrost.Web.Proxies.JavaScript
             return functionBody;
         }
 
+
+
+        public static FunctionBody Scope(this FunctionBody functionBody, string name, Action<Scope> callback)
+        {
+            var scope = new Scope(name);
+            functionBody.AddChild(scope);
+            callback(scope);
+            return functionBody;
+        }
+
         public static FunctionCall WithParameters(this FunctionCall functionCall, params string[] parameters)
+        {
+            functionCall.Parameters = parameters.Select(p=>new Literal(p)).ToArray();
+            return functionCall;
+        }
+
+        public static FunctionCall WithParameters(this FunctionCall functionCall, params LanguageElement[] parameters)
         {
             functionCall.Parameters = parameters;
             return functionCall;

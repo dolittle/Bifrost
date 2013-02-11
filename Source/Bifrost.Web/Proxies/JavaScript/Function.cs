@@ -3,25 +3,25 @@ namespace Bifrost.Web.Proxies.JavaScript
 {
     public class Function : LanguageElement
     {
-        public Function(params string[] dependencies)
+        public Function(params string[] parameters)
         {
-            Dependencies = dependencies;
+            Parameters = parameters;
             Body = new FunctionBody();
         }
 
-        public string[] Dependencies { get; set; }
+        public string[] Parameters { get; set; }
 
         public FunctionBody Body { get; private set; }
 
         public override void Write(ICodeWriter writer)
         {
             writer.Write("function(");
-            for (var dependencyIndex = 0; dependencyIndex < Dependencies.Length; dependencyIndex++)
+            for (var parameterIndex = 0; parameterIndex < Parameters.Length; parameterIndex++)
             {
-                if (dependencyIndex != 0)
+                if (parameterIndex != 0)
                     writer.Write(", ");
 
-                writer.Write(Dependencies[dependencyIndex]);
+                writer.Write(Parameters[parameterIndex]);
             }
             writer.Write(") {{");
             writer.Newline();

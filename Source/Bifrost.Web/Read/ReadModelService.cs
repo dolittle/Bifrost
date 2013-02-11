@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bifrost.Execution;
-using Bifrost.Read;
-using Bifrost.Extensions;
 using System.Linq.Expressions;
+using Bifrost.Execution;
+using Bifrost.Extensions;
+using Bifrost.Read;
 
 namespace Bifrost.Web.Read
 {
-    public class MyStuff : IReadModel
-    {
-        public Guid Id { get; set; }
-        public string Something { get; set; }
-    }
-
-
     public class ReadModelService
     {
         IEnumerable<Type> _readModelTypes;
@@ -27,26 +20,31 @@ namespace Bifrost.Web.Read
         }
 
 
-        public object InstanceMatchingPropertyWithValue(string readModel, string property, string value)
-        {
-            readModel = readModel.ToPascalCase();
-            var readModelType = _readModelTypes.SingleOrDefault(t=>t.Name == readModel);
-            var readModelOfType = typeof(IReadModelOf<>).MakeGenericType(readModelType);
-            var readModelOf = _container.Get(readModelOfType);
-            var instanceMatchingMethod = readModelOfType.GetMethod("InstanceMatching");
-
-            var expression = GetPropertyEqualsExpression(readModelType, property, value);
-            var array = Array.CreateInstance(expression.GetType(), 1);
-            array.SetValue(expression, 0);
-            
-            var result = instanceMatchingMethod.Invoke(readModelOf, new object[] { array });
-
-            return result;
-        }                                             
-
         public object InstanceMatching(ReadModelQueryDescriptor descriptor)
         {
-            throw new NotImplementedException();
+            var readModel = descriptor.ReadModel.ToPascalCase();
+            var readModelType = _readModelTypes.SingleOrDefault(t => t.Name == readModel);
+            if (readModelType != null)
+            {
+                var readModelOfType = typeof(IReadModelOf<>).MakeGenericType(readModelType);
+                var readModelOf = _container.Get(readModelOfType);
+                var instanceMatchingMethod = readModelOfType.GetMethod("InstanceMatching");
+
+                var funcType = typeof(Func<,>).MakeGenericType(readModelType, typeof(bool));
+                var expressionType = typeof(Expression<>).MakeGenericType(funcType);
+                var expressions = Array.CreateInstance(expressionType, descriptor.PropertyFilters.Count);
+                var index=0;
+                foreach (var key in descriptor.PropertyFilters.Keys)
+                {
+                    var expression = GetPropertyEqualsExpression(readModelType, key, descriptor.PropertyFilters[key]);
+                    expressions.SetValue(expression, index);
+                    index++;
+                }
+
+                var result = instanceMatchingMethod.Invoke(readModelOf, new[] { expressions });
+                return result;
+            }
+            return null;
         }
 
 

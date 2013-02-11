@@ -31,6 +31,7 @@ namespace Bifrost.Web.Proxies
                                     .Function
                                         .Body
                                             .Variant("self", v => v.WithThis())
+                                            .Property("name", p => p.WithString(name))
                                             .WithPropertiesFrom(type, typeof(IQueryFor<>)));
                     }
                 });
