@@ -42,6 +42,7 @@ namespace Bifrost.Web.Proxies
                                         .Body
                                             .Variant("self", v => v.WithThis())
                                             .Property("name", p => p.WithString(name))
+                                            .Property("readModelType", p => p.WithLiteral("readModels."+name))
                                             .WithReadModelConvenienceFunctions(type));
                     }
                 });
