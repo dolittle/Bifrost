@@ -18,14 +18,14 @@ require.config({
 
     paths: {
         "jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min",
-        "signalr": "jquery.signalR-0.5.3",
+        "signalr": "jquery.signalR-1.0.0-rc2.min",
         "signalrHubs": "/signalr/hubs",
-        "knockout": "http://cdn.dolittle.com/knockout/knockout-2.0.0",
+        "knockout": "knockout-2.0.0", //"http://cdn.dolittle.com/knockout/knockout-2.0.0",
         "knockout.mapping": "knockout.mapping-2.0.0",
         "bifrost": "Bifrost.debug",
-        "order": "http://cdn.dolittle.com/require/order",
-        "domReady": "http://cdn.dolittle.com/require/domReady",
-        "text": "http://cdn.dolittle.com/require/text"
+        "order": "order", //"http://cdn.dolittle.com/require/order",
+        "domReady": "domReady", // "http://cdn.dolittle.com/require/domReady",
+        "text": "text", //"http://cdn.dolittle.com/require/text"
     }
 });
 

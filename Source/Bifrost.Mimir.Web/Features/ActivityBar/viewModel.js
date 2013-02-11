@@ -33,7 +33,7 @@
     };
 
     var connection = $.hubConnection();
-    var tasksHub = connection.createProxy("tasks");
+    var tasksHub = connection.createHubProxy("tasks");
     tasksHub.on("started", function (task) {
         self.setTask(task);
     });

@@ -33,7 +33,7 @@
     };
 
     var connection = $.hubConnection();
-    var tasksHub = connection.createProxy("tasks");
+    var tasksHub = connection.createHubProxy("tasks");
 
     connection.start().done(function () {
         tasksHub.invoke("getAllTasks", function (tasks) {
