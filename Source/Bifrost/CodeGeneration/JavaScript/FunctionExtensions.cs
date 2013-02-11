@@ -1,0 +1,125 @@
+﻿#region License
+//
+// Copyright (c) 2008-2012, DoLittle Studios AS and Komplett ASA
+//
+// Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
+// With one exception :
+//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially, 
+//   must obtain a commercial license.
+//
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the license at 
+//
+//   http://bifrost.codeplex.com/license
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+#endregion
+using System;
+using System.Linq;
+
+namespace Bifrost.CodeGeneration.JavaScript
+{
+    /// <summary>
+    /// Provides methods for working with <see cref="Function"/> and related objects
+    /// </summary>
+    public static class FunctionExtensions
+    {
+        /// <summary>
+        /// Specify parameters for a function
+        /// </summary>
+        /// <param name="function"><see cref="Function"/> to specify for</param>
+        /// <param name="parameters">Parameters for the function</param>
+        /// <returns>Chained <see cref="Function"/> to keep building on</returns>
+        public static Function WithParameters(this Function function, params string[] parameters)
+        {
+            function.Parameters = parameters;
+            return function;
+        }
+
+        /// <summary>
+        /// Add a property to a <see cref="FunctionBody"/>
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="name">Name of the property to add</param>
+        /// <param name="callback"><see cref="Action{PropertyAssignment}"/> that gets called for working with the <see cref="PropertyAssignment"/></param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody Property(this FunctionBody functionBody, string name, Action<PropertyAssignment> callback)
+        {
+            var propertyAssignment = new PropertyAssignment(name);
+            functionBody.AddChild(propertyAssignment);
+            callback(propertyAssignment);
+            return functionBody;
+        }
+
+        /// <summary>
+        /// Add a variant to a <see cref="FunctionBody"/>
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="name">Name of variant</param>
+        /// <param name="callback"><see cref="Action{VariantAssignment}"/> that gets called for working with the <see cref="VariantAssignment"/></param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody Variant(this FunctionBody functionBody, string name, Action<VariantAssignment> callback)
+        {
+            var variantAssignment = new VariantAssignment(name);
+            functionBody.AddChild(variantAssignment);
+            callback(variantAssignment);
+            return functionBody;
+        }
+
+        /// <summary>
+        /// Add a scope - such as "self", typically used together with an <see cref="Assignment"/>
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="name">Name of the scope, e.g. "self"</param>
+        /// <param name="callback"><see cref="Action{Scope}"/> that gets called for working with the <see cref="Scope"/></param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody Scope(this FunctionBody functionBody, string name, Action<Scope> callback)
+        {
+            var scope = new Scope(name);
+            functionBody.AddChild(scope);
+            callback(scope);
+            return functionBody;
+        }
+
+        /// <summary>
+        /// Set the parameters for a <see cref="FunctionCall"/> based on strings
+        /// </summary>
+        /// <param name="functionCall"><see cref="FunctionCall"/> to set for</param>
+        /// <param name="parameters">Parameters to set</param>
+        /// <returns>Chained <see cref="FunctionCall"/> to keep building on</returns>
+        public static FunctionCall WithParameters(this FunctionCall functionCall, params string[] parameters)
+        {
+            functionCall.Parameters = parameters.Select(p=>new Literal(p)).ToArray();
+            return functionCall;
+        }
+
+        /// <summary>
+        /// Set the parameters for a <see cref="FunctionCall"/> 
+        /// </summary>
+        /// <param name="functionCall"><see cref="FunctionCall"/> to set for</param>
+        /// <param name="parameters">Parameters to set</param>
+        /// <returns>Chained <see cref="FunctionCall"/> to keep building on</returns>
+        public static FunctionCall WithParameters(this FunctionCall functionCall, params LanguageElement[] parameters)
+        {
+            functionCall.Parameters = parameters;
+            return functionCall;
+        }
+
+        /// <summary>
+        /// Specify a name for the <see cref="FunctionCall"/>
+        /// </summary>
+        /// <param name="functionCall"><see cref="FunctionCall"/> to set name for</param>
+        /// <param name="name">Name of the <see cref="FunctionCall"/></param>
+        /// <returns>Chained <see cref="FunctionCall"/> to keep building on</returns>
+        public static FunctionCall WithName(this FunctionCall functionCall, string name)
+        {
+            functionCall.Function = name;
+            return functionCall;
+        }
+    }
+}

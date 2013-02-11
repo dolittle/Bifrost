@@ -53,6 +53,32 @@
     <Compile Include="..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CodeGeneration\CodeGenerator.cs" />
+    <Compile Include="CodeGeneration\CodeWriter.cs" />
+    <Compile Include="CodeGeneration\ICodeGenerator.cs" />
+    <Compile Include="CodeGeneration\ICodeWriter.cs" />
+    <Compile Include="CodeGeneration\ILanguageElement.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Assignment.cs" />
+    <Compile Include="CodeGeneration\JavaScript\AssignmentExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\CodeGeneratorExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Container.cs" />
+    <Compile Include="CodeGeneration\JavaScript\ContainerExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Function.cs" />
+    <Compile Include="CodeGeneration\JavaScript\FunctionBody.cs" />
+    <Compile Include="CodeGeneration\JavaScript\FunctionCall.cs" />
+    <Compile Include="CodeGeneration\JavaScript\FunctionExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\KeyAssignment.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Literal.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Namespace.cs" />
+    <Compile Include="CodeGeneration\JavaScript\ObjectLiteral.cs" />
+    <Compile Include="CodeGeneration\JavaScript\PropertyAssignment.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Scope.cs" />
+    <Compile Include="CodeGeneration\JavaScript\ScopeExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\This.cs" />
+    <Compile Include="CodeGeneration\JavaScript\TypeExtension.cs" />
+    <Compile Include="CodeGeneration\JavaScript\TypeExtensionExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\VariantAssignment.cs" />
+    <Compile Include="CodeGeneration\LanguageElement.cs" />
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />

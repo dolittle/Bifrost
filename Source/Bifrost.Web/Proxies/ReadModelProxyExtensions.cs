@@ -33,8 +33,6 @@ namespace Bifrost.Web.Proxies
                                 )
                             )
                         );
-
-                
             }
 
             return functionBody;
