@@ -28,7 +28,7 @@ Bifrost.namespace("Bifrost.views", {
 			return false;
 		};
 
-		this.resolve = function(viewElement) {
+		this.resolve = function(element) {
 			var resolvers = getResolvers();
 			for( var resolverIndex=0; resolverIndex<resolvers.length; resolverIndex++ ) {
 				var resolver = resolvers[resolverIndex];

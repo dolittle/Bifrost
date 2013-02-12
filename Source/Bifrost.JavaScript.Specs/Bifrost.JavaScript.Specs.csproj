@@ -273,7 +273,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Utils\for_namespacePaths\" />
+    <Folder Include="utils\for_namespacePaths\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />

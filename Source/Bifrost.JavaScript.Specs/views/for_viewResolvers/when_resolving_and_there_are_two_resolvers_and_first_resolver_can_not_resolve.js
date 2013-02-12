@@ -6,14 +6,15 @@ describe("when resolving and there are two resolvers and first resolver can not 
 	var secondResolverResolveSpy = sinon.spy();
 
 	beforeEach(function() {
+		
 		Bifrost.views.viewResolvers.firstResolver = Bifrost.views.viewResolver.extend(function() {
 			this.canResolve = function() { return false; };
 			this.resolve = firstResolverResolveStub;
-		};
+		});
 		Bifrost.views.viewResolvers.secondResolver = Bifrost.views.viewResolver.extend(function() {
-			this.canResolve: function() { return true; },
+			this.canResolve = function() { return true; };
 			this.resolve = secondResolverResolveSpy;
-		};
+		});
 
 		var viewResolvers = Bifrost.views.viewResolvers.create();
 		result = viewResolvers.resolve(element);
@@ -28,7 +29,7 @@ describe("when resolving and there are two resolvers and first resolver can not 
 		expect(firstResolverResolveStub.called).toBe(false);
 	});
 
-	it("should user the second resolver for resolving", function() {
+	it("should use the second resolver for resolving", function() {
 		expect(secondResolverResolveSpy.calledWith(element)).toBe(true);
 	});
 });

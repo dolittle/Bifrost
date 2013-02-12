@@ -65,6 +65,9 @@
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js
 @depends views/View.js
+@depends views/viewResolver.js
+@depends views/viewResolvers.js
+@depends views/DataAttributeViewResolver.js
 @depends views/viewBindingHandler.js
 @depends views/viewFactory.js
 @depends views/viewLocationMapper.js
