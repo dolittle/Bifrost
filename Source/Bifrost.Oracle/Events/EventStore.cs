@@ -56,7 +56,7 @@ namespace Bifrost.Oracle.Events
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
             _serializer = serializer;
             _eventParameters = eventParameters;
-            _connection = configuration.Connection;
+            _connection = (OracleConnection)configuration.GetConnection();
         }
 
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
