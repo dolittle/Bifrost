@@ -52,7 +52,6 @@ namespace Bifrost.NHibernate.UserTypes
                 return result;
 
             result = new Guid(buffer);
-            Array.Clear(buffer, 0, buffer.Length);
             return result;
         }
 
@@ -64,7 +63,6 @@ namespace Bifrost.NHibernate.UserTypes
             var guidValue = (Guid)value;
             var buffer = guidValue.ToByteArray();
             NHibernateUtil.Binary.NullSafeSet(cmd, buffer, index);
-            Array.Clear(buffer, 0, buffer.Length);
         }
 
         public object Replace(object original, object target, object owner)

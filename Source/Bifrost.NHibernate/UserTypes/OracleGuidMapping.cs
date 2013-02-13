@@ -15,12 +15,10 @@ namespace Bifrost.NHibernate.UserTypes
 #pragma warning disable 1591
         public override object Get(PropertyInfo property, IDataReader dr, string propertyName, ISessionImplementor session, object owner)
         {
-            Guid result;
             var buffer = (byte[])NHibernateUtil.Binary.NullSafeGet(dr, propertyName, session, owner);
             if (null != buffer)
             {
-                result = new Guid(buffer);
-                Array.Clear(buffer, 0, buffer.Length);
+                var result = new Guid(buffer);
                 return result;
             }
             return Guid.Empty;
@@ -31,20 +29,19 @@ namespace Bifrost.NHibernate.UserTypes
             if (value == null)
                 return;
 
-            Guid guidValue = Guid.Empty;
+            var guidValue = Guid.Empty;
 
             if (value is Guid)
                 guidValue = (Guid) value;
 
-            if (value is ConceptAs<Guid>)
-                guidValue = (ConceptAs<Guid>) value;
+            var guidAsConcept = value as ConceptAs<Guid>;
+            if (guidAsConcept != null)
+                guidValue = guidAsConcept.Value;
 
             if(guidValue == Guid.Empty)
                 throw new InvalidOperationException("Invalid type: " + value.GetType());
 
-            var buffer = guidValue.ToByteArray();
-            NHibernateUtil.Binary.NullSafeSet(cmd, buffer, index);
-            Array.Clear(buffer, 0, buffer.Length);
+            NHibernateUtil.Binary.NullSafeSet(cmd, guidValue.ToByteArray(), index);
         }
 #pragma warning restore 1591
     }
