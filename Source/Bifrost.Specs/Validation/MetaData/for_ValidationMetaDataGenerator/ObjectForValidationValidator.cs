@@ -1,8 +1,9 @@
-﻿using FluentValidation;
+﻿using Bifrost.Validation;
+using FluentValidation;
 
 namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 {
-    public class ObjectForValidationValidator : AbstractValidator<ObjectForValidation>
+    public class ObjectForValidationValidator : Validator<ObjectForValidation>
     {
         public const string NotEmptyErrorMessage = "Should not be empty";
         public const string EmailAddressErrorMessage = "Not a valid email";

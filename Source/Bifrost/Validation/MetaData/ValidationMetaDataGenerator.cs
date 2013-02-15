@@ -21,6 +21,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using FluentValidation;
@@ -65,27 +66,44 @@ namespace Bifrost.Validation.MetaData
             return metaData;
         }
 
-        private void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey)
+        void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey, bool isParentConcept = false)
         {
+            var inputValidatorType = inputValidator.GetType();
+            var genericArguments = inputValidatorType.BaseType.GetGenericArguments();
+
             var descriptor = inputValidator.CreateDescriptor();
             var members = descriptor.GetMembersWithValidators();
             
             foreach (var member in members)
             {
-
                 var rules = descriptor.GetRulesForMember(member.Key);
                 foreach (var rule in rules)
                 {
                     foreach (var validator in rule.Validators)
                     {
-                        var currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+                        var currentKey = string.Empty;
+                        if (isParentConcept)
+                            currentKey = parentKey;
+                        else
+                            currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+
                         if (validator is ChildValidatorAdaptor)
                         {
+                            var isConcept = false;
+                            if (genericArguments.Length == 1)
+                            {
+                                var property = genericArguments[0].GetProperty(member.Key);
+                                isConcept = property.PropertyType.IsConcept();
+                            }
+
                             var childValidator = (validator as ChildValidatorAdaptor).Validator;
-                            GetValue(childValidator, metaData, currentKey);
+                            GetValue(childValidator, metaData, currentKey, isConcept);
                         }
-                        else if(validator is IPropertyValidator)
+                        else if (validator is IPropertyValidator)
+                        {
+                            
                             GenerateFor(metaData, currentKey, validator as IPropertyValidator);
+                        }
                     }
                 }
             }

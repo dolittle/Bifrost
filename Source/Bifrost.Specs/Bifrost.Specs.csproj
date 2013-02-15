@@ -544,6 +544,10 @@
     <Compile Include="Validation\MetaData\for_LessThanGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_null.cs" />
     <Compile Include="Validation\MetaData\for_RequiredGenerator\when_generating_from_not_empty.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ConceptAsStringValidator.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectWithConcept.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectWithConceptValidator.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_an_object_with_concept_on_it.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_nested_properties.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
