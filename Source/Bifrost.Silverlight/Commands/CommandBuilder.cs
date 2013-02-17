@@ -64,7 +64,7 @@ namespace Bifrost.Commands
             set
             {
                 _type = value;
-                if( string.IsNullOrEmpty(Name) )
+                if( string.IsNullOrEmpty(Name) && _conventions.CommandName != null )
                     Name = _conventions.CommandName(value.Name);
             }
         } 

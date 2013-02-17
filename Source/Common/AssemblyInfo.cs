@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Bifrost")]
 [assembly: AssemblyDescription("Bifrost, Enterprise library with the focus on CQRS")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DoLittle Studios AS and Komplett ASA")]
+[assembly: AssemblyCompany("Dolittle")]
 [assembly: AssemblyProduct("Bifrost")]
-[assembly: AssemblyCopyright("Copyright © 2010-2012 DoLittle Studios AS and Komplett ASA")]
+[assembly: AssemblyCopyright("Copyright © 2008-2013 Dolittle")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

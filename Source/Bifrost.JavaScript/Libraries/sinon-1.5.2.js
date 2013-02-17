@@ -6,7 +6,7 @@
 *
 * (The BSD License)
 * 
-* Copyright (c) 2010-2012, Christian Johansen, christian@cjohansen.no
+* Copyright (c) 2008-2013, Christian Johansen, christian@cjohansen.no
 * All rights reserved.
 * 
 * Redistribution and use in source and binary forms, with or without modification,

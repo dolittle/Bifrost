@@ -1,9 +1,9 @@
-Copyright (c) 2012 DoLittle Studios, http://www.dolittle.com
+Copyright (c) 2013 Dolittle, http://www.dolittle.com
 
 This software consists of voluntary contributions made by many
 individuals (Authors.txt in the repository) For exact
 contribution history, see the revision history and logs, available
-at http://github.com/dolittlestudios/forseti
+at http://github.com/dolittle/bifrost
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,16 +1,13 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2012, DoLittle Studios AS and Komplett ASA
+// Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
-// Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially, 
-//   must obtain a commercial license.
+// Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the license at 
 //
-//   http://bifrost.codeplex.com/license
+//   http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+
 using System;
 using System.Collections.Generic;
 
