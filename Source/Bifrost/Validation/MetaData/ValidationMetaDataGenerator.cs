@@ -69,7 +69,11 @@ namespace Bifrost.Validation.MetaData
         void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey, bool isParentConcept = false)
         {
             var inputValidatorType = inputValidator.GetType();
+#if(NETFX_CORE)
+            var genericArguments = inputValidatorType.GetTypeInfo().BaseType.GenericTypeArguments;
+#else
             var genericArguments = inputValidatorType.BaseType.GetGenericArguments();
+#endif
 
             var descriptor = inputValidator.CreateDescriptor();
             var members = descriptor.GetMembersWithValidators();
@@ -92,7 +96,11 @@ namespace Bifrost.Validation.MetaData
                             var isConcept = false;
                             if (genericArguments.Length == 1)
                             {
+#if(NETFX_CORE)
+                                var property = genericArguments[0].GetTypeInfo().GetDeclaredProperty(member.Key);
+#else
                                 var property = genericArguments[0].GetProperty(member.Key);
+#endif
                                 isConcept = property.PropertyType.IsConcept();
                             }
 
