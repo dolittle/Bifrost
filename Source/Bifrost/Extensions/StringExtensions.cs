@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.ComponentModel;
+using Bifrost.Concepts;
 
 namespace Bifrost.Extensions
 {
@@ -72,6 +73,13 @@ namespace Bifrost.Extensions
         {
             if (type == typeof(Guid))
                 return Guid.Parse(str);
+
+            if (type.IsConcept())
+            {
+                var primitiveType = type.GetConceptValueType();
+                var primitive = ParseTo(str, primitiveType);
+                return ConceptFactory.CreateConceptInstance(type, primitive);
+            }
 
             return Convert.ChangeType(str, type, null);           
         }
