@@ -378,9 +378,6 @@
     <Compile Include="..\Bifrost\Events\IEventStoreChangeNotifier.cs">
       <Link>Events\IEventStoreChangeNotifier.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\IEventSubscriber.cs">
-      <Link>Events\IEventSubscriber.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptionManager.cs">
       <Link>Events\IEventSubscriptionManager.cs</Link>
     </Compile>
@@ -392,6 +389,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\InvalidMigrationTypeException.cs">
       <Link>Events\InvalidMigrationTypeException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IProcessEvents.cs">
+      <Link>Events\IProcessEvents.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\IProcessMethodInvoker.cs">
       <Link>Events\IProcessMethodInvoker.cs</Link>

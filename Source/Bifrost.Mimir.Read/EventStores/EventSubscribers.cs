@@ -4,7 +4,7 @@ using Bifrost.Tasks;
 
 namespace Bifrost.Mimir.Read.EventStores
 {
-    public class EventSubscribers : IEventSubscriber
+    public class EventSubscribers : IProcessEvents
     {
         IEventSubscriptionRepository _eventSubscriptionRepository;
         ITaskManager _taskManager;

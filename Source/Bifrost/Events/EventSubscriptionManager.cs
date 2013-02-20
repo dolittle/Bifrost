@@ -45,7 +45,7 @@ namespace Bifrost.Events
         /// Initializes an instance of <see cref="EventSubscriptionManager"/>
         /// </summary>
         /// <param name="repository">A <see cref="IEventSubscriptionRepository"/> that will be used to maintain subscriptions from a datasource</param>
-        /// <param name="typeDiscoverer">A <see cref="ITypeDiscoverer"/> for discovering <see cref="IEventSubscriber"/>s in current process</param>
+        /// <param name="typeDiscoverer">A <see cref="ITypeDiscoverer"/> for discovering <see cref="IProcessEvents"/>s in current process</param>
         /// <param name="container">A <see cref="IContainer"/> for creating instances of objects/services</param>
         /// <param name="localizer">A <see cref="ILocalizer"/> for controlling localization while executing subscriptions</param>
         public EventSubscriptionManager(
@@ -82,7 +82,7 @@ namespace Bifrost.Events
 
         public void Process(EventSubscription subscription, IEvent @event)
         {
-            var subscriber = _container.Get(subscription.Owner) as IEventSubscriber;
+            var subscriber = _container.Get(subscription.Owner) as IProcessEvents;
             Process(subscription, subscriber, @event);
         }
 
@@ -105,9 +105,9 @@ namespace Bifrost.Events
 
 #pragma warning restore 1591 // Xml Comments
 
-        Dictionary<Type, IEventSubscriber> GetSubscriberInstancesFromEvents(IEnumerable<IEvent> events)
+        Dictionary<Type, IProcessEvents> GetSubscriberInstancesFromEvents(IEnumerable<IEvent> events)
         {
-            var subscribersBySubscriberTypes = new Dictionary<Type, IEventSubscriber>();
+            var subscribersBySubscriberTypes = new Dictionary<Type, IProcessEvents>();
 
             foreach (var @event in events)
             {
@@ -115,12 +115,12 @@ namespace Bifrost.Events
                 var subscriptions = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
                 foreach (var subscription in subscriptions)
                 {
-                    IEventSubscriber instance = null;
+                    IProcessEvents instance = null;
                     if (subscribersBySubscriberTypes.ContainsKey(subscription.Owner))
                         instance = subscribersBySubscriberTypes[subscription.Owner];
                     else
                     {
-                        instance = _container.Get(subscription.Owner) as IEventSubscriber;
+                        instance = _container.Get(subscription.Owner) as IProcessEvents;
                         subscribersBySubscriberTypes[subscription.Owner] = instance;
                     }
 
@@ -131,7 +131,7 @@ namespace Bifrost.Events
         }
 
 
-        void Process(Dictionary<Type, IEventSubscriber> subscribers, IEvent @event)
+        void Process(Dictionary<Type, IProcessEvents> subscribers, IEvent @event)
         {
             var eventType = @event.GetType();
             var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
@@ -144,7 +144,7 @@ namespace Bifrost.Events
             }
         }
 
-        void Process(EventSubscription subscription, IEventSubscriber subscriber, IEvent @event)
+        void Process(EventSubscription subscription, IProcessEvents subscriber, IEvent @event)
         {
             using (_localizer.BeginScope())
             {
@@ -164,7 +164,7 @@ namespace Bifrost.Events
         void CollectInProcessSubscribers()
         {
             var subscriptionsInProcess = new List<EventSubscription>();
-            var eventSubscriberTypes = _typeDiscoverer.FindMultiple<IEventSubscriber>();
+            var eventSubscriberTypes = _typeDiscoverer.FindMultiple<IProcessEvents>();
 
             foreach (var eventSubscriberType in eventSubscriberTypes)
             {

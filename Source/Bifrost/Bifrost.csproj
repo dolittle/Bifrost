@@ -355,7 +355,7 @@
     <Compile Include="Commands\IHandleCommands.cs" />
     <Compile Include="Commands\ICommandCoordinator.cs" />
     <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\IEventSubscriber.cs" />
+    <Compile Include="Events\IProcessEvents.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Lifecycle\IUnitOfWork.cs" />

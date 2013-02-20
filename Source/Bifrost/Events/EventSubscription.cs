@@ -22,7 +22,7 @@ using System.Reflection;
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents a subscription for a specific <see cref="IEventSubscriber"/> and method on it that can receive a method
+    /// Represents a subscription for a specific <see cref="IProcessEvents"/> and method on it that can receive a method
     /// </summary>
     public class EventSubscription
     {

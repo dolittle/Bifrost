@@ -25,10 +25,10 @@ using Bifrost.Views;
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents a base class implementation of an <see cref="IEventSubscriber"/>
+    /// Represents a base class implementation of an <see cref="IProcessEvents"/>
     /// </summary>
     /// <typeparam name="T">Type of view object the subscriber is working on</typeparam>
-    public class EventSubscriber<T> : IEventSubscriber
+    public class EventSubscriber<T> : IProcessEvents
         where T : IHaveId, new()
     {
         /// <summary>

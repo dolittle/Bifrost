@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 
         Establish context = () =>
         {
-            type_discoverer_mock.Setup(t => t.FindMultiple<IEventSubscriber>()).Returns(new[] { typeof(EventSubscriberForTwoEvents) });
+            type_discoverer_mock.Setup(t => t.FindMultiple<IProcessEvents>()).Returns(new[] { typeof(EventSubscriberForTwoEvents) });
             container_mock.Setup(c => c.Get(typeof(EventSubscriberForTwoEvents))).Returns(new EventSubscriberForTwoEvents());
             event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };

@@ -21,7 +21,7 @@ namespace Bifrost.Events
 	/// <summary>
 	/// Defines an event subscriber
 	/// </summary>
-	public interface IEventSubscriber
+	public interface IProcessEvents
 	{
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 {
-    public class EventSubscriberForTwoEvents : IEventSubscriber
+    public class EventSubscriberForTwoEvents : IProcessEvents
     {
         public void Process(SomeEvent @event)
         {

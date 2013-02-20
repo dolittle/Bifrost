@@ -29,7 +29,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
             localizer_mock = new Mock<ILocalizer>();
 
             event_subscription_repository_mock.Setup(s=>s.Add(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s)=>actual_subscription=s);
-            type_discoverer_mock.Setup(s=>s.FindMultiple<IEventSubscriber>()).Returns(new[] { typeof(SomeEventSubscriber)});
+            type_discoverer_mock.Setup(s=>s.FindMultiple<IProcessEvents>()).Returns(new[] { typeof(SomeEventSubscriber)});
             expected_subscription = new EventSubscription 
             {
                 Owner = typeof(SomeEventSubscriber),
