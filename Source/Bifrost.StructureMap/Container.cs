@@ -136,7 +136,6 @@ namespace Bifrost.StructureMap
 		{
 			switch( lifecycle ) 
 			{
-			case BindingLifecycle.None: 
 			case BindingLifecycle.Transient:
 			{
 				return InstanceScope.Transient;

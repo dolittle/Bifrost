@@ -40,7 +40,7 @@ namespace Bifrost.Execution
 		/// </summary>
 		public DefaultConvention()
 		{
-			DefaultScope = BindingLifecycle.None;
+			DefaultScope = BindingLifecycle.Transient;
 		}
 
 #pragma warning disable 1591 // Xml Comments

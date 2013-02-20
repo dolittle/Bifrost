@@ -79,7 +79,7 @@ namespace Bifrost.Configuration
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
-            var configure = With(container, BindingLifecycle.None);
+            var configure = With(container, BindingLifecycle.Transient);
             configure.Initialize();
             return configure;
         }
@@ -91,7 +91,7 @@ namespace Bifrost.Configuration
         /// <returns>Configuration object to continue configuration on</returns>
         public static Configure With(IContainer container)
         {
-            return With(container, BindingLifecycle.None);
+            return With(container, BindingLifecycle.Transient);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Bifrost.Configuration
         /// <returns></returns>
         public static Configure With(IContainer container, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
-            return With(container, BindingLifecycle.None, defaultConventions, defaultBindings);
+            return With(container, BindingLifecycle.Transient, defaultConventions, defaultBindings);
         }
 
 

@@ -132,7 +132,6 @@ namespace Bifrost.Unity
                     return new ContainerControlledLifetimeManager();
                 case BindingLifecycle.Thread : 
                     return new PerThreadLifetimeManager();
-                case BindingLifecycle.None:
                 case BindingLifecycle.Transient:
                     return new TransientLifetimeManager();
             }

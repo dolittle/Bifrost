@@ -24,11 +24,6 @@ namespace Bifrost.Execution
 	public enum BindingLifecycle
 	{
 		/// <summary>
-		/// Default - none
-		/// </summary>
-		None = 0,
-
-		/// <summary>
 		/// Scoped as a singleton within the Ninject kernel
 		/// </summary>
 		Singleton,
