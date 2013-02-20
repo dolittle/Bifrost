@@ -110,10 +110,7 @@ namespace Bifrost.Configuration
         /// </summary>
         public static void Reset()
         {
-            lock (InstanceLock)
-            {
-                Instance = null;
-            }
+            lock (InstanceLock) Instance = null;
         }
 
 

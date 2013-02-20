@@ -30,18 +30,6 @@ namespace Bifrost.Configuration
     public static partial class ConfigurationExtensions
     {
         /// <summary>
-        /// Configures events to not be persisted
-        /// </summary>
-        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
-        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure WithoutEventStore(this IEventsConfiguration configuration)
-        {
-            configuration.EventStoreType = typeof(NullEventStore);
-            return Configure.Instance;
-        }
-
-
-        /// <summary>
         /// Configures events to be persisted asynchronously
         /// </summary>
         /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
@@ -55,17 +43,6 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
 
-
-        /// <summary>
-        /// Configure sagas to not be persisted
-        /// </summary>
-        /// <param name="configuration"><see cref="ISagasConfiguration"/> instance to configure</param>
-        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure WithoutLibrarian(this ISagasConfiguration configuration)
-        {
-            configuration.LibrarianType = typeof(NullSagaLibrarian);
-            return Configure.Instance;
-        }
 
         /// <summary>
         /// Binds given entity context for a specific type (IEntityContext of T)
@@ -93,13 +70,12 @@ namespace Bifrost.Configuration
             container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
         }
         
-        private static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
+        static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
         {
             var connectionType = configuration.Connection.GetType();
 
             if(!container.HasBindingFor(connectionType))
                 container.Bind(connectionType, configuration.Connection);
         }
-
     }
 }

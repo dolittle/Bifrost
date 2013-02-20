@@ -28,6 +28,15 @@ namespace Bifrost.Configuration
 	/// </summary>
 	public class SagasConfiguration : ConfigurationStorageElement, ISagasConfiguration
 	{
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="SagasConfiguration"/>
+        /// </summary>
+        public SagasConfiguration()
+        {
+            LibrarianType = typeof(NullSagaLibrarian);
+        }
+
 #pragma warning disable 1591 // Xml Comments
 		public Type LibrarianType { get; set; }
 
