@@ -100,8 +100,7 @@
                         if (step in member) {
                             member = member[step];
                         } else {
-//                            throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
-                            console.log( "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")");
+                            throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
                         }
                     }
 
