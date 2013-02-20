@@ -24,6 +24,7 @@ packages
 *.test-cache
 *.ncrunch*
 *.sublime-workspace
+*.nupkg
 
 # OS generated files #
 ######################

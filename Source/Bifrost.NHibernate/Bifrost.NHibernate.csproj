@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Bifrost.NHibernate.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

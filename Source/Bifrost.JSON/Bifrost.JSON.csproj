@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Bifrost.JSON.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

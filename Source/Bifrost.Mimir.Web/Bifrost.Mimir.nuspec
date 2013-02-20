@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.Mimir</id>
+    <version>1.0.0-rc2</version>
+    <title>Bifrost administration tool - Mimir</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The administration tool for Bifrost called Mimir</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008 - 2013</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.JS" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0"/>
+      <dependency id="Newtonsoft.Json" version="4.5.11"/>
+      <dependency id="Owin" version="1.0"/>
+      <dependency id="SignalR.Hosting.AspNet" version="0.5.3"/>
+      <dependency id="SignalR.Hosting.Common" version="0.5.3"/>
+      <dependency id="SignalR.Server" version="0.5.3"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Bifrost.Mimir.Web.dll" target="lib\net40\Bifrost.Mimir.Web.dll"/>
+    <file src="bin\Bifrost.Mimir.Domain.dll" target="lib\net40\Bifrost.Mimir.Domain.dll"/>
+    <file src="bin\Bifrost.Mimir.Events.dll" target="lib\net40\Bifrost.Mimir.Events.dll"/>
+    <file src="bin\Bifrost.Mimir.Views.dll" target="lib\net40\Bifrost.Mimir.Views.dll"/>
+  </files>
+</package>

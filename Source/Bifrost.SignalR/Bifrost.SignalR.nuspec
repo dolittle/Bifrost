@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.SignalR</id>
+    <version>1.0.0-rc2</version>
+    <title>Bifrost SignalR support</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Support for SignalR for Bifrost</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008 - 2013</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.SignalR" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0"/>
+      <dependency id="Newtonsoft.Json" version="4.5.11"/>
+      <dependency id="Owin" version="1.0"/>
+      <dependency id="Bifrost" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.SignalR.dll" target="lib\net40\Bifrost.SignalR.dll"/>
+  </files>
+</package>

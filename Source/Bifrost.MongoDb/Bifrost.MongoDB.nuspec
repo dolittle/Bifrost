@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.MongoDB</id>
+    <version>1.0.0.0</version>
+    <title>Bifrost MongoDB support</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Support for MongoDB for Bifrost</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008 - 2013</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="mongocsharpdriver" version="1.3.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.MongoDB.dll" target="lib\net40\Bifrost.MongoDB.dll"/>
+  </files>
+</package>

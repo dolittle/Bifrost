@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.Ninject</id>
+    <version>1.0.0.0</version>
+    <title>Bifrost Ninject support</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Support for Ninject for Bifrost</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008 - 2013</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="Ninject" version="2.2.1.4" />
+      <dependency id="Bifrost" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.Ninject.dll" target="lib\net40\Bifrost.Ninject.dll"/>
+  </files>
+</package>
