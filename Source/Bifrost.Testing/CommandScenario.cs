@@ -46,7 +46,6 @@ namespace Bifrost.Testing
         readonly ICommandValidationService command_validation_service;
         readonly ICommandCoordinator command_coordinator;
         readonly Mock<ILocalizer> localizer;
-        readonly Mock<DynamicCommandFactory> dynamic_command_factory;
         readonly ICommandContextManager command_context_manager;
         readonly Mock<ICommandHandlerManager> command_handler_manager;
         readonly Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
@@ -80,7 +79,7 @@ namespace Bifrost.Testing
             command_handler_manager.Setup(m => m.Handle(It.IsAny<ICommand>())).Callback((ICommand c) => command_handler.Handle((dynamic)c));
 
             localizer = new Mock<ILocalizer>();
-            dynamic_command_factory = new Mock<DynamicCommandFactory>();
+            
             command_validator_provider = new Mock<ICommandValidatorProvider>();
             command_validation_service = new CommandValidationService(command_validator_provider.Object);
 
@@ -93,7 +92,6 @@ namespace Bifrost.Testing
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
                                         command_validation_service,
-                                        dynamic_command_factory.Object, 
                                         localizer.Object);
 
             input_validator = null_validator;

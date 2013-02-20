@@ -88,7 +88,6 @@
     <Compile Include="Commands\for_CommandCoordinator\when_handling_a_command_that_fails_security.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_handling.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_with_success.cs" />
-    <Compile Include="Commands\for_CommandHandlerForTypeInvoker\given\a_command_handler_for_type_invoker.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_no_command_handlers.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_one_command_handler.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\Stubs.cs" />
@@ -111,12 +110,6 @@
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_authorizing_a_command.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\given\a_dynamic_command_factory_and_an_aggregated_root.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_another_method.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_constant.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_field.cs" />
-    <Compile Include="Commands\for_DynamicCommandFactory\when_creating_command_and_argument_come_from_a_property.cs" />
     <Compile Include="Concepts\for_ConceptAs\given\concepts.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_equating.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_getting_hash_code.cs" />
@@ -560,7 +553,6 @@
     <Compile Include="Commands\for_CommandTypeManager\when_creating_an_instance_of_command_type_manager_and_multiple_commands_with_same_name_exists.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\for_DynamicCommand\" />
     <Folder Include="Globalization\for_Localizer\given\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />

@@ -13,7 +13,6 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
         protected static Mock<ICommandContextManager> command_context_manager_mock;
         protected static Mock<ICommandSecurityManager> command_security_manager_mock;
         protected static Mock<ICommandValidationService> command_validation_service_mock;
-        protected static Mock<IDynamicCommandFactory> dynamic_command_factory_mock; 
         protected static Mock<ICommand> command_mock;
 
         Establish context = () =>
@@ -22,7 +21,6 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                     command_handler_manager_mock = new Mock<ICommandHandlerManager>();
                                     command_context_manager_mock = new Mock<ICommandContextManager>();
                                     command_validation_service_mock = new Mock<ICommandValidationService>();
-                                    dynamic_command_factory_mock = new Mock<IDynamicCommandFactory>();
                                     var commandContextMock = new Mock<ICommandContext>();
                                     command_context_manager_mock.Setup(c => c.EstablishForCommand(Moq.It.IsAny<ICommand>())).
                                         Returns(commandContextMock.Object);
@@ -36,7 +34,6 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                         command_context_manager_mock.Object,
                                         command_security_manager_mock.Object,
                                         command_validation_service_mock.Object,
-                                        dynamic_command_factory_mock.Object,
 										localizer_mock.Object
                                         );
                                 };

@@ -17,8 +17,6 @@
 //
 #endregion
 using System;
-using System.Linq.Expressions;
-using Bifrost.Domain;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
 using Bifrost.Sagas;
@@ -35,7 +33,6 @@ namespace Bifrost.Commands
 		readonly ICommandContextManager _commandContextManager;
 	    readonly ICommandValidationService _commandValidationService;
         readonly ICommandSecurityManager _commandSecurityManager;
-	    readonly IDynamicCommandFactory _dynamicCommandFactory;
 		readonly ILocalizer _localizer;
 
 
@@ -46,21 +43,18 @@ namespace Bifrost.Commands
 		/// <param name="commandContextManager">A <see cref="ICommandContextManager"/> for establishing a <see cref="CommandContext"/></param>
         /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
 		/// <param name="commandValidationService">A <see cref="ICommandValidationService"/> for validating a <see cref="ICommand"/> before handling</param>
-		/// <param name="dynamicCommandFactory">A <see cref="IDynamicCommandFactory"/> creating dynamic commands</param>
 		/// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
 		public CommandCoordinator(
 			ICommandHandlerManager commandHandlerManager,
 			ICommandContextManager commandContextManager,
             ICommandSecurityManager commandSecurityManager,
             ICommandValidationService commandValidationService,
-            IDynamicCommandFactory dynamicCommandFactory,
 			ILocalizer localizer)
 		{
 			_commandHandlerManager = commandHandlerManager;
 			_commandContextManager = commandContextManager;
             _commandSecurityManager = commandSecurityManager;
 		    _commandValidationService = commandValidationService;
-	        _dynamicCommandFactory = dynamicCommandFactory;
 	    	_localizer = localizer;
 		}
 
@@ -108,22 +102,6 @@ namespace Bifrost.Commands
                 return commandResult;
             }            
         }
-
-	    public CommandResult Handle<T>(ISaga saga, Guid aggregatedRootId, Expression<Action<T>> method) where T : AggregatedRoot
-	    {
-			var command = _dynamicCommandFactory.Create(aggregatedRootId, method);
-			var result = Handle(saga, command);
-			return result;
-	    }
-
-	    public CommandResult Handle<T>(Guid aggregatedRootId, Expression<Action<T>> method) where T : AggregatedRoot
-	    {
-	        var command = _dynamicCommandFactory.Create(aggregatedRootId, method);
-	        var result = Handle(command);
-	        return result;
-	    }
 #pragma warning restore 1591 // Xml Comments
-
-
 	}
 }

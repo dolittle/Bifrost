@@ -85,13 +85,9 @@
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
-    <Compile Include="Commands\DynamicCommand.cs" />
-    <Compile Include="Commands\DynamicCommandFactory.cs" />
-    <Compile Include="Commands\DynamicCommandHandler.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
     <Compile Include="Commands\HandleCommand.cs" />
     <Compile Include="Commands\ICommandSecurityManager.cs" />
-    <Compile Include="Commands\IDynamicCommandFactory.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concepts\ConceptExtensions.cs" />
     <Compile Include="Concepts\ConceptFactory.cs" />
@@ -113,7 +109,6 @@
     <Compile Include="Configuration\IConfigure.cs" />
     <Compile Include="Configuration\ISagasConfiguration.cs" />
     <Compile Include="Configuration\SagasConfiguration.cs" />
-    <Compile Include="Domain\AggregatedRootOf.cs" />
     <Compile Include="Dynamic\DynamicHelpers.cs" />
     <Compile Include="Events\AsynchronousUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\EventExtensions.cs" />
@@ -235,7 +230,6 @@
     <Compile Include="Configuration\IEventsConfiguration.cs" />
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
-    <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />
     <Compile Include="Execution\BindingConventionManager.cs" />
     <Compile Include="Execution\DefaultConvention.cs" />
@@ -251,7 +245,6 @@
     <Compile Include="Validation\ChapterValidation.cs" />
     <Compile Include="Validation\ChapterValidatorProvider.cs" />
     <Compile Include="Validation\CommandBusinessValidator.cs" />
-    <Compile Include="Commands\CommandHandlerForTypeInvoker.cs" />
     <Compile Include="Commands\CommandHandlerInvoker.cs" />
     <Compile Include="Validation\CommandInputValidator.cs" />
     <Compile Include="Validation\CommandPredicateRule.cs" />
@@ -289,7 +282,6 @@
     <Compile Include="Validation\NullChapterValidator.cs" />
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />
-    <Compile Include="Commands\PersistentCommandContext.cs" />
     <Compile Include="Commands\UnhandledCommandException.cs" />
     <Compile Include="Domain\AggregatedRootFactory.cs" />
     <Compile Include="Events\DuplicateInEventMigrationHierarchyException.cs" />
@@ -300,11 +292,7 @@
     <Compile Include="Events\EventOutOfSequenceException.cs" />
     <Compile Include="Events\EventSourceVersion.cs" />
     <Compile Include="Domain\IAggregatedRootFactory.cs" />
-    <Compile Include="Commands\ICommandForType.cs" />
-    <Compile Include="Commands\ICommandHandlerForType.cs" />
     <Compile Include="Commands\ICommandHandlerInvoker.cs" />
-    <Compile Include="Domain\AggregatedRootCommand.cs" />
-    <Compile Include="Domain\AggregatedRootCommandHandler.cs" />
     <Compile Include="Events\EventSubscriber.cs" />
     <Compile Include="Events\IAmNextGenerationOf.cs" />
     <Compile Include="Events\IEventMigrationHierarchyDiscoverer.cs" />

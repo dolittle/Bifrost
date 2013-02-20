@@ -96,9 +96,6 @@
     <Compile Include="..\Bifrost\Commands\CommandDescriptor.cs">
       <Link>Commands\CommandDescriptor.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Commands\CommandHandlerForTypeInvoker.cs">
-      <Link>Commands\CommandHandlerForTypeInvoker.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\CommandHandlerInvoker.cs">
       <Link>Commands\CommandHandlerInvoker.cs</Link>
     </Compile>
@@ -107,15 +104,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Commands\CommandResult.cs">
       <Link>Commands\CommandResult.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\DynamicCommand.cs">
-      <Link>Commands\DynamicCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\DynamicCommandFactory.cs">
-      <Link>Commands\DynamicCommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\DynamicCommandHandler.cs">
-      <Link>Commands\DynamicCommandHandler.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\ExpressionNotMethodCallException.cs">
       <Link>Commands\ExpressionNotMethodCallException.cs</Link>
@@ -135,26 +123,14 @@
     <Compile Include="..\Bifrost\Commands\ICommandCoordinator.cs">
       <Link>Commands\ICommandCoordinator.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Commands\ICommandForType.cs">
-      <Link>Commands\ICommandForType.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\ICommandHandler.cs">
       <Link>Commands\ICommandHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\ICommandHandlerForType.cs">
-      <Link>Commands\ICommandHandlerForType.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\ICommandHandlerInvoker.cs">
       <Link>Commands\ICommandHandlerInvoker.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\ICommandHandlerManager.cs">
       <Link>Commands\ICommandHandlerManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\IDynamicCommandFactory.cs">
-      <Link>Commands\IDynamicCommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Commands\PersistentCommandContext.cs">
-      <Link>Commands\PersistentCommandContext.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\UnhandledCommandException.cs">
       <Link>Commands\UnhandledCommandException.cs</Link>
@@ -270,23 +246,11 @@
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Diagnostics\ILogger.cs">
-      <Link>Diagnostics\ILogger.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Domain\AggregatedRoot.cs">
       <Link>Domain\AggregatedRoot.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRootCommand.cs">
-      <Link>Domain\AggregatedRootCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRootCommandHandler.cs">
-      <Link>Domain\AggregatedRootCommandHandler.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Domain\AggregatedRootFactory.cs">
       <Link>Domain\AggregatedRootFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRootOf.cs">
-      <Link>Domain\AggregatedRootOf.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Domain\AggregatedRootRepository.cs">
       <Link>Domain\AggregatedRootRepository.cs</Link>
@@ -802,7 +766,6 @@
     <Compile Include="Commands\CommandNameMissingException.cs" />
     <Compile Include="Commands\CommandResultsReceived.cs" />
     <Compile Include="Commands\DefaultCommandBuildingConventions.cs" />
-    <Compile Include="Commands\DynamicCommand.Silverlight.cs" />
     <Compile Include="Commands\EventsProcessed.cs" />
     <Compile Include="Commands\ICommand.Silverlight.cs" />
     <Compile Include="Commands\ICommandBuilder.cs" />
@@ -811,7 +774,6 @@
     <Compile Include="Commands\INotifyCommandResultsReceived.cs" />
     <Compile Include="Commands\INotifyEventsProcessed.cs" />
     <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
-    <Compile Include="Domain\AggregatedRootCommand.Silverlight.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />

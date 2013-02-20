@@ -16,10 +16,6 @@
 // limitations under the License.
 //
 #endregion
-
-using System;
-using System.Linq.Expressions;
-using Bifrost.Domain;
 using Bifrost.Sagas;
 
 namespace Bifrost.Commands
@@ -49,32 +45,5 @@ namespace Bifrost.Commands
 		/// Within the result one can check if the handling was success or not
 		/// </returns>
 		CommandResult Handle(ICommand command);
-
-		/// <summary>
-		/// Handle a command by using a method as definition on the aggregated root 
-		/// and using a dynamic command for wrapping it up in the context of a saga
-		/// </summary>
-		/// <typeparam name="T">Type of aggregated root</typeparam>
-		/// <param name="saga"><see cref="ISaga"/> to handle in context of</param>
-		/// <param name="aggregatedRootId">Id of the <see cref="AggregatedRoot"/></param>
-		/// <param name="method">Expression expressing the method on the aggregated root with the arguments it needs</param>
-		/// <returns>
-		/// Result from the handle.
-		/// Within the result one can check if the handling was success or not
-		/// </returns>
-		CommandResult Handle<T>(ISaga saga, Guid aggregatedRootId, Expression<Action<T>> method) where T : AggregatedRoot;
-
-	    /// <summary>
-	    /// Handle a command by using a method as definition on the aggregated root 
-	    /// and using a dynamic command for wrapping it up
-	    /// </summary>
-	    /// <typeparam name="T">Type of aggregated root</typeparam>
-	    /// <param name="aggregatedRootId">Id of the <see cref="AggregatedRoot"/></param>
-	    /// <param name="method">Expression expressing the method on the aggregated root with the arguments it needs</param>
-	    /// <returns>
-	    /// Result from the handle.
-	    /// Within the result one can check if the handling was success or not
-	    /// </returns>
-	    CommandResult Handle<T>(Guid aggregatedRootId, Expression<Action<T>> method) where T : AggregatedRoot;
 	}
 }
