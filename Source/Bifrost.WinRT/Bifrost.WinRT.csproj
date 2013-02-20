@@ -231,6 +231,12 @@
     <Compile Include="..\Bifrost\Concurrency\Scheduler.cs">
       <Link>Concurrency\Scheduler.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\AmbiguousContainerCreationException.cs">
+      <Link>Configuration\AmbiguousContainerCreationException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\CanCreateContainerNotFoundException.cs">
+      <Link>Configuration\CanCreateContainerNotFoundException.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\CommandsConfiguration.cs">
       <Link>Configuration\CommandsConfiguration.cs</Link>
     </Compile>
@@ -260,6 +266,12 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\EventsConfiguration.cs">
       <Link>Configuration\EventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ICanConfigure.cs">
+      <Link>Configuration\ICanConfigure.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ICanCreateContainer.cs">
+      <Link>Configuration\ICanCreateContainer.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ICommandsConfiguration.cs">
       <Link>Configuration\ICommandsConfiguration.cs</Link>
@@ -299,6 +311,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\MissingDefaultConstructorException.cs">
+      <Link>Configuration\MissingDefaultConstructorException.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
       <Link>Configuration\SagasConfiguration.cs</Link>
@@ -510,12 +525,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\ApplicationManager.cs">
-      <Link>Execution\ApplicationManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Execution\ApplicationNotFoundException.cs">
-      <Link>Execution\ApplicationNotFoundException.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Execution\AssemblyComparer.cs">
       <Link>Execution\AssemblyComparer.cs</Link>
     </Compile>
@@ -542,12 +551,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Execution\IApplication.cs">
-      <Link>Execution\IApplication.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Execution\IApplicationManager.cs">
-      <Link>Execution\IApplicationManager.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
       <Link>Execution\IAssemblyLocator.cs</Link>

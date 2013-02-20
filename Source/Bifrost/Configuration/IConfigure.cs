@@ -65,16 +65,6 @@ namespace Bifrost.Configuration
 		IBindingConventionManager ConventionManager { get; }
 
 		/// <summary>
-		/// Gets the manager that manages applications
-		/// </summary>
-		IApplicationManager ApplicationManager { get; }
-
-		/// <summary>
-		/// Gets the current <see cref="IApplication"/>
-		/// </summary>
-		IApplication Application { get; }
-
-		/// <summary>
 		/// Gets the configuration for sagas
         /// Supports specific storage
 		/// </summary>

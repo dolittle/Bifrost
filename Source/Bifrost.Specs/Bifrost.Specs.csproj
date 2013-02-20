@@ -564,11 +564,6 @@
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
     <Compile Include="Views\Stubs.cs" />
-    <Compile Include="Execution\for_ApplicationManager\given\an_application_manager.cs" />
-    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application.cs" />
-    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_and_there_are_multiple_defined.cs" />
-    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_and_there_is_no_application.cs" />
-    <Compile Include="Execution\for_ApplicationManager\when_getting_an_application_twice.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
     <Compile Include="Commands\for_CommandTypeManager\given\a_command_type_manager.cs" />
     <Compile Include="Commands\for_CommandTypeManager\when_asking_for_a_command_that_exists.cs" />

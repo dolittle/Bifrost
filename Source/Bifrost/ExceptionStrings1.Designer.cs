@@ -62,6 +62,24 @@ namespace Bifrost {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiple implementations of ICanCreateContainer was found.
+        /// </summary>
+        public static string AmbiguousContainerCreationException {
+            get {
+                return ResourceManager.GetString("AmbiguousContainerCreationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t discover an implementation of &quot;ICanCreateContainer&quot;.
+        /// </summary>
+        public static string CanCreateContainerNotFoundException {
+            get {
+                return ResourceManager.GetString("CanCreateContainerNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You cannot fast forward an event source that is not the initial version..
         /// </summary>
         public static string CannotFastForwardEventSourceThatIsNotInitialVersion {
@@ -85,6 +103,15 @@ namespace Bifrost {
         public static string CommandNotEstablished {
             get {
                 return ResourceManager.GetString("CommandNotEstablished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is missing a default constructor and one is required.
+        /// </summary>
+        public static string MissingDefaultConstructorException {
+            get {
+                return ResourceManager.GetString("MissingDefaultConstructorException", resourceCulture);
             }
         }
         

@@ -29,19 +29,6 @@ namespace Bifrost.Configuration
 	/// </summary>
     public static partial class ConfigurationExtensions
     {
-		/// <summary>
-		/// Sets a specific application for Bifrost
-		/// </summary>
-		/// <param name="configuration"><see cref="IConfigure"/> instance to configure</param>
-		/// <param name="application"><see cref="IApplication"/> instance to set</param>
-		/// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure SpecificApplication(this IConfigure configuration, IApplication application)
-        {
-            configuration.ApplicationManager.Set(application);
-            return configuration;
-        }
-
-
         /// <summary>
         /// Configures events to not be persisted
         /// </summary>

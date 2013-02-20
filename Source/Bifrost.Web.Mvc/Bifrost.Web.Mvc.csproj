@@ -63,12 +63,15 @@
     <Reference Include="FluentValidation.Mvc">
       <HintPath>..\Solutions\packages\FluentValidation.MVC3.3.4.6.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="BifrostTempDataProvider.cs" />
     <Compile Include="Commands\AmbiguousActionException.cs" />
     <Compile Include="Commands\CommandForm.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Validation\ValidatorPropertyValidator.cs" />
     <Compile Include="Views\KnockoutRazorView.cs" />
     <Compile Include="Views\KnockoutRazorViewEngine.cs" />
+    <Compile Include="Views\ViewEngineExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">

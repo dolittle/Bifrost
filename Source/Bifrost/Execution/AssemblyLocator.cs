@@ -135,7 +135,7 @@ namespace Bifrost.Execution
 #pragma warning restore 1591 // Xml Comments
 
 #if(SILVERLIGHT)
-		private static bool ShouldAddAssembly(string name)
+		static bool ShouldAddAssembly(string name)
 		{
 			return !name.Contains("System.");
 		}

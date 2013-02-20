@@ -18,9 +18,23 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
+
+#if(SILVERLIGHT)
+using System.Windows;
+#endif
+
+#if(NETFX_CORE)
+using Windows.Storage;
+#endif
+
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
+using Bifrost.Extensions;
+
 
 namespace Bifrost.Configuration
 {
@@ -51,6 +65,23 @@ namespace Bifrost.Configuration
             defaultConventions.Initialize();
 
             InitializeProperties();
+        }
+
+        /// <summary>
+        /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
+        /// </summary>
+        /// <returns></returns>
+        public static Configure DiscoverAndConfigure()
+        {
+            var assemblies = GetAssembliesCurrentlyInMemory();
+            var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
+            ThrowIfCanCreateContainerNotFound(canCreateContainerType);
+            ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
+            var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
+            var container = canCreateContainerInstance.CreateContainer();
+            var configure = With(container, BindingLifecycle.None);
+            configure.Initialize();
+            return configure;
         }
 
         /// <summary>
@@ -129,8 +160,6 @@ namespace Bifrost.Configuration
         public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
-        public IApplicationManager ApplicationManager { get; private set; }
-        public IApplication Application { get; private set; }
 		public ISagasConfiguration Sagas { get; private set; }
 		public ISerializationConfiguration Serialization { get; private set; }
 		public CultureInfo Culture { get; set; }
@@ -146,14 +175,15 @@ namespace Bifrost.Configuration
         {
             if (_configurationSource != null)
                 _configurationSource.Initialize(this);
-			
+
+            ConfigureFromCanConfigurables();
+
 			Serialization.Initialize(Container);
             Commands.Initialize(Container);
             Events.Initialize(Container);
             Tasks.Initialize(Container);
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
-            InitializeApplication();
         	InitializeCulture();
             DefaultStorage.Initialize(Container);
         }
@@ -169,7 +199,6 @@ namespace Bifrost.Configuration
             ConventionManager = Container.Get<IBindingConventionManager>();
         	Sagas = Container.Get<ISagasConfiguration>();
 			Serialization = Container.Get<ISerializationConfiguration>();
-            ApplicationManager = Container.Get<IApplicationManager>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
         }
 
@@ -181,9 +210,11 @@ namespace Bifrost.Configuration
 				UICulture = CultureInfo.InvariantCulture;
 		}
 
-        private void InitializeApplication()
+        void ConfigureFromCanConfigurables()
         {
-            Application = ApplicationManager.Get();
+            var typeImporter = Container.Get<ITypeImporter>();
+            foreach (var canConfigure in typeImporter.ImportMany<ICanConfigure>())
+                canConfigure.Configure(this);
         }
 
         static void ExcludeNamespacesForTypeDiscovery()
@@ -202,5 +233,100 @@ namespace Bifrost.Configuration
             TypeDiscoverer.ExcludeNamespaceStartingWith("RavenDb");
             TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
         }
+
+        static Type DiscoverCanCreateContainerType(IEnumerable<Assembly> assemblies)
+        {
+            Type createContainerType = null;
+            foreach (var assembly in assemblies)
+            {
+#if(NETFX_CORE)
+                var type = assembly.DefinedTypes.Select(t => t.AsType()).Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
+#else
+                var type = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
+#endif
+                if (type != null)
+                {
+                    ThrowIfAmbiguousMatchFoundForCanCreateContainer(createContainerType);
+
+                    createContainerType = type;
+                }
+            }
+            return createContainerType;
+        }
+
+
+        static IEnumerable<Assembly> GetAssembliesCurrentlyInMemory()
+        {
+#if(SILVERLIGHT)
+            var assemblies = (from part in Deployment.Current.Parts
+                          where ShouldAddAssembly(part.Source)
+                          let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
+                          select part.Load(info.Stream)).ToArray();
+#else 
+#if(NETFX_CORE)
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            var assembliesLoaded = new List<Assembly>();
+
+            IEnumerable<StorageFile>    files = null;
+
+            var operation = folder.GetFilesAsync();
+            operation.Completed = async (r, s) => {
+                var result = await r;
+                files = result;
+            };
+
+            while (files == null) ;
+
+            foreach (var file in files)
+            {
+                if (file.FileType == ".dll" || file.FileType == ".exe")
+                {
+                    var name = new AssemblyName() { Name = System.IO.Path.GetFileNameWithoutExtension(file.Name) };
+                    try
+                    {
+                        Assembly asm = Assembly.Load(name);
+                        assembliesLoaded.Add(asm);
+                    }
+                    catch { }
+                }
+            }
+            var assemblies = assembliesLoaded.ToArray();
+#else
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(f =>
+            {
+                var name = f.GetName().Name;
+                return ShouldAddAssembly(name);
+            }).ToArray();
+#endif
+#endif
+            return assemblies;
+        }
+
+        static bool ShouldAddAssembly(string name)
+        {
+            return !name.StartsWith("System") && !name.StartsWith("Microsoft");
+        }
+
+
+        
+        static void ThrowIfAmbiguousMatchFoundForCanCreateContainer(Type createContainerType)
+        {
+            if (createContainerType != null)
+                throw new AmbiguousContainerCreationException();
+        }
+
+        static void ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(Type createContainerType)
+        {
+            if (!createContainerType.HasDefaultConstructor())
+                throw new MissingDefaultConstructorException(createContainerType);
+        }
+
+        static void ThrowIfCanCreateContainerNotFound(Type createContainerType)
+        {
+            if (createContainerType == null)
+                throw new CanCreateContainerNotFoundException();
+        }
+
     }
 }
