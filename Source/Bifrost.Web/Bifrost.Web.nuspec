@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost.Web</id>
-    <version>1.0.0.0</version>
+    <version>$version$</version>
     <title>Bifrost Web support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
@@ -19,7 +19,8 @@
       <dependency id="Newtonsoft.Json" version="4.5.7" />
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0" />
       <dependency id="WebActivator" version="1.5.1" />
-      <dependency id="Bifrost" version="1.0.0.0" />
+      <dependency id="Bifrost" version="$version$" />
+      <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
   </metadata>
   <files>

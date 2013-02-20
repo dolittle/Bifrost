@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost.Ninject</id>
-    <version>1.0.0.0</version>
+    <version>$version$</version>
     <title>Bifrost Ninject support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
@@ -16,7 +16,7 @@
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="Ninject" version="2.2.1.4" />
-      <dependency id="Bifrost" version="1.0.0.0" />
+      <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
   <files>

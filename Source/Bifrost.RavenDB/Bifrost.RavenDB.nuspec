@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost.RavenDB</id>
-    <version>1.0.0.0</version>
+    <version>$version$</version>
     <title>Bifrost RavenDB support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
@@ -16,7 +16,7 @@
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="RavenDB.Client" version="2.0.2230" />
-      <dependency id="Bifrost" version="1.0.0.0" />
+      <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
   <files>

@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Bifrost.RavenDB.nuspec" />
+    <None Include="Bifrost.RavenDB.Embedded.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost</id>
-    <version>1.0.0.0</version>
+    <version>$version$</version>
     <title>Bifrost</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
