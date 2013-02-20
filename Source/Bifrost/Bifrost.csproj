@@ -98,8 +98,6 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
-    <Compile Include="Configuration\ConfigSection\ConfigurationManager.cs" />
-    <Compile Include="Configuration\ConfigSection\IConfigurationManager.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
     <Compile Include="Configuration\DefaultStorageConfiguration.cs" />
@@ -112,7 +110,6 @@
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\TasksConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />
-    <Compile Include="Configuration\Xml\SagasElement.cs" />
     <Compile Include="Configuration\IConfigure.cs" />
     <Compile Include="Configuration\ISagasConfiguration.cs" />
     <Compile Include="Configuration\SagasConfiguration.cs" />
@@ -226,16 +223,6 @@
     <Compile Include="Sagas\ISagaNarrator.cs" />
     <Compile Include="Sagas\Saga.cs" />
     <Compile Include="Configuration\CommandsConfiguration.cs" />
-    <Compile Include="Configuration\Xml\BifrostConfig.cs" />
-    <Compile Include="Configuration\BifrostConfigHandler.cs" />
-    <Compile Include="Configuration\ConfigSection\ConfigConfigurationSource.cs" />
-    <Compile Include="Configuration\Xml\CommandsElement.cs" />
-    <Compile Include="Configuration\Xml\ConfigParser.cs" />
-    <Compile Include="Configuration\ConfigSection\ConfigurationExtensions.cs" />
-    <Compile Include="Configuration\Xml\ElementNameAttribute.cs" />
-    <Compile Include="Configuration\Xml\EventsElement.cs" />
-    <Compile Include="Configuration\Xml\IConfigElement.cs" />
-    <Compile Include="Configuration\Xml\StorageElement.cs" />
     <Compile Include="Configuration\ConfigurationExtensions.cs" />
     <Compile Include="Configuration\Configure.cs" />
     <Compile Include="Configuration\Defaults\DefaultBindings.cs" />

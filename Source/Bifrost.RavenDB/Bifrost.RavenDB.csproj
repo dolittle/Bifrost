@@ -55,7 +55,6 @@
     <Compile Include="Serialization\ConceptDictionaryConverter.cs" />
     <Compile Include="ConceptTypeConverter.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
-    <Compile Include="Configuration\RavenDbStorageElement.cs" />
     <Compile Include="DuplicateIdRegistrationForTypeException.cs" />
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />

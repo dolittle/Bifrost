@@ -64,18 +64,6 @@
     <Compile Include="..\Bifrost.JSON\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost.JSON\Configuration\JsonStorageElement.cs">
-      <Link>Configuration\JsonStorageElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContext.cs">
-      <Link>EntityContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContextConfiguration.cs">
-      <Link>EntityContextConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\EntityContextConnection.cs">
-      <Link>EntityContextConnection.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost.JSON\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

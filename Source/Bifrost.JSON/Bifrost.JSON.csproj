@@ -44,10 +44,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ConfigurationExtensions.cs" />
-    <Compile Include="Configuration\JsonStorageElement.cs" />
-    <Compile Include="EntityContext.cs" />
-    <Compile Include="EntityContextConfiguration.cs" />
-    <Compile Include="EntityContextConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\ConceptConverter.cs" />
     <Compile Include="Serialization\ConceptDictionaryConverter.cs" />

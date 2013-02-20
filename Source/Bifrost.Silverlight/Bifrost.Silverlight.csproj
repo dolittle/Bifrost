@@ -270,30 +270,6 @@
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\BifrostConfig.cs">
-      <Link>Configuration\Xml\BifrostConfig.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\CommandsElement.cs">
-      <Link>Configuration\Xml\CommandsElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\ConfigParser.cs">
-      <Link>Configuration\Xml\ConfigParser.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\ElementNameAttribute.cs">
-      <Link>Configuration\Xml\ElementNameAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\EventsElement.cs">
-      <Link>Configuration\Xml\EventsElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\IConfigElement.cs">
-      <Link>Configuration\Xml\IConfigElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\SagasElement.cs">
-      <Link>Configuration\Xml\SagasElement.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Configuration\Xml\StorageElement.cs">
-      <Link>Configuration\Xml\StorageElement.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Diagnostics\ILogger.cs">
       <Link>Diagnostics\ILogger.cs</Link>
     </Compile>
