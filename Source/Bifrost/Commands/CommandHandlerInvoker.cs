@@ -43,7 +43,7 @@ namespace Bifrost.Commands
 	    /// <summary>
 	    /// Initializes a new instance of <see cref="CommandHandlerInvoker">CommandHandlerInvoker</see>
 	    /// </summary>
-	    /// <param name="discoverer">A <see cref="ITypeDiscoverer"/> to use for discovering <see cref="ICommandHandler">command handlers</see></param>
+	    /// <param name="discoverer">A <see cref="ITypeDiscoverer"/> to use for discovering <see cref="IHandleCommands">command handlers</see></param>
 	    /// <param name="container">A <see cref="IContainer"/> to use for getting instances of objects</param>
 	    public CommandHandlerInvoker(ITypeDiscoverer discoverer, IContainer container)
 		{
@@ -54,7 +54,7 @@ namespace Bifrost.Commands
 
 		private void Initialize()
 		{
-		    var handlers = _discoverer.FindMultiple<ICommandHandler>();
+		    var handlers = _discoverer.FindMultiple<IHandleCommands>();
             handlers.ForEach(Register);
 		    _initialized = true;
 		}

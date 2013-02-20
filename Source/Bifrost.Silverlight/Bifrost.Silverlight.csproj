@@ -123,14 +123,14 @@
     <Compile Include="..\Bifrost\Commands\ICommandCoordinator.cs">
       <Link>Commands\ICommandCoordinator.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Commands\ICommandHandler.cs">
-      <Link>Commands\ICommandHandler.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\ICommandHandlerInvoker.cs">
       <Link>Commands\ICommandHandlerInvoker.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\ICommandHandlerManager.cs">
       <Link>Commands\ICommandHandlerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Commands\IHandleCommands.cs">
+      <Link>Commands\IHandleCommands.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Commands\UnhandledCommandException.cs">
       <Link>Commands\UnhandledCommandException.cs</Link>

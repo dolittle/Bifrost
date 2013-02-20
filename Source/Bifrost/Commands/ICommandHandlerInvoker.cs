@@ -23,7 +23,7 @@ namespace Bifrost.Commands
 	/// </summary>
 	/// <remarks>
 	/// Typically, the default invoker handles the generic
-	/// <see cref="ICommandHandler">command handlers</see>
+	/// <see cref="IHandleCommands">command handlers</see>
 	/// </remarks>
 	public interface ICommandHandlerInvoker
 	{

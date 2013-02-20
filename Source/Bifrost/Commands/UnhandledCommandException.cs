@@ -21,7 +21,7 @@ using System;
 namespace Bifrost.Commands
 {
 	/// <summary>
-	/// The exception that is thrown when a command is not handled by any <see cref="ICommandHandler"/>
+	/// The exception that is thrown when a command is not handled by any <see cref="IHandleCommands"/>
 	/// </summary>
     public class UnhandledCommandException : ArgumentException
     {

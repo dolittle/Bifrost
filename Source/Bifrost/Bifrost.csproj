@@ -352,7 +352,7 @@
     <Compile Include="Execution\TypeImporter.cs" />
     <Compile Include="Commands\CommandCoordinator.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="Commands\IHandleCommands.cs" />
     <Compile Include="Commands\ICommandCoordinator.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IEventSubscriber.cs" />

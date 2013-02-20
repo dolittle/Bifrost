@@ -4,7 +4,7 @@ using Bifrost.Mimir.Domain.EventStores.Commands;
 
 namespace Bifrost.Mimir.Domain.EventStores
 {
-    public class CommandHandlers : ICommandHandler
+    public class CommandHandlers : IHandleCommands
     {
         IAggregatedRootRepository<EventStore> _repository;
 

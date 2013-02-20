@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker.given
 		Establish context = () =>
 		                    	{
 									type_discoverer_mock = new Mock<ITypeDiscoverer>();
-									type_discoverer_mock.Setup(t => t.FindMultiple<ICommandHandler>()).Returns(new Type[0]);
+									type_discoverer_mock.Setup(t => t.FindMultiple<IHandleCommands>()).Returns(new Type[0]);
 		                    	    container_mock = new Mock<IContainer>();
 									invoker = new CommandHandlerInvoker(type_discoverer_mock.Object, container_mock.Object); 
 		                    	};

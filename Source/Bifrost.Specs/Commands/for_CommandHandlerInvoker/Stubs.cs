@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerInvoker
         public Guid Id { get; set; }
 	}
 
-	public class CommandHandler : ICommandHandler
+	public class CommandHandler : IHandleCommands
 	{
 		public bool HandleCalled = false;
 

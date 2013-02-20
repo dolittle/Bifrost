@@ -131,10 +131,10 @@ namespace Bifrost.Testing
         }
 
         /// <summary>
-        /// Specifies the <see cref="ICommandHandler"/>instance to be used for handling of the command in this scenario.
+        /// Specifies the <see cref="IHandleCommands"/>instance to be used for handling of the command in this scenario.
         /// </summary>
         /// <param name="commandHandler">Command Handler to be used.</param>
-        public void HandledBy(ICommandHandler commandHandler)
+        public void HandledBy(IHandleCommands commandHandler)
         {
             command_handler = commandHandler;
         }

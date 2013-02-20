@@ -29,7 +29,7 @@ namespace Bifrost.Commands
 	/// and call it automatically when a <see cref="ICommand">command</see>
 	/// comes into the system
 	/// </remarks>
-	public interface ICommandHandler
+	public interface IHandleCommands
 	{
 	}
 }
