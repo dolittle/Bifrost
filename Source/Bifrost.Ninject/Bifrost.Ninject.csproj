@@ -34,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
       <HintPath>..\Solutions\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
@@ -48,9 +47,6 @@
     <Compile Include="BindingLifecycleExtensions.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="KernelExtensions.cs" />
-    <Compile Include="NinjectInstanceProvider.cs" />
-    <Compile Include="NinjectServiceBehavior.cs" />
-    <Compile Include="NinjectServiceBehaviorExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

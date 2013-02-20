@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -493,4 +492,3 @@ namespace Bifrost.Notification
 		}
 	}
 }
-#endif

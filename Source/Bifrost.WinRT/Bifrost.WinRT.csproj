@@ -105,12 +105,6 @@
     <Folder Include="Dynamic\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Bifrost.Silverlight\Helpers\DependencyProperty.cs">
-      <Link>Helpers\DependencyProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.Silverlight\Helpers\DependencyPropertyHelper.cs">
-      <Link>Helpers\DependencyPropertyHelper.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\AmbiguousCommandException.cs">
       <Link>Commands\AmbiguousCommandException.cs</Link>
     </Compile>
@@ -443,6 +437,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\InvalidMigrationTypeException.cs">
       <Link>Events\InvalidMigrationTypeException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\IProcessEvents.cs">
+      <Link>Events\IProcessEvents.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\IProcessMethodInvoker.cs">
       <Link>Events\IProcessMethodInvoker.cs</Link>
@@ -963,7 +960,6 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Events\IProcessEvents.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
     <Compile Include="Globalization\Localizer.cs" />
   </ItemGroup>

@@ -164,6 +164,7 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Bifrost.JS.nuspec" />
     <None Include="merge.cmd" />
   </ItemGroup>
   <ItemGroup />

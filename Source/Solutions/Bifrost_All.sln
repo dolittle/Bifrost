@@ -49,12 +49,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Web.Specs", "..\Bif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JSON.Silverlight", "..\Bifrost.JSON.Silverlight\Bifrost.JSON.Silverlight.csproj", "{FE9CD87A-E785-49B7-9BC2-2B76526A2D49}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{5610EC46-9872-42F1-997C-8B1C56396303}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Documentation\Bifrost.dxc = ..\..\Documentation\Bifrost.dxc
-		..\..\Documentation\Bifrost.dxp = ..\..\Documentation\Bifrost.dxp
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forseti", "Forseti", "{8186F995-DCEF-4ECA-9161-27BAD741B757}"
 	ProjectSection(SolutionItems) = preProject
 		..\dependencies.config = ..\dependencies.config
@@ -307,6 +301,7 @@ Global
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
