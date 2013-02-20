@@ -33,6 +33,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IHaveResources.cs" />
     <Compile Include="Resources\IResourcePropertiesResolver.cs" />
     <Compile Include="Resources\IResourceResolver.cs" />

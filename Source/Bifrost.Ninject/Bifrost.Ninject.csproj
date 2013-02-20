@@ -42,8 +42,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BindingLifecycleExtensions.cs" />
     <Compile Include="Container.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="NinjectInstanceProvider.cs" />
     <Compile Include="NinjectServiceBehavior.cs" />
     <Compile Include="NinjectServiceBehaviorExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
@@ -58,9 +59,7 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>

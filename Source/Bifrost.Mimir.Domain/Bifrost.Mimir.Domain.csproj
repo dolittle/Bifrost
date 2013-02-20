@@ -36,6 +36,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="EventStores\CommandHandlers.cs" />
     <Compile Include="EventStores\Commands\ReplayAll.cs" />
     <Compile Include="EventStores\EventStore.cs" />

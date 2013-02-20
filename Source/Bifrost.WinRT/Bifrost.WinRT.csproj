@@ -9,8 +9,8 @@
     <ProjectGuid>{CCE349AF-9072-4D75-8935-F9A9C65B0358}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.WinRT</RootNamespace>
-    <AssemblyName>Bifrost.WinRT</AssemblyName>
+    <RootNamespace>Bifrost</RootNamespace>
+    <AssemblyName>Bifrost</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -621,6 +621,9 @@
     <Compile Include="..\Bifrost\Principal\CurrentPrincipal.cs">
       <Link>Principal\CurrentPrincipal.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Sagas\Chapter.cs">
       <Link>Sagas\Chapter.cs</Link>
     </Compile>
@@ -993,9 +996,11 @@
     <Compile Include="..\Bifrost\Views\View.cs">
       <Link>Views\View.cs</Link>
     </Compile>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Globalization\LocalizationScope.cs" />
     <Compile Include="Globalization\Localizer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Bifrost\ExceptionStrings.resx">

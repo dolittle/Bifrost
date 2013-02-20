@@ -40,14 +40,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Events\EventSequenceValidation.cs" />
     <Compile Include="Events\EventStreamValidation.cs" />
     <Compile Include="Events\EventValueValidation.cs" />
     <Compile Include="Extensions\CommandScenarioExtensions.cs" />
     <Compile Include="Extensions\UncommittedEventStreamExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
@@ -59,9 +60,7 @@
       <Name>Bifrost.Testing</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

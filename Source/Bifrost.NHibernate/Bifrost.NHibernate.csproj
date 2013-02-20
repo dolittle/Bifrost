@@ -50,8 +50,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Concepts\ConceptValueType.cs" />
     <Compile Include="Concepts\MappingExtensions.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Events\EventSourceVersionCustomType.cs" />
     <Compile Include="Events\EventSubscriptionClassMap.cs" />
     <Compile Include="Events\IEventConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sagas\SagaHolderClassMap.cs" />
     <Compile Include="UserTypes\InferredMapping.cs" />
     <Compile Include="UserTypes\NullSafeMapping.cs" />
@@ -84,9 +85,7 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

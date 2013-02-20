@@ -261,10 +261,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="Events\EventService.cs" />
-    <Compile Include="Tasks\TaskHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\TaskHub.cs" />
     <Compile Include="Tasks\TaskStatusReporter.cs" />
     <EmbeddedResource Include="Scripts\applicationBar.js" />
   </ItemGroup>
@@ -301,10 +304,6 @@
     <ProjectReference Include="..\Bifrost.Mimir.Read\Bifrost.Mimir.Read.csproj">
       <Project>{0527b124-4719-4358-9214-83858e0353db}</Project>
       <Name>Bifrost.Mimir.Read</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
-      <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
-      <Name>Bifrost.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
       <Project>{0a748bd3-97dd-4c57-8069-4e36656c0a1a}</Project>

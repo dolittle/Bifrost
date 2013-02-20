@@ -48,6 +48,9 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Serialization\ConceptConverter.cs" />
     <Compile Include="Serialization\ConceptDictionaryConverter.cs" />
     <Compile Include="ConceptTypeConverter.cs" />

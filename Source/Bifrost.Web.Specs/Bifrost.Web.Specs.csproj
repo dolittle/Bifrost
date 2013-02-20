@@ -53,6 +53,26 @@
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_with_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_route_matching_incoming_request.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_route_with_placeholder_and_request_path_matches.cs" />
+    <Compile Include="Services\for_RequestParamsFactory\given\a_request_params_factory.cs" />
+    <Compile Include="Services\for_RequestParamsFactory\when_building_a_request_params_object.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\ComplexType.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_int_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_string_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\ServiceWithMethods.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\ServiceWithoutMethods.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_and_method_does_not_exist.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_a_method_without_parameters_but_returns_complex_type.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_without_a_method.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_without_parameter_and_target_method_expects_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_complex_type_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_int_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_method_with_no_in_or_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_string_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_underscore_parameter_and_target_method_has_no_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_wrong_parameter_name.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

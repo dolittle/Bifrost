@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Applications\ApplicationRoute.cs" />
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Applications\RouteExtensions.cs" />
     <Compile Include="BifrostHttpApplication.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
@@ -71,7 +75,6 @@
     <Compile Include="RouteActivator.cs" />
     <Compile Include="Proxies\ProxyRouteHandler.cs" />
     <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\CommandProxies.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="BootStrapper.cs" />
@@ -82,16 +85,25 @@
     <Compile Include="IWebContext.cs" />
     <Compile Include="IWebRequest.cs" />
     <Compile Include="Sagas\SagaNarratorService.cs" />
+    <Compile Include="Services\HttpStatus.cs" />
+    <Compile Include="Services\IRequestParamsFactory.cs" />
+    <Compile Include="Services\IRestServiceMethodInvoker.cs" />
+    <Compile Include="Services\MethodNotSpecifiedException.cs" />
+    <Compile Include="Services\MissingParameterException.cs" />
+    <Compile Include="Services\ParameterCountMismatchException.cs" />
+    <Compile Include="Services\RequestParams.cs" />
+    <Compile Include="Services\RequestParamsFactory.cs" />
+    <Compile Include="Services\RestServiceMethodInvoker.cs" />
+    <Compile Include="Services\RestServiceRoute.cs" />
+    <Compile Include="Services\RestServiceRouteHandler.cs" />
+    <Compile Include="Services\RestServiceRouteHttpHandler.cs" />
+    <Compile Include="Services\ServiceRoutingExtensions.cs" />
     <Compile Include="Validation\ValidationService.cs" />
     <Compile Include="WebContext.cs" />
     <Compile Include="WebConfigurationExtensions.cs" />
     <Compile Include="Proxies\ReadModelProxies.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.Services\Bifrost.Services.csproj">
-      <Project>{2928688F-2D89-4C2B-AB59-F82B80A14009}</Project>
-      <Name>Bifrost.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>

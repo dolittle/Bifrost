@@ -1,8 +1,7 @@
 ﻿using System.Web.Routing;
 using Bifrost.Web.Applications;
 using Bifrost.Mimir.Web.Events;
-using Bifrost.Services.Execution;
-using Bifrost.Services;
+using Bifrost.Web.Services;
 
 namespace Bifrost.Mimir.Web
 {

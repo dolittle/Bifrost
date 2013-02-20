@@ -56,7 +56,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Container.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationExtensions.cs" />
     <Compile Include="DefaultTypeLoader.cs" />
   </ItemGroup>

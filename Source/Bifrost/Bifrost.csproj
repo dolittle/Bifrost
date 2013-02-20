@@ -50,8 +50,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CodeGeneration\CodeGenerator.cs" />
     <Compile Include="CodeGeneration\CodeWriter.cs" />
@@ -143,6 +143,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\IQueryFor.cs" />
     <Compile Include="Read\IReadModelOf.cs" />
     <Compile Include="Read\ReadModelOf.cs" />
@@ -400,9 +401,7 @@
     <Compile Include="Read\IReadModel.cs" />
     <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ExceptionStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

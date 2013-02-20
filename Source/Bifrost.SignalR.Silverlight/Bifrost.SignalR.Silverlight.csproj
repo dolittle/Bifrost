@@ -72,6 +72,9 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Commands\CommandCoordinator.cs" />
     <Compile Include="Commands\Proxies\ICommandCoordinator.cs" />
     <Compile Include="Hubs\DynamicHubProxyInterceptor.cs" />
