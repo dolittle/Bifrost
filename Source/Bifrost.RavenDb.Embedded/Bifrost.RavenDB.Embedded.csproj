@@ -8,8 +8,8 @@
     <ProjectGuid>{A6B34814-3554-4849-A54E-C7AD1A7BB8E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.RavenDB.Embeddable</RootNamespace>
-    <AssemblyName>Bifrost.RavenDB.Embeddable</AssemblyName>
+    <RootNamespace>Bifrost.RavenDB.Embedded</RootNamespace>
+    <AssemblyName>Bifrost.RavenDB.Embedded</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationExtensions.cs" />
-    <Compile Include="Configuration\EmbeddedRavenDbStorageElement.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +75,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Bifrost.RavenDB.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

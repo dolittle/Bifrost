@@ -20,8 +20,8 @@
 //
 #endregion
 using Bifrost.Entities;
-using EntityContextConfiguration = Bifrost.RavenDB.Embeddable.EntityContextConfiguration;
-using EntityContextConnection = Bifrost.RavenDB.Embeddable.EntityContextConnection;
+using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
+using EntityContextConnection = Bifrost.RavenDB.Embedded.EntityContextConnection;
 
 namespace Bifrost.Configuration
 {

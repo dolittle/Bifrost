@@ -22,7 +22,7 @@
 using Bifrost.Entities;
 using Raven.Client.Embedded;
 
-namespace Bifrost.RavenDB.Embeddable
+namespace Bifrost.RavenDB.Embedded
 {
     public class EntityContextConnection : IEntityContextConnection
     {
