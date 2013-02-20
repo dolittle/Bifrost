@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bifrost</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link href="css/dolittle.css" rel="stylesheet">
+    <script type="text/javascript" src="Scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/require.js"></script>
+    <script type="text/javascript" src="Scripts/knockout-2.0.0.js"></script>
+    
+    <script type="text/javascript">
+        require.config({
+            appDir: "/",
+            baseUrl: "/Bifrost/Scripts",
+            optimize: "none",
+        });
+
+
+        $(function () {
+            var viewModel = function () {
+                var self = this;
+
+                this.content = ko.observable();
+
+                this.home = ko.observable(true);
+                this.quickStart = ko.observable(false);
+
+                this.loadContentFrom = function (file) {
+                    require(["text!" + file + "!strip"], function (c) {
+                        self.content(c);
+                    });
+                };
+
+                this.showHome = function () {
+                    self.loadContentFrom("/Bifrost/home.html");
+                    self.home(true);
+                    self.quickStart(false);
+                };
+
+                this.showQuickStart = function () {
+                    self.loadContentFrom("/Bifrost/quickStart.html");
+                    self.home(false);
+                    self.quickStart(true);
+                };
+
+                this.loadContentFrom("/Bifrost/home.html");
+            };
+
+            ko.applyBindings(new viewModel());
+        });
+    </script>
+</head>
+<body data-spy="scroll" data-target=".subnav" data-offset="50">
+    <div class="regionOuter" style="background-color: #bf3a00; padding-top: 20px; padding-bottom: 10px;">
+        <div class="container-narrow">
+            <div class="masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li data-bind="click: showHome, css: { active: home }"><a href="#">Home</a></li>
+                    <li data-bind="click: showQuickStart, css: { active: quickStart }"><a href="#">Quick Start</a></li>
+                    <li><a href="http://bifrost.dolittle.com">Official site</a></li>
+                </ul>
+                <img src="img/bifrost.png" />
+            </div>
+        </div>
+    </div>
+
+    <div class="regionOuter" style="background-color: #ddd;">
+      <div class="container-narrow">
+        <div class="row-fluid social">
+          <div class="span12" style="text-align:center;">
+            <iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://platform.twitter.com/widgets/follow_button.html?screen_name=dolittle" style="width:200px; height:20px;"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=dolittle&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="165" height="20"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=dolittle&amp;repo=bifrost&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="165" height="20"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-bind="html: content"></div>
+
+    <div class="regionOuter" style="background-color: #ddd;">
+        <div class="container-narrow">
+            <div class="row-fluid contact">
+                <div class="span6">
+                    <h4>More from Dolittle</h4>
+                    <ul class="unstyled">
+                        <li>
+                            <img src="img/bifrost-icon.png"><a href="http://bifrost.dolittle.com">Bifrost</a></li>
+                        <li>
+                            <img src="img/yggdrasil-icon.png"><a href="https://github.com/dolittle/Yggdrasil">Yggdrasil</a></li>
+                        <li>
+                            <img src="img/forseti-icon.png"><a href="https://github.com/dolittle/Forseti">Forseti</a></li>
+                        <li>
+                            <img src="img/balder-icon.png"><a href="http://balder.codeplex.com">Balder</a></li>
+                        <li>
+                            <img src="img/chirp-icon.png"><a href="http://chirp.dolittle.com">Chirp</a></li>
+                </div>
+                <div class="span6">
+                    <h4>Contact</h4>
+
+                    <address>
+                        <strong>Dolittle AS</strong><br>
+                        Klinestadmoen 9<br>
+                        3241 Sandefjord, Norway<br>
+                    </address>
+
+                    <address>
+                        <strong>Anne Grethe</strong><br>
+                        <i class="entypo-mail"></i><a href="mailto:ag@dolittle.com">ag@dolittle.com</a>
+                    </address>
+
+
+                    <address>
+                        <strong>Einar</strong><br>
+                        <i class="entypo-mail"></i><a href="mailto:einar@dolittle.com">einar@dolittle.com</a>
+                    </address>
+
+                    <address>
+                        <strong>Pavneet</strong><br>
+                        <i class="entypo-mail"></i><a href="mailto:einar@dolittle.com">pavneet@dolittle.com</a>
+                    </address>
+
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>&copy; Dolittle</p>
+            </div>
+        </div>
+    </div>
+    <!-- /container -->
+
+
+</body>
+</html>

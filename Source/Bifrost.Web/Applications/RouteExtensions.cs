@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
 using System.Web.Routing;
+using Bifrost.Web.Applications;
 
-namespace Bifrost.Web.Applications
+namespace System.Web.Routing
 {
     public static class RouteExtensions
     {

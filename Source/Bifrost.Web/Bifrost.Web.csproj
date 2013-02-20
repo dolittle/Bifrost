@@ -110,6 +110,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -121,9 +122,37 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Scripts\Bifrost.debug.js" />
+    <EmbeddedResource Include="home.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\domReady.js" />
+    <EmbeddedResource Include="Scripts\jquery-1.7.1.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.history.js" />
+    <EmbeddedResource Include="Scripts\knockout-2.0.0.js" />
+    <EmbeddedResource Include="Scripts\knockout.mapping-2.0.0.js" />
+    <EmbeddedResource Include="Scripts\order.js" />
+    <EmbeddedResource Include="Scripts\require.js" />
+    <EmbeddedResource Include="Scripts\text.js" />
+    <EmbeddedResource Include="index.html" />
+    <EmbeddedResource Include="css\bootstrap.css" />
+    <EmbeddedResource Include="css\bootstrap.min.css" />
+    <EmbeddedResource Include="css\dolittle.css" />
+    <EmbeddedResource Include="img\bifrost.png" />
+    <EmbeddedResource Include="img\balder-icon.png" />
+    <EmbeddedResource Include="img\bifrost-icon.png" />
+    <EmbeddedResource Include="img\chirp-icon.png" />
+    <EmbeddedResource Include="img\entypo.png" />
+    <EmbeddedResource Include="img\forseti-icon.png" />
+    <EmbeddedResource Include="img\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="img\glyphicons-halflings.png" />
+    <EmbeddedResource Include="img\pattern_40.gif" />
+    <EmbeddedResource Include="img\treeViewIcons.png" />
+    <EmbeddedResource Include="img\yggdrasil-icon.png" />
+    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="quickStart.html" />
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>

@@ -15,6 +15,7 @@ namespace Bifrost.Web
         public static void Start()
         {
             RouteTable.Routes.Add(new ProxyRoute());
+            RouteTable.Routes.AddApplicationFromAssembly("Bifrost",typeof(RouteActivator).Assembly);
             RouteTable.Routes.AddService<ValidationService>("Bifrost/Validation");
             RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
