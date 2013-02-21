@@ -18,7 +18,7 @@
 #endregion
 using Bifrost.Configuration;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.ConfigurationActivator), "Start")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.ConfigurationActivator), "Start")]
 namespace Bifrost.Web
 {
     public class ConfigurationActivator
