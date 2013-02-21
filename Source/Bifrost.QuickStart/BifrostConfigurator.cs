@@ -12,7 +12,7 @@ namespace Bifrost.QuickStart
                 .Serialization
                     .UsingJson()
                 .Events
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
                 .Events
                     .Asynchronous(e=>e.UsingSignalR())
                 .DefaultStorage

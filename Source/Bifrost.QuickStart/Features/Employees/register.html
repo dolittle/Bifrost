@@ -5,42 +5,55 @@
 </head>
 <body>
     <style>
-        .grid th 
-        {
-            width:300px; 
-            text-align:left;
+        .grid th {
+            width: 300px;
+            text-align: left;
         }
     </style>
 
-    <fieldset>
-        <legend>Personalia</legend>
-        First Name : <input type="text" data-bind="value: register.firstName" /><span data-bind="validationMessageFor: register.firstName"></span><br />
-        Last Name : <input type="text" data-bind="value: register.lastName"/><span data-bind="validationMessageFor: register.lastName"></span><br />
-        Social Security Number : <input type="text" data-bind="value: register.socialSecurityNumber"/><span data-bind="validationMessageFor: register.socialSecurityNumber"></span><br />
-        <button data-bind="command: register, enabled: register.canExecute">Register</button>
-    </fieldset>
+    <div class="regionOuter" style="background-color: #eee;">
+        <div class="container-narrow">
+            <div class="jumbotron">
+                <h2>Human Resources : Employee registration</h2>
+            </div>
+        </div>
+    </div>
 
-    <table class="grid">
-        <thead>
-            <tr>
-                <th>
-                    Social Security Number
-                </th>
-                <th>
-                    First Name
-                </th>
-                <th>
-                    Last Name
-                </th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: employees">
-            <tr>
-                <td data-bind="text: socialSecurityNumber"></td>
-                <td data-bind="text: firstName"></td>
-                <td data-bind="text: lastName"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="regionOuter" style="background-color: white;">
+        <div class="container-narrow">
+            <div class="row-fluid social">
+
+                <fieldset>
+                    First Name :
+                    <input type="text" data-bind="value: register.firstName" /><span data-bind="validationMessageFor: register.firstName"></span><br />
+                    Last Name :
+                    <input type="text" data-bind="value: register.lastName" /><span data-bind="validationMessageFor: register.lastName"></span><br />
+                    Social Security Number :
+                    <input type="text" data-bind="value: register.socialSecurityNumber" /><span data-bind="validationMessageFor: register.socialSecurityNumber"></span><br />
+                    <button data-bind="command: register, enabled: register.canExecute">Register</button>
+                </fieldset>
+
+                <table class="grid">
+                    <thead>
+                        <tr>
+                            <th>Social Security Number
+                            </th>
+                            <th>First Name
+                            </th>
+                            <th>Last Name
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: employees">
+                        <tr>
+                            <td data-bind="text: socialSecurityNumber"></td>
+                            <td data-bind="text: firstName"></td>
+                            <td data-bind="text: lastName"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

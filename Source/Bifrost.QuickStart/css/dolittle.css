@@ -1,0 +1,106 @@
+@font-face {
+	font-family: "Segoe";
+	src: url("../font/SegoeUI.ttf");
+}
+
+body {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-family: "Segoe", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Custom container */
+.container-narrow {
+	margin: 0 auto;
+	max-width: 700px;
+}
+.container-narrow > hr {
+	margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	padding: 40px 0;
+	text-align: center;
+}
+.jumbotron h1 {
+	font-size: 72px;
+	line-height: 1;
+}
+.jumbotron .btn {
+	font-size: 21px;
+	padding: 14px 24px;
+}
+.masthead a {
+	color:white;
+}
+
+/* Supporting marketing content */
+.marketing {
+	padding: 40px 0;
+}
+.marketing p + h4 {
+	margin-top: 28px;
+}
+
+/* Supporting social content */
+.social {
+	padding: 30px 0;
+}
+
+/* Supporting contact content */
+.contact {
+	padding: 40px 0;
+}
+.contact p + h4 {
+	margin-top: 28px;
+}
+
+.footer {
+	padding: 20px 0;
+}
+
+@media (max-width: 767px) {
+	body {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.regionOuter {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+.nav > li > a:hover {
+	color: #fff;
+	text-decoration: none;
+	background-color: #992e00;
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+	color: #fff;
+	text-decoration: none;
+	background-color: #992e00;
+}
+a {
+	color: #992e00;
+}
+
+[class^="entypo-"],
+[class*=" entypo-"] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  *margin-right: .3em;
+  line-height: 20px;
+  vertical-align: text-top;
+  background-image: url("/img/entypo.png");
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  margin-top: 1px;
+}
+.entypo-phone {
+  background-position: -100px -160px;
+}
+.entypo-mail {
+  background-position: -260px -160px;
+}

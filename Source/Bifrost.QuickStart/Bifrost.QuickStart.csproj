@@ -145,8 +145,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="css\bootstrap.css" />
+    <EmbeddedResource Include="css\bootstrap.min.css" />
+    <EmbeddedResource Include="css\dolittle.css" />
     <Content Include="Features\Employees\register.html" />
     <Content Include="Features\Employees\register.js" />
+    <EmbeddedResource Include="img\balder-icon.png" />
+    <EmbeddedResource Include="img\bifrost-icon.png" />
+    <EmbeddedResource Include="img\bifrost.png" />
+    <EmbeddedResource Include="img\chirp-icon.png" />
+    <EmbeddedResource Include="img\entypo.png" />
+    <EmbeddedResource Include="img\forseti-icon.png" />
+    <EmbeddedResource Include="img\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="img\glyphicons-halflings.png" />
+    <EmbeddedResource Include="img\pattern_40.gif" />
+    <EmbeddedResource Include="img\treeViewIcons.png" />
+    <EmbeddedResource Include="img\yggdrasil-icon.png" />
     <Content Include="index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -154,6 +168,7 @@
     <Compile Include="BifrostConfigurator.cs" />
     <Compile Include="Concepts\Persons\SocialSecurityNumber.cs" />
     <Compile Include="ContainerCreator.cs" />
+    <Compile Include="Domain\HumanResources\Employees\CommandHandlers.cs" />
     <Compile Include="Domain\HumanResources\Employees\Employee.cs" />
     <Compile Include="Domain\HumanResources\Employees\RegisterEmployee.cs" />
     <Compile Include="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" />
@@ -166,6 +181,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Bifrost.QuickStart.nuspec" />
+    <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
