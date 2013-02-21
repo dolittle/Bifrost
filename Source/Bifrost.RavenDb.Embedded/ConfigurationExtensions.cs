@@ -21,21 +21,27 @@
 #endregion
 using System;
 using Bifrost.Entities;
+using Bifrost.RavenDB;
 using Bifrost.RavenDB.Embedded.Events;
 using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
-using EntityContextConnection = Bifrost.RavenDB.Embedded.EntityContextConnection;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenDBEmbedded(this IHaveStorage storage, string dataDirectory)
+        public static IConfigure UsingRavenDBEmbedded(this IHaveStorage storage, Action<EntityContextConfiguration> configureCallback)
         {
-            var entityContextConfiguration = new EntityContextConfiguration();
-            var connection = new EntityContextConnection(dataDirectory);
-            entityContextConfiguration.Connection = connection;
+            var entityContextConfiguration = new EntityContextConfiguration
+            {
+                IdPropertyRegister = new NullIdPropertyRegister()
+            };
+            if (configureCallback != null)
+                configureCallback(entityContextConfiguration);
 
+            var connection = new Bifrost.RavenDB.EntityContextConnection(entityContextConfiguration);
+            entityContextConfiguration.Connection = connection;
             storage.EntityContextConfiguration = entityContextConfiguration;
+
             return Configure.Instance;
         }
 
@@ -53,5 +59,12 @@ namespace Bifrost.Configuration
             configuration.DataDirectory = path;
             return configuration;
         }
+
+        public static EntityContextConfiguration LocatedAt(this EntityContextConfiguration configuration, string path)
+        {
+            configuration.DataDirectory = path;
+            return configuration;
+        }
+
     }
 }

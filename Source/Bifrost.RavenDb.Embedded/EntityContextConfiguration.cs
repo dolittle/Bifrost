@@ -19,12 +19,29 @@
 using System;
 using Bifrost.Configuration;
 using Bifrost.Entities;
+using Raven.Client.Document;
+using Raven.Client.Embedded;
 
 namespace Bifrost.RavenDB.Embedded
 {
-    public class EntityContextConfiguration : IEntityContextConfiguration
+    public class EntityContextConfiguration : Bifrost.RavenDB.EntityContextConfiguration
     {
-        public Type EntityContextType { get { return typeof(EntityContext<>); } }
-        public IEntityContextConnection Connection { get; set; }
+        public string DataDirectory { get; set; }
+
+        public override DocumentStore CreateDocumentStore()
+        {
+            var documentStore = new EmbeddableDocumentStore
+            {
+                DataDirectory = DataDirectory
+            };
+
+            if (DefaultDatabase != null)
+                documentStore.DefaultDatabase = DefaultDatabase;
+
+            if (Credentials != null)
+                documentStore.Credentials = Credentials;
+
+            return documentStore;
+        }
     }
 }

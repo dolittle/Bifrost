@@ -7,10 +7,12 @@ namespace Bifrost.QuickStart
     {
         public void Configure(IConfigure configure)
         {
-            
+            var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
             configure
                 .Events
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(HttpContext.Current.Server.MapPath("~/App_Data")))
+                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                .DefaultStorage
+                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .AsSinglePageApplication()
                 .WithMimir();
         }

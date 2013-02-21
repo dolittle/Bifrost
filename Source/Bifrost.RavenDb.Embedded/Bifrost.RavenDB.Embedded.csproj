@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
-    <Compile Include="EntityContextConnection.cs" />
     <Compile Include="Events\EventStoreConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

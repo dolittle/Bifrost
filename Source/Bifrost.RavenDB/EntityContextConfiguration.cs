@@ -17,9 +17,10 @@
 //
 #endregion
 using System;
+using System.Net;
 using Bifrost.Configuration;
 using Bifrost.Entities;
-using System.Net;
+using Raven.Client.Document;
 
 namespace Bifrost.RavenDB
 {
@@ -31,5 +32,21 @@ namespace Bifrost.RavenDB
         public Type EntityContextType { get { return typeof(EntityContext<>); } }
         public IEntityContextConnection Connection { get; set; }
         public IEntityIdPropertyRegister IdPropertyRegister { get; set; }
+
+        public virtual DocumentStore CreateDocumentStore()
+        {
+            var documentStore = new DocumentStore
+            {
+                Url = Url
+            };
+
+            if (DefaultDatabase != null)
+                documentStore.DefaultDatabase = DefaultDatabase;
+
+            if (Credentials != null)
+                documentStore.Credentials = Credentials;
+
+            return documentStore;
+        }
     }
 }
