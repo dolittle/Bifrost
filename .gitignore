@@ -25,6 +25,7 @@ packages
 *.ncrunch*
 *.sublime-workspace
 *.nupkg
+Source/Bifrost.QuickStart/App_Data
 
 # OS generated files #
 ######################

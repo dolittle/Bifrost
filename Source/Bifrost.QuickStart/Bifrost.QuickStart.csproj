@@ -42,6 +42,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\RavenDB.Database.2.0.2230\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="GeoAPI, Version=1.7.4693.18483, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\RavenDB.Database.2.0.2230\lib\net40\GeoAPI.dll</HintPath>
@@ -141,13 +145,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Features\Employees\register.html" />
+    <Content Include="Features\Employees\register.js" />
     <Content Include="index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BifrostConfigurator.cs" />
+    <Compile Include="Concepts\Persons\SocialSecurityNumber.cs" />
     <Compile Include="ContainerCreator.cs" />
+    <Compile Include="Domain\HumanResources\Employees\Employee.cs" />
+    <Compile Include="Domain\HumanResources\Employees\RegisterEmployee.cs" />
+    <Compile Include="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" />
+    <Compile Include="Events\HumanResources\Employees\EmployeeRegistered.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
+    <Compile Include="Read\HumanResources\Employees\Employee.cs" />
+    <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -205,6 +219,7 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

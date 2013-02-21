@@ -9,8 +9,12 @@ namespace Bifrost.QuickStart
         {
             var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
             configure
+                .Serialization
+                    .UsingJson()
                 .Events
                     .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                .Events
+                    .Asynchronous(e=>e.UsingSignalR())
                 .DefaultStorage
                     .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
