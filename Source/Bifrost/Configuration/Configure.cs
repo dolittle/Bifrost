@@ -50,8 +50,6 @@ namespace Bifrost.Configuration
         /// </summary>
         public static Configure Instance { get; private set; }
 
-        IConfigurationSource _configurationSource;
-
         Configure(IContainer container, BindingLifecycle defaultObjectLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
             DefaultObjectLifecycle = defaultObjectLifecycle;
@@ -149,7 +147,6 @@ namespace Bifrost.Configuration
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public Type LoggerType { get; set; }
         public IContainer Container { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
@@ -164,16 +161,8 @@ namespace Bifrost.Configuration
 		public CultureInfo UICulture { get; set; }
         public BindingLifecycle DefaultObjectLifecycle { get; set; }
 
-		public void ConfigurationSource(IConfigurationSource configurationSource)
-        {
-            _configurationSource = configurationSource;
-        }
-
         public void Initialize()
         {
-            if (_configurationSource != null)
-                _configurationSource.Initialize(this);
-
             ConfigureFromCanConfigurables();
 
 			Serialization.Initialize(Container);

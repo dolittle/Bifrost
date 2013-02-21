@@ -16,31 +16,22 @@
 // limitations under the License.
 //
 #endregion
-using System.Web;
-using Bifrost.Configuration;
+using System.Web.Routing;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Configuration
 {
-    public class ProxyRouteHttpHandler : IHttpHandler
+    public class ConfigurationRoute : Route
     {
-        GeneratedProxies _proxies;
+        const string ConfigurationUrl = "Bifrost/Configuration";
 
-        public ProxyRouteHttpHandler() : 
-            this(Configure.Instance.Container.Get<GeneratedProxies>())
+        public ConfigurationRoute()
+            : base(ConfigurationUrl, new ConfigurationRouteHandler())
         {
         }
 
-        public ProxyRouteHttpHandler(GeneratedProxies proxies)
+        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            _proxies = proxies;
-        }
-
-        public bool IsReusable { get { return true; } }
-
-        public void ProcessRequest(HttpContext context)
-        {
-            context.Response.ContentType = "text/javascript";
-            context.Response.Write(_proxies.All);
+            return null;
         }
     }
 }

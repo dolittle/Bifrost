@@ -16,10 +16,16 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Configuration;
 
-namespace Bifrost.Web
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.Configuration.ConfigurationActivator), "Start")]
+namespace Bifrost.Web.Configuration
 {
-    public class WebConfiguration
+    public class ConfigurationActivator
     {
+        public static void Start()
+        {
+            Configure.DiscoverAndConfigure();
+        }
     }
 }

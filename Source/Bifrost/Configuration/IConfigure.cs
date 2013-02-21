@@ -28,11 +28,6 @@ namespace Bifrost.Configuration
 	public interface IConfigure 
 	{
 		/// <summary>
-		/// Gets the type of logger to use
-		/// </summary>
-		Type LoggerType { get; }
-
-		/// <summary>
 		/// Gets the container that is used
 		/// </summary>
 		IContainer Container { get; }
@@ -99,12 +94,6 @@ namespace Bifrost.Configuration
         /// Gets or sets the default <see cref="BindingLifeCycle"/> for objects when created/managed by the <see cref="IContainer"/>
         /// </summary>
         BindingLifecycle DefaultObjectLifecycle { get; }
-
-		/// <summary>
-		/// Sets a specific configuration source
-		/// </summary>
-		/// <param name="configurationSource"><see cref="IConfigurationSource"/> to set</param>
-		void ConfigurationSource(IConfigurationSource configurationSource);
 
 		/// <summary>
 		/// Initializes Bifrost after configuration

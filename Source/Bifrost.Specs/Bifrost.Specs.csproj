@@ -126,7 +126,6 @@
     <Compile Include="Configuration\for_SagasConfiguration\when_initializing_without_storage.cs" />
     <Compile Include="Configuration\for_SagasConfiguration\when_initializing_with_storage.cs" />
     <Compile Include="Configuration\for_Configure\given\a_configure_instance.cs" />
-    <Compile Include="Configuration\for_Configure\when_configured_with_a_configuration_source.cs" />
     <Compile Include="Configuration\for_Configure\when_initializing.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />

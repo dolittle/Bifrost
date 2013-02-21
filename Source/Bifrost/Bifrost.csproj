@@ -226,7 +226,6 @@
     <Compile Include="Configuration\Defaults\DefaultConventions.cs" />
     <Compile Include="Configuration\EventsConfiguration.cs" />
     <Compile Include="Configuration\ICommandsConfiguration.cs" />
-    <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
     <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
     <Compile Include="Configuration\IEventsConfiguration.cs" />

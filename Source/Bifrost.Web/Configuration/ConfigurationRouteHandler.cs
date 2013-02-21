@@ -16,16 +16,21 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Configuration;
+using System.Web.Routing;
+using System.Web;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.ConfigurationActivator), "Start")]
-namespace Bifrost.Web
+namespace Bifrost.Web.Configuration
 {
-    public class ConfigurationActivator
+    public class ConfigurationRouteHandler : IRouteHandler
     {
-        public static void Start()
+        IHttpHandler _httpHandler;
+
+        public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            Configure.DiscoverAndConfigure();
+            if (_httpHandler == null)
+                _httpHandler = new ConfigurationRouteHttpHandler();
+
+            return _httpHandler;
         }
     }
 }

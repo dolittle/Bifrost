@@ -17,17 +17,9 @@
 //
 #endregion
 
-namespace Bifrost.Configuration
+namespace Bifrost.Web.Configuration
 {
-	/// <summary>
-	/// Defines a source for configuration
-	/// </summary>
-    public interface IConfigurationSource
+    public class WebConfiguration
     {
-		/// <summary>
-		/// Gets called when it should initialize itself
-		/// </summary>
-		/// <param name="configure"><see cref="Configure"/> instance to use for configuration</param>
-        void Initialize(Configure configure);
     }
 }
