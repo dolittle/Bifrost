@@ -101,7 +101,7 @@ Bifrost.namespace("Bifrost.commands", {
 
             if (commandResult.success === false || commandResult.invalid === true) {
                 if (commandResult.invalid && typeof commandResult.validationResults !== "undefined") {
-                    self.commandValidationService.applyValidationResultToProperties(self, commandResult.validationResults);
+                    self.commandValidationService.applyValidationResultToProperties(self.targetCommand, commandResult.validationResults);
                 }
                 self.onError(commandResult);
             } else {
