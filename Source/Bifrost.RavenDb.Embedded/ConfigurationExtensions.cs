@@ -19,7 +19,9 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Entities;
+using Bifrost.RavenDB.Embedded.Events;
 using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
 using EntityContextConnection = Bifrost.RavenDB.Embedded.EntityContextConnection;
 
@@ -27,7 +29,7 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenEmbedded(this IHaveStorage storage, string dataDirectory)
+        public static IConfigure UsingRavenDBEmbedded(this IHaveStorage storage, string dataDirectory)
         {
             var entityContextConfiguration = new EntityContextConfiguration();
             var connection = new EntityContextConnection(dataDirectory);
@@ -35,6 +37,21 @@ namespace Bifrost.Configuration
 
             storage.EntityContextConfiguration = entityContextConfiguration;
             return Configure.Instance;
+        }
+
+        public static IConfigure UsingRavenDBEmbedded(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
+        {
+            eventsConfiguration.EventStoreType = typeof(Bifrost.RavenDB.Events.EventStore);
+            var configuration = new EventStoreConfiguration();
+            configureCallback(configuration);
+            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            return Configure.Instance;
+        }
+
+        public static EventStoreConfiguration LocatedAt(this EventStoreConfiguration configuration, string path)
+        {
+            configuration.DataDirectory = path;
+            return configuration;
         }
     }
 }

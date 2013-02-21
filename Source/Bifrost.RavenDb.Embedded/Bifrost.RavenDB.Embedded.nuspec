@@ -19,6 +19,7 @@
       <dependency id="RavenDB.Database" version="2.0.2230" />
       <dependency id="RavenDB.Embedded" version="2.0.2230" />
       <dependency id="Bifrost" version="$version$" />
+      <dependency id="Bifrost.RavenDB" version="$version$" />
     </dependencies>
   </metadata>
   <files>

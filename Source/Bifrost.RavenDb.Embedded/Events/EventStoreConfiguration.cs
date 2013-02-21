@@ -16,22 +16,20 @@
 // limitations under the License.
 //
 #endregion
-using System.Net;
 using Raven.Client.Document;
+using Raven.Client.Embedded;
 
-namespace Bifrost.RavenDB.Events
+namespace Bifrost.RavenDB.Embedded.Events
 {
-    public class EventStoreConfiguration
+    public class EventStoreConfiguration : Bifrost.RavenDB.Events.EventStoreConfiguration
     {
-        public string Url { get; set; }
-        public string DefaultDatabase { get; set; }
-        public ICredentials Credentials { get; set; }
+        public string DataDirectory { get; set; }
 
-        public virtual DocumentStore CreateDocumentStore()
+        public override DocumentStore CreateDocumentStore()
         {
-            var documentStore = new DocumentStore
+            var documentStore = new EmbeddableDocumentStore
             {
-                Url = Url
+                DataDirectory = DataDirectory
             };
 
             if (DefaultDatabase != null)
@@ -42,6 +40,5 @@ namespace Bifrost.RavenDB.Events
 
             return documentStore;
         }
-
     }
 }

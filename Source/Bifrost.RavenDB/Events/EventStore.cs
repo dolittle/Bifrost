@@ -44,17 +44,7 @@ namespace Bifrost.RavenDB.Events
 
         void InitializeDocumentStore()
         {
-            _documentStore = new Raven.Client.Document.DocumentStore
-            {
-                Url = _configuration.Url
-            };
-
-            if (_configuration.DefaultDatabase != null)
-                _documentStore.DefaultDatabase = _configuration.DefaultDatabase;
-
-            if (_configuration.Credentials != null)
-                _documentStore.Credentials = _configuration.Credentials;
-
+            _documentStore = _configuration.CreateDocumentStore();
 
             var keyGenerator = new SequentialKeyGenerator(_documentStore);
             _documentStore.Conventions.DocumentKeyGenerator = (a,b,c) => string.Format("{0}/{1}", CollectionName, keyGenerator.NextFor<IEvent>());

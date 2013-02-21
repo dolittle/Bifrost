@@ -20,6 +20,7 @@
 //
 #endregion
 using Bifrost.Entities;
+using Bifrost.Execution;
 using Raven.Client.Embedded;
 
 namespace Bifrost.RavenDB.Embedded
@@ -43,9 +44,9 @@ namespace Bifrost.RavenDB.Embedded
             DocumentStore.Initialize();
         }
 
-        public void Initialize(Execution.IContainer container)
+        public void Initialize(IContainer container)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
