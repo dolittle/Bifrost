@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.QuickStart</id>
+    <version>1.0.0-rc2</version>
+    <title>Bifrost QuickStart Sample Project</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A project for getting started with Bifrost quickly</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2008 - 2013</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="Bifrost" version="$version$"/>
+      <dependency id="Bifrost.JSON" version="$version$"/>
+      <dependency id="Bifrost.Ninject" version="$version$"/>
+      <dependency id="Bifrost.Mimir" version="$version$"/>
+      <dependency id="Bifrost.Web" version="$version$"/>
+      <dependency id="Bifrost.SignalR" version="$version$"/>
+      <dependency id="Bifrost.RavenDB.Embedded" version="$version$"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="index.html" target="Content\index.html"/>
+    <file src="web.config" target="Content\web.config"/>
+    <file src="BifrostConfigurator.cs" target="Content\BifrostConfigurator.cs"/>
+    <file src="ContainerCreator.cs" target="Content\ContainerCreator.cs"/>
+  </files>
+</package>
