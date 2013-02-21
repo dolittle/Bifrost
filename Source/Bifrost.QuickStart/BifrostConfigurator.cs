@@ -13,7 +13,8 @@ namespace Bifrost.QuickStart
                     .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .DefaultStorage
                     .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
-                .AsSinglePageApplication()
+                .Frontend
+                    .Web(w=>w.AsSinglePageApplication())
                 .WithMimir();
         }
     }

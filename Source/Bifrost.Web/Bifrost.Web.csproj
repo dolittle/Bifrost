@@ -99,6 +99,7 @@
     <Compile Include="Services\RestServiceRouteHttpHandler.cs" />
     <Compile Include="Services\ServiceRoutingExtensions.cs" />
     <Compile Include="Validation\ValidationService.cs" />
+    <Compile Include="WebConfiguration.cs" />
     <Compile Include="WebContext.cs" />
     <Compile Include="WebConfigurationExtensions.cs" />
     <Compile Include="Proxies\ReadModelProxies.cs" />

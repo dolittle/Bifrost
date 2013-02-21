@@ -159,6 +159,7 @@ namespace Bifrost.Configuration
         public IBindingConventionManager ConventionManager { get; private set; }
 		public ISagasConfiguration Sagas { get; private set; }
 		public ISerializationConfiguration Serialization { get; private set; }
+        public IFrontendConfiguration Frontend { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
         public BindingLifecycle DefaultObjectLifecycle { get; set; }
@@ -181,6 +182,7 @@ namespace Bifrost.Configuration
             Tasks.Initialize(Container);
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
+            Frontend.Initialize(Container);
         	InitializeCulture();
             DefaultStorage.Initialize(Container);
         }
@@ -197,6 +199,7 @@ namespace Bifrost.Configuration
         	Sagas = Container.Get<ISagasConfiguration>();
 			Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
+            Frontend = Container.Get<IFrontendConfiguration>();
         }
 
 		void InitializeCulture()

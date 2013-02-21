@@ -186,6 +186,9 @@
     <Compile Include="..\Bifrost\Configuration\EventsConfiguration.cs">
       <Link>Configuration\EventsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\FrontendConfiguration.cs">
+      <Link>Configuration\FrontendConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\ICanConfigure.cs">
       <Link>Configuration\ICanConfigure.cs</Link>
     </Compile>
@@ -212,6 +215,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IEventsConfiguration.cs">
       <Link>Configuration\IEventsConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\IFrontendConfiguration.cs">
+      <Link>Configuration\IFrontendConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\IHaveStorage.cs">
       <Link>Configuration\IHaveStorage.cs</Link>

@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 //
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
@@ -16,27 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Web;
-using Bifrost.Web.Pipeline;
-
+using Bifrost.Execution;
 namespace Bifrost.Configuration
 {
-	public static class WebConfigurationExtensions
-	{
-        public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
+    /// <summary>
+    /// Represents an implementation of a <see cref="IFrontendConfiguration"/>
+    /// </summary>
+    public class FrontendConfiguration : IFrontendConfiguration
+    {
+#pragma warning disable 1591 // Xml Comments
+        public void Initialize(IContainer container)
         {
-            var webConfiguration = new WebConfiguration();
-            configureCallback(webConfiguration);
-            return Configure.Instance;
+
         }
-
-
-		public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
-		{
-			HttpModule.AddPipe(new SinglePageApplication());
-			return configuration;
-		}
-	}
+#pragma warning restore 1591 // Xml Comments
+    }
 }
-

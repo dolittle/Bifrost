@@ -97,10 +97,12 @@
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
     <Compile Include="Configuration\DefaultStorageConfiguration.cs" />
+    <Compile Include="Configuration\FrontendConfiguration.cs" />
     <Compile Include="Configuration\ICanConfigure.cs" />
     <Compile Include="Configuration\ICanCreateContainer.cs" />
     <Compile Include="Configuration\IConfigurationElement.cs" />
     <Compile Include="Configuration\IDefaultStorageConfiguration.cs" />
+    <Compile Include="Configuration\IFrontendConfiguration.cs" />
     <Compile Include="Configuration\IHaveStorage.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />

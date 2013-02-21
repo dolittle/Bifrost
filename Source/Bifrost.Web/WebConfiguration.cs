@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 //
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
@@ -16,27 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Web;
-using Bifrost.Web.Pipeline;
 
-namespace Bifrost.Configuration
+namespace Bifrost.Web
 {
-	public static class WebConfigurationExtensions
-	{
-        public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
-        {
-            var webConfiguration = new WebConfiguration();
-            configureCallback(webConfiguration);
-            return Configure.Instance;
-        }
-
-
-		public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
-		{
-			HttpModule.AddPipe(new SinglePageApplication());
-			return configuration;
-		}
-	}
+    public class WebConfiguration
+    {
+    }
 }
-
