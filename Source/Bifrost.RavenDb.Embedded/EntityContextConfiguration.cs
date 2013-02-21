@@ -27,13 +27,11 @@ namespace Bifrost.RavenDB.Embedded
     public class EntityContextConfiguration : Bifrost.RavenDB.EntityContextConfiguration
     {
         public string DataDirectory { get; set; }
+        public bool EnableManagementStudio { get; set; }
 
         public override DocumentStore CreateDocumentStore()
         {
-            var documentStore = new EmbeddableDocumentStore
-            {
-                DataDirectory = DataDirectory
-            };
+            var documentStore = DocumentStores.GetAndInitializeByPath(DataDirectory, EnableManagementStudio);
 
             if (DefaultDatabase != null)
                 documentStore.DefaultDatabase = DefaultDatabase;

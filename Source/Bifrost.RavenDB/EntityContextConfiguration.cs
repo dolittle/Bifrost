@@ -46,6 +46,8 @@ namespace Bifrost.RavenDB
             if (Credentials != null)
                 documentStore.Credentials = Credentials;
 
+            documentStore.Initialize();
+
             return documentStore;
         }
     }

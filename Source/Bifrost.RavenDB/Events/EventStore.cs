@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.Extensions;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Document;
 using Bifrost.RavenDB.Serialization;
@@ -59,11 +60,15 @@ namespace Bifrost.RavenDB.Events
                 s.Converters.Add(new EventSourceVersionConverter());
                 s.Converters.Add(new ConceptConverter());
             };
-            _documentStore.Conventions.FindTypeTagName = t => CollectionName;
+            
+           var originalFindTypeTagNam =  _documentStore.Conventions.FindTypeTagName;
+           _documentStore.Conventions.FindTypeTagName = t =>
+           {
+               if (t.HasInterface<IEvent>()) return CollectionName;
+               return originalFindTypeTagNam(t);
+           };
 
             _documentStore.RegisterListener(new EventMetaDataListener(_eventMigrationHierarchyManager));
-
-            _documentStore.Initialize();
         }
 
         public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)

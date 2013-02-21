@@ -40,6 +40,8 @@ namespace Bifrost.RavenDB.Events
             if (Credentials != null)
                 documentStore.Credentials = Credentials;
 
+            documentStore.Initialize();
+
             return documentStore;
         }
 

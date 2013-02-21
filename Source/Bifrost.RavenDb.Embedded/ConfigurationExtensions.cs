@@ -24,6 +24,7 @@ using Bifrost.Entities;
 using Bifrost.RavenDB;
 using Bifrost.RavenDB.Embedded.Events;
 using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
+using EventStoreConfiguration = Bifrost.RavenDB.Embedded.Events.EventStoreConfiguration;
 
 namespace Bifrost.Configuration
 {
@@ -50,7 +51,7 @@ namespace Bifrost.Configuration
             eventsConfiguration.EventStoreType = typeof(Bifrost.RavenDB.Events.EventStore);
             var configuration = new EventStoreConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.EventStoreConfiguration>(configuration);
             return Configure.Instance;
         }
 
@@ -65,6 +66,19 @@ namespace Bifrost.Configuration
             configuration.DataDirectory = path;
             return configuration;
         }
+
+        public static EventStoreConfiguration WithManagementStudio(this EventStoreConfiguration configuration)
+        {
+            configuration.EnableManagementStudio = true;
+            return configuration;
+        }
+
+        public static EntityContextConfiguration WithManagementStudio(this EntityContextConfiguration configuration)
+        {
+            configuration.EnableManagementStudio = true;
+            return configuration;
+        }
+
 
     }
 }

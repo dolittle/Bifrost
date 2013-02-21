@@ -17,6 +17,7 @@
 //
 #endregion
 using Bifrost.Events;
+using Bifrost.Extensions;
 using Raven.Client.Listeners;
 using Raven.Json.Linq;
 
@@ -41,12 +42,14 @@ namespace Bifrost.RavenDB.Events
         public bool BeforeStore(string key, object entityInstance, RavenJObject metadata, RavenJObject original)
         {
             var eventType = entityInstance.GetType();
+            if( !eventType.HasInterface<IEvent>() )
+                return false;
+
             var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
             var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
             metadata[Generation] = migrationLevel;
             metadata[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
             return false;
         }
-
     }
 }

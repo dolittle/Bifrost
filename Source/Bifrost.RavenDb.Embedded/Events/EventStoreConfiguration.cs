@@ -24,13 +24,11 @@ namespace Bifrost.RavenDB.Embedded.Events
     public class EventStoreConfiguration : Bifrost.RavenDB.Events.EventStoreConfiguration
     {
         public string DataDirectory { get; set; }
+        public bool EnableManagementStudio { get; set; }
 
         public override DocumentStore CreateDocumentStore()
         {
-            var documentStore = new EmbeddableDocumentStore
-            {
-                DataDirectory = DataDirectory
-            };
+            var documentStore = DocumentStores.GetAndInitializeByPath(DataDirectory, EnableManagementStudio);
 
             if (DefaultDatabase != null)
                 documentStore.DefaultDatabase = DefaultDatabase;
