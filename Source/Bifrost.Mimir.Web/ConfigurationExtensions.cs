@@ -34,8 +34,8 @@ namespace Bifrost.Configuration
     {
         public static IConfigure WithMimir(this IConfigure configure)
         {
+            RouteTable.Routes.AddService<EventService>("Mimir/Events");
             RouteTable.Routes.AddApplicationFromAssembly("Mimir", typeof(Bifrost.Mimir.Web.ClassForTypeSafeConfiguration).Assembly);
-            RouteTable.Routes.AddService<EventService>("Events");
             return configure;
         }
     }

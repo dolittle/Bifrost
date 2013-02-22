@@ -66,7 +66,7 @@ namespace Bifrost.Mimir.EventViewer
 
             
             var source = Application.Current.Host.Source;
-            var url = string.Format("{0}://{1}{2}/Events/GetAll",
+            var url = string.Format("{0}://{1}{2}/Mimir/Events/GetAll",
                 source.Scheme,
                 source.Host,
                 source.Port == 80 ? string.Empty : ":" + source.Port);
