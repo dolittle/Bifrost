@@ -109,6 +109,10 @@
     <Compile Include="Proxies\ReadModelProxies.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
+      <Project>{15567d0a-4daf-49cd-9f8f-4fa94ad889d3}</Project>
+      <Name>Bifrost.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>

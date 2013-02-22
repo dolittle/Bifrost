@@ -2446,7 +2446,8 @@ Bifrost.namespace("Bifrost.navigation", {
                         href = "/";
                     }
                     var targetUri = Bifrost.Uri.create(href);
-                    if (targetUri.isSameAsOrigin) {
+                    if (targetUri.isSameAsOrigin &&
+                        targetUri.queryString.indexOf("postback")<0) {
                         var target = targetUri.path;
                         while (target.indexOf("/") == 0) {
                             target = target.substr(1);
