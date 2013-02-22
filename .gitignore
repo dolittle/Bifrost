@@ -26,6 +26,7 @@ packages
 *.sublime-workspace
 *.nupkg
 Source/Bifrost.QuickStart/App_Data
+*.cache
 
 # OS generated files #
 ######################
