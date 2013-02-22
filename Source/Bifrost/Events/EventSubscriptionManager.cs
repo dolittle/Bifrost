@@ -31,6 +31,7 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents an implementation of <see cref="IEventSubscriptionManager"/>
     /// </summary>
+    [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
         IEventSubscriptionRepository _repository;
@@ -123,7 +124,6 @@ namespace Bifrost.Events
                         instance = _container.Get(subscription.Owner) as IProcessEvents;
                         subscribersBySubscriberTypes[subscription.Owner] = instance;
                     }
-
                 }
             }
 
