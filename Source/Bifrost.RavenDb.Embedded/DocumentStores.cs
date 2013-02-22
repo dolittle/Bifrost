@@ -27,20 +27,20 @@ namespace Bifrost.RavenDB.Embedded
     {
         static Dictionary<string, DocumentStore> _documentStores = new Dictionary<string, DocumentStore>();
 
-        public static DocumentStore GetAndInitializeByPath(string path, bool enableManagementStudio)
+        public static DocumentStore GetAndInitializeByPath(string path, bool enableManagementStudio, int managementStudioPort)
         {
             if (!_documentStores.ContainsKey(path))
             {
+                if( enableManagementStudio )
+                    NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(managementStudioPort);
+
                 var documentStore = new EmbeddableDocumentStore 
                 { 
                     DataDirectory = path,
                 };
 
                 if (enableManagementStudio)
-                {
                     documentStore.UseEmbeddedHttpServer = true;
-                    NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8080);
-                }
 
                 documentStore.Initialize();
                 _documentStores[path] = documentStore;

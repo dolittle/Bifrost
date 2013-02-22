@@ -64,7 +64,7 @@ namespace Bifrost.RavenDB.Events
            var originalFindTypeTagNam =  _documentStore.Conventions.FindTypeTagName;
            _documentStore.Conventions.FindTypeTagName = t =>
            {
-               if (t.HasInterface<IEvent>()) return CollectionName;
+               if (t.HasInterface<IEvent>() || t == typeof(IEvent)) return CollectionName;
                return originalFindTypeTagNam(t);
            };
 

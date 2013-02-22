@@ -55,16 +55,10 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-        public static IConfigure UsingRavenDB(this IHaveStorage storage, string url, Action<EntityContextConfiguration> configureCallback = null) 
-        {
-            return UsingRavenDB(storage, Configure.Instance, url, configureCallback);
-        }
-
-        public static IConfigure UsingRavenDB(this IHaveStorage storage, IConfigure configure, string url, Action<EntityContextConfiguration> configureCallback = null)
+        public static IConfigure UsingRavenDB(this IHaveStorage storage, Action<EntityContextConfiguration> configureCallback = null)
         {
             var entityContextConfiguration = new EntityContextConfiguration
             {
-                Url = url,
                 IdPropertyRegister = new NullIdPropertyRegister()
             };
             if (configureCallback != null)
@@ -74,7 +68,26 @@ namespace Bifrost.Configuration
             entityContextConfiguration.Connection = connection;
             storage.EntityContextConfiguration = entityContextConfiguration;
 
-            return configure;
+            return Configure.Instance;
         }
+
+        public static EntityContextConfiguration WithUrl(this EntityContextConfiguration configuration, string url)
+        {
+            configuration.Url = url;
+            return configuration;
+        }
+
+        public static EntityContextConfiguration WithCredentials(this EntityContextConfiguration configuration, ICredentials credentials)
+        {
+            configuration.Credentials = credentials;
+            return configuration;
+        }
+
+        public static EntityContextConfiguration WithDefaultDatabase(this EntityContextConfiguration configuration, string defaultDatabase)
+        {
+            configuration.DefaultDatabase = defaultDatabase;
+            return configuration;
+        }
+
     }
 }

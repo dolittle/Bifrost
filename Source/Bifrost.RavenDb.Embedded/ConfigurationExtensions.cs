@@ -67,18 +67,18 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-        public static EventStoreConfiguration WithManagementStudio(this EventStoreConfiguration configuration)
+        public static EventStoreConfiguration WithManagementStudio(this EventStoreConfiguration configuration, int port = 8080)
         {
             configuration.EnableManagementStudio = true;
+            configuration.ManagementStudioPort = port;
             return configuration;
         }
 
-        public static EntityContextConfiguration WithManagementStudio(this EntityContextConfiguration configuration)
+        public static EntityContextConfiguration WithManagementStudio(this EntityContextConfiguration configuration, int port = 8080)
         {
             configuration.EnableManagementStudio = true;
+            configuration.ManagementStudioPort = port;
             return configuration;
         }
-
-
     }
 }

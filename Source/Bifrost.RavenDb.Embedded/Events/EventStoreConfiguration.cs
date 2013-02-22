@@ -25,10 +25,11 @@ namespace Bifrost.RavenDB.Embedded.Events
     {
         public string DataDirectory { get; set; }
         public bool EnableManagementStudio { get; set; }
+        public int ManagementStudioPort { get; set; }
 
         public override DocumentStore CreateDocumentStore()
         {
-            var documentStore = DocumentStores.GetAndInitializeByPath(DataDirectory, EnableManagementStudio);
+            var documentStore = DocumentStores.GetAndInitializeByPath(DataDirectory, EnableManagementStudio, ManagementStudioPort);
 
             if (DefaultDatabase != null)
                 documentStore.DefaultDatabase = DefaultDatabase;
