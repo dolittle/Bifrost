@@ -1,59 +1,26 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <title></title>
 </head>
 <body>
-    <style>
-        .grid th {
-            width: 300px;
-            text-align: left;
-        }
-    </style>
+    <fieldset>
+        <strong>First Name</strong>
+        <input type="text" data-bind="value: register.firstName" />
+        <span data-bind="validationMessageFor: register.firstName"></span>
+        <br />
 
-    <div class="regionOuter" style="background-color: #eee;">
-        <div class="container-narrow">
-            <div class="jumbotron">
-                <h2>Human Resources : Employee registration</h2>
-            </div>
-        </div>
-    </div>
+        <strong>Last Name</strong>
+        <input type="text" data-bind="value: register.lastName" />
+        <span data-bind="validationMessageFor: register.lastName"></span>
+        <br />
 
-    <div class="regionOuter" style="background-color: white;">
-        <div class="container-narrow">
-            <div class="row-fluid social">
+        <strong>Social Security Number</strong>
+        <input type="text" data-bind="value: register.socialSecurityNumber" />
+        <span data-bind="validationMessageFor: register.socialSecurityNumber"></span>
+        <br />
 
-                <fieldset>
-                    First Name :
-                    <input type="text" data-bind="value: register.firstName" /><span data-bind="validationMessageFor: register.firstName"></span><br />
-                    Last Name :
-                    <input type="text" data-bind="value: register.lastName" /><span data-bind="validationMessageFor: register.lastName"></span><br />
-                    Social Security Number :
-                    <input type="text" data-bind="value: register.socialSecurityNumber" /><span data-bind="validationMessageFor: register.socialSecurityNumber"></span><br />
-                    <button data-bind="command: register, enabled: register.canExecute">Register</button>
-                </fieldset>
-
-                <table class="grid">
-                    <thead>
-                        <tr>
-                            <th>Social Security Number
-                            </th>
-                            <th>First Name
-                            </th>
-                            <th>Last Name
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: employees">
-                        <tr>
-                            <td data-bind="text: socialSecurityNumber"></td>
-                            <td data-bind="text: firstName"></td>
-                            <td data-bind="text: lastName"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        <button data-bind="command: register, enabled: register.canExecute">Register</button>
+    </fieldset>
 </body>
 </html>

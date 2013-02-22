@@ -148,6 +148,10 @@
     <EmbeddedResource Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="css\dolittle.css" />
+    <Content Include="Features\Employees\index.html" />
+    <Content Include="Features\Employees\index.js" />
+    <Content Include="Features\Employees\list.html" />
+    <Content Include="Features\Employees\list.js" />
     <Content Include="Features\Employees\register.html" />
     <Content Include="Features\Employees\register.js" />
     <EmbeddedResource Include="img\balder-icon.png" />
