@@ -1,6 +1,6 @@
 ﻿using Bifrost.Events;
-using Bifrost.Read;
 using Bifrost.QuickStart.Events.HumanResources.Employees;
+using Bifrost.Read;
 
 namespace Bifrost.QuickStart.Read.HumanResources.Employees
 {
@@ -17,6 +17,7 @@ namespace Bifrost.QuickStart.Read.HumanResources.Employees
         {
             _repository.Insert(new Employee
             {
+                Id = @event.EventSourceId,
                 SocialSecurityNumber = @event.SocialSecurityNumber,
                 FirstName = @event.FirstName,
                 LastName = @event.LastName
