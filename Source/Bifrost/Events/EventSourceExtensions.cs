@@ -53,7 +53,7 @@ namespace Bifrost.Events
 #if(NETFX_CORE)
                 var methods = eventSourceType.GetTypeInfo().DeclaredMethods.Where(m => m.Name.Equals("Handle") && hasEventParameter(m));
 #else
-                var methods = eventSourceType.GetMethods(BindingFlags.NonPublic|BindingFlags.Instance).Where(m => m.Name.Equals("Handle") && hasEventParameter(m));
+                var methods = eventSourceType.GetMethods(BindingFlags.NonPublic|BindingFlags.Instance).Where(m => m.Name.Equals("On") && hasEventParameter(m));
 #endif
                 foreach (var method in methods)
                     MethodsPerEventType[method.GetParameters()[0].ParameterType] = method;
@@ -66,7 +66,7 @@ namespace Bifrost.Events
             var methods = typeof(EventSourceHandleMethods<>)
                               .MakeGenericType(eventSourceType)
 #if(NETFX_CORE)
-                              .GetRuntimeField("MethodPerEventType")
+                              .GetRuntimeField("MethodsPerEventType")
 #else
                               .GetField("MethodsPerEventType", BindingFlags.Public | BindingFlags.Static)
 #endif
@@ -85,7 +85,7 @@ namespace Bifrost.Events
 		/// <param name="eventSource"><see cref="EventSource"/> to get method from</param>
 		/// <param name="event"><see cref="IEvent"/> to get method for</param>
 		/// <returns><see cref="MethodInfo"/> containing information about the handle method, null if none exists</returns>
-		public static MethodInfo GetHandleMethod(this EventSource eventSource, IEvent @event)
+		public static MethodInfo GetOnMethod(this EventSource eventSource, IEvent @event)
         {
             var eventType = @event.GetType();
             var handleMethods = GetHandleMethodsFor(eventSource.GetType());

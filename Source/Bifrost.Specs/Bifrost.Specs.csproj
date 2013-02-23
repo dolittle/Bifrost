@@ -145,7 +145,7 @@
     <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateful_aggregate_root.cs" />
     <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateless_aggregate_root_that_is_not_the_initial_version.cs" />
     <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateless_aggregate_root_that_is_the_initial_version.cs" />
-    <Compile Include="Events\for_EventSource\when_getting_the_handle_method_on_an_event_source_for_an_event.cs" />
+    <Compile Include="Events\for_EventSource\when_getting_the_on_method_on_an_event_source_for_an_event.cs" />
     <Compile Include="Events\for_EventSource\when_reapplying_a_stream_on_a_stateless_event_source.cs" />
     <Compile Include="Events\for_EventStoreChangeManager\EventStoreChangeNotifier.cs" />
     <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_manager_with_one_notifier_registered.cs" />

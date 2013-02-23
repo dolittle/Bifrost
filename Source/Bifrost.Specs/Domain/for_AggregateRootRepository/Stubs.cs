@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
 		{
 		}
 
-        void Handle(SimpleEvent @event)
+        void On(SimpleEvent @event)
         {
             SimpleEventHandled++;
         }

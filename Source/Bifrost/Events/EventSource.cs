@@ -122,7 +122,7 @@ namespace Bifrost.Events
 
         void HandleInternally(IEvent @event)
         {
-            var handleMethod = this.GetHandleMethod(@event);
+            var handleMethod = this.GetOnMethod(@event);
             if (handleMethod != null)
                 handleMethod.Invoke(this, new[] { @event });
             Version = @event.Version;

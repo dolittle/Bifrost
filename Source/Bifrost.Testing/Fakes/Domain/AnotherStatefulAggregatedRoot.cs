@@ -16,13 +16,13 @@ namespace Bifrost.Testing.Fakes.Domain
         {
         }
 
-        void Handle(AnotherSimpleEvent simpleEvent)
+        void On(AnotherSimpleEvent simpleEvent)
         {
             EventApplied = true;
             Value = simpleEvent.Id.ToString();
         }
 
-        void Handle(SimpleEventWithOneProperty simpleEventWithOneProperty)
+        void On(SimpleEventWithOneProperty simpleEventWithOneProperty)
         {
             EventWithOnePropertyApplied = true;
             OneProperty = simpleEventWithOneProperty.SomeString;
