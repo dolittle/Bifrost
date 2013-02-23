@@ -216,6 +216,9 @@
     <Compile Include="..\Bifrost\Configuration\IFrontendConfiguration.cs">
       <Link>Configuration\IFrontendConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IFrontendTargetConfiguration.cs">
+      <Link>Configuration\IFrontendTargetConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IHaveStorage.cs">
       <Link>Configuration\IHaveStorage.cs</Link>
     </Compile>

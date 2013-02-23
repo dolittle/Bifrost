@@ -28,22 +28,39 @@ namespace Bifrost.Web.Configuration
         string _configurationAsString;
 
         public ConfigurationRouteHttpHandler() : 
-            this(Configure.Instance.Container.Get<GeneratedProxies>())
+            this(
+                Configure.Instance.Container.Get<GeneratedProxies>(),
+                Configure.Instance.Container.Get<WebConfiguration>()
+            )
         {
         }
 
-        public ConfigurationRouteHttpHandler(GeneratedProxies proxies)
+        public ConfigurationRouteHttpHandler(
+                GeneratedProxies proxies,
+                WebConfiguration configuration)
         {
             var builder = new StringBuilder();
 
-            builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.7.1.min.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.knockout-2.0.0.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.knockout.mapping-2.0.0.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.require.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.order.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.text.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.domReady.js"));
+            if( configuration.ScriptsToInclude.JQuery )
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.7.1.min.js"));
+
+            if (configuration.ScriptsToInclude.Knockout)
+                builder.Append(GetResource("Bifrost.Web.Scripts.knockout-2.0.0.js"));
+
+            if (configuration.ScriptsToInclude.KnockoutMapping)
+                builder.Append(GetResource("Bifrost.Web.Scripts.knockout.mapping-2.0.0.js"));
+
+            if (configuration.ScriptsToInclude.JQueryHistory)
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));
+
+            if (configuration.ScriptsToInclude.Require)
+            {
+                builder.Append(GetResource("Bifrost.Web.Scripts.require.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.order.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.text.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.domReady.js"));
+            }
+
             builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
             builder.Append(GetResource("Bifrost.Web.Scripts.defaultConfiguration.js"));
             builder.Append(proxies.All);

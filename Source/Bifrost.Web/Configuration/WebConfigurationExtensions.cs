@@ -28,16 +28,47 @@ namespace Bifrost.Configuration
         public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
         {
             var webConfiguration = new WebConfiguration();
+            Configure.Instance.Container.Bind<WebConfiguration>(webConfiguration);
+            configuration.Target = webConfiguration;
             configureCallback(webConfiguration);
             return Configure.Instance;
         }
-
 
 		public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
 		{
 			HttpModule.AddPipe(new SinglePageApplication());
 			return configuration;
 		}
+
+        public static WebConfiguration WithoutJQuery(this WebConfiguration configuration)
+        {
+            configuration.ScriptsToInclude.JQuery = false;
+            return configuration;
+        }
+
+        public static WebConfiguration WithoutJQueryHistory(this WebConfiguration configuration)
+        {
+            configuration.ScriptsToInclude.JQueryHistory = false;
+            return configuration;
+        }
+
+        public static WebConfiguration WithoutKnockout(this WebConfiguration configuration)
+        {
+            configuration.ScriptsToInclude.Knockout = false;
+            return configuration;
+        }
+
+        public static WebConfiguration WithoutKnockoutMapping(this WebConfiguration configuration)
+        {
+            configuration.ScriptsToInclude.KnockoutMapping = false;
+            return configuration;
+        }
+
+        public static WebConfiguration WithoutRequire(this WebConfiguration configuration)
+        {
+            configuration.ScriptsToInclude.Require = false;
+            return configuration;
+        }
 	}
 }
 

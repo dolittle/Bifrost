@@ -16,24 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Execution;
 namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents an implementation of a <see cref="IFrontendConfiguration"/>
+    /// Defines the configuration element for a target frontend
     /// </summary>
-    public class FrontendConfiguration : IFrontendConfiguration
+    public interface IFrontendTargetConfiguration : IConfigurationElement
     {
-#pragma warning disable 1591 // Xml Comments
-        public IFrontendTargetConfiguration Target { get; set; }
-
-        public void Initialize(IContainer container)
-        {
-            if (Target != null)
-                Target.Initialize(container);
-
-        }
-#pragma warning restore 1591 // Xml Comments
     }
 }

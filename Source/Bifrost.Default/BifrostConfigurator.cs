@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using Bifrost.Configuration;
 
-namespace Bifrost.QuickStart
+namespace Bifrost
 {
     public class BifrostConfigurator : ICanConfigure
     {

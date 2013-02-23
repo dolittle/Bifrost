@@ -103,6 +103,7 @@
     <Compile Include="Configuration\IConfigurationElement.cs" />
     <Compile Include="Configuration\IDefaultStorageConfiguration.cs" />
     <Compile Include="Configuration\IFrontendConfiguration.cs" />
+    <Compile Include="Configuration\IFrontendTargetConfiguration.cs" />
     <Compile Include="Configuration\IHaveStorage.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />

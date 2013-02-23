@@ -13,5 +13,7 @@ nuget pack Bifrost.RavenDB.Embedded\Bifrost.RavenDB.Embedded.nuspec -Symbols -ve
 nuget pack Bifrost.MongoDB\Bifrost.MongoDB.nuspec -Symbols -version %version%
 nuget pack Bifrost.NHibernate\Bifrost.NHibernate.nuspec -Symbols -version %version%
 nuget pack Bifrost.Mimir.Web\Bifrost.Mimir.nuspec -Symbols -Properties version=%version%
+nuget pack Bifrost.Default\Bifrost.Default.nuspec -version %version%
+nuget pack Bifrost.QuickStart\Bifrost.QuickStart.nuspec -version %version%
 
 for %%f in (*.nupkg) do nuget push %%f

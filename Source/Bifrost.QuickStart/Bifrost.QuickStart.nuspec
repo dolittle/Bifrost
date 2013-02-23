@@ -25,6 +25,35 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="Concepts\Persons\SocialSecurityNumber.cs" target="Content\Concepts\Persons\SocialSecurityNumber.cs"/>
+    <file src="css\bootstrap.css" target="Content\css\bootstrap.css"/>
+    <file src="css\bootstrap.min.css" target="Content\css\bootstrap.min.css"/>
+    <file src="css\dolittle.css" target="Content\css\dolittle.css"/>
+    <file src="Domain\HumanResources\Employees\CommandHandlers.cs" target="Content\Domain\HumanResources\Employees\CommandHandlers.cs"/>
+    <file src="Domain\HumanResources\Employees\Employee.cs" target="Content\Domain\HumanResources\Employees\Employee.cs"/>
+    <file src="Domain\HumanResources\Employees\RegisterEmployee.cs" target="Content\Domain\HumanResources\Employees\RegisterEmployee.cs"/>
+    <file src="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" target="Content\Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs"/>
+    <file src="Events\HumanResources\Employees\EmployeeRegistered.cs" target="Content\Events\HumanResources\Employees\EmployeeRegistered.cs"/>
+    <file src="Features\Employees\index.html" target="Content\Features\Employees\index.html"/>
+    <file src="Features\Employees\index.js" target="Content\Features\Employees\index.js"/>
+    <file src="Features\Employees\list.html" target="Content\Features\Employees\list.html"/>
+    <file src="Features\Employees\list.js" target="Content\Features\Employees\list.js"/>
+    <file src="Features\Employees\register.html" target="Content\Features\Employees\register.html"/>
+    <file src="Features\Employees\register.js" target="Content\Features\Employees\register.js"/>
+    <file src="font\SegoeUI.ttf" target="Content\font\SegoeUI.ttf"/>
+    <file src="img\balder-icon.png" target="Content\img\balder-icon.png"/>
+    <file src="img\bifrost-icon.png" target="Content\img\bifrost-icon.png"/>
+    <file src="img\bifrost.png" target="Content\img\bifrost.png"/>
+    <file src="img\chirp-icon.png" target="Content\img\chirp-icon.png"/>
+    <file src="img\entypo.png" target="Content\img\entypo.png"/>
+    <file src="img\forseti-icon.png" target="Content\img\forseti-icon.png"/>
+    <file src="img\glyphicons-halflings-white.png" target="Content\img\glyphicons-halflings-white.png"/>
+    <file src="img\glyphicons-halflings.png" target="Content\img\glyphicons-halflings.png"/>
+    <file src="img\pattern_40.gif" target="Content\img\pattern_40.gif"/>
+    <file src="img\yggdrasil-icon.png" target="Content\img\yggdrasil-icon.png"/>
+    <file src="Read\HumanResources\Employees\AllEmployees.cs" target="Content\Read\HumanResources\Employees\AllEmployees.cs"/>
+    <file src="Read\HumanResources\Employees\Employee.cs" target="Content\Read\HumanResources\Employees\Employee.cs"/>
+    <file src="Read\HumanResources\Employees\EventSubscribers.cs" target="Content\Read\HumanResources\Employees\EventSubscribers.cs"/>
     <file src="index.html" target="Content\index.html"/>
     <file src="web.config" target="Content\web.config"/>
     <file src="BifrostConfigurator.cs" target="Content\BifrostConfigurator.cs"/>

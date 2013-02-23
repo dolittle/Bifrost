@@ -16,10 +16,22 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Configuration;
+using Bifrost.Execution;
 
 namespace Bifrost.Web.Configuration
 {
-    public class WebConfiguration
+    public class WebConfiguration : IFrontendTargetConfiguration
     {
+        public WebConfiguration()
+        {
+            ScriptsToInclude = new ScriptsToInclude();
+        }
+
+        public ScriptsToInclude ScriptsToInclude { get; set; }
+
+        public void Initialize(IContainer container)
+        {
+        }
     }
 }

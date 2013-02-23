@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 namespace Bifrost.Configuration
 {
     /// <summary>
@@ -23,5 +24,9 @@ namespace Bifrost.Configuration
     /// </summary>
     public interface IFrontendConfiguration : IConfigurationElement
     {
+        /// <summary>
+        /// Gets or sets the <see cref="IFrontendTargetConfiguration"/> to use for configuring the frontend
+        /// </summary>
+        IFrontendTargetConfiguration Target { get; set; }
     }
 }

@@ -16,24 +16,25 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Execution;
-namespace Bifrost.Configuration
+
+namespace Bifrost.Web.Configuration
 {
-    /// <summary>
-    /// Represents an implementation of a <see cref="IFrontendConfiguration"/>
-    /// </summary>
-    public class FrontendConfiguration : IFrontendConfiguration
+    public class ScriptsToInclude
     {
-#pragma warning disable 1591 // Xml Comments
-        public IFrontendTargetConfiguration Target { get; set; }
+        public bool JQuery { get; set; }
+        public bool Knockout { get; set; }
+        public bool KnockoutMapping { get; set; }
+        public bool JQueryHistory { get; set; }
+        public bool Require { get; set; }
 
-        public void Initialize(IContainer container)
+
+        public ScriptsToInclude()
         {
-            if (Target != null)
-                Target.Initialize(container);
-
+            JQuery = true;
+            JQueryHistory = true;
+            Knockout = true;
+            KnockoutMapping = true;
+            Require = true;
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }
