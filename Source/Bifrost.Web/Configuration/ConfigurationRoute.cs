@@ -22,7 +22,7 @@ namespace Bifrost.Web.Configuration
 {
     public class ConfigurationRoute : Route
     {
-        const string ConfigurationUrl = "Bifrost/Configuration";
+        const string ConfigurationUrl = "Bifrost/Application";
 
         public ConfigurationRoute()
             : base(ConfigurationUrl, new ConfigurationRouteHandler())
