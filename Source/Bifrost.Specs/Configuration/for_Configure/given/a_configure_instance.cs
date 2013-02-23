@@ -19,6 +19,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 		protected static Mock<ISerializationConfiguration> serialization_configuration_mock;
         protected static Mock<IViewsConfiguration> views_configuration_mock;
         protected static Mock<IDefaultStorageConfiguration> default_storage_configuration_mock;
+        protected static Mock<IFrontendConfiguration> frontend_configuration_mock;
         protected static Mock<ITypeImporter> type_importer_mock;
 
         Establish context = () =>
@@ -48,6 +49,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
                                     default_storage_configuration_mock = new Mock<IDefaultStorageConfiguration>();
                                     container_mock.Setup(c => c.Get<IDefaultStorageConfiguration>()).Returns(default_storage_configuration_mock.Object);
+
+                                    frontend_configuration_mock = new Mock<IFrontendConfiguration>();
+                                    container_mock.Setup(c => c.Get<IFrontendConfiguration>()).Returns(frontend_configuration_mock.Object);
 
                                     type_importer_mock = new Mock<ITypeImporter>();
                                     container_mock.Setup(c => c.Get<ITypeImporter>()).Returns(type_importer_mock.Object);
