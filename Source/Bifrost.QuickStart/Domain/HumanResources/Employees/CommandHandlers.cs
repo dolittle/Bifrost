@@ -6,9 +6,9 @@ namespace Bifrost.QuickStart.Domain.HumanResources.Employees
 {
     public class CommandHandlers : IHandleCommands
     {
-        IAggregatedRootRepository<Employee> _repository;
+        IAggregateRootRepository<Employee> _repository;
 
-        public CommandHandlers(IAggregatedRootRepository<Employee> repository)
+        public CommandHandlers(IAggregateRootRepository<Employee> repository)
         {
             _repository = repository;
         }

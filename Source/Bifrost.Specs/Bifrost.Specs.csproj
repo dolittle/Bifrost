@@ -129,9 +129,9 @@
     <Compile Include="Configuration\for_Configure\when_initializing.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateless_aggregated_root.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_no_events.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateless_aggregated_root_that_has_events.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateless_aggregate_root.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_no_events.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_that_has_events.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
@@ -434,10 +434,9 @@
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_a_business_validator.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_no_business_validator.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\given\a_repository_for_a_stateful_aggregated_root.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\Stubs.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\Subjects.cs" />
-    <Compile Include="Domain\for_AggregatedRootRepository\when_getting_a_stateful_aggregated_root_that_has_events.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateful_aggregate_root.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\Stubs.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_events.cs" />
     <Compile Include="Events\for_EventMigrationHierarchyManager\given\an_event_migration_hierarchy_manager_with_two_logical_events.cs" />
     <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_concrete_type_for_an_unregistered_event.cs" />
     <Compile Include="Events\for_EventMigrationHierarchyManager\when_getting_the_concrete_type_for_a_registered_event_with_an_invalid_level.cs" />

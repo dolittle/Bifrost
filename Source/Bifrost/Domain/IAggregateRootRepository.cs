@@ -21,30 +21,31 @@ using System;
 namespace Bifrost.Domain
 {
     /// <summary>
-    /// Defines the basic functionality for creating aggregated roots
+    /// Defines the basic functionality for finding and getting aggregated roots
     /// </summary>
-    public interface IAggregatedRootFactory
+    public interface IAggregateRootRepository
     {
         /// <summary>
-        /// Create an instance of the aggregated root
+        /// Get an aggregated root by id
         /// </summary>
-        /// <param name="id">The id that represents the aggregated root</param>
         /// <returns>An instance of the aggregated root</returns>
-        object Create(Guid id);
+        /// <exception cref="MissingAggregateRootException">Thrown if aggregated root does not exist</exception>
+        object Get(Guid id);
     }
 
-    /// <summary>
-	/// Defines the basic functionality for creating aggregated roots
+	/// <summary>
+	/// Defines the basic functionality for finding and getting aggregated roots
 	/// </summary>
-	/// <typeparam name="T">Type of aggregated roots</typeparam>
-	public interface IAggregatedRootFactory<T> : IAggregatedRootFactory
-		where T : AggregatedRoot
+	/// <typeparam name="T">Type of aggregated root</typeparam>
+	public interface IAggregateRootRepository<T> : IAggregateRootRepository
+		where T : AggregateRoot
 	{
 		/// <summary>
-		/// Create an instance of the aggregated root
+		/// Get an aggregated root by id
 		/// </summary>
-		/// <param name="id">The id that represents the aggregated root</param>
+		/// <param name="id">Id of aggregated root to get</param>
 		/// <returns>An instance of the aggregated root</returns>
-		new T Create(Guid id);
+		/// <exception cref="MissingAggregateRootException">Thrown if aggregated root does not exist</exception>
+		new T Get(Guid id);
 	}
 }

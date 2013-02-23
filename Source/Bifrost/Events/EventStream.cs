@@ -37,7 +37,7 @@ namespace Bifrost.Events
 		/// <summary>
 		/// Initializes a new <see cref="EventStream">EventStream</see>
 		/// </summary>
-		/// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregatedRoot">AggregatedRoot</see></param>
+		/// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
         public EventStream(Guid eventSourceId)
         {
             EventSourceId = eventSourceId;

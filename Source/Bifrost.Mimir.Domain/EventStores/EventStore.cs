@@ -22,7 +22,7 @@ using Bifrost.Mimir.Events.EventStores;
 
 namespace Bifrost.Mimir.Domain.EventStores
 {
-    public class EventStore : AggregatedRoot
+    public class EventStore : AggregateRoot
     {
         public static readonly Guid SystemEventStoreId = new Guid("5E3FD0AD-FF67-43A6-933D-E5B9B68AF5C3");
 

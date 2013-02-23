@@ -16,15 +16,21 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Events;
-using Bifrost.Lifecycle;
 
 namespace Bifrost.Domain
 {
 	/// <summary>
-	/// Defines the very basic functionality needed for an aggregated root
+	/// Represents the base class used for aggregated roots in your domain
 	/// </summary>
-	public interface IAggregatedRoot : IEventSource, IUnitOfWork
+	public class AggregateRoot : EventSource, IAggregateRoot
 	{
+		/// <summary>
+		/// Initializes a new instance of an <see cref="AggregateRoot">AggregatedRoot</see>
+		/// </summary>
+		/// <param name="id">Id of the AggregatedRoot</param>
+	    protected AggregateRoot(Guid id) : base(id)
+	    {}
 	}
 }

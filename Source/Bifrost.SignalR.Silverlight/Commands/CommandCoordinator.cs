@@ -99,15 +99,5 @@ namespace Bifrost.SignalR.Silverlight.Commands
                 parameters[property.Name] = value;
             }
         }
-
-        public CommandResult Handle<T>(ISaga saga, Guid aggregatedRootId, Expression<System.Action<T>> method) where T : AggregatedRoot
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public CommandResult Handle<T>(Guid aggregatedRootId, Expression<Action<T>> method) where T : AggregatedRoot
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

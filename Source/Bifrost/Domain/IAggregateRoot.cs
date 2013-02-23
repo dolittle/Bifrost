@@ -16,15 +16,15 @@
 // limitations under the License.
 //
 #endregion
-using System;
+using Bifrost.Events;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Domain
 {
 	/// <summary>
-	/// The exception that is thrown when an AggregatedRoot is missing
+	/// Defines the very basic functionality needed for an aggregated root
 	/// </summary>
-	public class MissingAggregatedRootException : ArgumentException
+	public interface IAggregateRoot : IEventSource, IUnitOfWork
 	{
-		
 	}
 }

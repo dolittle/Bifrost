@@ -87,17 +87,6 @@ namespace Bifrost.Commands
                 };
             return commandResult;
         }
-
-
-        public CommandResult Handle<T>(Sagas.ISaga saga, Guid aggregatedRootId, System.Linq.Expressions.Expression<Action<T>> method) where T : Domain.AggregatedRoot
-        {
-            throw new NotImplementedException();
-        }
-
-        public CommandResult Handle<T>(Guid aggregatedRootId, System.Linq.Expressions.Expression<Action<T>> method) where T : Domain.AggregatedRoot
-        {
-            throw new NotImplementedException();
-        }
     }
 #pragma warning restore 1591 // Xml Comments
 }

@@ -17,20 +17,14 @@
 //
 #endregion
 using System;
-using Bifrost.Events;
 
 namespace Bifrost.Domain
 {
 	/// <summary>
-	/// Represents the base class used for aggregated roots in your domain
+	/// The exception that is thrown when an AggregatedRoot is missing
 	/// </summary>
-	public class AggregatedRoot : EventSource, IAggregatedRoot
+	public class MissingAggregateRootException : ArgumentException
 	{
-		/// <summary>
-		/// Initializes a new instance of an <see cref="AggregatedRoot">AggregatedRoot</see>
-		/// </summary>
-		/// <param name="id">Id of the AggregatedRoot</param>
-	    protected AggregatedRoot(Guid id) : base(id)
-	    {}
+		
 	}
 }

@@ -3,7 +3,7 @@ using Bifrost.Domain;
 
 namespace Bifrost.Testing.Fakes.Domain
 {
-    public class StatelessAggregatedRootWithOneMethod : AggregatedRoot
+    public class StatelessAggregatedRootWithOneMethod : AggregateRoot
     {
         public StatelessAggregatedRootWithOneMethod(Guid id) : base(id)
         {

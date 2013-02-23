@@ -24,9 +24,9 @@ namespace Bifrost.Mimir.Domain.EventStores
 {
     public class CommandHandlers : IHandleCommands
     {
-        IAggregatedRootRepository<EventStore> _repository;
+        IAggregateRootRepository<EventStore> _repository;
 
-        public CommandHandlers(IAggregatedRootRepository<EventStore> repository)
+        public CommandHandlers(IAggregateRootRepository<EventStore> repository)
         {
             _repository = repository;
         }

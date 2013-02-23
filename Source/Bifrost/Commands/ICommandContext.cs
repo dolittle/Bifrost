@@ -45,13 +45,13 @@ namespace Bifrost.Commands
 		/// Register an aggregated root for tracking
 		/// </summary>
 		/// <param name="aggregatedRoot">Aggregated root to track</param>
-		void RegisterForTracking(IAggregatedRoot aggregatedRoot);
+		void RegisterForTracking(IAggregateRoot aggregatedRoot);
 
 		/// <summary>
 		/// Get objects that are being tracked
 		/// </summary>
 		/// <returns>All tracked objects</returns>
-		IEnumerable<IAggregatedRoot> GetObjectsBeingTracked();
+		IEnumerable<IAggregateRoot> GetObjectsBeingTracked();
 
         /// <summary>
         /// Get commmitted events for a specific <see cref="EventSource"/>

@@ -29,7 +29,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a new instance of <see cref="UncommittedEventStream">UncommittedEventStream</see>
         /// </summary>
-        /// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregatedRoot">AggregatedRoot</see></param>
+        /// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
         public UncommittedEventStream(Guid eventSourceId)
             : base(eventSourceId)
         {

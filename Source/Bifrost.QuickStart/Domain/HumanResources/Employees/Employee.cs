@@ -5,7 +5,7 @@ using Bifrost.QuickStart.Events.HumanResources.Employees;
 
 namespace Bifrost.QuickStart.Domain.HumanResources.Employees
 {
-    public class Employee : AggregatedRoot
+    public class Employee : AggregateRoot
     {
         public Employee(Guid eventSourceId)
             : base(eventSourceId)

@@ -37,7 +37,7 @@ namespace Bifrost.Sagas
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
         IProcessMethodInvoker _processMethodInvoker;
         ISagaLibrarian _sagaLibrarian;
-        List<IAggregatedRoot> _objectsTracked = new List<IAggregatedRoot>();
+        List<IAggregateRoot> _objectsTracked = new List<IAggregateRoot>();
 
 
         /// <summary>
@@ -72,12 +72,12 @@ namespace Bifrost.Sagas
         public ICommand Command { get; private set; }
         public IExecutionContext ExecutionContext { get; private set; }
 
-        public void RegisterForTracking(IAggregatedRoot aggregatedRoot)
+        public void RegisterForTracking(IAggregateRoot aggregatedRoot)
         {
             _objectsTracked.Add(aggregatedRoot);
         }
 
-        public IEnumerable<IAggregatedRoot> GetObjectsBeingTracked()
+        public IEnumerable<IAggregateRoot> GetObjectsBeingTracked()
         {
             return _objectsTracked;
         }

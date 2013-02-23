@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
+namespace Bifrost.Specs.Domain.for_AggregateRootRepository
 {
-    [Subject(Subjects.getting_aggregated_root)]
-    public class when_getting_a_stateful_aggregated_root_that_has_events : given.a_repository_for_a_stateful_aggregated_root
+    [Subject(typeof(AggregateRootRepository<>))]
+    public class when_getting_a_stateful_aggregate_root_that_has_events : given.a_repository_for_a_stateful_aggregate_root
     {
         static Guid aggregated_root_id = Guid.NewGuid();
         static long event_id = 42;
-        static SimpleStatefulAggregatedRoot stateful_aggregated_root;
+        static SimpleStatefulAggregateRoot stateful_aggregated_root;
         static CommittedEventStream event_stream;
         static EventSourceVersion expected_version;
         static EventSourceVersion version;

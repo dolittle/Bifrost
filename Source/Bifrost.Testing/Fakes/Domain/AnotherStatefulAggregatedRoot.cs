@@ -4,7 +4,7 @@ using Bifrost.Testing.Fakes.Events;
 
 namespace Bifrost.Testing.Fakes.Domain
 {
-    public class AnotherStatefulAggregatedRoot : AggregatedRoot
+    public class AnotherStatefulAggregatedRoot : AggregateRoot
     {
         public string Value { get; set; }
         public string OneProperty { get; set; }

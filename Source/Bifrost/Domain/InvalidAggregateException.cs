@@ -22,7 +22,7 @@ namespace Bifrost.Domain
 {
 	/// <summary>
 	/// The exception that is thrown when there is something invalid with
-	/// an <see cref="AggregatedRoot">AggregatedRoot</see>
+	/// an <see cref="AggregateRoot">AggregatedRoot</see>
 	/// </summary>
 	public class InvalidAggregateException : ArgumentException
 	{

@@ -284,7 +284,6 @@
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />
     <Compile Include="Commands\UnhandledCommandException.cs" />
-    <Compile Include="Domain\AggregatedRootFactory.cs" />
     <Compile Include="Events\DuplicateInEventMigrationHierarchyException.cs" />
     <Compile Include="Events\EventMigrationHierarchy.cs" />
     <Compile Include="Events\EventMigrationHierarchyDiscoverer.cs" />
@@ -292,7 +291,6 @@
     <Compile Include="Events\EventMigratorManager.cs" />
     <Compile Include="Events\EventOutOfSequenceException.cs" />
     <Compile Include="Events\EventSourceVersion.cs" />
-    <Compile Include="Domain\IAggregatedRootFactory.cs" />
     <Compile Include="Commands\ICommandHandlerInvoker.cs" />
     <Compile Include="Events\EventSubscriber.cs" />
     <Compile Include="Events\IAmNextGenerationOf.cs" />
@@ -321,14 +319,14 @@
     <Compile Include="Commands\ICommandHandlerManager.cs" />
     <Compile Include="Configuration\IEntityContextConfiguration.cs" />
     <Compile Include="Domain\InvalidAggregateException.cs" />
-    <Compile Include="Domain\AggregatedRoot.cs" />
-    <Compile Include="Domain\AggregatedRootRepository.cs" />
-    <Compile Include="Domain\IAggregatedRoot.cs" />
-    <Compile Include="Domain\IAggregatedRootRepository.cs" />
+    <Compile Include="Domain\AggregateRoot.cs" />
+    <Compile Include="Domain\AggregateRootRepository.cs" />
+    <Compile Include="Domain\IAggregateRoot.cs" />
+    <Compile Include="Domain\IAggregateRootRepository.cs" />
     <Compile Include="Domain\IDynamicOriginator.cs" />
     <Compile Include="Domain\IMemento.cs" />
     <Compile Include="Domain\IOriginator.cs" />
-    <Compile Include="Domain\MissingAggregatedRootException.cs" />
+    <Compile Include="Domain\MissingAggregateRootException.cs" />
     <Compile Include="Entities\IEntityContext.cs" />
     <Compile Include="Entities\IEntityContextConnection.cs" />
     <Compile Include="Events\EventStream.cs" />

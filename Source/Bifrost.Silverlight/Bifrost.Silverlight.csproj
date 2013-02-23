@@ -249,23 +249,17 @@
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRoot.cs">
-      <Link>Domain\AggregatedRoot.cs</Link>
+    <Compile Include="..\Bifrost\Domain\AggregateRoot.cs">
+      <Link>Domain\AggregateRoot.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRootFactory.cs">
-      <Link>Domain\AggregatedRootFactory.cs</Link>
+    <Compile Include="..\Bifrost\Domain\AggregateRootRepository.cs">
+      <Link>Domain\AggregateRootRepository.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\AggregatedRootRepository.cs">
-      <Link>Domain\AggregatedRootRepository.cs</Link>
+    <Compile Include="..\Bifrost\Domain\IAggregateRoot.cs">
+      <Link>Domain\IAggregateRoot.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\IAggregatedRoot.cs">
-      <Link>Domain\IAggregatedRoot.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Domain\IAggregatedRootFactory.cs">
-      <Link>Domain\IAggregatedRootFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Domain\IAggregatedRootRepository.cs">
-      <Link>Domain\IAggregatedRootRepository.cs</Link>
+    <Compile Include="..\Bifrost\Domain\IAggregateRootRepository.cs">
+      <Link>Domain\IAggregateRootRepository.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Domain\IDynamicOriginator.cs">
       <Link>Domain\IDynamicOriginator.cs</Link>
@@ -279,8 +273,8 @@
     <Compile Include="..\Bifrost\Domain\IOriginator.cs">
       <Link>Domain\IOriginator.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Domain\MissingAggregatedRootException.cs">
-      <Link>Domain\MissingAggregatedRootException.cs</Link>
+    <Compile Include="..\Bifrost\Domain\MissingAggregateRootException.cs">
+      <Link>Domain\MissingAggregateRootException.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Dynamic\DynamicHelpers.cs">
       <Link>Dynamic\DynamicHelpers.cs</Link>

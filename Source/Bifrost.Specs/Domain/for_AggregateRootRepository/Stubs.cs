@@ -3,13 +3,13 @@ using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Testing.Fakes.Events;
 
-namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
+namespace Bifrost.Specs.Domain.for_AggregateRootRepository
 {
-	public class SimpleStatefulAggregatedRoot : AggregatedRoot
+	public class SimpleStatefulAggregateRoot : AggregateRoot
 	{
 	    public int SimpleEventHandled;
 
-		public SimpleStatefulAggregatedRoot(Guid id) : base(id)
+		public SimpleStatefulAggregateRoot(Guid id) : base(id)
 		{
 		}
 
@@ -29,9 +29,9 @@ namespace Bifrost.Specs.Domain.for_AggregatedRootRepository
 		}
 	}
 
-    public class SimpleStatelessAggregatedRoot : AggregatedRoot
+    public class SimpleStatelessAggregateRoot : AggregateRoot
     {
-        public SimpleStatelessAggregatedRoot(Guid id)
+        public SimpleStatelessAggregateRoot(Guid id)
             : base(id)
         {
         }

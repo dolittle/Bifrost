@@ -25,19 +25,19 @@ using Bifrost.Events;
 namespace Bifrost.Domain
 {
 	/// <summary>
-	/// Defines a concrete implementation of <see cref="IAggregatedRootRepository{T}">IAggregatedRootRepository</see>
+	/// Defines a concrete implementation of <see cref="IAggregateRootRepository{T}">IAggregatedRootRepository</see>
 	/// </summary>
 	/// <typeparam name="T">Type the repository is for</typeparam>
-	public class AggregatedRootRepository<T> : IAggregatedRootRepository<T>
-		where T : AggregatedRoot
+	public class AggregateRootRepository<T> : IAggregateRootRepository<T>
+		where T : AggregateRoot
 	{
 		readonly ICommandContextManager _commandContextManager;
 
 		/// <summary>
-		/// Initializes a new instance of <see cref="AggregatedRootRepository{T}">AggregatedRootRepository</see>
+		/// Initializes a new instance of <see cref="AggregateRootRepository{T}">AggregatedRootRepository</see>
 		/// </summary>
 		/// <param name="commandContextManager"> <see cref="ICommandContextManager"/> to use for tracking </param>
-		public AggregatedRootRepository(ICommandContextManager commandContextManager)
+		public AggregateRootRepository(ICommandContextManager commandContextManager)
 		{
 			_commandContextManager = commandContextManager;
 		}
@@ -67,7 +67,7 @@ namespace Bifrost.Domain
 			return aggregatedRoot;
 		}
 
-        object IAggregatedRootRepository.Get(Guid id)
+        object IAggregateRootRepository.Get(Guid id)
         {
             return Get(id);
         }

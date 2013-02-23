@@ -173,7 +173,7 @@ namespace Bifrost.Testing
             GeneratedEvents = ues;
         }
 
-        public TE RegisterAggregateRoot<TE>(TE entityToTrack) where TE : AggregatedRoot
+        public TE RegisterAggregateRoot<TE>(TE entityToTrack) where TE : AggregateRoot
         {
             command_context_manager.GetCurrent().RegisterForTracking(entityToTrack);
             return entityToTrack;
