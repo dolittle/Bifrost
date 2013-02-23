@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost.QuickStart</id>
-    <version>1.0.0-rc2</version>
+    <version>$version$</version>
     <title>Bifrost QuickStart Sample Project</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
@@ -55,7 +55,7 @@
     <file src="Read\HumanResources\Employees\Employee.cs" target="Content\Read\HumanResources\Employees\Employee.cs"/>
     <file src="Read\HumanResources\Employees\EventSubscribers.cs" target="Content\Read\HumanResources\Employees\EventSubscribers.cs"/>
     <file src="index.html" target="Content\index.html"/>
-    <file src="web.config" target="Content\web.config"/>
+    <file src="web.config.transform" target="Content\web.config.transform"/>
     <file src="BifrostConfigurator.cs" target="Content\BifrostConfigurator.cs"/>
     <file src="ContainerCreator.cs" target="Content\ContainerCreator.cs"/>
   </files>

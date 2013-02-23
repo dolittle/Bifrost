@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Bifrost.Mimir</id>
-    <version>1.0.0-rc2</version>
+    <version>$version$</version>
     <title>Bifrost administration tool - Mimir</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
@@ -15,17 +15,14 @@
     <copyright>Copyright 2008 - 2013</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0-rc2"/>
-      <dependency id="Microsoft.AspNet.SignalR.JS" version="1.0.0-rc2"/>
-      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0-rc2"/>
-      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0-rc2"/>
-      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0-rc2"/>
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0"/>
+      <dependency id="Microsoft.AspNet.SignalR.JS" version="1.0.0"/>
+      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0"/>
+      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0"/>
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0"/>
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0"/>
       <dependency id="Newtonsoft.Json" version="4.5.11"/>
       <dependency id="Owin" version="1.0"/>
-      <dependency id="SignalR.Hosting.AspNet" version="0.5.3"/>
-      <dependency id="SignalR.Hosting.Common" version="0.5.3"/>
-      <dependency id="SignalR.Server" version="0.5.3"/>
       <dependency id="Bifrost" version="$version$"/>
       <dependency id="Bifrost.JS" version="$version$"/>
     </dependencies>

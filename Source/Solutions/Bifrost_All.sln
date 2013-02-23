@@ -97,6 +97,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.WinRT", "..\Bifrost
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCCAEC2C-A560-4850-A317-B7E1EF25E15D}"
 	ProjectSection(SolutionItems) = preProject
+		..\Common\CommonAssemblyInfo.cs = ..\Common\CommonAssemblyInfo.cs
 		..\PushToNuget.bat = ..\PushToNuget.bat
 	EndProjectSection
 EndProject

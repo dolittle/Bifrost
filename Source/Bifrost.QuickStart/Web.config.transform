@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <system.webServer>
+    <!-- Bifrost needs to be able to process all requests due to Mimir -->
+    <modules runAllManagedModulesForAllRequests="true"></modules>
+  </system.webServer>
+</configuration>
