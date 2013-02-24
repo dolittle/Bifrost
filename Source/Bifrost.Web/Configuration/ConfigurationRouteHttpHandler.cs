@@ -19,7 +19,9 @@
 using System.Text;
 using System.Web;
 using Bifrost.Configuration;
+using Bifrost.Web.Assets;
 using Bifrost.Web.Proxies;
+using Newtonsoft.Json;
 
 namespace Bifrost.Web.Configuration
 {
@@ -30,14 +32,16 @@ namespace Bifrost.Web.Configuration
         public ConfigurationRouteHttpHandler() : 
             this(
                 Configure.Instance.Container.Get<GeneratedProxies>(),
-                Configure.Instance.Container.Get<WebConfiguration>()
+                Configure.Instance.Container.Get<WebConfiguration>(),
+                Configure.Instance.Container.Get<IAssetsManager>()
             )
         {
         }
 
         public ConfigurationRouteHttpHandler(
                 GeneratedProxies proxies,
-                WebConfiguration configuration)
+                WebConfiguration configuration,
+                IAssetsManager assetsManager)
         {
             var builder = new StringBuilder();
 
@@ -62,9 +66,12 @@ namespace Bifrost.Web.Configuration
             }
 
             builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
-            builder.Append(GetResource("Bifrost.Web.Scripts.defaultConfiguration.js"));
             builder.Append(proxies.All);
+            builder.Append(GetResource("Bifrost.Web.Scripts.defaultConfiguration.js"));
 
+            var files = assetsManager.GetFilesForExtension("js");
+            var serialized = JsonConvert.SerializeObject(files);
+            builder.AppendFormat("Bifrost.assetsManager.initializeFromAssets({0});", serialized);
             _configurationAsString = builder.ToString();
         }
 

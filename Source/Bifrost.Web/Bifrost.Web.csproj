@@ -57,10 +57,12 @@
     <Compile Include="Applications\ApplicationRoute.cs" />
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
-    <Compile Include="Applications\AssetManagerRoute.cs" />
-    <Compile Include="Applications\AssetManagerRouteHandler.cs" />
-    <Compile Include="Applications\AssetManagerRouteHttpHandler.cs" />
+    <Compile Include="Assets\AssetManagerRoute.cs" />
+    <Compile Include="Assets\AssetManagerRouteHandler.cs" />
+    <Compile Include="Assets\AssetManagerRouteHttpHandler.cs" />
     <Compile Include="Applications\RouteExtensions.cs" />
+    <Compile Include="Assets\AssetsManager.cs" />
+    <Compile Include="Assets\IAssetsManager.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
     <Compile Include="Configuration\ConfigurationActivator.cs" />
     <Compile Include="Configuration\ConfigurationRoute.cs" />

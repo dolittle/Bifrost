@@ -25,6 +25,7 @@ using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
 using Bifrost.Web.Validation;
 using Bifrost.Web.Configuration;
+using Bifrost.Web.Assets;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.RouteActivator), "Start")]
 namespace Bifrost.Web

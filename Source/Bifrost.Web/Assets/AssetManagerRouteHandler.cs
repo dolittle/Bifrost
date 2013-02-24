@@ -17,20 +17,27 @@
 //
 #endregion
 using System.Reflection;
+using System.Web;
 using System.Web.Routing;
 
-namespace Bifrost.Web.Applications
+namespace Bifrost.Web.Assets
 {
-    public class AssetManagerRoute : Route
+    public class AssetManagerRouteHandler : IRouteHandler
     {
-        public AssetManagerRoute(string url) 
-            : base(url, new AssetManagerRouteHandler(url))
+        string _url;
+        IHttpHandler _httpHandler;
+
+        public AssetManagerRouteHandler(string url)
         {
+            _url = url;
         }
 
-        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            return null;
+            if (_httpHandler == null)
+                _httpHandler = new AssetManagerRouteHttpHandler(_url);
+
+            return _httpHandler;
         }
     }
 }

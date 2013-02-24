@@ -16,46 +16,47 @@
 // limitations under the License.
 //
 #endregion
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
-using System.Text;
+using System.Linq;
+using System.Web;
+using Bifrost.Execution;
 
-namespace Bifrost.Web.Applications
+namespace Bifrost.Web.Assets
 {
-    public class AssetManagerRouteHttpHandler : IHttpHandler
+    [Singleton]
+    public class AssetsManager : IAssetsManager
     {
-        string _url;
-        bool _initialized = false;
         Dictionary<string, List<string>> _assetsByExtension = new Dictionary<string, List<string>>();
 
-        public AssetManagerRouteHttpHandler(string url)
+        public AssetsManager()
         {
-            _url = url;
+            Initialize();
+
         }
 
-        public bool IsReusable { get { return true; } }
-
-        public void ProcessRequest(HttpContext context)
+        public IEnumerable<string> GetFilesForExtension(string extension)
         {
-            InitializeIfNotInitialized(context);
-            var assets = new List<string>();
-            var extension = context.Request.Params["extension"];
-            if( extension != null ) 
-            {
-                extension = "." + extension;
-                if (_assetsByExtension.ContainsKey(extension))
-                    assets = _assetsByExtension[extension];
-            }
+            extension = MakeSureExtensionIsPrefixedWithADot(extension);
+            if (!_assetsByExtension.ContainsKey(extension)) return new string[0];
+            var assets = _assetsByExtension[extension];
+            return assets;
+        }
 
-            if (context.Request.Params["structure"] != null)
-                assets = assets.Select(a => FormatPath(Path.GetDirectoryName(a))).Distinct().ToList();
+        public IEnumerable<string> GetStructureForExtension(string extension)
+        {
+            extension = MakeSureExtensionIsPrefixedWithADot(extension);
+            if (!_assetsByExtension.ContainsKey(extension)) return new string[0];
+            var assets = _assetsByExtension[extension];
+            return assets.Select(a => FormatPath(Path.GetDirectoryName(a))).Distinct().ToArray();
+        }
 
-            var serialized = JsonConvert.SerializeObject(assets);
-            context.Response.Write(serialized);
+        string MakeSureExtensionIsPrefixedWithADot(string extension)
+        {
+            if (!extension.StartsWith("."))
+                return "." + extension;
+
+            return extension;
         }
 
         string FormatPath(string input)
@@ -63,14 +64,10 @@ namespace Bifrost.Web.Applications
             return input.Replace("\\", "/");
         }
 
-        void InitializeIfNotInitialized(HttpContext context)
+
+        void Initialize()
         {
-            if (_initialized)
-                return;
-
-            _initialized = true;
-
-            var root = context.Server.MapPath("/");
+            var root = HttpContext.Current.Server.MapPath("/");
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
@@ -88,6 +85,7 @@ namespace Bifrost.Web.Applications
 
                 assets.Add(relativePath);
             }
+
         }
     }
 }
