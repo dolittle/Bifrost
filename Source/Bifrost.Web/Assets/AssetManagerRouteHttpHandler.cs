@@ -32,22 +32,16 @@ namespace Bifrost.Web.Assets
         string _url;
         IAssetsManager _assetsManager;
 
-        public AssetManagerRouteHttpHandler() :
-            this(Configure.Instance.Container.Get<IAssetsManager>()) 
+        public AssetManagerRouteHttpHandler(string url) :
+            this(url, Configure.Instance.Container.Get<IAssetsManager>()) 
         { 
         }
         
 
-
-        public AssetManagerRouteHttpHandler(IAssetsManager assetsManager)
-        {
-            _assetsManager = assetsManager;
-        }
-
-
-        public AssetManagerRouteHttpHandler(string url)
+        public AssetManagerRouteHttpHandler(string url, IAssetsManager assetsManager)
         {
             _url = url;
+            _assetsManager = assetsManager;
         }
 
         public bool IsReusable { get { return true; } }
