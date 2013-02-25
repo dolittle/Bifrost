@@ -157,9 +157,8 @@
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <EmbeddedResource Include="Scripts\jquery.signalR-1.0.0-rc2.js" />
-    <Content Include="Scripts\jquery.signalR-1.0.0.js" />
-    <Content Include="Scripts\jquery.signalR-1.0.0.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-1.0.0.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-1.0.0.min.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />

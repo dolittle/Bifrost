@@ -18,7 +18,7 @@ require.config({
 
     paths: {
         "jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min",
-        "signalr": "jquery.signalR-1.0.0-rc2.min",
+        "signalr": "jquery.signalR-1.0.0.min",
         "signalrHubs": "/signalr/hubs",
         "knockout": "knockout-2.0.0", //"http://cdn.dolittle.com/knockout/knockout-2.0.0",
         "knockout.mapping": "knockout.mapping-2.0.0",
