@@ -1,6 +1,6 @@
 del *.nupkg /f /q
 
-set version=1.0.0.5
+set version=1.0.0.6
 
 nuget pack Bifrost\Bifrost.nuspec -Symbols -version %version%
 nuget pack Bifrost.JSON\Bifrost.JSON.nuspec -Symbols -version %version%
