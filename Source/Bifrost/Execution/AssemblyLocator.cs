@@ -97,9 +97,16 @@ namespace Bifrost.Execution
             var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             foreach (var file in files)
             {
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName()))) // AssemblyName.ReferenceMatchesDefinition(assemblyName, assembly.GetName())))
-                    currentAssemblies.Add(Assembly.Load(assemblyName));
+                try
+                {
+                    var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                    if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
+                        currentAssemblies.Add(Assembly.Load(assemblyName));
+                }
+                catch (BadImageFormatException)
+                {
+                    //Just indicates this is not a .NET assembly
+                }
             }
             _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
 #endif
