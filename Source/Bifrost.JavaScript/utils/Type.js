@@ -110,7 +110,7 @@ Bifrost.namespace("Bifrost", {
         $.each(dependencyInstances, function(index, dependencyInstance) {
             if( dependencyInstance == null || typeof dependencyInstance == "undefined" ) {
                 var dependency = typeDefinition._dependencies[index];
-                dependencyInstances[index] = Bifrost.dependencyResolver.resolve(typeDefinition._namespace, dependency);
+                dependencyInstances[index] = Bifrost.dependencyResolver.beginResolve(typeDefinition._namespace, dependency);
             }
         });
     };
