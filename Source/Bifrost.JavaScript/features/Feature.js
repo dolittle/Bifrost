@@ -50,8 +50,14 @@ Bifrost.features.Feature = (function () {
             $(target).append(self.view);
 
 			if( self.viewModelDefinition ) {
-            	var viewModel = self.viewModelDefinition.getInstance();
-            	ko.applyBindings(viewModel, target);
+			    var viewModel = self.viewModelDefinition.getInstance();
+			    if (viewModel instanceof Bifrost.execution.Promise) {
+			        viewModel.continueWith(function (instance) {
+			            ko.applyBindings(instance, target);
+			        });
+			    } else {
+			        ko.applyBindings(viewModel, target);
+			    }
 			}
 
             Bifrost.features.featureManager.hookup(function (a) { return $(a, $(target)); });
