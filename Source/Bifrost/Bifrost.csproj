@@ -79,6 +79,7 @@
     <Compile Include="CodeGeneration\JavaScript\TypeExtensionExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\VariantAssignment.cs" />
     <Compile Include="CodeGeneration\LanguageElement.cs" />
+    <Compile Include="Commands\CommandStatistics.cs" />
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
@@ -142,6 +143,10 @@
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
+    <Compile Include="Commands\ICommandStatistics.cs" />
+    <Compile Include="Statistics\Statistic.cs" />
+    <Compile Include="Statistics\IStatistic.cs" />
+    <Compile Include="Statistics\IStatisticsStore.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\IQueryFor.cs" />
