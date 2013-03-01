@@ -19,7 +19,16 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Category.ToLower() == "handled")), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
+                        new KeyValuePair<string, string>("CommandStatistics","Handled")))), Moq.Times.Once());
+        };
+
+        It should_be_effected_by_a_registered_plugin = () =>
+        {
+            statistics_store
+                .Verify(store =>
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
+                        new KeyValuePair<string,string>("DummyStatisticsPluginContext", "ImADummy")))), Moq.Times.Once());
         };
     }
 }

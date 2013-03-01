@@ -11,8 +11,15 @@ namespace Bifrost.Statistics
     public interface IStatistic
     {
         /// <summary>
-        /// The category for this statistic
+        /// The categories for this statistic
         /// </summary>
-        string Category { get; }
+        ICollection<KeyValuePair<string, string>> Categories { get; }
+
+        /// <summary>
+        /// Record a category against this statistic
+        /// </summary>
+        /// <param name="category">The category</param>
+        /// <param name="context">The context of this category</param>
+        void Record(string context, string category);
     }
 }

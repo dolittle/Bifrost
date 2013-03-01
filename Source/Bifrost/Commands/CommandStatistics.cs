@@ -4,6 +4,7 @@ using Bifrost.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Bifrost
@@ -33,7 +34,6 @@ namespace Bifrost
 
             _statisticsStore = statisticsStore;
             _typeDiscoverer = typeDiscoverer;
-
             _statisticsPlugins = _typeDiscoverer.FindMultiple<ICommandStatistics>();
         }
 
@@ -46,8 +46,23 @@ namespace Bifrost
             if (command == null)
                 throw new ArgumentNullException("command");
 
-            // store a handled command statistic
-            var statistic = new Statistic("Handled");
+            // record a handled command statistic
+            var statistic = new Statistic();
+            statistic.Record("CommandStatistics", "Handled");
+
+            // let plugins record their statistics
+            _statisticsPlugins.ToList().ForEach(s => 
+                {
+                    var constructor = Expression.Lambda(Expression.New(s.GetConstructor(Type.EmptyTypes))).Compile();
+                    var plugin = (IStatisticsPlugin)constructor.DynamicInvoke();
+                    
+                    if (plugin.WasHandled(command))
+                    {
+                        var categories = plugin.Categories;
+                        categories.ToList().ForEach(c => statistic.Record(plugin.Context, c));
+                    }
+                });
+
             _statisticsStore.Add(statistic);
         }
     }

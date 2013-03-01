@@ -386,6 +386,9 @@
     <Compile Include="Security\for_TypeSecurable\when_checking_can_authorize_for_null_action.cs" />
     <Compile Include="Security\for_UserSecurityActorExtensions\when_user_must_be_in_multiple_roles.cs" />
     <Compile Include="Security\for_UserSecurityActorExtensions\when_user_must_be_in_role.cs" />
+    <Compile Include="Statistics\for_Statistic\given\a_statistic.cs" />
+    <Compile Include="Statistics\for_Statistic\given\when_recording_a_category.cs" />
+    <Compile Include="Statistics\for_Statistic\when_creating.cs" />
     <Compile Include="Tasks\for_TaskManager\when_starting_and_it_gets_done.cs" />
     <Compile Include="Tasks\for_TaskManager\when_progress_is_made_on_started_task.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_deleting_task_by_id.cs" />
