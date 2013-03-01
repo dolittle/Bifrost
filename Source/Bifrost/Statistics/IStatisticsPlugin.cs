@@ -27,5 +27,12 @@ namespace Bifrost.Statistics
         /// <param name="command">The command</param>
         /// <returns>True if the plugin effected statistics</returns>
         bool WasHandled(Command command);
+
+        /// <summary>
+        /// Should the statistics data for a command that had an exception be effected by the plugin
+        /// </summary>
+        /// <param name="command">The command</param>
+        /// <returns>True if the plugin effected statistics</returns>
+        bool HadException(Command command);
     }
 }

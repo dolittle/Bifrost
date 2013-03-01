@@ -23,5 +23,10 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
         {
             return true;
         }
+
+        public bool HadException(Bifrost.Commands.Command command)
+        {
+            return true;
+        }
     }
 }

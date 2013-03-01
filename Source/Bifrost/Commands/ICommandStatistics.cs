@@ -16,5 +16,11 @@ namespace Bifrost
         /// </summary>
         /// <param name="command">The command</param>
         void WasHandled(Command command);
+
+        /// <summary>
+        /// Adds a command that had an exception to statistics
+        /// </summary>
+        /// <param name="command"></param>
+        void HadException(Command command);
     }
 }
