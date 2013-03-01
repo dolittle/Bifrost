@@ -9,10 +9,9 @@ using Bifrost.Statistics;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class when_adding_a_handled_command : given.a_command_statistics
+    public class when_adding_a_handled_command : given.a_command_statistics_with_registered_plugin
     {
         static Command command = new Command();
-        static Exception thrown_exception; 
 
         Because of = () => command_statistics.WasHandled(command);
 

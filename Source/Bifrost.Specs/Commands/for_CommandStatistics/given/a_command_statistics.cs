@@ -5,6 +5,7 @@ using System.Text;
 using Bifrost;
 using Machine.Specifications;
 using Bifrost.Statistics;
+using Bifrost.Execution;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics.given
 {
@@ -12,11 +13,13 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics.given
     {
         protected static ICommandStatistics command_statistics;
         protected static Moq.Mock<IStatisticsStore> statistics_store;
+        protected static Moq.Mock<ITypeDiscoverer> type_discoverer; 
 
         Establish context = () =>
         {
+            type_discoverer = new Moq.Mock<ITypeDiscoverer>();
             statistics_store = new Moq.Mock<IStatisticsStore>();
-            command_statistics = new CommandStatistics(statistics_store.Object);
+            command_statistics = new CommandStatistics(statistics_store.Object, type_discoverer.Object);
         };
     }
 }

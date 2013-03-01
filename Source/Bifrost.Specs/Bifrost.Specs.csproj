@@ -107,6 +107,9 @@
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_a_specific_command_type.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_handling.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_namespace.cs" />
+    <Compile Include="Commands\for_CommandStatistics\given\a_command_statistics_with_registered_plugin.cs" />
+    <Compile Include="Commands\for_CommandStatistics\when_creating.cs" />
+    <Compile Include="Commands\for_CommandStatistics\Stubs.cs" />
     <Compile Include="Commands\for_CommandStatistics\when_adding_a_handled_command.cs" />
     <Compile Include="Commands\for_CommandStatistics\given\a_command_statistics.cs" />
     <Compile Include="Commands\for_CommandStatistics\when_adding_a_null_handled_command.cs" />
