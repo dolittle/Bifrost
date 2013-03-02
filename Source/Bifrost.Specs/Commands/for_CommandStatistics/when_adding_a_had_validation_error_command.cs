@@ -9,18 +9,18 @@ using Bifrost.Statistics;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class when_adding_a_handled_command : given.a_command_statistics_with_registered_plugin
+    public class when_adding_a_had_validation_error_command : given.a_command_statistics_with_registered_plugins
     {
         static Command command = new Command();
 
-        Because of = () => command_statistics.WasHandled(command);
+        Because of = () => command_statistics.HadValidationError(command);
 
         It should_add_the_command_to_the_store = () =>
         {
             statistics_store
                 .Verify(store =>
                     store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("CommandStatistics","Handled")))), Moq.Times.Once());
+                        new KeyValuePair<string, string>("CommandStatistics","HadValidationError")))), Moq.Times.Once());
         };
 
         It should_be_effected_by_a_registered_plugin = () =>
@@ -28,7 +28,7 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             statistics_store
                 .Verify(store =>
                     store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string,string>("DummyStatisticsPluginContext", "ImADummy")))), Moq.Times.Once());
+                        new KeyValuePair<string,string>("DummyStatisticsPluginContext", "I touched a had validation error statistic")))), Moq.Times.Once());
         };
     }
 }

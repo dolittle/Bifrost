@@ -22,5 +22,17 @@ namespace Bifrost
         /// </summary>
         /// <param name="command"></param>
         void HadException(Command command);
+
+        /// <summary>
+        /// Add a command that had a validation error to statistics
+        /// </summary>
+        /// <param name="command">The command</param>
+        void HadValidationError(Command command);
+        
+        /// <summary>
+        /// Adds a command that did not pass security to statistics
+        /// </summary>
+        /// <param name="command"></param>
+        void DidNotPassSecurity(Command command);
     }
 }

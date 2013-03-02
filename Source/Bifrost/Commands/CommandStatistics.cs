@@ -47,13 +47,9 @@ namespace Bifrost
 
             // record a handled command statistic
             var statistic = new Statistic();
-            statistic.Record("CommandStatistics", "Handled");
+            statistic.Record("CommandStatistics", "WasHandled");
 
-            // let plugins record their statistics
-            _statisticsPlugins.ToList().ForEach(plugin =>
-                {
-                    HandlePlugin(plugin, command, statistic, (p, c) => p.WasHandled(command));
-                });
+            HandlePlugin(command, statistic, (p, c) => p.WasHandled(command));
 
             _statisticsStore.Add(statistic);
         }
@@ -70,25 +66,59 @@ namespace Bifrost
             var statistic = new Statistic();
             statistic.Record("CommandStatistics", "HadException");
 
-            // let plugins record their statistics
-            _statisticsPlugins.ToList().ForEach(plugin =>
-                {
-                    HandlePlugin(plugin, command, statistic, (p, c) => p.HadException(command));
-                });
+            HandlePlugin(command, statistic, (p, c) => p.HadException(command));
 
             _statisticsStore.Add(statistic);
         }
 
-        private void HandlePlugin(Type type, Command command, IStatistic statistic, Expression<Func<IStatisticsPlugin, Command, bool>> action)
+        /// <summary>
+        /// Add a command that had a validation error to statistics
+        /// </summary>
+        /// <param name="command">The command</param>
+        public void HadValidationError(Command command)
         {
-            var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
-            var plugin = (IStatisticsPlugin)constructor.DynamicInvoke();
+            CheckCommand(command);
 
-            if (action.Compile().Invoke(plugin, command))
+            // record a had validation error command statistic
+            var statistic = new Statistic();
+            statistic.Record("CommandStatistics", "HadValidationError");
+
+            HandlePlugin(command, statistic, (p, c) => p.HadValidationError(command));
+
+            _statisticsStore.Add(statistic);
+        }
+
+        /// <summary>
+        /// Adds a command that did not pass security to statistics
+        /// </summary>
+        /// <param name="command"></param>
+        public void DidNotPassSecurity(Command command)
+        {
+            CheckCommand(command);
+
+            // record a had did not pass security command statistic
+            var statistic = new Statistic();
+            statistic.Record("CommandStatistics", "DidNotPassSecurity");
+
+            HandlePlugin(command, statistic, (p, c) => p.DidNotPassSecurity(command));
+
+            _statisticsStore.Add(statistic);
+        }
+
+        private void HandlePlugin(Command command, IStatistic statistic, Expression<Func<IStatisticsPlugin, Command, bool>> action)
+        {
+            // let plugins record their statistics
+            _statisticsPlugins.ToList().ForEach(type =>
             {
-                var categories = plugin.Categories;
-                categories.ToList().ForEach(c => statistic.Record(plugin.Context, c));
-            }
+                var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
+                var plugin = (IStatisticsPlugin)constructor.DynamicInvoke();
+
+                if (action.Compile().Invoke(plugin, command))
+                {
+                    var categories = plugin.Categories;
+                    categories.ToList().ForEach(c => statistic.Record(plugin.Context, c));
+                }
+            });
         }
 
         private void CheckCommand(Command command)
