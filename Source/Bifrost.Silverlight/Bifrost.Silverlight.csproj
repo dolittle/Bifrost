@@ -234,6 +234,9 @@
     <Compile Include="..\Bifrost\Configuration\ITasksConfiguration.cs">
       <Link>ITasksConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IStatisticsConfiguration.cs">
+      <Link>Configuration\IStatisticsConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>

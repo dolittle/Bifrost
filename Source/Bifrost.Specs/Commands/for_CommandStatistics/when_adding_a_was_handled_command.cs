@@ -1,11 +1,7 @@
 ﻿using Bifrost.Commands;
-using Machine.Specifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bifrost;
 using Bifrost.Statistics;
+using Machine.Specifications;
+using System.Collections.Generic;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {

@@ -3,6 +3,7 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
+using Bifrost;
 
 namespace Bifrost.Specs.Configuration.for_Configure.given
 {
@@ -21,6 +22,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IDefaultStorageConfiguration> default_storage_configuration_mock;
         protected static Mock<IFrontendConfiguration> frontend_configuration_mock;
         protected static Mock<ITypeImporter> type_importer_mock;
+        protected static Mock<IStatisticsConfiguration> statistics_configuration_mock;
 
         Establish context = () =>
                                 {
@@ -55,6 +57,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
                                     type_importer_mock = new Mock<ITypeImporter>();
                                     container_mock.Setup(c => c.Get<ITypeImporter>()).Returns(type_importer_mock.Object);
+
+                                    statistics_configuration_mock = new Mock<IStatisticsConfiguration>();
+                                    container_mock.Setup(c => c.Get<IStatisticsConfiguration>()).Returns(statistics_configuration_mock.Object);
 
                                     configure_instance = Configure.With(container_mock.Object, default_conventions_mock.Object, default_bindings_mock.Object);
                                 };

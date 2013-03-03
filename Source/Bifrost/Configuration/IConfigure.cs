@@ -79,6 +79,11 @@ namespace Bifrost.Configuration
         /// Gets the configuration for the frontend part of the application
         /// </summary>
         IFrontendConfiguration Frontend { get; }
+
+        /// <summary>
+        /// Gets the configuration for statistics
+        /// </summary>
+        IStatisticsConfiguration Statistics { get; }
 		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost

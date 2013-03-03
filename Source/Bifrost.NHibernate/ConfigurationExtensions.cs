@@ -31,6 +31,12 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
 
+        public static IStatisticsConfiguration UsingNHibernate(this IStatisticsConfiguration statisticsConfiguration)
+        {
+            statisticsConfiguration.StoreType = typeof(NHibernate.Statistics.StatisticsStore);
+            return statisticsConfiguration;
+        }
+
         public static IConfigure UsingNHibernate(this IHaveStorage storage, EntityContextConfiguration entityContextConfiguration)
         {
             storage.EntityContextConfiguration = entityContextConfiguration;

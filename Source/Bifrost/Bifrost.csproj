@@ -144,6 +144,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Commands\ICommandStatistics.cs" />
+    <Compile Include="Configuration\IStatisticsConfiguration.cs" />
+    <Compile Include="Configuration\StatisticsConfiguration.cs" />
     <Compile Include="Statistics\IStatisticsPlugin.cs" />
     <Compile Include="Statistics\NullStatisticsStore.cs" />
     <Compile Include="Statistics\Statistic.cs" />

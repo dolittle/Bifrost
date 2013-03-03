@@ -69,6 +69,7 @@
     <Compile Include="Events\IEventConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sagas\SagaHolderClassMap.cs" />
+    <Compile Include="Statistics\StatisticsStore.cs" />
     <Compile Include="UserTypes\InferredMapping.cs" />
     <Compile Include="UserTypes\NullSafeMapping.cs" />
     <Compile Include="UserTypes\MethodInfoUserType.cs" />

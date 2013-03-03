@@ -37,6 +37,12 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
 
+        public static IStatisticsConfiguration UsingMongoDB(this IStatisticsConfiguration statisticsConfiguration)
+        {
+            statisticsConfiguration.StoreType = typeof(MongoDB.Statistics.StatisticsStore);
+            return statisticsConfiguration;
+        }
+
         public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
         {
             configuration.Url = url;

@@ -19,10 +19,10 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using System.Net;
 using Bifrost.RavenDB;
 using Bifrost.RavenDB.Events;
+using System;
+using System.Net;
 
 namespace Bifrost.Configuration
 {
@@ -35,6 +35,12 @@ namespace Bifrost.Configuration
             configureCallback(configuration);
             Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
             return Configure.Instance;
+        }
+
+        public static IStatisticsConfiguration UsingRavenDB(this IStatisticsConfiguration statisticsConfiguration)
+        {
+            statisticsConfiguration.StoreType = typeof(RavenDB.Statistics.StatisticsStore);
+            return statisticsConfiguration;
         }
 
         public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
