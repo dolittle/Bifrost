@@ -28,6 +28,7 @@
                 self.onReady();
                 Bifrost.navigation.navigationManager.hookup();
                 Bifrost.features.featureManager.hookup($);
+                Bifrost.navigation.navigationFrames.create().hookup();
             });
         }
 

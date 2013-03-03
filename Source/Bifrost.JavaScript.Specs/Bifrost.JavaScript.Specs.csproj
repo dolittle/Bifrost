@@ -120,6 +120,11 @@
     <Content Include="navigation\for_observableQueryParameter\when_default_value_is_specified_but_query_parameter_exist_as_well.js" />
     <Content Include="navigation\for_observableQueryParameter\when_parameter_changes_in_query.js" />
     <Content Include="navigation\for_observableQueryParameter\when_value_changes.js" />
+    <Content Include="navigation\for_UriMapper\when_adding_mapping.js" />
+    <Content Include="navigation\for_UriMapping\when_creating_with_parameters.js" />
+    <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_match.js" />
+    <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
+    <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_queryService\when_executing.js" />
     <Content Include="read\for_Query\when_getting_all.js" />
     <Content Include="read\for_Query\when_executing_and_all_has_been_retrieved.js" />
@@ -273,7 +278,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="utils\for_namespacePaths\" />
+    <Folder Include="Utils\for_namespacePaths\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
