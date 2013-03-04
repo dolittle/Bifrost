@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Bifrost.QuickStart.Statistics
 {
-    public class Plugin : IStatisticsPlugin
+    public class EmplPlugin : IStatisticsPlugin
     {
         ICollection<string> _categories = new List<string>();
 
