@@ -34,5 +34,9 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         It should_have_validated_the_command = () => command_validation_service_mock.VerifyAll();
         It should_have_exception_in_result = () => Result.Exception.ShouldEqual(Exception);
         It should_have_success_set_to_false = () => Result.Success.ShouldBeFalse();
+        It should_record_a_had_exception_statistic = () =>
+        {
+            command_statistics.Verify(c => c.HadException(Moq.It.IsAny<ICommand>()), Moq.Times.Once());
+        };
     }
 }

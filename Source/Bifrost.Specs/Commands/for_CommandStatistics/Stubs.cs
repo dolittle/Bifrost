@@ -21,25 +21,25 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             get { return _categories; }
         }
 
-        public bool WasHandled(Bifrost.Commands.Command command)
+        public bool WasHandled(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a was handled statistic");
             return true;
         }
 
-        public bool HadException(Bifrost.Commands.Command command)
+        public bool HadException(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a had exception statistic");
             return true;
         }
 
-        public bool HadValidationError(Bifrost.Commands.Command command)
+        public bool HadValidationError(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a had validation error statistic");
             return true;
         }
 
-        public bool DidNotPassSecurity(Bifrost.Commands.Command command)
+        public bool DidNotPassSecurity(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a did not pass security statistic");
             return true;
@@ -64,25 +64,25 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             get { return _categories; }
         }
 
-        public bool WasHandled(Bifrost.Commands.Command command)
+        public bool WasHandled(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a was handled statistic");
             return false;
         }
 
-        public bool HadException(Bifrost.Commands.Command command)
+        public bool HadException(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a had exception statistic");
             return false;
         }
 
-        public bool HadValidationError(Bifrost.Commands.Command command)
+        public bool HadValidationError(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a had validation error statistic");
             return false;
         }
 
-        public bool DidNotPassSecurity(Bifrost.Commands.Command command)
+        public bool DidNotPassSecurity(Bifrost.Commands.ICommand command)
         {
             _categories.Add("I touched a did not pass security statistic");
             return false;

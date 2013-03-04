@@ -41,27 +41,27 @@ namespace Bifrost.Statistics
         /// </summary>
         /// <param name="command">The command</param>
         /// <returns>True if the plugin effected statistics</returns>
-        bool WasHandled(Command command);
+        bool WasHandled(ICommand command);
 
         /// <summary>
         /// Should the statistics data for a command that had an exception be effected by the plugin
         /// </summary>
         /// <param name="command">The command</param>
         /// <returns>True if the plugin effected statistics</returns>
-        bool HadException(Command command);
+        bool HadException(ICommand command);
 
         /// <summary>
         /// Should the statistics data for a command that had a validation error be effected by the plugin
         /// </summary>
         /// <param name="command">The command</param>
         /// <returns>True if the plugin effected statistics</returns>
-        bool HadValidationError(Command command);
+        bool HadValidationError(ICommand command);
 
         /// <summary>
         /// Should the statistics data for a command that did not pass security be effected by the plugin
         /// </summary>
         /// <param name="command">The command</param>
         /// <returns>True if the plugin effected statistics</returns>
-        bool DidNotPassSecurity(Command command);
+        bool DidNotPassSecurity(ICommand command);
     }
 }

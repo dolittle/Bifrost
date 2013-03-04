@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
 
         It should_discover_statistics_plugins = () =>
         {
-            type_discoverer.Verify(t => t.FindMultiple<ICommandStatistics>(), Moq.Times.Once());
+            type_discoverer.Verify(t => t.FindMultiple<IStatisticsPlugin>(), Moq.Times.Once());
         };
 
         It should_not_throw_an_exception = () => thrown_exception.ShouldBeNull();

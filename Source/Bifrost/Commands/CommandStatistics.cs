@@ -51,14 +51,14 @@ namespace Bifrost
 
             _statisticsStore = statisticsStore;
             _typeDiscoverer = typeDiscoverer;
-            _statisticsPlugins = _typeDiscoverer.FindMultiple<ICommandStatistics>();
+            _statisticsPlugins = _typeDiscoverer.FindMultiple<IStatisticsPlugin>();
         }
 
         /// <summary>
         /// Add a command that was handled to statistics
         /// </summary>
         /// <param name="command">The command</param>
-        public void WasHandled(Command command)
+        public void WasHandled(ICommand command)
         {
             CheckCommand(command);
 
@@ -75,7 +75,7 @@ namespace Bifrost
         /// Add a command that had an exception to statistics
         /// </summary>
         /// <param name="command">The command</param>
-        public void HadException(Command command)
+        public void HadException(ICommand command)
         {
             CheckCommand(command);
 
@@ -92,7 +92,7 @@ namespace Bifrost
         /// Add a command that had a validation error to statistics
         /// </summary>
         /// <param name="command">The command</param>
-        public void HadValidationError(Command command)
+        public void HadValidationError(ICommand command)
         {
             CheckCommand(command);
 
@@ -109,7 +109,7 @@ namespace Bifrost
         /// Adds a command that did not pass security to statistics
         /// </summary>
         /// <param name="command"></param>
-        public void DidNotPassSecurity(Command command)
+        public void DidNotPassSecurity(ICommand command)
         {
             CheckCommand(command);
 
@@ -122,7 +122,7 @@ namespace Bifrost
             _statisticsStore.Add(statistic);
         }
 
-        private void HandlePlugin(Command command, IStatistic statistic, Expression<Func<IStatisticsPlugin, Command, bool>> action)
+        private void HandlePlugin(ICommand command, IStatistic statistic, Expression<Func<IStatisticsPlugin, ICommand, bool>> action)
         {
             // let plugins record their statistics
             _statisticsPlugins.ToList().ForEach(type =>
@@ -138,7 +138,7 @@ namespace Bifrost
             });
         }
 
-        private void CheckCommand(Command command)
+        private void CheckCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
         }

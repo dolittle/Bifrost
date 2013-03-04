@@ -52,11 +52,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
+    <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
       <Project>{63bbc1f3-e5e0-4902-badf-1589f91c0bea}</Project>
       <Name>Bifrost.MongoDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Bifrost\Bifrost.csproj">
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
       <Name>Bifrost</Name>
     </ProjectReference>

@@ -183,6 +183,7 @@
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
+    <Compile Include="Statistics\Plugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -80,5 +80,27 @@ namespace Bifrost.Configuration
             configuration.ManagementStudioPort = port;
             return configuration;
         }
+
+        public static IConfigure UsingRavenDBEmbedded(this IStatisticsConfiguration statisticsConfiguration, Action<StatisticsStoreConfiguration> configureCallback)
+        {
+            statisticsConfiguration.StoreType = typeof(Bifrost.RavenDB.Statistics.StatisticsStore);
+            var configuration = new StatisticsStoreConfiguration();
+            configureCallback(configuration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Statistics.StatisticsStoreConfiguration>(configuration);
+            return Configure.Instance;
+        }
+
+        public static StatisticsStoreConfiguration LocatedAt(this StatisticsStoreConfiguration configuration, string path)
+        {
+            configuration.DataDirectory = path;
+            return configuration;
+        }
+
+        public static StatisticsStoreConfiguration WithManagementStudio(this StatisticsStoreConfiguration configuration, int port = 8080)
+        {
+            configuration.EnableManagementStudio = true;
+            configuration.ManagementStudioPort = port;
+            return configuration;
+        }
     }
 }

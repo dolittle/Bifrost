@@ -67,8 +67,6 @@
     <Compile Include="for_ConceptTypeConverter\given\concept_converters.cs" />
     <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_guid.cs" />
     <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_guid_to_json.cs" />
-    <Compile Include="for_ConfigurationExtension\given\a_statistics_configuration_and_container.cs" />
-    <Compile Include="for_ConfigurationExtension\when_using_ravendb_statistics_store.cs" />
     <Compile Include="for_EntityIdPropertyRegister\given\an_entity_id_property_register_with_ids_registered.cs" />
     <Compile Include="for_EntityIdPropertyRegister\when_asking_if_another_property_is_the_id_property.cs" />
     <Compile Include="for_EntityIdPropertyRegister\when_asking_if_an_unregistered_id_property_is_the_id_property.cs" />

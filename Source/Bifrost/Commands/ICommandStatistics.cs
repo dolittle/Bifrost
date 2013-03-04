@@ -29,24 +29,24 @@ namespace Bifrost.Commands
         /// Adds a command that was handled to statistics
         /// </summary>
         /// <param name="command">The command</param>
-        void WasHandled(Command command);
+        void WasHandled(ICommand command);
 
         /// <summary>
         /// Adds a command that had an exception to statistics
         /// </summary>
         /// <param name="command"></param>
-        void HadException(Command command);
+        void HadException(ICommand command);
 
         /// <summary>
         /// Add a command that had a validation error to statistics
         /// </summary>
         /// <param name="command">The command</param>
-        void HadValidationError(Command command);
+        void HadValidationError(ICommand command);
         
         /// <summary>
         /// Adds a command that did not pass security to statistics
         /// </summary>
         /// <param name="command"></param>
-        void DidNotPassSecurity(Command command);
+        void DidNotPassSecurity(ICommand command);
     }
 }

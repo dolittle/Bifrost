@@ -93,7 +93,15 @@ namespace Bifrost.Commands
         /// </summary>
         public bool Success
         {
-            get { return null == Exception && PassedSecurity && !Invalid; }
+            get { return !HasException && PassedSecurity && !Invalid; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the command caused an exception
+        /// </summary>
+        public bool HasException
+        {
+            get { return null != Exception; }
         }
 
         /// <summary>

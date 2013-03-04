@@ -1,4 +1,5 @@
-﻿using Bifrost.Execution;
+﻿using Bifrost.Commands;
+using Bifrost.Execution;
 using Bifrost.Statistics;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace Bifrost.Configuration
         /// <param name="container">The container</param>
         public void Initialize(IContainer container)
         {
-            throw new NotImplementedException();
+            if (StoreType != null)
+                container.Bind<IStatisticsStore>(StoreType, BindingLifecycle.Singleton);
+            container.Bind<ICommandStatistics>(typeof(CommandStatistics), BindingLifecycle.Singleton);
         }
 
         /// <summary>

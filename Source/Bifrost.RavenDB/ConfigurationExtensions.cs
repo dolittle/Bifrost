@@ -21,6 +21,7 @@
 #endregion
 using Bifrost.RavenDB;
 using Bifrost.RavenDB.Events;
+using Bifrost.RavenDB.Statistics;
 using System;
 using System.Net;
 
@@ -35,12 +36,6 @@ namespace Bifrost.Configuration
             configureCallback(configuration);
             Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
             return Configure.Instance;
-        }
-
-        public static IStatisticsConfiguration UsingRavenDB(this IStatisticsConfiguration statisticsConfiguration)
-        {
-            statisticsConfiguration.StoreType = typeof(RavenDB.Statistics.StatisticsStore);
-            return statisticsConfiguration;
         }
 
         public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
@@ -95,5 +90,31 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
+        public static IConfigure UsingRavenDB(this IStatisticsConfiguration statisticsConfiguration, Action<StatisticsStoreConfiguration> configureCallback)
+        {
+            statisticsConfiguration.StoreType = typeof(RavenDB.Statistics.StatisticsStore);
+            var configuration = new StatisticsStoreConfiguration();
+            configureCallback(configuration);
+            Configure.Instance.Container.Bind<StatisticsStoreConfiguration>(configuration);
+            return Configure.Instance;
+        }
+
+        public static StatisticsStoreConfiguration WithUrl(this StatisticsStoreConfiguration configuration, string url)
+        {
+            configuration.Url = url;
+            return configuration;
+        }
+
+        public static StatisticsStoreConfiguration WithCredentials(this StatisticsStoreConfiguration configuration, ICredentials credentials)
+        {
+            configuration.Credentials = credentials;
+            return configuration;
+        }
+
+        public static StatisticsStoreConfiguration WithDefaultDatabase(this StatisticsStoreConfiguration configuration, string defaultDatabase)
+        {
+            configuration.DefaultDatabase = defaultDatabase;
+            return configuration;
+        }
     }
 }

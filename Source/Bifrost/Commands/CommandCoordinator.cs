@@ -33,6 +33,7 @@ namespace Bifrost.Commands
 		readonly ICommandContextManager _commandContextManager;
 	    readonly ICommandValidationService _commandValidationService;
         readonly ICommandSecurityManager _commandSecurityManager;
+        readonly ICommandStatistics _commandStatistics;
 		readonly ILocalizer _localizer;
 
 
@@ -43,18 +44,21 @@ namespace Bifrost.Commands
 		/// <param name="commandContextManager">A <see cref="ICommandContextManager"/> for establishing a <see cref="CommandContext"/></param>
         /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
 		/// <param name="commandValidationService">A <see cref="ICommandValidationService"/> for validating a <see cref="ICommand"/> before handling</param>
+        /// <param name="commandStatistics">A <see cref="ICommandStatistics"/> for generating command statistics</param>
 		/// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
 		public CommandCoordinator(
 			ICommandHandlerManager commandHandlerManager,
 			ICommandContextManager commandContextManager,
             ICommandSecurityManager commandSecurityManager,
             ICommandValidationService commandValidationService,
+            ICommandStatistics commandStatistics,
 			ILocalizer localizer)
 		{
 			_commandHandlerManager = commandHandlerManager;
 			_commandContextManager = commandContextManager;
             _commandSecurityManager = commandSecurityManager;
 		    _commandValidationService = commandValidationService;
+            _commandStatistics = commandStatistics;
 	    	_localizer = localizer;
 		}
 
@@ -78,6 +82,7 @@ namespace Bifrost.Commands
                 var authorizationResult = _commandSecurityManager.Authorize(command);
                 if (!authorizationResult.IsAuthorized)
                 {
+                    _commandStatistics.DidNotPassSecurity(command);
                     commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
                     return commandResult;
                 }
@@ -85,6 +90,12 @@ namespace Bifrost.Commands
                 var validationResult = _commandValidationService.Validate(command);
                 commandResult.ValidationResults = validationResult.ValidationResults;
                 commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;
+
+                if (commandResult.HasException)
+                    _commandStatistics.HadException(command);
+
+                if (commandResult.Invalid)
+                    _commandStatistics.HadValidationError(command);
 
                 if (commandResult.Success)
                 {
@@ -95,9 +106,11 @@ namespace Bifrost.Commands
                     }
                     catch (Exception exception)
                     {
+                        _commandStatistics.HadException(command);
                         commandResult.Exception = exception;
                         unitOfWork.Rollback();
                     }
+                    _commandStatistics.WasHandled(command);
                 }
                 return commandResult;
             }            

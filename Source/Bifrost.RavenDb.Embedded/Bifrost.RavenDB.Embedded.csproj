@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="Statistics\StatisticsStoreConfiguration.cs" />
     <Compile Include="DocumentStores.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="Events\EventStoreConfiguration.cs" />

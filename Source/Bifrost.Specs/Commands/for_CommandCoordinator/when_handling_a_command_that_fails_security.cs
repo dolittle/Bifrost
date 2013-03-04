@@ -27,5 +27,9 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
 
         It should_not_validate = () => command_validation_service_mock.Verify(c => c.Validate(command), Moq.Times.Never());
         It should_set_not_passed_in_command_result = () => result.PassedSecurity.ShouldBeFalse();
+        It should_record_a_did_not_pass_security_statistic = () =>
+        {
+            command_statistics.Verify(c => c.DidNotPassSecurity(Moq.It.IsAny<ICommand>()), Moq.Times.Once());
+        };
     }
 }

@@ -109,7 +109,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.QuickStart", "..\Bi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Default", "..\Bifrost.Default\Bifrost.Default.csproj", "{D8A3E244-AC49-4372-8C03-F5AA3107BD80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.MongoDB.Specs", "Bifrost.MongoDB.Specs\Bifrost.MongoDB.Specs.csproj", "{6AAE78B1-7682-45E9-87A2-4DEEA39DDF8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.MongoDB.Specs", "..\Bifrost.MongoDB.Specs\Bifrost.MongoDB.Specs.csproj", "{6AAE78B1-7682-45E9-87A2-4DEEA39DDF8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

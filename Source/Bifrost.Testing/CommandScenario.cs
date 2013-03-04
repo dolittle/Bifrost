@@ -53,6 +53,7 @@ namespace Bifrost.Testing
         readonly Mock<ISagaLibrarian> saga_librarian;
         readonly Mock<IProcessMethodInvoker> process_method_invoker;
         readonly Mock<ICommandSecurityManager> command_security_manager_mock;
+        readonly Mock<ICommandStatistics> command_statistics;
         readonly IExecutionContextManager execution_context_manager;
         readonly ICanValidate<T> null_validator = new NullCommandInputValidator();
 
@@ -86,12 +87,14 @@ namespace Bifrost.Testing
             command_security_manager_mock = new Mock<ICommandSecurityManager>();
             //TODO: Allow spec'ing of Security
             command_security_manager_mock.Setup(s => s.Authorize(It.IsAny<ICommand>())).Returns(new AuthorizationResult());
+            command_statistics = new Mock<ICommandStatistics>();
 
             command_coordinator = new CommandCoordinator(
                                         command_handler_manager.Object, 
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
                                         command_validation_service,
+                                        command_statistics.Object,
                                         localizer.Object);
 
             input_validator = null_validator;
