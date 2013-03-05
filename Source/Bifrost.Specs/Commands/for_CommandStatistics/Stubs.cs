@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class DummyStatisticsPlugin : IStatisticsPlugin
+    public class DummyStatisticsPlugin : ICanGenerateStatisticsForCommand
     {
         readonly IList<string> _categories;
         public DummyStatisticsPlugin()
@@ -46,7 +46,7 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
         }
     }
 
-    public class DummyStatisticsPluginWithNoEffect : IStatisticsPlugin
+    public class DummyStatisticsPluginWithNoEffect : ICanGenerateStatisticsForCommand
     {
         readonly IList<string> _categories;
         public DummyStatisticsPluginWithNoEffect()

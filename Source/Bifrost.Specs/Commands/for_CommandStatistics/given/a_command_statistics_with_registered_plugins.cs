@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics.given
         Establish context = () =>
         {
             type_discoverer = new Moq.Mock<ITypeDiscoverer>();
-            type_discoverer.Setup(t =>t.FindMultiple<IStatisticsPlugin>()).Returns(() => { 
+            type_discoverer.Setup(t =>t.FindMultiple<ICanGenerateStatisticsForCommand>()).Returns(() => { 
                 return new [] { typeof(DummyStatisticsPlugin), typeof(DummyStatisticsPluginWithNoEffect) }; 
             });
 

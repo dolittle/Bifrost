@@ -51,7 +51,7 @@ namespace Bifrost
 
             _statisticsStore = statisticsStore;
             _typeDiscoverer = typeDiscoverer;
-            _statisticsPlugins = _typeDiscoverer.FindMultiple<IStatisticsPlugin>();
+            _statisticsPlugins = _typeDiscoverer.FindMultiple<ICanGenerateStatisticsForCommand>();
         }
 
         /// <summary>
@@ -122,13 +122,13 @@ namespace Bifrost
             _statisticsStore.Add(statistic);
         }
 
-        private void HandlePlugin(ICommand command, IStatistic statistic, Expression<Func<IStatisticsPlugin, ICommand, bool>> action)
+        private void HandlePlugin(ICommand command, IStatistic statistic, Expression<Func<ICanGenerateStatisticsForCommand, ICommand, bool>> action)
         {
             // let plugins record their statistics
             _statisticsPlugins.ToList().ForEach(type =>
             {
                 var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
-                var plugin = (IStatisticsPlugin)constructor.DynamicInvoke();
+                var plugin = (ICanGenerateStatisticsForCommand)constructor.DynamicInvoke();
 
                 if (action.Compile().Invoke(plugin, command))
                 {
