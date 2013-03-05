@@ -1,4 +1,5 @@
-﻿using Bifrost.QuickStart.Domain.HumanResources.Employees;
+﻿using Bifrost.Commands;
+using Bifrost.QuickStart.Domain.HumanResources.Employees;
 using Bifrost.Statistics;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Web;
 
 namespace Bifrost.QuickStart.Statistics
 {
-    public class EmployeeStatistics : ICanGenerateStatisticsForCommand
+    public class EmployeeStatistics : ICanRecordStatisticsForCommand
     {
         ICollection<string> _categories = new List<string>();
 
@@ -21,35 +22,14 @@ namespace Bifrost.QuickStart.Statistics
             get { return _categories; }
         }
 
-        public bool WasHandled(Commands.ICommand command)
+        public bool Record(CommandResult commandResult)
         {
-            if (command.GetType() == typeof(RegisterEmployee))
+            if (commandResult.CommandName.ToLower() == "RegisterEmployee")
             {
-                var register = (RegisterEmployee)command;
-
                 Categories.Add("RegisteredEmployee");
-
-                if (string.IsNullOrEmpty(register.SocialSecurityNumber))
-                    Categories.Add("RegisterEmployeeWithNoSocialSecurityNumber");
-
                 return true; 
             }
 
-            return false;
-        }
-
-        public bool HadException(Commands.ICommand command)
-        {
-            return false;
-        }
-
-        public bool HadValidationError(Commands.ICommand command)
-        {
-            return false;
-        }
-
-        public bool DidNotPassSecurity(Commands.ICommand command)
-        {
             return false;
         }
     }

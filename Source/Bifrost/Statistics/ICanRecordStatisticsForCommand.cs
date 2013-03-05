@@ -24,7 +24,7 @@ namespace Bifrost.Statistics
     /// <summary>
     /// A statistics plugin interface
     /// </summary>
-    public interface ICanGenerateStatisticsForCommand
+    public interface ICanRecordStatisticsForCommand
     {
         /// <summary>
         /// The context that this plugin is working in
@@ -37,31 +37,10 @@ namespace Bifrost.Statistics
         ICollection<string> Categories { get; }
 
         /// <summary>
-        /// Should the statistics data for a handled command by effected by the plugin
+        /// Records statistics for a command result
         /// </summary>
-        /// <param name="command">The command</param>
+        /// <param name="commandResult">The command result</param>
         /// <returns>True if the plugin effected statistics</returns>
-        bool WasHandled(ICommand command);
-
-        /// <summary>
-        /// Should the statistics data for a command that had an exception be effected by the plugin
-        /// </summary>
-        /// <param name="command">The command</param>
-        /// <returns>True if the plugin effected statistics</returns>
-        bool HadException(ICommand command);
-
-        /// <summary>
-        /// Should the statistics data for a command that had a validation error be effected by the plugin
-        /// </summary>
-        /// <param name="command">The command</param>
-        /// <returns>True if the plugin effected statistics</returns>
-        bool HadValidationError(ICommand command);
-
-        /// <summary>
-        /// Should the statistics data for a command that did not pass security be effected by the plugin
-        /// </summary>
-        /// <param name="command">The command</param>
-        /// <returns>True if the plugin effected statistics</returns>
-        bool DidNotPassSecurity(ICommand command);
+        bool Record(CommandResult commandResult);
     }
 }

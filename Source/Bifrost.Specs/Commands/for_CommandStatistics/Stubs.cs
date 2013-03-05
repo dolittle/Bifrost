@@ -1,9 +1,10 @@
-﻿using Bifrost.Statistics;
+﻿using Bifrost.Commands;
+using Bifrost.Statistics;
 using System.Collections.Generic;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class DummyStatisticsPlugin : ICanGenerateStatisticsForCommand
+    public class DummyStatisticsPlugin : ICanRecordStatisticsForCommand
     {
         readonly IList<string> _categories;
         public DummyStatisticsPlugin()
@@ -21,32 +22,18 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             get { return _categories; }
         }
 
-        public bool WasHandled(Bifrost.Commands.ICommand command)
+        public bool Record(CommandResult commandResult)
         {
-            _categories.Add("I touched a was handled statistic");
-            return true;
-        }
 
-        public bool HadException(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a had exception statistic");
-            return true;
-        }
+            if (!commandResult.PassedSecurity)
+                _categories.Add("I touched a did not pass security statistic");
 
-        public bool HadValidationError(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a had validation error statistic");
-            return true;
-        }
-
-        public bool DidNotPassSecurity(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a did not pass security statistic");
+            _categories.Add("I recorded a command");
             return true;
         }
     }
 
-    public class DummyStatisticsPluginWithNoEffect : ICanGenerateStatisticsForCommand
+    public class DummyStatisticsPluginWithNoEffect : ICanRecordStatisticsForCommand
     {
         readonly IList<string> _categories;
         public DummyStatisticsPluginWithNoEffect()
@@ -64,27 +51,9 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             get { return _categories; }
         }
 
-        public bool WasHandled(Bifrost.Commands.ICommand command)
+        public bool Record(CommandResult commandResult)
         {
-            _categories.Add("I touched a was handled statistic");
-            return false;
-        }
-
-        public bool HadException(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a had exception statistic");
-            return false;
-        }
-
-        public bool HadValidationError(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a had validation error statistic");
-            return false;
-        }
-
-        public bool DidNotPassSecurity(Bifrost.Commands.ICommand command)
-        {
-            _categories.Add("I touched a did not pass security statistic");
+            _categories.Add("I recorded a command");
             return false;
         }
     }

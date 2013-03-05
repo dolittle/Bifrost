@@ -26,27 +26,9 @@ namespace Bifrost.Commands
     public interface ICommandStatistics
     {
         /// <summary>
-        /// Adds a command that was handled to statistics
+        /// Record statistics against a command result
         /// </summary>
-        /// <param name="command">The command</param>
-        void WasHandled(ICommand command);
-
-        /// <summary>
-        /// Adds a command that had an exception to statistics
-        /// </summary>
-        /// <param name="command"></param>
-        void HadException(ICommand command);
-
-        /// <summary>
-        /// Add a command that had a validation error to statistics
-        /// </summary>
-        /// <param name="command">The command</param>
-        void HadValidationError(ICommand command);
-        
-        /// <summary>
-        /// Adds a command that did not pass security to statistics
-        /// </summary>
-        /// <param name="command"></param>
-        void DidNotPassSecurity(ICommand command);
+        /// <param name="commandResult">The commandResult</param>
+        void Record(CommandResult commandResult);
     }
 }

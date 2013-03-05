@@ -7,9 +7,17 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
     public class when_adding_a_did_not_pass_security_command : given.a_command_statistics_with_registered_plugins
     {
-        static Command command = new Command();
+        static CommandResult commandResult;
+        Because of = () =>
+        {
+            commandResult = new CommandResult()
+            {
+                SecurityMessages = new[] { "Security Error" }
+            };
 
-        Because of = () => command_statistics.DidNotPassSecurity(command);
+            command_statistics.Record(commandResult);
+
+        };
 
         It should_add_the_command_to_the_store = () =>
         {

@@ -51,86 +51,35 @@ namespace Bifrost
 
             _statisticsStore = statisticsStore;
             _typeDiscoverer = typeDiscoverer;
-            _statisticsPlugins = _typeDiscoverer.FindMultiple<ICanGenerateStatisticsForCommand>();
+            _statisticsPlugins = _typeDiscoverer.FindMultiple<ICanRecordStatisticsForCommand>();
         }
 
         /// <summary>
-        /// Add a command that was handled to statistics
+        /// Record statistics about a command result
         /// </summary>
-        /// <param name="command">The command</param>
-        public void WasHandled(ICommand command)
+        /// <param name="commandResult">The command result</param>
+        public void Record(CommandResult commandResult)
         {
-            CheckCommand(command);
+            CheckCommand(commandResult);
 
             // record a handled command statistic
             var statistic = new Statistic();
             statistic.Record("CommandStatistics", "WasHandled");
 
-            HandlePlugin(command, statistic, (p, c) => p.WasHandled(command));
+            HandlePlugin(commandResult, statistic, (p, c) => p.Record(commandResult));
 
             _statisticsStore.Add(statistic);
         }
 
-        /// <summary>
-        /// Add a command that had an exception to statistics
-        /// </summary>
-        /// <param name="command">The command</param>
-        public void HadException(ICommand command)
-        {
-            CheckCommand(command);
-
-            // record a had exception command statistic
-            var statistic = new Statistic();
-            statistic.Record("CommandStatistics", "HadException");
-
-            HandlePlugin(command, statistic, (p, c) => p.HadException(command));
-
-            _statisticsStore.Add(statistic);
-        }
-
-        /// <summary>
-        /// Add a command that had a validation error to statistics
-        /// </summary>
-        /// <param name="command">The command</param>
-        public void HadValidationError(ICommand command)
-        {
-            CheckCommand(command);
-
-            // record a had validation error command statistic
-            var statistic = new Statistic();
-            statistic.Record("CommandStatistics", "HadValidationError");
-
-            HandlePlugin(command, statistic, (p, c) => p.HadValidationError(command));
-
-            _statisticsStore.Add(statistic);
-        }
-
-        /// <summary>
-        /// Adds a command that did not pass security to statistics
-        /// </summary>
-        /// <param name="command"></param>
-        public void DidNotPassSecurity(ICommand command)
-        {
-            CheckCommand(command);
-
-            // record a had did not pass security command statistic
-            var statistic = new Statistic();
-            statistic.Record("CommandStatistics", "DidNotPassSecurity");
-
-            HandlePlugin(command, statistic, (p, c) => p.DidNotPassSecurity(command));
-
-            _statisticsStore.Add(statistic);
-        }
-
-        private void HandlePlugin(ICommand command, IStatistic statistic, Expression<Func<ICanGenerateStatisticsForCommand, ICommand, bool>> action)
+        private void HandlePlugin(CommandResult commandResult, IStatistic statistic, Expression<Func<ICanRecordStatisticsForCommand, CommandResult, bool>> action)
         {
             // let plugins record their statistics
             _statisticsPlugins.ToList().ForEach(type =>
             {
                 var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
-                var plugin = (ICanGenerateStatisticsForCommand)constructor.DynamicInvoke();
+                var plugin = (ICanRecordStatisticsForCommand)constructor.DynamicInvoke();
 
-                if (action.Compile().Invoke(plugin, command))
+                if (action.Compile().Invoke(plugin, commandResult))
                 {
                     var categories = plugin.Categories;
                     categories.ToList().ForEach(c => statistic.Record(plugin.Context, c));
@@ -138,9 +87,9 @@ namespace Bifrost
             });
         }
 
-        private void CheckCommand(ICommand command)
+        private void CheckCommand(CommandResult commandResult)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (commandResult == null) throw new ArgumentNullException("commandResult");
         }
     }
 }

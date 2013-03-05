@@ -82,7 +82,6 @@ namespace Bifrost.Commands
                 var authorizationResult = _commandSecurityManager.Authorize(command);
                 if (!authorizationResult.IsAuthorized)
                 {
-                    _commandStatistics.DidNotPassSecurity(command);
                     commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
                     return commandResult;
                 }
@@ -91,11 +90,6 @@ namespace Bifrost.Commands
                 commandResult.ValidationResults = validationResult.ValidationResults;
                 commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;
 
-                if (commandResult.HasException)
-                    _commandStatistics.HadException(command);
-
-                if (commandResult.Invalid)
-                    _commandStatistics.HadValidationError(command);
 
                 if (commandResult.Success)
                 {
@@ -106,12 +100,11 @@ namespace Bifrost.Commands
                     }
                     catch (Exception exception)
                     {
-                        _commandStatistics.HadException(command);
                         commandResult.Exception = exception;
                         unitOfWork.Rollback();
                     }
-                    _commandStatistics.WasHandled(command);
                 }
+                _commandStatistics.Record(commandResult);
                 return commandResult;
             }            
         }
