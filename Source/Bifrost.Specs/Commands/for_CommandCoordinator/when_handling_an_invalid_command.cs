@@ -36,7 +36,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         It should_not_handle_the_command = () => command_handler_manager_mock.Verify(chm => chm.Handle(command_mock.Object), Moq.Times.Never());
         It should_record_a_did_had_validation_error_statistic = () =>
         {
-            command_statistics.Verify(c => c.HadValidationError(Moq.It.IsAny<ICommand>()), Moq.Times.Once());
+            command_statistics.Verify(c => c.Record(Moq.It.IsAny<CommandResult>()), Moq.Times.Once());
         };
     }
 }

@@ -63,8 +63,20 @@ namespace Bifrost
             CheckCommand(commandResult);
 
             // record a handled command statistic
+            var context = this.GetType().Name;
             var statistic = new Statistic();
-            statistic.Record("CommandStatistics", "WasHandled");
+
+            if (commandResult.Success)
+                statistic.Record(context, "WasHandled");
+
+            if (commandResult.Invalid)
+                statistic.Record(context, "HadValidationError");
+
+            if (commandResult.HasException)
+                statistic.Record(context, "HadException");
+
+            if (!commandResult.PassedSecurity)
+                statistic.Record(context, "DidNotPassSecurity");
 
             HandlePlugin(commandResult, statistic, (p, c) => p.Record(commandResult));
 

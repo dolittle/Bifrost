@@ -26,7 +26,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         It should_have_success_set_to_true = () => Result.Success.ShouldBeTrue();
         It should_record_a_was_handled_statistic = () =>
         {
-            command_statistics.Verify(c => c.WasHandled(Moq.It.IsAny<ICommand>()), Moq.Times.Once());
+            command_statistics.Verify(c => c.Record(Moq.It.IsAny<CommandResult>()), Moq.Times.Once());
         };
     }
 }

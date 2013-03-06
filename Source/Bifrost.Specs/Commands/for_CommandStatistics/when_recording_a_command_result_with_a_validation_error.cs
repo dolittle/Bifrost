@@ -1,15 +1,19 @@
 ﻿using Bifrost.Commands;
 using Bifrost.Statistics;
+using FluentValidation.Results;
 using Machine.Specifications;
 using System.Collections.Generic;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class when_adding_a_had_validation_error_command : given.a_command_statistics_with_registered_plugins
+    public class when_recording_a_command_result_with_a_validation_error : given.a_command_statistics_with_registered_plugins
     {
-        static Command command = new Command();
+        static CommandResult command_result = new CommandResult()
+        {
+            CommandValidationMessages = new [] {"Error"}
+        };
 
-        Because of = () => command_statistics.HadValidationError(command);
+        Because of = () => command_statistics.Record(command_result);
 
         It should_add_the_command_to_the_store = () =>
         {

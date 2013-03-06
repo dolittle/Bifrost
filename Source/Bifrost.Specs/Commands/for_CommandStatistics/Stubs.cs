@@ -28,6 +28,15 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             if (!commandResult.PassedSecurity)
                 _categories.Add("I touched a did not pass security statistic");
 
+            if (commandResult.Success)
+                _categories.Add("I touched a was handled statistic");
+
+            if (commandResult.HasException)
+                _categories.Add("I touched a had exception statistic");
+
+            if (commandResult.Invalid)
+                _categories.Add("I touched a had validation error statistic");
+
             _categories.Add("I recorded a command");
             return true;
         }

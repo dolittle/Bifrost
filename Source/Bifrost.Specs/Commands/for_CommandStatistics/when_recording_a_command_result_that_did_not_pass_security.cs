@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
-    public class when_adding_a_did_not_pass_security_command : given.a_command_statistics_with_registered_plugins
+    public class when_recording_a_command_result_that_did_not_pass_security : given.a_command_statistics_with_registered_plugins
     {
-        static CommandResult commandResult;
+        static CommandResult command_result;
         Because of = () =>
         {
-            commandResult = new CommandResult()
+            command_result = new CommandResult()
             {
                 SecurityMessages = new[] { "Security Error" }
             };
 
-            command_statistics.Record(commandResult);
+            command_statistics.Record(command_result);
 
         };
 

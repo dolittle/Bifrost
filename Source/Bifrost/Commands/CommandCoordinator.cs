@@ -65,12 +65,16 @@ namespace Bifrost.Commands
 #pragma warning disable 1591 // Xml Comments
 		public CommandResult Handle(ISaga saga, ICommand command)
 		{
-            return Handle(_commandContextManager.EstablishForSaga(saga,command), command);
-		}
+            var commandResult = Handle(_commandContextManager.EstablishForSaga(saga, command), command);
+            _commandStatistics.Record(commandResult);
+            return commandResult;
+        }
 
 		public CommandResult Handle(ICommand command)
 		{
-		    return Handle( _commandContextManager.EstablishForCommand(command),command);
+            var commandResult = Handle(_commandContextManager.EstablishForCommand(command), command);
+            _commandStatistics.Record(commandResult);
+            return commandResult;
 		}
 
         CommandResult Handle(IUnitOfWork unitOfWork, ICommand command)
@@ -104,7 +108,6 @@ namespace Bifrost.Commands
                         unitOfWork.Rollback();
                     }
                 }
-                _commandStatistics.Record(commandResult);
                 return commandResult;
             }            
         }

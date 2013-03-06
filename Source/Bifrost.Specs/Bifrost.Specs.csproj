@@ -108,13 +108,13 @@
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_a_specific_command_type.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_handling.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_namespace.cs" />
-    <Compile Include="Commands\for_CommandStatistics\when_adding_a_did_not_pass_security_command.cs" />
-    <Compile Include="Commands\for_CommandStatistics\when_adding_a_had_validation_error_command.cs" />
-    <Compile Include="Commands\for_CommandStatistics\when_adding_a_had_exception_command.cs" />
+    <Compile Include="Commands\for_CommandStatistics\when_recording_a_command_result_that_did_not_pass_security.cs" />
+    <Compile Include="Commands\for_CommandStatistics\when_recording_a_command_result_with_a_validation_error.cs" />
+    <Compile Include="Commands\for_CommandStatistics\when_recording_a_command_result_with_an_exception.cs" />
     <Compile Include="Commands\for_CommandStatistics\given\a_command_statistics_with_registered_plugins.cs" />
     <Compile Include="Commands\for_CommandStatistics\when_creating.cs" />
     <Compile Include="Commands\for_CommandStatistics\Stubs.cs" />
-    <Compile Include="Commands\for_CommandStatistics\when_adding_a_was_handled_command.cs" />
+    <Compile Include="Commands\for_CommandStatistics\when_recording_a_command_result_that_was_handled.cs" />
     <Compile Include="Commands\for_CommandStatistics\given\a_command_statistics.cs" />
     <Compile Include="Commands\for_CommandStatistics\when_recording_a_null_command_result.cs" />
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
