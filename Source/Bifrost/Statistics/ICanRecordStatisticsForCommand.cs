@@ -31,6 +31,6 @@ namespace Bifrost.Statistics
         /// </summary>
         /// <param name="commandResult">The command result</param>
         /// <param name="statistic">The statistic</param>
-        void Record(CommandResult commandResult, IStatistic statistic);
+        void Record(CommandResult commandResult, IVisitableStatistic statistic);
     }
 }

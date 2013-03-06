@@ -19,16 +19,14 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("CommandStatistics","HadValidationError")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories["CommandStatistics"].Contains("HadValidationError"))), Moq.Times.Once());
         };
 
         It should_be_effected_by_a_registered_plugin = () =>
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string,string>("DummyStatisticsPlugin", "I touched a had validation error statistic")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories["DummyStatisticsPlugin"].Contains("I touched a had validation error statistic"))), Moq.Times.Once());
         };
     }
 }

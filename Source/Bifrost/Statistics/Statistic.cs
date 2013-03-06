@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 
 namespace Bifrost.Statistics
@@ -25,18 +26,24 @@ namespace Bifrost.Statistics
     /// </summary>
     public class Statistic : IStatistic
     {
+        string _defaultContext;
+
         /// <summary>
-        /// Statistic Constructor
+        /// Statistic constructor
         /// </summary>
-        public Statistic()
+        /// <param name="defaultContext">The default context for generating statistics</param>
+        public Statistic(string defaultContext)
         {
-            Categories = new List<KeyValuePair<string, string>>();
+            if (string.IsNullOrEmpty(defaultContext))
+                throw new ArgumentNullException("defaultContext");
+            _defaultContext = defaultContext;
+            Categories = new Dictionary<string, ICollection<string>>();
         }
 
         /// <summary>
         /// The categories for this statistic
         /// </summary>
-        public ICollection<KeyValuePair<string, string>> Categories { get; private set; }
+        public IDictionary<string, ICollection<string>> Categories { get; private set; }
 
         /// <summary>
         /// Record a category against this statistic
@@ -45,7 +52,38 @@ namespace Bifrost.Statistics
         /// <param name="context">The context of this category</param>
         public void Record(string context, string category)
         {
-            Categories.Add(new KeyValuePair<string,string>(context, category));
+            ICollection<string> categories = new List<string>();
+            if (Categories.ContainsKey(context))
+            {
+                categories = Categories[context];
+                categories.Add(category);
+                Categories[context] = categories;
+            }
+            else
+            {
+                categories.Add(category);
+                Categories.Add(new KeyValuePair<string, ICollection<string>>(context, categories));
+            }
+        }
+
+        /// <summary>
+        /// Record a category against this statistic
+        /// </summary>
+        /// <param name="category">The category</param>
+        public void Record(string category)
+        {
+            Record(_defaultContext, category);
+        }
+
+        /// <summary>
+        /// Sets the current context for recording statistics;
+        /// </summary>
+        /// <param name="context"></param>
+        public void SetContext(string context)
+        {
+            if (string.IsNullOrEmpty(context))
+                throw new ArgumentNullException("context");
+            _defaultContext = context;
         }
     }
 }

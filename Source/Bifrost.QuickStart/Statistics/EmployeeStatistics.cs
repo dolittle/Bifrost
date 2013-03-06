@@ -10,11 +10,11 @@ namespace Bifrost.QuickStart.Statistics
 {
     public class EmployeeStatistics : ICanRecordStatisticsForCommand
     {
-        public void Record(CommandResult commandResult, IStatistic statistic)
+        public void Record(CommandResult commandResult, IVisitableStatistic statistic)
         {
             if (commandResult.CommandName.ToLower() == "registeremployee")
             {
-                statistic.Record(this.GetType().Name, "RegisteredEmployee");
+                statistic.Record("RegisteredEmployee");
             }
         }
     }

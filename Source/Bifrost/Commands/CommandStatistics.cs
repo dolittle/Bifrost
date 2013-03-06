@@ -64,22 +64,24 @@ namespace Bifrost
 
             // record a handled command statistic
             var context = this.GetType().Name;
-            var statistic = new Statistic();
+            var statistic = new Statistic(context);
 
             if (commandResult.Success)
-                statistic.Record(context, "WasHandled");
+                statistic.Record("WasHandled");
 
             if (commandResult.Invalid)
-                statistic.Record(context, "HadValidationError");
+                statistic.Record("HadValidationError");
 
             if (commandResult.HasException)
-                statistic.Record(context, "HadException");
+                statistic.Record("HadException");
 
             if (!commandResult.PassedSecurity)
-                statistic.Record(context, "DidNotPassSecurity");
+                statistic.Record("DidNotPassSecurity");
 
             HandlePlugins(commandResult, statistic);
 
+            // clean up and set the context back to its original
+            statistic.SetContext(context);
             _statisticsStore.Add(statistic);
         }
 
@@ -90,7 +92,7 @@ namespace Bifrost
             {
                 var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
                 var plugin = (ICanRecordStatisticsForCommand)constructor.DynamicInvoke();
-
+                statistic.SetContext(type.Name);
                 plugin.Record(commandResult, statistic);
             });
         }

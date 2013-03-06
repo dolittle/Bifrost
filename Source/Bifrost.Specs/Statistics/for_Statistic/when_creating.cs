@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Statistics.for_Statistic
 
         Because of = () =>
             {
-                statistic = new Statistic();
+                statistic = new Statistic("Default Context");
             };
 
         It should_have_an_empty_category_list = () =>

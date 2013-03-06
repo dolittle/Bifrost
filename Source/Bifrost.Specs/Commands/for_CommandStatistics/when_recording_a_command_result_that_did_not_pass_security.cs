@@ -19,20 +19,18 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
 
         };
 
-        It should_add_the_command_to_the_store = () =>
+        It should_add_the_statistic_to_the_store = () =>
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("CommandStatistics","DidNotPassSecurity")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(s=>s.Categories["CommandStatistics"].Contains("DidNotPassSecurity"))), Moq.Times.Once());
         };
 
         It should_be_effected_by_a_registered_plugin = () =>
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("DummyStatisticsPlugin", "I touched a did not pass security statistic")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories["DummyStatisticsPlugin"].Contains("I touched a did not pass security statistic"))), Moq.Times.Once());
         };
     }
 }

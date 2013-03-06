@@ -11,20 +11,18 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
 
         Because of = () => command_statistics.Record(command_result);
 
-        It should_add_the_command_to_the_store = () =>
+        It should_add_the_statistic_to_the_store = () =>
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("CommandStatistics","WasHandled")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories["CommandStatistics"].Contains("WasHandled"))), Moq.Times.Once());
         };
 
         It should_be_effected_by_a_registered_plugin = () =>
         {
             statistics_store
                 .Verify(store =>
-                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string, string>("DummyStatisticsPlugin", "I touched a was handled statistic")))), Moq.Times.Once());
+                    store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories["DummyStatisticsPlugin"].Contains("I touched a was handled statistic"))), Moq.Times.Once());
         };
     }
 }

@@ -146,6 +146,7 @@
     <Compile Include="Commands\ICommandStatistics.cs" />
     <Compile Include="Configuration\IStatisticsConfiguration.cs" />
     <Compile Include="Configuration\StatisticsConfiguration.cs" />
+    <Compile Include="Statistics\IVisitableStatistic.cs" />
     <Compile Include="Statistics\ICanRecordStatisticsForCommand.cs" />
     <Compile Include="Statistics\NullStatisticsStore.cs" />
     <Compile Include="Statistics\Statistic.cs" />

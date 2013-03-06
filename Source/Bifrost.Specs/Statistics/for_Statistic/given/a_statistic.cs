@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Statistics.for_Statistic.given
 
         Establish context = () =>
         {
-            statistic = new Statistic();
+            statistic = new Statistic("Default Context");
         };
     }
 }
