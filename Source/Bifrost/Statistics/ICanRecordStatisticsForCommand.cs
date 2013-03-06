@@ -27,20 +27,10 @@ namespace Bifrost.Statistics
     public interface ICanRecordStatisticsForCommand
     {
         /// <summary>
-        /// The context that this plugin is working in
-        /// </summary>
-        string Context { get; }
-
-        /// <summary>
-        /// A list of categories that this plugin applies to a statistic
-        /// </summary>
-        ICollection<string> Categories { get; }
-
-        /// <summary>
-        /// Records statistics for a command result
+        /// Records statistics on a statistics object
         /// </summary>
         /// <param name="commandResult">The command result</param>
-        /// <returns>True if the plugin effected statistics</returns>
-        bool Record(CommandResult commandResult);
+        /// <param name="statistic">The statistic</param>
+        void Record(CommandResult commandResult, IStatistic statistic);
     }
 }

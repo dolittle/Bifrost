@@ -6,64 +6,29 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
 {
     public class DummyStatisticsPlugin : ICanRecordStatisticsForCommand
     {
-        readonly IList<string> _categories;
-        public DummyStatisticsPlugin()
-        {
-            _categories = new List<string>();
-        }
-
-        public string Context
-        {
-            get { return "DummyStatisticsPluginContext"; }
-        }
-
-        public ICollection<string> Categories
-        {
-            get { return _categories; }
-        }
-
-        public bool Record(CommandResult commandResult)
+        public void Record(CommandResult commandResult, IStatistic statistic)
         {
 
             if (!commandResult.PassedSecurity)
-                _categories.Add("I touched a did not pass security statistic");
+                statistic.Record(this.GetType().Name, "I touched a did not pass security statistic");
 
             if (commandResult.Success)
-                _categories.Add("I touched a was handled statistic");
+                statistic.Record(this.GetType().Name, "I touched a was handled statistic");
 
             if (commandResult.HasException)
-                _categories.Add("I touched a had exception statistic");
+                statistic.Record(this.GetType().Name, "I touched a had exception statistic");
 
             if (commandResult.Invalid)
-                _categories.Add("I touched a had validation error statistic");
+                statistic.Record(this.GetType().Name, "I touched a had validation error statistic");
 
-            _categories.Add("I recorded a command");
-            return true;
+            statistic.Record(this.GetType().Name, "I recorded a command");
         }
     }
 
     public class DummyStatisticsPluginWithNoEffect : ICanRecordStatisticsForCommand
     {
-        readonly IList<string> _categories;
-        public DummyStatisticsPluginWithNoEffect()
+        public void Record(CommandResult commandResult, IStatistic statistic)
         {
-            _categories = new List<string>();
-        }
-
-        public string Context
-        {
-            get { return "DummyStatisticsPluginContext"; }
-        }
-
-        public ICollection<string> Categories
-        {
-            get { return _categories; }
-        }
-
-        public bool Record(CommandResult commandResult)
-        {
-            _categories.Add("I recorded a command");
-            return false;
         }
     }
 }

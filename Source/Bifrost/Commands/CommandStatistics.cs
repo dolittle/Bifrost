@@ -78,12 +78,12 @@ namespace Bifrost
             if (!commandResult.PassedSecurity)
                 statistic.Record(context, "DidNotPassSecurity");
 
-            HandlePlugin(commandResult, statistic, (p, c) => p.Record(commandResult));
+            HandlePlugins(commandResult, statistic);
 
             _statisticsStore.Add(statistic);
         }
 
-        private void HandlePlugin(CommandResult commandResult, IStatistic statistic, Expression<Func<ICanRecordStatisticsForCommand, CommandResult, bool>> action)
+        private void HandlePlugins(CommandResult commandResult, IStatistic statistic)
         {
             // let plugins record their statistics
             _statisticsPlugins.ToList().ForEach(type =>
@@ -91,11 +91,7 @@ namespace Bifrost
                 var constructor = Expression.Lambda(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
                 var plugin = (ICanRecordStatisticsForCommand)constructor.DynamicInvoke();
 
-                if (action.Compile().Invoke(plugin, commandResult))
-                {
-                    var categories = plugin.Categories;
-                    categories.ToList().ForEach(c => statistic.Record(plugin.Context, c));
-                }
+                plugin.Record(commandResult, statistic);
             });
         }
 

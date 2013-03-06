@@ -25,7 +25,7 @@ namespace Bifrost.Specs.Commands.for_CommandStatistics
             statistics_store
                 .Verify(store =>
                     store.Add(Moq.It.Is<IStatistic>(stat => stat.Categories.Contains(
-                        new KeyValuePair<string,string>("DummyStatisticsPluginContext", "I touched a had exception statistic")))), Moq.Times.Once());
+                        new KeyValuePair<string,string>("DummyStatisticsPlugin", "I touched a had exception statistic")))), Moq.Times.Once());
         };
     }
 }

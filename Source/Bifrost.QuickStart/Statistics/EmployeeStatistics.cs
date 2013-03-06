@@ -10,27 +10,12 @@ namespace Bifrost.QuickStart.Statistics
 {
     public class EmployeeStatistics : ICanRecordStatisticsForCommand
     {
-        ICollection<string> _categories = new List<string>();
-
-        public string Context
+        public void Record(CommandResult commandResult, IStatistic statistic)
         {
-            get { return "EmployeeStatistics"; }
-        }
-
-        public ICollection<string> Categories
-        {
-            get { return _categories; }
-        }
-
-        public bool Record(CommandResult commandResult)
-        {
-            if (commandResult.CommandName.ToLower() == "RegisterEmployee")
+            if (commandResult.CommandName.ToLower() == "registeremployee")
             {
-                Categories.Add("RegisteredEmployee");
-                return true; 
+                statistic.Record(this.GetType().Name, "RegisteredEmployee");
             }
-
-            return false;
         }
     }
 }
