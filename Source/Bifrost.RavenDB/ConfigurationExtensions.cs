@@ -34,6 +34,11 @@ namespace Bifrost.Configuration
             var configuration = new EventStoreConfiguration();
             configureCallback(configuration);
             Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+
+            var eventSubscriptionsConfiguration = new EventSubscriptionsConfiguration();
+            configuration.CopyTo(eventSubscriptionsConfiguration);
+            Configure.Instance.Container.Bind<IEventSubscriptionsConfiguration>(eventSubscriptionsConfiguration);
+
             return Configure.Instance;
         }
 

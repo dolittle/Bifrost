@@ -51,6 +51,13 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DocumentStoreConfiguration.cs" />
+    <Compile Include="Events\EventStoreConfiguration.cs" />
+    <Compile Include="Events\EventSubscriptions.cs" />
+    <Compile Include="Events\EventSubscriptionsConfiguration.cs" />
+    <Compile Include="Events\IEventStoreConfiguration.cs" />
+    <Compile Include="Events\IEventSubscriptionsConfiguration.cs" />
+    <Compile Include="IDocumentStoreConfiguration.cs" />
     <Compile Include="Serialization\ConceptConverter.cs" />
     <Compile Include="Serialization\ConceptDictionaryConverter.cs" />
     <Compile Include="ConceptTypeConverter.cs" />
@@ -63,7 +70,6 @@
     <Compile Include="Events\EventMetaDataListener.cs" />
     <Compile Include="Events\EventSourceVersionConverter.cs" />
     <Compile Include="Events\EventStore.cs" />
-    <Compile Include="Events\EventStoreConfiguration.cs" />
     <Compile Include="InvalidIdException.cs" />
     <Compile Include="NullIdPropertyRegister.cs" />
     <Compile Include="IEntityIdPropertyRegister.cs" />

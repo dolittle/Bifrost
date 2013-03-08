@@ -16,28 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using Raven.Client.Document;
-using Raven.Client.Embedded;
-
+using Bifrost.RavenDB.Events;
 namespace Bifrost.RavenDB.Embedded.Events
 {
-    public class EventStoreConfiguration : Bifrost.RavenDB.Events.EventStoreConfiguration
+    public class EventStoreConfiguration : DocumentStoreConfiguration, IEventStoreConfiguration
     {
-        public string DataDirectory { get; set; }
-        public bool EnableManagementStudio { get; set; }
-        public int ManagementStudioPort { get; set; }
-
-        public override DocumentStore CreateDocumentStore()
-        {
-            var documentStore = DocumentStores.GetAndInitializeByPath(DataDirectory, EnableManagementStudio, ManagementStudioPort);
-
-            if (DefaultDatabase != null)
-                documentStore.DefaultDatabase = DefaultDatabase;
-
-            if (Credentials != null)
-                documentStore.Credentials = Credentials;
-
-            return documentStore;
-        }
     }
 }

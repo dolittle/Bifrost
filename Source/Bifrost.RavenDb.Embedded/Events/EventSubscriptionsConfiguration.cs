@@ -19,9 +19,11 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.RavenDB.Events
+using Bifrost.RavenDB.Events;
+
+namespace Bifrost.RavenDB.Embedded.Events
 {
-    public class EventStoreConfiguration : DocumentStoreConfiguration
+    public class EventSubscriptionsConfiguration : DocumentStoreConfiguration, IEventSubscriptionsConfiguration
     {
     }
 }

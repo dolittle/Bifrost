@@ -51,7 +51,12 @@ namespace Bifrost.Configuration
             eventsConfiguration.EventStoreType = typeof(Bifrost.RavenDB.Events.EventStore);
             var configuration = new EventStoreConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventStoreConfiguration>(configuration);
+            var eventSubscriptionsConfiguration = new EventSubscriptionsConfiguration();
+            configuration.CopyTo(eventSubscriptionsConfiguration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventSubscriptionsConfiguration>(eventSubscriptionsConfiguration);
+
+
             return Configure.Instance;
         }
 

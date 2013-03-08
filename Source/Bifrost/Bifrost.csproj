@@ -124,10 +124,12 @@
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />
     <Compile Include="Events\IEventSubscriptionManager.cs" />
     <Compile Include="Events\IEventSubscriptionRepository.cs" />
+    <Compile Include="Events\IEventSubscriptions.cs" />
     <Compile Include="Events\InvalidFastForwardException.cs" />
     <Compile Include="Events\IProcessMethodInvoker.cs" />
     <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\NullEventStore.cs" />
+    <Compile Include="Events\NullEventSubscriptions.cs" />
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />

@@ -26,7 +26,6 @@ namespace Bifrost.Events
     /// </summary>
     public class EventSubscription
     {
-
         /// <summary>
         /// Initializes a new instance of <see cref="EventSubscription"/>
         /// </summary>
@@ -34,7 +33,6 @@ namespace Bifrost.Events
         {
             Id = Guid.NewGuid();
         }
-
 
         /// <summary>
         /// Gets or sets the Id of the event subscription
@@ -93,7 +91,7 @@ namespace Bifrost.Events
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return string.Format("{0} - {1} - {2}", Owner.Name, Method.Name, EventName).GetHashCode();
         }
 #pragma warning restore 1591 // Xml Comments
 
