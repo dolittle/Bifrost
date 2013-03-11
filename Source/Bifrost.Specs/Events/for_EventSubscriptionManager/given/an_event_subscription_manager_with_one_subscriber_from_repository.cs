@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
     {
         protected const string EventSourceName = "MyEventSource";
         protected static EventSubscriptionManager event_subscription_manager;
-        protected static Mock<IEventSubscriptionRepository> event_subscription_repository_mock;
+        protected static Mock<IEventSubscriptions> event_subscriptions_mock;
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;
         protected static Mock<IContainer> container_mock;
         protected static Mock<ILocalizer> localizer_mock;
@@ -23,7 +23,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
 
         Establish context = () =>
         {
-            event_subscription_repository_mock = new Mock<IEventSubscriptionRepository>();
+            event_subscriptions_mock = new Mock<IEventSubscriptions>();
             type_discoverer_mock = new Mock<ITypeDiscoverer>();
             container_mock = new Mock<IContainer>();
 
@@ -38,10 +38,10 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
                 LastEventId = 0
             };
 
-            event_subscription_repository_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });
+            event_subscriptions_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });
 
             localizer_mock = new Mock<ILocalizer>();
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
+            event_subscription_manager = new EventSubscriptionManager(event_subscriptions_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
     }
 }

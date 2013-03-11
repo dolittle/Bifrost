@@ -34,7 +34,7 @@ namespace Bifrost.Events
     [Singleton]
     public class EventSubscriptionManager : IEventSubscriptionManager
     {
-        IEventSubscriptionRepository _repository;
+        IEventSubscriptions _subscriptions;
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
         ILocalizer _localizer;
@@ -45,17 +45,17 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes an instance of <see cref="EventSubscriptionManager"/>
         /// </summary>
-        /// <param name="repository">A <see cref="IEventSubscriptionRepository"/> that will be used to maintain subscriptions from a datasource</param>
+        /// <param name="subscriptions">A <see cref="IEventSubscriptions"/> that will be used to maintain subscriptions from a datasource</param>
         /// <param name="typeDiscoverer">A <see cref="ITypeDiscoverer"/> for discovering <see cref="IProcessEvents"/>s in current process</param>
         /// <param name="container">A <see cref="IContainer"/> for creating instances of objects/services</param>
         /// <param name="localizer">A <see cref="ILocalizer"/> for controlling localization while executing subscriptions</param>
         public EventSubscriptionManager(
-            IEventSubscriptionRepository repository, 
+            IEventSubscriptions subscriptions,
             ITypeDiscoverer typeDiscoverer, 
             IContainer container,
             ILocalizer localizer)
         {
-            _repository = repository;
+            _subscriptions = subscriptions;
             _typeDiscoverer = typeDiscoverer;
             _container = container;
             _localizer = localizer;
@@ -157,7 +157,7 @@ namespace Bifrost.Events
         {
             var subscriptionToUpdate = _allSubscriptions.Where(e=>e.Equals(subscription)).Single();
             subscriptionToUpdate.LastEventId = eventId;
-            _repository.Update(subscriptionToUpdate);
+            _subscriptions.Save(subscriptionToUpdate);
         }
 
 
@@ -202,7 +202,7 @@ namespace Bifrost.Events
             _allSubscriptions.Clear();
             CollectInProcessSubscribers();
             _allSubscriptions.Clear();
-            _subscriptionsFromRepository = _repository.GetAll();
+            _subscriptionsFromRepository = _subscriptions.GetAll();
             AddSubscriptionsFromRepository();
             AddInMemoryOrUseRepositorySubscriptions();
             UpdateInMemorySubscriptions();
@@ -213,7 +213,7 @@ namespace Bifrost.Events
         {
             var subscribersNotInRepository = _subscriptionsInProcess.Where(s => !_subscriptionsFromRepository.Contains(s));
             foreach (var subscriber in subscribersNotInRepository)
-                _repository.Add(subscriber);
+                _subscriptions.Save(subscriber);
         }
 
         void AddInMemoryOrUseRepositorySubscriptions()
