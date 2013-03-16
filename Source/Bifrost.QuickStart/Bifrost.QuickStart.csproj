@@ -216,6 +216,10 @@
       <Project>{94792675-44a2-4dd8-8cf2-1771787a097c}</Project>
       <Name>Bifrost.Mimir.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
+      <Project>{63bbc1f3-e5e0-4902-badf-1589f91c0bea}</Project>
+      <Name>Bifrost.MongoDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
       <Project>{3ee03158-1be0-470c-85fb-e673cd5fc9e1}</Project>
       <Name>Bifrost.Ninject</Name>

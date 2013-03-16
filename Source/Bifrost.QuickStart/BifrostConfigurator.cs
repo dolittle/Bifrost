@@ -12,11 +12,13 @@ namespace Bifrost.QuickStart
                 .Serialization
                     .UsingJson()
                 .Events
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
+                    .UsingMongoDB(e=>e.WithUrl("mongodb://localhost:27017").WithDefaultDatabase("Bifrost"))
+                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
                 .Events
                     .Asynchronous(e=>e.UsingSignalR())
                 .DefaultStorage
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                    .UsingMongoDB(e => e.WithUrl("mongodb://localhost:27017").WithDefaultDatabase("Bifrost"))
+                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
                     .Web(w=>w.AsSinglePageApplication())
                 .WithMimir();

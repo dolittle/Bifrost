@@ -1,14 +1,11 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2011, Dolittle
+// Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
-//   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
-// You may obtain a copy of the license at
+// You may obtain a copy of the license at 
 //
 //   http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt
 //
@@ -19,18 +16,13 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using Bifrost.Configuration;
-using Bifrost.Entities;
+using System.Net;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.MongoDB.Events
 {
-    public class EntityContextConfiguration : IEntityContextConfiguration
+    public class EventStorageConfiguration
     {
         public string Url { get; set; }
         public string DefaultDatabase { get; set; }
-
-        public Type EntityContextType { get { return typeof(EntityContext<>); } }
-        public IEntityContextConnection Connection { get; set; }
     }
 }
