@@ -26,6 +26,8 @@ namespace Bifrost.RavenDB
 {
     public class MethodInfoConverter : JsonConverter
     {
+        public override bool CanRead { get { return true; } }
+
         public override bool CanConvert(Type objectType)
         {
             return typeof(MethodInfo).IsAssignableFrom(objectType);

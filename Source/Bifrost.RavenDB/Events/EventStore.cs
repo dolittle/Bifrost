@@ -56,6 +56,7 @@ namespace Bifrost.RavenDB.Events
 
             _documentStore.Conventions.CustomizeJsonSerializer = s =>
             {
+                s.Converters.Add(new MethodInfoConverter());
                 s.Converters.Add(new EventSourceVersionConverter());
                 s.Converters.Add(new ConceptConverter());
             };

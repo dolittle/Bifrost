@@ -46,6 +46,7 @@ namespace Bifrost.RavenDB.Events
         public void Save(EventSubscription subscription)
         {
             var key = subscription.GetHashCode();
+            subscription.Id = key;
             var keyAsString = key.ToString();
             using (var session = _documentStore.OpenSession())
             {
@@ -57,8 +58,9 @@ namespace Bifrost.RavenDB.Events
                     {
                         try
                         {
-                            session.Store(subscription, Guid.Empty, keyAsString);
+                            session.Store(subscription);
                             session.SaveChanges();
+                            saving = false;
                         }
                         catch (ConcurrencyException)
                         {
@@ -80,7 +82,6 @@ namespace Bifrost.RavenDB.Events
 
                 session.SaveChanges();
             }
-
         }
     }
 }
