@@ -242,7 +242,6 @@ namespace Bifrost.Events
             foreach (var subscriber in subscribersToUpdate)
             {
                 var subscriberToUpdate = _subscriptionsInProcess.Where(s => s.Equals(subscriber)).Single();
-                subscriberToUpdate.Id = subscriber.Id;
                 if (subscriber.LastEventId > subscriberToUpdate.LastEventId)
                     subscriberToUpdate.LastEventId = subscriber.LastEventId;
             }

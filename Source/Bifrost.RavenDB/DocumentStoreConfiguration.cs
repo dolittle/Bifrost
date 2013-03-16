@@ -40,6 +40,11 @@ namespace Bifrost.RavenDB
             if (Credentials != null)
                 documentStore.Credentials = Credentials;
 
+            documentStore.Conventions.CustomizeJsonSerializer = s =>
+            {
+                s.Converters.Add(new MethodInfoConverter());
+            };
+
             documentStore.Initialize();
 
             return documentStore;

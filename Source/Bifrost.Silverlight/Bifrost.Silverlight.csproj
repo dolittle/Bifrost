@@ -342,9 +342,6 @@
     <Compile Include="..\Bifrost\Events\EventSubscriptionManager.cs">
       <Link>Events\EventSubscriptionManager.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Events\EventSubscriptionRepository.cs">
-      <Link>Events\EventSubscriptionRepository.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Events\IAmNextGenerationOf.cs">
       <Link>Events\IAmNextGenerationOf.cs</Link>
     </Compile>
@@ -380,9 +377,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptionManager.cs">
       <Link>Events\IEventSubscriptionManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Events\IEventSubscriptionRepository.cs">
-      <Link>Events\IEventSubscriptionRepository.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptions.cs">
       <Link>Events\IEventSubscriptions.cs</Link>

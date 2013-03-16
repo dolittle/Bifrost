@@ -52,9 +52,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DocumentStoreConfiguration.cs" />
-    <Compile Include="Events\EventStoreConfiguration.cs" />
+    <Compile Include="Events\RegularEventStoreConfiguration.cs" />
     <Compile Include="Events\EventSubscriptions.cs" />
-    <Compile Include="Events\EventSubscriptionsConfiguration.cs" />
+    <Compile Include="Events\RegularEventSubscriptionsConfiguration.cs" />
     <Compile Include="Events\IEventStoreConfiguration.cs" />
     <Compile Include="Events\IEventSubscriptionsConfiguration.cs" />
     <Compile Include="IDocumentStoreConfiguration.cs" />

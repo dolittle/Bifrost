@@ -24,7 +24,7 @@ using Bifrost.Entities;
 using Bifrost.RavenDB;
 using Bifrost.RavenDB.Embedded.Events;
 using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
-using EventStoreConfiguration = Bifrost.RavenDB.Embedded.Events.EventStoreConfiguration;
+using EventStoreConfiguration = Bifrost.RavenDB.Embedded.Events.EmbeddedEventStoreConfiguration;
 
 namespace Bifrost.Configuration
 {
@@ -49,13 +49,14 @@ namespace Bifrost.Configuration
         public static IConfigure UsingRavenDBEmbedded(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
         {
             eventsConfiguration.EventStoreType = typeof(Bifrost.RavenDB.Events.EventStore);
+            eventsConfiguration.EventSubscriptionsType = typeof(Bifrost.RavenDB.Events.EventSubscriptions);
+
             var configuration = new EventStoreConfiguration();
             configureCallback(configuration);
             Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventStoreConfiguration>(configuration);
-            var eventSubscriptionsConfiguration = new EventSubscriptionsConfiguration();
+            var eventSubscriptionsConfiguration = new EmbeddedEventSubscriptionsConfiguration();
             configuration.CopyTo(eventSubscriptionsConfiguration);
             Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventSubscriptionsConfiguration>(eventSubscriptionsConfiguration);
-
 
             return Configure.Instance;
         }

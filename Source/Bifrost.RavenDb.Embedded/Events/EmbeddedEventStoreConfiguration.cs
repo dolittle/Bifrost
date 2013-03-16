@@ -19,7 +19,7 @@
 using Bifrost.RavenDB.Events;
 namespace Bifrost.RavenDB.Embedded.Events
 {
-    public class EventStoreConfiguration : DocumentStoreConfiguration, IEventStoreConfiguration
+    public class EmbeddedEventStoreConfiguration : DocumentStoreConfiguration, IEventStoreConfiguration
     {
     }
 }

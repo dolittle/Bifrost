@@ -33,7 +33,14 @@ namespace Bifrost.Events
 
         public void Save(EventSubscription subscription)
         {
+
+        }
+
+        public void ResetLastEventForAllSubscriptions()
+        {
         }
 #pragma warning restore 1591 // Xml Comments
+
+
     }
 }

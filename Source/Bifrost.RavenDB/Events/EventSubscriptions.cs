@@ -16,8 +16,10 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 using Bifrost.Events;
+using Raven.Client.Document;
 
 namespace Bifrost.RavenDB.Events
 {
@@ -26,21 +28,39 @@ namespace Bifrost.RavenDB.Events
     /// </summary>
     public class EventSubscriptions : IEventSubscriptions
     {
+        DocumentStore _documentStore;
+
         public EventSubscriptions(IEventSubscriptionsConfiguration configuration)
         {
-            var documentStore = configuration.CreateDocumentStore();
-
-            var session = documentStore.OpenSession();
+            _documentStore = configuration.CreateDocumentStore();
         }
 
         public IEnumerable<EventSubscription> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (var session = _documentStore.OpenSession())
+                return session.Query<EventSubscription>();
         }
 
         public void Save(EventSubscription subscription)
         {
-            throw new System.NotImplementedException();
+            using (var session = _documentStore.OpenSession())
+            {
+                var key = subscription.GetHashCode();
+                session.Store(subscription, Guid.Empty, key.ToString());
+                session.SaveChanges();
+            }
+        }
+
+        public void ResetLastEventForAllSubscriptions()
+        {
+            using (var session = _documentStore.OpenSession())
+            {
+                foreach (var subscription in session.Query<EventSubscription>())
+                    subscription.LastEventId = 0;
+
+                session.SaveChanges();
+            }
+
         }
     }
 }

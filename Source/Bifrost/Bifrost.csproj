@@ -118,12 +118,10 @@
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
-    <Compile Include="Events\EventSubscriptionRepository.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
     <Compile Include="Events\IEventStoreChangeManager.cs" />
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />
     <Compile Include="Events\IEventSubscriptionManager.cs" />
-    <Compile Include="Events\IEventSubscriptionRepository.cs" />
     <Compile Include="Events\IEventSubscriptions.cs" />
     <Compile Include="Events\InvalidFastForwardException.cs" />
     <Compile Include="Events\IProcessMethodInvoker.cs" />

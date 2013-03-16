@@ -27,19 +27,6 @@ namespace Bifrost.Events
     public class EventSubscription
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="EventSubscription"/>
-        /// </summary>
-        public EventSubscription()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        /// <summary>
-        /// Gets or sets the Id of the event subscription
-        /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the owner of the subscriber method that subscribes to the event
         /// </summary>
         public Type Owner { get; set; }

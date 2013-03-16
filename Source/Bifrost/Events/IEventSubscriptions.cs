@@ -35,5 +35,10 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="subscription"><see cref="EventSubscription"/> to save</param>
         void Save(EventSubscription subscription);
+
+        /// <summary>
+        /// Reset last event id for all subscriptions
+        /// </summary>
+        void ResetLastEventForAllSubscriptions();
     }
 }

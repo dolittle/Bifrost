@@ -24,18 +24,18 @@ namespace Bifrost.Mimir.Read.EventStores
 {
     public class EventSubscribers : IProcessEvents
     {
-        IEventSubscriptionRepository _eventSubscriptionRepository;
+        IEventSubscriptions _eventSubscriptions;
         ITaskManager _taskManager;
 
-        public EventSubscribers(IEventSubscriptionRepository eventSubscriptionRepository, ITaskManager taskManager)
+        public EventSubscribers(IEventSubscriptions eventSubscriptionRepository, ITaskManager taskManager)
         {
-            _eventSubscriptionRepository = eventSubscriptionRepository;
+            _eventSubscriptions = eventSubscriptionRepository;
             _taskManager = taskManager;
         }
 
         public void Process(AllEventsReplayed @event)
         {
-            _eventSubscriptionRepository.ResetLastEventForAllSubscriptions();
+            _eventSubscriptions.ResetLastEventForAllSubscriptions();
             _taskManager.Start<ResetAllEventsForAllSubscriptionsTask>();
         }
     }

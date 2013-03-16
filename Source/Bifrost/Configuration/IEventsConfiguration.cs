@@ -38,6 +38,11 @@ namespace Bifrost.Configuration
         Type EventStoreType { get; set; }
 
         /// <summary>
+        /// Gets or sets the type of <see cref="IEventSubscriptions"/> to use for handling event subscriptions
+        /// </summary>
+        Type EventSubscriptionsType { get; set; }
+
+        /// <summary>
         /// Add a <see cref="IEventStoreChangeNotifier"/> type for the configuration
         /// </summary>
         /// <param name="type"></param>

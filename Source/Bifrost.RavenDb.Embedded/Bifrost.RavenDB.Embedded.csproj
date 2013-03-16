@@ -62,8 +62,8 @@
     <Compile Include="DocumentStoreConfiguration.cs" />
     <Compile Include="DocumentStores.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
-    <Compile Include="Events\EventStoreConfiguration.cs" />
-    <Compile Include="Events\EventSubscriptionsConfiguration.cs" />
+    <Compile Include="Events\EmbeddedEventStoreConfiguration.cs" />
+    <Compile Include="Events\EmbeddedEventSubscriptionsConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,14 @@ namespace Bifrost.RavenDB.Embedded
                 if (enableManagementStudio)
                     documentStore.UseEmbeddedHttpServer = true;
 
+                documentStore.Conventions.CustomizeJsonSerializer = s =>
+                {
+                    s.Converters.Add(new MethodInfoConverter());
+                };
+
                 documentStore.Initialize();
+
+
                 _documentStores[path] = documentStore;
             }
             return _documentStores[path];
