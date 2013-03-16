@@ -18,7 +18,9 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 using Bifrost.Events;
+using Raven.Abstractions.Exceptions;
 using Raven.Client.Document;
 
 namespace Bifrost.RavenDB.Events
@@ -43,11 +45,29 @@ namespace Bifrost.RavenDB.Events
 
         public void Save(EventSubscription subscription)
         {
+            var key = subscription.GetHashCode();
+            var keyAsString = key.ToString();
             using (var session = _documentStore.OpenSession())
             {
-                var key = subscription.GetHashCode();
-                session.Store(subscription, Guid.Empty, key.ToString());
-                session.SaveChanges();
+                using (new TransactionScope(TransactionScopeOption.Suppress))
+                {
+                    var saving = true;
+
+                    while (saving)
+                    {
+                        try
+                        {
+                            session.Store(subscription, Guid.Empty, keyAsString);
+                            session.SaveChanges();
+                        }
+                        catch (ConcurrencyException)
+                        {
+                            var existing = session.Load<EventSubscription>(keyAsString);
+                            if (existing.LastEventId > subscription.LastEventId)
+                                saving = false;
+                        }
+                    }
+                }
             }
         }
 
