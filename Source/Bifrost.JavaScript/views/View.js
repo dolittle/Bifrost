@@ -38,7 +38,7 @@ Bifrost.namespace("Bifrost.views", {
             self.path = path;
             self.viewLoader.load(path).continueWith(function (html) {
                 var container = $("<div/>").html(html);
-
+                
                 var viewModelApplied = applyViewModelsByAttribute(path, container);
                 if (viewModelApplied == false) {
                     applyViewModelByConventionFromPath(path, container);
