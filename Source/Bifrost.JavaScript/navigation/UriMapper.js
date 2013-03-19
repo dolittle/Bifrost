@@ -4,6 +4,35 @@
 
         this.mappings = [];
 
+
+        this.getFeatureMappingFor = function (uri) {
+            var found;
+            $.each(self.mappings, function (i, m) {
+                if (m.matches(uri)) {
+                    found = m;
+                    return false;
+                }
+            });
+
+            if (typeof found !== "undefined") {
+                return found;
+            }
+
+            throw {
+                name: "ArgumentError",
+                message: "URI (" + uri + ") could not be mapped"
+            }
+        };
+
+        this.resolve = function (uri) {
+            try {
+                var mapping = self.getFeatureMappingFor(uri);
+                return mapping.resolve(uri);
+            } catch (e) {
+                return "";
+            }
+        };
+
         this.addMapping = function (uri, mappedUri) {
             var mapping = Bifrost.navigation.UriMapping.create({
                 uri: uri,
