@@ -30,7 +30,7 @@ describe("when creating instance with dependencies and super having dependencies
 					return ["somethingElse"];
 				}
 			},
-			resolve: function(namespace, name) {
+			resolve: function (namespace, name) {
                 ns = namespace;
 
 				if( name === "something" ) {

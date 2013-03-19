@@ -182,6 +182,7 @@
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_camel_case_into_pascal_case.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_pascal_case_into_camel_case.js" />
+    <Content Include="Utils\for_Type\when_creating_instance_with_some_dependencies_specified.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_only_for_super.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_also_for_super.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified.js" />

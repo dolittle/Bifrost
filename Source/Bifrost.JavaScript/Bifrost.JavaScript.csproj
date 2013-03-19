@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
     <Content Include="commands\Command.js" />
@@ -61,6 +62,7 @@
     <Content Include="navigation\NavigationFrame.js" />
     <Content Include="navigation\navigationFrames.js" />
     <Content Include="navigation\UriMapper.js" />
+    <Content Include="navigation\uriMappers.js" />
     <Content Include="navigation\UriMapping.js" />
     <Content Include="read\Query.js" />
     <Content Include="read\queryDependencyResolver.js" />
