@@ -2561,6 +2561,7 @@ Bifrost.namespace("Bifrost.navigation", {
         this.currentView = ko.observable();
 
         history.Adapter.bind(window, "statechange", function () {
+            self.handleView();
         });
 
         this.setContainer = function (container) {
