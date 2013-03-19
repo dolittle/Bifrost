@@ -63,6 +63,7 @@
 @depends messaging/observableMessage.js
 @depends navigation/UriMapping.js
 @depends navigation/UriMapper.js
+@depends navigation/uriMappers.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

@@ -23,6 +23,16 @@
         function onStartup() {
             var self = this;
 
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                Bifrost.WellKnownTypesDependencyResolver.types.history = History;
+            }
+
+            var defaultUriMapper = Bifrost.navigation.UriMapper.create();
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}", "/{boundedContext}/{module}/{feature}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}", "/{boundedContext}/{feature}.html");
+            defaultUriMapper.addMapping("{feature}", "/{feature}.html");
+            Bifrost.navigation.uriMappers.default = defaultUriMapper;
+
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();

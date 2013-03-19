@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="views\DataAttributeViewResolver.js" />
+    <Content Include="views\viewResolver.js" />
+    <Content Include="views\viewResolvers.js" />
     <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
