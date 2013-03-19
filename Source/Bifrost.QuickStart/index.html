@@ -10,6 +10,14 @@
 
     <script type="text/javascript" src="Bifrost/Application"></script>
 
+    <script type="text/javascript">
+        var uriMapper = Bifrost.navigation.UriMapper.create();
+
+        uriMapper.addMapping("{module}/{feature}","/Features/{module}/{feature}.html");
+        uriMapper.addMapping("{module}","/Features/{module}/index.html");
+        Bifrost.navigation.uriMappers.quickStart = uriMapper;
+    </script>
+
 </head>
 <body>
     <div class="regionOuter" style="background-color: #bf3a00; padding-top: 20px; padding-bottom: 10px;">
@@ -25,10 +33,9 @@
         </div>
     </div>
 
-    <div data-navigation-frame="uriMapper:default, home:Employees/index"></div>
+    <div data-navigation-frame="uriMapper:quickStart, home:Employees/index"></div>
 
-
-    <div data-feature="Employees/index"></div>
+    <!--<div data-feature="Employees/index"></div>-->
 
     <div class="regionOuter" style="background-color: #ddd;">
         <div class="container-narrow">

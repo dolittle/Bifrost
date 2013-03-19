@@ -12,6 +12,9 @@
             }
         }
 
+        this.expandFor = function (container) {
+        };
+
         this.resolve = function (element) {
             var promise = Bifrost.execution.Promise.create();
 

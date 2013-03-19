@@ -2503,6 +2503,8 @@ Bifrost.namespace("Bifrost.navigation", {
 
         this.resolve = function (uri) {
             try {
+                if( uri === null || typeof uri === "undefined" || uri === "" ) return "";
+                
                 var mapping = self.getFeatureMappingFor(uri);
                 return mapping.resolve(uri);
             } catch (e) {
@@ -2524,20 +2526,29 @@ Bifrost.namespace("Bifrost.navigation", {
     }
 });
 Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history) {
+    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history, viewFactory) {
         var self = this;
 
         this.uriMapper = uriMapper;
         this.home = home;
         this.container = null;
 
+        this.currentView = ko.observable();
+
         history.Adapter.bind(window, "statechange", function () {
         });
 
         this.setContainer = function (container) {
             self.container = container;
+            self.handleView();
+        };
 
+        this.handleView = function () {
             var viewPath = this.getCurrentViewPath();
+            viewFactory.createFrom(viewPath).continueWith(function (view) {
+                self.currentView(view);
+                $(self.container).html(view.content);
+            });
         };
 
         this.getCurrentViewPath = function () {
@@ -2725,6 +2736,7 @@ Bifrost.namespace("Bifrost.views", {
 
 
         this.load = function (path) {
+            var promise = Bifrost.execution.Promise.create();
             self.path = path;
             self.viewLoader.load(path).continueWith(function (html) {
                 var container = $("<div/>").html(html);
@@ -2736,7 +2748,11 @@ Bifrost.namespace("Bifrost.views", {
 
                 self.viewManager.expandFor(container[0]);
                 self.content = html;
+
+                promise.signal(self);
             });
+
+            return promise;
         };
     })
 });
@@ -2829,6 +2845,20 @@ Bifrost.namespace("Bifrost.views", {
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewFactory = Bifrost.views.viewFactory;
+Bifrost.namespace("Bifrost.views", {
+    viewLoader: Bifrost.Singleton(function () {
+        var self = this;
+        
+        this.load = function (path) {
+            var promise = Bifrost.execution.Promise.create();
+            require(["text!" + path + "!strip"], function (view) {
+                promise.signal(view);
+            });
+            return promise;
+        };
+    })
+});
 Bifrost.namespace("Bifrost.views", {
     viewLocationMapper: Bifrost.Singleton(function () {
     })
@@ -2846,6 +2876,9 @@ Bifrost.namespace("Bifrost.views", {
                 }
             }
         }
+
+        this.expandFor = function (container) {
+        };
 
         this.resolve = function (element) {
             var promise = Bifrost.execution.Promise.create();
@@ -2869,6 +2902,22 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.namespace("Bifrost.views", {
     ViewModel: Bifrost.Type.extend(function () {
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    viewModelManager: Bifrost.Singleton(function() {
+        var self = this;
+
+        this.get = function () {
+        };
+
+        this.hasForView = function () {
+            return false;
+        };
+
+        this.getForView = function () {
+           
+        };
     })
 });
 Bifrost.namespace("Bifrost", {

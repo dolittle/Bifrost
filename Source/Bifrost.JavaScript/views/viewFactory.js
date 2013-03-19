@@ -15,3 +15,4 @@
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewFactory = Bifrost.views.viewFactory;

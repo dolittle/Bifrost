@@ -75,8 +75,10 @@
 @depends views/DataAttributeViewResolver.js
 @depends views/viewBindingHandler.js
 @depends views/viewFactory.js
+@depends views/viewLoader.js
 @depends views/viewLocationMapper.js
 @depends views/viewManager.js
 @depends views/ViewModel.js
+@depends views/viewModelManager.js
 @depends utils/configure.js
 */

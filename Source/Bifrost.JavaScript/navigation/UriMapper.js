@@ -26,6 +26,8 @@
 
         this.resolve = function (uri) {
             try {
+                if( uri === null || typeof uri === "undefined" || uri === "" ) return "";
+                
                 var mapping = self.getFeatureMappingFor(uri);
                 return mapping.resolve(uri);
             } catch (e) {

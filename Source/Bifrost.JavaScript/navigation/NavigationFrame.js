@@ -1,18 +1,27 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history) {
+    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history, viewFactory) {
         var self = this;
 
         this.uriMapper = uriMapper;
         this.home = home;
         this.container = null;
 
+        this.currentView = ko.observable();
+
         history.Adapter.bind(window, "statechange", function () {
         });
 
         this.setContainer = function (container) {
             self.container = container;
+            self.handleView();
+        };
 
+        this.handleView = function () {
             var viewPath = this.getCurrentViewPath();
+            viewFactory.createFrom(viewPath).continueWith(function (view) {
+                self.currentView(view);
+                $(self.container).html(view.content);
+            });
         };
 
         this.getCurrentViewPath = function () {

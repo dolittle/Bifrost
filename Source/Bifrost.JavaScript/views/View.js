@@ -34,6 +34,7 @@ Bifrost.namespace("Bifrost.views", {
 
 
         this.load = function (path) {
+            var promise = Bifrost.execution.Promise.create();
             self.path = path;
             self.viewLoader.load(path).continueWith(function (html) {
                 var container = $("<div/>").html(html);
@@ -45,7 +46,11 @@ Bifrost.namespace("Bifrost.views", {
 
                 self.viewManager.expandFor(container[0]);
                 self.content = html;
+
+                promise.signal(self);
             });
+
+            return promise;
         };
     })
 });
