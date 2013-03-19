@@ -134,6 +134,7 @@
     <Content Include="read\for_Query\when_getting_all.js" />
     <Content Include="read\for_Query\when_executing_and_all_has_been_retrieved.js" />
     <Content Include="read\for_Query\when_property_changes_and_all_query_is_used.js" />
+    <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
     <Content Include="Utils\for_assetsManager\when_initializing.js" />
@@ -183,7 +184,11 @@
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
+    <Content Include="Utils\for_path\when_making_path_relative_that_is_already_relative.js" />
+    <Content Include="Utils\for_path\when_getting_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
+    <Content Include="Utils\for_path\when_changing_extension.js" />
+    <Content Include="Utils\for_path\when_making_path_starting_with_slash_relative.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_camel_case_into_pascal_case.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_pascal_case_into_camel_case.js" />
@@ -276,6 +281,7 @@
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
     <Content Include="views\for_viewManager\when_expanding_for_an_element_with_two_views_in_it.js" />
+    <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
     <Content Include="views\for_View\when_loading_and_content_has_no_view_model_reference.js" />
     <Content Include="views\for_View\when_loading_and_content_has_view_model_reference.js" />
     <Content Include="views\for_View\when_loading.js" />
@@ -307,6 +313,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_stringExtensions\when_replacing_many_instances_of_a_char_with_new_char.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
