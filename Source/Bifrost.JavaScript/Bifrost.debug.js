@@ -2982,9 +2982,10 @@ Bifrost.namespace("Bifrost", {
             }
 
             var defaultUriMapper = Bifrost.navigation.UriMapper.create();
-            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}", "/{boundedContext}/{module}/{feature}.html");
-            defaultUriMapper.addMapping("{boundedContext}/{feature}", "/{boundedContext}/{feature}.html");
-            defaultUriMapper.addMapping("{feature}", "/{feature}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.navigation.uriMappers.default = defaultUriMapper;
 
             var promise = Bifrost.assetsManager.initialize();
