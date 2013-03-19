@@ -2479,6 +2479,10 @@ Bifrost.namespace("Bifrost.navigation", {
     })
 });
 Bifrost.namespace("Bifrost.navigation", {
+    uriMappers: {
+    }
+});
+Bifrost.namespace("Bifrost.navigation", {
     NavigationFrame: Bifrost.Type.extend(function () {
         var self = this;
     })
@@ -2489,6 +2493,9 @@ Bifrost.namespace("Bifrost.navigation", {
 
 
         this.hookup = function () {
+            $("[data-navigation-frame]").each(function (index, item) {
+                console.log("Hello");
+            });
         };
     })
 });
@@ -2805,6 +2812,12 @@ Bifrost.namespace("Bifrost", {
 
         function onStartup() {
             var self = this;
+
+            var defaultUriMapper = Bifrost.navigation.UriMapper.create();
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}", "/{boundedContext}/{module}/{feature}");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}", "/{boundedContext}/{feature}");
+            defaultUriMapper.addMapping("{feature}", "/{feature}");
+            Bifrost.navigation.uriMappers.default = defaultUriMapper;
 
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
