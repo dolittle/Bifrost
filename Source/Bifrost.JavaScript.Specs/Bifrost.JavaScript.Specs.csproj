@@ -126,6 +126,8 @@
     <Content Include="navigation\for_UriMapper\when_resolving_an_empty_uri_that_has_match.js" />
     <Content Include="navigation\for_UriMapper\when_resolving_a_uri_that_should_match_a_uri_with_expansion.js" />
     <Content Include="navigation\for_UriMapper\when_resolving_a_uri_without_any_expansion.js" />
+    <Content Include="navigation\for_UriMapping\when_resolving_a_uri_with_wildcard_at_the_end.js" />
+    <Content Include="navigation\for_UriMapping\when_matching_a_uri_with_wildcard_at_the_end.js" />
     <Content Include="navigation\for_UriMapping\when_creating_with_parameters.js" />
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_match.js" />
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />

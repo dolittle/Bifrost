@@ -5,7 +5,7 @@
     });
     var result = FeatureMapping.matches("hello/there");
 
-    it("should not match", function () {
+    it("should match", function () {
         expect(result).toBe(true);
     });
 });

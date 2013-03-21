@@ -34,6 +34,10 @@
             defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.navigation.uriMappers.default = defaultUriMapper;
 
+            var defaultNamespaceMapper = Bifrost.navigation.UriMapper.create();
+            defaultNamespaceMapper.addMapping("{boundedContext}/**/", "{boundedContext}.**.");
+            
+
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();

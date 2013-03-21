@@ -5,9 +5,23 @@
         this.uri = uri;
         this.mappedUri = mappedUri;
 
-        var uriComponentRegex = /\{[a-zA-Z]*\}/g
+        var placeholderExpression = "\{[a-zA-Z]*\}";
+        var placeholderRegex = new RegExp(placeholderExpression, "g");
+
+        var wildcardExpression = "\\*{2}[//||\.]";
+        var wildcardRegex = new RegExp(wildcardExpression, "g");
+
+        var uriComponentExpression = "(" + placeholderExpression + ")*(" + wildcardExpression + ")*";
+        var uriComponentRegex = new RegExp(uriComponentExpression, "g");
+
         var components = uri.match(uriComponentRegex) || [];
-        var uriRegex = new RegExp(uri.replace(uriComponentRegex, "([\\w.]*)"));
+
+        //var uriExpression = uri.replace(wildcardRegex, "([\\w.]*[//||\.])*")
+        //uriExpression = uriExpression.replace(placeholderRegex, "([\\w.]*)")
+        //print("Uri Expression : " + uriExpression+" : "+components);
+
+        var uriRegex = placeholderRegex;
+            //new RegExp(uriExpression, "g");
 
         this.uri = uri;
         this.mappedUri = mappedUri;
