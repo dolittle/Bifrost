@@ -1,15 +1,6 @@
 Bifrost.namespace("Bifrost", {
-    namespaces: (function () {
+    namespaces: Bifrost.Singleton(function() {
         var self = this;
-        this.conventions = [];
-
-        this.addConvention = function (path, namespace) {
-            path = self.stripPath(path);
-            self.conventions.push({
-                path: path,
-                namespace: namespace
-            });
-        };
 
         this.stripPath = function (path) {
             if (path.startsWith("/")) {
@@ -28,6 +19,9 @@ Bifrost.namespace("Bifrost", {
             $.each(scripts, function (index, fullPath) {
                 var path = Bifrost.path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
+
+                for( var mapper in Bifrost.
+
                 $.each(self.conventions, function (conventionIndex, convention) {
                     if (path.startsWith(convention.path)) {
                         var namespacePath = path.substr(convention.path.length);
@@ -54,10 +48,5 @@ Bifrost.namespace("Bifrost", {
                 });
             });
         };
-
-        return {
-            addConvention : addConvention,
-            initialize: initialize
-        };
-    })()
+    })
 });

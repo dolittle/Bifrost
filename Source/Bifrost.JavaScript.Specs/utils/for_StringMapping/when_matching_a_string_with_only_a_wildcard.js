@@ -1,5 +1,5 @@
 ﻿describe("when matching a string with only a wildcard", function () {
-    var mapping = Bifrost.utils.StringMapping.create({
+    var mapping = Bifrost.StringMapping.create({
         format: "**/",
         mappedFormat: "**."
     });

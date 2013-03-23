@@ -1,6 +1,6 @@
 ﻿describe("when resolving a string", function () {
     var expectedResult = "Say/hello/to/mr.potatohead";
-    var mapping = Bifrost.utils.StringMapping.create({
+    var mapping = Bifrost.StringMapping.create({
         format: "{something}/{else}",
         mappedFormat: "Say/{else}/to/{something}"
     });

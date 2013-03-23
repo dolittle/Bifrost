@@ -36,6 +36,7 @@
 
             var defaultNamespaceMapper = Bifrost.utils.StringMapper.create();
             defaultNamespaceMapper.addMapping("{boundedContext}/**/", "{boundedContext}.**.");
+            Bifrost.utils.namespaceMappers.default = defaultNamespaceMapper;
           
 
             var promise = Bifrost.assetsManager.initialize();

@@ -1,9 +1,19 @@
-﻿Bifrost.namespace("Bifrost.utils", {
+﻿Bifrost.namespace("Bifrost", {
     StringMapper: Bifrost.Type.extend(function () {
         var self = this;
 
         this.mappings = [];
 
+        this.hasMappingFor = function (input) {
+            var found = false;
+            $.each(self.mappings, function (i, m) {
+                if (m.matches(input)) {
+                    found = true;
+                    return false;
+                }
+            });
+            return found;
+        };
 
         this.getMappingFor = function (input) {
             var found;
@@ -36,7 +46,7 @@
         };
 
         this.addMapping = function (format, mappedFormat) {
-            var mapping = Bifrost.utils.StringMapping.create({
+            var mapping = Bifrost.StringMapping.create({
                 format: format,
                 mappedFormat: mappedFormat
             });

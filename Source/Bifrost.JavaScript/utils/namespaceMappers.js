@@ -1,4 +1,3 @@
 ﻿Bifrost.namespace("Bifrost", {
-    uriMappers: {
-    }
+    namespaceMappers: {}
 });

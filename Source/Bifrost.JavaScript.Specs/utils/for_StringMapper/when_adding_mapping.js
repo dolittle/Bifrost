@@ -1,37 +1,37 @@
 ﻿describe("when adding mapping", function () {
-    var uriPassed = null;
-    var mappedUriPassed = null;
+    var formatPassed = null;
+    var mappedFormatPassed = null;
     var createCalled = false;
 
     var mapping = {};
 
     
-    Bifrost.navigation.UriMapping = {
+    Bifrost.StringMapping = {
         create: function (options) {
             createCalled = true;
-            uriPassed = options.uri;
-            mappedUriPassed = options.mappedUri;
+            formatPassed = options.format;
+            mappedFormatPassed = options.mappedFormat;
 
             return mapping;
         }
     };
 
-    var uriMapper = Bifrost.navigation.UriMapper.create();
-    uriMapper.addMapping("Something", "else");
+    var mapper = Bifrost.StringMapper.create();
+    mapper.addMapping("Something", "else");
 
     it("should create a new uri mapping", function () {
         expect(createCalled).toBe(true);
     });
 
-    it("should pass the uri to the mapping", function () {
-        expect(uriPassed).toBe("Something");
+    it("should pass the format to the mapping", function () {
+        expect(formatPassed).toBe("Something");
     });
 
-    it("should pass the mapped uri to the mapping", function () {
-        expect(mappedUriPassed).toBe("else");
+    it("should pass the mapped format to the mapping", function () {
+        expect(mappedFormatPassed).toBe("else");
     });
 
     it("should add the mapping to itself", function () {
-        expect(uriMapper.mappings[0]).toBe(mapping);
+        expect(mapper.mappings[0]).toBe(mapping);
     });
 });

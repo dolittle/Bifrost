@@ -1,5 +1,5 @@
 ﻿describe("when matching a string that should not match", function () {
-    var mapping = Bifrost.utils.StringMapping.create({
+    var mapping = Bifrost.StringMapping.create({
         format: "{something}/{else}",
         mappedFormat: "whatevva"
     });

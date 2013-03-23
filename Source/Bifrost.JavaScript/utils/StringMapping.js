@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.utils", {
+﻿Bifrost.namespace("Bifrost", {
     StringMapping: Bifrost.Type.extend(function (format, mappedFormat) {
         var self = this;
 

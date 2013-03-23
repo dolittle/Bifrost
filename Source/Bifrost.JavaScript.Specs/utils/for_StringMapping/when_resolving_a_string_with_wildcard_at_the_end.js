@@ -1,6 +1,6 @@
 ﻿describe("when resolving a string with wildcard at the end", function () {
     var expectedResult = "this.is.a.wildcard.uri";
-    var mapping = Bifrost.utils.StringMapping.create({
+    var mapping = Bifrost.StringMapping.create({
         format: "{something}/**/",
         mappedFormat: "{something}.**."
     });

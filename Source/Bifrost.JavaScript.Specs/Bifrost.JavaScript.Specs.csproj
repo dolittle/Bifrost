@@ -194,6 +194,21 @@
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_camel_case_into_pascal_case.js" />
     <Content Include="Utils\for_stringExtensions\when_turning_pascal_case_into_camel_case.js" />
+    <Content Include="Utils\for_StringMapper\when_adding_mapping.js" />
+    <Content Include="Utils\for_StringMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
+    <Content Include="Utils\for_StringMapper\when_resolving_an_empty_string_that_has_match.js" />
+    <Content Include="Utils\for_StringMapper\when_resolving_a_string_that_should_match_a_string_with_expansion.js" />
+    <Content Include="Utils\for_StringMapper\when_resolving_a_string_without_any_expansion.js" />
+    <Content Include="Utils\for_StringMapping\when_creating_with_parameters.js" />
+    <Content Include="Utils\for_StringMapping\when_matching_a_string_that_should_match.js" />
+    <Content Include="Utils\for_StringMapping\when_matching_a_string_that_should_not_match.js" />
+    <Content Include="Utils\for_StringMapping\when_matching_a_string_with_only_a_wildcard.js" />
+    <Content Include="Utils\for_StringMapping\when_matching_a_string_with_wildcard_at_the_end.js" />
+    <Content Include="Utils\for_StringMapping\when_matching_a_string_with_wildcard_in_the_middle.js" />
+    <Content Include="Utils\for_StringMapping\when_resolving_a_string.js" />
+    <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_only_a_wildcard.js" />
+    <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_at_the_end.js" />
+    <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_in_the_middle.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_some_dependencies_specified.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_only_for_super.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_also_for_super.js" />
@@ -292,7 +307,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Utils\for_namespacePaths\" />
     <Folder Include="views\for_viewLoader\" />
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,8 @@
                     }
                 }
             },
-            uriMappers: {}
+            uriMappers: {},
+            namespaceMappers: {}
         });
         Bifrost.WellKnownTypesDependencyResolver = {
             types: {}

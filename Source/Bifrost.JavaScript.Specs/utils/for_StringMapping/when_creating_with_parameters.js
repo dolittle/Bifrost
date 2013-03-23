@@ -2,7 +2,7 @@
     var format = "Something";
     var mappedFormat = "SomethingElse";
 
-    var mapping = Bifrost.utils.StringMapping.create({
+    var mapping = Bifrost.StringMapping.create({
         format: format,
         mappedFormat: mappedFormat
     });
