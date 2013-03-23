@@ -29,9 +29,11 @@
                     }
                 }
             },
-            stringMappers: {}
+            uriMappers: {}
         });
-        Bifrost.WellKnownTypesDependencyResolver = {};
+        Bifrost.WellKnownTypesDependencyResolver = {
+            types: {}
+        };
         
 
         Bifrost.configure.ready(function () {

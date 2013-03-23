@@ -20,6 +20,9 @@
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
+@depends utils/StringMapping.js
+@depends utils/StringMapper.js
+@depends utils/uriMappers.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -61,9 +64,6 @@
 @depends features/featureBindingHandler.js
 @depends messaging/Messenger.js
 @depends messaging/observableMessage.js
-@depends navigation/UriMapping.js
-@depends navigation/UriMapper.js
-@depends navigation/uriMappers.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js
