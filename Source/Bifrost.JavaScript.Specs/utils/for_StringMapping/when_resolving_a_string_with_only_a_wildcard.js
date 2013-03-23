@@ -1,8 +1,8 @@
-﻿describe("when resolving a string with wildcard in the middle", function () {
+﻿describe("when resolving a string with only a wildcard", function () {
     var expectedResult = "this.is.a.wildcard.uri.for_things";
     var mapping = Bifrost.utils.StringMapping.create({
-        format: "{something}/**/for_{else}",
-        mappedFormat: "{something}.**.for_{else}"
+        format: "**/",
+        mappedFormat: "**."
     });
     var result = mapping.resolve("this/is/a/wildcard/uri/for_things");
 
