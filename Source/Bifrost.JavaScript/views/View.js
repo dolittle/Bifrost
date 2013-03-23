@@ -3,6 +3,7 @@ Bifrost.namespace("Bifrost.views", {
         var self = this;
         this.path = "";
         this.content = "[CONTENT NOT LOADED]";
+        this.element = null;
         
         this.viewLoader = viewLoader;
         this.viewModelManager = viewModelManager;
@@ -46,6 +47,7 @@ Bifrost.namespace("Bifrost.views", {
 
                 self.viewManager.expandFor(container[0]);
                 self.content = html;
+                self.element = container;
 
                 promise.signal(self);
             });

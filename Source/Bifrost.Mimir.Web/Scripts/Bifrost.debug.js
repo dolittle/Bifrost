@@ -2600,7 +2600,7 @@ Bifrost.namespace("Bifrost.navigation", {
             var viewPath = this.getCurrentViewPath();
             viewFactory.createFrom(viewPath).continueWith(function (view) {
                 self.currentView(view);
-                $(self.container).html(view.content);
+                $(self.container).html(view.container);
             });
         };
 
@@ -2758,6 +2758,7 @@ Bifrost.namespace("Bifrost.views", {
         var self = this;
         this.path = "";
         this.content = "[CONTENT NOT LOADED]";
+        this.container = null;
         
         this.viewLoader = viewLoader;
         this.viewModelManager = viewModelManager;
@@ -2801,6 +2802,7 @@ Bifrost.namespace("Bifrost.views", {
 
                 self.viewManager.expandFor(container[0]);
                 self.content = html;
+                self.container = container;
 
                 promise.signal(self);
             });

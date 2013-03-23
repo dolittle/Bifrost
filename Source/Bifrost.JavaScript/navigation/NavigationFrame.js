@@ -21,7 +21,7 @@
             var viewPath = this.getCurrentViewPath();
             viewFactory.createFrom(viewPath).continueWith(function (view) {
                 self.currentView(view);
-                $(self.container).html(view.content);
+                $(self.container).html(view.element);
             });
         };
 

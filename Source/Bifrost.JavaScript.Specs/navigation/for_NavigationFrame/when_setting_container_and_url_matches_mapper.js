@@ -1,8 +1,11 @@
 ﻿describe("when setting container and url matches mapper", function () {
     var container = $("<div/>")[0];
     var createFromPath = null;
+    var element = $("<div/>");
+    element.html("Hello world");
+
     var view = {
-        content : "<div>Hello world</div>"
+        element: element
     };
 
     var stringMapper = {
@@ -50,6 +53,6 @@
     });
 
     it("should set the content of the container with the view", function () {
-        expect($(container).html()).toBe(view.content);
+        expect($(container).children(0).html()).toBe(view.element.html());
     });
 });
