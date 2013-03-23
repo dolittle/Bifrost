@@ -22,7 +22,7 @@ Bifrost.namespace("Bifrost", {
 
                 for (var mapperKey in Bifrost.namespaceMappers) {
                     var mapper = Bifrost.namespaceMappers[mapperKey];
-                    if (mapper instanceof Bifrost.StringMapper && mapper.hasMappingFor(path)) {
+                    if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
                         var namespacePath = mapper.resolve(path);
                         var namespace = Bifrost.namespace(namespacePath);
 

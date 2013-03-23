@@ -1,6 +1,7 @@
 ﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
-    index: Bifrost.Type.extend(function () {
+    index: Bifrost.views.ViewModel.extend(function () {
         var self = this;
+
+        this.value = ko.observable(42);
     })
 });
-Bifrost.features.featureManager.get("Employees/index").defineViewModel(Bifrost.QuickStart.Features.Employees.index);

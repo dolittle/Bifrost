@@ -186,6 +186,7 @@
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
+    <Content Include="Utils\for_path\when_getting_filename_without_extension_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_path\when_making_path_relative_that_is_already_relative.js" />
     <Content Include="Utils\for_path\when_getting_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />

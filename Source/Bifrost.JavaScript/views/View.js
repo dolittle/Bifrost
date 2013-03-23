@@ -37,7 +37,7 @@ Bifrost.namespace("Bifrost.views", {
             var promise = Bifrost.execution.Promise.create();
             self.path = path;
             self.viewLoader.load(path).continueWith(function (html) {
-                var container = $("<div/>").html(html);
+                var container = $("<div/>").html(html)[0];
                 
                 var viewModelApplied = applyViewModelsByAttribute(path, container);
                 if (viewModelApplied == false) {

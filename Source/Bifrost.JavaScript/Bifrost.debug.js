@@ -118,6 +118,11 @@ Bifrost.namespace("Bifrost", {
             var lastIndex = fullPath.lastIndexOf("/");
             return fullPath.substr(lastIndex+1);
         },
+        getFilenameWithoutExtension: function (fullPath) {
+            var filename = this.getFilename(fullPath);
+            var lastIndex = filename.lastIndexOf(".");
+            return filename.substr(0,lastIndex);
+        },
         changeExtension: function (fullPath, newExtension) {
             var lastIndex = fullPath.lastIndexOf(".");
             return fullPath.substr(0, lastIndex) + "." + newExtension;
@@ -928,7 +933,7 @@ Bifrost.namespace("Bifrost", {
 
                 for (var mapperKey in Bifrost.namespaceMappers) {
                     var mapper = Bifrost.namespaceMappers[mapperKey];
-                    if (mapper instanceof Bifrost.StringMapper && mapper.hasMappingFor(path)) {
+                    if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
                         var namespacePath = mapper.resolve(path);
                         var namespace = Bifrost.namespace(namespacePath);
 
@@ -2629,8 +2634,8 @@ Bifrost.namespace("Bifrost.navigation", {
                     configuration[item.key.trim()] = item.value.trim();
                 }
 
-                if (typeof configuration.mapper !== "undefined") {
-                    var mapper = Bifrost.utils.stringMappers[configuration.mapper];
+                if (typeof configuration.uriMapper !== "undefined") {
+                    var mapper = Bifrost.uriMappers[configuration.uriMapper];
                     var frame = Bifrost.navigation.NavigationFrame.create({
                         stringMapper: mapper,
                         home: configuration.home || ''
@@ -2787,7 +2792,7 @@ Bifrost.namespace("Bifrost.views", {
             var promise = Bifrost.execution.Promise.create();
             self.path = path;
             self.viewLoader.load(path).continueWith(function (html) {
-                var container = $("<div/>").html(html);
+                var container = $("<div/>").html(html)[0];
                 
                 var viewModelApplied = applyViewModelsByAttribute(path, container);
                 if (viewModelApplied == false) {
@@ -2956,8 +2961,21 @@ Bifrost.namespace("Bifrost.views", {
         this.get = function (path) {
             var promise = Bifrost.execution.Promise.create();
             require([path], function () {
-                var i = 0;
-                i++;
+                var localPath = Bifrost.path.getPathWithoutFilename(path);
+                var filename = Bifrost.path.getFilenameWithoutExtension(path);
+
+                for (var mapperKey in Bifrost.namespaceMappers) {
+                    var mapper = Bifrost.namespaceMappers[mapperKey];
+                    if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
+                        var namespacePath = mapper.resolve(localPath);
+                        var namespace = Bifrost.namespace(namespacePath);
+
+                        if (filename in namespace) {
+                            var instance = namespace[filename].create();
+                            promise.signal(instance);
+                        }
+                    }
+                }
             });
             return promise;
         };

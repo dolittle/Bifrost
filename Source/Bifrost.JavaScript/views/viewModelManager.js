@@ -6,8 +6,21 @@
         this.get = function (path) {
             var promise = Bifrost.execution.Promise.create();
             require([path], function () {
-                var i = 0;
-                i++;
+                var localPath = Bifrost.path.getPathWithoutFilename(path);
+                var filename = Bifrost.path.getFilenameWithoutExtension(path);
+
+                for (var mapperKey in Bifrost.namespaceMappers) {
+                    var mapper = Bifrost.namespaceMappers[mapperKey];
+                    if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
+                        var namespacePath = mapper.resolve(localPath);
+                        var namespace = Bifrost.namespace(namespacePath);
+
+                        if (filename in namespace) {
+                            var instance = namespace[filename].create();
+                            promise.signal(instance);
+                        }
+                    }
+                }
             });
             return promise;
         };

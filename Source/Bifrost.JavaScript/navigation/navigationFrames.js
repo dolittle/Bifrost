@@ -14,8 +14,8 @@
                     configuration[item.key.trim()] = item.value.trim();
                 }
 
-                if (typeof configuration.mapper !== "undefined") {
-                    var mapper = Bifrost.utils.stringMappers[configuration.mapper];
+                if (typeof configuration.uriMapper !== "undefined") {
+                    var mapper = Bifrost.uriMappers[configuration.uriMapper];
                     var frame = Bifrost.navigation.NavigationFrame.create({
                         stringMapper: mapper,
                         home: configuration.home || ''

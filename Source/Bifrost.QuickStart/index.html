@@ -11,11 +11,14 @@
     <script type="text/javascript" src="Bifrost/Application"></script>
 
     <script type="text/javascript">
-        var mapper = Bifrost.StringMapper.create();
+        var uriMapper = Bifrost.StringMapper.create();
+        uriMapper.addMapping("{module}/{feature}", "/Features/{module}/{feature}.html");
+        uriMapper.addMapping("{module}", "/Features/{module}/index.html");
+        Bifrost.uriMappers.quickStart = uriMapper;
 
-        mapper.addMapping("{module}/{feature}","/Features/{module}/{feature}.html");
-        mapper.addMapping("{module}","/Features/{module}/index.html");
-        Bifrost.uriMappers.quickStart = mapper;
+        var namespaceMapper = Bifrost.StringMapper.create();
+        namespaceMapper.addMapping("/Features/**/", "Bifrost.QuickStart.Features.**.");
+        Bifrost.namespaceMappers.quickStart = namespaceMapper;
     </script>
 
 </head>

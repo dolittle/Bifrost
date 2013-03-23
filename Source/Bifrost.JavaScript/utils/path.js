@@ -13,6 +13,11 @@
             var lastIndex = fullPath.lastIndexOf("/");
             return fullPath.substr(lastIndex+1);
         },
+        getFilenameWithoutExtension: function (fullPath) {
+            var filename = this.getFilename(fullPath);
+            var lastIndex = filename.lastIndexOf(".");
+            return filename.substr(0,lastIndex);
+        },
         changeExtension: function (fullPath, newExtension) {
             var lastIndex = fullPath.lastIndexOf(".");
             return fullPath.substr(0, lastIndex) + "." + newExtension;
