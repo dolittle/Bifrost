@@ -21,7 +21,7 @@
             }
         });
 
-        Bifrost.namespace("Bifrost.utils", {
+        Bifrost.namespace("Bifrost", {
             StringMapper: {
                 create: function() {
                     return {

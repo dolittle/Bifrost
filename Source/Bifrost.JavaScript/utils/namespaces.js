@@ -20,17 +20,12 @@ Bifrost.namespace("Bifrost", {
                 var path = Bifrost.path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
 
-                for( var mapper in Bifrost.
-
-                $.each(self.conventions, function (conventionIndex, convention) {
-                    if (path.startsWith(convention.path)) {
-                        var namespacePath = path.substr(convention.path.length);
-                        namespacePath = self.stripPath(namespacePath);
-                        namespacePath = namespacePath.split("/").join(".");
-                        if (convention.namespace.length > 0) {
-                            namespacePath = convention.namespace + ((namespacePath.length > 0) ? "."+namespacePath:"");
-                        }
+                for (var mapperKey in Bifrost.namespaceMappers) {
+                    var mapper = Bifrost.namespaceMappers[mapperKey];
+                    if (mapper instanceof Bifrost.StringMapper && mapper.hasMappingFor(path)) {
+                        var namespacePath = mapper.resolve(path);
                         var namespace = Bifrost.namespace(namespacePath);
+
                         var root = "/" + path + "/";
                         namespace._path = root;
 
@@ -45,7 +40,7 @@ Bifrost.namespace("Bifrost", {
 
                         namespace._scripts.push(system);
                     }
-                });
+                }
             });
         };
     })

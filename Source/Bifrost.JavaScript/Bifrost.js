@@ -1,7 +1,6 @@
 /*
 @depends utils/extend.js
 @depends utils/namespace.js
-@depends utils/namespaces.js
 @depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
@@ -20,6 +19,8 @@
 @depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
+@depends utils/namespaces.js
+@depends utils/namespaceMappers.js
 @depends utils/StringMapping.js
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js

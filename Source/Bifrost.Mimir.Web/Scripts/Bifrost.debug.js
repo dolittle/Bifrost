@@ -38,69 +38,6 @@ Bifrost.namespace = function (ns, content) {
 
     return parent;
 };
-Bifrost.namespace("Bifrost", {
-    namespaces: (function () {
-        var self = this;
-        this.conventions = [];
-
-        this.addConvention = function (path, namespace) {
-            path = self.stripPath(path);
-            self.conventions.push({
-                path: path,
-                namespace: namespace
-            });
-        };
-
-        this.stripPath = function (path) {
-            if (path.startsWith("/")) {
-                path = path.substr(1);
-            }
-            if (path.endsWith("/")) {
-                path = path.substr(0, path.length - 1);
-            }
-            return path;
-        };
-
-        this.initialize = function () {
-            var scripts = Bifrost.assetsManager.getScripts();
-            if (typeof scripts === "undefined") return;
-
-            $.each(scripts, function (index, fullPath) {
-                var path = Bifrost.path.getPathWithoutFilename(fullPath);
-                path = self.stripPath(path);
-                $.each(self.conventions, function (conventionIndex, convention) {
-                    if (path.startsWith(convention.path)) {
-                        var namespacePath = path.substr(convention.path.length);
-                        namespacePath = self.stripPath(namespacePath);
-                        namespacePath = namespacePath.split("/").join(".");
-                        if (convention.namespace.length > 0) {
-                            namespacePath = convention.namespace + ((namespacePath.length > 0) ? "."+namespacePath:"");
-                        }
-                        var namespace = Bifrost.namespace(namespacePath);
-                        var root = "/" + path + "/";
-                        namespace._path = root;
-
-                        if (typeof namespace._scripts === "undefined") {
-                            namespace._scripts = [];
-                        }
-
-                        var fileIndex = fullPath.lastIndexOf("/");
-                        var file = fullPath.substr(fileIndex + 1);
-                        var extensionIndex = file.lastIndexOf(".");
-                        var system = file.substr(0, extensionIndex);
-
-                        namespace._scripts.push(system);
-                    }
-                });
-            });
-        };
-
-        return {
-            addConvention : addConvention,
-            initialize: initialize
-        };
-    })()
-});
 Bifrost.namespace("Bifrost.execution", {
     Promise: function () {
         var self = this;
@@ -244,7 +181,7 @@ Bifrost.namespace("Bifrost", {
 
                 $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
                     Bifrost.assetsManager.scripts = result;
-                    Bifrost.namespaces.initialize();
+                    Bifrost.namespaces.create().initialize();
                     promise.signal();
                 }, "json");
             } else {
@@ -254,7 +191,7 @@ Bifrost.namespace("Bifrost", {
         },
         initializeFromAssets: function(assets) {
             Bifrost.assetsManager.scripts = assets;
-            Bifrost.namespaces.initialize();
+            Bifrost.namespaces.create().initialize();
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;
@@ -967,6 +904,174 @@ Bifrost.Uri = (function(window, undefined) {
 		},
 	};
 })(window);
+Bifrost.namespace("Bifrost", {
+    namespaces: Bifrost.Singleton(function() {
+        var self = this;
+
+        this.stripPath = function (path) {
+            if (path.startsWith("/")) {
+                path = path.substr(1);
+            }
+            if (path.endsWith("/")) {
+                path = path.substr(0, path.length - 1);
+            }
+            return path;
+        };
+
+        this.initialize = function () {
+            var scripts = Bifrost.assetsManager.getScripts();
+            if (typeof scripts === "undefined") return;
+
+            $.each(scripts, function (index, fullPath) {
+                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                path = self.stripPath(path);
+
+                for (var mapperKey in Bifrost.namespaceMappers) {
+                    var mapper = Bifrost.namespaceMappers[mapperKey];
+                    if (mapper instanceof Bifrost.StringMapper && mapper.hasMappingFor(path)) {
+                        var namespacePath = mapper.resolve(path);
+                        var namespace = Bifrost.namespace(namespacePath);
+
+                        var root = "/" + path + "/";
+                        namespace._path = root;
+
+                        if (typeof namespace._scripts === "undefined") {
+                            namespace._scripts = [];
+                        }
+
+                        var fileIndex = fullPath.lastIndexOf("/");
+                        var file = fullPath.substr(fileIndex + 1);
+                        var extensionIndex = file.lastIndexOf(".");
+                        var system = file.substr(0, extensionIndex);
+
+                        namespace._scripts.push(system);
+                    }
+                }
+            });
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
+    namespaceMappers: {}
+});
+Bifrost.namespace("Bifrost", {
+    StringMapping: Bifrost.Type.extend(function (format, mappedFormat) {
+        var self = this;
+
+        this.format = format;
+        this.mappedFormat = mappedFormat;
+
+        var placeholderExpression = "\{[a-zA-Z]+\}";
+        var placeholderRegex = new RegExp(placeholderExpression, "g");
+
+        var wildcardExpression = "\\*{2}[//||\.]";
+        var wildcardRegex = new RegExp(wildcardExpression, "g");
+
+        var combinedExpression = "(" + placeholderExpression + ")*(" + wildcardExpression + ")*";
+        var combinedRegex = new RegExp(combinedExpression, "g");
+
+        var components = [];
+        
+
+        var resolveExpression = format.replace(combinedRegex, function(match) {
+            if( typeof match === "undefined" || match == "") return "";
+            components.push(match);
+            if( match.indexOf("**") == 0) return "([\\w.//]*)";
+            return "([\\w.]*)";
+        });
+
+        var mappedFormatWildcardMatch = mappedFormat.match(wildcardRegex);
+        var formatRegex = new RegExp(resolveExpression);
+
+        this.matches = function (input) {
+            var match = input.match(formatRegex);
+            if (match) {
+                return true;
+            }
+            return false;
+        }
+
+        this.resolve = function (input) {
+            var match = input.match(formatRegex);
+            var result = mappedFormat;
+            var wildcardOffset = 0;
+
+            $.each(components, function (i, c) {
+                var value = match[i + 1];
+                if( c.indexOf("**") == 0 ) {
+                    var wildcard = mappedFormatWildcardMatch[wildcardOffset];
+                    value = value.replaceAll(c[2],wildcard[2]);
+                    result = result.replace(wildcard, value);
+                    wildcardOffset++;
+                } else {
+                    result = result.replace(c, value);
+                }
+            });
+
+            return result;
+        }
+    })
+});
+Bifrost.namespace("Bifrost", {
+    StringMapper: Bifrost.Type.extend(function () {
+        var self = this;
+
+        this.mappings = [];
+
+        this.hasMappingFor = function (input) {
+            var found = false;
+            $.each(self.mappings, function (i, m) {
+                if (m.matches(input)) {
+                    found = true;
+                    return false;
+                }
+            });
+            return found;
+        };
+
+        this.getMappingFor = function (input) {
+            var found;
+            $.each(self.mappings, function (i, m) {
+                if (m.matches(input)) {
+                    found = m;
+                    return false;
+                }
+            });
+
+            if (typeof found !== "undefined") {
+                return found;
+            }
+
+            throw {
+                name: "ArgumentError",
+                message: "String mapping for (" + input + ") could not be found"
+            }
+        };
+
+        this.resolve = function (input) {
+            try {
+                if( input === null || typeof input === "undefined" || input === "" ) return "";
+                
+                var mapping = self.getMappingFor(input);
+                return mapping.resolve(input);
+            } catch (e) {
+                return "";
+            }
+        };
+
+        this.addMapping = function (format, mappedFormat) {
+            var mapping = Bifrost.StringMapping.create({
+                format: format,
+                mappedFormat: mappedFormat
+            });
+            self.mappings.push(mapping);
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
+    uriMappers: {
+    }
+});
 Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
 Bifrost.Exception.define("Bifrost.validation.NotANumber", "Value is not a number");
@@ -2468,107 +2573,10 @@ if (typeof ko !== 'undefined') {
     }
 }
 Bifrost.namespace("Bifrost.navigation", {
-    UriMapping: Bifrost.Type.extend(function (uri, mappedUri) {
+    NavigationFrame: Bifrost.Type.extend(function (stringMapper, home, history, viewFactory) {
         var self = this;
 
-        this.uri = uri;
-        this.mappedUri = mappedUri;
-
-        var placeholderExpression = "\{[a-zA-Z]*\}";
-        var placeholderRegex = new RegExp(placeholderExpression, "g");
-
-        var wildcardExpression = "\\*{2}[//||\.]";
-        var wildcardRegex = new RegExp(wildcardExpression, "g");
-
-        var uriComponentExpression = "(" + placeholderExpression + ")*(" + wildcardExpression + ")*";
-        var uriComponentRegex = new RegExp(uriComponentExpression, "g");
-
-        var components = uri.match(uriComponentRegex) || [];
-
-        //var uriExpression = uri.replace(wildcardRegex, "([\\w.]*[//||\.])*")
-        //uriExpression = uriExpression.replace(placeholderRegex, "([\\w.]*)")
-        //print("Uri Expression : " + uriExpression+" : "+components);
-
-        var uriRegex = placeholderRegex;
-            //new RegExp(uriExpression, "g");
-
-        this.uri = uri;
-        this.mappedUri = mappedUri;
-
-        this.matches = function (uri) {
-            var match = uri.match(uriRegex);
-            if (match) {
-                return true;
-            }
-            return false;
-        }
-
-        this.resolve = function (uri) {
-            var match = uri.match(uriRegex);
-            var result = mappedUri;
-            $.each(components, function (i, c) {
-                result = result.replace(c, match[i + 1]);
-            });
-
-            return result;
-        }
-    })
-});
-Bifrost.namespace("Bifrost.navigation", {
-    UriMapper: Bifrost.Type.extend(function () {
-        var self = this;
-
-        this.mappings = [];
-
-
-        this.getFeatureMappingFor = function (uri) {
-            var found;
-            $.each(self.mappings, function (i, m) {
-                if (m.matches(uri)) {
-                    found = m;
-                    return false;
-                }
-            });
-
-            if (typeof found !== "undefined") {
-                return found;
-            }
-
-            throw {
-                name: "ArgumentError",
-                message: "URI (" + uri + ") could not be mapped"
-            }
-        };
-
-        this.resolve = function (uri) {
-            try {
-                if( uri === null || typeof uri === "undefined" || uri === "" ) return "";
-                
-                var mapping = self.getFeatureMappingFor(uri);
-                return mapping.resolve(uri);
-            } catch (e) {
-                return "";
-            }
-        };
-
-        this.addMapping = function (uri, mappedUri) {
-            var mapping = Bifrost.navigation.UriMapping.create({
-                uri: uri,
-                mappedUri: mappedUri
-            });
-            self.mappings.push(mapping);
-        };
-    })
-});
-Bifrost.namespace("Bifrost.navigation", {
-    uriMappers: {
-    }
-});
-Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history, viewFactory) {
-        var self = this;
-
-        this.uriMapper = uriMapper;
+        this.stringMapper = stringMapper;
         this.home = home;
         this.container = null;
 
@@ -2598,8 +2606,8 @@ Bifrost.namespace("Bifrost.navigation", {
             var path = uri.path;
             if (path.indexOf("/") == 0) path = path.substr(1);
 
-            var viewPath = uriMapper.resolve(path);
-            if (viewPath == "") viewPath = uriMapper.resolve(self.home);
+            var viewPath = stringMapper.resolve(path);
+            if (viewPath == "") viewPath = stringMapper.resolve(self.home);
 
             return viewPath;
         };
@@ -2621,10 +2629,10 @@ Bifrost.namespace("Bifrost.navigation", {
                     configuration[item.key.trim()] = item.value.trim();
                 }
 
-                if (typeof configuration.uriMapper !== "undefined") {
-                    var mapper = Bifrost.navigation.uriMappers[configuration.uriMapper];
+                if (typeof configuration.mapper !== "undefined") {
+                    var mapper = Bifrost.utils.stringMappers[configuration.mapper];
                     var frame = Bifrost.navigation.NavigationFrame.create({
-                        uriMapper: mapper,
+                        stringMapper: mapper,
                         home: configuration.home || ''
                     });
                     frame.setContainer(element);
@@ -2996,16 +3004,12 @@ Bifrost.namespace("Bifrost", {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
             }
 
-            var defaultUriMapper = Bifrost.navigation.UriMapper.create();
+            var defaultUriMapper = Bifrost.StringMapper.create();
             defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
             defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
             defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
             defaultUriMapper.addMapping("{view}", "{view}.html");
-            Bifrost.navigation.uriMappers.default = defaultUriMapper;
-
-            var defaultNamespaceMapper = Bifrost.navigation.UriMapper.create();
-            defaultNamespaceMapper.addMapping("{boundedContext}/**/", "{boundedContext}.**.");
-            
+            Bifrost.uriMappers.default = defaultUriMapper;
 
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {

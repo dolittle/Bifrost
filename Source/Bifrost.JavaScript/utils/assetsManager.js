@@ -7,7 +7,7 @@
 
                 $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
                     Bifrost.assetsManager.scripts = result;
-                    Bifrost.namespaces.initialize();
+                    Bifrost.namespaces.create().initialize();
                     promise.signal();
                 }, "json");
             } else {
@@ -17,7 +17,7 @@
         },
         initializeFromAssets: function(assets) {
             Bifrost.assetsManager.scripts = assets;
-            Bifrost.namespaces.initialize();
+            Bifrost.namespaces.create().initialize();
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;
