@@ -1,9 +1,9 @@
-﻿Bifrost.namespace("Bifrost.navigation", {
-    UriMapping: Bifrost.Type.extend(function (uri, mappedUri) {
+﻿Bifrost.namespace("Bifrost.utils", {
+    StringMapping: Bifrost.Type.extend(function (format, mappedFormat) {
         var self = this;
 
-        this.uri = uri;
-        this.mappedUri = mappedUri;
+        this.format = format;
+        this.mappedFormat = mappedFormat;
 
         var placeholderExpression = "\{[a-zA-Z]+\}";
         var placeholderRegex = new RegExp(placeholderExpression, "g");
@@ -17,36 +17,33 @@
         var components = [];
         
 
-        var resolveExpression = uri.replace(combinedRegex, function(match) {
+        var resolveExpression = format.replace(combinedRegex, function(match) {
             if( typeof match === "undefined" || match == "") return "";
             components.push(match);
             if( match.indexOf("**") == 0) return "([\\w.//]*)";
             return "([\\w.]*)";
         });
 
-        var mappedUriWildcardMatch = mappedUri.match(wildcardRegex);
-        var uriRegex = new RegExp(resolveExpression);
+        var mappedFormatWildcardMatch = mappedFormat.match(wildcardRegex);
+        var formatRegex = new RegExp(resolveExpression);
 
-        this.uri = uri;
-        this.mappedUri = mappedUri;
-
-        this.matches = function (uri) {
-            var match = uri.match(uriRegex);
+        this.matches = function (input) {
+            var match = input.match(formatRegex);
             if (match) {
                 return true;
             }
             return false;
         }
 
-        this.resolve = function (uri) {
-            var match = uri.match(uriRegex);
-            var result = mappedUri;
+        this.resolve = function (input) {
+            var match = input.match(formatRegex);
+            var result = mappedFormat;
             var wildcardOffset = 0;
 
             $.each(components, function (i, c) {
                 var value = match[i + 1];
                 if( c.indexOf("**") == 0 ) {
-                    var wildcard = mappedUriWildcardMatch[wildcardOffset];
+                    var wildcard = mappedFormatWildcardMatch[wildcardOffset];
                     value = value.replaceAll(c[2],wildcard[2]);
                     result = result.replace(wildcard, value);
                     wildcardOffset++;

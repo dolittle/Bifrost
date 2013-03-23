@@ -27,16 +27,17 @@
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
             }
 
-            var defaultUriMapper = Bifrost.navigation.UriMapper.create();
+
+            var defaultUriMapper = Bifrost.utils.StringMapper.create();
             defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
             defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
             defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
             defaultUriMapper.addMapping("{view}", "{view}.html");
-            Bifrost.navigation.uriMappers.default = defaultUriMapper;
+            Bifrost.utils.stringMappers.default = defaultUriMapper;
 
-            var defaultNamespaceMapper = Bifrost.navigation.UriMapper.create();
+            var defaultNamespaceMapper = Bifrost.utils.StringMapper.create();
             defaultNamespaceMapper.addMapping("{boundedContext}/**/", "{boundedContext}.**.");
-            
+          
 
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {

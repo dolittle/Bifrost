@@ -3,6 +3,7 @@
     var assetsManagerPromise = Bifrost.execution.Promise.create();
 
     beforeEach(function () {
+
         Bifrost.assetsManager = {
             initialize: function () {
                 return assetsManagerPromise;
@@ -19,11 +20,26 @@
                 hookup: function () { }
             }
         });
+
+        Bifrost.namespace("Bifrost.utils", {
+            StringMapper: {
+                create: function() {
+                    return {
+                        addMapping: function() {}
+                    }
+                }
+            },
+            stringMappers: {}
+        });
+        Bifrost.WellKnownTypesDependencyResolver = {};
         
+
         Bifrost.configure.ready(function () {
             readyCalled = true;
         });
+
         Bifrost.configure.onStartup();
+
         assetsManagerPromise.signal();
     });
 

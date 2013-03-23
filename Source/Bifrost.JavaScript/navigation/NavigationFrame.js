@@ -1,8 +1,8 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (uriMapper, home, history, viewFactory) {
+    NavigationFrame: Bifrost.Type.extend(function (stringMapper, home, history, viewFactory) {
         var self = this;
 
-        this.uriMapper = uriMapper;
+        this.stringMapper = stringMapper;
         this.home = home;
         this.container = null;
 
@@ -32,8 +32,8 @@
             var path = uri.path;
             if (path.indexOf("/") == 0) path = path.substr(1);
 
-            var viewPath = uriMapper.resolve(path);
-            if (viewPath == "") viewPath = uriMapper.resolve(self.home);
+            var viewPath = stringMapper.resolve(path);
+            if (viewPath == "") viewPath = stringMapper.resolve(self.home);
 
             return viewPath;
         };

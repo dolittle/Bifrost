@@ -5,9 +5,9 @@
         content : "<div>Hello world</div>"
     };
 
-    var uriMapper = {
-        resolve: function (uri) {
-            if (uri == "Something") return "ThePath";
+    var stringMapper = {
+        resolve: function (input) {
+            if (input == "Something") return "ThePath";
         }
     };
     var home = "";
@@ -33,7 +33,7 @@
     };
 
     var frame = Bifrost.navigation.NavigationFrame.create({
-        uriMapper: uriMapper,
+        stringMapper: stringMapper,
         home: home,
         history: history,
         viewFactory: viewFactory
