@@ -3,6 +3,29 @@
         var self = this;
         this.assetsManager = assetsManager;
 
+        function applyViewModelsByAttribute(path, container) {
+            var viewModelApplied = false;
+
+            $("[data-viewmodel]", container).each(function () {
+                viewModelApplied = true;
+                var target = $(this)[0];
+                var viewModelName = $(this).attr("data-viewmodel");
+                self.get(viewModelName, path).continueWith(function (instance) {
+                    ko.applyBindings(instance, target);
+                });
+            });
+
+            return viewModelApplied;
+        }
+
+        function applyViewModelByConventionFromPath(path, container) {
+            if (self.hasForView(path)) {
+                self.getForView(path).continueWith(function (instance) {
+                    ko.applyBindings(instance, container);
+                });
+            }
+        }
+
         this.get = function (path) {
             var promise = Bifrost.execution.Promise.create();
             require([path], function () {
@@ -35,6 +58,13 @@
         this.getForView = function (viewPath) {
             var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
             return self.get(scriptFile);
+        };
+
+        this.applyToViewIfAny = function (view) {
+            var viewModelApplied = applyViewModelsByAttribute(view.path, view.element);
+            if (viewModelApplied == false) {
+                applyViewModelByConventionFromPath(view.path, view.element);
+            }
         };
     })
 });

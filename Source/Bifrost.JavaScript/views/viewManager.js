@@ -1,13 +1,14 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewResolvers) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewModelManager) {
         var self = this;
 
-        this.viewResolvers = viewResolvers;
+        this.viewRenderers = viewRenderers;
+        this.viewModelManager = viewModelManager;
 
-        function resolveChildren(element) {
+        function renderChildren(element) {
             if(element.hasChildNodes() == true) {
                 for (var child = element.firstChild; child; child = child.nextSibling) {
-                    self.resolve(child);
+                    self.render(child);
                 }
             }
         }
@@ -18,30 +19,26 @@
                 var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
                 if (file == "") file = "index";
                 $(body).data("view", file);
-                self.resolve(body);
+                self.render(body);
             }
         };
 
-        this.expandFor = function (container) {
-        };
-
-        this.resolve = function (element) {
+        this.render = function (element) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( self.viewResolvers.canResolve(element) ) {
-                var view = self.viewResolvers.resolve(element);
-                view.load().continueWith(function() {
+            if (self.viewRenderers.canRender(element)) {
+                self.viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    resolveChildren(newElement);
-                    element.parentNode.replaceChild(newElement, element);
-                    
+                    self.viewModelManager.applyToViewIfAny(view);
+                    renderChildren(newElement);
                 });
             } else {
-                resolveChildren(element);
+                renderChildren(element);
             }
 
             return promise;
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;

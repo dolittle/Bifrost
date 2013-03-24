@@ -3,15 +3,10 @@
         var self = this;
 
         this.createFrom = function (path) {
-            var promise = Bifrost.execution.Promise.create();
-
-            var view = Bifrost.views.View.create();
-
-            view.load(path).continueWith(function () {
-                promise.signal(view);
+            var view = Bifrost.views.View.create({
+                path: path
             });
-
-            return promise;
+            return view;
         };
     })
 });

@@ -13,7 +13,7 @@
     <script type="text/javascript">
         var uriMapper = Bifrost.StringMapper.create();
         uriMapper.addMapping("{module}/{feature}", "/Features/{module}/{feature}.html");
-        uriMapper.addMapping("{module}", "/Features/{module}/index.html");
+        //uriMapper.addMapping("{module}", "/Features/{module}.html");
         Bifrost.uriMappers.quickStart = uriMapper;
 
         var namespaceMapper = Bifrost.StringMapper.create();
@@ -22,7 +22,7 @@
     </script>
 
 </head>
-<body>
+<body data-urimapper="quickStart">
     <div class="regionOuter" style="background-color: #bf3a00; padding-top: 20px; padding-bottom: 10px;">
         <div class="container-narrow">
             <div class="masthead">
@@ -36,9 +36,9 @@
         </div>
     </div>
 
-    <!--<div data-navigation-frame="uriMapper:quickStart, home:Employees/index"></div>-->
+    <div data-navigation-frame="uriMapper:quickStart, home:Employees/index"></div>
 
-    <div data-view="Employees/index"></div>
+    <!--<div data-view="Employees/index"></div>-->
 
     <!--<div data-feature="Employees/index"></div>-->
 
