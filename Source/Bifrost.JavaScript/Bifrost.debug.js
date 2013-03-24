@@ -2600,7 +2600,7 @@ Bifrost.namespace("Bifrost.navigation", {
             var viewPath = this.getCurrentViewPath();
             viewFactory.createFrom(viewPath).continueWith(function (view) {
                 self.currentView(view);
-                $(self.container).html(view.container);
+                $(self.container).html(view.element);
             });
         };
 
@@ -2758,7 +2758,7 @@ Bifrost.namespace("Bifrost.views", {
         var self = this;
         this.path = "";
         this.content = "[CONTENT NOT LOADED]";
-        this.container = null;
+        this.element = null;
         
         this.viewLoader = viewLoader;
         this.viewModelManager = viewModelManager;
@@ -2802,7 +2802,7 @@ Bifrost.namespace("Bifrost.views", {
 
                 self.viewManager.expandFor(container[0]);
                 self.content = html;
-                self.container = container;
+                self.element = container;
 
                 promise.signal(self);
             });
@@ -2863,7 +2863,7 @@ Bifrost.namespace("Bifrost.views", {
 		var self = this;
 
 		this.canResolve = function(element) {
-			return element.hasAttribute("data-view");
+		    return $(element).data("view") !== "unedefined";
 		};
 
 		this.resolve = function(element) {
@@ -2927,6 +2927,16 @@ Bifrost.namespace("Bifrost.views", {
                 }
             }
         }
+
+        this.initializeLandingPage = function () {
+            var body = $("body")[0];
+            if (body !== null) {
+                var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+                if (file == "") file = "index";
+                $(body).data("view", file);
+                self.resolve(body);
+            }
+        };
 
         this.expandFor = function (container) {
         };
@@ -3037,6 +3047,7 @@ Bifrost.namespace("Bifrost", {
                 Bifrost.navigation.navigationManager.hookup();
                 Bifrost.features.featureManager.hookup($);
                 Bifrost.navigation.navigationFrames.create().hookup();
+                Bifrost.views.viewManager.create().initializeLandingPage();
             });
         }
 

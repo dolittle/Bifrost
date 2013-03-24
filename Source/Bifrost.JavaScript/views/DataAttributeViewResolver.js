@@ -3,7 +3,7 @@ Bifrost.namespace("Bifrost.views", {
 		var self = this;
 
 		this.canResolve = function(element) {
-			return element.hasAttribute("data-view");
+		    return $(element).data("view") !== "unedefined";
 		};
 
 		this.resolve = function(element) {
