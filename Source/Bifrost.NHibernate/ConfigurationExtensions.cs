@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Bifrost.NHibernate;
+using Bifrost.NHibernate.Entities;
 
 namespace Bifrost.Configuration
 {
