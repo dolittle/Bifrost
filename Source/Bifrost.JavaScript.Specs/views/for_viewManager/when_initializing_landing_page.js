@@ -1,24 +1,32 @@
 ﻿describe("when initializing landing page", function() {
 
-    var viewManager = Bifrost.views.viewManager.create({
-        viewResolvers: {}
+    var viewManager = Bifrost.views.viewManager.defaultScope().create({
+        viewRenderers: {},
+        viewModelManager: {}
     });
     
 
     var path = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+    var elementRendered = null;
 
-    var elementResolved = null;
-    viewManager.resolve = function (element) {
-        elementResolved = element;
-    };
+    beforeEach(function() {
+        sinon.stub(viewManager,"render", function(element) {
+            elementRendered = element;
+        });
+        viewManager.initializeLandingPage();
+    });
+
+    afterEach(function() {
+        viewManager.render.restore();
+    });
+
     
-    viewManager.initializeLandingPage();
     
     it("should set correct view for the body tag", function () {
         expect($("body").data("view")).toBe(path);
     });
 
-    it("should resolve for the body tag", function () {
-        expect(elementResolved).toBe($("body")[0]);
+    it("should render for the body tag", function () {
+        expect(elementRendered).toBe($("body")[0]);
     });
 });

@@ -188,6 +188,15 @@ Bifrost.namespace("Bifrost", {
         return this;
     };
 
+    Bifrost.Type.defaultScope = function() {
+        this.scope = {
+            getFor: function() {
+                return null;
+            }
+        };
+        return this;
+    };
+
     Bifrost.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {

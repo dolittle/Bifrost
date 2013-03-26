@@ -1,4 +1,4 @@
-﻿describe("when resolving an element with two views deeply nested in it", function () {
+﻿describe("when rendering an element with two views deeply nested in it", function () {
 
     var container = $("<div/>");
     var firstViewElement = $("<div data-view='firstView'/>");
@@ -8,27 +8,27 @@
     container.append(firstViewElement);
     firstViewElement.append(secondViewElement);
     container.append(thirdElement);
-    thirdElement.resolved = false;
+    thirdElement.rendered = false;
 
     var options = {
-        viewResolvers: {
-            canResolve: function(element) {
+        viewRenderers: {
+            canRender: function(element) {
                 if (element == firstViewElement[0]) return true;
                 if (element == secondViewElement[0]) return true;
                 return false;
             },
-            resolve: function (element) {
+            render: function (element) {
                 var name = null;
 
                 if (element == firstViewElement[0]) {
-                    firstViewElement.resolved = true;
+                    firstViewElement.rendered = true;
                     name = "firstView";
                 }
                 if (element == secondViewElement[0]) {
-                    secondViewElement.resolved = true;
+                    secondViewElement.rendered = true;
                     name = "secondView";
                 }
-                if (element == thirdElement) thirdElement.resolved = true;
+                if (element == thirdElement) thirdElement.rendered = true;
 
                 if( name != null ) {
                     var viewElement = document.createElement("div");
@@ -44,37 +44,39 @@
                         element.removeChild(child);
                         viewElement.appendChild(child);
                     }
+
                     return {
-                        name : name,
-                        element: viewElement,
-                        load: function() {
-                            return {
-                                continueWith:function(callback) {
-                                    callback();
-                                }
-                            }
+                        continueWith: function(callback) {
+
+                            callback({
+                                name: name,
+                                element: viewElement,
+                            });
                         }
                     }
                 }
 
                 return null;
             }
+        },
+        viewModelManager: {
+            applyToViewIfAny: sinon.stub()
         }
     };
 
-    var viewManager = Bifrost.views.viewManager.create(options);
-    viewManager.resolve(container[0]);
+    var viewManager = Bifrost.views.viewManager.defaultScope().create(options);
+    viewManager.render(container[0]);
 
-    it("should resolve first view", function () {
-        expect(firstViewElement.resolved).toBe(true);
+    it("should render first view", function () {
+        expect(firstViewElement.rendered).toBe(true);
     });
 
-    it("should resolve second view", function () {
-        expect(secondViewElement.resolved).toBe(true);
+    it("should render second view", function () {
+        expect(secondViewElement.rendered).toBe(true);
     });
 
-    it("should not resolve third element that is not a view", function () {
-        expect(thirdElement.resolved).toBe(false);
+    it("should not render third element that is not a view", function () {
+        expect(thirdElement.rendered).toBe(false);
     });
 
     it("should set the first view on the element", function () {
