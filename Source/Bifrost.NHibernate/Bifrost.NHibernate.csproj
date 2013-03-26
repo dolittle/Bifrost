@@ -57,9 +57,9 @@
     <Compile Include="Concepts\MappingExtensions.cs" />
     <Compile Include="Concepts\ConceptAsOracleGuid.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
-    <Compile Include="EntityContext.cs" />
-    <Compile Include="EntityContextConfiguration.cs" />
-    <Compile Include="EntityContextConnection.cs" />
+    <Compile Include="Entities\EntityContext.cs" />
+    <Compile Include="Entities\EntityContextConfiguration.cs" />
+    <Compile Include="Entities\EntityContextConnection.cs" />
     <Compile Include="Events\EventClassMap.cs" />
     <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventHolder.cs" />
@@ -68,6 +68,9 @@
     <Compile Include="Events\EventSubscriptionClassMap.cs" />
     <Compile Include="Events\IEventConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Read\IReadOnlySession.cs" />
+    <Compile Include="Read\ReadModelRepositoryFor.cs" />
+    <Compile Include="Read\ReadOnlySession.cs" />
     <Compile Include="Sagas\SagaHolderClassMap.cs" />
     <Compile Include="UserTypes\InferredMapping.cs" />
     <Compile Include="UserTypes\NullSafeMapping.cs" />
