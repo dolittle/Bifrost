@@ -11,8 +11,7 @@ Bifrost.namespace("Bifrost.views", {
         this.load = function () {
             var promise = Bifrost.execution.Promise.create();
             self.viewLoader.load(self.path).continueWith(function (html) {
-                self.content = $(html);
-
+                self.content = html;
                 promise.signal(self);
             });
 

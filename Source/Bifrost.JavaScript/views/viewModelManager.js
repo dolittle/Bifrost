@@ -73,6 +73,7 @@
                     var mapper = Bifrost.namespaceMappers[mapperKey];
                     if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
                         var namespacePath = mapper.resolve(localPath);
+                        if (namespacePath.indexOf(".") == 0) namespacePath = namespacePath.substr(1);
                         var namespace = Bifrost.namespace(namespacePath);
 
                         if (filename in namespace) {

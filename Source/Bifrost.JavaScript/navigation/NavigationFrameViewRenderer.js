@@ -26,6 +26,7 @@
             var frame = Bifrost.navigation.NavigationFrame.create({
                 home: configuration.home || ''
             });
+            element.navigationFrame = frame;
             frame.setContainer(element).continueWith(function (view) {
                 promise.signal(view);
             });

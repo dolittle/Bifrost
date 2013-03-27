@@ -11,14 +11,17 @@
         this.currentUri.subscribe(function () {
             self.render();
         });
+        
+        this.setCurrentUri = function (path) {
+            if (path.indexOf("/") == 0) path = path.substr(1);
+            if (!self.uriMapper.hasMappingFor(path)) path = self.home;
+            self.currentUri(path);
+        };
 
         history.Adapter.bind(window, "statechange", function () {
             var state = history.getState();
             var uri = Bifrost.Uri.create(state.url);
-            var path = uri.path;
-            if (path.indexOf("/") == 0) path = path.substr(1);
-            if (!self.uriMapper.hasMappingFor(path)) path = self.home;
-            self.currentUri(path);
+            self.setCurrentUri(uri.path);
         });
 
         this.setContainer = function (container) {
@@ -49,7 +52,7 @@
         };
 
         this.navigate = function (uri) {
-            self.currentUri(uri);
+            self.setCurrentUri(uri);
         };
     })
 });

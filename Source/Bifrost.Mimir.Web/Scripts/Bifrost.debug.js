@@ -629,6 +629,15 @@ Bifrost.namespace("Bifrost", {
         return this;
     };
 
+    Bifrost.Type.defaultScope = function() {
+        this.scope = {
+            getFor: function() {
+                return null;
+            }
+        };
+        return this;
+    };
+
     Bifrost.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {
@@ -2559,6 +2568,7 @@ Bifrost.namespace("Bifrost.messaging", {
     })
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
+Bifrost.WellKnownTypesDependencyResolver.types.globalMessenger = Bifrost.messaging.Messenger.global;
 if (typeof ko !== 'undefined') {
     ko.observableMessage = function (message, defaultValue) {
         var observable = ko.observable(defaultValue);
@@ -2590,8 +2600,7 @@ Bifrost.namespace("Bifrost.views", {
         this.load = function () {
             var promise = Bifrost.execution.Promise.create();
             self.viewLoader.load(self.path).continueWith(function (html) {
-                self.content = $(html);
-
+                self.content = html;
                 promise.signal(self);
             });
 
@@ -2846,6 +2855,7 @@ Bifrost.namespace("Bifrost.views", {
                     var mapper = Bifrost.namespaceMappers[mapperKey];
                     if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
                         var namespacePath = mapper.resolve(localPath);
+                        if (namespacePath.indexOf(".") == 0) namespacePath = namespacePath.substr(1);
                         var namespace = Bifrost.namespace(namespacePath);
 
                         if (filename in namespace) {
@@ -2968,14 +2978,17 @@ Bifrost.namespace("Bifrost.navigation", {
         this.currentUri.subscribe(function () {
             self.render();
         });
+        
+        this.setCurrentUri = function (path) {
+            if (path.indexOf("/") == 0) path = path.substr(1);
+            if (!self.uriMapper.hasMappingFor(path)) path = self.home;
+            self.currentUri(path);
+        };
 
         history.Adapter.bind(window, "statechange", function () {
             var state = history.getState();
             var uri = Bifrost.Uri.create(state.url);
-            var path = uri.path;
-            if (path.indexOf("/") == 0) path = path.substr(1);
-            if (!self.uriMapper.hasMappingFor(path)) path = self.home;
-            self.currentUri(path);
+            self.setCurrentUri(uri.path);
         });
 
         this.setContainer = function (container) {
@@ -3006,7 +3019,7 @@ Bifrost.namespace("Bifrost.navigation", {
         };
 
         this.navigate = function (uri) {
-            self.currentUri(uri);
+            self.setCurrentUri(uri);
         };
     })
 });
@@ -3033,6 +3046,8 @@ Bifrost.namespace("Bifrost.navigation", {
                         home: configuration.home || ''
                     });
                     frame.setContainer(element);
+
+                    element.navigationFrame = frame;
                 }
             });
         };
@@ -3091,8 +3106,20 @@ Bifrost.namespace("Bifrost.navigation", {
                             target = target.substr(1);
                         }
                         e.preventDefault();
-                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                        History.pushState({}, "", "/" + target + queryString);
+
+                        var result = $(e.target).closest("[data-navigation-target]");
+                        if (result.length == 1) {
+                            var id = $(result[0]).data("navigation-target");
+                            var element = $("#"+id);
+                            if (element.length == 1 && typeof element[0].navigationFrame !== "undefined") {
+                                element[0].navigationFrame.navigate(targetUri.path);
+                            } else {
+                                // Element not found
+                            }
+                        } else {
+                            var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                            History.pushState({}, "", "/" + target + queryString);
+                        }
                     }
                 });
             }
@@ -3127,6 +3154,7 @@ Bifrost.namespace("Bifrost.navigation", {
             var frame = Bifrost.navigation.NavigationFrame.create({
                 home: configuration.home || ''
             });
+            element.navigationFrame = frame;
             frame.setContainer(element).continueWith(function (view) {
                 promise.signal(view);
             });

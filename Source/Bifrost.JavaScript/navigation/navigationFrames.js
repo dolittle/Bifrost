@@ -21,6 +21,8 @@
                         home: configuration.home || ''
                     });
                     frame.setContainer(element);
+
+                    element.navigationFrame = frame;
                 }
             });
         };
