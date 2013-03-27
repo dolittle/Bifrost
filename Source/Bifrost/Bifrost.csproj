@@ -63,6 +63,7 @@
     <Compile Include="CodeGeneration\JavaScript\CodeGeneratorExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\Container.cs" />
     <Compile Include="CodeGeneration\JavaScript\ContainerExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Return.cs" />
     <Compile Include="CodeGeneration\JavaScript\Function.cs" />
     <Compile Include="CodeGeneration\JavaScript\FunctionBody.cs" />
     <Compile Include="CodeGeneration\JavaScript\FunctionCall.cs" />
