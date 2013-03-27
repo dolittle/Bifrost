@@ -75,6 +75,8 @@
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
+    <Compile Include="Proxies\ServiceProxies.cs" />
+    <Compile Include="Proxies\ServiceExtensions.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="Read\ReadModelQueryDescriptor.cs" />
@@ -93,11 +95,13 @@
     <Compile Include="IWebRequest.cs" />
     <Compile Include="Sagas\SagaNarratorService.cs" />
     <Compile Include="Services\HttpStatus.cs" />
+    <Compile Include="Services\IRegisteredServices.cs" />
     <Compile Include="Services\IRequestParamsFactory.cs" />
     <Compile Include="Services\IRestServiceMethodInvoker.cs" />
     <Compile Include="Services\MethodNotSpecifiedException.cs" />
     <Compile Include="Services\MissingParameterException.cs" />
     <Compile Include="Services\ParameterCountMismatchException.cs" />
+    <Compile Include="Services\RegisteredServices.cs" />
     <Compile Include="Services\RequestParams.cs" />
     <Compile Include="Services\RequestParamsFactory.cs" />
     <Compile Include="Services\RestServiceMethodInvoker.cs" />
