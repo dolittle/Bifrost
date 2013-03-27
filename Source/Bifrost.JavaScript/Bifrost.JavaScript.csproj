@@ -52,6 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
+    <Content Include="services\Service.js" />
+    <Content Include="services\serviceDependencyResolver.js" />
     <Content Include="utils\namespaceMappers.js" />
     <Content Include="utils\StringMapper.js" />
     <Content Include="utils\uriMappers.js" />

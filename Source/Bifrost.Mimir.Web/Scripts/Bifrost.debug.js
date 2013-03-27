@@ -2587,6 +2587,10 @@ if (typeof ko !== 'undefined') {
         return observable;
     }
 }
+Bifrost.namespace("Bifrost.services", {
+    Service: Bifrost.Type.extend(function() {
+    })
+});
 Bifrost.namespace("Bifrost.views", {
     View: Bifrost.Type.extend(function (viewLoader, path) {
         var self = this;
@@ -2966,7 +2970,7 @@ if (typeof Bifrost.views.viewPathResolvers != "undefined") {
     Bifrost.views.viewPathResolvers.UriMapperViewPathResolver = Bifrost.views.UriMapperViewPathResolver;
 }
 Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, locationAware, history, viewManager) {
         var self = this;
 
         this.viewManager = viewManager;
@@ -2981,15 +2985,18 @@ Bifrost.namespace("Bifrost.navigation", {
         
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
+            if (path == null || path.length == 0) path = self.home;
             if (!self.uriMapper.hasMappingFor(path)) path = self.home;
             self.currentUri(path);
         };
 
-        history.Adapter.bind(window, "statechange", function () {
-            var state = history.getState();
-            var uri = Bifrost.Uri.create(state.url);
-            self.setCurrentUri(uri.path);
-        });
+        if (locationAware === true) {
+            history.Adapter.bind(window, "statechange", function () {
+                var state = history.getState();
+                var uri = Bifrost.Uri.create(state.url);
+                self.setCurrentUri(uri.path);
+            });
+        }
 
         this.setContainer = function (container) {
             self.container = container;
@@ -3019,6 +3026,7 @@ Bifrost.namespace("Bifrost.navigation", {
         };
 
         this.navigate = function (uri) {
+            
             self.setCurrentUri(uri);
         };
     })
@@ -3152,7 +3160,8 @@ Bifrost.namespace("Bifrost.navigation", {
             }
 
             var frame = Bifrost.navigation.NavigationFrame.create({
-                home: configuration.home || ''
+                home: configuration.home || '',
+                locationAware: configuration.locationAware || true
             });
             element.navigationFrame = frame;
             frame.setContainer(element).continueWith(function (view) {

@@ -27,7 +27,7 @@ using Bifrost.Web.Validation;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Assets;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.RouteActivator), "Start")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.RouteActivator), "Start")]
 namespace Bifrost.Web
 {
     public class RouteActivator
@@ -36,10 +36,10 @@ namespace Bifrost.Web
         {
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
+            RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
             RouteTable.Routes.AddService<ValidationService>("Bifrost/Validation");
             RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
-            RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
             RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
             RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(RouteActivator).Assembly);

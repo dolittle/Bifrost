@@ -65,6 +65,7 @@
 @depends features/featureBindingHandler.js
 @depends messaging/Messenger.js
 @depends messaging/observableMessage.js
+@depends services/Service.js
 @depends views/View.js
 @depends views/ViewRenderer.js
 @depends views/viewRenderers.js
