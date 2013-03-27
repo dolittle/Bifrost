@@ -2591,6 +2591,18 @@ Bifrost.namespace("Bifrost.services", {
     Service: Bifrost.Type.extend(function() {
     })
 });
+Bifrost.dependencyResolvers.service = {
+    canResolve: function (namespace, name) {
+        if (typeof services !== "undefined") {
+            return name in services;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return services[name].create();
+    }
+};
 Bifrost.namespace("Bifrost.views", {
     View: Bifrost.Type.extend(function (viewLoader, path) {
         var self = this;

@@ -66,6 +66,7 @@
 @depends messaging/Messenger.js
 @depends messaging/observableMessage.js
 @depends services/Service.js
+@depends services/serviceDependencyResolver.js
 @depends views/View.js
 @depends views/ViewRenderer.js
 @depends views/viewRenderers.js
