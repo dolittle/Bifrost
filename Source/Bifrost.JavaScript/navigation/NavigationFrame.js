@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, locationAware, history, viewManager) {
         var self = this;
 
         this.viewManager = viewManager;
@@ -14,15 +14,18 @@
         
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
+            if (path == null || path.length == 0) path = self.home;
             if (!self.uriMapper.hasMappingFor(path)) path = self.home;
             self.currentUri(path);
         };
 
-        history.Adapter.bind(window, "statechange", function () {
-            var state = history.getState();
-            var uri = Bifrost.Uri.create(state.url);
-            self.setCurrentUri(uri.path);
-        });
+        if (locationAware === true) {
+            history.Adapter.bind(window, "statechange", function () {
+                var state = history.getState();
+                var uri = Bifrost.Uri.create(state.url);
+                self.setCurrentUri(uri.path);
+            });
+        }
 
         this.setContainer = function (container) {
             self.container = container;
@@ -52,6 +55,7 @@
         };
 
         this.navigate = function (uri) {
+            
             self.setCurrentUri(uri);
         };
     })

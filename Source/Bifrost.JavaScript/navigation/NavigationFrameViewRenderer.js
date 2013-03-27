@@ -24,7 +24,8 @@
             }
 
             var frame = Bifrost.navigation.NavigationFrame.create({
-                home: configuration.home || ''
+                home: configuration.home || '',
+                locationAware: configuration.locationAware || true
             });
             element.navigationFrame = frame;
             frame.setContainer(element).continueWith(function (view) {
