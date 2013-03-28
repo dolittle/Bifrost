@@ -2855,6 +2855,10 @@ Bifrost.namespace("Bifrost.views", {
 Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;
 Bifrost.namespace("Bifrost.views", {
     ViewModel: Bifrost.Type.extend(function () {
+
+
+        this.onActivated = function () {
+        };
     })
 });
 Bifrost.namespace("Bifrost.views", {
@@ -2894,6 +2898,10 @@ Bifrost.namespace("Bifrost.views", {
             ko.applyBindings(instance, target);
             ko.bindingProvider.instance.currentViewModel = "";
             ko.bindingProvider.instance = previousBindingProvider;
+
+            if (typeof instance.onActivated === "function") {
+                instance.onActivated();
+            }
         }
 
 
@@ -3099,7 +3107,6 @@ Bifrost.namespace("Bifrost.navigation", {
         };
 
         this.navigate = function (uri) {
-            
             self.setCurrentUri(uri);
         };
     })
