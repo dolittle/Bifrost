@@ -26,6 +26,8 @@ namespace Bifrost.Web.Configuration
         public static void Start()
         {
             Configure.DiscoverAndConfigure();
+
+            Configure.Instance.Container.Get<RouteActivator>().Start();
         }
     }
 }
