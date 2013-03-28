@@ -38,19 +38,25 @@ namespace Bifrost.Web.Proxies
                 var functionName = method.Name.ToCamelCase();
 
                 var selfScopeCall = new Scope("self");
+                
+                var parameters = method.GetParameters().Select(p => p.Name.ToCamelCase()).ToArray();
+                var objectLiteral = new ObjectLiteral();
+                foreach (var parameter in parameters) 
+                    objectLiteral.Assign(parameter).WithLiteral(parameter);
+
 
                 if (method.ReturnType == typeof(void))
-                    selfScopeCall.FunctionCall(f => f.WithName("callWithoutReturnValue").WithParameters("arguments"));
+                    selfScopeCall.FunctionCall(f => f.WithName("callWithoutReturnValue").WithParameters(new Literal("\"" + method.Name + "\""), objectLiteral));
                 else if (method.ReturnType.IsDictionary() || !method.ReturnType.IsEnumerable())
-                    selfScopeCall.FunctionCall(f => f.WithName("callWithObjectAsReturn").WithParameters("arguments"));
-                else if (method.ReturnType.IsEnumerable()) 
-                    selfScopeCall.FunctionCall(f => f.WithName("callWithArrayAsReturn").WithParameters("arguments"));
+                    selfScopeCall.FunctionCall(f => f.WithName("callWithObjectAsReturn").WithParameters(new Literal("\"" + method.Name + "\""), objectLiteral));
+                else if (method.ReturnType.IsEnumerable())
+                    selfScopeCall.FunctionCall(f => f.WithName("callWithArrayAsReturn").WithParameters(new Literal("\"" + method.Name + "\""), objectLiteral));
 
                 functionBody.Property(functionName, p =>
                 {
                     p.WithFunction(function =>
                         function
-                            .WithParameters(method.GetParameters().Select(parameter => parameter.Name.ToCamelCase()).ToArray())
+                            .WithParameters(parameters)
                                 .Body
                                     .Return(selfScopeCall)
                     );
