@@ -17,22 +17,21 @@
 //
 #endregion
 using System.Web.Routing;
-using Bifrost.Web.Services;
-using Bifrost.Web.Applications;
+using Bifrost.Web.Assets;
 using Bifrost.Web.Commands;
+using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
+using Bifrost.Web.Services;
 using Bifrost.Web.Validation;
-using Bifrost.Web.Configuration;
-using Bifrost.Web.Assets;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.RouteActivator), "Start")]
+
 namespace Bifrost.Web
 {
     public class RouteActivator
     {
-        public static void Start()
+        public void Start()
         {
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
