@@ -21,11 +21,14 @@
 
             if (typeof configuration.uriMapper !== "undefined") {
                 $(element).data("urimapper", configuration.uriMapper);
+            } else {
+                configuration.uriMapper = "default";
             }
 
             var frame = Bifrost.navigation.NavigationFrame.create({
                 home: configuration.home || '',
-                locationAware: configuration.locationAware || true
+                locationAware: configuration.locationAware || true,
+                uriMapper: Bifrost.uriMappers[configuration.uriMapper]
             });
             element.navigationFrame = frame;
             frame.setContainer(element).continueWith(function (view) {
