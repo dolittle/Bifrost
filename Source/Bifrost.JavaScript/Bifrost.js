@@ -1,11 +1,11 @@
 /*
+@depends utils/stringExtensions.js
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
 @depends utils/path.js
-@depends utils/stringExtensions.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
 @depends utils/dependencyResolver.js
