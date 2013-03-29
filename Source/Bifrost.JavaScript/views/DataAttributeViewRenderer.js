@@ -1,9 +1,10 @@
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, viewPathResolvers) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, viewPathResolvers, viewModelManager) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
 	    this.viewPathResolvers = viewPathResolvers;
+	    this.viewModelManager = viewModelManager;
 
 		this.canRender = function(element) {
 		    return typeof $(element).data("view") !== "undefined";
@@ -21,6 +22,12 @@ Bifrost.namespace("Bifrost.views", {
 		        view.load().continueWith(function (targetView) {
 		            $(element).empty();
 		            $(element).append(targetView.content);
+
+		            if (self.viewModelManager.hasForView(actualPath)) {
+		                var viewModelFile = Bifrost.path.changeExtension(actualPath, "js");
+		                $(element).data("viewmodel-file", viewModelFile);
+		            }
+
 		            promise.signal(targetView);
 		        });
 		    } else {
