@@ -1,8 +1,10 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, viewPathResolvers, viewModelManager) {
         var self = this;
-
+        
         this.viewRenderers = viewRenderers;
+        this.viewFactory = viewFactory;
+        this.viewPathResolvers = viewPathResolvers;
         this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
@@ -19,7 +21,18 @@
                 var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
                 if (file == "") file = "index";
                 $(body).data("view", file);
-                self.render(body);
+
+                if (self.viewPathResolvers.canResolve(body, file)) {
+                    var actualPath = self.viewPathResolvers.resolve(body, file);
+                    var view = self.viewFactory.createFrom(actualPath);
+                    view.element = body;
+                    view.content = body.innerHTML;
+
+                    // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
+                    //self.viewModelManager.applyToViewIfAny(view);
+
+                    renderChildren(body);
+                }
             }
         };
 
