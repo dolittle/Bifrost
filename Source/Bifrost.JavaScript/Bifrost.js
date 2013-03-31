@@ -71,7 +71,6 @@
 @depends views/ViewRenderer.js
 @depends views/viewRenderers.js
 @depends views/DataAttributeViewRenderer.js
-@depends views/viewBindingHandler.js
 @depends views/viewFactory.js
 @depends views/viewLoader.js
 @depends views/viewManager.js
@@ -80,6 +79,7 @@
 @depends views/ViewPathResolver.js
 @depends views/viewPathResolvers.js
 @depends views/UriMapperViewPathResolver.js
+@depends views/viewBindingHandler.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

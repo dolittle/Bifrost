@@ -30,6 +30,7 @@
             if (!fileName.endsWith(".js")) {
                 fileName += ".js";
             }
+            fileName = fileName.replaceAll("//", "/");
             return fileName;
 
         };
