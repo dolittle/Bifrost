@@ -2888,9 +2888,17 @@ Bifrost.namespace("Bifrost.views", {
 Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;
 Bifrost.namespace("Bifrost.views", {
     ViewModel: Bifrost.Type.extend(function () {
+        var self = this;
+        this.targetViewModel = this;
 
+        this.activated = function () {
+            if (typeof self.targetViewModel.onActivated === "function") {
+                self.targetViewModel.onActivated();
+            }
+        };
 
-        this.onActivated = function () {
+        this.onCreated = function (lastDescendant) {
+            self.targetViewModel = lastDescendant;
         };
     })
 });
@@ -2941,9 +2949,7 @@ Bifrost.namespace("Bifrost.views", {
             ko.bindingProvider.instance.currentViewModel = "";
             ko.bindingProvider.instance = previousBindingProvider;
 
-            if (typeof instance.onActivated === "function") {
-                instance.onActivated();
-            }
+            instance.activated();
         }
 
 
