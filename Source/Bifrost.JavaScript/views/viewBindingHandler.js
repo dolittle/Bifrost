@@ -12,8 +12,15 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.render = function(element, path) {
-            $(element).data("view", path);
-            self.viewManager.render(element).continueWith(function (view) {
+            
+
+            $(element).empty();
+
+            var container = $("<div/>");
+            $(container).data("view", path);
+            $(element).append(container);
+
+            self.viewManager.render(container[0]).continueWith(function (view) {
                 promise.signal(view);
             });
         }
