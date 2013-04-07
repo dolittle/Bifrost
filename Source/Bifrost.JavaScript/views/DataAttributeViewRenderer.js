@@ -1,9 +1,9 @@
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, viewPathResolvers, viewModelManager) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
-	    this.viewPathResolvers = viewPathResolvers;
+	    this.pathResolvers = pathResolvers;
 	    this.viewModelManager = viewModelManager;
 
 		this.canRender = function(element) {
@@ -14,8 +14,8 @@ Bifrost.namespace("Bifrost.views", {
 		    var promise = Bifrost.execution.Promise.create();
 		    var path = $(element).data("view");
 
-		    if (self.viewPathResolvers.canResolve(element, path)) {
-		        var actualPath = self.viewPathResolvers.resolve(element, path);
+		    if (self.pathResolvers.canResolve(element, path)) {
+		        var actualPath = self.pathResolvers.resolve(element, path);
 		        var view = self.viewFactory.createFrom(actualPath);
 
 		        view.element = element;
