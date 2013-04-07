@@ -51,6 +51,7 @@
 @depends read/Query.js
 @depends read/ReadModel.js
 @depends read/ReadModelOf.js
+@depends read/readModelOfDependencyResolver.js
 @depends read/queryDependencyResolver.js
 @depends read/queryService.js
 @depends sagas/Saga.js
@@ -76,9 +77,10 @@
 @depends views/viewManager.js
 @depends views/ViewModel.js
 @depends views/viewModelManager.js
-@depends views/ViewPathResolver.js
-@depends views/viewPathResolvers.js
-@depends views/UriMapperViewPathResolver.js
+@depends views/PathResolver.js
+@depends views/pathResolvers.js
+@depends views/UriMapperPathResolver.js
+@depends views/RelativePathResolver.js
 @depends views/viewBindingHandler.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js

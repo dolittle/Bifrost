@@ -158,9 +158,18 @@ Bifrost.namespace("Bifrost", {
             var lastIndex = filename.lastIndexOf(".");
             return filename.substr(0,lastIndex);
         },
+        hasExtension: function (path) {
+            if (path.indexOf("?") > 0) path = path.substr(0, path.indexOf("?"));
+            var lastIndex = path.lastIndexOf(".");
+            return lastIndex > 0;
+        },
         changeExtension: function (fullPath, newExtension) {
+            if (fullPath.indexOf("?") > 0) fullPath = fullPath.substr(0, fullPath.indexOf("?"));
             var lastIndex = fullPath.lastIndexOf(".");
-            return fullPath.substr(0, lastIndex) + "." + newExtension;
+            if (lastIndex > 0) {
+                return fullPath.substr(0, lastIndex) + "." + newExtension;
+            }
+            return fullPath + "." + newExtension;
         }
     }
 });
@@ -2032,6 +2041,18 @@ Bifrost.namespace("Bifrost.read", {
 		};
 	})
 });
+Bifrost.dependencyResolvers.readModelOf = {
+    canResolve: function (namespace, name) {
+        if (typeof readModels !== "undefined") {
+            return name in readModels;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return readModels[name].create();
+    }
+};
 Bifrost.dependencyResolvers.query = {
     canResolve: function (namespace, name) {
         if (typeof queries !== "undefined") {
@@ -2746,11 +2767,11 @@ Bifrost.namespace("Bifrost.views", {
 	})
 });
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, viewPathResolvers, viewModelManager) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
-	    this.viewPathResolvers = viewPathResolvers;
+	    this.pathResolvers = pathResolvers;
 	    this.viewModelManager = viewModelManager;
 
 		this.canRender = function(element) {
@@ -2761,8 +2782,8 @@ Bifrost.namespace("Bifrost.views", {
 		    var promise = Bifrost.execution.Promise.create();
 		    var path = $(element).data("view");
 
-		    if (self.viewPathResolvers.canResolve(element, path)) {
-		        var actualPath = self.viewPathResolvers.resolve(element, path);
+		    if (self.pathResolvers.canResolve(element, path)) {
+		        var actualPath = self.pathResolvers.resolve(element, path);
 		        var view = self.viewFactory.createFrom(actualPath);
 
 		        view.element = element;
@@ -2815,10 +2836,13 @@ Bifrost.namespace("Bifrost.views", {
             if (!path.startsWith("/")) path = "/" + path;
 
             var files = [];
-            files.push("text!" + path + "!strip");
+
+            var viewFile = "text!" + path + "!strip";
+            if (!Bifrost.path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
+            files.push(viewFile);
 
             if (self.viewModelManager.hasForView(path)) {
-                var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                var viewModelFile = self.viewModelManager.getViewModelPathForView(path);
                 files.push(viewModelFile);
             }
 
@@ -2830,12 +2854,12 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, viewPathResolvers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
         this.viewFactory = viewFactory;
-        this.viewPathResolvers = viewPathResolvers;
+        this.pathResolvers = pathResolvers;
         this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
@@ -2853,8 +2877,8 @@ Bifrost.namespace("Bifrost.views", {
                 if (file == "") file = "index";
                 $(body).data("view", file);
 
-                if (self.viewPathResolvers.canResolve(body, file)) {
-                    var actualPath = self.viewPathResolvers.resolve(body, file);
+                if (self.pathResolvers.canResolve(body, file)) {
+                    var actualPath = self.pathResolvers.resolve(body, file);
                     var view = self.viewFactory.createFrom(actualPath);
                     view.element = body;
                     view.content = body.innerHTML;
@@ -3021,6 +3045,11 @@ Bifrost.namespace("Bifrost.views", {
             return hasViewModel;
         };
 
+        this.getViewModelPathForView = function (viewPath) {
+            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            return scriptFile;
+        };
+
         this.getForView = function (viewPath) {
             var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
             return self.get(scriptFile);
@@ -3043,7 +3072,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    ViewPathResolver: Bifrost.Type.extend(function () {
+    PathResolver: Bifrost.Type.extend(function () {
         this.canResolve = function (element, path) {
             return false;
         };
@@ -3054,13 +3083,13 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewPathResolvers: Bifrost.Singleton(function () {
+    pathResolvers: Bifrost.Singleton(function () {
 
         function getResolvers() {
             var resolvers = [];
-            for (var property in Bifrost.views.viewPathResolvers) {
-                if (Bifrost.views.viewPathResolvers.hasOwnProperty(property)) {
-                    var value = Bifrost.views.viewPathResolvers[property];
+            for (var property in Bifrost.views.pathResolvers) {
+                if (Bifrost.views.pathResolvers.hasOwnProperty(property)) {
+                    var value = Bifrost.views.pathResolvers[property];
                     if( typeof value == "function" &&
                         typeof value.create == "function") {
 
@@ -3094,7 +3123,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    UriMapperViewPathResolver: Bifrost.views.ViewPathResolver.extend(function () {
+    UriMapperPathResolver: Bifrost.views.PathResolver.extend(function () {
         this.canResolve = function (element, path) {
             var closest = $(element).closest("[data-urimapper]");
             if (closest.length == 1) {
@@ -3116,8 +3145,34 @@ Bifrost.namespace("Bifrost.views", {
         };
     })
 });
-if (typeof Bifrost.views.viewPathResolvers != "undefined") {
-    Bifrost.views.viewPathResolvers.UriMapperViewPathResolver = Bifrost.views.UriMapperViewPathResolver;
+if (typeof Bifrost.views.pathResolvers != "undefined") {
+    Bifrost.views.pathResolvers.UriMapperPathResolver = Bifrost.views.UriMapperPathResolver;
+}
+Bifrost.namespace("Bifrost.views", {
+    RelativePathResolver: Bifrost.views.PathResolver.extend(function () {
+        this.canResolve = function (element, path) {
+            var closest = $(element).closest("[data-view]");
+            if (closest.length == 1) {
+                var view = $(closest[0]).view;
+                
+            }
+            return false;
+        };
+
+        this.resolve = function (element, path) {
+            var closest = $(element).closest("[data-urimapper]");
+            if (closest.length == 1) {
+                var mapperName = $(closest[0]).data("urimapper");
+                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) {
+                    return Bifrost.uriMappers[mapperName].resolve(path);
+                }
+            }
+            return Bifrost.uriMappers.default.resolve(path);
+        };
+    })
+});
+if (typeof Bifrost.views.pathResolvers != "undefined") {
+    Bifrost.views.pathResolvers.RelativePathResolver = Bifrost.views.RelativePathResolver;
 }
 Bifrost.namespace("Bifrost.views", {
     viewBindingHandler: Bifrost.Type.extend(function(viewManager) {
