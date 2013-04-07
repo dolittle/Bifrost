@@ -83,6 +83,11 @@ namespace Bifrost.Concepts
         {
             return HashCodeHelper.Generate(typeof (T), Value);
         }
+
+        public bool IsEmpty()
+        {
+            return Value.Equals(default(T));
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }
