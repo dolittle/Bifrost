@@ -18,9 +18,18 @@
             var lastIndex = filename.lastIndexOf(".");
             return filename.substr(0,lastIndex);
         },
+        hasExtension: function (path) {
+            if (path.indexOf("?") > 0) path = path.substr(0, path.indexOf("?"));
+            var lastIndex = path.lastIndexOf(".");
+            return lastIndex > 0;
+        },
         changeExtension: function (fullPath, newExtension) {
+            if (fullPath.indexOf("?") > 0) fullPath = fullPath.substr(0, fullPath.indexOf("?"));
             var lastIndex = fullPath.lastIndexOf(".");
-            return fullPath.substr(0, lastIndex) + "." + newExtension;
+            if (lastIndex > 0) {
+                return fullPath.substr(0, lastIndex) + "." + newExtension;
+            }
+            return fullPath + "." + newExtension;
         }
     }
 });
