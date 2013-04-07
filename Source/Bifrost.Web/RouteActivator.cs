@@ -26,12 +26,12 @@ using Bifrost.Web.Sagas;
 using Bifrost.Web.Services;
 using Bifrost.Web.Validation;
 
-
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.RouteActivator), "Start")]
 namespace Bifrost.Web
 {
     public class RouteActivator
     {
-        public void Start()
+        public static void Start()
         {
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());

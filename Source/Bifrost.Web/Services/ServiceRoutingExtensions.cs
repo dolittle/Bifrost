@@ -35,7 +35,7 @@ namespace Bifrost.Web.Services
         {
             url = url ?? (removePostFix ? RemovePostFix(service) : service.Name);
 
-            Configure.Instance.Container.Get<IRegisteredServices>().Register(service, url);
+            //Configure.Instance.Container.Get<IRegisteredServices>().Register(service, url);
             routes.Add(new RestServiceRoute(service, url));
         }
 

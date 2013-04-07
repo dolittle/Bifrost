@@ -29,23 +29,37 @@ namespace Bifrost.Web.Configuration
     {
         string _configurationAsString;
 
-        public ConfigurationRouteHttpHandler() : 
-            this(
-                Configure.Instance.Container.Get<GeneratedProxies>(),
-                Configure.Instance.Container.Get<WebConfiguration>(),
-                Configure.Instance.Container.Get<IAssetsManager>()
-            )
+        public bool IsReusable { get { return true; } }
+
+        public void ProcessRequest(HttpContext context)
         {
+            InitializeIfNotInitialized();
+            context.Response.ContentType = "text/javascript";
+            context.Response.Write(_configurationAsString);
         }
 
-        public ConfigurationRouteHttpHandler(
-                GeneratedProxies proxies,
-                WebConfiguration configuration,
-                IAssetsManager assetsManager)
+
+        string GetResource(string name)
         {
+            var stream = typeof(ConfigurationRouteHttpHandler).Assembly.GetManifestResourceStream(name);
+            var bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            var content = UTF8Encoding.UTF8.GetString(bytes);
+            return content;
+        }
+
+        void InitializeIfNotInitialized()
+        {
+            if (!string.IsNullOrEmpty(_configurationAsString)) return;
+
+            var proxies = Configure.Instance.Container.Get<GeneratedProxies>();
+            var configuration = Configure.Instance.Container.Get<WebConfiguration>();
+            var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
+
+
             var builder = new StringBuilder();
 
-            if( configuration.ScriptsToInclude.JQuery )
+            if (configuration.ScriptsToInclude.JQuery)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.9.1.min.js"));
 
             if (configuration.ScriptsToInclude.Knockout)
@@ -60,6 +74,7 @@ namespace Bifrost.Web.Configuration
             if (configuration.ScriptsToInclude.Require)
             {
                 builder.Append(GetResource("Bifrost.Web.Scripts.require.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.noext.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.order.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.text.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.domReady.js"));
@@ -73,23 +88,6 @@ namespace Bifrost.Web.Configuration
             var serialized = JsonConvert.SerializeObject(files);
             builder.AppendFormat("Bifrost.assetsManager.initializeFromAssets({0});", serialized);
             _configurationAsString = builder.ToString();
-        }
-
-        string GetResource(string name)
-        {
-            var stream = typeof(ConfigurationRouteHttpHandler).Assembly.GetManifestResourceStream(name);
-            var bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            var content = UTF8Encoding.UTF8.GetString(bytes);
-            return content;
-        }
-
-        public bool IsReusable { get { return true; } }
-
-        public void ProcessRequest(HttpContext context)
-        {
-            context.Response.ContentType = "text/javascript";
-            context.Response.Write(_configurationAsString);
         }
     }
 }

@@ -186,6 +186,9 @@
     <EmbeddedResource Include="Scripts\knockout.mapping-latest.debug.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-latest.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\noext.js" />
+  </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
