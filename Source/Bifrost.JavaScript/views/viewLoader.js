@@ -10,10 +10,13 @@
             if (!path.startsWith("/")) path = "/" + path;
 
             var files = [];
-            files.push("text!" + path + "!strip");
+
+            var viewFile = "text!" + path + "!strip";
+            if (!Bifrost.path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
+            files.push(viewFile);
 
             if (self.viewModelManager.hasForView(path)) {
-                var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                var viewModelFile = self.viewModelManager.getViewModelPathForView(path);
                 files.push(viewModelFile);
             }
 

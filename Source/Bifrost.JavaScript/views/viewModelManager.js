@@ -117,6 +117,11 @@
             return hasViewModel;
         };
 
+        this.getViewModelPathForView = function (viewPath) {
+            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            return scriptFile;
+        };
+
         this.getForView = function (viewPath) {
             var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
             return self.get(scriptFile);

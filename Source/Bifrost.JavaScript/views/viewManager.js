@@ -1,10 +1,10 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, viewPathResolvers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
         this.viewFactory = viewFactory;
-        this.viewPathResolvers = viewPathResolvers;
+        this.pathResolvers = pathResolvers;
         this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
@@ -22,8 +22,8 @@
                 if (file == "") file = "index";
                 $(body).data("view", file);
 
-                if (self.viewPathResolvers.canResolve(body, file)) {
-                    var actualPath = self.viewPathResolvers.resolve(body, file);
+                if (self.pathResolvers.canResolve(body, file)) {
+                    var actualPath = self.pathResolvers.resolve(body, file);
                     var view = self.viewFactory.createFrom(actualPath);
                     view.element = body;
                     view.content = body.innerHTML;
