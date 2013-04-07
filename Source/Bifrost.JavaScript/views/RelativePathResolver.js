@@ -1,12 +1,12 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    UriMapperViewPathResolver: Bifrost.views.ViewPathResolver.extend(function () {
+    RelativePathResolver: Bifrost.views.PathResolver.extend(function () {
         this.canResolve = function (element, path) {
-            var closest = $(element).closest("[data-urimapper]");
+            var closest = $(element).closest("[data-view]");
             if (closest.length == 1) {
-                var mapperName = $(closest[0]).data("urimapper");
-                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) return true;
+                var view = $(closest[0]).view;
+                
             }
-            return Bifrost.uriMappers.default.hasMappingFor(path);
+            return false;
         };
 
         this.resolve = function (element, path) {
@@ -21,6 +21,6 @@
         };
     })
 });
-if (typeof Bifrost.views.viewPathResolvers != "undefined") {
-    Bifrost.views.viewPathResolvers.UriMapperViewPathResolver = Bifrost.views.UriMapperViewPathResolver;
+if (typeof Bifrost.views.pathResolvers != "undefined") {
+    Bifrost.views.pathResolvers.RelativePathResolver = Bifrost.views.RelativePathResolver;
 }

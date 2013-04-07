@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewPathResolver: Bifrost.Type.extend(function () {
+    PathResolver: Bifrost.Type.extend(function () {
         this.canResolve = function (element, path) {
             return false;
         };
