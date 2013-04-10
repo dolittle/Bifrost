@@ -74,10 +74,10 @@ namespace Bifrost.Web.Configuration
             if (configuration.ScriptsToInclude.Require)
             {
                 builder.Append(GetResource("Bifrost.Web.Scripts.require.js"));
-                builder.Append(GetResource("Bifrost.Web.Scripts.noext.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.order.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.text.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.domReady.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.noext.js"));
             }
 
             builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));

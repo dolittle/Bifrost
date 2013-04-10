@@ -6,7 +6,7 @@
  * Version: 0.3.1 (2011/12/07)
  * Released under the MIT license
  */
-define(function(){
+define("noext", function(){
 
     var QUERY_PARAM = 'noext';
 
