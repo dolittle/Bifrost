@@ -13,7 +13,6 @@
     <script type="text/javascript">
         var uriMapper = Bifrost.StringMapper.create();
         uriMapper.addMapping("{module}/{feature}", "/Features/{module}/{feature}.html");
-        //uriMapper.addMapping("{module}", "/Features/{module}.html");
         Bifrost.uriMappers.quickStart = uriMapper;
 
         var namespaceMapper = Bifrost.StringMapper.create();
@@ -38,10 +37,6 @@
 
     <div data-navigation-frame="uriMapper:quickStart, home:Employees/index"></div>
 
-    <!--<div data-view="Employees/index"></div>-->
-
-    <!--<div data-feature="Employees/index"></div>-->
-
     <div class="regionOuter" style="background-color: #ddd;">
         <div class="container-narrow">
             <div class="row-fluid contact">
@@ -65,25 +60,9 @@
                     <address>
                         <strong>Dolittle AS</strong><br>
                         Klinestadmoen 9<br>
-                        3241 Sandefjord, Norway<br>
+                        3241 Sandefjord<br>
+                        Norway<br />
                     </address>
-
-                    <address>
-                        <strong>Anne Grethe</strong><br>
-                        <i class="entypo-mail"></i><a href="mailto:ag@dolittle.com">ag@dolittle.com</a>
-                    </address>
-
-
-                    <address>
-                        <strong>Einar</strong><br>
-                        <i class="entypo-mail"></i><a href="mailto:einar@dolittle.com">einar@dolittle.com</a>
-                    </address>
-
-                    <address>
-                        <strong>Pavneet</strong><br>
-                        <i class="entypo-mail"></i><a href="mailto:einar@dolittle.com">pavneet@dolittle.com</a>
-                    </address>
-
                 </div>
             </div>
 
