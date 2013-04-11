@@ -45,7 +45,9 @@
             ko.bindingProvider.instance.currentViewModel = "";
             ko.bindingProvider.instance = previousBindingProvider;
 
-            instance.activated();
+            if (typeof instance.activated == "function") {
+                instance.activated();
+            }
         }
 
 
