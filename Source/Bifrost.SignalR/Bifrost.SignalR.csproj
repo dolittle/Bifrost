@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bifrost.JSON">
-      <HintPath>..\..\..\KlasseQuiz\Source\Solutions\packages\Bifrost\Bifrost.JSON.dll</HintPath>
+      <HintPath>..\Bifrost.JSON\bin\Debug\Bifrost.JSON.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
