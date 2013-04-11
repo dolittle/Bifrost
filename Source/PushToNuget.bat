@@ -16,4 +16,4 @@ set version=1.0.0.7-pre
 %nuget% pack Bifrost.Default\Bifrost.Default.nuspec -version %version%
 %nuget% pack Bifrost.QuickStart\Bifrost.QuickStart.nuspec -version %version%
 
-for %%f in (*.nupkg) do nuget push %%f
+for %%f in (*.nupkg) do %nuget% push %%f
