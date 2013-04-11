@@ -30,20 +30,6 @@ using MongoDB.Driver.Builders;
 
 namespace Bifrost.MongoDB.Events
 {
-    public class Provider : IBsonSerializationProvider
-    {
-        public IBsonSerializer GetSerializer(Type type)
-        {
-            if (typeof(MethodInfo).IsAssignableFrom(type))
-                return new MethodInfoSerializer();
-
-            if (typeof(Type).IsAssignableFrom(type))
-                return new TypeSerializer();
-
-            return null;
-        }
-    }
-
     public class EventSubscriptions : IEventSubscriptions
     {
         const string CollectionName = "EventSubscriptions";
@@ -57,8 +43,7 @@ namespace Bifrost.MongoDB.Events
         {
             BsonSerializer.RegisterSerializer(typeof(MethodInfo), new MethodInfoSerializer());
             BsonSerializer.RegisterSerializer(typeof(Type), new TypeSerializer());
-            
-            BsonSerializer.RegisterSerializationProvider(new Provider());
+            BsonSerializer.RegisterSerializationProvider(new BsonSerializationProvider());
         }
 
         public EventSubscriptions(EventStorageConfiguration configuration)
