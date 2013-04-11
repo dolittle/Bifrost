@@ -32,7 +32,7 @@ namespace Bifrost.Configuration
             
             var configuration = new RegularEventStoreConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<RegularEventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<IEventStoreConfiguration>(configuration);
 
             var eventSubscriptionsConfiguration = new RegularEventSubscriptionsConfiguration();
             configuration.CopyTo(eventSubscriptionsConfiguration);

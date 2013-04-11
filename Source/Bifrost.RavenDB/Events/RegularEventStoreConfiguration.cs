@@ -21,7 +21,7 @@
 #endregion
 namespace Bifrost.RavenDB.Events
 {
-    public class RegularEventStoreConfiguration : DocumentStoreConfiguration
+    public class RegularEventStoreConfiguration : DocumentStoreConfiguration, IEventStoreConfiguration
     {
     }
 }
