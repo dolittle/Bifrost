@@ -1,5 +1,5 @@
 del *.nupkg /f /q
-set nuget=.\.nuget\nuget.exe
+set nuget=solutions\.nuget\nuget.exe
 set version=1.0.0.7-pre
 
 %nuget% pack Bifrost\Bifrost.nuspec -Symbols -version %version%
