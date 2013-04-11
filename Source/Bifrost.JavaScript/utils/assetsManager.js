@@ -7,7 +7,7 @@
 
                 $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
                     Bifrost.assetsManager.scripts = result;
-                    Bifrost.namespaces.initialize();
+                    Bifrost.namespaces.create().initialize();
                     promise.signal();
                 }, "json");
             } else {
@@ -17,10 +17,21 @@
         },
         initializeFromAssets: function(assets) {
             Bifrost.assetsManager.scripts = assets;
-            Bifrost.namespaces.initialize();
+            Bifrost.namespaces.create().initialize();
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;
+        },
+        hasScript: function(script) {
+            var found = false;
+            $.each(Bifrost.assetsManager.scripts, function (index, scriptInSystem) {
+                if (scriptInSystem === script) {
+                    found = true;
+                    return;
+                }
+            });
+
+            return found;
         },
         getScriptPaths: function () {
             var paths = [];
@@ -35,3 +46,4 @@
         }
     }
 });
+//Bifrost.WellKnownTypesDependencyResolver.types.assetsManager = Bifrost.commands.commandCoordinator;

@@ -196,6 +196,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
+      <Project>{15567d0a-4daf-49cd-9f8f-4fa94ad889d3}</Project>
+      <Name>Bifrost.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
       <Project>{db77eb6a-db79-4839-ab30-90593bce470f}</Project>
       <Name>Bifrost.JSON</Name>

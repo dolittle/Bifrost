@@ -39,8 +39,20 @@ Bifrost.namespace("Bifrost.navigation", {
                             target = target.substr(1);
                         }
                         e.preventDefault();
-                        var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
-                        History.pushState({}, "", "/" + target + queryString);
+
+                        var result = $(e.target).closest("[data-navigation-target]");
+                        if (result.length == 1) {
+                            var id = $(result[0]).data("navigation-target");
+                            var element = $("#"+id);
+                            if (element.length == 1 && typeof element[0].navigationFrame !== "undefined") {
+                                element[0].navigationFrame.navigate(targetUri.path);
+                            } else {
+                                // Element not found
+                            }
+                        } else {
+                            var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                            History.pushState({}, "", "/" + target + queryString);
+                        }
                     }
                 });
             }

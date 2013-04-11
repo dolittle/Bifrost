@@ -30,31 +30,24 @@ namespace Bifrost.Web.Assets
     public class AssetManagerRouteHttpHandler : IHttpHandler
     {
         string _url;
-        IAssetsManager _assetsManager;
 
-        public AssetManagerRouteHttpHandler(string url) :
-            this(url, Configure.Instance.Container.Get<IAssetsManager>()) 
-        { 
-        }
-        
-
-        public AssetManagerRouteHttpHandler(string url, IAssetsManager assetsManager)
+        public AssetManagerRouteHttpHandler(string url)
         {
             _url = url;
-            _assetsManager = assetsManager;
         }
 
         public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
         {
+            var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
             IEnumerable<string> assets = new string[0];
             var extension = context.Request.Params["extension"];
             if( extension != null ) 
             {
-                assets = _assetsManager.GetFilesForExtension(extension);
+                assets = assetsManager.GetFilesForExtension(extension);
                 if (context.Request.Params["structure"] != null)
-                    assets = _assetsManager.GetStructureForExtension(extension);
+                    assets = assetsManager.GetStructureForExtension(extension);
             }
             var serialized = JsonConvert.SerializeObject(assets);
             context.Response.Write(serialized);

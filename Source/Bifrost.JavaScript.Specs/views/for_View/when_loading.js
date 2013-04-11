@@ -1,14 +1,18 @@
 ﻿describe("when loading", function () {
     var html = "<div>some content</div>";
     var pathLoaded = null;
+    var continuedWithView = null;
 
     var options = {
         viewLoader: {
             load: function (path) {
                 pathLoaded = path;
-                var promise = Bifrost.execution.Promise.create();
-                promise.signal(html);
-                return promise;
+
+                return {
+                    continueWith: function (callback) {
+                        callback(html);
+                    }
+                };
             }
         },
         viewModelManager: {
@@ -19,8 +23,9 @@
         }
     };
     var view = Bifrost.views.View.create(options);
-
-    view.load("somePath");
+    view.load("somePath").continueWith(function (actualView) {
+        continuedWithView = actualView;
+    });
 
     it("should forward loading to the view loader", function () {
         expect(pathLoaded).toBe("somePath");
@@ -36,5 +41,9 @@
 
     it("should recursively expand any views", function () {
         expect(options.viewManager.expandFor.called).toBe(true);
+    });
+
+    it("should continue when the view loader is continued", function () {
+        expect(continuedWithView).toBe(view);
     });
 });

@@ -24,6 +24,7 @@
       <dependency id="Newtonsoft.Json" version="4.5.11"/>
       <dependency id="Owin" version="1.0"/>
       <dependency id="Bifrost" version="$version$" />
+      <dependency id="Bifrost.JSON" version="$version$" />
     </dependencies>
   </metadata>
   <files>

@@ -23,12 +23,23 @@
         function onStartup() {
             var self = this;
 
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                Bifrost.WellKnownTypesDependencyResolver.types.history = History;
+            }
+
+            var defaultUriMapper = Bifrost.StringMapper.create();
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{view}", "{view}.html");
+            Bifrost.uriMappers.default = defaultUriMapper;
+
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();
-                Bifrost.navigation.navigationManager.hookup();
                 Bifrost.features.featureManager.hookup($);
-                Bifrost.navigation.navigationFrames.create().hookup();
+                Bifrost.views.viewManager.create().initializeLandingPage();
+                Bifrost.navigation.navigationManager.hookup();
             });
         }
 

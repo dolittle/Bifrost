@@ -63,6 +63,7 @@
     <Compile Include="CodeGeneration\JavaScript\CodeGeneratorExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\Container.cs" />
     <Compile Include="CodeGeneration\JavaScript\ContainerExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Return.cs" />
     <Compile Include="CodeGeneration\JavaScript\Function.cs" />
     <Compile Include="CodeGeneration\JavaScript\FunctionBody.cs" />
     <Compile Include="CodeGeneration\JavaScript\FunctionCall.cs" />
@@ -118,11 +119,13 @@
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
+    <Compile Include="Events\EventSubscriptionRepository.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
     <Compile Include="Events\IEventStoreChangeManager.cs" />
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />
     <Compile Include="Events\IEventSubscriptionManager.cs" />
     <Compile Include="Events\IEventSubscriptions.cs" />
+    <Compile Include="Events\IEventSubscriptionRepository.cs" />
     <Compile Include="Events\InvalidFastForwardException.cs" />
     <Compile Include="Events\IProcessMethodInvoker.cs" />
     <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />

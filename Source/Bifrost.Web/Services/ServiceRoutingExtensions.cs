@@ -3,9 +3,6 @@
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
-//   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the license at
@@ -21,6 +18,7 @@
 #endregion
 using System;
 using System.Web.Routing;
+using Bifrost.Configuration;
 
 namespace Bifrost.Web.Services
 {
@@ -37,6 +35,7 @@ namespace Bifrost.Web.Services
         {
             url = url ?? (removePostFix ? RemovePostFix(service) : service.Name);
 
+            //Configure.Instance.Container.Get<IRegisteredServices>().Register(service, url);
             routes.Add(new RestServiceRoute(service, url));
         }
 
