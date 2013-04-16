@@ -22,6 +22,7 @@ using Bifrost.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Options;
 
 namespace Bifrost.MongoDB.Concepts
 {
@@ -95,5 +96,12 @@ namespace Bifrost.MongoDB.Concepts
         public void SetDocumentId(object document, object id)
         {
         }
+
+        public IBsonSerializationOptions GetDefaultSerializationOptions()
+        {
+            var options = new DocumentSerializationOptions();
+            return options;
+        }
+
     }
 }
