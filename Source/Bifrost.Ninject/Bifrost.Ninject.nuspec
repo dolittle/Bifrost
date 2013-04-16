@@ -15,7 +15,8 @@
     <copyright>Copyright 2008 - 2013</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Ninject" version="2.2.1.4" />
+      <dependency id="Ninject" version="3.0.1.10" />
+      <dependency id="Ninject.Web.Common" version="3.0.0.7" />
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>

@@ -18,7 +18,7 @@
       <dependency id="FluentValidation" version="3.4.6.0" />
       <dependency id="Newtonsoft.Json" version="4.5.7" />
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0" />
-      <dependency id="WebActivator" version="1.5.1" />
+      <dependency id="WebActivator" version="1.5.3" />
       <dependency id="Bifrost" version="$version$" />
       <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
