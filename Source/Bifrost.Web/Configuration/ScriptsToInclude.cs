@@ -26,7 +26,7 @@ namespace Bifrost.Web.Configuration
         public bool KnockoutMapping { get; set; }
         public bool JQueryHistory { get; set; }
         public bool Require { get; set; }
-
+        public bool Bifrost { get; set; }
 
         public ScriptsToInclude()
         {
@@ -35,6 +35,17 @@ namespace Bifrost.Web.Configuration
             Knockout = true;
             KnockoutMapping = true;
             Require = true;
+            Bifrost = true;
+        }
+
+        public void ExcludeAllScripts()
+        {
+            JQuery = false;
+            JQueryHistory = false;
+            Knockout = false;
+            KnockoutMapping = false;
+            Require = false;
+            Bifrost = false;
         }
     }
 }

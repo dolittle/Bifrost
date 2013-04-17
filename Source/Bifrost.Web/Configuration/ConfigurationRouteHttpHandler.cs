@@ -80,7 +80,9 @@ namespace Bifrost.Web.Configuration
                 builder.Append(GetResource("Bifrost.Web.Scripts.noext.js"));
             }
 
-            builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
+            if (configuration.ScriptsToInclude.Bifrost)
+                builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
+
             builder.Append(proxies.All);
             builder.Append(GetResource("Bifrost.Web.Scripts.defaultConfiguration.js"));
 
