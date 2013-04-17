@@ -25,6 +25,7 @@ Bifrost.namespace("Bifrost.views", {
 
 		            if (self.viewModelManager.hasForView(actualPath)) {
 		                var viewModelFile = Bifrost.path.changeExtension(actualPath, "js");
+		                $(element).attr("data-viewmodel-file", viewModelFile);
 		                $(element).data("viewmodel-file", viewModelFile);
 		            }
 

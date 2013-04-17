@@ -47,6 +47,8 @@
             ko.applyBindings(instance, target);
             ko.bindingProvider.instance = previousBindingProvider;
 
+            $(target).data("viewmodel", instance);
+
             if (typeof instance.activated == "function") {
                 instance.activated();
             }
@@ -60,7 +62,7 @@
             $("[data-viewmodel-file]", container).each(function () {
                 viewModelApplied = true;
                 var target = $(this)[0];
-                var viewModelFile = $(this).attr("data-viewmodel-file");
+                var viewModelFile = $(this).data("viewmodel-file");
                 self.get(viewModelFile, path).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
                 });
@@ -72,6 +74,7 @@
         function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                $(container).attr("data-viewmodel-file", viewModelFile);
                 $(container).data("viewmodel-file", viewModelFile);
                 self.getForView(path).continueWith(function (instance) {
                     applyViewModel(instance, container);
@@ -135,7 +138,9 @@
             var viewModelApplied = false;
 
             viewModelApplied = applyViewModelInMemory(view.path, function (instance) {
-                $(view.element).data("viewmodel-file", Bifrost.path.changeExtension(view.path, "js"));
+                var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                $(view.element).attr("data-viewmodel-file", viewModelFile);
+                $(view.element).data("viewmodel-file", viewModelFile);
                 applyViewModel(instance, view.element);
             });
             if (viewModelApplied == false) {
