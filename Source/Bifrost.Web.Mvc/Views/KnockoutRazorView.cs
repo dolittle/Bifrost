@@ -77,23 +77,22 @@ namespace Bifrost.Web.Mvc.Views
                 routeData.Values["feature"]);
         }
 
-        string GetViewModelDivStart(string divTagId, string viewModelRelativePath)
+        string GetViewModelDivStart(string divTagId, string viewRelativePath, string viewModelRelativePath)
         {
-            return string.Format("<div id=\"{0}\" data-viewmodel=\"{1}\">",
+            return string.Format("<div id=\"{0}\" data-view=\"{1}\" data-viewmodel-file=\"{2}\">",
                     divTagId,
+                    viewRelativePath,
                     viewModelRelativePath);
         }
 
 
         protected override void RenderView(ViewContext viewContext, TextWriter writer, object instance)
         {
-            
-
-
             var featureRelativePath = GetFeaturePathFrom(viewContext.RouteData);
             var featurePath = viewContext.HttpContext.Server.MapPath(featureRelativePath);
             var featureNamespace = GetNamespaceFrom(viewContext.RouteData);
             var viewModelRelativePath = GetPathFromRoute(_viewName, "js", viewContext.RouteData);
+            var viewRelativePath = GetPathFromRoute(_viewName, "js", viewContext.RouteData);
             var viewModelPath = viewContext.HttpContext.Server.MapPath(viewModelRelativePath);
             var hasViewModel = File.Exists(viewModelPath);
 
@@ -106,7 +105,7 @@ namespace Bifrost.Web.Mvc.Views
             var divTagId = string.Format("{0}_ViewModel", _viewName);
 
             if (_isPartial)
-                RenderPartial(viewContext, writer, instance, viewModelRelativePath, hasViewModel, divTagId);
+                RenderPartial(viewContext, writer, instance, viewRelativePath, viewModelRelativePath, hasViewModel, divTagId);
             else
             {
                 var viewStringBuilder = new StringBuilder();
@@ -122,7 +121,7 @@ namespace Bifrost.Web.Mvc.Views
 
                 stringBuilder.Append(html.Substring(0, endOfBodyIndex + 1));
 
-                stringBuilder.Append(GetViewModelDivStart(divTagId, viewModelRelativePath));
+                stringBuilder.Append(GetViewModelDivStart(divTagId, viewRelativePath, viewModelRelativePath));
 
                 stringBuilder.Append(html.Substring(endOfBodyIndex + 1, closeBodyIndex - endOfBodyIndex - 1));
                 stringBuilder.Append("</div>");
@@ -132,10 +131,10 @@ namespace Bifrost.Web.Mvc.Views
             }
         }
 
-        void RenderPartial(ViewContext viewContext, TextWriter writer, object instance, string viewModelRelativePath, bool hasViewModel, string divTagId)
+        void RenderPartial(ViewContext viewContext, TextWriter writer, object instance, string viewRelativePath, string viewModelRelativePath, bool hasViewModel, string divTagId)
         {
             if (hasViewModel)
-                writer.WriteLine(GetViewModelDivStart(divTagId, viewModelRelativePath));
+                writer.WriteLine(GetViewModelDivStart(divTagId, viewRelativePath, viewModelRelativePath));
 
             base.RenderView(viewContext, writer, instance);
 
