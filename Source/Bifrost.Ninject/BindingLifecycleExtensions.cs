@@ -19,6 +19,10 @@
 
 using Bifrost.Execution;
 using Ninject.Syntax;
+#if(!SILVERLIGHT)
+using Ninject.Web.Common;
+#endif
+
 
 namespace Bifrost.Ninject
 {

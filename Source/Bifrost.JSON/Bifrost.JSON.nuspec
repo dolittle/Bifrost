@@ -15,7 +15,7 @@
     <copyright>Copyright 2008 - 2013</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="4.5.7" />
+      <dependency id="Newtonsoft.Json" version="4.5.11" />
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>

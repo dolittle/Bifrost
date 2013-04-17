@@ -15,11 +15,11 @@
     <copyright>Copyright 2008 - 2013</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Microsoft.AspNet.SignalR" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0"/>
-      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0"/>
+      <dependency id="Microsoft.AspNet.SignalR" version="1.0.1"/>
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.1"/>
+      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.1"/>
+      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.1"/>
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.1"/>
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0"/>
       <dependency id="Newtonsoft.Json" version="4.5.11"/>
       <dependency id="Owin" version="1.0"/>

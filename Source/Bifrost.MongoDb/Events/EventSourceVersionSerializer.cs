@@ -20,6 +20,7 @@ using System;
 using Bifrost.Events;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Options;
 
 namespace Bifrost.MongoDB.Events
 {
@@ -54,5 +55,12 @@ namespace Bifrost.MongoDB.Events
         {
             throw new NotImplementedException();
         }
+
+        public IBsonSerializationOptions GetDefaultSerializationOptions()
+        {
+            var options = new DocumentSerializationOptions();
+            return options;
+        }
+
     }
 }

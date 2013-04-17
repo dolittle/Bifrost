@@ -1020,7 +1020,21 @@ Bifrost.namespace("Bifrost", {
                 return true;
             }
             return false;
-        }
+        };
+
+        this.getValues = function (input) {
+            var output = {};
+            var match = input.match(formatRegex);
+            $.each(components, function (i, c) {
+                var component = c.substr(1, c.length - 2);
+                var value = match[i + 1];
+                if (c.indexOf("**") != 0) {
+                    output[component] = value;
+                }
+            });
+
+            return output;
+        };
 
         this.resolve = function (input) {
             var match = input.match(formatRegex);
@@ -1029,9 +1043,9 @@ Bifrost.namespace("Bifrost", {
 
             $.each(components, function (i, c) {
                 var value = match[i + 1];
-                if( c.indexOf("**") == 0 ) {
+                if (c.indexOf("**") == 0) {
                     var wildcard = mappedFormatWildcardMatch[wildcardOffset];
-                    value = value.replaceAll(c[2],wildcard[2]);
+                    value = value.replaceAll(c[2], wildcard[2]);
                     result = result.replace(wildcard, value);
                     wildcardOffset++;
                 } else {
@@ -1040,7 +1054,7 @@ Bifrost.namespace("Bifrost", {
             });
 
             return result;
-        }
+        };
     })
 });
 Bifrost.namespace("Bifrost", {
@@ -3461,8 +3475,7 @@ if (typeof ko !== "undefined") {
             var observable = null;
 
             this.getState = function () {
-                var state = History.getState();
-                var uri = Bifrost.Uri.create(state.url);
+                var uri = Bifrost.Uri.create(location.toString());
                 if (uri.parameters.hasOwnProperty(parameterName)) {
                     return uri.parameters[parameterName];
                 }
