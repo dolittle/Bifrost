@@ -2968,8 +2968,9 @@ Bifrost.namespace("Bifrost.views", {
         var self = this;
         this.assetsManager = assetsManager;
 
-        var partialViewModelBindingProvider = function () {
+        var partialViewModelBindingProvider = function (currentViewModel) {
             var self = this;
+            this.currentViewModel = currentViewModel;
 
             var originalBindingProvider = ko.bindingProvider.instance;
 
@@ -3001,13 +3002,14 @@ Bifrost.namespace("Bifrost.views", {
 
             target.viewModel = instance;
 
+            $(target).find("*").each(function () {
+                $(this).unbind();
+            });
             ko.cleanNode(target);
 
             var previousBindingProvider = ko.bindingProvider.instance;
-            ko.bindingProvider.instance = new partialViewModelBindingProvider();
-            ko.bindingProvider.instance.currentViewModel = viewModelFile;
+            ko.bindingProvider.instance = new partialViewModelBindingProvider(viewModelFile);
             ko.applyBindings(instance, target);
-            ko.bindingProvider.instance.currentViewModel = "";
             ko.bindingProvider.instance = previousBindingProvider;
 
             if (typeof instance.activated == "function") {

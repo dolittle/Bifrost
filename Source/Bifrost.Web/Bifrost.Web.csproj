@@ -147,7 +147,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\domReady.js" />
     <EmbeddedResource Include="Scripts\jquery.history.js" />
-    <EmbeddedResource Include="Scripts\knockout-2.0.0.js" />
     <EmbeddedResource Include="Scripts\order.js" />
     <EmbeddedResource Include="Scripts\require.js" />
     <EmbeddedResource Include="Scripts\text.js" />
