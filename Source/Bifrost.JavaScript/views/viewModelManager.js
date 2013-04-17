@@ -36,6 +36,9 @@
 
             target.viewModel = instance;
 
+            $(target).find("*").each(function () {
+                $(this).unbind();
+            });
             ko.cleanNode(target);
 
             var previousBindingProvider = ko.bindingProvider.instance;
