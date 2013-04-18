@@ -1711,6 +1711,9 @@ Bifrost.namespace("Bifrost.commands", {
         this.canExecute = ko.computed(function () {
             return self.isValid();
         });
+        this.errorCallbacks = [];
+        this.successCallbacks = [];
+        this.completeCallbacks = [];
 
 
         this.commandCoordinator = commandCoordinator;
@@ -1722,6 +1725,16 @@ Bifrost.namespace("Bifrost.commands", {
             success: function () { },
             complete: function () { },
             properties: {}
+        };
+
+        this.error = function (callback) {
+            self.errorCallbacks.push(callback);
+        };
+        this.success = function (callback) {
+            self.successCallbacks.push(callback);
+        };
+        this.complete = function (callback) {
+            self.completeCallbacks.push(callback);
         };
 
         this.setOptions = function (options) {
@@ -1770,14 +1783,26 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.onError = function (commandResult) {
             self.options.error(commandResult);
+
+            $.each(self.errorCallbacks, function (index, callback) {
+                callback(commandResult);
+            });
         };
 
         this.onSuccess = function (commandResult) {
             self.options.success(commandResult);
+
+            $.each(self.successCallbacks, function (index, callback) {
+                callback(commandResult);
+            });
         };
 
         this.onComplete = function (commandResult) {
             self.options.complete(commandResult);
+
+            $.each(self.completeCallbacks, function (index, callback) {
+                callback(commandResult);
+            });
         };
 
         this.handleCommandResult = function (commandResult) {
@@ -3007,12 +3032,6 @@ Bifrost.namespace("Bifrost.views", {
                 $(this).unbind();
             });
             ko.cleanNode(target);
-
-            var closestViewModel = $(target).parent().closest("[data-viewmodel-file]");
-            if (closestViewModel.length == 1 && typeof $(closestViewModel[0]).data("viewmodel") === "undefined") {
-                var i = 0;
-                i++;
-            }
 
             var previousBindingProvider = ko.bindingProvider.instance;
             ko.bindingProvider.instance = new partialViewModelBindingProvider(viewModelFile);
