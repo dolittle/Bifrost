@@ -3,9 +3,6 @@
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
-//   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the license at
@@ -24,7 +21,7 @@ using Bifrost.Entities;
 using Bifrost.RavenDB;
 using Bifrost.RavenDB.Embedded.Events;
 using EntityContextConfiguration = Bifrost.RavenDB.Embedded.EntityContextConfiguration;
-using EventStoreConfiguration = Bifrost.RavenDB.Embedded.Events.EventStoreConfiguration;
+using EventStoreConfiguration = Bifrost.RavenDB.Embedded.Events.EmbeddedEventStoreConfiguration;
 
 namespace Bifrost.Configuration
 {
@@ -49,9 +46,15 @@ namespace Bifrost.Configuration
         public static IConfigure UsingRavenDBEmbedded(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
         {
             eventsConfiguration.EventStoreType = typeof(Bifrost.RavenDB.Events.EventStore);
+            eventsConfiguration.EventSubscriptionsType = typeof(Bifrost.RavenDB.Events.EventSubscriptions);
+
             var configuration = new EventStoreConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventStoreConfiguration>(configuration);
+            var eventSubscriptionsConfiguration = new EmbeddedEventSubscriptionsConfiguration();
+            configuration.CopyTo(eventSubscriptionsConfiguration);
+            Configure.Instance.Container.Bind<Bifrost.RavenDB.Events.IEventSubscriptionsConfiguration>(eventSubscriptionsConfiguration);
+
             return Configure.Instance;
         }
 

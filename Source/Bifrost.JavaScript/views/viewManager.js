@@ -1,34 +1,57 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewResolvers) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager) {
         var self = this;
+        
+        this.viewRenderers = viewRenderers;
+        this.viewFactory = viewFactory;
+        this.pathResolvers = pathResolvers;
+        this.viewModelManager = viewModelManager;
 
-        this.viewResolvers = viewResolvers;
-
-        function resolveChildren(element) {
+        function renderChildren(element) {
             if(element.hasChildNodes() == true) {
                 for (var child = element.firstChild; child; child = child.nextSibling) {
-                    self.resolve(child);
+                    self.render(child);
                 }
             }
         }
 
-        this.resolve = function (element) {
+        this.initializeLandingPage = function () {
+            var body = $("body")[0];
+            if (body !== null) {
+                var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+                if (file == "") file = "index";
+                $(body).data("view", file);
+
+                if (self.pathResolvers.canResolve(body, file)) {
+                    var actualPath = self.pathResolvers.resolve(body, file);
+                    var view = self.viewFactory.createFrom(actualPath);
+                    view.element = body;
+                    view.content = body.innerHTML;
+
+                    // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
+                    //self.viewModelManager.applyToViewIfAny(view);
+
+                    renderChildren(body);
+                }
+            }
+        };
+
+        this.render = function (element) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( self.viewResolvers.canResolve(element) ) {
-                var view = self.viewResolvers.resolve(element);
-                view.load().continueWith(function() {
+            if (self.viewRenderers.canRender(element)) {
+                self.viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    resolveChildren(newElement);
-                    element.parentNode.replaceChild(newElement, element);
-                    
+                    self.viewModelManager.applyToViewIfAny(view);
+                    renderChildren(newElement);
                 });
             } else {
-                resolveChildren(element);
+                renderChildren(element);
             }
 
             return promise;
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;

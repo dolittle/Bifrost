@@ -51,6 +51,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="navigation\NavigationFrameViewRenderer.js" />
+    <Content Include="read\readModelOfDependencyResolver.js" />
+    <Content Include="services\Service.js" />
+    <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="utils\namespaceMappers.js" />
+    <Content Include="utils\StringMapper.js" />
+    <Content Include="utils\uriMappers.js" />
+    <Content Include="utils\StringMapping.js" />
+    <Content Include="views\DataAttributeViewRenderer.js" />
+    <Content Include="views\RelativePathResolver.js" />
+    <Content Include="views\UriMapperPathResolver.js" />
+    <Content Include="views\PathResolver.js" />
+    <Content Include="views\pathResolvers.js" />
+    <Content Include="views\ViewRenderer.js" />
+    <Content Include="views\viewRenderers.js" />
+    <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
     <Content Include="commands\Command.js" />

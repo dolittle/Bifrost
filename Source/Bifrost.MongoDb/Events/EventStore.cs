@@ -37,7 +37,7 @@ namespace Bifrost.MongoDB.Events
         const string LogicalEventType = "LogicalEventType";
         const string CurrentKey = "CurrentKey";
 
-        EventStoreConfiguration _configuration;
+        EventStorageConfiguration _configuration;
         MongoServer _server;
         MongoDatabase _database;
         MongoCollection _collection;
@@ -49,7 +49,7 @@ namespace Bifrost.MongoDB.Events
             BsonSerializer.RegisterSerializer(typeof(EventSourceVersion), new EventSourceVersionSerializer());
         }
 
-        public EventStore(EventStoreConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
+        public EventStore(EventStorageConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
         {
             _configuration = configuration;
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;

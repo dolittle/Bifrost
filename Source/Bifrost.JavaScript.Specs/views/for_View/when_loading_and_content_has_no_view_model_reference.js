@@ -15,9 +15,11 @@
         viewLoader: {
             load: function (path) {
                 pathLoaded = path;
-                var promise = Bifrost.execution.Promise.create();
-                promise.signal(html);
-                return promise;
+                return {
+                    continueWith: function (callback) {
+                        callback(html);
+                    }
+                };
             }
         },
         viewModelManager: {
@@ -53,15 +55,11 @@
         applyBindingsStub.restore();
     });
 
-    it("should ask if there is a view model for the view", function () {
-        expect(askedForView).toBe(true);
-    });
-
     it("should apply bindings with the view model instance", function () {
         expect(viewModelApplied).toBe(viewModelInstance);
     });
 
-    it("should apply view model to correct target", function () {
-        expect($(targetApplied).html()).toEqual($(html).html());
+    it("should ask if there is a view model for the view", function () {
+        expect(askedForView).toBe(true);
     });
 });

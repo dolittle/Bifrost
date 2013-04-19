@@ -21,21 +21,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Events;
 using Bifrost.Extensions;
+using Bifrost.RavenDB.Serialization;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Document;
-using Bifrost.RavenDB.Serialization;
-using Raven.Client.Connection;
 
 namespace Bifrost.RavenDB.Events
 {
     public class EventStore : IEventStore
     {
         const string CollectionName = "Events";
-        EventStoreConfiguration _configuration;
+        IEventStoreConfiguration _configuration;
         DocumentStore _documentStore;
         IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
 
-        public EventStore(EventStoreConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
+        public EventStore(IEventStoreConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
         {
             _configuration = configuration;
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
@@ -57,6 +56,7 @@ namespace Bifrost.RavenDB.Events
 
             _documentStore.Conventions.CustomizeJsonSerializer = s =>
             {
+                s.Converters.Add(new MethodInfoConverter());
                 s.Converters.Add(new EventSourceVersionConverter());
                 s.Converters.Add(new ConceptConverter());
             };

@@ -40,6 +40,13 @@
     <Reference Include="Raven.Client.Lightweight, Version=2.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2230\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -51,6 +58,13 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DocumentStoreConfiguration.cs" />
+    <Compile Include="Events\RegularEventStoreConfiguration.cs" />
+    <Compile Include="Events\EventSubscriptions.cs" />
+    <Compile Include="Events\RegularEventSubscriptionsConfiguration.cs" />
+    <Compile Include="Events\IEventStoreConfiguration.cs" />
+    <Compile Include="Events\IEventSubscriptionsConfiguration.cs" />
+    <Compile Include="IDocumentStoreConfiguration.cs" />
     <Compile Include="Serialization\ConceptConverter.cs" />
     <Compile Include="Serialization\ConceptDictionaryConverter.cs" />
     <Compile Include="ConceptTypeConverter.cs" />

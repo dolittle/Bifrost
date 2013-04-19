@@ -27,20 +27,19 @@ namespace Bifrost.Mimir.Views.EventStores
 {
     public class AllEventSubscriptions : IQueryFor<EventSubscription>
     {
-        IEventSubscriptionRepository _eventSubscriptionRepository;
+        IEventSubscriptions _eventSubscriptions;
 
-        public AllEventSubscriptions(IEventSubscriptionRepository eventSubscriptionRepository)
+        public AllEventSubscriptions(IEventSubscriptions eventSubscriptions)
         {
-            _eventSubscriptionRepository = eventSubscriptionRepository;
+            _eventSubscriptions = eventSubscriptions;
         }
 
         public IQueryable<EventSubscription> Query
         {
             get 
             {
-                return _eventSubscriptionRepository.GetAll().Select(e => new EventSubscription
+                return _eventSubscriptions.GetAll().Select(e => new EventSubscription
                         {
-                            Id = e.Id,
                             Owner = e.Owner.Name,
                             OwnerNamespace = e.Owner.Namespace,
                             OwnerAssembly = e.Owner.Assembly.FullName,

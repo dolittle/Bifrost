@@ -84,6 +84,19 @@ namespace Bifrost.CodeGeneration.JavaScript
         }
 
         /// <summary>
+        /// Add a return statement
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="returnValue"><see cref="LanguageElement"/> representing the returnvalue</param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody Return(this FunctionBody functionBody, LanguageElement returnValue)
+        {
+            var returnStatement = new Return(returnValue);
+            functionBody.AddChild(returnStatement);
+            return functionBody;
+        }
+
+        /// <summary>
         /// Set the parameters for a <see cref="FunctionCall"/> based on strings
         /// </summary>
         /// <param name="functionCall"><see cref="FunctionCall"/> to set for</param>

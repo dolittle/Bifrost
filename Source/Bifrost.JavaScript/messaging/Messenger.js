@@ -30,3 +30,4 @@ Bifrost.namespace("Bifrost.messaging", {
     })
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
+Bifrost.WellKnownTypesDependencyResolver.types.globalMessenger = Bifrost.messaging.Messenger.global;

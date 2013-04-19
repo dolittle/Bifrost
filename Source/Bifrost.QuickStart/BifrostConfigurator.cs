@@ -12,11 +12,13 @@ namespace Bifrost.QuickStart
                 .Serialization
                     .UsingJson()
                 .Events
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
+                    .UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
+                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
                 .Events
                     .Asynchronous(e=>e.UsingSignalR())
                 .DefaultStorage
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                    .UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
+                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
                     .Web(w=>w.AsSinglePageApplication())
                 .WithMimir();

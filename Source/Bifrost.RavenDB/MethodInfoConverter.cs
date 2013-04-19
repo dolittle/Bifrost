@@ -26,6 +26,8 @@ namespace Bifrost.RavenDB
 {
     public class MethodInfoConverter : JsonConverter
     {
+        public override bool CanRead { get { return true; } }
+
         public override bool CanConvert(Type objectType)
         {
             return typeof(MethodInfo).IsAssignableFrom(objectType);
@@ -76,7 +78,7 @@ namespace Bifrost.RavenDB
         public override bool CanWrite { get { return false; } }
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotSupportedException("MethodInfoConverter should not be used while serializing, only for deserializing");
+            throw new NotImplementedException();
         }
     }
 }

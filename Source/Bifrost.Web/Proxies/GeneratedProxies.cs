@@ -27,16 +27,20 @@ namespace Bifrost.Web.Proxies
         public GeneratedProxies(
             CommandProxies commandProxies,
             QueryProxies queryProxies,
-            ReadModelProxies readModelProxies)
+            ReadModelProxies readModelProxies,
+            ServiceProxies serviceProxies)
         {
             CommandProxies = commandProxies.Generate();
             ReadModelProxies = readModelProxies.Generate();
             QueryProxies = queryProxies.Generate();
+            ServiceProxies = serviceProxies.Generate();
+                
 
             var builder = new StringBuilder();
             builder.Append(CommandProxies);
             builder.Append(ReadModelProxies);
             builder.Append(QueryProxies);
+            builder.Append(ServiceProxies);
             All = builder.ToString();
         }
 
@@ -44,6 +48,7 @@ namespace Bifrost.Web.Proxies
         public string CommandProxies { get; private set; }
         public string ReadModelProxies { get; private set; }
         public string QueryProxies { get; private set; }
+        public string ServiceProxies { get; private set; }
 
         public string All { get; private set; }
 

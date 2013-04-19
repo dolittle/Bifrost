@@ -3,9 +3,6 @@
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
-//   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the license at
@@ -28,28 +25,35 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingRavenDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
+        public static IConfigure UsingRavenDB(this IEventsConfiguration eventsConfiguration, Action<RegularEventStoreConfiguration> configureCallback)
         {
             eventsConfiguration.EventStoreType = typeof(EventStore);
-            var configuration = new EventStoreConfiguration();
+            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
+            
+            var configuration = new RegularEventStoreConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<IEventStoreConfiguration>(configuration);
+
+            var eventSubscriptionsConfiguration = new RegularEventSubscriptionsConfiguration();
+            configuration.CopyTo(eventSubscriptionsConfiguration);
+            Configure.Instance.Container.Bind<IEventSubscriptionsConfiguration>(eventSubscriptionsConfiguration);
+
             return Configure.Instance;
         }
 
-        public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
+        public static RegularEventStoreConfiguration WithUrl(this RegularEventStoreConfiguration configuration, string url)
         {
             configuration.Url = url;
             return configuration;
         }
 
-        public static EventStoreConfiguration WithCredentials(this EventStoreConfiguration configuration, ICredentials credentials)
+        public static RegularEventStoreConfiguration WithCredentials(this RegularEventStoreConfiguration configuration, ICredentials credentials)
         {
             configuration.Credentials = credentials;
             return configuration;
         }
 
-        public static EventStoreConfiguration WithDefaultDatabase(this EventStoreConfiguration configuration, string defaultDatabase)
+        public static RegularEventStoreConfiguration WithDefaultDatabase(this RegularEventStoreConfiguration configuration, string defaultDatabase)
         {
             configuration.DefaultDatabase = defaultDatabase;
             return configuration;

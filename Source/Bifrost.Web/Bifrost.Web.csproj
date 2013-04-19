@@ -49,6 +49,13 @@
     <Reference Include="FluentValidation">
       <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
@@ -75,6 +82,8 @@
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
+    <Compile Include="Proxies\ServiceProxies.cs" />
+    <Compile Include="Proxies\ServiceExtensions.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="Read\ReadModelQueryDescriptor.cs" />
@@ -93,11 +102,13 @@
     <Compile Include="IWebRequest.cs" />
     <Compile Include="Sagas\SagaNarratorService.cs" />
     <Compile Include="Services\HttpStatus.cs" />
+    <Compile Include="Services\IRegisteredServices.cs" />
     <Compile Include="Services\IRequestParamsFactory.cs" />
     <Compile Include="Services\IRestServiceMethodInvoker.cs" />
     <Compile Include="Services\MethodNotSpecifiedException.cs" />
     <Compile Include="Services\MissingParameterException.cs" />
     <Compile Include="Services\ParameterCountMismatchException.cs" />
+    <Compile Include="Services\RegisteredServices.cs" />
     <Compile Include="Services\RequestParams.cs" />
     <Compile Include="Services\RequestParamsFactory.cs" />
     <Compile Include="Services\RestServiceMethodInvoker.cs" />
@@ -125,6 +136,7 @@
     <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="Bifrost.Web.nuspec" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
@@ -144,6 +156,7 @@
     <EmbeddedResource Include="Scripts\jquery.history.js" />
     <EmbeddedResource Include="Scripts\knockout-2.0.0.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-2.0.0.js" />
+    <EmbeddedResource Include="Scripts\jquery.history.js" />
     <EmbeddedResource Include="Scripts\order.js" />
     <EmbeddedResource Include="Scripts\require.js" />
     <EmbeddedResource Include="Scripts\text.js" />
@@ -172,5 +185,25 @@
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Bifrost.JavaScript\Bifrost.debug.js">
+      <Link>Scripts\Bifrost.debug.js</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <EmbeddedResource Include="Scripts\jquery-1.9.1.js" />
+    <EmbeddedResource Include="Scripts\jquery-1.9.1.min.js" />
+    <EmbeddedResource Include="Scripts\knockout-2.2.1.debug.js" />
+    <EmbeddedResource Include="Scripts\knockout-2.2.1.js" />
+    <EmbeddedResource Include="Scripts\knockout.mapping-latest.debug.js" />
+    <EmbeddedResource Include="Scripts\knockout.mapping-latest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\noext.js" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

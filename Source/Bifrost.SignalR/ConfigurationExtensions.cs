@@ -17,18 +17,35 @@
 //
 #endregion
 using System.Web.Routing;
+using Bifrost.JSON.Serialization;
 using Bifrost.SignalR;
 using Bifrost.SignalR.Events;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Json;
+using Newtonsoft.Json;
 
 namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingSignalR(this IEventsConfiguration configuration)
+        public static IConfigure UsingSignalR(this IConfigure configure)
         {
             GlobalHost.DependencyResolver = new BifrostDependencyResolver(Configure.Instance.Container);
             RouteTable.Routes.MapHubs();
+
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new FilteredCamelCasePropertyNamesContractResolver(),
+                Converters = { new ConceptConverter(), new ConceptDictionaryConverter() }
+            };
+            var jsonNetSerializer = new JsonNetSerializer(serializerSettings);
+            GlobalHost.DependencyResolver.Register(typeof(IJsonSerializer), () => jsonNetSerializer); 
+
+            return Configure.Instance;
+        }
+
+        public static IConfigure UsingSignalR(this IEventsConfiguration configuration)
+        {
             configuration.AddEventStoreChangeNotifier(typeof(EventStoreChangeNotifier));
             return Configure.Instance;
         }

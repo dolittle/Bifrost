@@ -3,9 +3,6 @@
 // Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
-// With one exception :
-//   Commercial libraries that is based partly or fully on Bifrost and is sold commercially,
-//   must obtain a commercial license.
 //
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the license at
@@ -20,7 +17,6 @@
 //
 #endregion
 using System;
-using Bifrost.Entities;
 using Bifrost.MongoDB;
 using Bifrost.MongoDB.Events;
 
@@ -28,37 +24,55 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
-        public static IConfigure UsingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStoreConfiguration> configureCallback)
+        public static IConfigure UsingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStorageConfiguration> configureCallback)
         {
             eventsConfiguration.EventStoreType = typeof(EventStore);
-            var configuration = new EventStoreConfiguration();
+            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
+            var configuration = new EventStorageConfiguration();
             configureCallback(configuration);
-            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind<EventStorageConfiguration>(configuration);
             return Configure.Instance;
         }
 
-        public static EventStoreConfiguration WithUrl(this EventStoreConfiguration configuration, string url)
+        public static EventStorageConfiguration WithUrl(this EventStorageConfiguration configuration, string url)
         {
             configuration.Url = url;
             return configuration;
         }
 
 
-        public static EventStoreConfiguration WithDefaultDatabase(this EventStoreConfiguration configuration, string defaultDatabase)
+        public static EventStorageConfiguration WithDefaultDatabase(this EventStorageConfiguration configuration, string defaultDatabase)
         {
             configuration.DefaultDatabase = defaultDatabase;
             return configuration;
         }
 
-        public static IConfigure UsingMongoDB(this IHaveStorage storage, string connectionString, string databaseName)
+        public static IConfigure UsingMongoDB(this IHaveStorage storage, Action<EntityContextConfiguration> configureCallback)
         {
             var entityContextConfiguration = new EntityContextConfiguration();
-            var connection = new EntityContextConnection(connectionString, databaseName);
+            configureCallback(entityContextConfiguration);
+
+            var connection = new EntityContextConnection(entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
 
             storage.EntityContextConfiguration = entityContextConfiguration;
             return Configure.Instance;
         }
+
+
+        public static EntityContextConfiguration WithUrl(this EntityContextConfiguration configuration, string url)
+        {
+            configuration.Url = url;
+            return configuration;
+        }
+
+
+        public static EntityContextConfiguration WithDefaultDatabase(this EntityContextConfiguration configuration, string defaultDatabase)
+        {
+            configuration.DefaultDatabase = defaultDatabase;
+            return configuration;
+        }
+
 
     }
 }

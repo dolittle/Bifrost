@@ -32,13 +32,13 @@ namespace Bifrost.MongoDB
         public MongoServer Server { get; private set; }
         public MongoDatabase Database { get; private set; }
 
-        public EntityContextConnection(string connectionString, string databaseName)
+        public EntityContextConnection(EntityContextConfiguration configuration)
         {
-            ConnectionString = connectionString;
-            DatabaseName = databaseName;
+            ConnectionString = configuration.Url;
+            DatabaseName = configuration.DefaultDatabase;
 
-            Server = MongoServer.Create(connectionString);
-            Database = Server.GetDatabase(databaseName);
+            Server = MongoServer.Create(ConnectionString);
+            Database = Server.GetDatabase(DatabaseName);
             BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
         }
 

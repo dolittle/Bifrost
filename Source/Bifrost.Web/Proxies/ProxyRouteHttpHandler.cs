@@ -25,20 +25,15 @@ namespace Bifrost.Web.Proxies
     {
         GeneratedProxies _proxies;
 
-        public ProxyRouteHttpHandler() : 
-            this(Configure.Instance.Container.Get<GeneratedProxies>())
+        public ProxyRouteHttpHandler()
         {
-        }
-
-        public ProxyRouteHttpHandler(GeneratedProxies proxies)
-        {
-            _proxies = proxies;
         }
 
         public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
         {
+            if (_proxies == null) _proxies = Configure.Instance.Container.Get<GeneratedProxies>();
             context.Response.ContentType = "text/javascript";
             context.Response.Write(_proxies.All);
         }

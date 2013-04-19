@@ -383,6 +383,8 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptionRepository.cs">
       <Link>Events\IEventSubscriptionRepository.cs</Link>
+    <Compile Include="..\Bifrost\Events\IEventSubscriptions.cs">
+      <Link>Events\IEventSubscriptions.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\InvalidFastForwardException.cs">
       <Link>Events\InvalidFastForwardException.cs</Link>
@@ -416,6 +418,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\NullEventStore.cs">
       <Link>Events\NullEventStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Events\NullEventSubscriptions.cs">
+      <Link>Events\NullEventSubscriptions.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Events\ProcessMethodInvoker.cs">
       <Link>Events\ProcessMethodInvoker.cs</Link>

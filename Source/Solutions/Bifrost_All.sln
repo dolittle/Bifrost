@@ -51,7 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JSON.Silverlight", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forseti", "Forseti", "{8186F995-DCEF-4ECA-9161-27BAD741B757}"
 	ProjectSection(SolutionItems) = preProject
-		..\dependencies.config = ..\dependencies.config
 		..\forseti.yaml = ..\forseti.yaml
 	EndProjectSection
 EndProject
@@ -797,7 +796,7 @@ Global
 		{D8A3E244-AC49-4372-8C03-F5AA3107BD80} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ..\Bifrost\Bifrost.csproj

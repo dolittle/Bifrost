@@ -26,20 +26,10 @@ namespace Bifrost.Events
     /// </summary>
     public class EventSubscription
     {
-
         /// <summary>
-        /// Initializes a new instance of <see cref="EventSubscription"/>
+        /// Gets or sets the id of the <see cref="EventSubscription"/>
         /// </summary>
-        public EventSubscription()
-        {
-            Id = Guid.NewGuid();
-        }
-
-
-        /// <summary>
-        /// Gets or sets the Id of the event subscription
-        /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the owner of the subscriber method that subscribes to the event
@@ -93,7 +83,7 @@ namespace Bifrost.Events
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return string.Format("{0} - {1} - {2}", Owner.Name, Method.Name, EventName).GetHashCode();
         }
 #pragma warning restore 1591 // Xml Comments
 

@@ -1,0 +1,3 @@
+﻿Bifrost.namespace("Bifrost", {
+    namespaceMappers: {}
+});

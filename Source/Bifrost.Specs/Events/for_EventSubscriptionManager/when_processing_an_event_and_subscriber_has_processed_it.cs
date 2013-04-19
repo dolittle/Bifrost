@@ -20,10 +20,10 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
             @event.Id = 1;
             @event.EventSource = event_source;
             
-            event_subscription_repository_mock.Setup(e => e.Update(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s) => actual_subscription = s);
+            event_subscriptions_mock.Setup(e => e.Save(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s) => actual_subscription = s);
             event_subscriber = new SomeEventSubscriber();
             container_mock.Setup(c => c.Get(typeof(SomeEventSubscriber))).Returns(event_subscriber);
-            event_subscription_manager = new EventSubscriptionManager(event_subscription_repository_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
+            event_subscription_manager = new EventSubscriptionManager(event_subscriptions_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
         };
 
         Because of = () => event_subscription_manager.Process(@event);

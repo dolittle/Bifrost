@@ -1,7 +1,15 @@
 ﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
-    register: Bifrost.Type.extend(function (registerEmployee) {
+    register: Bifrost.views.ViewModel.extend(function (registerEmployee, globalMessenger) {
         var self = this;
+
+        this.globalMessenger = globalMessenger;
+
         this.register = registerEmployee;
+
+        this.register.complete(function () {
+            setTimeout(function () {
+                self.globalMessenger.publish("employeeRegistered");
+            }, 100);
+        });
     })
 });
-Bifrost.features.featureManager.get("Employees/register").defineViewModel(Bifrost.QuickStart.Features.Employees.register);

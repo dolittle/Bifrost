@@ -16,9 +16,11 @@
         viewLoader: {
             load: function (path) {
                 pathLoaded = path;
-                var promise = Bifrost.execution.Promise.create();
-                promise.signal(html);
-                return promise;
+                return {
+                    continueWith: function (callback) {
+                        callback(html);
+                    }
+                };
             }
         },
         viewModelManager: {
@@ -29,6 +31,8 @@
                 promise.signal(viewModelInstance);
                 return promise;
             }
+        },
+        viewManager: {
         }
     };
 

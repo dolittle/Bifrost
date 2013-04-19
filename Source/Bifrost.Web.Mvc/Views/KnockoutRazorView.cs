@@ -62,11 +62,18 @@ namespace Bifrost.Web.Mvc.Views
 
         static string GetFeaturePathFrom(RouteData routeData)
         {
-            var relativePath = string.Format("/Contexts/{0}/{1}/{2}",
-                routeData.Values["boundedContext"],
-                routeData.Values["module"],
-                routeData.Values["feature"]);
-            return relativePath;
+            var builder = new StringBuilder();
+            builder.Append("/Contexts");
+            AppendRouteValueIfExist("boundedContext", routeData, builder);
+            AppendRouteValueIfExist("module", routeData, builder);
+            AppendRouteValueIfExist("feature", routeData, builder);
+            return builder.ToString();                
+        }
+
+        static void AppendRouteValueIfExist(string routeValue, RouteData routeData, StringBuilder builder)
+        {
+            if (routeData.Values[routeValue] != null &&
+                !string.IsNullOrEmpty((string)routeData.Values[routeValue])) builder.AppendFormat("/{0}", routeData.Values[routeValue]);
         }
 
         static string GetNamespaceFrom(RouteData routeData)
@@ -79,7 +86,7 @@ namespace Bifrost.Web.Mvc.Views
 
         string GetViewModelDivStart(string divTagId, string viewModelRelativePath)
         {
-            return string.Format("<div id=\"{0}\" data-viewmodel=\"{1}\">",
+            return string.Format("<div id=\"{0}\" data-viewmodel-file=\"{1}\">",
                     divTagId,
                     viewModelRelativePath);
         }
@@ -87,9 +94,6 @@ namespace Bifrost.Web.Mvc.Views
 
         protected override void RenderView(ViewContext viewContext, TextWriter writer, object instance)
         {
-            
-
-
             var featureRelativePath = GetFeaturePathFrom(viewContext.RouteData);
             var featurePath = viewContext.HttpContext.Server.MapPath(featureRelativePath);
             var featureNamespace = GetNamespaceFrom(viewContext.RouteData);

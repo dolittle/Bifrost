@@ -27,6 +27,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/Singleton.js
         - Bifrost.JavaScript/utils/exceptions.js
         - Bifrost.JavaScript/utils/Uri.js
+        - Bifrost.JavaScript/utils/path.js
         - Bifrost.JavaScript/features/exceptions.js
         - Bifrost.JavaScript/validation/exceptions.js
-        - Bifrost.JavaScript/views/viewResolver.js
+        - Bifrost.JavaScript/views/viewRenderer.js
