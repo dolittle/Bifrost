@@ -60,9 +60,6 @@
     <Compile Include="Entities\EntityContext.cs" />
     <Compile Include="Entities\EntityContextConfiguration.cs" />
     <Compile Include="Entities\EntityContextConnection.cs" />
-    <Compile Include="EntityContext.cs" />
-    <Compile Include="EntityContextConfiguration.cs" />
-    <Compile Include="EntityContextConnection.cs" />
     <Compile Include="Events\EventClassMap.cs" />
     <Compile Include="Events\EventConverter.cs" />
     <Compile Include="Events\EventHolder.cs" />

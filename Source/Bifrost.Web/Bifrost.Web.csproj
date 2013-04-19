@@ -136,6 +136,7 @@
     <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="Bifrost.Web.nuspec" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -152,10 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\domReady.js" />
-    <EmbeddedResource Include="Scripts\jquery-1.7.1.min.js" />
-    <EmbeddedResource Include="Scripts\jquery.history.js" />
-    <EmbeddedResource Include="Scripts\knockout-2.0.0.js" />
-    <EmbeddedResource Include="Scripts\knockout.mapping-2.0.0.js" />
     <EmbeddedResource Include="Scripts\jquery.history.js" />
     <EmbeddedResource Include="Scripts\order.js" />
     <EmbeddedResource Include="Scripts\require.js" />
@@ -175,7 +172,6 @@
     <EmbeddedResource Include="img\pattern_40.gif" />
     <EmbeddedResource Include="img\treeViewIcons.png" />
     <EmbeddedResource Include="img\yggdrasil-icon.png" />
-    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="quickStart.html" />
@@ -185,6 +181,7 @@
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Bifrost.JavaScript\Bifrost.debug.js">
       <Link>Scripts\Bifrost.debug.js</Link>
