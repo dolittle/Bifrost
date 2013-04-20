@@ -71,36 +71,45 @@ namespace Bifrost.Commands
 
         CommandResult Handle(IUnitOfWork unitOfWork, ICommand command)
         {
-            using (_localizer.BeginScope())
+            var commandResult = new CommandResult();
+            try
             {
-                var commandResult = CommandResult.ForCommand(command);
-
-                var authorizationResult = _commandSecurityManager.Authorize(command);
-                if (!authorizationResult.IsAuthorized)
+                using (_localizer.BeginScope())
                 {
-                    commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
-                    return commandResult;
-                }
+                    commandResult = CommandResult.ForCommand(command);
 
-                var validationResult = _commandValidationService.Validate(command);
-                commandResult.ValidationResults = validationResult.ValidationResults;
-                commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;
-
-                if (commandResult.Success)
-                {
-                    try
+                    var authorizationResult = _commandSecurityManager.Authorize(command);
+                    if (!authorizationResult.IsAuthorized)
                     {
-                        _commandHandlerManager.Handle(command);
-                        unitOfWork.Commit();
+                        commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
+                        return commandResult;
                     }
-                    catch (Exception exception)
+
+                    var validationResult = _commandValidationService.Validate(command);
+                    commandResult.ValidationResults = validationResult.ValidationResults;
+                    commandResult.CommandValidationMessages = validationResult.CommandErrorMessages;
+
+                    if (commandResult.Success)
                     {
-                        commandResult.Exception = exception;
-                        unitOfWork.Rollback();
+                        try
+                        {
+                            _commandHandlerManager.Handle(command);
+                            unitOfWork.Commit();
+                        }
+                        catch (Exception exception)
+                        {
+                            commandResult.Exception = exception;
+                            unitOfWork.Rollback();
+                        }
                     }
                 }
-                return commandResult;
-            }            
+            }
+            catch (Exception ex)
+            {
+                commandResult.Exception = ex;
+            }
+
+            return commandResult;            
         }
 #pragma warning restore 1591 // Xml Comments
 	}

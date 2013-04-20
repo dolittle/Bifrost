@@ -431,6 +431,7 @@
     </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptionRepository.cs">
       <Link>Events\IEventSubscriptionRepository.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Events\IEventSubscriptions.cs">
       <Link>Events\IEventSubscriptions.cs</Link>
     </Compile>

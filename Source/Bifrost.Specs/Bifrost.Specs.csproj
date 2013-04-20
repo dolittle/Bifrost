@@ -86,7 +86,9 @@
     <Compile Include="Commands\for_CommandCoordinator\given\a_command_coordinator.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_an_invalid_command.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_a_command_that_fails_security.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_authorization.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_handling.cs" />
+    <Compile Include="Commands\for_CommandCoordinator\when_handling_command_and_an_exception_occurs_during_validation.cs" />
     <Compile Include="Commands\for_CommandCoordinator\when_handling_command_with_success.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_no_command_handlers.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\given\a_command_handler_invoker_with_one_command_handler.cs" />
