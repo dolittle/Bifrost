@@ -41,7 +41,11 @@ namespace Bifrost.NHibernate.Entities
         {
             var assemblies = typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
             foreach (var assembly in assemblies)
-                mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never());
+            {
+                mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never(), AutoImport.Never());
+                mappings.HbmMappings.AddFromAssembly(assembly);
+            }
+                
         }
 
         public void Initialize(IContainer container)
