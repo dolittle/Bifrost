@@ -43,6 +43,7 @@ namespace Bifrost.Testing
         readonly ICommandValidationService command_validation_service;
         readonly ICommandCoordinator command_coordinator;
         readonly Mock<ILocalizer> localizer;
+        readonly ICommandContextFactory command_context_factory;
         readonly ICommandContextManager command_context_manager;
         readonly Mock<ICommandHandlerManager> command_handler_manager;
         readonly Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
@@ -69,8 +70,9 @@ namespace Bifrost.Testing
             saga_librarian = new Mock<ISagaLibrarian>();
             process_method_invoker = new Mock<IProcessMethodInvoker>();
             execution_context_manager = new ExecutionContextManager();
-            command_context_manager = new CommandContextManager(uncommitted_event_stream_coordinator.Object, saga_librarian.Object, process_method_invoker.Object,
+            command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, saga_librarian.Object, process_method_invoker.Object,
                                                                                                                             execution_context_manager, event_store.Object);
+            command_context_manager = new CommandContextManager(command_context_factory);
 
             command_handler_manager = new Mock<ICommandHandlerManager>();
             command_handler_manager.Setup(m => m.Handle(It.IsAny<ICommand>())).Callback((ICommand c) => command_handler.Handle((dynamic)c));

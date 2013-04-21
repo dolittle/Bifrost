@@ -15,6 +15,7 @@ namespace Bifrost.Specs.Commands.for_CommandContextManager.given
         protected static Mock<ISagaLibrarian> saga_librarian_mock;
         protected static Mock<IExecutionContextManager> execution_context_manager_mock;
         protected static Mock<IEventStore> event_store_mock;
+	    protected static CommandContextFactory factory;
 
 		Establish context = () =>
 		                            	{
@@ -24,13 +25,15 @@ namespace Bifrost.Specs.Commands.for_CommandContextManager.given
 		                            		process_method_invoker_mock = new Mock<IProcessMethodInvoker>();
 		                            		saga_librarian_mock = new Mock<ISagaLibrarian>();
                                             execution_context_manager_mock = new Mock<IExecutionContextManager>();
-                                           
-		                            		Manager = new CommandContextManager(
-												uncommitted_event_stream_coordinator.Object, 
-												saga_librarian_mock.Object,
-												process_method_invoker_mock.Object,
+
+                                            factory = new CommandContextFactory(
+                                                uncommitted_event_stream_coordinator.Object,
+                                                saga_librarian_mock.Object,
+                                                process_method_invoker_mock.Object,
                                                 execution_context_manager_mock.Object,
                                                 event_store_mock.Object);
+                                           
+		                            		Manager = new CommandContextManager(factory);
 		                            	};
 	}
 }

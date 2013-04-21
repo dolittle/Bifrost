@@ -17,9 +17,7 @@
 //
 #endregion
 using System;
-using Bifrost.Events;
 using Bifrost.Sagas;
-using Bifrost.Execution;
 
 namespace Bifrost.Commands
 {
@@ -28,11 +26,7 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContextManager : ICommandContextManager
     {
-        IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
-        IEventStore _eventStore;
-        ISagaLibrarian _sagaLibrarian;
-        IProcessMethodInvoker _processMethodInvoker;
-        IExecutionContextManager _executionContextManager;
+        readonly ICommandContextFactory _factory;
 
         [ThreadStatic] static ICommandContext _currentContext;
 
@@ -47,23 +41,10 @@ namespace Bifrost.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="CommandContextManager">CommandContextManager</see>
         /// </summary>
-        /// <param name="uncommittedEventStreamCoordinator">A <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinator an <see cref="UncommittedEventStream"/></param>
-        /// <param name="sagaLibrarian">A <see cref="ISagaLibrarian"/> for saving sagas to</param>
-        /// <param name="processMethodInvoker">A <see cref="IProcessMethodInvoker"/> for processing events</param>
-        /// <param name="executionContextManager">A <see cref="IExecutionContextManager"/> for getting execution context from</param>
-        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
-        public CommandContextManager(
-            IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator,
-            ISagaLibrarian sagaLibrarian,
-            IProcessMethodInvoker processMethodInvoker,
-            IExecutionContextManager executionContextManager,
-            IEventStore eventStore)
+        /// <param name="factory">A <see cref="ICommandContextFactory"/> to use for building an <see cref="ICommandCOntext"/></param>
+        public CommandContextManager(ICommandContextFactory factory)
         {
-            _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
-            _sagaLibrarian = sagaLibrarian;
-            _processMethodInvoker = processMethodInvoker;
-            _eventStore = eventStore;
-            _executionContextManager = executionContextManager;
+            _factory = factory;
         }
 
         private static bool IsInContext(ICommand command)
@@ -91,13 +72,7 @@ namespace Bifrost.Commands
         {
             if (!IsInContext(command))
             {
-                var commandContext = new CommandContext(
-                    command,
-                    _executionContextManager.Current,
-                    _eventStore,
-                    _uncommittedEventStreamCoordinator
-                    );
-
+                var commandContext = _factory.Build(command);
                 _currentContext = commandContext;
             }
             return _currentContext;
@@ -107,15 +82,7 @@ namespace Bifrost.Commands
         {
             if (!IsInContext(command))
             {
-                var commandContext = new SagaCommandContext(
-                        saga,
-                        command,
-                        _executionContextManager.Current,
-                        _eventStore,
-                        _uncommittedEventStreamCoordinator,
-                        _processMethodInvoker,
-                        _sagaLibrarian
-                    );
+                var commandContext = _factory.Build(saga,command);
 
                 _currentContext = commandContext;
             }

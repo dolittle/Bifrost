@@ -82,12 +82,14 @@
     <Compile Include="CodeGeneration\LanguageElement.cs" />
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandContextFactory.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
     <Compile Include="Commands\HandleCommand.cs" />
+    <Compile Include="Commands\ICommandContextFactory.cs" />
     <Compile Include="Commands\ICommandSecurityManager.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concepts\ConceptExtensions.cs" />

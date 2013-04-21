@@ -70,6 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\for_CommandContextFactory\given\a_command_context_factory.cs" />
+    <Compile Include="Commands\for_CommandContextFactory\when_building_for_a_command.cs" />
+    <Compile Include="Commands\for_CommandContextFactory\when_building_for_a_command_in_a_saga.cs" />
     <Compile Include="Commands\for_CommandContextManager\given\a_command_context_manager.cs" />
     <Compile Include="Commands\for_CommandContextManager\Subjects.cs" />
     <Compile Include="Commands\for_CommandContextManager\when_getting_current.cs" />
