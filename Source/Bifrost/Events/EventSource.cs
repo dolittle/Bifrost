@@ -27,7 +27,7 @@ namespace Bifrost.Events
     ///
     /// This is a base abstract class for any EventSource
     /// </summary>
-    public abstract class EventSource : IEventSource, IUnitOfWork
+    public abstract class EventSource : IEventSource, ITransaction
     {
         /// <summary>
         /// Initializes an instance of <see cref="EventSource">EventSource</see>

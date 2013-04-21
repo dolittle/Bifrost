@@ -29,7 +29,7 @@ namespace Bifrost.Commands
 	/// Defines a context for a <see cref="ICommand">command</see> passing through
 	/// the system
 	/// </summary>
-	public interface ICommandContext : IUnitOfWork
+	public interface ICommandContext : ITransaction
 	{
 		/// <summary>
 		/// Gets the <see cref="ICommand">command</see> the context is for

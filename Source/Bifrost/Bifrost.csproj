@@ -361,7 +361,7 @@
     <Compile Include="Events\IProcessEvents.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Lifecycle\IUnitOfWork.cs" />
+    <Compile Include="Lifecycle\ITransaction.cs" />
     <Compile Include="Execution\BaseConvention.cs" />
     <Compile Include="Execution\IBindingConvention.cs" />
     <Compile Include="Views\IView.cs" />

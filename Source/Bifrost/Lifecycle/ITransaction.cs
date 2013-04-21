@@ -16,15 +16,24 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Events;
-using Bifrost.Lifecycle;
 
-namespace Bifrost.Domain
+using System;
+
+namespace Bifrost.Lifecycle
 {
 	/// <summary>
-	/// Defines the very basic functionality needed for an aggregated root
+	/// Defines a logical transaction
 	/// </summary>
-	public interface IAggregateRoot : IEventSource, ITransaction
+	public interface ITransaction : IDisposable
 	{
+		/// <summary>
+		/// Commits the transaction
+		/// </summary>
+		void Commit();
+
+		/// <summary>
+		/// Rollback to the state before the transaction started
+		/// </summary>
+		void Rollback();
 	}
 }

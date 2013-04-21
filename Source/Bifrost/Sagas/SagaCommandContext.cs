@@ -24,11 +24,12 @@ using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Execution;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Sagas
 {
     /// <summary>
-    /// Represents a <see cref="ICommandContext"/> as a <see cref="Bifrost.Lifecycle.IUnitOfWork"/> for a <see cref="ICommand"/> applied to a <see cref="ISaga"/>
+    /// Represents a <see cref="ICommandContext"/> as a <see cref="ITransaction"/> for a <see cref="ICommand"/> applied to a <see cref="ISaga"/>
     /// </summary>
     public class SagaCommandContext : ICommandContext
     {

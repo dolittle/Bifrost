@@ -528,9 +528,6 @@
     <Compile Include="..\Bifrost\Globalization\Localizer.cs">
       <Link>Globalization\Localizer.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Lifecycle\IUnitOfWork.cs">
-      <Link>Lifecycle\IUnitOfWork.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -761,6 +758,7 @@
     <Compile Include="Commands\CommandBuildingConventions.cs" />
     <Compile Include="Commands\CommandConstructorParameterConvention.cs" />
     <Compile Include="Commands\CommandConstructorParameterMissing.cs" />
+    <Compile Include="Commands\CommandContextFactory.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandNameConvention.cs" />
     <Compile Include="Commands\CommandNameMissingException.cs" />
@@ -770,6 +768,7 @@
     <Compile Include="Commands\ICommand.Silverlight.cs" />
     <Compile Include="Commands\ICommandBuilder.cs" />
     <Compile Include="Commands\ICommandBuildingConventions.cs" />
+    <Compile Include="Commands\ICommandContextFactory.cs" />
     <Compile Include="Commands\ICommandFactory.cs" />
     <Compile Include="Commands\INotifyCommandResultsReceived.cs" />
     <Compile Include="Commands\INotifyEventsProcessed.cs" />
@@ -784,6 +783,7 @@
     <Compile Include="Helpers\DependencyProperty.cs" />
     <Compile Include="Helpers\DependencyPropertyHelper.cs" />
     <Compile Include="Interaction\DelegateCommand.cs" />
+    <Compile Include="Lifecycle\ITransaction.cs" />
     <Compile Include="Notification\Dispatcher.cs" />
     <Compile Include="Notification\DispatcherManager.cs" />
     <Compile Include="Notification\IDispatcher.cs" />

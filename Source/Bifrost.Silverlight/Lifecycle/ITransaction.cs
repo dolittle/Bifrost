@@ -22,17 +22,17 @@ using System;
 namespace Bifrost.Lifecycle
 {
 	/// <summary>
-	/// Defines a unit of work
+	/// Defines a logical transaction
 	/// </summary>
-	public interface IUnitOfWork : IDisposable
+	public interface ITransaction : IDisposable
 	{
 		/// <summary>
-		/// Commit the unit of work
+		/// Commits the transaction
 		/// </summary>
 		void Commit();
 
 		/// <summary>
-		/// Rollback to the state when the unit of work started
+		/// Rollback to the state before the transaction started
 		/// </summary>
 		void Rollback();
 	}

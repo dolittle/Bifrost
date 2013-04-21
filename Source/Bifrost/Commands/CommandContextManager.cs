@@ -41,7 +41,7 @@ namespace Bifrost.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="CommandContextManager">CommandContextManager</see>
         /// </summary>
-        /// <param name="factory">A <see cref="ICommandContextFactory"/> to use for building an <see cref="ICommandCOntext"/></param>
+        /// <param name="factory">A <see cref="ICommandContextFactory"/> to use for building an <see cref="ICommandContext"/></param>
         public CommandContextManager(ICommandContextFactory factory)
         {
             _factory = factory;

@@ -69,7 +69,7 @@ namespace Bifrost.Commands
 		    return Handle( _commandContextManager.EstablishForCommand(command),command);
 		}
 
-        CommandResult Handle(IUnitOfWork unitOfWork, ICommand command)
+        CommandResult Handle(ITransaction transaction, ICommand command)
         {
             var commandResult = new CommandResult();
             try
@@ -94,12 +94,12 @@ namespace Bifrost.Commands
                         try
                         {
                             _commandHandlerManager.Handle(command);
-                            unitOfWork.Commit();
+                            transaction.Commit();
                         }
                         catch (Exception exception)
                         {
                             commandResult.Exception = exception;
-                            unitOfWork.Rollback();
+                            transaction.Rollback();
                         }
                     }
                 }
