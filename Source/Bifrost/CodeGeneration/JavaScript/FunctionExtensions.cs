@@ -38,6 +38,22 @@ namespace Bifrost.CodeGeneration.JavaScript
             return function;
         }
 
+
+        /// <summary>
+        /// Add a accessor accessing an object
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="name">Name of variant</param>
+        /// <param name="callback"><see cref="Action{Accessor}"/> that gets called for working with the <see cref="Accessor"/></param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody Access(this FunctionBody functionBody, string name, Action<Accessor> callback)
+        {
+            var accessor = new Accessor(name);
+            functionBody.AddChild(accessor);
+            callback(accessor);
+            return functionBody;
+        }
+
         /// <summary>
         /// Add a property to a <see cref="FunctionBody"/>
         /// </summary>
@@ -50,6 +66,21 @@ namespace Bifrost.CodeGeneration.JavaScript
             var propertyAssignment = new PropertyAssignment(name);
             functionBody.AddChild(propertyAssignment);
             callback(propertyAssignment);
+            return functionBody;
+        }
+
+        /// <summary>
+        /// Add a <see cref="AccessorAssignment"/> to the <see cref="FunctionBody"/>
+        /// </summary>
+        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
+        /// <param name="name">Name of the property to add</param>
+        /// <param name="callback"><see cref="Action{AccessorAssignment}"/> that gets called for working with the <see cref="AccessorAssignment"/></param>
+        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
+        public static FunctionBody AssignAccessor(this FunctionBody functionBody, string name, Action<AccessorAssignment> callback)
+        {
+            var accessorAssignment = new AccessorAssignment(name);
+            functionBody.AddChild(accessorAssignment);
+            callback(accessorAssignment);
             return functionBody;
         }
 

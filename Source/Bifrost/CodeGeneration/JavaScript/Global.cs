@@ -16,25 +16,18 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Configuration;
-using Bifrost.Execution;
-
-namespace Bifrost.Web.Configuration
+namespace Bifrost.CodeGeneration.JavaScript
 {
-    public class WebConfiguration : IFrontendTargetConfiguration
+    /// <summary>
+    /// Represents the global scope
+    /// </summary>
+    public class Global : FunctionBody
     {
-        public WebConfiguration()
+#pragma warning disable 1591
+        public override void Write(ICodeWriter writer)
         {
-            ScriptsToInclude = new ScriptsToInclude();
-            Namespaces = new NamespaceMappers();
+            WriteChildren(writer);
         }
-
-        public ScriptsToInclude ScriptsToInclude { get; set; }
-
-        public NamespaceMappers Namespaces { get; set; }
-
-        public void Initialize(IContainer container)
-        {
-        }
+#pragma warning restore 1591
     }
 }

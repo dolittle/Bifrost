@@ -14,10 +14,6 @@
         var uriMapper = Bifrost.StringMapper.create();
         uriMapper.addMapping("{module}/{feature}", "/Features/{module}/{feature}.html");
         Bifrost.uriMappers.quickStart = uriMapper;
-
-        var namespaceMapper = Bifrost.StringMapper.create();
-        namespaceMapper.addMapping("/Features/**/", "Bifrost.QuickStart.Features.**.");
-        Bifrost.namespaceMappers.quickStart = namespaceMapper;
     </script>
 
 </head>

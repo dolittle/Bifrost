@@ -69,6 +69,12 @@ namespace Bifrost.Configuration
             configuration.ScriptsToInclude.Require = false;
             return configuration;
         }
+
+        public static WebConfiguration Namespaces(this WebConfiguration configuration, Action<NamespaceMappers> callback)
+        {
+            callback(configuration.Namespaces);
+            return configuration;
+        }
 	}
 }
 

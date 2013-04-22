@@ -72,10 +72,13 @@
     <Compile Include="Configuration\ConfigurationRoute.cs" />
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />
     <Compile Include="Configuration\ConfigurationRouteHttpHandler.cs" />
+    <Compile Include="Configuration\NamespaceMappers.cs" />
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\GeneratedProxies.cs" />
+    <Compile Include="Proxies\NamespaceConfigurationProxies.cs" />
+    <Compile Include="Proxies\NamespaceExtensions.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
@@ -179,7 +182,6 @@
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.js" />
@@ -193,7 +195,6 @@
     <EmbeddedResource Include="Scripts\noext.js" />
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
   </PropertyGroup>
 </Project>

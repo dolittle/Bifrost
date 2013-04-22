@@ -16,25 +16,22 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Configuration;
-using Bifrost.Execution;
+using Bifrost.CodeGeneration.JavaScript;
+using Bifrost.Web.Configuration;
 
-namespace Bifrost.Web.Configuration
+namespace Bifrost.Web.Proxies
 {
-    public class WebConfiguration : IFrontendTargetConfiguration
+    public static class NamespaceExtensions
     {
-        public WebConfiguration()
+        public static FunctionBody WithNamespaceMappersFrom(this FunctionBody global, NamespaceMappers namespaceMappers)
         {
-            ScriptsToInclude = new ScriptsToInclude();
-            Namespaces = new NamespaceMappers();
-        }
+            foreach( var map in namespaceMappers.Maps ) {
+                global.Access("namespaceMapper",
+                    a => a.WithFunctionCall(
+                        f => f.WithName("addMapping").WithParameters("\"" + map.Key + "\"", "\"" + map.Value + "\"")));
+            }
 
-        public ScriptsToInclude ScriptsToInclude { get; set; }
-
-        public NamespaceMappers Namespaces { get; set; }
-
-        public void Initialize(IContainer container)
-        {
+            return global;
         }
     }
 }

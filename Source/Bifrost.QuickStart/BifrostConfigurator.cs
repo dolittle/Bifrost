@@ -20,7 +20,12 @@ namespace Bifrost.QuickStart
                     .UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
                     //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
-                    .Web(w=>w.AsSinglePageApplication())
+                    .Web(w=> {
+                        w.AsSinglePageApplication();
+                        w.Namespaces.Clear();
+                        w.Namespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
+                        w.Namespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
+                    })
                 .WithMimir();
         }
     }

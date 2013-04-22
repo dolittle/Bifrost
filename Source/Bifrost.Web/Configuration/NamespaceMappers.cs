@@ -16,25 +16,28 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Configuration;
-using Bifrost.Execution;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Web;
+using System.Web.Compilation;
 
 namespace Bifrost.Web.Configuration
 {
-    public class WebConfiguration : IFrontendTargetConfiguration
+    public class NamespaceMappers
     {
-        public WebConfiguration()
+        List<KeyValuePair<string, string>> _maps = new List<KeyValuePair<string, string>>();
+
+        public IEnumerable<KeyValuePair<string, string>> Maps { get { return _maps; } }
+
+        public void Clear()
         {
-            ScriptsToInclude = new ScriptsToInclude();
-            Namespaces = new NamespaceMappers();
+            _maps.Clear();
         }
 
-        public ScriptsToInclude ScriptsToInclude { get; set; }
-
-        public NamespaceMappers Namespaces { get; set; }
-
-        public void Initialize(IContainer container)
+        public void Add(string format, string mappedFormat)
         {
+            _maps.Add(new KeyValuePair<string, string>(format, mappedFormat));
         }
     }
 }

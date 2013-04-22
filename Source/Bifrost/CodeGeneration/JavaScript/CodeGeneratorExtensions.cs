@@ -44,5 +44,16 @@ namespace Bifrost.CodeGeneration.JavaScript
             callback(ns.Content);
             return ns;
         }
+
+        /// <summary>
+        /// Start a container for Global namespace
+        /// </summary>
+        /// <param name="generator"><see cref="ICodeGenerator"/> to create from</param>
+        /// <returns><see cref="Global"/> namespace to build from</returns>
+        public static Global Global(this ICodeGenerator generator)
+        {
+            var global = new Global();
+            return global;
+        }
     }
 }

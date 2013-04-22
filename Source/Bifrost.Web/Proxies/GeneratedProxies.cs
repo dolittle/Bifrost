@@ -28,29 +28,30 @@ namespace Bifrost.Web.Proxies
             CommandProxies commandProxies,
             QueryProxies queryProxies,
             ReadModelProxies readModelProxies,
-            ServiceProxies serviceProxies)
+            ServiceProxies serviceProxies,
+            NamespaceConfigurationProxies namespaceConfigurationProxies)
         {
             CommandProxies = commandProxies.Generate();
             ReadModelProxies = readModelProxies.Generate();
             QueryProxies = queryProxies.Generate();
             ServiceProxies = serviceProxies.Generate();
-                
+            NamespaceConfigurationProxies = namespaceConfigurationProxies.Generate();
 
             var builder = new StringBuilder();
             builder.Append(CommandProxies);
             builder.Append(ReadModelProxies);
             builder.Append(QueryProxies);
             builder.Append(ServiceProxies);
+            builder.Append(NamespaceConfigurationProxies);
             All = builder.ToString();
         }
-
 
         public string CommandProxies { get; private set; }
         public string ReadModelProxies { get; private set; }
         public string QueryProxies { get; private set; }
         public string ServiceProxies { get; private set; }
+        public string NamespaceConfigurationProxies { get; private set; }
 
         public string All { get; private set; }
-
     }
 }
