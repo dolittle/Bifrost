@@ -43,9 +43,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="WebActivator">
-      <HintPath>..\Solutions\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
-    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -182,11 +179,7 @@
   <PropertyGroup>
     <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Bifrost.JavaScript\Bifrost.debug.js">
-      <Link>Scripts\Bifrost.debug.js</Link>
-    </EmbeddedResource>
-  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.js" />

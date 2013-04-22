@@ -128,7 +128,7 @@ namespace Bifrost.Windsor
 
 		public void Bind (Type service, Type type)
 		{
-			_windsorContainer.Register (Component.For(service).ImplementedBy(type));
+			_windsorContainer.Register (Component.For(service).Forward(type).ImplementedBy(type));
 		}
 
 		public void Bind<T> (Type type, BindingLifecycle lifecycle)
@@ -138,7 +138,7 @@ namespace Bifrost.Windsor
 
 		public void Bind (Type service, Type type, BindingLifecycle lifecycle)
 		{
-			_windsorContainer.Register (Component.For(service).ImplementedBy(type).WithLifecycle(lifecycle));
+			_windsorContainer.Register (Component.For(service).Forward(type).ImplementedBy(type).WithLifecycle(lifecycle));
 		}
 
 		public void Bind<T> (T instance)

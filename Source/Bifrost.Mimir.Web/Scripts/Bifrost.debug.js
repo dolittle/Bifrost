@@ -1729,12 +1729,15 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.error = function (callback) {
             self.errorCallbacks.push(callback);
+            return self;
         };
         this.success = function (callback) {
             self.successCallbacks.push(callback);
+            return self;
         };
         this.complete = function (callback) {
             self.completeCallbacks.push(callback);
+            return self;
         };
 
         this.setOptions = function (options) {
