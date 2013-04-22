@@ -50,6 +50,9 @@ namespace Bifrost.Configuration
         /// </summary>
         public static Configure Instance { get; private set; }
 
+        
+
+
         Configure(IContainer container, BindingLifecycle defaultObjectLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
             DefaultObjectLifecycle = defaultObjectLifecycle;
@@ -78,6 +81,7 @@ namespace Bifrost.Configuration
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
             var configure = With(container, BindingLifecycle.Transient);
+            configure.EntryAssembly = canCreateContainerType.Assembly;
             configure.Initialize();
             return configure;
         }
@@ -148,6 +152,7 @@ namespace Bifrost.Configuration
 
 #pragma warning disable 1591 // Xml Comments
         public IContainer Container { get; private set; }
+        public Assembly EntryAssembly { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
@@ -316,6 +321,8 @@ namespace Bifrost.Configuration
             if (createContainerType == null)
                 throw new CanCreateContainerNotFoundException();
         }
+
+
 
     }
 }

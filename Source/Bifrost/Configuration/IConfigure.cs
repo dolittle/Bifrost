@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Globalization;
+using System.Reflection;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -31,6 +32,11 @@ namespace Bifrost.Configuration
 		/// Gets the container that is used
 		/// </summary>
 		IContainer Container { get; }
+
+        /// <summary>
+        /// Gets the entry assembly for the application
+        /// </summary>
+        Assembly EntryAssembly { get; }
 
 		/// <summary>
 		/// Gets the configuration for commands

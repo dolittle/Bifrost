@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Web.Configuration;

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
+using Bifrost.Configuration;
 
 namespace Bifrost.Web.Configuration
 {
@@ -30,9 +31,23 @@ namespace Bifrost.Web.Configuration
 
         public IEnumerable<KeyValuePair<string, string>> Maps { get { return _maps; } }
 
+        public NamespaceMappers()
+        {
+            AddDefaults();
+        }
+
         public void Clear()
         {
             _maps.Clear();
+        }
+
+        public void AddDefaults()
+        {
+            var baseNamespace = Configure.Instance.EntryAssembly.GetName().Name;
+            var @namespace = string.Format("{0}.**.",baseNamespace);
+            Add("**/", @namespace);
+            Add("/**/", @namespace);
+            Add("", baseNamespace);
         }
 
         public void Add(string format, string mappedFormat)
