@@ -2030,9 +2030,12 @@ Bifrost.namespace("Bifrost.read", {
             }
         };
 
-        this.all = function () {
+        this.all = function (execute) {
+            if (typeof execute === "undefined") execute = true;
             if (typeof self.queryables.all === "undefined") self.queryables.all = createQueryable();
-            self.queryables.all.execute();
+            if (execute === true) {
+                self.queryables.all.execute();
+            }
             return self.queryables.all;
         };
 
