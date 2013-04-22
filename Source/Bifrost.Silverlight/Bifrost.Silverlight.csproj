@@ -417,6 +417,9 @@
     <Compile Include="..\Bifrost\Events\NullEventSubscriptions.cs">
       <Link>Events\NullEventSubscriptions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Events\NullUncommittedEventStreamCoordinator.cs">
+      <Link>Events\NullUncommittedEventStreamCoordinator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Events\ProcessMethodInvoker.cs">
       <Link>Events\ProcessMethodInvoker.cs</Link>
     </Compile>

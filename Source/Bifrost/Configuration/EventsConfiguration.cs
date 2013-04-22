@@ -39,6 +39,7 @@ namespace Bifrost.Configuration
             _eventStoreChangeManager = eventStoreChangeManager;
             EventStoreType = typeof(NullEventStore);
             EventSubscriptionsType = typeof(NullEventSubscriptions);
+            UncommittedEventStreamCoordinatorType = typeof(NullUncommittedEventStreamCoordinator);
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -53,14 +54,11 @@ namespace Bifrost.Configuration
 
         public override void Initialize(IContainer container)
         {
-            if (UncommittedEventStreamCoordinatorType != null)
-                container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinatorType);
+            container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinatorType);
 
-            if (EventStoreType != null)
-                container.Bind<IEventStore>(EventStoreType, BindingLifecycle.Singleton);
+            container.Bind<IEventStore>(EventStoreType, BindingLifecycle.Singleton);
 
-            if (EventSubscriptionsType != null)
-                container.Bind<IEventSubscriptions>(EventSubscriptionsType, BindingLifecycle.Singleton);
+            container.Bind<IEventSubscriptions>(EventSubscriptionsType, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {

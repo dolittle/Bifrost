@@ -131,6 +131,7 @@
     <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\NullEventStore.cs" />
     <Compile Include="Events\NullEventSubscriptions.cs" />
+    <Compile Include="Events\NullUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
