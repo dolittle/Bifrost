@@ -11,10 +11,10 @@ Harnesses:
         - Bifrost.JavaScript/Libraries/knockout-2.0.0.js
         - Bifrost.JavaScript/Libraries/sinon-1.3.1.js
         - Bifrost.JavaScript/Libraries/require.js
+        - Bifrost.JavaScript/utils/stringExtensions.js
         - Bifrost.JavaScript/utils/namespace.js
         - Bifrost.JavaScript/utils/Exception.js
         - Bifrost.JavaScript/utils/hashString.js
-        - Bifrost.JavaScript/utils/stringExtensions.js
         - Bifrost.JavaScript/utils/extend.js
         - Bifrost.JavaScript/utils/configure.js
         - Bifrost.JavaScript/execution/Promise.js
@@ -23,6 +23,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/isArray.js
         - Bifrost.JavaScript/utils/functionParser.js
         - Bifrost.JavaScript/utils/dependencyResolver.js
+        - Bifrost.JavaScript/utils/WellKnownTypesDependencyResolver.js
         - Bifrost.JavaScript/utils/Type.js
         - Bifrost.JavaScript/utils/Singleton.js
         - Bifrost.JavaScript/utils/exceptions.js

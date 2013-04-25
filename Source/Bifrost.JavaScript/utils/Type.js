@@ -197,6 +197,9 @@ Bifrost.namespace("Bifrost", {
         return this;
     };
 
+    Bifrost.Type.requires = function () {
+    };
+
     Bifrost.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {
