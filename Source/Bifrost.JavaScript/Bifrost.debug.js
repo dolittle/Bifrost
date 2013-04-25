@@ -2002,14 +2002,27 @@ Bifrost.namespace("Bifrost.read", {
         this.queryService = queryService;
         this.queryables = {};
 
+        this.completeCallbacks = [];
+
+        this.currentQuery = 0;
+
         this.target = this;
 
         function createQueryable() {
             var observable = ko.observableArray();
             observable.execute = function () {
-                self.queryService.execute(self.target).continueWith(function (data) {
-                    observable(data);
-                });
+                var query = function (queryNumber) {
+                    var queryNumber = queryNumber;
+                    self.queryService.execute(self.target).continueWith(function (data) {
+                        if (queryNumber == self.currentQuery) {
+                            observable(data);
+                            self.onComplete(data);
+                        }
+                    });
+                }
+
+                self.currentQuery = self.currentQuery+1;
+                new query(self.currentQuery);
             };
             return observable;
         }
@@ -2023,6 +2036,19 @@ Bifrost.namespace("Bifrost.read", {
                 }
             }
         }
+
+        this.complete = function (callback) {
+            self.completeCallbacks.push(callback);
+            return self;
+        };
+
+        this.onComplete = function (data) {
+            $.each(self.completeCallbacks, function (index, callback) {
+                callback(data);
+            });
+        };
+
+
 
         this.execute = function () {
             for (var queryable in self.queryables) {
