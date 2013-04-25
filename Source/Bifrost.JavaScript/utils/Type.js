@@ -198,6 +198,11 @@ Bifrost.namespace("Bifrost", {
     };
 
     Bifrost.Type.requires = function () {
+        for (var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
+            this._dependencies.push(arguments[argumentIndex]);
+        }
+
+        return this;
     };
 
     Bifrost.Type.create = function (instanceHash, isSuper) {
