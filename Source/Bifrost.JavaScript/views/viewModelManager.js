@@ -37,10 +37,11 @@
 
             target.viewModel = instance;
 
+            /*
             $(target).find("*").each(function () {
                 $(this).unbind();
             });
-            ko.cleanNode(target);
+            ko.cleanNode(target);*/
 
             var previousBindingProvider = ko.bindingProvider.instance;
             ko.bindingProvider.instance = new partialViewModelBindingProvider(viewModelFile);
