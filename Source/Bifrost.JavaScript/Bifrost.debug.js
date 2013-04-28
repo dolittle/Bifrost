@@ -655,6 +655,14 @@ Bifrost.namespace("Bifrost", {
         return this;
     };
 
+    Bifrost.Type.requires = function () {
+        for (var argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
+            this._dependencies.push(arguments[argumentIndex]);
+        }
+
+        return this;
+    };
+
     Bifrost.Type.create = function (instanceHash, isSuper) {
         var actualType = this;
         if( this._super != null ) {
@@ -3060,10 +3068,11 @@ Bifrost.namespace("Bifrost.views", {
 
             target.viewModel = instance;
 
+            /*
             $(target).find("*").each(function () {
                 $(this).unbind();
             });
-            ko.cleanNode(target);
+            ko.cleanNode(target);*/
 
             var previousBindingProvider = ko.bindingProvider.instance;
             ko.bindingProvider.instance = new partialViewModelBindingProvider(viewModelFile);

@@ -211,7 +211,8 @@
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_only_a_wildcard.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_at_the_end.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_in_the_middle.js" />
-    <Content Include="Utils\for_Type\when_adding_requirements_explicitly.js" />
+    <Content Include="Utils\for_Type\when_adding_multiple_requirements_explicitly.js" />
+    <Content Include="Utils\for_Type\when_adding_single_requirement_explicitly.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_some_dependencies_specified.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_only_for_super.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_on_created_function_specified_also_for_super.js" />
