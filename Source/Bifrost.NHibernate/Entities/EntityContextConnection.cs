@@ -26,7 +26,7 @@ using NHibernate;
 
 namespace Bifrost.NHibernate.Entities
 {
-	public class EntityContextConnection : IEntityContextConnection
+	public class EntityContextConnection : IEntityContextConnection, IConnection
 	{
 		public ISessionFactory SessionFactory { get; private set; }
 		public FluentConfiguration FluentConfiguration { get; private set; }

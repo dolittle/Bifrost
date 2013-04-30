@@ -29,12 +29,14 @@ namespace Bifrost.Configuration
             var connection = new EntityContextConnection();
             connectionConfiguration(connection);
             storage.EntityContextConfiguration = new EntityContextConfiguration { Connection = connection };
+            Configure.Instance.Container.Bind<IConnection>(connection);
             return Configure.Instance;
         }
 
         public static IConfigure UsingNHibernate(this IHaveStorage storage, EntityContextConfiguration entityContextConfiguration)
         {
             storage.EntityContextConfiguration = entityContextConfiguration;
+            Configure.Instance.Container.Bind<IConnection>(entityContextConfiguration.Connection as IConnection);
             return Configure.Instance;
         }
     }

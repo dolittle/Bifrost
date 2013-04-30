@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+
 using NHibernate;
 
 namespace Bifrost.NHibernate.Read
@@ -23,11 +24,11 @@ namespace Bifrost.NHibernate.Read
     public class ReadOnlySession : IReadOnlySession
     {
         ISession _session;
-        ISessionFactory _sessionFactory;
+        readonly ISessionFactory _sessionFactory;
 
-        public ReadOnlySession(ISessionFactory sessionFactory)
+        public ReadOnlySession(IConnection connection)
         {
-            _sessionFactory = sessionFactory;
+            _sessionFactory = connection.SessionFactory;
         }
 
         public ISession GetCurrentSession()
@@ -39,9 +40,8 @@ namespace Bifrost.NHibernate.Read
         {
             var session = _sessionFactory.OpenSession();
             session.FlushMode = FlushMode.Never;
-
-            session.BeginTransaction(); 
-            return session;
+            session.DefaultReadOnly = true;
+            return new ReadOnlySessionProxy(session);
         }
     }
 }
