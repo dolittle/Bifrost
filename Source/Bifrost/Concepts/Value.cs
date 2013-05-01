@@ -127,8 +127,7 @@ namespace Bifrost.Concepts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("{");
-            sb.AppendLine("[Type: " + GetType() + "]");
+            sb.AppendLine("{[Type: " + GetType() + "]");
             foreach (var field in GetFields())
             {
                 sb.AppendFormat(@"{{ {0} : {1} }}", RemoveBackingAutoBackingFieldPropertyName(field.Name), field.GetValue(this) ?? "[NULL]" );

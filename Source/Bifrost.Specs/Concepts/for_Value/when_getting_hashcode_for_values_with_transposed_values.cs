@@ -12,7 +12,6 @@ namespace Bifrost.Specs.Concepts.for_Value
             {
                 first_hashcode = first_value.GetHashCode();
                 second_hashcode = transposed_values.GetHashCode();
-                serialized = first_value.ToString();
             };
 
         It should_have_different_hashcodes = () => first_hashcode.ShouldNotEqual(second_hashcode);
