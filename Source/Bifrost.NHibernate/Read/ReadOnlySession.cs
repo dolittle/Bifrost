@@ -24,11 +24,11 @@ namespace Bifrost.NHibernate.Read
     public class ReadOnlySession : IReadOnlySession
     {
         ISession _session;
-        readonly ISessionFactory _sessionFactory;
+        readonly IConnection _connection;
 
         public ReadOnlySession(IConnection connection)
         {
-            _sessionFactory = connection.SessionFactory;
+            _connection = connection;
         }
 
         public ISession GetCurrentSession()
@@ -38,7 +38,7 @@ namespace Bifrost.NHibernate.Read
 
         ISession BuildSession()
         {
-            var session = _sessionFactory.OpenSession();
+            var session = _connection.SessionFactory.OpenSession();
             session.FlushMode = FlushMode.Never;
             session.DefaultReadOnly = true;
             return new ReadOnlySessionProxy(session);
