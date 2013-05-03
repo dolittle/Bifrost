@@ -29,7 +29,7 @@ namespace Bifrost.NHibernate.Entities
 	{
 		ISession _session;
 
-		public EntityContext(EntityContextConnection connection)
+		public EntityContext(IConnection connection)
 		{
 			_session = connection.SessionFactory.OpenSession();
 		}

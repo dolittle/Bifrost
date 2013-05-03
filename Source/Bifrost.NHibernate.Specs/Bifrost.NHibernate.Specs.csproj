@@ -60,6 +60,9 @@
     <Compile Include="Events\for_EventConverter\given\an_event_converter.cs" />
     <Compile Include="Events\for_EventConverter\when_converting_to_an_event_holder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Read\for_ReadOnlySession\given\a_readonly_session.cs" />
+    <Compile Include="Read\for_ReadOnlySession\when_getting_the_current_session.cs" />
+    <Compile Include="Read\for_ReadOnlySession\when_getting_the_current_session_multiple_times.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
