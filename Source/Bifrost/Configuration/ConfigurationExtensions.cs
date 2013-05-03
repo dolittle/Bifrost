@@ -56,7 +56,7 @@ namespace Bifrost.Configuration
 
             var source = typeof(IEntityContext<>).MakeGenericType(typeof(T));
             var target = configuration.EntityContextType.MakeGenericType(typeof(T));
-            container.Bind(source, target, Configure.Instance.DefaultObjectLifecycle);
+            container.Bind(source, target);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Bifrost.Configuration
         public static void BindDefaultEntityContext(this IEntityContextConfiguration configuration, IContainer container)
         {
             BindEntityContextConfigurationInstance(configuration, container);
-            container.Bind(typeof(IEntityContext<>), configuration.EntityContextType, Configure.Instance.DefaultObjectLifecycle);
+            container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
         }
         
         static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
