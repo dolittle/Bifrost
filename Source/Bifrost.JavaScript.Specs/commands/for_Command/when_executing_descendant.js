@@ -38,6 +38,8 @@
                 validatedCommand = command;
                 return { valid: true };
             }
+        },
+        commandSecurityService: {
         }
     }
 

@@ -8,6 +8,8 @@
                 commandAppliedTo = command
             }
         },
+        commandSecurityService: {
+        },
         options: {
             name: "something"
         }

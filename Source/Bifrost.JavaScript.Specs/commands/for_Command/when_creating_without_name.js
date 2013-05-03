@@ -5,6 +5,8 @@
         commandValidationService: {
             applyRulesTo: sinon.stub()
         },
+        commandSecurityService: {
+        },
         options: {
         }
     }

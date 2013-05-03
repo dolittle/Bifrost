@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.commands", {
-    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
         var self = this;
         this.name = "";
         this.targetCommand = this;
@@ -28,9 +28,9 @@ Bifrost.namespace("Bifrost.commands", {
         this.successCallbacks = [];
         this.completeCallbacks = [];
 
-
         this.commandCoordinator = commandCoordinator;
         this.commandValidationService = commandValidationService;
+        this.commandSecurityService = commandSecurityService;
 
         this.options = {
             beforeExecute: function () { },

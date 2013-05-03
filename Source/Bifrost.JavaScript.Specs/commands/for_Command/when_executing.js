@@ -38,6 +38,8 @@
                 validatedCommand = command;
                 return { valid: true };
             }
+        },
+        commandSecurityService: {
         }
     }
     command = Bifrost.commands.Command.create(parameters);

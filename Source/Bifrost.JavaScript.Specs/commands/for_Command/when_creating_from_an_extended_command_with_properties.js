@@ -9,6 +9,10 @@
             applyRulesTo: function (command) {
                 commandAppliedTo = command
             }
+        },
+        commandSecurityService: {
+        },
+        options: {
         }
     }
 

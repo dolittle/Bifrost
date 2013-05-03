@@ -29,6 +29,8 @@
             validate: function (command) {
                 return { valid: true };
             }
+        },
+        commandSecurityService: {
         }
     }
     var command = Bifrost.commands.Command.create(parameters);

@@ -36,6 +36,8 @@
                     valid: true
                 };
             }
+        },
+        commandSecurityService: {
         }
     }
 

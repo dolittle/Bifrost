@@ -15,6 +15,8 @@
                 }];
             }
         },
+        commandSecurityService: {
+        },
         options: {
             name:"something"
         }

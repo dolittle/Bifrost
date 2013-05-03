@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="commands\commandSecurityService.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />

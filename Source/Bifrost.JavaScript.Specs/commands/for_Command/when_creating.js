@@ -8,10 +8,13 @@
                 commandAppliedTo = command
             }
         },
+        commandSecurityService: {
+        },
         options: {
             name:"something"
         }
     }
+
     var command = Bifrost.commands.Command.create(parameters);
 
     it("should apply validation rules to properties", function () {

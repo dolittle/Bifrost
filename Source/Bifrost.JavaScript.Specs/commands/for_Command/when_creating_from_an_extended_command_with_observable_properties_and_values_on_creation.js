@@ -10,6 +10,8 @@
                 commandAppliedTo = command
             }
         },
+        commandSecurityService: {
+        },
         options: {
             properties: {
                 integer: 5,
