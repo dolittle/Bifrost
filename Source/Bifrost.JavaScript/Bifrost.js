@@ -47,6 +47,9 @@
 @depends commands/CommandDescriptor.js
 @depends commands/CommandResult.js
 @depends commands/commandDependencyResolver.js
+@depends commands/CommandSecurityContext.js
+@depends commands/commandSecurityContextFactory.js
+@depends commands/commandSecurityService.js
 @depends read/queryService.js
 @depends read/Query.js
 @depends read/ReadModel.js
