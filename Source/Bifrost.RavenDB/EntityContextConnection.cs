@@ -36,7 +36,7 @@ namespace Bifrost.RavenDB
             DocumentStore.Conventions.IdentityTypeConvertors.AddRange(configuration.IdPropertyRegister.GetTypeConvertersForConceptIds());
 
             // TODO : THIS IS NO GOOD!  Working around or camouflaging problems within Bifrost - good thing Raven told me it was a problem.. :) 
-            DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 512;
+            DocumentStore.Conventions.MaxNumberOfRequestsPerSession = 4096;
         }
 
         public void Initialize(IContainer container)
