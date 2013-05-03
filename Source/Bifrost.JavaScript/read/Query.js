@@ -9,11 +9,15 @@
 
         this.currentQuery = 0;
 
+        this.isQueryingEnabled = true;
+
         this.target = this;
 
         function createQueryable() {
             var observable = ko.observableArray();
             observable.execute = function () {
+                if (self.isAllParametersSet() == false) return;
+
                 var query = function (queryNumber) {
                     var queryNumber = queryNumber;
                     self.queryService.execute(self.target).continueWith(function (data) {
@@ -40,6 +44,22 @@
             }
         }
 
+        this.isAllParametersSet = function () {
+            var isSet = false;
+            var hasParameters = false;
+            for (var property in self.target) {
+                if (ko.isObservable(self.target[property]) == true) {
+                    hasParameters = true;
+                    if (typeof self.target[property]() != "undefined" && self.target[property]() != null) {
+                        isSet = true;
+                    }
+                }
+            }
+            if (hasParameters == false) return true;
+
+            return isSet;
+        }
+
         this.complete = function (callback) {
             self.completeCallbacks.push(callback);
             return self;
@@ -52,12 +72,27 @@
         };
 
 
-
         this.execute = function () {
-            for (var queryable in self.queryables) {
-                self.queryables[queryable].execute();
+            if( self.isQueryingEnabled ) {
+                for (var queryable in self.queryables) {
+                    self.queryables[queryable].execute();
+                }
             }
         };
+
+        this.setParameters = function (parameters) {
+            try {
+                self.isQueryingEnabled = false;
+                for (var property in parameters) {
+                    if (self.target.hasOwnProperty(property) && ko.isObservable(self.target[property]) == true) {
+                        self.target[property](parameters[property]);
+                    }
+                }
+            } catch(ex) {}
+
+            self.isQueryingEnabled = true;
+        };
+
 
         this.all = function (execute) {
             if (typeof execute === "undefined") execute = true;
