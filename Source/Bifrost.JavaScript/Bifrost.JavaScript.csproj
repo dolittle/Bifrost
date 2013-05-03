@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
@@ -177,6 +178,7 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   -->
   <ItemGroup>
     <Content Include="commands\commandValidationService.js" />
+    <Content Include="commands\commandSecurityContextFactory.js" />
     <Compile Include="DummyClass.cs" />
     <Content Include="utils\WellKnownTypesDependencyResolver.js" />
   </ItemGroup>

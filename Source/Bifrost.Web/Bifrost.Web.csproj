@@ -68,6 +68,7 @@
     <Compile Include="Assets\AssetsManager.cs" />
     <Compile Include="Assets\IAssetsManager.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
+    <Compile Include="Commands\CommandSecurityService.cs" />
     <Compile Include="Configuration\ConfigurationActivator.cs" />
     <Compile Include="Configuration\ConfigurationRoute.cs" />
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />

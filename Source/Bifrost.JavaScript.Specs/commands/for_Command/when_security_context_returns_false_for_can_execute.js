@@ -11,7 +11,7 @@
                 return {
                     continueWith: function (callback) {
                         callback({
-                            canExecute: ko.observable(false)
+                            isAuthorized: ko.observable(false)
                         });
                     }
                 }

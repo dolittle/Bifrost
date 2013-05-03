@@ -1694,12 +1694,15 @@ Bifrost.namespace("Bifrost.commands", {
     })
 });
 Bifrost.namespace("Bifrost.commands", {
-    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, options) {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
         var self = this;
         this.name = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
+
+        this.securityContext = ko.observable(null);
+
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var success = true;
@@ -1716,16 +1719,19 @@ Bifrost.namespace("Bifrost.commands", {
 
             return success;
         });
+
+        this.isAuthorized = ko.observable(false);
         this.canExecute = ko.computed(function () {
-            return self.isValid();
+            return self.isValid() && self.isAuthorized();
         });
+
         this.errorCallbacks = [];
         this.successCallbacks = [];
         this.completeCallbacks = [];
 
-
         this.commandCoordinator = commandCoordinator;
         this.commandValidationService = commandValidationService;
+        this.commandSecurityService = commandSecurityService;
 
         this.options = {
             beforeExecute: function () { },
@@ -1865,6 +1871,16 @@ Bifrost.namespace("Bifrost.commands", {
                 var validators = commandValidationService.applyRulesTo(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
             }
+            commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
+                lastDescendant.securityContext(securityContext);
+
+                if (ko.isObservable(securityContext.isAuthorized)) {
+                    lastDescendant.isAuthorized(securityContext.isAuthorized());
+                    securityContext.isAuthorized.subscribe(function (newValue) {
+                        lastDescendant.isAuthorized(newValue);
+                    });
+                }
+            });
         };
     })
 });
@@ -1959,6 +1975,45 @@ Bifrost.dependencyResolvers.command = {
         return commands[name].create();
     }
 };
+Bifrost.namespace("Bifrost.commands", {
+    CommandSecurityContext: Bifrost.Type.extend(function() {
+        var self = this;
+
+        this.isAuthorized = ko.observable(false);
+
+    })
+});
+Bifrost.namespace("Bifrost.commands", {
+    commandSecurityContextFactory: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.create = function () {
+            var context = Bifrost.commands.CommandSecurityContext.create();
+            return context;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.commands", {
+    commandSecurityService: Bifrost.Singleton(function (commandSecurityContextFactory) {
+        var self = this;
+
+        this.commandSecurityContextFactory = commandSecurityContextFactory;
+
+        this.getContextFor = function (command) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var context = self.commandSecurityContextFactory.create();
+            
+            var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
+            $.getJSON(url, function (e) {
+                context.isAuthorized(e.isAuthorized);
+                promise.signal(context);
+            });
+
+            return promise;
+        };
+    })
+});
 Bifrost.namespace("Bifrost.read", {
     queryService: Bifrost.Singleton(function () {
         var self = this;

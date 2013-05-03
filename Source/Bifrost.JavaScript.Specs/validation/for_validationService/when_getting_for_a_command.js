@@ -6,7 +6,7 @@
 
     var server = sinon.fakeServer.create();
 
-    server.respondWith("GET", "/Validation/GetForCommand?name=SomeCommand",
+    server.respondWith("GET", "/Bifrost/Validation/GetForCommand?name=SomeCommand",
         [200, { "Content-Type": "application/json" }, '{ "properties": { "something": { "required" : { "message" : "' + expectedMessage + '" } } } }']);
 
     var validationService = Bifrost.validation.validationService.create();

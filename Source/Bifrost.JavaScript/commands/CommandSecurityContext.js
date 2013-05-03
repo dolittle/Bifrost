@@ -1,8 +1,8 @@
-﻿Bifrost.namesapce("Bifrost.commands", {
+﻿Bifrost.namespace("Bifrost.commands", {
     CommandSecurityContext: Bifrost.Type.extend(function() {
         var self = this;
 
-        this.canExecute = ko.observable(false);
+        this.isAuthorized = ko.observable(false);
 
-    });
+    })
 });

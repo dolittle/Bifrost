@@ -57,11 +57,15 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
+    <Content Include="commands\for_commandSecurityService\when_getting_context_for_a_command.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_deep_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_valid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_security_context_changes_from_false_to_true_after_creation.js" />
+    <Content Include="commands\for_Command\when_security_context_returns_true_for_can_execute.js" />
+    <Content Include="commands\for_Command\when_security_context_returns_false_for_can_execute.js" />
     <Content Include="commands\for_Command\when_creating_without_name.js" />
     <Content Include="commands\for_Command\when_executing_descendant.js" />
     <Content Include="commands\for_Command\when_creating_with_name.js" />
@@ -74,6 +78,7 @@
     <Content Include="commands\for_Command\when_executing_with_validation_error.js" />
     <Content Include="commands\for_Command\when_executing_without_success.js" />
     <Content Include="commands\for_Command\when_executing.js" />
+    <Content Include="commands\for_Command\when_security_context_is_null.js" />
     <Content Include="commands\for_Command\when_validator_for_property_becomes_invalid.js" />
     <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
     <Content Include="execution\for_Promise\when_failing.js" />

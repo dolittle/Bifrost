@@ -25,9 +25,9 @@ Bifrost.namespace("Bifrost.commands", {
             return success;
         });
 
-        this.canExecuteForSecurity = ko.observable(false);
+        this.isAuthorized = ko.observable(false);
         this.canExecute = ko.computed(function () {
-            return self.isValid() && self.canExecuteForSecurity();
+            return self.isValid() && self.isAuthorized();
         });
 
         this.errorCallbacks = [];
@@ -179,10 +179,10 @@ Bifrost.namespace("Bifrost.commands", {
             commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
                 lastDescendant.securityContext(securityContext);
 
-                if (ko.isObservable(securityContext.canExecute)) {
-                    lastDescendant.canExecuteForSecurity(securityContext.canExecute());
-                    securityContext.canExecute.subscribe(function (newValue) {
-                        lastDescendant.canExecuteForSecurity(newValue);
+                if (ko.isObservable(securityContext.isAuthorized)) {
+                    lastDescendant.isAuthorized(securityContext.isAuthorized());
+                    securityContext.isAuthorized.subscribe(function (newValue) {
+                        lastDescendant.isAuthorized(newValue);
                     });
                 }
             });

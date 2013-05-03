@@ -1,6 +1,6 @@
 ﻿describe("when security context changes from false to true", function () {
     var securityContext = {
-        canExecute: ko.observable(false)
+        isAuthorized: ko.observable(false)
     };
 
     var parameters = {
@@ -25,7 +25,7 @@
     }
 
     var command = Bifrost.commands.Command.create(parameters);
-    securityContext.canExecute(true);
+    securityContext.isAuthorized(true);
 
     it("should result in the command returning true for can execute", function () {
         expect(command.canExecute()).toBe(true);

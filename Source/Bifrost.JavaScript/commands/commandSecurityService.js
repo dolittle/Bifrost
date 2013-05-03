@@ -2,14 +2,18 @@
     commandSecurityService: Bifrost.Singleton(function (commandSecurityContextFactory) {
         var self = this;
 
-        this.commandSecurityService = commandSecurityContextFactory;
+        this.commandSecurityContextFactory = commandSecurityContextFactory;
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
 
-            var context = self.commandSecurityService.create();
-
-            promise.signal(context);
+            var context = self.commandSecurityContextFactory.create();
+            
+            var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
+            $.getJSON(url, function (e) {
+                context.isAuthorized(e.isAuthorized);
+                promise.signal(context);
+            });
 
             return promise;
         };
