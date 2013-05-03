@@ -5,6 +5,9 @@ Bifrost.namespace("Bifrost.commands", {
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
+
+        this.securityContext = ko.observable(null);
+
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var success = true;
@@ -21,9 +24,12 @@ Bifrost.namespace("Bifrost.commands", {
 
             return success;
         });
+
+        this.canExecuteForSecurity = ko.observable(false);
         this.canExecute = ko.computed(function () {
-            return self.isValid();
+            return self.isValid() && self.canExecuteForSecurity();
         });
+
         this.errorCallbacks = [];
         this.successCallbacks = [];
         this.completeCallbacks = [];
@@ -170,6 +176,16 @@ Bifrost.namespace("Bifrost.commands", {
                 var validators = commandValidationService.applyRulesTo(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
             }
+            commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
+                lastDescendant.securityContext(securityContext);
+
+                if (ko.isObservable(securityContext.canExecute)) {
+                    lastDescendant.canExecuteForSecurity(securityContext.canExecute());
+                    securityContext.canExecute.subscribe(function (newValue) {
+                        lastDescendant.canExecuteForSecurity(newValue);
+                    });
+                }
+            });
         };
     })
 });

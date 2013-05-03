@@ -9,6 +9,11 @@
             }
         },
         commandSecurityService: {
+            getContextFor: function () {
+                return {
+                    continueWith: function () { }
+                };
+            }
         },
         options: {
             properties: {

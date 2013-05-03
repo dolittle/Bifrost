@@ -6,6 +6,11 @@
             applyRulesTo: sinon.stub()
         },
         commandSecurityService: {
+            getContextFor: function () {
+                return {
+                    continueWith: function () { }
+                };
+            }
         },
         options: {
         }

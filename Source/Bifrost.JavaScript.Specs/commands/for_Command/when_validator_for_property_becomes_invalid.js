@@ -16,6 +16,11 @@
             }
         },
         commandSecurityService: {
+            getContextFor: function () {
+                return {
+                    continueWith: function () { }
+                };
+            }
         },
         options: {
             name:"something"

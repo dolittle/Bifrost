@@ -17,6 +17,11 @@
             }
         },
         commandSecurityService: {
+            getContextFor: function () {
+                return {
+                    continueWith: function () { }
+                };
+            }
         }
     }
 

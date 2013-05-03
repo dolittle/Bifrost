@@ -1,27 +1,27 @@
-﻿describe("when creating with name", function () {
-    var commandAppliedTo = null;
+﻿describe("when security context is null", function () {
     var parameters = {
         commandCoordinator: {
         },
         commandValidationService: {
             applyRulesTo: function (command) {
-                commandAppliedTo = command
             }
         },
         commandSecurityService: {
-            getContextFor: function () {
+            getContextFor: function (command) {
                 return {
-                    continueWith: function () { }
-                };
+                    continueWith: function (callback) {
+                    }
+                }
             }
         },
         options: {
             name: "something"
         }
     }
+
     var command = Bifrost.commands.Command.create(parameters);
 
-    it("should set name on the command", function () {
-        expect(command.name).toBe("something");
+    it("should return true for can execute", function () {
+        expect(command.canExecute()).toBe(false);
     });
 });

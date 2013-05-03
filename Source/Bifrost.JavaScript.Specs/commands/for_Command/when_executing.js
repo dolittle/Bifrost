@@ -40,6 +40,11 @@
             }
         },
         commandSecurityService: {
+            getContextFor: function () {
+                return {
+                    continueWith: function () { }
+                };
+            }
         }
     }
     command = Bifrost.commands.Command.create(parameters);
