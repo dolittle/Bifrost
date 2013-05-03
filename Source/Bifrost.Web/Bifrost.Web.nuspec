@@ -23,7 +23,4 @@
       <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\debug\Bifrost.Web.dll" target="lib\net40\Bifrost.Web.dll"/>
-  </files>
 </package>

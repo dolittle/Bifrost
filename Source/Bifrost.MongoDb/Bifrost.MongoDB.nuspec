@@ -19,7 +19,4 @@
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\debug\Bifrost.MongoDB.dll" target="lib\net40\Bifrost.MongoDB.dll"/>
-  </files>
 </package>

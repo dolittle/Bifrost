@@ -22,7 +22,4 @@
       <dependency id="Bifrost.RavenDB" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\debug\Bifrost.RavenDB.Embedded.dll" target="lib\net40\Bifrost.RavenDB.Embedded.dll"/>
-  </files>
 </package>

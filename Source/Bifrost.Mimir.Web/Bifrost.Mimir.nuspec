@@ -27,10 +27,4 @@
       <dependency id="Bifrost.JS" version="$version$"/>
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\Bifrost.Mimir.Web.dll" target="lib\net40\Bifrost.Mimir.Web.dll"/>
-    <file src="bin\Bifrost.Mimir.Domain.dll" target="lib\net40\Bifrost.Mimir.Domain.dll"/>
-    <file src="bin\Bifrost.Mimir.Events.dll" target="lib\net40\Bifrost.Mimir.Events.dll"/>
-    <file src="bin\Bifrost.Mimir.Views.dll" target="lib\net40\Bifrost.Mimir.Views.dll"/>
-  </files>
 </package>
