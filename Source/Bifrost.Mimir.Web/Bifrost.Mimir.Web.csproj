@@ -21,7 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <SilverlightApplicationList>{CE2792C0-28EE-4F7D-8744-2F2267DB8B12}|..\Bifrost.Mimir.EventViewer\Bifrost.Mimir.EventViewer.csproj|ClientBin|False</SilverlightApplicationList>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\Users\einari\Documents\Visual Studio 2010\Projects\BifrostSignalR_Silverlight\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
