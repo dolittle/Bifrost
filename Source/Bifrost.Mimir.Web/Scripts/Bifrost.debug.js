@@ -2001,14 +2001,16 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
-
             var context = self.commandSecurityContextFactory.create();
-            
-            var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
-            $.getJSON(url, function (e) {
-                context.isAuthorized(e.isAuthorized);
+            if( typeof command.name == "undefined" || command.name == "" ) {
                 promise.signal(context);
-            });
+            } else {
+                var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
+                $.getJSON(url, function (e) {
+                    context.isAuthorized(e.isAuthorized);
+                    promise.signal(context);
+                });
+            }
 
             return promise;
         };
@@ -3181,7 +3183,7 @@ Bifrost.namespace("Bifrost.views", {
         function applyViewModelsByAttribute(path, container) {
             var viewModelApplied = false;
 
-            $("[data-viewmodel-file]", container).each(function () {
+            $("[data-viewmodel-file]", container).andSelf().each(function () {
                 viewModelApplied = true;
                 var target = $(this)[0];
                 var viewModelFile = $(this).data("viewmodel-file");
