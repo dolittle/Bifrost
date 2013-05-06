@@ -60,7 +60,7 @@
         function applyViewModelsByAttribute(path, container) {
             var viewModelApplied = false;
 
-            $("[data-viewmodel-file]", container).each(function () {
+            $("[data-viewmodel-file]", container).andSelf().each(function () {
                 viewModelApplied = true;
                 var target = $(this)[0];
                 var viewModelFile = $(this).data("viewmodel-file");
