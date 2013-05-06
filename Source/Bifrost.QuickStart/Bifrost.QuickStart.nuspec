@@ -33,6 +33,7 @@
     <file src="Domain\HumanResources\Employees\Employee.cs" target="Content\Domain\HumanResources\Employees\Employee.cs"/>
     <file src="Domain\HumanResources\Employees\RegisterEmployee.cs" target="Content\Domain\HumanResources\Employees\RegisterEmployee.cs"/>
     <file src="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" target="Content\Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs"/>
+    <file src="Domain\HumanResources\Employees\SecurityDescriptor.cs" target="Content\Domain\HumanResources\Employees\SecurityDescriptor.cs"/>
     <file src="Events\HumanResources\Employees\EmployeeRegistered.cs" target="Content\Events\HumanResources\Employees\EmployeeRegistered.cs"/>
     <file src="Features\Employees\index.html" target="Content\Features\Employees\index.html"/>
     <file src="Features\Employees\index.js" target="Content\Features\Employees\index.js"/>
