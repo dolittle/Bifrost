@@ -37,7 +37,13 @@
                 this.setOptions = function (rule) {
 
                     rulesSet[rule.name] = true;
-                }
+                };
+
+                this.validate = function () { };
+
+                this.validateSilently = function () { };
+
+                this.isValid = ko.observable(true);
 
             }
             target.validator = new validator();

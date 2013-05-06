@@ -15,30 +15,35 @@
         }
 
 
-        function extendProperties(target) {
+        function extendProperties(target, validators) {
             for (var property in target) {
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
+                    validators.push(target[property].validator);
                 } else if (typeof target[property] === "object") {
-                    extendProperties(target[property]);
+                    extendProperties(target[property], validators);
                 }
             }
         }
 
-        function validatePropertiesFor(target, result) {
+        function validatePropertiesFor(target, result, silent) {
             for (var property in target) {
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (typeof target[property].validator !== "undefined") {
-                    target[property].validator.validate(target[property]());
+                    if (silent === true) {
+                        target[property].validator.validateSilently(target[property]());
+                    } else {
+                        target[property].validator.validate(target[property]());
+                    }
 
                     if (target[property].validator.isValid() == false) {
                         result.valid = false;
                     }
                 } else if (typeof target[property] === "object") {
-                    validatePropertiesFor(target[property], result);
+                    validatePropertiesFor(target[property], result, silent);
                 }
             }
         }
@@ -89,7 +94,8 @@
         };
 
         this.applyRulesTo = function (command) {
-            extendProperties(command);
+            var validators = [];
+            extendProperties(command, validators);
             self.validationService.getForCommand(command.name).continueWith(function (rules) {
                 for (var rule in rules) {
                     var path = rule.split(".");
@@ -100,17 +106,18 @@
                         if (step in member) {
                             member = member[step];
                         } else {
-//                            throw "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")";
                             console.log( "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")");
                         }
                     }
 
-                    if (member.validator !== undefined) {
-
+                    if (typeof member.validator !== "undefined") {
                         member.validator.setOptions(rules[rule]);
                     }
                 }
+
+                validatePropertiesFor(command, { valid: true }, true);
             });
+            return validators;
         };
     })
 });

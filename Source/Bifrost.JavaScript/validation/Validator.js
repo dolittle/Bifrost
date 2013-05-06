@@ -26,6 +26,17 @@ Bifrost.validation.Validator = (function () {
             });
         };
 
+        this.validateSilently = function (value) {
+            $.each(self.rules, function (index, rule) {
+                if (!rule.validate(value)) {
+                    self.isValid(false);
+                    return false;
+                } else {
+                    self.isValid(true);
+                }
+            });
+        };
+
         this.setOptions(options);
     }
 
