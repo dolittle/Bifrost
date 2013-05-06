@@ -6,14 +6,16 @@
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
-
             var context = self.commandSecurityContextFactory.create();
-            
-            var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
-            $.getJSON(url, function (e) {
-                context.isAuthorized(e.isAuthorized);
+            if( typeof command.name == "undefined" || command.name == "" ) {
                 promise.signal(context);
-            });
+            } else {
+                var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
+                $.getJSON(url, function (e) {
+                    context.isAuthorized(e.isAuthorized);
+                    promise.signal(context);
+                });
+            }
 
             return promise;
         };
