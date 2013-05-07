@@ -179,6 +179,9 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   <ItemGroup>
     <Content Include="commands\commandValidationService.js" />
     <Content Include="commands\commandSecurityContextFactory.js" />
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="DummyClass.cs" />
     <Content Include="utils\WellKnownTypesDependencyResolver.js" />
   </ItemGroup>
