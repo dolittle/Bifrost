@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="DocumentStores.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
