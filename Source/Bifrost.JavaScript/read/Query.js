@@ -5,7 +5,7 @@
         this.queryService = queryService;
         this.queryables = {};
 
-        this.completeCallbacks = [];
+        this.completedCallbacks = [];
 
         this.currentQuery = 0;
 
@@ -23,7 +23,7 @@
                     self.queryService.execute(self.target).continueWith(function (data) {
                         if (queryNumber == self.currentQuery) {
                             observable(data);
-                            self.onComplete(data);
+                            self.onCompleted(data);
                         }
                     });
                 }
@@ -60,13 +60,13 @@
             return isSet;
         }
 
-        this.complete = function (callback) {
-            self.completeCallbacks.push(callback);
+        this.completed = function (callback) {
+            self.completedCallbacks.push(callback);
             return self;
         };
 
-        this.onComplete = function (data) {
-            $.each(self.completeCallbacks, function (index, callback) {
+        this.onCompleted = function (data) {
+            $.each(self.completedCallbacks, function (index, callback) {
                 callback(data);
             });
         };
