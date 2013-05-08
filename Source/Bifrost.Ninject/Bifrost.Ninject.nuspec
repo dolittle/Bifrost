@@ -20,7 +20,4 @@
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\debug\Bifrost.Ninject.dll" target="lib\net40\Bifrost.Ninject.dll"/>
-  </files>
 </package>

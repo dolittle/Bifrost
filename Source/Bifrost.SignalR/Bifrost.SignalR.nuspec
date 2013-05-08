@@ -27,7 +27,4 @@
       <dependency id="Bifrost.JSON" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin\debug\Bifrost.SignalR.dll" target="lib\net40\Bifrost.SignalR.dll"/>
-  </files>
 </package>

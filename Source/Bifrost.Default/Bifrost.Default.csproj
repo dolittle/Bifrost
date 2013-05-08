@@ -149,6 +149,9 @@
     <Content Include="Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="BifrostConfigurator.cs" />
     <Compile Include="ContainerCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
