@@ -10,11 +10,11 @@
 
     var parameters = {
         options: {
-            error: sinon.stub(),
-            success: function (commandResult) {
+            failed: sinon.stub(),
+            succeeded: function (commandResult) {
                 successCommandResultReceived = commandResult;
             },
-            complete: function (commandResult) {
+            completed: function (commandResult) {
                 completeCommandResultReceived = commandResult;
             }
         },
@@ -49,7 +49,7 @@
     continueWithCallback(commandResult);
 
     it("should not call error", function () {
-        expect(parameters.options.error.called).toBe(false);
+        expect(parameters.options.failed.called).toBe(false);
     });
 
     it("should call success", function () {

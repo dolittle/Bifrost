@@ -6,9 +6,9 @@
     var validationResultsApplied = null;
     var parameters = {
         options: {
-            error: sinon.stub(),
-            success: sinon.stub(),
-            complete: sinon.stub()
+            failed: sinon.stub(),
+            succeeded: sinon.stub(),
+            completed: sinon.stub()
         },
         commandCoordinator: {
             handle: function () {
@@ -56,7 +56,7 @@
     command.execute();
 
     it("should call error", function () {
-        expect(parameters.options.error.called).toBe(true);
+        expect(parameters.options.failed.called).toBe(true);
     });
 
     it("should not be able to execute", function () {
@@ -72,10 +72,10 @@
     });
 
     it("should not call success", function () {
-        expect(parameters.options.success.called).toBe(false);
+        expect(parameters.options.succeeded.called).toBe(false);
     });
 
     it("should call complete", function () {
-        expect(parameters.options.complete.called).toBe(true);
+        expect(parameters.options.completed.called).toBe(true);
     });
 });

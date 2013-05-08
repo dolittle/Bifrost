@@ -21,7 +21,7 @@
                 busyStatusOnExecute = command.isBusy();
                 beforeExecuteCalled = true;
             },
-            complete: function (commandResult) {
+            completed: function (commandResult) {
                 commandResultReceived = commandResult;
                 busyStatusAfterExecute = command.isBusy();
             }
