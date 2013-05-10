@@ -16,11 +16,13 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using NHibernate;
 
 namespace Bifrost.NHibernate.Read
 {
-    public interface IReadOnlySession
+    public interface IReadOnlySession : IDisposable
     {
         ISession GetCurrentSession();
     }
