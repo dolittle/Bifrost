@@ -43,5 +43,11 @@ namespace Bifrost.NHibernate.Read
             session.DefaultReadOnly = true;
             return new ReadOnlySessionProxy(session);
         }
+
+        public void Dispose()
+        {
+            if(_session != null)
+                _session.Dispose();
+        }
     }
 }
