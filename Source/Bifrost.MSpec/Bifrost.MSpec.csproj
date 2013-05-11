@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +51,7 @@
     <Compile Include="Events\EventStreamValidation.cs" />
     <Compile Include="Events\EventValueValidation.cs" />
     <Compile Include="Extensions\CommandScenarioExtensions.cs" />
+    <Compile Include="Extensions\FluentValidationExtensions.cs" />
     <Compile Include="Extensions\UncommittedEventStreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
