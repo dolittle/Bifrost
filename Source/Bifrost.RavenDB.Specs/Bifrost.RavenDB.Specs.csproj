@@ -39,14 +39,6 @@
     <Reference Include="Moq">
       <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -55,6 +47,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_long.cs" />

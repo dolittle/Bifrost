@@ -27,22 +27,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.12\lib\net40\Machine.Specifications.dll</HintPath>
-    </Reference>
     <Reference Include="Machine.Specifications.Clr4">
       <HintPath>..\Solutions\packages\Machine.Specifications.0.5.12\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +40,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Machine.Specifications, Version=0.5.12.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.5.12\lib\net40\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\Solutions\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="for_KernelExtensions\FirstModule.cs" />

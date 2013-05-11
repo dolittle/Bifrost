@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
-      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>

@@ -63,8 +63,7 @@
     <Reference Include="FluentValidation.Mvc">
       <HintPath>..\Solutions\packages\FluentValidation.MVC3.3.4.6.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WebActivator">
       <HintPath>..\Solutions\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>

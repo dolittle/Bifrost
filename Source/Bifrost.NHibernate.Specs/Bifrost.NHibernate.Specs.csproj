@@ -73,7 +73,7 @@
       <Name>Bifrost.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
-      <Project>{0cd61ba6-e5f1-48ef-b1a1-f45b397b2cf9}</Project>
+      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
       <Name>Bifrost.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
