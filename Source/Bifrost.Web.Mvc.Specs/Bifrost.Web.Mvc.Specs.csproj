@@ -95,6 +95,10 @@
       <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
       <Name>Bifrost.Testing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Web.Mvc\Bifrost.Web.Mvc.csproj">
+      <Project>{73ffb713-2878-4c17-8d5b-e22af8de89c5}</Project>
+      <Name>Bifrost.Web.Mvc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
