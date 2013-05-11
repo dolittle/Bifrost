@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9E87D7C6-65C2-4FAD-81FF-FDC7F0400384}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.QuickStart</RootNamespace>
@@ -40,66 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.Core.1.0.0\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.Owin.1.0.0\lib\net40\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.SystemWeb.1.0.0\lib\net40\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Microsoft.Owin.Host.SystemWeb.1.0.0\lib\net40\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Web.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Ninject.Web.Common.3.0.0.7\lib\net40-full\Ninject.Web.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Embedded, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Embedded.2.0.2330\lib\net40\Raven.Client.Embedded.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Database, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Database.2.0.2330\lib\net40\Raven.Database.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
@@ -114,8 +57,50 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.Core.1.0.0\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin">
+      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.Owin.1.0.0\lib\net40\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.SystemWeb.1.0.0\lib\net40\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\Solutions\packages\Microsoft.Owin.Host.SystemWeb.1.0.0\lib\net40\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\Solutions\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\Solutions\packages\Ninject.Web.Common.3.0.0.7\lib\net40-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\Solutions\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Embedded">
+      <HintPath>..\Solutions\packages\RavenDB.Embedded.2.0.2330\lib\net40\Raven.Client.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\Solutions\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Database">
+      <HintPath>..\Solutions\packages\RavenDB.Database.2.0.2330\lib\net40\Raven.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator">
       <HintPath>..\Solutions\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -171,63 +156,63 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
-      <Project>{15567d0a-4daf-49cd-9f8f-4fa94ad889d3}</Project>
+      <Project>{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}</Project>
       <Name>Bifrost.JavaScript</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
-      <Project>{db77eb6a-db79-4839-ab30-90593bce470f}</Project>
+      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Domain\Bifrost.Mimir.Domain.csproj">
-      <Project>{48afefd5-2ac8-472c-95a7-78147b255236}</Project>
-      <Name>Bifrost.Mimir.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
-      <Project>{3e9048bc-11c1-4278-acbf-2b0dbe7ef9f4}</Project>
-      <Name>Bifrost.Mimir.Events</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Read\Bifrost.Mimir.Read.csproj">
-      <Project>{0527b124-4719-4358-9214-83858e0353db}</Project>
-      <Name>Bifrost.Mimir.Read</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Web\Bifrost.Mimir.Web.csproj">
-      <Project>{94792675-44a2-4dd8-8cf2-1771787a097c}</Project>
-      <Name>Bifrost.Mimir.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
-      <Project>{63bbc1f3-e5e0-4902-badf-1589f91c0bea}</Project>
+      <Project>{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}</Project>
       <Name>Bifrost.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
-      <Project>{3ee03158-1be0-470c-85fb-e673cd5fc9e1}</Project>
+      <Project>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</Project>
       <Name>Bifrost.Ninject</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.RavenDb.Embedded\Bifrost.RavenDB.Embedded.csproj">
-      <Project>{a6b34814-3554-4849-a54e-c7ad1a7bb8e1}</Project>
+      <Project>{A6B34814-3554-4849-A54E-C7AD1A7BB8E1}</Project>
       <Name>Bifrost.RavenDB.Embedded</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
-      <Project>{cb331526-55bf-4887-a0d8-ee721b7fcdd7}</Project>
+      <Project>{CB331526-55BF-4887-A0D8-EE721B7FCDD7}</Project>
       <Name>Bifrost.RavenDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.SignalR\Bifrost.SignalR.csproj">
-      <Project>{758d6292-93e7-40cb-ab6a-b9402cbbefb3}</Project>
+      <Project>{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}</Project>
       <Name>Bifrost.SignalR</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
-      <Project>{0a748bd3-97dd-4c57-8069-4e36656c0a1a}</Project>
+      <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>
       <Name>Bifrost.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
-      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Web\Bifrost.Mimir.Web.csproj">
+      <Project>{94792675-44A2-4DD8-8CF2-1771787A097C}</Project>
+      <Name>Bifrost.Mimir.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
+      <Project>{3E9048BC-11C1-4278-ACBF-2B0DBE7EF9F4}</Project>
+      <Name>Bifrost.Mimir.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Read\Bifrost.Mimir.Read.csproj">
+      <Project>{0527B124-4719-4358-9214-83858E0353DB}</Project>
+      <Name>Bifrost.Mimir.Read</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Domain\Bifrost.Mimir.Domain.csproj">
+      <Project>{48AFEFD5-2AC8-472C-95A7-78147B255236}</Project>
+      <Name>Bifrost.Mimir.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
   </ItemGroup>
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">9.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -250,6 +235,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties VerifyCodeBehindFields="True" VerifyCodeBehindEvents="True">
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

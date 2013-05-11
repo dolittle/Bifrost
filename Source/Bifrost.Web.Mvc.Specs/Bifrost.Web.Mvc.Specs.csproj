@@ -96,7 +96,7 @@
       <Name>Bifrost.Testing</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web.Mvc\Bifrost.Web.Mvc.csproj">
-      <Project>{73FFB713-2878-4C17-8D5B-E22AF8DE89C5}</Project>
+      <Project>{73ffb713-2878-4c17-8d5b-e22af8de89c5}</Project>
       <Name>Bifrost.Web.Mvc</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">

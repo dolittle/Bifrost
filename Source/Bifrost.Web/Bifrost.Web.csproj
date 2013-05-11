@@ -46,11 +46,7 @@
     <Reference Include="FluentValidation">
       <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation">
-      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WebActivator">
       <HintPath>..\Solutions\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -125,7 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
-      <Project>{15567d0a-4daf-49cd-9f8f-4fa94ad889d3}</Project>
+      <Project>{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}</Project>
       <Name>Bifrost.JavaScript</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
@@ -137,8 +133,10 @@
     <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="Bifrost.Web.nuspec" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.min.map" />
+    <EmbeddedResource Include="..\Bifrost.JavaScript\Bifrost.debug.js">
+      <Link>Scripts\Bifrost.debug.js</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
@@ -180,9 +178,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\defaultConfiguration.js" />
   </ItemGroup>
-  <PropertyGroup>
-    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
-  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.js" />
@@ -195,7 +190,4 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\noext.js" />
   </ItemGroup>
-  <PropertyGroup>
-    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)\Scripts /y</PreBuildEvent>
-  </PropertyGroup>
 </Project>

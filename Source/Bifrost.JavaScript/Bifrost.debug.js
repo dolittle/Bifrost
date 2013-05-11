@@ -1723,10 +1723,10 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
-            var success = true;
+            var valid = true;
             $.each(self.validators(), function (index, validator) {
                 if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
-                    success = false;
+                    valid = false;
                     return false;
                 }
             });
@@ -1735,7 +1735,7 @@ Bifrost.namespace("Bifrost.commands", {
                 return false;
             }
 
-            return success;
+            return valid;
         });
 
         this.isAuthorized = ko.observable(false);
@@ -1743,9 +1743,9 @@ Bifrost.namespace("Bifrost.commands", {
             return self.isValid() && self.isAuthorized();
         });
 
-        this.errorCallbacks = [];
-        this.successCallbacks = [];
-        this.completeCallbacks = [];
+        this.failedCallbacks = [];
+        this.succeededCallbacks = [];
+        this.completedCallbacks = [];
 
         this.commandCoordinator = commandCoordinator;
         this.commandValidationService = commandValidationService;
@@ -1753,22 +1753,22 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.options = {
             beforeExecute: function () { },
-            error: function () { },
-            success: function () { },
-            complete: function () { },
+            failed: function () { },
+            succeeded: function () { },
+            completed: function () { },
             properties: {}
         };
 
-        this.error = function (callback) {
-            self.errorCallbacks.push(callback);
+        this.failed = function (callback) {
+            self.failedCallbacks.push(callback);
             return self;
         };
-        this.success = function (callback) {
-            self.successCallbacks.push(callback);
+        this.succeeded = function (callback) {
+            self.succeededCallbacks.push(callback);
             return self;
         };
-        this.complete = function (callback) {
-            self.completeCallbacks.push(callback);
+        this.completed = function (callback) {
+            self.completedCallbacks.push(callback);
             return self;
         };
 
@@ -1816,26 +1816,26 @@ Bifrost.namespace("Bifrost.commands", {
             self.options.beforeExecute();
         };
 
-        this.onError = function (commandResult) {
-            self.options.error(commandResult);
+        this.onFailed = function (commandResult) {
+            self.options.failed(commandResult);
 
-            $.each(self.errorCallbacks, function (index, callback) {
+            $.each(self.failedCallbacks, function (index, callback) {
                 callback(commandResult);
             });
         };
 
-        this.onSuccess = function (commandResult) {
-            self.options.success(commandResult);
+        this.onSucceeded = function (commandResult) {
+            self.options.succeeded(commandResult);
 
-            $.each(self.successCallbacks, function (index, callback) {
+            $.each(self.succeededCallbacks, function (index, callback) {
                 callback(commandResult);
             });
         };
 
-        this.onComplete = function (commandResult) {
-            self.options.complete(commandResult);
+        this.onCompleted = function (commandResult) {
+            self.options.completed(commandResult);
 
-            $.each(self.completeCallbacks, function (index, callback) {
+            $.each(self.completedCallbacks, function (index, callback) {
                 callback(commandResult);
             });
         };
@@ -1850,11 +1850,11 @@ Bifrost.namespace("Bifrost.commands", {
                 if (commandResult.invalid && typeof commandResult.validationResults !== "undefined") {
                     self.commandValidationService.applyValidationResultToProperties(self.targetCommand, commandResult.validationResults);
                 }
-                self.onError(commandResult);
+                self.onFailed(commandResult);
             } else {
-                self.onSuccess(commandResult);
+                self.onSucceeded(commandResult);
             }
-            self.onComplete(commandResult);
+            self.onCompleted(commandResult);
         };
 
         this.getCommandResultFromValidationResult = function (validationResult) {
@@ -2085,7 +2085,7 @@ Bifrost.namespace("Bifrost.read", {
         this.queryService = queryService;
         this.queryables = {};
 
-        this.completeCallbacks = [];
+        this.completedCallbacks = [];
 
         this.currentQuery = 0;
 
@@ -2103,7 +2103,7 @@ Bifrost.namespace("Bifrost.read", {
                     self.queryService.execute(self.target).continueWith(function (data) {
                         if (queryNumber == self.currentQuery) {
                             observable(data);
-                            self.onComplete(data);
+                            self.onCompleted(data);
                         }
                     });
                 }
@@ -2140,13 +2140,13 @@ Bifrost.namespace("Bifrost.read", {
             return isSet;
         }
 
-        this.complete = function (callback) {
-            self.completeCallbacks.push(callback);
+        this.completed = function (callback) {
+            self.completedCallbacks.push(callback);
             return self;
         };
 
-        this.onComplete = function (data) {
-            $.each(self.completeCallbacks, function (index, callback) {
+        this.onCompleted = function (data) {
+            $.each(self.completedCallbacks, function (index, callback) {
                 callback(data);
             });
         };
