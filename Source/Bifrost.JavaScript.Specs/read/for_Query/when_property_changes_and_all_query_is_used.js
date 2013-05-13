@@ -10,6 +10,12 @@ describe("when property changes", function () {
             };
         }
     };
+
+    var readModelMapperStub = {
+        mapInstance : function(){
+
+        }
+    }
     var query = Bifrost.read.Query.extend(function () {
         this.someInteger = ko.observable(0);
         this.someString = ko.observable("something");
@@ -18,7 +24,9 @@ describe("when property changes", function () {
 
 
     var instance = query.create({
-        queryService: queryServiceMock
+        queryService: queryServiceMock,
+        readModelMapper : readModelMapperStub
+
     });
 
     var all = instance.all();

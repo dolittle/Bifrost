@@ -9,6 +9,9 @@
                     }
                 }
             }
+        },
+        readModelMapper : {
+            mapInstance: function () {}
         }
     });
 

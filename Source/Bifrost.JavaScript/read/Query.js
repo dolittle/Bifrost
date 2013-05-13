@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.read", {
-    Query: Bifrost.Type.extend(function (queryService) {
+    Query: Bifrost.Type.extend(function (queryService, readModelMapper) {
         var self = this;
         this.name = "";
         this.queryService = queryService;
@@ -22,6 +22,7 @@
                     var queryNumber = queryNumber;
                     self.queryService.execute(self.target).continueWith(function (data) {
                         if (queryNumber == self.currentQuery) {
+                            readModelMapper.mapInstance(self.target.readModel, data);
                             observable(data);
                             self.onCompleted(data);
                         }
