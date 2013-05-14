@@ -1,6 +1,6 @@
-describe("when mapping property with property with mismatching type", function(){
+describe("when mapping array of data", function(){
 	var mappedReadModelInstance;
-	var data = { numberProperty: "fourty two"};
+	var data = [{ stringProperty: "fourty two"}, {stringProperty: "fourty three"}];
 	
 	var readModelType = Bifrost.Type.extend(function () {
         var self = this;
@@ -15,20 +15,21 @@ describe("when mapping property with property with mismatching type", function()
 
 	var returnedInstance = readModelType.create();
 
-    readModelType.create = sinon.stub().returns(returnedInstance);
-
-
 	(function becauseOf(){
 		var readModelMapper = Bifrost.read.readModelMapper.create();
 		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
 	})();
 
-	it("should return the instance", function () {
-		expect(mappedReadModelInstance).toEqual(returnedInstance);
+	it("should return an array of mapped instances", function () {
+		expect(mappedReadModelInstance.length).toEqual(2);
 	});
 
-	it("should not map the corresponding numberProprty value", function(){
-		expect(mappedReadModelInstance.numberProperty).toEqual(0);
+	it("should map the first datas properties", function(){
+		expect(mappedReadModelInstance[0].stringProperty).toEqual("fourty two");
+	});
+
+	it("should map the second datas properties", function(){
+		expect(mappedReadModelInstance[1].stringProperty).toEqual("fourty three");
 	});
 
 });

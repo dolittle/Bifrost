@@ -20,7 +20,7 @@ describe("when mapping object with matching object property", function(){
 
 	(function becauseOf(){
 		var readModelMapper = Bifrost.read.readModelMapper.create();
-		mappedReadModelInstance = readModelMapper.mapInstance(readModelType, data);
+		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
 	})();
 
 	it("should return the instance", function () {

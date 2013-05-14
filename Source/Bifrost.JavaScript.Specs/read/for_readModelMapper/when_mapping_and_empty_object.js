@@ -19,7 +19,7 @@ describe("when mapping and empty object", function(){
 
 	(function becauseOf(){
 		var readModelMapper = Bifrost.read.readModelMapper.create();
-		mappedReadModelInstance = readModelMapper.mapInstance(readModelType, data);
+		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
 	})();
 
 	it("should create an instance of the readModelType", function () {
