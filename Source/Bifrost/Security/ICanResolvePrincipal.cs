@@ -17,34 +17,18 @@
 //
 #endregion
 using System.Security.Principal;
-using Bifrost.Tenancy;
 
-namespace Bifrost.Execution
+namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines the execution context in which things are within
-    /// For instance, any commands coming into the system will be in the context of an execution context
+    /// Defines a resolver for <see cref="IIdentity"/>
     /// </summary>
-    public interface IExecutionContext
+    public interface ICanResolvePrincipal
     {
         /// <summary>
-        /// Gets or sets the principal for the execution context
+        /// Resolve current <see cref="IPrincipal"/>
         /// </summary>
-        IPrincipal Principal { get; }
-
-        /// <summary>
-        /// Gets or sets the string identifying the currently executing system
-        /// </summary>
-        string System { get; }
-
-        /// <summary>
-        /// Gets the tenant for the current execution context
-        /// </summary>
-        Tenant Tenant { get; }
-
-        /// <summary>
-        /// Gets the details for the execution context
-        /// </summary>
-        WriteOnceExpandoObject Details { get; }
+        /// <returns>The resolved <see cref="IPrincipal"/></returns>
+        IPrincipal Resolve();
     }
 }

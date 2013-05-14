@@ -141,10 +141,13 @@
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
     <Compile Include="Execution\ExecutionContext.cs" />
+    <Compile Include="Execution\ExecutionContextFactory.cs" />
     <Compile Include="Execution\ExecutionContextManager.cs" />
     <Compile Include="Execution\HashCodeHelper.cs" />
     <Compile Include="Execution\IExecutionContext.cs" />
+    <Compile Include="Execution\IExecutionContextFactory.cs" />
     <Compile Include="Execution\IExecutionContextManager.cs" />
+    <Compile Include="Execution\IExecutionContextVisitor.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
@@ -171,6 +174,7 @@
     <Compile Include="Security\AuthorizeActorResult.cs" />
     <Compile Include="Security\AuthorizeSecurableResult.cs" />
     <Compile Include="Security\AuthorizeTargetResult.cs" />
+    <Compile Include="Security\ICanResolvePrincipal.cs" />
     <Compile Include="Security\ISecurityAction.cs" />
     <Compile Include="Security\ISecurityCondition.cs" />
     <Compile Include="Security\ISecurityContext.cs" />
@@ -221,6 +225,7 @@
     <Compile Include="Tasks\TaskManager.cs" />
     <Compile Include="Tasks\TaskOperation.cs" />
     <Compile Include="Tasks\TaskStateChange.cs" />
+    <Compile Include="Tenancy\ITenantVisitor.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />

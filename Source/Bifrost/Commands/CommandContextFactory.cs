@@ -5,7 +5,7 @@ using Bifrost.Sagas;
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Represents a <see cref="ICommandContextFactory">Command context manager</see>
+    /// Represents a <see cref="ICommandContextFactory"/>
     /// </summary>
     public class CommandContextFactory : ICommandContextFactory
     {

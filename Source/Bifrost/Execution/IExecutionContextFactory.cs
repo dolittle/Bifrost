@@ -16,18 +16,17 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
-
-namespace Bifrost.Tenancy
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents a tenant in the system
+    /// Defines a factory for creating <see cref="IExecutionContext"/> instances
     /// </summary>
-    public class Tenant
+    public interface IExecutionContextFactory
     {
         /// <summary>
-        /// Gets the details for the tenant
+        /// Create a new <see cref="IExecutionContext"/>
         /// </summary>
-        public WriteOnceExpandoObject Details { get; private set; }
+        /// <returns>A <see cref="IExecutionContext"/></returns>
+        IExecutionContext Create();
     }
 }

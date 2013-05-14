@@ -39,20 +39,21 @@ namespace Bifrost.Testing
     /// <typeparam name="T">Type of the Command which the Scenario Tests</typeparam>
     public class CommandScenario<T> where T : class, ICommand
     {
-        readonly Mock<ICommandValidatorProvider> command_validator_provider;
-        readonly ICommandValidationService command_validation_service;
-        readonly ICommandCoordinator command_coordinator;
-        readonly Mock<ILocalizer> localizer;
-        readonly ICommandContextFactory command_context_factory;
-        readonly ICommandContextManager command_context_manager;
-        readonly Mock<ICommandHandlerManager> command_handler_manager;
-        readonly Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
-        readonly Mock<IEventStore> event_store;
-        readonly Mock<ISagaLibrarian> saga_librarian;
-        readonly Mock<IProcessMethodInvoker> process_method_invoker;
-        readonly Mock<ICommandSecurityManager> command_security_manager_mock;
-        readonly IExecutionContextManager execution_context_manager;
-        readonly ICanValidate<T> null_validator = new NullCommandInputValidator();
+        Mock<ICommandValidatorProvider> command_validator_provider;
+        ICommandValidationService command_validation_service;
+        ICommandCoordinator command_coordinator;
+        Mock<ILocalizer> localizer;
+        ICommandContextFactory command_context_factory;
+        ICommandContextManager command_context_manager;
+        Mock<ICommandHandlerManager> command_handler_manager;
+        Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
+        Mock<IEventStore> event_store;
+        Mock<ISagaLibrarian> saga_librarian;
+        Mock<IProcessMethodInvoker> process_method_invoker;
+        Mock<ICommandSecurityManager> command_security_manager_mock;
+        Mock<IExecutionContextFactory> execution_context_factory_mock;
+        IExecutionContextManager execution_context_manager;
+        ICanValidate<T> null_validator = new NullCommandInputValidator();
 
         dynamic command_handler;
         ICanValidate<T> input_validator;
@@ -69,7 +70,8 @@ namespace Bifrost.Testing
             event_store = new Mock<IEventStore>();
             saga_librarian = new Mock<ISagaLibrarian>();
             process_method_invoker = new Mock<IProcessMethodInvoker>();
-            execution_context_manager = new ExecutionContextManager();
+            execution_context_factory_mock = new Mock<IExecutionContextFactory>();
+            execution_context_manager = new ExecutionContextManager(execution_context_factory_mock.Object);
             command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, saga_librarian.Object, process_method_invoker.Object,
                                                                                                                             execution_context_manager, event_store.Object);
             command_context_manager = new CommandContextManager(command_context_factory);

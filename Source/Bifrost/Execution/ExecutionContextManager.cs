@@ -17,7 +17,6 @@
 //
 #endregion
 using System;
-using System.Threading;
 
 namespace Bifrost.Execution
 {
@@ -27,8 +26,19 @@ namespace Bifrost.Execution
     public class ExecutionContextManager : IExecutionContextManager
     {
         [ThreadStatic] static IExecutionContext _current;
-
         bool HasCurrent { get { return _current != null; } }
+
+
+        IExecutionContextFactory _executionContextFactory;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ExecutionContextManager"/>
+        /// </summary>
+        /// <param name="executionContextFactory"><see cref="IExecutionContextFactory"/> for creating <see cref="IExecutionContext">Exection Contexts</see></param>
+        public ExecutionContextManager(IExecutionContextFactory executionContextFactory)
+        {
+            _executionContextFactory = executionContextFactory;
+        }
 
 
 #pragma warning disable 1591 // Xml Comments
@@ -42,16 +52,7 @@ namespace Bifrost.Execution
             get 
             {
                 if (!HasCurrent)
-                {
-                    _current = new ExecutionContext
-                    {
-#if(!SILVERLIGHT && !NETFX_CORE)
-                        // Todo : Figure out the best way to get the current user - probably get it from the server side of things.
-                        Identity = Thread.CurrentPrincipal.Identity,
-#endif
-                        System = "[Unknown]"
-                    };
-                }
+                    _current = _executionContextFactory.Create();
                 return _current;
             }
         }

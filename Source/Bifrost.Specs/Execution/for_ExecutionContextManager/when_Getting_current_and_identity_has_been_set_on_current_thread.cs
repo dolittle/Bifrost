@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Execution.for_ExecutionContextManager
 
         Because of = () => execution_context = manager.Current;
 
-        It should_have_an_identity = () => execution_context.Identity.ShouldNotBeNull();
-        It should_have_an_identity_with_correct_name = () => execution_context.Identity.Name.ShouldEqual(user_name);
+        It should_have_an_identity = () => execution_context.Principal.ShouldNotBeNull();
+        It should_have_an_identity_with_correct_name = () => execution_context.Principal.Identity.Name.ShouldEqual(user_name);
     }
 }
