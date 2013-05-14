@@ -15,19 +15,31 @@ describe("when getting all", function () {
             };
         }
     };
-    var readModelMapperStub = {
-        mapInstance : function(){
+    var readModelType = Bifrost.Type.extend(function () {
+        var self = this;
+        this.something = "";
+    });
 
+    var readModelMapperStub = {
+        mapDataToReadModel : function(){
+            return data.map(function( value, index){
+                var readModel = readModelType.create();
+                readModel.something = value.something;
+                return readModel;
+            })
         }
     }
 
-    var query = Bifrost.read.Query.extend(function () { });
+    var query = Bifrost.read.Query.extend(function () { 
+        target : {readModel: readModelType }
+    });
 
 
     var instance = query.create({
         queryService: queryServiceMock,
         readModelMapper : readModelMapperStub
     });
+
 
     var all = instance.all();
 

@@ -11,9 +11,19 @@ describe("when property changes", function () {
         }
     };
 
-    var readModelMapperStub = {
-        mapInstance : function(){
+    var readModelType = Bifrost.Type.extend(function () {
+        var self = this;
+        this.something = "";
+    });
 
+    var mappedData = data.map(function( value, index){
+                var readModel = readModelType.create();
+                readModel.something = value.something;
+                return readModel;
+            });
+    var readModelMapperStub = {
+        mapDataToReadModel : function(){
+            return mappedData;
         }
     }
     var query = Bifrost.read.Query.extend(function () {
@@ -28,6 +38,9 @@ describe("when property changes", function () {
         readModelMapper : readModelMapperStub
 
     });
+
+    instance.target.readModel = readModelType;
+
 
     var all = instance.all();
 
@@ -53,6 +66,6 @@ describe("when property changes", function () {
     });
 
     it("should populate the all observable with the data from the service", function () {
-        expect(all()).toBe(data);
+        expect(all()).toBe(mappedData);
     });
 });

@@ -11,7 +11,7 @@
             }
         },
         readModelMapper : {
-            mapInstance: function () {}
+            mapDataToReadModel: function () {}
         }
     });
 

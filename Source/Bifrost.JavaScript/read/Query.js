@@ -22,9 +22,9 @@
                     var queryNumber = queryNumber;
                     self.queryService.execute(self.target).continueWith(function (data) {
                         if (queryNumber == self.currentQuery) {
-                            readModelMapper.mapInstance(self.target.readModel, data);
-                            observable(data);
-                            self.onCompleted(data);
+                            var mappedReadModels = readModelMapper.mapDataToReadModel(self.target.readModel, data);
+                            observable(mappedReadModels);
+                            self.onCompleted(mappedReadModels);
                         }
                     });
                 }
