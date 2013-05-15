@@ -20,7 +20,6 @@ using System;
 using Bifrost.Entities;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Sagas;
 
 namespace Bifrost.Configuration
 {
@@ -29,6 +28,19 @@ namespace Bifrost.Configuration
 	/// </summary>
     public static partial class ConfigurationExtensions
     {
+        /// <summary>
+        /// Configures the running system with a name
+        /// </summary>
+        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
+        /// <param name="name">Name of the system</param>
+        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
+        public static IConfigure WithSystemName(this IConfigure configure, string name)
+        {
+            configure.SystemName = name;
+            return configure;
+        }
+
+
         /// <summary>
         /// Configures events to be persisted asynchronously
         /// </summary>

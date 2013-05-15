@@ -143,11 +143,13 @@
     <Compile Include="Execution\ExecutionContext.cs" />
     <Compile Include="Execution\ExecutionContextFactory.cs" />
     <Compile Include="Execution\ExecutionContextManager.cs" />
+    <Compile Include="Execution\ExecutionContextPopulator.cs" />
     <Compile Include="Execution\HashCodeHelper.cs" />
     <Compile Include="Execution\IExecutionContext.cs" />
     <Compile Include="Execution\IExecutionContextFactory.cs" />
     <Compile Include="Execution\IExecutionContextManager.cs" />
-    <Compile Include="Execution\IExecutionContextVisitor.cs" />
+    <Compile Include="Execution\ICanPopulateExecutionContextDetails.cs" />
+    <Compile Include="Execution\IExecutionContextDetailsPopulator.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
@@ -225,7 +227,7 @@
     <Compile Include="Tasks\TaskManager.cs" />
     <Compile Include="Tasks\TaskOperation.cs" />
     <Compile Include="Tasks\TaskStateChange.cs" />
-    <Compile Include="Tenancy\ITenantVisitor.cs" />
+    <Compile Include="Tenancy\ICanPopulateTenant.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />

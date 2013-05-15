@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+using System.Threading;
+using Bifrost.Configuration;
 using Bifrost.Security;
 namespace Bifrost.Execution
 {
@@ -25,29 +27,28 @@ namespace Bifrost.Execution
     public class ExecutionContextFactory : IExecutionContextFactory
     {
         ICanResolvePrincipal _principalResolver;
+        IExecutionContextDetailsPopulator _detailsPopulator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ExecutionContextFactory"/>
         /// </summary>
         /// <param name="principalResolver"><see cref="ICanResolvePrincipal"/> for resolving the identity</param>
-        public ExecutionContextFactory(ICanResolvePrincipal principalResolver)
+        /// <param name="detailsPopulator">A <see cref="IExecutionContextDetailsPopulator"/> to use for populating any <see cref="IExecutionContext"/> being created</param>
+        /// <param name="configure">A <see cref="IConfigure"/> instance holding all configuration</param>
+        public ExecutionContextFactory(ICanResolvePrincipal principalResolver, IExecutionContextDetailsPopulator detailsPopulator, IConfigure configure)
         {
             _principalResolver = principalResolver;
+            _detailsPopulator = detailsPopulator;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public IExecutionContext Create()
         {
             var principal = _principalResolver.Resolve();
-            var executionContext = new ExecutionContext(principal,DetailsPopulator,null,null);
+            var culture = Thread.CurrentThread.CurrentCulture;
+            var executionContext = new ExecutionContext(principal,culture,_detailsPopulator.Populate,null,null);
             return executionContext;
         }
 #pragma warning restore 1591 // Xml Comments
-
-
-        void DetailsPopulator(dynamic details)
-        {
-        }
-
     }
 }

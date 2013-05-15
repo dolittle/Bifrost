@@ -19,15 +19,15 @@
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a visitor that takes part in populating all the details for the <see cref="IExecutionContext"/>
+    /// Defines a system for populating a <see cref="IExecutionContext"/>
     /// </summary>
-    public interface ICanPopulateExecutionContext
+    public interface IExecutionContextDetailsPopulator
     {
         /// <summary>
-        /// Method that gets called when the <see cref="IExecutionContext"/> is being set up
+        /// Populate <see cref="IExecutionContext"/> and its details
         /// </summary>
         /// <param name="executionContext"><see cref="IExecutionContext"/> that is populated</param>
-        /// <param name="details">Details for the <see cref="IExecutionContext"/> - can be expanded on</param>
+        /// <param name="details">Details for the <see cref="IExecutionContext"/> to populate</param>
         void Populate(IExecutionContext executionContext, dynamic details);
     }
 }

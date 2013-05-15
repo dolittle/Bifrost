@@ -57,6 +57,8 @@ namespace Bifrost.Configuration
         {
             DefaultObjectLifecycle = defaultObjectLifecycle;
 
+            SystemName = "[Not Set]";
+
             container.Bind<IConfigure>(this);
 
             Container = container;
@@ -152,6 +154,7 @@ namespace Bifrost.Configuration
 
 #pragma warning disable 1591 // Xml Comments
         public IContainer Container { get; private set; }
+        public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }

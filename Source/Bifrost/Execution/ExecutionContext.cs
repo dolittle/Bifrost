@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Globalization;
 using System.Security.Principal;
 using Bifrost.Tenancy;
 
@@ -31,19 +32,22 @@ namespace Bifrost.Execution
         /// Initializes an instance of <see cref="ExecutionContext"/>
         /// </summary>
         /// <param name="principal"><see cref="IPrincipal"/> to populate with</param>
-        /// <param name="detailsPopulator"></param>
+        /// <param name="cultureInfo"><see cref="CultureInfo"/> for the <see cref="ExecutionContext"/></param>
+        /// <param name="detailsPopulator">Callback that gets called for populating the details of the <see cref="ExecutionContext"/></param>
         /// <param name="system">Name of the system that is running</param>
         /// <param name="tenant">The current tenant information <see cref="Tenant"/></param>
-        public ExecutionContext(IPrincipal principal, Action<dynamic> detailsPopulator, string system, Tenant tenant)
+        public ExecutionContext(IPrincipal principal, CultureInfo cultureInfo, ExecutionContextPopulator detailsPopulator, string system, Tenant tenant)
         {
             Principal = principal;
+            Culture = cultureInfo;
             System = system;
             Tenant = tenant;
-            Details = new WriteOnceExpandoObject(detailsPopulator);
+            Details = new WriteOnceExpandoObject(d => detailsPopulator(this,d));
         }
 
 #pragma warning disable 1591 // Xml Comments
         public IPrincipal Principal { get; private set; }
+        public CultureInfo Culture { get; private set; }
         public string System { get; private set; }
         public Tenant Tenant { get; private set; }
         public WriteOnceExpandoObject Details { get; private set; }
