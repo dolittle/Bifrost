@@ -19,6 +19,7 @@
 using System.Threading;
 using Bifrost.Configuration;
 using Bifrost.Security;
+using Bifrost.Tenancy;
 namespace Bifrost.Execution
 {
     /// <summary>
@@ -28,6 +29,8 @@ namespace Bifrost.Execution
     {
         ICanResolvePrincipal _principalResolver;
         IExecutionContextDetailsPopulator _detailsPopulator;
+        IConfigure _configure;
+        ITenantManager _tenantManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ExecutionContextFactory"/>
@@ -35,18 +38,26 @@ namespace Bifrost.Execution
         /// <param name="principalResolver"><see cref="ICanResolvePrincipal"/> for resolving the identity</param>
         /// <param name="detailsPopulator">A <see cref="IExecutionContextDetailsPopulator"/> to use for populating any <see cref="IExecutionContext"/> being created</param>
         /// <param name="configure">A <see cref="IConfigure"/> instance holding all configuration</param>
-        public ExecutionContextFactory(ICanResolvePrincipal principalResolver, IExecutionContextDetailsPopulator detailsPopulator, IConfigure configure)
+        /// <param name="tenantManager">A <see cref="ITenantManager"/> to get <see cref="ITenant">tenants</see> from</param>
+        public ExecutionContextFactory(ICanResolvePrincipal principalResolver, IExecutionContextDetailsPopulator detailsPopulator, IConfigure configure, ITenantManager tenantManager)
         {
             _principalResolver = principalResolver;
             _detailsPopulator = detailsPopulator;
+            _configure = configure;
+            _tenantManager = tenantManager;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public IExecutionContext Create()
         {
-            var principal = _principalResolver.Resolve();
-            var culture = Thread.CurrentThread.CurrentCulture;
-            var executionContext = new ExecutionContext(principal,culture,_detailsPopulator.Populate,null,null);
+            var executionContext = new ExecutionContext(
+                _principalResolver.Resolve(),
+                Thread.CurrentThread.CurrentCulture,
+                _detailsPopulator.Populate,
+                _configure.SystemName);
+
+            executionContext.Tenant = _tenantManager.Current;
+
             return executionContext;
         }
 #pragma warning restore 1591 // Xml Comments

@@ -46,7 +46,7 @@ namespace Bifrost.Execution
         /// <summary>
         /// Gets the tenant for the current execution context
         /// </summary>
-        Tenant Tenant { get; }
+        ITenant Tenant { get; }
 
         /// <summary>
         /// Gets the details for the execution context

@@ -26,6 +26,7 @@ namespace Bifrost.Execution
     /// <summary>
     /// Represents a <see cref="IExecutionContext"/>
     /// </summary>
+    [IgnoreDefaultConventionAttribute]
     public class ExecutionContext : IExecutionContext
     {
         /// <summary>
@@ -35,13 +36,11 @@ namespace Bifrost.Execution
         /// <param name="cultureInfo"><see cref="CultureInfo"/> for the <see cref="ExecutionContext"/></param>
         /// <param name="detailsPopulator">Callback that gets called for populating the details of the <see cref="ExecutionContext"/></param>
         /// <param name="system">Name of the system that is running</param>
-        /// <param name="tenant">The current tenant information <see cref="Tenant"/></param>
-        public ExecutionContext(IPrincipal principal, CultureInfo cultureInfo, ExecutionContextPopulator detailsPopulator, string system, Tenant tenant)
+        public ExecutionContext(IPrincipal principal, CultureInfo cultureInfo, ExecutionContextPopulator detailsPopulator, string system)
         {
             Principal = principal;
             Culture = cultureInfo;
             System = system;
-            Tenant = tenant;
             Details = new WriteOnceExpandoObject(d => detailsPopulator(this,d));
         }
 
@@ -49,7 +48,7 @@ namespace Bifrost.Execution
         public IPrincipal Principal { get; private set; }
         public CultureInfo Culture { get; private set; }
         public string System { get; private set; }
-        public Tenant Tenant { get; private set; }
+        public ITenant Tenant { get; set; }
         public WriteOnceExpandoObject Details { get; private set; }
 #pragma warning restore 1591 // Xml Comments
     }
