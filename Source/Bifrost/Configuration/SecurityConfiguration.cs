@@ -30,7 +30,7 @@ namespace Bifrost.Configuration
 #pragma warning disable 1591 // Xml Comments
         public void Initialize(IContainer container)
         {
-            container.Bind<ICanResolvePrincipal>(typeof(ThreadPrincipalResolver));
+            container.Bind<ICanResolvePrincipal>(typeof(DefaultPrincipalResolver));
         }
 #pragma warning restore 1591 // Xml Comments
     }
