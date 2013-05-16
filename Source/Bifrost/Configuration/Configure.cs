@@ -165,6 +165,8 @@ namespace Bifrost.Configuration
 		public ISagasConfiguration Sagas { get; private set; }
 		public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
+        public IExecutionContextConfiguration ExecutionContext { get; private set; }
+        public ISecurityConfiguration Security { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
         public BindingLifecycle DefaultObjectLifecycle { get; set; }
@@ -180,6 +182,8 @@ namespace Bifrost.Configuration
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
             Frontend.Initialize(Container);
+            ExecutionContext.Initialize(Container);
+            Security.Initialize(Container);
         	InitializeCulture();
             DefaultStorage.Initialize(Container);
         }
@@ -197,6 +201,8 @@ namespace Bifrost.Configuration
 			Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();
+            ExecutionContext = Container.Get<IExecutionContextConfiguration>();
+            Security = Container.Get<ISecurityConfiguration>();
         }
 
 		void InitializeCulture()

@@ -90,6 +90,17 @@ namespace Bifrost.Configuration
         /// Gets the configuration for the frontend part of the application
         /// </summary>
         IFrontendConfiguration Frontend { get; }
+
+        /// <summary>
+        /// Gets the configuration for the <see cref="IExecutionContext"/>
+        /// </summary>
+        IExecutionContextConfiguration ExecutionContext { get; }
+
+        /// <summary>
+        /// Gets the configuration for security
+        /// </summary>
+        ISecurityConfiguration Security { get; }
+
 		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
