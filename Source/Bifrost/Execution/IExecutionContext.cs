@@ -55,6 +55,6 @@ namespace Bifrost.Execution
         /// This object is a write once object, meaning that you can't write to it at will.
         /// It can be populated by implementing a <see cref="ICanPopulateExecutionContextDetails"/>
         /// </remarks>
-        WriteOnceExpandoObject Details { get; }
+        dynamic Details { get; }
     }
 }

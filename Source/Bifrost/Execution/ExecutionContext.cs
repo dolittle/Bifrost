@@ -49,7 +49,7 @@ namespace Bifrost.Execution
         public CultureInfo Culture { get; private set; }
         public string System { get; private set; }
         public ITenant Tenant { get; set; }
-        public WriteOnceExpandoObject Details { get; private set; }
+        public dynamic Details { get; private set; }
 #pragma warning restore 1591 // Xml Comments
     }
 }

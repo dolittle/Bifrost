@@ -145,6 +145,7 @@
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
     <Compile Include="Execution\ExecutionContext.cs" />
+    <Compile Include="Execution\ExecutionContextDetailsPopulator.cs" />
     <Compile Include="Execution\ExecutionContextFactory.cs" />
     <Compile Include="Execution\ExecutionContextManager.cs" />
     <Compile Include="Execution\ExecutionContextPopulator.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Tenancy\ITenant.cs" />
     <Compile Include="Tenancy\ITenantManager.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
+    <Compile Include="Tenancy\TenantManager.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
     <Compile Include="Sagas\ISaga.cs" />

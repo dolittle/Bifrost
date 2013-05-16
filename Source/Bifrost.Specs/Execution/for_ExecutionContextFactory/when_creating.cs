@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Dynamic;
+using System.Globalization;
 using System.Security.Principal;
 using System.Threading;
 using Bifrost.Configuration;
@@ -46,7 +47,7 @@ namespace Bifrost.Specs.Execution.for_ExecutionContextFactory
 
         It should_create_an_instance = () => instance.ShouldNotBeNull();
         It should_create_with_the_resolved_identity = () => instance.Principal.ShouldEqual(principal);
-        It should_populate_details = () => details_populator_mock.Verify(d => d.Populate(instance, instance.Details), Times.Once());
+        It should_populate_details = () => details_populator_mock.Verify(d => d.Populate(instance, Moq.It.IsAny<DynamicObject>()), Times.Once());
         It should_be_initialized_with_the_current_threads_culture = () => instance.Culture.ShouldEqual(Thread.CurrentThread.CurrentCulture);
         It should_be_initialized_with_the_configured_system_name = () => instance.System.ShouldEqual("Something");
         It should_be_initialized_with_the_current_tenant = () => instance.Tenant.ShouldEqual(tenant_mock.Object);
