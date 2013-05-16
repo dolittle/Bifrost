@@ -41,6 +41,21 @@ namespace Bifrost.Extensions
 #pragma warning restore 1591 // Xml Comments
 
         /// <summary>
+        /// Check if a type has an attribute associated with it
+        /// </summary>
+        /// <typeparam name="T">Type to check</typeparam>
+        /// <returns>True if there is an attribute, false if not</returns>
+        public static bool HasAttribute<T>(this Type type) where T : Attribute
+        {
+#if(NETFX_CORE)
+            var attributes = type.GetTypeInfo().GetCustomAttributes(typeof(T), false).ToArray();
+#else
+            var attributes = type.GetCustomAttributes(typeof(T), false);
+#endif
+            return attributes.Length == 1;
+        }
+
+        /// <summary>
         /// Check if a type is nullable or not
         /// </summary>
         /// <param name="type"><see cref="Type"/> to check</param>
