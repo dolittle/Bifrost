@@ -75,7 +75,8 @@ namespace Bifrost.Execution
 #endif
                 if (null != serviceInstanceType &&
                     IsAssignableFrom(service,serviceInstanceType) &&
-                    !HasMultipleImplementationInSameNamespace(service))
+                    !HasMultipleImplementationInSameNamespace(service) &&
+                    !serviceInstanceType.HasAttribute<IgnoreDefaultConventionAttribute>())
 				{
 #if(NETFX_CORE)
                     if (serviceInstanceType.GetTypeInfo().IsAbstract) return null;
@@ -89,7 +90,7 @@ namespace Bifrost.Execution
 			return null;
 		}
 
-        private static bool HasMultipleImplementationInSameNamespace(Type service)
+        static bool HasMultipleImplementationInSameNamespace(Type service)
         {
             var implementationsCount = service
 #if(NETFX_CORE)

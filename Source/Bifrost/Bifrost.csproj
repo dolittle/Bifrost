@@ -105,16 +105,20 @@
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
     <Compile Include="Configuration\DefaultStorageConfiguration.cs" />
+    <Compile Include="Configuration\ExecutionContextConfiguration.cs" />
     <Compile Include="Configuration\FrontendConfiguration.cs" />
     <Compile Include="Configuration\ICanConfigure.cs" />
     <Compile Include="Configuration\ICanCreateContainer.cs" />
     <Compile Include="Configuration\IConfigurationElement.cs" />
     <Compile Include="Configuration\IDefaultStorageConfiguration.cs" />
+    <Compile Include="Configuration\IExecutionContextConfiguration.cs" />
     <Compile Include="Configuration\IFrontendConfiguration.cs" />
     <Compile Include="Configuration\IFrontendTargetConfiguration.cs" />
     <Compile Include="Configuration\IHaveStorage.cs" />
+    <Compile Include="Configuration\ISecurityConfiguration.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />
+    <Compile Include="Configuration\SecurityConfiguration.cs" />
     <Compile Include="Configuration\TasksConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />
     <Compile Include="Configuration\IConfigure.cs" />
@@ -150,6 +154,7 @@
     <Compile Include="Execution\IExecutionContextManager.cs" />
     <Compile Include="Execution\ICanPopulateExecutionContextDetails.cs" />
     <Compile Include="Execution\IExecutionContextDetailsPopulator.cs" />
+    <Compile Include="Execution\IgnoreDefaultConventionAttribute.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
@@ -201,6 +206,7 @@
     <Compile Include="Security\SecurityManager.cs" />
     <Compile Include="Security\SecurityActor.cs" />
     <Compile Include="Security\SecurityTarget.cs" />
+    <Compile Include="Security\ThreadPrincipalResolver.cs" />
     <Compile Include="Security\TypeSecurable.cs" />
     <Compile Include="Security\UserSecurityActor.cs" />
     <Compile Include="Security\UserSecurityActorExtensions.cs" />
@@ -228,6 +234,8 @@
     <Compile Include="Tasks\TaskOperation.cs" />
     <Compile Include="Tasks\TaskStateChange.cs" />
     <Compile Include="Tenancy\ICanPopulateTenant.cs" />
+    <Compile Include="Tenancy\ITenant.cs" />
+    <Compile Include="Tenancy\ITenantManager.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
