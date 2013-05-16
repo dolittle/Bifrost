@@ -183,6 +183,9 @@
     <Compile Include="..\Bifrost\Configuration\EventsConfiguration.cs">
       <Link>Configuration\EventsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\ExecutionContextConfiguration.cs">
+      <Link>Configuration\ExecutionContextConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\FrontendConfiguration.cs">
       <Link>Configuration\FrontendConfiguration.cs</Link>
     </Compile>
@@ -210,6 +213,9 @@
     <Compile Include="..\Bifrost\Configuration\IEventsConfiguration.cs">
       <Link>Configuration\IEventsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IExecutionContextConfiguration.cs">
+      <Link>Configuration\IExecutionContextConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IFrontendConfiguration.cs">
       <Link>Configuration\IFrontendConfiguration.cs</Link>
     </Compile>
@@ -221,6 +227,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ISagasConfiguration.cs">
       <Link>Configuration\ISagasConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ISecurityConfiguration.cs">
+      <Link>Configuration\ISecurityConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ISerializationConfiguration.cs">
       <Link>Configuration\ISerializationConfiguration.cs</Link>
@@ -239,6 +248,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
       <Link>Configuration\SagasConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\SecurityConfiguration.cs">
+      <Link>Configuration\SecurityConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\SerializationConfiguration.cs">
       <Link>Configuration\SerializationConfiguration.cs</Link>
@@ -456,8 +468,14 @@
     <Compile Include="..\Bifrost\Execution\ExecutionContext.cs">
       <Link>Execution\ExecutionContext.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\ExecutionContextFactory.cs">
+      <Link>Execution\ExecutionContextFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\ExecutionContextManager.cs">
       <Link>Execution\ExecutionContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ExecutionContextPopulator.cs">
+      <Link>Execution\ExecutionContextPopulator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
@@ -471,14 +489,26 @@
     <Compile Include="..\Bifrost\Execution\IBindingConventionManager.cs">
       <Link>Execution\IBindingConventionManager.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\ICanPopulateExecutionContextDetails.cs">
+      <Link>Execution\ICanPopulateExecutionContextDetails.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\IContainer.cs">
       <Link>Execution\IContainer.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\IExecutionContext.cs">
       <Link>Execution\IExecutionContext.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\IExecutionContextDetailsPopulator.cs">
+      <Link>Execution\IExecutionContextDetailsPopulator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IExecutionContextFactory.cs">
+      <Link>Execution\IExecutionContextFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\IExecutionContextManager.cs">
       <Link>Execution\IExecutionContextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IgnoreDefaultConventionAttribute.cs">
+      <Link>Execution\IgnoreDefaultConventionAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\ITypeDiscoverer.cs">
       <Link>Execution\ITypeDiscoverer.cs</Link>
@@ -492,6 +522,9 @@
     <Compile Include="..\Bifrost\Execution\MultipleTypesFoundException.cs">
       <Link>Execution\MultipleTypesFoundException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\ReadOnlyObjectException.cs">
+      <Link>Execution\ReadOnlyObjectException.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\SingletonAttribute.cs">
       <Link>Execution\SingletonAttribute.cs</Link>
     </Compile>
@@ -500,6 +533,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\TypeImporter.cs">
       <Link>Execution\TypeImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\WriteOnceExpandoObject.cs">
+      <Link>Execution\WriteOnceExpandoObject.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Extensions\CollectionsExtensions.cs">
       <Link>Extensions\CollectionsExtensions.cs</Link>
@@ -527,6 +563,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Globalization\Localizer.cs">
       <Link>Globalization\Localizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Principal\CurrentPrincipal.cs">
+      <Link>Principal\CurrentPrincipal.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
@@ -612,6 +651,114 @@
     <Compile Include="..\Bifrost\Sagas\State.cs">
       <Link>Sagas\State.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizationResult.cs">
+      <Link>Security\AuthorizationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizeActionResult.cs">
+      <Link>Security\AuthorizeActionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizeActorResult.cs">
+      <Link>Security\AuthorizeActorResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizeDescriptorResult.cs">
+      <Link>Security\AuthorizeDescriptorResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizeSecurableResult.cs">
+      <Link>Security\AuthorizeSecurableResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\AuthorizeTargetResult.cs">
+      <Link>Security\AuthorizeTargetResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\BaseSecurityDescriptor.cs">
+      <Link>Security\BaseSecurityDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\DefaultPrincipalResolver.cs">
+      <Link>Security\DefaultPrincipalResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ICanResolvePrincipal.cs">
+      <Link>Security\ICanResolvePrincipal.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurable.cs">
+      <Link>Security\ISecurable.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityAction.cs">
+      <Link>Security\ISecurityAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityActor.cs">
+      <Link>Security\ISecurityActor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityCondition.cs">
+      <Link>Security\ISecurityCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityContext.cs">
+      <Link>Security\ISecurityContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityDescriptor.cs">
+      <Link>Security\ISecurityDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityDescriptorBuilder.cs">
+      <Link>Security\ISecurityDescriptorBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityManager.cs">
+      <Link>Security\ISecurityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityRule.cs">
+      <Link>Security\ISecurityRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityRuleBuilder.cs">
+      <Link>Security\ISecurityRuleBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\ISecurityTarget.cs">
+      <Link>Security\ISecurityTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\NamespaceSecurable.cs">
+      <Link>Security\NamespaceSecurable.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\RoleRule.cs">
+      <Link>Security\RoleRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\RuleEvaluationError.cs">
+      <Link>Security\RuleEvaluationError.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\Securable.cs">
+      <Link>Security\Securable.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurableExtensions.cs">
+      <Link>Security\SecurableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityAction.cs">
+      <Link>Security\SecurityAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityActor.cs">
+      <Link>Security\SecurityActor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityContext.cs">
+      <Link>Security\SecurityContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityContextExtensions.cs">
+      <Link>Security\SecurityContextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityDescriptorBuilder.cs">
+      <Link>Security\SecurityDescriptorBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityManager.cs">
+      <Link>Security\SecurityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityResult.cs">
+      <Link>Security\SecurityResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\SecurityTarget.cs">
+      <Link>Security\SecurityTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\TypeSecurable.cs">
+      <Link>Security\TypeSecurable.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\UserSecurityActor.cs">
+      <Link>Security\UserSecurityActor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Security\UserSecurityActorExtensions.cs">
+      <Link>Security\UserSecurityActorExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Serialization\ISerializer.cs">
       <Link>Serialization\ISerializer.cs</Link>
     </Compile>
@@ -653,6 +800,18 @@
     </Compile>
     <Compile Include="..\Bifrost\Tasks\TaskStateChange.cs">
       <Link>Tasks\TaskStateChange.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tenancy\ICanPopulateTenant.cs">
+      <Link>Tenancy\ICanPopulateTenant.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tenancy\ITenant.cs">
+      <Link>Tenancy\ITenant.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tenancy\ITenantManager.cs">
+      <Link>Tenancy\ITenantManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Tenancy\Tenant.cs">
+      <Link>Tenancy\Tenant.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Time\Month.cs">
       <Link>Time\Month.cs</Link>

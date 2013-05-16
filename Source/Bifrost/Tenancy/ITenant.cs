@@ -21,12 +21,13 @@ using Bifrost.Execution;
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines a tenant in the system
     /// </summary>
-    public class Tenant : ITenant
+    public interface ITenant
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Gets the details for the tenant
+        /// </summary>
+        WriteOnceExpandoObject Details { get; }
     }
 }

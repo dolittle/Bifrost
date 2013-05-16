@@ -206,7 +206,7 @@
     <Compile Include="Security\SecurityManager.cs" />
     <Compile Include="Security\SecurityActor.cs" />
     <Compile Include="Security\SecurityTarget.cs" />
-    <Compile Include="Security\ThreadPrincipalResolver.cs" />
+    <Compile Include="Security\DefaultPrincipalResolver.cs" />
     <Compile Include="Security\TypeSecurable.cs" />
     <Compile Include="Security\UserSecurityActor.cs" />
     <Compile Include="Security\UserSecurityActorExtensions.cs" />
