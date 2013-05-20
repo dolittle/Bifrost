@@ -38,19 +38,58 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <param name="type"><see cref="Type"/> to get properties from</param>
         /// <param name="excludePropertiesFrom">Optional <see cref="Type"/> to use as basis for excluding properties</param>
         /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
+        /// <param name="withObservables">Optional flag to create default values as observables or regular properties</param>
         /// <returns><see cref="Container"/> to keep building on</returns>
-        public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
+        public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null, bool withObservables = true)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
-            AddPropertiesFromType(container, properties, assignmentVisitor);
+            if (withObservables)
+                AddObservablePropertiesFromType(container, properties, assignmentVisitor);
+            else
+                AddPropertiesFromType(container, properties, assignmentVisitor);
 
             return container;
         }
-
         static void AddPropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor)
+        {
+            foreach (var property in properties)
+            {
+                var propertyName = property.Name.ToCamelCase();
+
+                Assignment assignment;
+                if (parent is FunctionBody)
+                    assignment = new PropertyAssignment(propertyName);
+                else
+                    assignment = new KeyAssignment(propertyName);
+
+                if (property.IsDictionary())
+                    assignment.WithObjectLiteral();
+                else if (property.IsEnumerable())
+                    assignment.WithEmptyArray();
+                else if (property.PropertyType.IsConcept())
+                    assignment.WithDefaultValue(property.PropertyType.GetConceptValueType());
+                else if (property.PropertyType.IsNumericType())
+                    assignment.WithDefaultNumericValue(property.PropertyType);
+                else if (property.HasPrimitiveDefaultValue())
+                    assignment.WithDefaultValue(property.PropertyType);
+                else
+                {
+                    var objectLiteral = new ObjectLiteral();
+                    assignment.Value = objectLiteral;
+                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
+                }
+
+                if (assignmentVisitor != null) assignmentVisitor(assignment);
+
+                parent.AddChild(assignment);
+
+            }
+        }
+    
+        static void AddObservablePropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor)
         {
             foreach (var property in properties)
             {
@@ -72,7 +111,7 @@ namespace Bifrost.CodeGeneration.JavaScript
                 {
                     var objectLiteral = new ObjectLiteral();
                     assignment.Value = objectLiteral;
-                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
+                    AddObservablePropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
                 }
 
                 if (assignmentVisitor != null) assignmentVisitor(assignment);
@@ -92,6 +131,16 @@ namespace Bifrost.CodeGeneration.JavaScript
         {
             return property.PropertyType.HasInterface(typeof(IDictionary<,>)) ||
                     property.PropertyType.HasInterface<IDictionary>();
+        }
+
+        static bool HasPrimitiveDefaultValue(this PropertyInfo property)
+        {
+            return property.PropertyType.IsValueType ||
+                    property.PropertyType == typeof(string) ||
+                    property.PropertyType == typeof(Type) ||
+                    property.PropertyType == typeof(MethodInfo) ||
+                    property.PropertyType == typeof(Guid) ||
+                    property.PropertyType.IsNullable();
         }
 
         static bool IsObservable(this PropertyInfo property)

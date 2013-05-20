@@ -5,7 +5,7 @@ describe("when mapping object with matching string property", function(){
 	var readModelType = Bifrost.Type.extend(function () {
         var self = this;
 
-        this.stringProperty = "s";
+        this.stringProperty = "";
         this.numberProperty = 0;
         this.arrayProperty = [];
         this.objectProperty = {

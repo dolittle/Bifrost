@@ -1,16 +1,12 @@
 describe("when mapping object with matching number property", function(){
 	var mappedReadModelInstance;
-	var data = { numberProperty: 42};
+	var data = { integer: 42, decimal: 42.2 };
 	
 	var readModelType = Bifrost.Type.extend(function () {
         var self = this;
 
-        this.stringProperty = "s";
-        this.numberProperty = 0;
-        this.arrayProperty = [];
-        this.objectProperty = {
-        	objectProperty : ""
-        };
+        this.integer = 0;
+        this.decimal = 0.0;
     });
 
 	var returnedInstance = readModelType.create();
@@ -27,8 +23,12 @@ describe("when mapping object with matching number property", function(){
 		expect(mappedReadModelInstance).toEqual(returnedInstance);
 	});
 
-	it("should map the corresponding numberProprty value", function(){
-		expect(mappedReadModelInstance.numberProperty).toEqual(data.numberProperty);
+	it("should map the corresponding integer value", function(){
+		expect(mappedReadModelInstance.integer).toEqual(data.integer);
+	});
+
+	it("should map the corresponding decimal value", function(){
+		expect(mappedReadModelInstance.decimal).toEqual(data.decimal);
 	});
 
 });

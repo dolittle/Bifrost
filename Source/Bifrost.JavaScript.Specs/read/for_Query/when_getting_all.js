@@ -60,6 +60,7 @@ describe("when getting all", function () {
     });
 
     it("should populate the all observable with the data from the service", function () {
-        expect(all()).toBe(data);
+        expect(all()[0].something).toBe(data[0].something);
+        expect(all()[1].something).toBe(data[1].something);
     });
 });
