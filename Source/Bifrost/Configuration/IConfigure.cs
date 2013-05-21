@@ -92,6 +92,11 @@ namespace Bifrost.Configuration
         IFrontendConfiguration Frontend { get; }
 
         /// <summary>
+        /// Gets the configuration for <see cref="ICallContext"/>
+        /// </summary>
+        ICallContextConfiguration CallContext { get; }
+
+        /// <summary>
         /// Gets the configuration for the <see cref="IExecutionContext"/>
         /// </summary>
         IExecutionContextConfiguration ExecutionContext { get; }
