@@ -20,6 +20,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IViewsConfiguration> views_configuration_mock;
         protected static Mock<IDefaultStorageConfiguration> default_storage_configuration_mock;
         protected static Mock<IFrontendConfiguration> frontend_configuration_mock;
+        protected static Mock<ICallContextConfiguration> call_context_configuration_mock;
         protected static Mock<IExecutionContextConfiguration> execution_context_configuration_mock;
         protected static Mock<ISecurityConfiguration> security_configuration_mock;
         protected static Mock<ITypeImporter> type_importer_mock;
@@ -54,6 +55,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
                                     frontend_configuration_mock = new Mock<IFrontendConfiguration>();
                                     container_mock.Setup(c => c.Get<IFrontendConfiguration>()).Returns(frontend_configuration_mock.Object);
+
+                                    call_context_configuration_mock = new Mock<ICallContextConfiguration>();
+                                    container_mock.Setup(c => c.Get<ICallContextConfiguration>()).Returns(call_context_configuration_mock.Object);
 
                                     execution_context_configuration_mock = new Mock<IExecutionContextConfiguration>();
                                     container_mock.Setup(c => c.Get<IExecutionContextConfiguration>()).Returns(execution_context_configuration_mock.Object);

@@ -20,7 +20,7 @@
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a thread safe context for the current call
+    /// Defines a thread safe context for the current callpath
     /// </summary>
     public interface ICallContext
     {
