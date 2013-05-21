@@ -27,10 +27,20 @@ namespace Bifrost.Configuration
     /// </summary>
     public class SecurityConfiguration : ISecurityConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityConfiguration"/> 
+        /// </summary>
+        public SecurityConfiguration()
+        {
+            PrincipalResolverType = typeof(DefaultPrincipalResolver);
+        }
+
 #pragma warning disable 1591 // Xml Comments
+        public Type PrincipalResolverType { get; set; }
+
         public void Initialize(IContainer container)
         {
-            container.Bind<ICanResolvePrincipal>(typeof(DefaultPrincipalResolver));
+            container.Bind<ICanResolvePrincipal>(PrincipalResolverType);
         }
 #pragma warning restore 1591 // Xml Comments
     }

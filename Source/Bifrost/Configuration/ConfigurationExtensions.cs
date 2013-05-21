@@ -20,6 +20,7 @@ using System;
 using Bifrost.Entities;
 using Bifrost.Events;
 using Bifrost.Execution;
+using Bifrost.Security;
 
 namespace Bifrost.Configuration
 {
@@ -80,6 +81,17 @@ namespace Bifrost.Configuration
         {
             BindEntityContextConfigurationInstance(configuration, container);
             container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
+        }
+
+
+        /// <summary>
+        /// Configure what <see cref="ICanResolvePrincipal"/> to use for resolving principals
+        /// </summary>
+        /// <typeparam name="T">Type to use for resolving the principal</typeparam>
+        /// <param name="securityConfiguration">SecurityConfiguration</param>
+        public static void ResolvePrincipalsUsing<T>(this ISecurityConfiguration securityConfiguration) where T : ICanResolvePrincipal
+        {
+            securityConfiguration.PrincipalResolverType = typeof(T);
         }
         
         static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)
