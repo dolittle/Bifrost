@@ -52,6 +52,7 @@ namespace Bifrost.Testing
         Mock<IProcessMethodInvoker> process_method_invoker;
         Mock<ICommandSecurityManager> command_security_manager_mock;
         Mock<IExecutionContextFactory> execution_context_factory_mock;
+        Mock<ICallContext> call_context_mock;
         IExecutionContextManager execution_context_manager;
         ICanValidate<T> null_validator = new NullCommandInputValidator();
 
@@ -70,8 +71,9 @@ namespace Bifrost.Testing
             event_store = new Mock<IEventStore>();
             saga_librarian = new Mock<ISagaLibrarian>();
             process_method_invoker = new Mock<IProcessMethodInvoker>();
+            call_context_mock = new Mock<ICallContext>();
             execution_context_factory_mock = new Mock<IExecutionContextFactory>();
-            execution_context_manager = new ExecutionContextManager(execution_context_factory_mock.Object);
+            execution_context_manager = new ExecutionContextManager(execution_context_factory_mock.Object, call_context_mock.Object);
             command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, saga_librarian.Object, process_method_invoker.Object,
                                                                                                                             execution_context_manager, event_store.Object);
             command_context_manager = new CommandContextManager(command_context_factory);

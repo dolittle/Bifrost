@@ -17,17 +17,33 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 
-namespace Bifrost.Configuration
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines the configuration for security
+    /// Represents a <see cref="ICallContext"/>
     /// </summary>
-    public interface ISecurityConfiguration : IConfigurationElement
+    public class DefaultCallContext : ICallContext
     {
-        /// <summary>
-        /// Gets or sets the resolver that is used to resolve the principal
-        /// </summary>
-        Type PrincipalResolverType { get; set; }
+        [ThreadStatic]
+        static Dictionary<string, object> _data = new Dictionary<string, object>();
+
+#pragma warning disable 1591 // Xml Comments
+        public bool HasData(string key)
+        {
+            return _data.ContainsKey(key);
+        }
+
+        public T GetData<T>(string key)
+        {
+            return (T)_data[key];
+        }
+
+        public void SetData(string key, object data)
+        {
+            _data[key] = data;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

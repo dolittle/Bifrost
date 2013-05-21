@@ -17,6 +17,8 @@
 //
 #endregion
 using System;
+using System.Runtime.Remoting.Messaging;
+using System.Threading;
 
 namespace Bifrost.Execution
 {
@@ -25,38 +27,43 @@ namespace Bifrost.Execution
     /// </summary>
     public class ExecutionContextManager : IExecutionContextManager
     {
-        [ThreadStatic] static IExecutionContext _current;
-        bool HasCurrent { get { return _current != null; } }
-
+        /// <summary>
+        /// Key identifying the current <see cref="IExectionContext"/> in a <see cref="ICallContext"/>
+        /// </summary>
+        public const string ExecutionContextKey = "ExecutionContext";
 
         IExecutionContextFactory _executionContextFactory;
+        ICallContext _callContext;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ExecutionContextManager"/>
         /// </summary>
         /// <param name="executionContextFactory"><see cref="IExecutionContextFactory"/> for creating <see cref="IExecutionContext">Exection Contexts</see></param>
-        public ExecutionContextManager(IExecutionContextFactory executionContextFactory)
+        /// <param name="callContext"><see cref="ICallContext"/> to use for key/value store for holding current <see cref="IExecutionContext"/></param>
+        public ExecutionContextManager(IExecutionContextFactory executionContextFactory, ICallContext callContext)
         {
             _executionContextFactory = executionContextFactory;
+            _callContext = callContext;
         }
 
 
 #pragma warning disable 1591 // Xml Comments
-        public void Reset()
-        {
-            _current = null;
-        }
-
         public IExecutionContext Current
         {
             get 
             {
-                if (!HasCurrent)
-                    _current = _executionContextFactory.Create();
-                return _current;
+                IExecutionContext current = null;
+
+                if (_callContext.HasData(ExecutionContextKey))
+                    current = _callContext.GetData<IExecutionContext>(ExecutionContextKey);
+                else
+                {
+                    current = _executionContextFactory.Create();
+                    _callContext.SetData(ExecutionContextKey, current);
+                }
+                return current;
             }
         }
 #pragma warning restore 1591 // Xml Comments
-
     }
 }

@@ -50,8 +50,6 @@ namespace Bifrost.Configuration
         /// </summary>
         public static Configure Instance { get; private set; }
 
-        
-
 
         Configure(IContainer container, BindingLifecycle defaultObjectLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
@@ -165,6 +163,7 @@ namespace Bifrost.Configuration
 		public ISagasConfiguration Sagas { get; private set; }
 		public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
+        public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
 		public CultureInfo Culture { get; set; }
@@ -182,6 +181,7 @@ namespace Bifrost.Configuration
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
             Frontend.Initialize(Container);
+            CallContext.Initialize(Container);
             ExecutionContext.Initialize(Container);
             Security.Initialize(Container);
         	InitializeCulture();
@@ -201,6 +201,7 @@ namespace Bifrost.Configuration
 			Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();
+            CallContext = Container.Get<ICallContextConfiguration>();
             ExecutionContext = Container.Get<IExecutionContextConfiguration>();
             Security = Container.Get<ISecurityConfiguration>();
         }

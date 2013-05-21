@@ -26,7 +26,7 @@ namespace Bifrost.Execution
     /// <summary>
     /// Represents a <see cref="IExecutionContext"/>
     /// </summary>
-    [IgnoreDefaultConventionAttribute]
+    [IgnoreDefaultConvention]
     public class ExecutionContext : IExecutionContext
     {
         /// <summary>

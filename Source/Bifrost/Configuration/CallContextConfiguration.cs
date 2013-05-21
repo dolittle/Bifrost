@@ -16,18 +16,32 @@
 // limitations under the License.
 //
 #endregion
+
 using System;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Defines the configuration for security
+    /// Represents the configuration for <see cref="ICallContext"/>
     /// </summary>
-    public interface ISecurityConfiguration : IConfigurationElement
+    public class CallContextConfiguration : ICallContextConfiguration
     {
         /// <summary>
-        /// Gets or sets the resolver that is used to resolve the principal
+        /// Initializes a new instance of <see cref="CallContextConfiguration"/>
         /// </summary>
-        Type PrincipalResolverType { get; set; }
+        public CallContextConfiguration()
+        {
+            CallContextType = typeof(DefaultCallContext);
+        }
+
+#pragma warning disable 1591 // Xml Comments
+        public Type CallContextType { get; set; }
+
+        public void Initialize(IContainer container)
+        {
+            container.Bind<ICallContext>(CallContextType);
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

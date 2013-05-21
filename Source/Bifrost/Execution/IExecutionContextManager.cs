@@ -25,11 +25,6 @@ namespace Bifrost.Execution
     public interface IExecutionContextManager
     {
         /// <summary>
-        /// Reset the context
-        /// </summary>
-        void Reset();
-
-        /// <summary>
         /// Get the current <see cref="IExecutionContext"/>
         /// </summary>
         IExecutionContext Current { get; }

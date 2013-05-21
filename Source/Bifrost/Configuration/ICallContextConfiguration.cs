@@ -17,17 +17,18 @@
 //
 #endregion
 using System;
+using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Defines the configuration for security
+    /// Defines the configuration for call context
     /// </summary>
-    public interface ISecurityConfiguration : IConfigurationElement
+    public interface ICallContextConfiguration : IConfigurationElement
     {
         /// <summary>
-        /// Gets or sets the resolver that is used to resolve the principal
+        /// Gets or sets the type of <see cref="ICallContext"/> to use
         /// </summary>
-        Type PrincipalResolverType { get; set; }
+        Type CallContextType { get; set; }
     }
 }
