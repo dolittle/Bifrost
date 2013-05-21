@@ -20,6 +20,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
         protected static Mock<IExecutionContextManager> execution_context_manager_mock;
         protected static Mock<IExecutionContext> execution_context_mock;
         protected static Mock<IPrincipal> principal_mock;
+        protected static Mock<IIdentity> identity_mock;
 
 		Establish context = () =>
 		                    	{
@@ -32,6 +33,9 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
                                     execution_context_manager_mock = new Mock<IExecutionContextManager>();
                                     execution_context_mock = new Mock<IExecutionContext>();
                                     principal_mock = new Mock<IPrincipal>();
+                                    identity_mock = new Mock<IIdentity>();
+                                    identity_mock.SetupGet(i => i.Name).Returns("Bifrost");
+                                    principal_mock.SetupGet(p => p.Identity).Returns(identity_mock.Object);
                                     execution_context_mock.Setup(e => e.Principal).Returns(principal_mock.Object);
                                     execution_context_mock.Setup(e => e.System).Returns("[Specs]");
 									command_context = new SagaCommandContext(
