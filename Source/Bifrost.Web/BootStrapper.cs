@@ -17,18 +17,45 @@
 //
 #endregion
 
+using System.Web.Routing;
+using Bifrost.Configuration;
+using Bifrost.Web.Assets;
+using Bifrost.Web.Commands;
+using Bifrost.Web.Configuration;
+using Bifrost.Web.Proxies;
+using Bifrost.Web.Read;
+using Bifrost.Web.Sagas;
+using Bifrost.Web.Services;
+using Bifrost.Web.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"PreApplicationStart")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.BootStrapper), "PostApplicationStart")]
 
 namespace Bifrost.Web
 {
 	public class BootStrapper
 	{
-		public static void Start()
+		public static void PreApplicationStart()
 		{
 			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
+
+            RouteTable.Routes.Add(new ProxyRoute());
+            RouteTable.Routes.Add(new ConfigurationRoute());
+            RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
+            RouteTable.Routes.AddService<ValidationService>("Bifrost/Validation");
+            RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");
+            RouteTable.Routes.AddService<CommandSecurityService>("Bifrost/CommandSecurity");
+            RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
+            RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
+            RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
+            RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(BootStrapper).Assembly);
 		}
+
+        public static void PostApplicationStart()
+        {
+            Configure.DiscoverAndConfigure();
+        }
 	}
 }
 
