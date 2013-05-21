@@ -150,6 +150,9 @@
     <Compile Include="..\Bifrost\Configuration\AmbiguousContainerCreationException.cs">
       <Link>Configuration\AmbiguousContainerCreationException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\CallContextConfiguration.cs">
+      <Link>Configuration\CallContextConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\CanCreateContainerNotFoundException.cs">
       <Link>Configuration\CanCreateContainerNotFoundException.cs</Link>
     </Compile>
@@ -188,6 +191,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\FrontendConfiguration.cs">
       <Link>Configuration\FrontendConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ICallContextConfiguration.cs">
+      <Link>Configuration\ICallContextConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ICanConfigure.cs">
       <Link>Configuration\ICanConfigure.cs</Link>
@@ -462,6 +468,9 @@
     <Compile Include="..\Bifrost\Execution\BindingLifecycle.cs">
       <Link>Execution\BindingLifecycle.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\DefaultCallContext.cs">
+      <Link>Execution\DefaultCallContext.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\DefaultConvention.cs">
       <Link>Execution\DefaultConvention.cs</Link>
     </Compile>
@@ -488,6 +497,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\IBindingConventionManager.cs">
       <Link>Execution\IBindingConventionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\ICallContext.cs">
+      <Link>Execution\ICallContext.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\ICanPopulateExecutionContextDetails.cs">
       <Link>Execution\ICanPopulateExecutionContextDetails.cs</Link>
