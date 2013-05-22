@@ -20,6 +20,8 @@ using System;
 using System.Collections;
 using Castle.MicroKernel.Resolvers;
 using Castle.MicroKernel.Registration;
+using Bifrost.Configuration;
+using Bifrost.Execution;
 
 namespace Bifrost.Windsor
 {
@@ -28,7 +30,7 @@ namespace Bifrost.Windsor
 		public IRegistration Load (string key, Type service, IDictionary arguments)
 		{         
 			if( !service.IsInterface && !service.IsAbstract ) {
-				return Component.For (service);
+				return Component.For (service).WithLifecycle(Container.DefaultLifecycle);
 			}
 			return null;
 		}
