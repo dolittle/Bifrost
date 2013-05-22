@@ -187,6 +187,8 @@ namespace Bifrost.StructureMap
         {
             throw new NotImplementedException();
         }
+
+        public BindingLifecycle DefaultLifecycle { get; set; }
     }
 }
 

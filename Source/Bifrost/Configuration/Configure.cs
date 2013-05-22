@@ -51,12 +51,11 @@ namespace Bifrost.Configuration
         public static Configure Instance { get; private set; }
 
 
-        Configure(IContainer container, BindingLifecycle defaultObjectLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
-            DefaultObjectLifecycle = defaultObjectLifecycle;
-
             SystemName = "[Not Set]";
 
+            container.DefaultLifecycle = defaultLifecycle;
             container.Bind<IConfigure>(this);
 
             Container = container;
@@ -168,7 +167,12 @@ namespace Bifrost.Configuration
         public ISecurityConfiguration Security { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
-        public BindingLifecycle DefaultObjectLifecycle { get; set; }
+
+        public BindingLifecycle DefaultLifecycle 
+        {
+            get { return Container.DefaultLifecycle; }
+            set { Container.DefaultLifecycle = value; }
+        }
 
         public void Initialize()
         {

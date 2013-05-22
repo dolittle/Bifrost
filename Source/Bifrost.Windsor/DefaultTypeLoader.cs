@@ -30,7 +30,7 @@ namespace Bifrost.Windsor
 		public IRegistration Load (string key, Type service, IDictionary arguments)
 		{         
 			if( !service.IsInterface && !service.IsAbstract ) {
-				return Component.For (service).WithLifecycle(Container.DefaultLifecycle);
+				return Component.For (service).WithLifecycle(Container.DefaultBindingLifecycle);
 			}
 			return null;
 		}

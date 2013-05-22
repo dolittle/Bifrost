@@ -120,7 +120,7 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Gets or sets the default <see cref="BindingLifeCycle"/> for objects when created/managed by the <see cref="IContainer"/>
         /// </summary>
-        BindingLifecycle DefaultObjectLifecycle { get; set; }
+        BindingLifecycle DefaultLifecycle { get; set; }
 
 		/// <summary>
 		/// Initializes Bifrost after configuration

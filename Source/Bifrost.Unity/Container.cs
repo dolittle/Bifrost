@@ -177,5 +177,7 @@ namespace Bifrost.Unity
         {
             throw new NotImplementedException();
         }
+
+        public BindingLifecycle DefaultLifecycle { get; set; }
     }
 }

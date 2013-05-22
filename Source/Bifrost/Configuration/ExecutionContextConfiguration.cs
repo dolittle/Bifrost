@@ -28,7 +28,7 @@ namespace Bifrost.Configuration
 #pragma warning disable 1591 // Xml Comments
         public void Initialize(IContainer container)
         {
-            container.Bind<IExecutionContext>(() => container.Get<IExecutionContextManager>().Current);
+            container.Bind<IExecutionContext>(() => container.Get<IExecutionContextManager>().Current, container.DefaultLifecycle);
         }
 #pragma warning restore 1591 // Xml Comments
     }
