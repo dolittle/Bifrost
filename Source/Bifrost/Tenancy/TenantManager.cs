@@ -16,17 +16,23 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using System;
 
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents a <see cref="ITenantManager"/>
     /// </summary>
-    public class Tenant : ITenant
+    public class TenantManager : ITenantManager
     {
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public ITenant Current
+        {
+            get 
+            {
+                return null;
+            }
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

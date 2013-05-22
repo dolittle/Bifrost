@@ -16,17 +16,26 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using System;
+using System.Security.Principal;
+using System.Threading;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Security
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents a principal resolver that resolves from current thread;
     /// </summary>
-    public class Tenant : ITenant
+    public class DefaultPrincipalResolver : ICanResolvePrincipal
     {
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public IPrincipal Resolve()
+        {
+#if(SILVERLIGHT)
+            throw new NotImplementedException();
+#else
+            return Thread.CurrentPrincipal;
+#endif
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

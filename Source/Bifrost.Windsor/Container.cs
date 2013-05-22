@@ -27,6 +27,8 @@ namespace Bifrost.Windsor
 {
 	public class Container : IContainer
 	{
+        public static BindingLifecycle DefaultLifecycle = BindingLifecycle.Transient;
+
 		IWindsorContainer	_windsorContainer;
 		
 		public Container(IWindsorContainer windsorContainer)
@@ -150,6 +152,27 @@ namespace Bifrost.Windsor
 		{
 			_windsorContainer.Register(Component.For(service).Instance(instance));
 		}
-	}
+
+
+        public void Bind<T>(Func<T> resolveCallback)
+        {
+            _windsorContainer.Register(Component.For<T>().UsingFactoryMethod(t => resolveCallback()));
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback)
+        {
+            _windsorContainer.Register(Component.For(service).UsingFactoryMethod(t => resolveCallback()));
+        }
+
+        public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
+        {
+            _windsorContainer.Register(Component.For<T>().UsingFactoryMethod(t => resolveCallback()).WithLifecycle(lifecycle));
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        {
+            _windsorContainer.Register(Component.For(service).UsingFactoryMethod(t => resolveCallback()).WithLifecycle(lifecycle));
+        }
+    }
 }
 

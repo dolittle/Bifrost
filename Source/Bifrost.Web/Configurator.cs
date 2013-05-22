@@ -16,17 +16,15 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using Bifrost.Configuration;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Web
 {
-    /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
-    /// </summary>
-    public class Tenant : ITenant
+    public class Configurator : ICanConfigure
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        public void Configure(IConfigure configure)
+        {
+            configure.CallContext.WithCallContextTypeOf<WebCallContext>();
+        }
     }
 }

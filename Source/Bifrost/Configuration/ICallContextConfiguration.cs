@@ -16,17 +16,19 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Execution;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines the configuration for call context
     /// </summary>
-    public class Tenant : ITenant
+    public interface ICallContextConfiguration : IConfigurationElement
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Gets or sets the type of <see cref="ICallContext"/> to use
+        /// </summary>
+        Type CallContextType { get; set; }
     }
 }

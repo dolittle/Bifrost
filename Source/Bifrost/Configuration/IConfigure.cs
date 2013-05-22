@@ -34,6 +34,11 @@ namespace Bifrost.Configuration
 		IContainer Container { get; }
 
         /// <summary>
+        /// Gets or sets the name of the currently running system
+        /// </summary>
+        string SystemName { get; set; }
+
+        /// <summary>
         /// Gets the entry assembly for the application
         /// </summary>
         Assembly EntryAssembly { get; }
@@ -85,6 +90,22 @@ namespace Bifrost.Configuration
         /// Gets the configuration for the frontend part of the application
         /// </summary>
         IFrontendConfiguration Frontend { get; }
+
+        /// <summary>
+        /// Gets the configuration for <see cref="ICallContext"/>
+        /// </summary>
+        ICallContextConfiguration CallContext { get; }
+
+        /// <summary>
+        /// Gets the configuration for the <see cref="IExecutionContext"/>
+        /// </summary>
+        IExecutionContextConfiguration ExecutionContext { get; }
+
+        /// <summary>
+        /// Gets the configuration for security
+        /// </summary>
+        ISecurityConfiguration Security { get; }
+
 		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost

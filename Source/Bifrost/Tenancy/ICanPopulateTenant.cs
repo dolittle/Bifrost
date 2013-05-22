@@ -16,17 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
 
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines a visitor that takes part in populating all the details for a tenant
     /// </summary>
-    public class Tenant : ITenant
+    public interface ICanPopulateTenant
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Method that gets called when the <see cref="Tenant"/> is being set up
+        /// </summary>
+        /// <param name="tenant"><see cref="Tenant"/> that is being populated</param>
+        /// <param name="details">Details for the <see cref="Tenant"/> - can be expanded on</param>
+        void Visit(Tenant tenant, dynamic details);
     }
 }

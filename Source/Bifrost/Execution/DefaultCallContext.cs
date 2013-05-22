@@ -16,17 +16,34 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using System;
+using System.Collections.Generic;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents a <see cref="ICallContext"/>
     /// </summary>
-    public class Tenant : ITenant
+    public class DefaultCallContext : ICallContext
     {
+        [ThreadStatic]
+        static Dictionary<string, object> _data = new Dictionary<string, object>();
+
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public bool HasData(string key)
+        {
+            return _data.ContainsKey(key);
+        }
+
+        public T GetData<T>(string key)
+        {
+            return (T)_data[key];
+        }
+
+        public void SetData(string key, object data)
+        {
+            _data[key] = data;
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

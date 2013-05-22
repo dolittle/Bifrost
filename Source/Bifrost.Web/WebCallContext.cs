@@ -16,16 +16,25 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Configuration;
-
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.Configuration.ConfigurationActivator), "Start")]
-namespace Bifrost.Web.Configuration
+using System.Web;
+using Bifrost.Execution;
+namespace Bifrost.Web
 {
-    public class ConfigurationActivator
+    public class WebCallContext : ICallContext
     {
-        public static void Start()
+        public bool HasData(string key)
         {
-            Configure.DiscoverAndConfigure();
+            return HttpContext.Current.Items.Contains(key);
+        }
+
+        public T GetData<T>(string key)
+        {
+            return (T)HttpContext.Current.Items[key];
+        }
+
+        public void SetData(string key, object data)
+        {
+            HttpContext.Current.Items[key] = data;
         }
     }
 }

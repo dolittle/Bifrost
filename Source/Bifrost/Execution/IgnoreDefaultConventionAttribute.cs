@@ -16,17 +16,16 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using System;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Indicates that a class is Singleton and should be treated as such
+    /// for any factory creating an instance of a class marked with this
     /// </summary>
-    public class Tenant : ITenant
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class IgnoreDefaultConventionAttribute : Attribute
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
     }
 }

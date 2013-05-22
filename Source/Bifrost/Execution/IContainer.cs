@@ -121,6 +121,38 @@ namespace Bifrost.Execution
         /// <param name="lifecycle">Lifecycle of the service</param>
         void Bind<T>(Func<Type> resolveCallback, BindingLifecycle lifecycle);
 
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <typeparam name="T">Service to bind</typeparam>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        void Bind<T>(Func<T> resolveCallback);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <param name="service">Service to bind</param>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        void Bind(Type service, Func<object> resolveCallback);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <typeparam name="T">Service to bind</typeparam>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        /// <param name="lifecycle">Lifecycle of the service</param>
+        void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <param name="service">Service to bind</param>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        /// <param name="lifecycle">Lifecycle of the service</param>
+        void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle);
+
+
         /// <summary>
         /// Bind a service to a specific type 
         /// </summary>

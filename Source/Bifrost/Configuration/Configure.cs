@@ -50,12 +50,12 @@ namespace Bifrost.Configuration
         /// </summary>
         public static Configure Instance { get; private set; }
 
-        
-
 
         Configure(IContainer container, BindingLifecycle defaultObjectLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
         {
             DefaultObjectLifecycle = defaultObjectLifecycle;
+
+            SystemName = "[Not Set]";
 
             container.Bind<IConfigure>(this);
 
@@ -152,6 +152,7 @@ namespace Bifrost.Configuration
 
 #pragma warning disable 1591 // Xml Comments
         public IContainer Container { get; private set; }
+        public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
@@ -162,6 +163,9 @@ namespace Bifrost.Configuration
 		public ISagasConfiguration Sagas { get; private set; }
 		public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
+        public ICallContextConfiguration CallContext { get; private set; }
+        public IExecutionContextConfiguration ExecutionContext { get; private set; }
+        public ISecurityConfiguration Security { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
         public BindingLifecycle DefaultObjectLifecycle { get; set; }
@@ -177,6 +181,9 @@ namespace Bifrost.Configuration
             Views.Initialize(Container);
 			Sagas.Initialize(Container);
             Frontend.Initialize(Container);
+            CallContext.Initialize(Container);
+            ExecutionContext.Initialize(Container);
+            Security.Initialize(Container);
         	InitializeCulture();
             DefaultStorage.Initialize(Container);
         }
@@ -194,6 +201,9 @@ namespace Bifrost.Configuration
 			Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();
+            CallContext = Container.Get<ICallContextConfiguration>();
+            ExecutionContext = Container.Get<IExecutionContextConfiguration>();
+            Security = Container.Get<ISecurityConfiguration>();
         }
 
 		void InitializeCulture()

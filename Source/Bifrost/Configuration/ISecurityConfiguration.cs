@@ -16,17 +16,18 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
+using System;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines the configuration for security
     /// </summary>
-    public class Tenant : ITenant
+    public interface ISecurityConfiguration : IConfigurationElement
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Gets or sets the resolver that is used to resolve the principal
+        /// </summary>
+        Type PrincipalResolverType { get; set; }
     }
 }

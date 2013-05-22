@@ -16,17 +16,18 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
-
-namespace Bifrost.Tenancy
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines a visitor that takes part in populating all the details for the <see cref="IExecutionContext"/>
     /// </summary>
-    public class Tenant : ITenant
+    public interface ICanPopulateExecutionContextDetails
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Method that gets called when the <see cref="IExecutionContext"/> is being set up
+        /// </summary>
+        /// <param name="executionContext"><see cref="IExecutionContext"/> that is populated</param>
+        /// <param name="details">Details for the <see cref="IExecutionContext"/> to populate</param>
+        void Populate(IExecutionContext executionContext, dynamic details);
     }
 }

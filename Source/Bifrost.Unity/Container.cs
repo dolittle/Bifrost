@@ -156,5 +156,26 @@ namespace Bifrost.Unity
 
             return new PerResolveLifetimeManager();
         }
+
+
+        public void Bind<T>(Func<T> resolveCallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

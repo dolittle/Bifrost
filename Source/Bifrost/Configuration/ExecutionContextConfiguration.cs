@@ -18,15 +18,18 @@
 #endregion
 using Bifrost.Execution;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents an implementation of <see cref="IExecutionContextConfiguration"/>
     /// </summary>
-    public class Tenant : ITenant
+    public class ExecutionContextConfiguration : IExecutionContextConfiguration
     {
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public void Initialize(IContainer container)
+        {
+            container.Bind<IExecutionContext>(() => container.Get<IExecutionContextManager>().Current);
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

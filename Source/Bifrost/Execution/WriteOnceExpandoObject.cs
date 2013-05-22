@@ -47,7 +47,7 @@ namespace Bifrost.Execution
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             this[binder.Name] = value;
-            return base.TrySetMember(binder, value);
+            return true; // base.TrySetMember(binder, value);
         }
 
         public void Add(string key, object value)
@@ -67,6 +67,11 @@ namespace Bifrost.Execution
         {
             ThrowIfNotUnderConstruction();
             return _actualDictionary.Remove(key);
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return _actualDictionary.TryGetValue(binder.Name, out result);
         }
 
         public bool TryGetValue(string key, out object value)

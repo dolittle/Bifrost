@@ -16,17 +16,32 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using Bifrost.Execution;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents the configuration for <see cref="ICallContext"/>
     /// </summary>
-    public class Tenant : ITenant
+    public class CallContextConfiguration : ICallContextConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CallContextConfiguration"/>
+        /// </summary>
+        public CallContextConfiguration()
+        {
+            CallContextType = typeof(DefaultCallContext);
+        }
+
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public Type CallContextType { get; set; }
+
+        public void Initialize(IContainer container)
+        {
+            container.Bind<ICallContext>(CallContextType);
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }

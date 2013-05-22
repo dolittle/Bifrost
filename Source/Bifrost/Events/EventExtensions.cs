@@ -56,7 +56,7 @@ namespace Bifrost.Events
 
             foreach (var @event in events)
             {
-                @event.CausedBy = executionContext.Identity.Name;
+                @event.CausedBy = executionContext.Principal.Identity.Name;
                 @event.Origin = executionContext.System;
             }
         }

@@ -16,17 +16,17 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Execution;
-
-namespace Bifrost.Tenancy
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Defines a factory for creating <see cref="IExecutionContext"/> instances
     /// </summary>
-    public class Tenant : ITenant
+    public interface IExecutionContextFactory
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Create a new <see cref="IExecutionContext"/>
+        /// </summary>
+        /// <returns>A <see cref="IExecutionContext"/></returns>
+        IExecutionContext Create();
     }
 }

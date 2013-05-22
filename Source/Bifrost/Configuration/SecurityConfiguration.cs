@@ -16,17 +16,32 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Execution;
+using Bifrost.Security;
 
-namespace Bifrost.Tenancy
+namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Represents a <see cref="ITenant"/> in the system
+    /// Represents the configuration for security
     /// </summary>
-    public class Tenant : ITenant
+    public class SecurityConfiguration : ISecurityConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityConfiguration"/> 
+        /// </summary>
+        public SecurityConfiguration()
+        {
+            PrincipalResolverType = typeof(DefaultPrincipalResolver);
+        }
+
 #pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
+        public Type PrincipalResolverType { get; set; }
+
+        public void Initialize(IContainer container)
+        {
+            container.Bind<ICanResolvePrincipal>(PrincipalResolverType);
+        }
 #pragma warning restore 1591 // Xml Comments
     }
 }
