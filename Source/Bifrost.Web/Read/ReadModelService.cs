@@ -23,6 +23,7 @@ using System.Linq.Expressions;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
+using Bifrost.Concepts;
 
 namespace Bifrost.Web.Read
 {
@@ -54,7 +55,7 @@ namespace Bifrost.Web.Read
                 var index=0;
                 foreach (var key in descriptor.PropertyFilters.Keys)
                 {
-                    var expression = GetPropertyEqualsExpression(readModelType, key, descriptor.PropertyFilters[key]);
+                    var expression = GetPropertyEqualsExpression(readModelType, key.ToPascalCase(), descriptor.PropertyFilters[key]);
                     expressions.SetValue(expression, index);
                     index++;
                 }
@@ -66,11 +67,23 @@ namespace Bifrost.Web.Read
         }
 
 
-        Expression GetPropertyEqualsExpression(Type type, string property, object value)
+        Expression GetPropertyEqualsExpression(Type type, string propertyName, object value)
         {
             var parameter = Expression.Parameter(type, "o");
+            MemberExpression propertyExpression;
+
+            var property = type.GetProperty(propertyName);
+            if (property != null && property.PropertyType.IsConcept())
+            {
+                var outerMemberAccess = Expression.MakeMemberAccess(parameter, property);
+                propertyExpression = Expression.Property(outerMemberAccess, "Value");
+            }
+            else
+                propertyExpression = Expression.Property(parameter, propertyName);
+            
+
             var body = Expression.Equal(
-                            Expression.PropertyOrField(parameter, property),
+                            propertyExpression,
                             Expression.Constant(value)
                        );
             var lambda = Expression.Lambda(body, parameter);
