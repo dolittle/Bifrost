@@ -51,7 +51,7 @@ namespace Bifrost.Web.Proxies
                                     .Function
                                         .Body
                                             .Variant("self", v => v.WithThis())
-                                            .WithPropertiesFrom(type, typeof(IReadModel), withObservables: false));
+                                            .WithPropertiesFrom(type, typeof(IReadModel)));
 
                         o.Assign("readModelOf" + name.ToPascalCase())
                             .WithType(t =>

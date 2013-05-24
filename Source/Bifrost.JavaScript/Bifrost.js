@@ -5,6 +5,7 @@
 @depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
+@depends utils/isObject.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js

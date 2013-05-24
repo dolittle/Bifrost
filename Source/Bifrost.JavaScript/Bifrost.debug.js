@@ -139,6 +139,11 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 Bifrost.namespace("Bifrost", {
+	isObject : function(o) {
+		return Object.prototype.toString.call(o) === '[object Object]';
+	}
+});
+Bifrost.namespace("Bifrost", {
     path: {
         makeRelative: function (fullPath) {
             if (fullPath.indexOf("/") == 0) return fullPath.substr(1);
@@ -2079,19 +2084,18 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", { 
-	readModelMapper : Bifrost.Singleton(function () {
+	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
 		var self = this;
 
 		function copyProperties (from, to) {
 			for (var prop in from){
 				if (typeof to[prop] !== "undefined" && typeof to[prop] === typeof from[prop]){
-					if(Object.prototype.toString.call( to[prop] )  === "[object Object]"){
+					if(Bifrost.isObject( to[prop] ) ){
 						copyProperties(from[prop], to[prop]);
 					} else {
 						to[prop] = from[prop];
 					}
-
 				}
 			}
 		}
@@ -2112,7 +2116,7 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		this.mapDataToReadModel = function(readModel, data) {
-			if(Object.prototype.toString.call(data) === "[object Array]"){
+			if(Bifrost.isArray(data)){
 				return mapMultipleInstances(readModel, data);
 			} else {
 				return mapSingleInstance(readModel, data);

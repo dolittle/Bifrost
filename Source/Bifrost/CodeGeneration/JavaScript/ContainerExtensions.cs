@@ -32,27 +32,45 @@ namespace Bifrost.CodeGeneration.JavaScript
     public static class ContainerExtensions
     {
         /// <summary>
+        /// Adds properties as observables from a given type and optionally exluding properties from a given type that is found in the inheritance chain
+        /// </summary>
+        /// <param name="container"><see cref="Container"/> to add properties to</param>
+        /// <param name="type"><see cref="Type"/> to get properties from</param>
+        /// <param name="excludePropertiesFrom">Optional <see cref="Type"/> to use as basis for excluding properties</param>
+        /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
+        /// <returns><see cref="Container"/> to keep building on</returns>
+        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
+        {
+            var properties = type.GetProperties();
+            if (excludePropertiesFrom != null)
+                properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
+
+            AddObservablePropertiesFromType(container, properties, assignmentVisitor);
+
+            return container;
+        }
+
+
+        /// <summary>
         /// Adds properties from a given type and optionally exluding properties from a given type that is found in the inheritance chain
         /// </summary>
         /// <param name="container"><see cref="Container"/> to add properties to</param>
         /// <param name="type"><see cref="Type"/> to get properties from</param>
         /// <param name="excludePropertiesFrom">Optional <see cref="Type"/> to use as basis for excluding properties</param>
         /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
-        /// <param name="withObservables">Optional flag to create default values as observables or regular properties</param>
         /// <returns><see cref="Container"/> to keep building on</returns>
-        public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null, bool withObservables = true)
+        public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
-            if (withObservables)
-                AddObservablePropertiesFromType(container, properties, assignmentVisitor);
-            else
-                AddPropertiesFromType(container, properties, assignmentVisitor);
+            AddPropertiesFromType(container, properties, assignmentVisitor);
 
             return container;
         }
+
+
         static void AddPropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor)
         {
             foreach (var property in properties)
