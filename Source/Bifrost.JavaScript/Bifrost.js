@@ -5,6 +5,7 @@
 @depends execution/Promise.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
+@depends utils/isObject.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
@@ -51,6 +52,7 @@
 @depends commands/commandSecurityContextFactory.js
 @depends commands/commandSecurityService.js
 @depends read/queryService.js
+@depends read/readModelMapper.js
 @depends read/Query.js
 @depends read/ReadModel.js
 @depends read/ReadModelOf.js

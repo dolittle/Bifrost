@@ -20,6 +20,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using Bifrost.Concepts;
+using System.Collections.Generic;
 
 namespace Bifrost.Extensions
 {
@@ -28,6 +29,14 @@ namespace Bifrost.Extensions
 	/// </summary>
 	public static class TypeExtensions
 	{
+
+        static HashSet<Type> NumericTypes = new HashSet<Type>
+        {
+            typeof(byte), typeof(sbyte),
+            typeof(short), typeof(int), typeof(long),
+            typeof(ushort), typeof(uint), typeof(ulong),
+            typeof(double), typeof(decimal), typeof(Single)
+        };
 #pragma warning disable 1591 // Xml Comments
         static ITypeInfo GetTypeInfo(Type type)
         {
@@ -67,6 +76,17 @@ namespace Bifrost.Extensions
 #else
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
 #endif
+        }
+
+        /// <summary>
+        /// Check if a type is a number or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is numeric, false if not</returns>
+        public static bool IsNumericType(this Type type)
+        {
+            return NumericTypes.Contains(type) ||
+                   NumericTypes.Contains(Nullable.GetUnderlyingType(type));
         }
 
         /// <summary>
