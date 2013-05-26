@@ -157,6 +157,13 @@
     <Compile Include="Read\IReadModelOf.cs" />
     <Compile Include="Read\ReadModelOf.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
+    <Compile Include="Rules\And.cs" />
+    <Compile Include="Rules\CompositeRule.cs" />
+    <Compile Include="Rules\Negative.cs" />
+    <Compile Include="Rules\Or.cs" />
+    <Compile Include="Rules\ParameterRebinder.cs" />
+    <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\RuleExtensions.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
     <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
