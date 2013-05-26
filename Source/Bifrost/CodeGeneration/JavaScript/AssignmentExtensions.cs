@@ -17,6 +17,8 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
+using Bifrost.Extensions;
 
 namespace Bifrost.CodeGeneration.JavaScript
 {
@@ -132,6 +134,38 @@ namespace Bifrost.CodeGeneration.JavaScript
             });
         }
 
+        /// <summary>
+        /// Assign the default value of a given Type
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <param name="type">The type of which to create a default for</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithDefaultValue(this Assignment assignment, Type type)
+        {
+            var defaultValue = type.HasDefaultConstructor() ?
+                                Activator.CreateInstance(type)
+                                : "";
+            assignment.WithLiteral(string.Format("\"{0}\"", defaultValue));
+            return assignment;
+        }
+        
+        /// <summary>
+        /// Assign the default value of a given Type
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <param name="type">The type of which to create a default for</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithDefaultNumericValue(this Assignment assignment, Type type)
+        {
+            if (type.HasDefaultConstructor())
+            {
+                var defaultValue = Activator.CreateInstance(type);
+                assignment.WithLiteral(string.Format("{0}", defaultValue));
+            }
+            
+            return assignment;
+        }
+
 
         /// <summary>
         /// Assign an observable array
@@ -154,6 +188,18 @@ namespace Bifrost.CodeGeneration.JavaScript
             var objectLiteral = new ObjectLiteral();
             if (callback != null) callback(objectLiteral);
             assignment.Value = objectLiteral;
+            return assignment;
+        }
+
+
+        /// <summary>
+        /// Assign an empty Array
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithEmptyArray(this Assignment assignment)
+        {
+            assignment.WithLiteral(string.Format("[]"));
             return assignment;
         }
     }

@@ -27,6 +27,13 @@ namespace Bifrost.Execution
     public interface IContainer
     {
         /// <summary>
+        /// Gets or sets the <see cref="BindingLifecycle"/> for objects.
+        /// This property usually guides the implementing container for default bindings it may create for types that 
+        /// does not have an explicit binding and is not abstract or an interface
+        /// </summary>
+        BindingLifecycle DefaultLifecycle { get; set; }
+
+        /// <summary>
         /// Get an instance of a specific type
         /// </summary>
         /// <typeparam name="T">Type to get instance of</typeparam>
@@ -120,6 +127,38 @@ namespace Bifrost.Execution
         /// <param name="resolveCallback">Callback that gets called to resolve it</param>
         /// <param name="lifecycle">Lifecycle of the service</param>
         void Bind<T>(Func<Type> resolveCallback, BindingLifecycle lifecycle);
+
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <typeparam name="T">Service to bind</typeparam>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        void Bind<T>(Func<T> resolveCallback);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <param name="service">Service to bind</param>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        void Bind(Type service, Func<object> resolveCallback);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <typeparam name="T">Service to bind</typeparam>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        /// <param name="lifecycle">Lifecycle of the service</param>
+        void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle);
+
+        /// <summary>
+        /// Bind a service type to a callback that can resolve the instance
+        /// </summary>
+        /// <param name="service">Service to bind</param>
+        /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
+        /// <param name="lifecycle">Lifecycle of the service</param>
+        void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle);
+
 
         /// <summary>
         /// Bind a service to a specific type 

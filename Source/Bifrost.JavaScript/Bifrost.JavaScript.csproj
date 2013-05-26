@@ -54,9 +54,11 @@
     <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
+    <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="utils\isObject.js" />
     <Content Include="utils\namespaceMappers.js" />
     <Content Include="utils\StringMapper.js" />
     <Content Include="utils\uriMappers.js" />

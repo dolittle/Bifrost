@@ -44,7 +44,7 @@ namespace Bifrost.Principal
         {
             if (_principals.Count > 0)
                 return _principals.Peek();
-#if(NETFX_CORE)
+#if(NETFX_CORE || SILVERLIGHT)
             throw new NotImplementedException();
 #else
             return Thread.CurrentPrincipal;

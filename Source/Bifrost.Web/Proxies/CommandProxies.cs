@@ -62,7 +62,7 @@ namespace Bifrost.Web.Proxies
                                         .Body
                                             .Variant("self", v => v.WithThis())
                                             .Property("name", p => p.WithString(name))
-                                            .WithPropertiesFrom(type, typeof(ICommand)));
+                                            .WithObservablePropertiesFrom(type, typeof(ICommand)));
                     }
                 });
 

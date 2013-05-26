@@ -20,7 +20,7 @@ using System;
 using Bifrost.Entities;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Sagas;
+using Bifrost.Security;
 
 namespace Bifrost.Configuration
 {
@@ -29,6 +29,19 @@ namespace Bifrost.Configuration
 	/// </summary>
     public static partial class ConfigurationExtensions
     {
+        /// <summary>
+        /// Configures the running system with a name
+        /// </summary>
+        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
+        /// <param name="name">Name of the system</param>
+        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
+        public static IConfigure WithSystemName(this IConfigure configure, string name)
+        {
+            configure.SystemName = name;
+            return configure;
+        }
+
+
         /// <summary>
         /// Configures events to be persisted asynchronously
         /// </summary>
@@ -68,6 +81,27 @@ namespace Bifrost.Configuration
         {
             BindEntityContextConfigurationInstance(configuration, container);
             container.Bind(typeof(IEntityContext<>), configuration.EntityContextType);
+        }
+
+
+        /// <summary>
+        /// Configure what <see cref="ICanResolvePrincipal"/> to use for resolving principals
+        /// </summary>
+        /// <typeparam name="T">Type to use for resolving the principal</typeparam>
+        /// <param name="securityConfiguration"><see cref="ISecurityConfiguration"/> to configure</param>
+        public static void ResolvePrincipalsUsing<T>(this ISecurityConfiguration securityConfiguration) where T : ICanResolvePrincipal
+        {
+            securityConfiguration.PrincipalResolverType = typeof(T);
+        }
+
+        /// <summary>
+        /// Configure what <see cref="ICallContext"/> to use
+        /// </summary>
+        /// <typeparam name="T">Type of use as <see cref="ICallContext"/></typeparam>
+        /// <param name="callContextConfiguration"><see cref="ICallContextConfiguration"/> to configure</param>
+        public static void WithCallContextTypeOf<T>(this ICallContextConfiguration callContextConfiguration) where T : ICallContext
+        {
+            callContextConfiguration.CallContextType = typeof(T);
         }
         
         static void BindEntityContextConfigurationInstance(IEntityContextConfiguration configuration, IContainer container)

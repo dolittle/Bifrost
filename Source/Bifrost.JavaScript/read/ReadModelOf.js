@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.read", {
-	ReadModelOf: Bifrost.Type.extend(function() {
+	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
 	    var self = this;
 	    this.name = "";
 	    this.target = null;
@@ -23,7 +23,8 @@ Bifrost.namespace("Bifrost.read", {
 		        contentType: 'application/json; charset=utf-8',
 		        complete: function (result) {
 		            var item = $.parseJSON(result.responseText);
-		            self.instance(item);
+					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModel, data);
+		            self.instance(mappedReadModel);
 		        }
 		    });
 		};

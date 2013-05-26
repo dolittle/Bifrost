@@ -138,5 +138,32 @@ namespace Bifrost.Ninject
             Kernel.Bind(service).ToConstant(instance);
             _boundServices.Add(service);
         }
+
+
+        public void Bind<T>(Func<T> resolveCallback)
+        {
+            Kernel.Bind<T>().ToMethod(c => resolveCallback());
+            _boundServices.Add(typeof(T));
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback)
+        {
+            Kernel.Bind(service).ToMethod(c => resolveCallback());
+            _boundServices.Add(service);
+        }
+
+        public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
+        {
+            Kernel.Bind<T>().ToMethod(c => resolveCallback()).WithLifecycle(lifecycle);
+            _boundServices.Add(typeof(T));
+        }
+
+        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        {
+            Kernel.Bind(service).ToMethod(c => resolveCallback()).WithLifecycle(lifecycle);
+            _boundServices.Add(service);
+        }
+
+        public BindingLifecycle DefaultLifecycle { get; set; }
     }
 }

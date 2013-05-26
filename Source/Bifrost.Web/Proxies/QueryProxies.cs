@@ -44,6 +44,7 @@ namespace Bifrost.Web.Proxies
                     foreach (var type in types)
                     {
                         var name = type.Name.ToCamelCase();
+                        var queryForTypeName = type.GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
                         o.Assign(name)
                             .WithType(t =>
                                 t.WithSuper("Bifrost.read.Query")
@@ -51,7 +52,9 @@ namespace Bifrost.Web.Proxies
                                         .Body
                                             .Variant("self", v => v.WithThis())
                                             .Property("name", p => p.WithString(name))
-                                            .WithPropertiesFrom(type, typeof(IQueryFor<>)));
+                                            .Property("readModel", p => p.WithLiteral("readModels." + queryForTypeName))
+                                            .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
+
                     }
                 });
 
