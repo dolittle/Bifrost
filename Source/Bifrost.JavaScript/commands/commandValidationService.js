@@ -21,6 +21,7 @@
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
+                    target[property].validator.propertyName = property;
                     validators.push(target[property].validator);
                 } else if (typeof target[property] === "object") {
                     extendProperties(target[property], validators);
