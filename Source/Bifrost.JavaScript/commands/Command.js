@@ -24,12 +24,17 @@ Bifrost.namespace("Bifrost.commands", {
 
             return valid;
         });
-
         this.isAuthorized = ko.observable(false);
         this.canExecute = ko.computed(function () {
             return self.isValid() && self.isAuthorized();
         });
         this.isPopulatedExternally = ko.observable(false);
+        this.isReady = ko.computed(function () {
+            if (self.isPopulatedExternally() == false) {
+                return true;
+            }
+            return false;
+        });
 
         this.failedCallbacks = [];
         this.succeededCallbacks = [];
@@ -197,7 +202,11 @@ Bifrost.namespace("Bifrost.commands", {
                 $.each(properties, function (index, property) {
                     if (valueProperty == property) {
                         var value = ko.utils.unwrapObservable(values[property]);
-                        self.targetCommand[property](value);
+                        var observable = self.targetCommand[property];
+                        observable(value);
+                        if (typeof observable.setValue == "function") {
+                            observable.setValue(value);
+                        }
                     }
                 });
             }

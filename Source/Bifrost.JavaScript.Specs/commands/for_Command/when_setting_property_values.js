@@ -27,6 +27,10 @@
         someArray: [1, 2, 3]
     };
 
+    ko.extenders.hasChanges = function (target, options) {
+        target.setValue = sinon.stub()
+    };
+
     var command = commandType.create(parameters);
     command.setPropertyValuesFrom(newValues);
 
@@ -36,5 +40,13 @@
 
     it("should update the observable array", function () {
         expect(command.someArray()).toBe(newValues.someArray);
+    });
+
+    it("should set the observable value for the has changes extension", function () {
+        expect(command.someValue.setValue.called).toBe(true);
+    });
+
+    it("should set the observable array value for the has changes extension", function () {
+        expect(command.someArray.setValue.called).toBe(true);
     });
 });
