@@ -99,6 +99,15 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
+        this.extendPropertiesWithHasChanges = function (lastDescendant) {
+            for (var property in lastDescendant) {
+                var propertyValue = lastDescendant[property];
+                if (ko.isObservable(propertyValue)) {
+                    propertyValue.extend({ hasChanges: {}})
+                }
+            }
+        };
+
         this.onBeforeExecute = function () {
             self.options.beforeExecute();
         };
@@ -172,6 +181,7 @@ Bifrost.namespace("Bifrost.commands", {
                 this.copyPropertiesFromOptions(lastDescendant);
             }
             this.makePropertiesObservable(lastDescendant);
+            this.extendPropertiesWithHasChanges(lastDescendant);
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
                 var validators = commandValidationService.applyRulesTo(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);

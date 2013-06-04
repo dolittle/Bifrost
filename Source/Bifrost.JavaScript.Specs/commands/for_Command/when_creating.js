@@ -26,8 +26,13 @@
             name:"something"
         }
     }
+    var command = null;
 
-    var command = Bifrost.commands.Command.create(parameters);
+    ko.extenders.hasChanges = function (target, options) {
+        print("JELLO : "+target);
+    };
+
+    command = Bifrost.commands.Command.create(parameters);
 
     it("should apply validation rules to properties", function () {
         expect(commandAppliedTo).toBe(command);
