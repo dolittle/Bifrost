@@ -29,6 +29,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.canExecute = ko.computed(function () {
             return self.isValid() && self.isAuthorized();
         });
+        this.isPopulatedExternally = ko.observable(false);
 
         this.failedCallbacks = [];
         this.succeededCallbacks = [];
@@ -66,37 +67,48 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
-        this.copyPropertiesFromOptions = function (lastDescendant) {
-            for (var property in lastDescendant.options.properties) {
-                var value = lastDescendant.options.properties[property];
+        this.copyPropertiesFromOptions = function () {
+            for (var property in self.targetCommand.options.properties) {
+                var value = self.targetCommand.options.properties[property];
                 if (!ko.isObservable(value)) {
                     value = ko.observable(value);
                 }
 
-                lastDescendant[property] = value;
+                self.targetCommand[property] = value;
             }
         };
 
-        this.makePropertiesObservable = function (lastDescendant) {
-            for (var property in lastDescendant) {
-                if (lastDescendant.hasOwnProperty(property) && !self.hasOwnProperty(property)) {
-                    var value = null;
-                    var propertyValue = lastDescendant[property];
-
-                    if (!ko.isObservable(propertyValue) &&
-                         (typeof propertyValue != "object" || Bifrost.isArray(propertyValue))) {
-
-                        if (typeof propertyValue !== "function") {
-                            if (Bifrost.isArray(propertyValue)) {
-                                value = ko.observableArray(propertyValue);
-                            } else {
-                                value = ko.observable(propertyValue);
-                            }
-                            lastDescendant[property] = value;
-                        }
-                    }
+        this.getProperties = function () {
+            var properties = [];
+            for (var property in self.targetCommand) {
+                if (self.targetCommand.hasOwnProperty(property) &&
+                    !self.hasOwnProperty(property)) {
+                    properties.push(property);
                 }
             }
+
+            return properties;
+        };
+
+        this.makePropertiesObservable = function () {
+            var properties = self.getProperties();
+            $.each(properties, function (index, property) {
+                var value = null;
+                var propertyValue = self.targetCommand[property];
+
+                if (!ko.isObservable(propertyValue) &&
+                     (typeof propertyValue != "object" || Bifrost.isArray(propertyValue))) {
+
+                    if (typeof propertyValue !== "function") {
+                        if (Bifrost.isArray(propertyValue)) {
+                            value = ko.observableArray(propertyValue);
+                        } else {
+                            value = ko.observable(propertyValue);
+                        }
+                        self.targetCommand[property] = value;
+                    }
+                }
+            });
         };
 
         this.extendPropertiesWithHasChanges = function (lastDescendant) {
@@ -173,15 +185,31 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
+        this.populatedExternally = function () {
+            self.isPopulatedExternally(true);
+        };
+
+        this.setPropertyValuesFrom = function (values) {
+            var properties = this.getProperties();
+
+            for (var valueProperty in values) {
+                $.each(properties, function (index, property) {
+                    if (valueProperty == property) {
+                        var value = ko.utils.unwrapObservable(values[property]);
+                        self.targetCommand[property](value);
+                    }
+                });
+            }
+        };
 
         this.onCreated = function (lastDescendant) {
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
-                this.copyPropertiesFromOptions(lastDescendant);
+                this.copyPropertiesFromOptions();
             }
-            this.makePropertiesObservable(lastDescendant);
-            this.extendPropertiesWithHasChanges(lastDescendant);
+            this.makePropertiesObservable();
+            this.extendPropertiesWithHasChanges();
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
                 var validators = commandValidationService.applyRulesTo(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);

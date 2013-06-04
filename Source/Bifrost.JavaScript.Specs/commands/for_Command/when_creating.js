@@ -29,7 +29,6 @@
     var command = null;
 
     ko.extenders.hasChanges = function (target, options) {
-        print("JELLO : "+target);
     };
 
     command = Bifrost.commands.Command.create(parameters);
