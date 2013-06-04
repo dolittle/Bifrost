@@ -2,6 +2,7 @@ Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.Rule = (function () {
     function Rule(ruleName, options) {
         var self = this;
+        this.name = ruleName;
         this.handler = Bifrost.validation.ruleHandlers[ruleName];
 
         options = options || {};
