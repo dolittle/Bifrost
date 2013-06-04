@@ -57,4 +57,21 @@
     it("should make the array property as an observable", function () {
         expect(ko.isObservable(command.arrayOfIntegers)).toBe(true);
     });
+
+    it("should initialize the integer", function () {
+        expect(command.integer()).toBe(parameters.options.properties.integer);
+    });
+
+    it("should initialize the number", function () {
+        expect(command.number()).toBe(parameters.options.properties.number);
+    });
+
+    it("should initialize the string", function () {
+        expect(command.string()).toBe(parameters.options.properties.string);
+    });
+
+    it("should initialize the array", function () {
+        expect(command.arrayOfIntegers()).toBe(parameters.options.properties.arrayOfIntegers);
+    });
+
 });

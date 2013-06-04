@@ -111,13 +111,14 @@ Bifrost.namespace("Bifrost.commands", {
             });
         };
 
-        this.extendPropertiesWithHasChanges = function (lastDescendant) {
-            for (var property in lastDescendant) {
-                var propertyValue = lastDescendant[property];
+        this.extendPropertiesWithHasChanges = function () {
+            var properties = self.getProperties();
+            $.each(properties, function(index, property) {
+                var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
                     propertyValue.extend({ hasChanges: {}})
                 }
-            }
+            });
         };
 
         this.onBeforeExecute = function () {

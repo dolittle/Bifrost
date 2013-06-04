@@ -28,9 +28,6 @@
     }
     var command = null;
 
-    ko.extenders.hasChanges = function (target, options) {
-    };
-
     command = Bifrost.commands.Command.create(parameters);
 
     it("should apply validation rules to properties", function () {
