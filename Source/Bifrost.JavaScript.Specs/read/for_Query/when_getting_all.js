@@ -15,13 +15,31 @@ describe("when getting all", function () {
             };
         }
     };
+    var readModelType = Bifrost.Type.extend(function () {
+        var self = this;
+        this.something = "";
+    });
 
-    var query = Bifrost.read.Query.extend(function () { });
+    var readModelMapperStub = {
+        mapDataToReadModel : function(){
+            return data.map(function( value, index){
+                var readModel = readModelType.create();
+                readModel.something = value.something;
+                return readModel;
+            })
+        }
+    }
+
+    var query = Bifrost.read.Query.extend(function () { 
+        target : {readModel: readModelType }
+    });
 
 
     var instance = query.create({
-        queryService: queryServiceMock
+        queryService: queryServiceMock,
+        readModelMapper : readModelMapperStub
     });
+
 
     var all = instance.all();
 
@@ -42,6 +60,7 @@ describe("when getting all", function () {
     });
 
     it("should populate the all observable with the data from the service", function () {
-        expect(all()).toBe(data);
+        expect(all()[0].something).toBe(data[0].something);
+        expect(all()[1].something).toBe(data[1].something);
     });
 });

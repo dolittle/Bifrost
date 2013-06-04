@@ -263,6 +263,9 @@
     <Compile Include="Extensions\for_TypeExtensions\when_getting_default_constructor_from_type_with_default_constructor.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly_multitple_times.cs" />
+    <Compile Include="Rules\given\coloured_shapes.cs" />
+    <Compile Include="Rules\given\rules_and_coloured_shapes.cs" />
+    <Compile Include="Rules\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />
     <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_has_begun_when_there_are_no_exceptions_or_validation_errors.cs" />
     <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_is_already_concluded.cs" />
     <Compile Include="Sagas\for_SagaNarrator\when_concluding_a_saga_that_is_new.cs" />

@@ -141,6 +141,14 @@
     <Content Include="read\for_Query\when_getting_all.js" />
     <Content Include="read\for_Query\when_executing_and_all_has_been_retrieved.js" />
     <Content Include="read\for_Query\when_property_changes_and_all_query_is_used.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_number_property.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_object_property.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_string_property.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_objectproperty_with_mismatching_type.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_property_with_property_with_mismatching_type.js" />
     <Content Include="read\for_ReadModel\when_copying_to.js" />
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
