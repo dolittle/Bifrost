@@ -25,9 +25,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="index.html" target="Content\index.html"/>
-    <file src="web.config.transform" target="Content\web.config.transform"/>
-    <file src="BifrostConfigurator.cs" target="Content\BifrostConfigurator.cs"/>
-    <file src="ContainerCreator.cs" target="Content\ContainerCreator.cs"/>
+    <file src="**\*.*" target="Content" exclude="Web.Debug.config;Web.Release.config;Web.config;bin\**\*.*;obj\**\*.*"/>
   </files>
 </package>
