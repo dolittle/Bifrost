@@ -60,6 +60,10 @@ body {
 	padding: 20px 0;
 }
 
+.validation-summary li{
+    list-style:none;
+}
+
 @media (max-width: 767px) {
 	body {
 		padding-left: 0px;
