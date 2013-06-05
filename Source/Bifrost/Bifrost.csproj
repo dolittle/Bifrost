@@ -66,6 +66,7 @@
     <Compile Include="CodeGeneration\JavaScript\Container.cs" />
     <Compile Include="CodeGeneration\JavaScript\ContainerExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\AccessorAssignment.cs" />
+    <Compile Include="CodeGeneration\JavaScript\Null.cs" />
     <Compile Include="CodeGeneration\JavaScript\Global.cs" />
     <Compile Include="CodeGeneration\JavaScript\Return.cs" />
     <Compile Include="CodeGeneration\JavaScript\Function.cs" />
