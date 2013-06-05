@@ -20,4 +20,8 @@
       <dependency id="NHibernate" version="3.2.0.4000" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.NHibernate.*" target="lib\net40"/>
+	<file src="**\*.cs" target="src" />
+  </files>
 </package>

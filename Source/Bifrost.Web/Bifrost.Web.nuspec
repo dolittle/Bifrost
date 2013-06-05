@@ -23,4 +23,8 @@
       <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.Web.*" target="lib\net40"/>
+	<file src="**\*.cs" target="src" />
+  </files>
 </package>

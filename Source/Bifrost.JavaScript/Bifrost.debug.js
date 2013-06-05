@@ -1147,6 +1147,7 @@ Bifrost.namespace("Bifrost.validation");
 Bifrost.validation.Rule = (function () {
     function Rule(ruleName, options) {
         var self = this;
+        this.name = ruleName;
         this.handler = Bifrost.validation.ruleHandlers[ruleName];
 
         options = options || {};
@@ -1616,6 +1617,7 @@ Bifrost.namespace("Bifrost.commands", {
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
+                    target[property].validator.propertyName = property;
                     validators.push(target[property].validator);
                 } else if (typeof target[property] === "object") {
                     extendProperties(target[property], validators);
