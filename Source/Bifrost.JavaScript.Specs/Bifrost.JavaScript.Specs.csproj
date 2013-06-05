@@ -63,6 +63,13 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />
+    <Content Include="commands\for_Command\when_one_value_is_reporting_change.js" />
+    <Content Include="commands\for_Command\when_populating_from_external_source_with_property_values.js" />
+    <Content Include="commands\for_Command\when_not_populated_externally.js" />
+    <Content Include="commands\for_Command\when_populated_externally.js" />
+    <Content Include="commands\for_Command\when_populated_externally_without_property_values_set.js" />
+    <Content Include="commands\for_Command\when_populated_externally_with_property_values_set.js" />
     <Content Include="commands\for_Command\when_security_context_changes_from_false_to_true_after_creation.js" />
     <Content Include="commands\for_Command\when_security_context_returns_true_for_can_execute.js" />
     <Content Include="commands\for_Command\when_security_context_returns_false_for_can_execute.js" />
@@ -79,7 +86,13 @@
     <Content Include="commands\for_Command\when_executing_without_success.js" />
     <Content Include="commands\for_Command\when_executing.js" />
     <Content Include="commands\for_Command\when_security_context_is_null.js" />
+    <Content Include="commands\for_Command\when_setting_observable_property_values.js" />
+    <Content Include="commands\for_Command\when_setting_property_values.js" />
     <Content Include="commands\for_Command\when_validator_for_property_becomes_invalid.js" />
+    <Content Include="commands\for_hasChanges\when_value_changes_to_value_not_same_as_initial_value.js" />
+    <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
+    <Content Include="commands\for_hasChanges\when_initial_value_is_not_set.js" />
+    <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
     <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
     <Content Include="execution\for_Promise\when_failing.js" />
     <Content Include="execution\for_Promise\when_signalling_without_parameter.js" />
@@ -149,6 +162,9 @@
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_string_property.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_objectproperty_with_mismatching_type.js" />
     <Content Include="read\for_readModelMapper\when_mapping_property_with_property_with_mismatching_type.js" />
+    <Content Include="read\for_ReadModelOf\when_instance_changes_and_command_is_linked.js" />
+    <Content Include="read\for_ReadModelOf\when_populating_command_on_changes.js" />
+    <Content Include="read\for_ReadModelOf\when_populating_command_on_changes_and_an_instance_exist.js" />
     <Content Include="read\for_ReadModel\when_copying_to.js" />
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />

@@ -1722,9 +1722,10 @@ Bifrost.namespace("Bifrost.commands", {
         this.name = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
+        this.hasChangesObservables = ko.observableArray();
         this.validationMessages = ko.observableArray();
-
         this.securityContext = ko.observable(null);
+        this.populatedFromExternalSource = ko.observable(false);
 
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
@@ -1742,10 +1743,28 @@ Bifrost.namespace("Bifrost.commands", {
 
             return valid;
         });
-
         this.isAuthorized = ko.observable(false);
         this.canExecute = ko.computed(function () {
             return self.isValid() && self.isAuthorized();
+        });
+        this.isPopulatedExternally = ko.observable(false);
+        this.isReady = ko.computed(function () {
+            if (self.isPopulatedExternally() == false) {
+                return true;
+            }
+            return self.populatedFromExternalSource();
+        });
+
+        this.hasChanges = ko.computed(function () {
+            var hasChange = false;
+            $.each(self.hasChangesObservables(), function (index, item) {
+                if (item() === true) {
+                    hasChange = true;
+                    return;
+                }
+            });
+
+            return hasChange;
         });
 
         this.failedCallbacks = [];
@@ -1784,37 +1803,59 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
-        this.copyPropertiesFromOptions = function (lastDescendant) {
-            for (var property in lastDescendant.options.properties) {
-                var value = lastDescendant.options.properties[property];
+        this.copyPropertiesFromOptions = function () {
+            for (var property in self.targetCommand.options.properties) {
+                var value = self.targetCommand.options.properties[property];
                 if (!ko.isObservable(value)) {
                     value = ko.observable(value);
                 }
 
-                lastDescendant[property] = value;
+                self.targetCommand[property] = value;
             }
         };
 
-        this.makePropertiesObservable = function (lastDescendant) {
-            for (var property in lastDescendant) {
-                if (lastDescendant.hasOwnProperty(property) && !self.hasOwnProperty(property)) {
-                    var value = null;
-                    var propertyValue = lastDescendant[property];
-
-                    if (!ko.isObservable(propertyValue) &&
-                         (typeof propertyValue != "object" || Bifrost.isArray(propertyValue))) {
-
-                        if (typeof propertyValue !== "function") {
-                            if (Bifrost.isArray(propertyValue)) {
-                                value = ko.observableArray(propertyValue);
-                            } else {
-                                value = ko.observable(propertyValue);
-                            }
-                            lastDescendant[property] = value;
-                        }
-                    }
+        this.getProperties = function () {
+            var properties = [];
+            for (var property in self.targetCommand) {
+                if (self.targetCommand.hasOwnProperty(property) &&
+                    !self.hasOwnProperty(property)) {
+                    properties.push(property);
                 }
             }
+
+            return properties;
+        };
+
+        this.makePropertiesObservable = function () {
+            var properties = self.getProperties();
+            $.each(properties, function (index, property) {
+                var value = null;
+                var propertyValue = self.targetCommand[property];
+
+                if (!ko.isObservable(propertyValue) &&
+                     (typeof propertyValue != "object" || Bifrost.isArray(propertyValue))) {
+
+                    if (typeof propertyValue !== "function") {
+                        if (Bifrost.isArray(propertyValue)) {
+                            value = ko.observableArray(propertyValue);
+                        } else {
+                            value = ko.observable(propertyValue);
+                        }
+                        self.targetCommand[property] = value;
+                    }
+                }
+            });
+        };
+
+        this.extendPropertiesWithHasChanges = function () {
+            var properties = self.getProperties();
+            $.each(properties, function(index, property) {
+                var propertyValue = self.targetCommand[property];
+                if (ko.isObservable(propertyValue)) {
+                    propertyValue.extend({ hasChanges: {} })
+                    self.hasChangesObservables.push(propertyValue.hasChanges);
+                }
+            });
         };
 
         this.onBeforeExecute = function () {
@@ -1882,14 +1923,42 @@ Bifrost.namespace("Bifrost.commands", {
             }
         };
 
+        this.populatedExternally = function () {
+            self.isPopulatedExternally(true);
+        };
+
+        this.populateFromExternalSource = function (values) {
+            self.isPopulatedExternally(true);
+            self.setPropertyValuesFrom(values);
+            self.populatedFromExternalSource(true);
+        };
+
+
+        this.setPropertyValuesFrom = function (values) {
+            var properties = this.getProperties();
+
+            for (var valueProperty in values) {
+                $.each(properties, function (index, property) {
+                    if (valueProperty == property) {
+                        var value = ko.utils.unwrapObservable(values[property]);
+                        var observable = self.targetCommand[property];
+                        observable(value);
+                        if (typeof observable.setInitialValue == "function") {
+                            observable.setInitialValue(value);
+                        }
+                    }
+                });
+            }
+        };
 
         this.onCreated = function (lastDescendant) {
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
-                this.copyPropertiesFromOptions(lastDescendant);
+                this.copyPropertiesFromOptions();
             }
-            this.makePropertiesObservable(lastDescendant);
+            this.makePropertiesObservable();
+            this.extendPropertiesWithHasChanges();
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
                 var validators = commandValidationService.applyRulesTo(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
@@ -2039,6 +2108,27 @@ Bifrost.namespace("Bifrost.commands", {
         };
     })
 });
+if (typeof ko !== 'undefined') {
+    ko.extenders.hasChanges = function (target, options) {
+        target.hasChanges = ko.observable(false);
+        function updateHasChanges() {
+            if (target._initialValue === null || typeof target._initialValue == "undefined") {
+                target.hasChanges(false);
+            } else {
+                target.hasChanges(target._initialValue != target());
+            }
+        }
+
+        target.subscribe(function (newValue) {
+            updateHasChanges();
+        });
+
+        target.setInitialValue = function (value) {
+            target._initialValue = value;
+            updateHasChanges();
+        };
+    };
+}
 Bifrost.namespace("Bifrost.read", {
     queryService: Bifrost.Singleton(function () {
         var self = this;
@@ -2273,8 +2363,8 @@ Bifrost.namespace("Bifrost.read", {
 	    this.name = "";
 	    this.target = null;
 	    this.readModelType = Bifrost.Type.extend(function () { });
-
-		this.instance = ko.observable();
+	    this.instance = ko.observable();
+	    this.commandToPopulate = null;
 
 		this.instanceMatching = function (propertyFilters) {
 		    var methodParameters = {
@@ -2298,6 +2388,17 @@ Bifrost.namespace("Bifrost.read", {
 		    });
 		};
 
+		this.populateCommandOnChanges = function (command) {
+		    command.populatedExternally();
+
+		    if (typeof self.instance() != "undefined" && self.instance() != null) {
+		        command.populateFromExternalSource(self.instance());
+		    }
+
+		    self.instance.subscribe(function (newValue) {
+		        command.populateFromExternalSource(newValue);
+		    });
+		};
 
 		this.onCreated = function (lastDescendant) {
 		    self.target = lastDescendant;

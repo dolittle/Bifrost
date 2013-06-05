@@ -4,6 +4,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.name = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
+        this.hasChangesObservables = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.securityContext = ko.observable(null);
         this.populatedFromExternalSource = ko.observable(false);
@@ -34,6 +35,18 @@ Bifrost.namespace("Bifrost.commands", {
                 return true;
             }
             return self.populatedFromExternalSource();
+        });
+
+        this.hasChanges = ko.computed(function () {
+            var hasChange = false;
+            $.each(self.hasChangesObservables(), function (index, item) {
+                if (item() === true) {
+                    hasChange = true;
+                    return;
+                }
+            });
+
+            return hasChange;
         });
 
         this.failedCallbacks = [];
@@ -122,6 +135,7 @@ Bifrost.namespace("Bifrost.commands", {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
                     propertyValue.extend({ hasChanges: {} })
+                    self.hasChangesObservables.push(propertyValue.hasChanges);
                 }
             });
         };
@@ -211,14 +225,12 @@ Bifrost.namespace("Bifrost.commands", {
                         var value = ko.utils.unwrapObservable(values[property]);
                         var observable = self.targetCommand[property];
                         observable(value);
-                        if (typeof observable.setValue == "function") {
-                            observable.setValue(value);
+                        if (typeof observable.setInitialValue == "function") {
+                            observable.setInitialValue(value);
                         }
                     }
                 });
             }
-
-            
         };
 
         this.onCreated = function (lastDescendant) {

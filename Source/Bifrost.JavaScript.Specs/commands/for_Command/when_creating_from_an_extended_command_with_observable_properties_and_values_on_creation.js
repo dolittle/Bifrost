@@ -41,7 +41,7 @@
     });
 
     ko.extenders.hasChanges = function (target, options) {
-        target.hasChanges = true;
+        target.hasChanges = ko.observable(true);
     };
 
     command = commandType.create(parameters);
@@ -79,18 +79,18 @@
     });
 
     it("should extend integer property with has changes", function () {
-        expect(command.integer.hasChanges).toBe(true);
+        expect(ko.isObservable(command.integer.hasChanges)).toBe(true);
     });
 
     it("should extend number property with has changes", function () {
-        expect(command.number.hasChanges).toBe(true);
+        expect(ko.isObservable(command.number.hasChanges)).toBe(true);
     });
 
     it("should extend string property with has changes", function () {
-        expect(command.string.hasChanges).toBe(true);
+        expect(ko.isObservable(command.string.hasChanges)).toBe(true);
     });
 
     it("should extend array property with has changes", function () {
-        expect(command.arrayOfIntegers.hasChanges).toBe(true);
+        expect(ko.isObservable(command.arrayOfIntegers.hasChanges)).toBe(true);
     });
 });

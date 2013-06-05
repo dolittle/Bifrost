@@ -28,7 +28,8 @@
     };
 
     ko.extenders.hasChanges = function (target, options) {
-        target.setValue = sinon.stub()
+        target.hasChanges = ko.observable();
+        target.setInitialValue = sinon.stub()
     };
 
     var command = commandType.create(parameters);
@@ -43,10 +44,10 @@
     });
 
     it("should set the observable value for the has changes extension", function () {
-        expect(command.someValue.setValue.called).toBe(true);
+        expect(command.someValue.setInitialValue.called).toBe(true);
     });
 
     it("should set the observable array value for the has changes extension", function () {
-        expect(command.someArray.setValue.called).toBe(true);
+        expect(command.someArray.setInitialValue.called).toBe(true);
     });
 });

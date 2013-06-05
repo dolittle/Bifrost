@@ -9,6 +9,10 @@
             }
         }
 
+        target.subscribe(function (newValue) {
+            updateHasChanges();
+        });
+
         target.setInitialValue = function (value) {
             target._initialValue = value;
             updateHasChanges();
