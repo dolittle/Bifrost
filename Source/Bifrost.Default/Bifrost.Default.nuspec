@@ -25,6 +25,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="**\*.*" target="Content" exclude="Web.Debug.config;Web.Release.config;Web.config;bin\**\*.*;obj\**\*.*"/>
+    <file src="**\*.*" target="Content" exclude="Web.Debug.config;Web.Release.config;Web.config;bin\**\*.*;obj\**\*.*;Properties\AssemblyInfo.cs;packages.config"/>
   </files>
 </package>
