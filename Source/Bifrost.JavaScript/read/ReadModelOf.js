@@ -33,11 +33,11 @@ Bifrost.namespace("Bifrost.read", {
 		    command.populatedExternally();
 
 		    if (typeof self.instance() != "undefined" && self.instance() != null) {
-		        command.setPropertyValuesFrom(self.instance());
+		        command.populateFromExternalSource(self.instance());
 		    }
 
 		    self.instance.subscribe(function (newValue) {
-		        command.setPropertyValuesFrom(newValue);
+		        command.populateFromExternalSource(newValue);
 		    });
 		};
 

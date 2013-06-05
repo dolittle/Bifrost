@@ -1,4 +1,4 @@
-﻿describe("when populated externally with property values set", function () {
+﻿describe("when populating from external source with property values", function () {
     var parameters = {
         commandCoordinator: {
         },
@@ -28,8 +28,11 @@
     };
 
     var command = commandType.create(parameters);
-    command.populatedExternally();
     command.populateFromExternalSource(newValues);
+
+    it("should be considered populated externally", function () {
+        expect(command.isPopulatedExternally()).toBe(true);
+    });
 
     it("should be considered ready", function () {
         expect(command.isReady()).toBe(true);

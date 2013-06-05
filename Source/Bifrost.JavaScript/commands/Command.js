@@ -5,8 +5,8 @@ Bifrost.namespace("Bifrost.commands", {
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
-
         this.securityContext = ko.observable(null);
+        this.populatedFromExternalSource = ko.observable(false);
 
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
@@ -33,7 +33,7 @@ Bifrost.namespace("Bifrost.commands", {
             if (self.isPopulatedExternally() == false) {
                 return true;
             }
-            return false;
+            return self.populatedFromExternalSource();
         });
 
         this.failedCallbacks = [];
@@ -195,6 +195,13 @@ Bifrost.namespace("Bifrost.commands", {
             self.isPopulatedExternally(true);
         };
 
+        this.populateFromExternalSource = function (values) {
+            self.isPopulatedExternally(true);
+            self.setPropertyValuesFrom(values);
+            self.populatedFromExternalSource(true);
+        };
+
+
         this.setPropertyValuesFrom = function (values) {
             var properties = this.getProperties();
 
@@ -210,6 +217,8 @@ Bifrost.namespace("Bifrost.commands", {
                     }
                 });
             }
+
+            
         };
 
         this.onCreated = function (lastDescendant) {

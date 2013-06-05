@@ -30,4 +30,8 @@
     it("should be considered ready", function () {
         expect(command.isReady()).toBe(true);
     });
+
+    it("should not have changes", function () {
+        //expect(command.hasChanges()).toBe(false);
+    });
 });
