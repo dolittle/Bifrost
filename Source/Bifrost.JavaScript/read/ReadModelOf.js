@@ -4,8 +4,8 @@ Bifrost.namespace("Bifrost.read", {
 	    this.name = "";
 	    this.target = null;
 	    this.readModelType = Bifrost.Type.extend(function () { });
-
-		this.instance = ko.observable();
+	    this.instance = ko.observable();
+	    this.commandToPopulate = null;
 
 		this.instanceMatching = function (propertyFilters) {
 		    var methodParameters = {
@@ -29,6 +29,17 @@ Bifrost.namespace("Bifrost.read", {
 		    });
 		};
 
+		this.populateCommandOnChanges = function (command) {
+		    command.populatedExternally();
+
+		    if (typeof self.instance() != "undefined" && self.instance() != null) {
+		        command.populateFromExternalSource(self.instance());
+		    }
+
+		    self.instance.subscribe(function (newValue) {
+		        command.populateFromExternalSource(newValue);
+		    });
+		};
 
 		this.onCreated = function (lastDescendant) {
 		    self.target = lastDescendant;

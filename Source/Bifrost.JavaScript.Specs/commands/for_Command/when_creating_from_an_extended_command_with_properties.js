@@ -36,6 +36,10 @@
         };
     });
 
+    ko.extenders.hasChanges = function (target, options) {
+        target.hasChanges = ko.observable(true);
+    };
+
     command = commandType.create(parameters);
 
     it("should make the integer property as an observable", function () {
@@ -56,5 +60,25 @@
 
     it("should not make the object literal an observable", function () {
         expect(ko.isObservable(command.objectLiteral)).toBe(false);
+    });
+
+    it("should extend integer property with has changes", function () {
+        expect(ko.isObservable(command.integer.hasChanges)).toBe(true);
+    });
+
+    it("should extend number property with has changes", function () {
+        expect(ko.isObservable(command.number.hasChanges)).toBe(true);
+    });
+
+    it("should extend string property with has changes", function () {
+        expect(ko.isObservable(command.string.hasChanges)).toBe(true);
+    });
+
+    it("should extend array property with has changes", function () {
+        expect(ko.isObservable(command.arrayOfIntegers.hasChanges)).toBe(true);
+    });
+
+    it("should not extend object literal property with has changes", function () {
+        expect(command.objectLiteral.hasChanges).toBeUndefined();
     });
 });

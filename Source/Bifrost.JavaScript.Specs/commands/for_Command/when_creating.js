@@ -26,8 +26,9 @@
             name:"something"
         }
     }
+    var command = null;
 
-    var command = Bifrost.commands.Command.create(parameters);
+    command = Bifrost.commands.Command.create(parameters);
 
     it("should apply validation rules to properties", function () {
         expect(commandAppliedTo).toBe(command);

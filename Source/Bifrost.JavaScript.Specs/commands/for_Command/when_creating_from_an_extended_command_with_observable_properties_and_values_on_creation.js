@@ -28,9 +28,9 @@
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {
-        this.integer = 0;
-        this.number = 0.1;
-        this.string = "";
+        this.integer = ko.observable(0);
+        this.number = ko.observable(0.1);
+        this.string = ko.observable("");
         this.arrayOfIntegers = [];
 
         this.onCreated = function () {
@@ -39,6 +39,10 @@
         this.onDispose = function () {
         };
     });
+
+    ko.extenders.hasChanges = function (target, options) {
+        target.hasChanges = ko.observable(true);
+    };
 
     command = commandType.create(parameters);
 
@@ -56,5 +60,37 @@
 
     it("should make the array property as an observable", function () {
         expect(ko.isObservable(command.arrayOfIntegers)).toBe(true);
+    });
+
+    it("should initialize the integer", function () {
+        expect(command.integer()).toBe(parameters.options.properties.integer);
+    });
+
+    it("should initialize the number", function () {
+        expect(command.number()).toBe(parameters.options.properties.number);
+    });
+
+    it("should initialize the string", function () {
+        expect(command.string()).toBe(parameters.options.properties.string);
+    });
+
+    it("should initialize the array", function () {
+        expect(command.arrayOfIntegers()).toBe(parameters.options.properties.arrayOfIntegers);
+    });
+
+    it("should extend integer property with has changes", function () {
+        expect(ko.isObservable(command.integer.hasChanges)).toBe(true);
+    });
+
+    it("should extend number property with has changes", function () {
+        expect(ko.isObservable(command.number.hasChanges)).toBe(true);
+    });
+
+    it("should extend string property with has changes", function () {
+        expect(ko.isObservable(command.string.hasChanges)).toBe(true);
+    });
+
+    it("should extend array property with has changes", function () {
+        expect(ko.isObservable(command.arrayOfIntegers.hasChanges)).toBe(true);
     });
 });

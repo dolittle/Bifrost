@@ -53,6 +53,7 @@
   <ItemGroup>
     <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
+    <Content Include="commands\hasChanges.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
