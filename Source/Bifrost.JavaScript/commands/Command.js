@@ -121,7 +121,7 @@ Bifrost.namespace("Bifrost.commands", {
             $.each(properties, function(index, property) {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
-                    propertyValue.extend({ hasChanges: {}})
+                    propertyValue.extend({ hasChanges: {} })
                 }
             });
         };
