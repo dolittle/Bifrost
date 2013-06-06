@@ -2201,7 +2201,7 @@ Bifrost.namespace("Bifrost.read", {
 
 		function copyProperties (from, to) {
 			for (var prop in from){
-				if (typeof to[prop] !== "undefined" && typeof to[prop] === typeof from[prop]){
+				if (typeof to[prop] !== "undefined" ){
 					if(Bifrost.isObject( to[prop] ) ){
 						copyProperties(from[prop], to[prop]);
 					} else {
@@ -2403,7 +2403,7 @@ Bifrost.namespace("Bifrost.read", {
 		        contentType: 'application/json; charset=utf-8',
 		        complete: function (result) {
 		            var item = $.parseJSON(result.responseText);
-					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModel, data);
+					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
 		            self.instance(mappedReadModel);
 		        }
 		    });

@@ -27,8 +27,8 @@ describe("when mapping object with objectproperty with mismatching type", functi
 		expect(mappedReadModelInstance).toEqual(returnedInstance);
 	});
 
-	it("should not map the corresponding numberProprty value", function(){
-		expect(mappedReadModelInstance.objectProperty.objectProperty).toEqual("");
+	it("should map the corresponding numberProprty value", function(){
+		expect(mappedReadModelInstance.objectProperty.objectProperty).toEqual(data.objectProperty.objectProperty);
 	});
 
 });
