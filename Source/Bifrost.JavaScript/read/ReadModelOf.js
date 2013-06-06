@@ -23,7 +23,7 @@ Bifrost.namespace("Bifrost.read", {
 		        contentType: 'application/json; charset=utf-8',
 		        complete: function (result) {
 		            var item = $.parseJSON(result.responseText);
-					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModel, data);
+					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
 		            self.instance(mappedReadModel);
 		        }
 		    });
