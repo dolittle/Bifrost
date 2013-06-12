@@ -159,6 +159,29 @@ namespace Bifrost.CodeGeneration.JavaScript
             assignment.Value = new Null();
             return assignment;
         }
+
+        /// <summary>
+        /// Assign new Date value
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithDate(this Assignment assignment)
+        {
+            assignment.Value = new Date();
+            return assignment;
+        }
+
+        /// <summary>
+        /// Assign bool value
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <param name="value"><see cref="bool"/> to assign</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithBoolean(this Assignment assignment, bool value = false)
+        {
+            assignment.Value = new Boolean(value);
+            return assignment;
+        }
         
         /// <summary>
         /// Assign the default value of a given Type
