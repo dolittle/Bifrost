@@ -148,6 +148,17 @@ namespace Bifrost.CodeGeneration.JavaScript
             assignment.WithLiteral(string.Format("\"{0}\"", defaultValue));
             return assignment;
         }
+
+        /// <summary>
+        /// Assign null value
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithNullValue(this Assignment assignment)
+        {
+            assignment.Value = new Null();
+            return assignment;
+        }
         
         /// <summary>
         /// Assign the default value of a given Type
@@ -160,6 +171,9 @@ namespace Bifrost.CodeGeneration.JavaScript
             if (type.HasDefaultConstructor())
             {
                 var defaultValue = Activator.CreateInstance(type);
+                if (defaultValue == null)
+                    return assignment.WithNullValue();
+
                 assignment.WithLiteral(string.Format("{0}", defaultValue));
             }
             

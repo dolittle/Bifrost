@@ -5,6 +5,7 @@
 </head>
 <body>
     <fieldset>
+        <div class="validation-summary alert alert-error" data-bind="validationSummaryFor:register"></div>
         <strong>First Name</strong>
         <input type="text" data-bind="value: register.firstName" />
         <span data-bind="validationMessageFor: register.firstName"></span>

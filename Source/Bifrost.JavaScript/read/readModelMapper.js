@@ -5,7 +5,7 @@ Bifrost.namespace("Bifrost.read", {
 
 		function copyProperties (from, to) {
 			for (var prop in from){
-				if (typeof to[prop] !== "undefined" && typeof to[prop] === typeof from[prop]){
+				if (typeof to[prop] !== "undefined" ){
 					if(Bifrost.isObject( to[prop] ) ){
 						copyProperties(from[prop], to[prop]);
 					} else {

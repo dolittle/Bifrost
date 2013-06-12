@@ -1246,21 +1246,34 @@ Bifrost.validation.Validator = (function () {
 })();
 if (typeof ko !== 'undefined') {
     Bifrost.namespace("Bifrost.validation", {
-        ValidationSummary: function (commands) {
+        ValidationSummary: function (commands, containerElement) {
             var self = this;
             this.commands = ko.observable(commands);
-            this.messages = ko.computed(function () {
+            this.messages = ko.observableArray([]);
+            this.hasMessages = ko.computed(function(){
+                return this.messages().length > 0
+            },self);
+
+            function aggregateMessages() {
                 var actualMessages = [];
                 $.each(self.commands(), function (commandIndex, command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
-                    
-                    $.each(unwrappedCommand.validators, function (validatorIndex, validator) {
-                        if (!validator.isValid()) {
+
+                    $.each(unwrappedCommand.validators(), function (validatorIndex, validator) {
+                        if (!validator.isValid() && validator.message().length) {
                             actualMessages.push(validator.message());
                         }
                     });
                 });
-                return actualMessages;
+                self.messages(actualMessages);
+            }
+
+            $.each(commands, function (commandIndex, command) {
+                var unwrappedCommand = ko.utils.unwrapObservable(command);
+
+                $.each(unwrappedCommand.validators(), function (validatorIndex, validator) {
+                    validator.message.subscribe(aggregateMessages);
+                }); 
             });
         }
     });
@@ -1269,16 +1282,22 @@ if (typeof ko !== 'undefined') {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var target = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
             var validationSummary = new Bifrost.validation.ValidationSummary(target);
+            var ul = document.createElement("ul");
+            element.appendChild(ul);
+            ul.innerHTML = "<li><span data-bind='text: $data'></span></li>";
+
             ko.utils.domData.set(element, 'validationsummary', validationSummary);
-            ko.applyBindingsToNode(element, { foreach: validationSummary.messages }, validationSummary);
+            
+            ko.applyBindingsToNode(element, { visible: validationSummary.hasMessages }, validationSummary);
+            ko.applyBindingsToNode(ul, { foreach: validationSummary.messages }, validationSummary);
         },
         update: function (element, valueAccessor) {
             var validationSummary = ko.utils.domData.get(element, 'validationsummary');
-            validationSummary.commands = ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor);
+            validationSummary.commands( ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor) );
         },
         getValueAsArray: function (valueAccessor) {
             var target = ko.utils.unwrapObservable(valueAccessor());
-            if (!(target instanceof Array)) { target = [target]; }
+            if (!(Bifrost.isArray(target))) { target = [target]; }
             return target;
         }
     };
@@ -2182,7 +2201,7 @@ Bifrost.namespace("Bifrost.read", {
 
 		function copyProperties (from, to) {
 			for (var prop in from){
-				if (typeof to[prop] !== "undefined" && typeof to[prop] === typeof from[prop]){
+				if (typeof to[prop] !== "undefined" ){
 					if(Bifrost.isObject( to[prop] ) ){
 						copyProperties(from[prop], to[prop]);
 					} else {
@@ -2384,7 +2403,7 @@ Bifrost.namespace("Bifrost.read", {
 		        contentType: 'application/json; charset=utf-8',
 		        complete: function (result) {
 		            var item = $.parseJSON(result.responseText);
-					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModel, data);
+					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
 		            self.instance(mappedReadModel);
 		        }
 		    });
