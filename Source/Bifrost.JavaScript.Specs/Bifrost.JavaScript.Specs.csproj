@@ -89,6 +89,7 @@
     <Content Include="commands\for_Command\when_setting_observable_property_values.js" />
     <Content Include="commands\for_Command\when_setting_property_values.js" />
     <Content Include="commands\for_Command\when_validator_for_property_becomes_invalid.js" />
+    <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_null_on_observable_without_null.js" />
     <Content Include="commands\for_hasChanges\when_value_changes_to_value_not_same_as_initial_value.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set.js" />

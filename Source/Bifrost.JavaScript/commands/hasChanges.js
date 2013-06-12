@@ -1,11 +1,12 @@
 ﻿if (typeof ko !== 'undefined') {
     ko.extenders.hasChanges = function (target, options) {
+        target._initialValueSet = false;
         target.hasChanges = ko.observable(false);
         function updateHasChanges() {
-            if (target._initialValue === null || typeof target._initialValue == "undefined") {
+            if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                target.hasChanges(target._initialValue != target());
+                target.hasChanges(target._initialValue !== target());
             }
         }
 
@@ -15,6 +16,7 @@
 
         target.setInitialValue = function (value) {
             target._initialValue = value;
+            target._initialValueSet = true;
             updateHasChanges();
         };
     };
