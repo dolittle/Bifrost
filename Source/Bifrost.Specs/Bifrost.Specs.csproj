@@ -422,6 +422,7 @@
     <Compile Include="Tasks\for_TaskScheduler\TaskWithTwoOperations.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_starting_asynchronous_task_with_two_operations.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly_multitple_times.cs" />
+    <Compile Include="Utils\for_StringMapping\when_creating_with_parameters.cs" />
     <Compile Include="Validation\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
     <Compile Include="Validation\for_ChapterValidationService\when_validating_a_chapter_that_passes.cs" />

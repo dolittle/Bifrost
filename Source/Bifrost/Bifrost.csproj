@@ -251,6 +251,8 @@
     <Compile Include="Tenancy\ITenantManager.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Tenancy\TenantManager.cs" />
+    <Compile Include="Utils\IStringMapping.cs" />
+    <Compile Include="Utils\StringMapping.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
     <Compile Include="Sagas\ISaga.cs" />
