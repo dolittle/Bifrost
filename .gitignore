@@ -27,6 +27,7 @@ packages
 *.nupkg
 Source/Bifrost.QuickStart/App_Data
 *.cache
+*.trx
 
 # OS generated files #
 ######################
