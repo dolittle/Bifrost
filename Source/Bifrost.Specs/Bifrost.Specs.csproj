@@ -422,6 +422,13 @@
     <Compile Include="Tasks\for_TaskScheduler\TaskWithTwoOperations.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_starting_asynchronous_task_with_two_operations.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly_multitple_times.cs" />
+    <Compile Include="Utils\for_StringMapper\when_resolving_a_string_without_any_match.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string_with_second_mapping_matching.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string.cs" />
+    <Compile Include="Utils\for_StringMapper\when_adding_a_specific_mapping.cs" />
+    <Compile Include="Utils\for_StringMapper\when_adding_mapping.cs" />
+    <Compile Include="Utils\for_StringMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.cs" />
+    <Compile Include="Utils\for_StringMapper\when_resolving_a_string_with_second_mapping_matching.cs" />
     <Compile Include="Utils\for_StringMapping\when_getting_values_from_placeholders.cs" />
     <Compile Include="Utils\for_StringMapping\when_matching_a_string_with_wildcard_in_the_middle.cs" />
     <Compile Include="Utils\for_StringMapping\when_matching_a_string_with_wildcard_at_the_end.cs" />
