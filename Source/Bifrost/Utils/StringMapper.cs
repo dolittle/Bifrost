@@ -33,7 +33,11 @@ namespace Bifrost.Utils
 
         public bool HasMappingFor(string input)
         {
-            throw new NotImplementedException();
+            foreach (var mapping in Mappings)
+                if (mapping.Matches(input))
+                    return true;
+
+            return false;
         }
 
         public IStringMapping GetMappingFor(string input)
