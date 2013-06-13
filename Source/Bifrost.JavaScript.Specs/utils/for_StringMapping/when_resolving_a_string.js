@@ -6,7 +6,7 @@
     });
     var result = mapping.resolve("mr.potatohead/hello");
 
-    it("should expand input uri to the mapped uri", function () {
+    it("should expand input string to the mapped string", function () {
         expect(result).toBe(expectedResult);
     });
 });
