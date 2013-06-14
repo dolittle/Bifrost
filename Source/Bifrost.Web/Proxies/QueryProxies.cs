@@ -67,7 +67,7 @@ namespace Bifrost.Web.Proxies
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
-                                        .Property("readModel", p => p.WithLiteral("readModels." + queryForTypeName))
+                                        .Property("readModel", p => p.WithLiteral(currentNamespace.Name + "." + queryForTypeName))
                                         .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
 
                 }
