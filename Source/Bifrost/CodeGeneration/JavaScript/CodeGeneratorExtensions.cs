@@ -37,13 +37,26 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <param name="generator"><see cref="ICodeGenerator"/> to create from</param>
         /// <param name="name">Name of namespace</param>
         /// <param name="callback"><see cref="Action{ObjectLiteral}"/> that gets called to build the object literal for the namespace</param>
-        /// <returns><see cref="Namespace"/> that is built</returns>
+        /// <returns><see cref="Bifrost.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
         public static Namespace Namespace(this ICodeGenerator generator, string name, Action<ObjectLiteral> callback)
         {
-            var ns = new Namespace(name);
+            var ns = generator.Namespace(name);
             callback(ns.Content);
             return ns;
         }
+
+        /// <summary>
+        /// Start a Bifrost namespace
+        /// </summary>
+        /// <param name="generator"><see cref="ICodeGenerator"/> to create from</param>
+        /// <param name="name">Name of namespace</param>
+        /// <returns><see cref="Bifrost.CodeGeneration.JavaScript.Namespace"/> that is built</returns>
+        public static Namespace Namespace(this ICodeGenerator generator, string name)
+        {
+            var ns = new Namespace(name);
+            return ns;
+        }
+
 
         /// <summary>
         /// Start a container for Global namespace

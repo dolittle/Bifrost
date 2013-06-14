@@ -39,7 +39,7 @@ namespace Bifrost.Web.Proxies
             var global = _codeGenerator
                 .Global()
                     .Variant("namespaceMapper", v => v.WithFunctionCall(f=>f.WithName("Bifrost.StringMapper.create")))
-                    .WithNamespaceMappersFrom(_configuration.Namespaces)
+                    .WithNamespaceMappersFrom(_configuration.PathsToNamespaces)
                     .AssignAccessor("Bifrost.namespaceMappers.default", a => a.WithLiteral("namespaceMapper"))
                     ;
 

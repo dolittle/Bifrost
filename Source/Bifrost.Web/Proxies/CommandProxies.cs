@@ -18,11 +18,13 @@
 #endregion
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web.Proxies
 {
@@ -32,42 +34,56 @@ namespace Bifrost.Web.Proxies
 
         ITypeDiscoverer _typeDiscoverer;
         ICodeGenerator _codeGenerator;
+        WebConfiguration _configuration;
 
         public static void ExcludeCommandsStartingWithNamespace(string @namespace)
         {
             _namespacesToExclude.Add(@namespace);
         }
 
-        public CommandProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator)
+        public CommandProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _codeGenerator = codeGenerator;
-
+            _configuration = configuration;
         }
 
         public string Generate()
         {
-            var types = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n)));
-            var ns = _codeGenerator.Namespace("commands",
-                o =>
-                {
-                    foreach (var type in types)
-                    {
-                        if (type.IsGenericType) continue;
-                        var name = type.Name.ToCamelCase();
-                        o.Assign(name)
-                            .WithType(t =>
-                                t.WithSuper("Bifrost.commands.Command")
-                                    .Function
-                                        .Body
-                                            .Variant("self", v => v.WithThis())
-                                            .Property("name", p => p.WithString(name))
-                                            .WithObservablePropertiesFrom(type, typeof(ICommand)));
-                    }
-                });
+            var typesByNamespace = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t=>t.Namespace);
 
-            var result = _codeGenerator.GenerateFrom(ns);
-            return result;
+            var result = new StringBuilder();
+
+            Namespace currentNamespace;
+            Namespace globalCommands = _codeGenerator.Namespace("commands");
+
+            foreach (var @namespace in typesByNamespace)
+            {
+                if (_configuration.NamespaceMappers.HasMappingFor(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMappers.Resolve(@namespace.Key));
+                else
+                    currentNamespace = globalCommands;
+                
+                foreach (var type in @namespace)
+                {
+                    if (type.IsGenericType) continue;
+                    var name = type.Name.ToCamelCase();
+                    currentNamespace.Content.Assign(name)
+                        .WithType(t =>
+                            t.WithSuper("Bifrost.commands.Command")
+                                .Function
+                                    .Body
+                                        .Variant("self", v => v.WithThis())
+                                        .Property("name", p => p.WithString(name))
+                                        .WithObservablePropertiesFrom(type, typeof(ICommand)));
+                }
+
+                if (currentNamespace != globalCommands)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+            }
+            result.Append(_codeGenerator.GenerateFrom(globalCommands));
+            
+            return result.ToString();
         }
     }
 }

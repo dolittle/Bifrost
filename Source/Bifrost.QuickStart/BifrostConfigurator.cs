@@ -22,9 +22,11 @@ namespace Bifrost.QuickStart
                 .Frontend
                     .Web(w=> {
                         w.AsSinglePageApplication();
-                        w.Namespaces.Clear();
-                        w.Namespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
-                        w.Namespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
+                        w.PathsToNamespaces.Clear();
+                        w.PathsToNamespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
+                        w.PathsToNamespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
+                        w.NamespaceMappers.AddMapping("Bifrost.QuickStart.Domain.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
+                        w.NamespaceMappers.AddMapping("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
 					})
                 .WithMimir();
         }

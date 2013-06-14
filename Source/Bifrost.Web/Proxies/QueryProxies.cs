@@ -16,11 +16,14 @@
 // limitations under the License.
 //
 #endregion
+using System.Text;
+using System.Linq;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
+using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web.Proxies
 {
@@ -28,38 +31,52 @@ namespace Bifrost.Web.Proxies
     {
         ITypeDiscoverer _typeDiscoverer;
         ICodeGenerator _codeGenerator;
+        WebConfiguration _configuration;
 
-        public QueryProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator)
+        public QueryProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _codeGenerator = codeGenerator;
+            _configuration = configuration;
         }
 
         public string Generate()
         {
-            var types = _typeDiscoverer.FindMultiple(typeof(IQueryFor<>));
-            var ns = _codeGenerator.Namespace("queries",
-                o =>
+            var typesByNamespace = _typeDiscoverer.FindMultiple(typeof(IQueryFor<>)).GroupBy(t => t.Namespace);
+
+            var result = new StringBuilder();
+
+            Namespace currentNamespace;
+            Namespace globalCommands = _codeGenerator.Namespace("commands");
+
+            foreach (var @namespace in typesByNamespace)
+            {
+                if (_configuration.NamespaceMappers.HasMappingFor(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMappers.Resolve(@namespace.Key));
+                else
+                    currentNamespace = globalCommands;
+
+                foreach (var type in @namespace)
                 {
-                    foreach (var type in types)
-                    {
-                        var name = type.Name.ToCamelCase();
-                        var queryForTypeName = type.GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
-                        o.Assign(name)
-                            .WithType(t =>
-                                t.WithSuper("Bifrost.read.Query")
-                                    .Function
-                                        .Body
-                                            .Variant("self", v => v.WithThis())
-                                            .Property("name", p => p.WithString(name))
-                                            .Property("readModel", p => p.WithLiteral("readModels." + queryForTypeName))
-                                            .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
+                    var name = type.Name.ToCamelCase();
+                    var queryForTypeName = type.GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
+                    currentNamespace.Content.Assign(name)
+                        .WithType(t =>
+                            t.WithSuper("Bifrost.read.Query")
+                                .Function
+                                    .Body
+                                        .Variant("self", v => v.WithThis())
+                                        .Property("name", p => p.WithString(name))
+                                        .Property("readModel", p => p.WithLiteral("readModels." + queryForTypeName))
+                                        .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
 
-                    }
-                });
+                }
+                if (currentNamespace != globalCommands)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+            }
 
-            var result = _codeGenerator.GenerateFrom(ns);
-            return result;
+            result.Append(_codeGenerator.GenerateFrom(globalCommands));
+            return result.ToString();
         }
 
     }

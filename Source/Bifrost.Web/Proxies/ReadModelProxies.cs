@@ -16,11 +16,14 @@
 // limitations under the License.
 //
 #endregion
+using System.Linq;
+using System.Text;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
+using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web.Proxies
 {
@@ -28,45 +31,59 @@ namespace Bifrost.Web.Proxies
     {
         ITypeDiscoverer _typeDiscoverer;
         ICodeGenerator _codeGenerator;
+        WebConfiguration _configuration;
 
-        public ReadModelProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator)
+        public ReadModelProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _codeGenerator = codeGenerator;
+            _configuration = configuration;
         }
 
         public string Generate()
         {
-            var types = _typeDiscoverer.FindMultiple(typeof(IReadModel));
+            var typesByNamespace = _typeDiscoverer.FindMultiple<IReadModel>().GroupBy(t => t.Namespace);
 
-            var ns = _codeGenerator.Namespace("readModels",
-                o =>
+            var result = new StringBuilder();
+
+            Namespace currentNamespace;
+            Namespace globalCommands = _codeGenerator.Namespace("commands");
+
+            foreach (var @namespace in typesByNamespace)
+            {
+                if (_configuration.NamespaceMappers.HasMappingFor(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMappers.Resolve(@namespace.Key));
+                else
+                    currentNamespace = globalCommands;
+
+
+                foreach (var type in @namespace)
                 {
-                    foreach (var type in types)
-                    {
-                        var name = type.Name.ToCamelCase();
-                        o.Assign(name)
-                            .WithType(t =>
-                                t.WithSuper("Bifrost.read.ReadModel")
-                                    .Function
-                                        .Body
-                                            .Variant("self", v => v.WithThis())
-                                            .WithPropertiesFrom(type, typeof(IReadModel)));
+                    var name = type.Name.ToCamelCase();
+                    currentNamespace.Content.Assign(name)
+                        .WithType(t =>
+                            t.WithSuper("Bifrost.read.ReadModel")
+                                .Function
+                                    .Body
+                                        .Variant("self", v => v.WithThis())
+                                        .WithPropertiesFrom(type, typeof(IReadModel)));
 
-                        o.Assign("readModelOf" + name.ToPascalCase())
-                            .WithType(t =>
-                                t.WithSuper("Bifrost.read.ReadModelOf")
-                                    .Function
-                                        .Body
-                                            .Variant("self", v => v.WithThis())
-                                            .Property("name", p => p.WithString(name))
-                                            .Property("readModelType", p => p.WithLiteral("readModels."+name))
-                                            .WithReadModelConvenienceFunctions(type));
-                    }
-                });
+                    currentNamespace.Content.Assign("readModelOf" + name.ToPascalCase())
+                        .WithType(t =>
+                            t.WithSuper("Bifrost.read.ReadModelOf")
+                                .Function
+                                    .Body
+                                        .Variant("self", v => v.WithThis())
+                                        .Property("name", p => p.WithString(name))
+                                        .Property("readModelType", p => p.WithLiteral("readModels." + name))
+                                        .WithReadModelConvenienceFunctions(type));
+                }
 
-            var result = _codeGenerator.GenerateFrom(ns);
-            return result;
+                if (currentNamespace != globalCommands)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+            }
+            result.Append(_codeGenerator.GenerateFrom(globalCommands));
+            return result.ToString();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Bifrost.Web.Proxies
 {
     public static class NamespaceExtensions
     {
-        public static FunctionBody WithNamespaceMappersFrom(this FunctionBody global, NamespaceMappers namespaceMappers)
+        public static FunctionBody WithNamespaceMappersFrom(this FunctionBody global, PathToNamespaceMappers namespaceMappers)
         {
             foreach( var map in namespaceMappers.Maps ) {
                 global.Access("namespaceMapper",
