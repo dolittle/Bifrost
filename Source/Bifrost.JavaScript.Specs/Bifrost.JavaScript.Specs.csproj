@@ -182,6 +182,7 @@
     <Content Include="Utils\for_DefaultDependencyResolver\when_parent_namespace_contains_system_for_resolving.js" />
     <Content Include="Utils\for_dependencyResolvers\when_getting_all_with_one_resolver_registered.js" />
     <Content Include="Utils\for_dependencyResolvers\when_getting_and_properties_starting_with_underscore_exist_on_resolvers.js" />
+    <Content Include="Utils\for_dependencyResolver\when_resolving_and_system_has_multiple_levels_of_inheritance_but_top_level_is_a_type.js" />
     <Content Include="Utils\for_dependencyResolver\when_beginning_to_resolve_and_resolvers_can_not_resolve.js" />
     <Content Include="Utils\for_dependencyResolver\when_beginning_to_resolve.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving.js" />
