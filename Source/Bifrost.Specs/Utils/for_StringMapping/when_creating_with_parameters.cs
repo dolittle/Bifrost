@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bifrost.Utils;
+﻿using Bifrost.Utils;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Utils.for_StringMapping
@@ -11,6 +7,9 @@ namespace Bifrost.Specs.Utils.for_StringMapping
     {
         static StringMapping mapping;
 
-        Because of = () => { };
+        Because of = () => mapping = new StringMapping("hello", "world");
+
+        It should_have_the_format_on_it = () => mapping.Format.ShouldEqual("hello");
+        It should_have_the_mapped_format_on_it = () => mapping.MappedFormat.ShouldEqual("world");
     }
 }
