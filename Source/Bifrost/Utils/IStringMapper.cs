@@ -16,22 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.CodeGeneration.JavaScript;
-using Bifrost.Web.Configuration;
-
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Utils
 {
-    public static class NamespaceExtensions
+    /// <summary>
+    /// Defines a system for mapping strings that picks the first <see cref="IStringMapping"/> that matches
+    /// </summary>
+    public interface IStringMapper
     {
-        public static FunctionBody WithNamespaceMappersFrom(this FunctionBody global, PathToNamespaceMappers namespaceMappers)
-        {
-            foreach( var map in namespaceMappers.Maps ) {
-                global.Access("namespaceMapper",
-                    a => a.WithFunctionCall(
-                        f => f.WithName("addMapping").WithParameters("\"" + map.Key + "\"", "\"" + map.Value + "\"")));
-            }
-
-            return global;
-        }
     }
 }

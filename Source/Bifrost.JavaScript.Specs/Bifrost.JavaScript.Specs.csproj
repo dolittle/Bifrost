@@ -89,6 +89,7 @@
     <Content Include="commands\for_Command\when_setting_observable_property_values.js" />
     <Content Include="commands\for_Command\when_setting_property_values.js" />
     <Content Include="commands\for_Command\when_validator_for_property_becomes_invalid.js" />
+    <Content Include="commands\for_hasChanges\when_value_changes_to_value_not_same_as_initial_value_then_back_again.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_null_on_observable_without_null.js" />
     <Content Include="commands\for_hasChanges\when_value_changes_to_value_not_same_as_initial_value.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
@@ -181,6 +182,7 @@
     <Content Include="Utils\for_DefaultDependencyResolver\when_parent_namespace_contains_system_for_resolving.js" />
     <Content Include="Utils\for_dependencyResolvers\when_getting_all_with_one_resolver_registered.js" />
     <Content Include="Utils\for_dependencyResolvers\when_getting_and_properties_starting_with_underscore_exist_on_resolvers.js" />
+    <Content Include="Utils\for_dependencyResolver\when_resolving_and_system_has_multiple_levels_of_inheritance_but_top_level_is_a_type.js" />
     <Content Include="Utils\for_dependencyResolver\when_beginning_to_resolve_and_resolvers_can_not_resolve.js" />
     <Content Include="Utils\for_dependencyResolver\when_beginning_to_resolve.js" />
     <Content Include="Utils\for_dependencyResolver\when_resolving.js" />
@@ -232,6 +234,7 @@
     <Content Include="Utils\for_StringMapper\when_resolving_a_string_that_should_match_a_string_with_expansion.js" />
     <Content Include="Utils\for_StringMapper\when_resolving_a_string_without_any_expansion.js" />
     <Content Include="Utils\for_StringMapping\when_creating_with_parameters.js" />
+    <Content Include="Utils\for_StringMapping\when_getting_values_from_placeholders.js" />
     <Content Include="Utils\for_StringMapping\when_matching_a_string_that_should_match.js" />
     <Content Include="Utils\for_StringMapping\when_matching_a_string_that_should_not_match.js" />
     <Content Include="Utils\for_StringMapping\when_matching_a_string_with_only_a_wildcard.js" />
