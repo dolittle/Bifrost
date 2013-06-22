@@ -180,6 +180,7 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </Target>
   -->
   <ItemGroup>
+    <Content Include="utils\ArrayExtensions.js" />
     <Content Include="commands\commandValidationService.js" />
     <Content Include="commands\commandSecurityContextFactory.js" />
     <Compile Include="..\Common\CommonAssemblyInfo.cs">

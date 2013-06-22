@@ -23,7 +23,7 @@ Bifrost.features.Feature = (function () {
             require([actualViewPath, actualViewModelPath], function (v) {
                 self.view = v;
 
-                $.each(self.renderTargets, function (i, r) {
+                self.renderTargets.forEach(function (r) {
                     self.actualRenderTo(r);
                 });
 

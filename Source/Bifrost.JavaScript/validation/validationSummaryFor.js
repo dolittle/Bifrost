@@ -10,10 +10,10 @@
 
             function aggregateMessages() {
                 var actualMessages = [];
-                $.each(self.commands(), function (commandIndex, command) {
+                self.commands().forEach(function (command) {
                     var unwrappedCommand = ko.utils.unwrapObservable(command);
 
-                    $.each(unwrappedCommand.validators(), function (validatorIndex, validator) {
+                    unwrappedCommand.validators().forEach(function (validator) {
                         if (!validator.isValid() && validator.message().length) {
                             actualMessages.push(validator.message());
                         }
@@ -22,10 +22,10 @@
                 self.messages(actualMessages);
             }
 
-            $.each(commands, function (commandIndex, command) {
+            commands.forEach(function (command) {
                 var unwrappedCommand = ko.utils.unwrapObservable(command);
 
-                $.each(unwrappedCommand.validators(), function (validatorIndex, validator) {
+                unwrappedCommand.validators().forEach(function (validator) {
                     validator.message.subscribe(aggregateMessages);
                 }); 
             });

@@ -14,7 +14,7 @@ Bifrost.features.featureMapper = (function () {
 
         getFeatureMappingFor: function (uri) {
             var found;
-            $.each(mappings, function (i, m) {
+            mappings.forEach(function (m) {
                 if (m.matches(uri)) {
                     found = m;
                     return false;

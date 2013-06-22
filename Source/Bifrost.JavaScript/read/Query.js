@@ -67,7 +67,7 @@
         };
 
         this.onCompleted = function (data) {
-            $.each(self.completedCallbacks, function (index, callback) {
+            self.completedCallbacks.forEach(function (callback) {
                 callback(data);
             });
         };

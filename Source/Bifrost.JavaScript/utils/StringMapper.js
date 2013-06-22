@@ -6,7 +6,7 @@
 
         this.hasMappingFor = function (input) {
             var found = false;
-            $.each(self.mappings, function (i, m) {
+            self.mappings.forEach(function (m) {
                 if (m.matches(input)) {
                     found = true;
                     return false;

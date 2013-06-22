@@ -7,7 +7,7 @@ Bifrost.sagas.Saga = (function () {
 
             var canExecuteSaga = true;
             
-            $.each(commands, function (index, command) {
+            commands.forEach(function (command) {
                 if (command.onBeforeExecute() === false) {
                     canExecuteSaga = false;
                     return false;

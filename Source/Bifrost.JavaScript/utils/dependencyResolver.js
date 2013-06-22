@@ -3,7 +3,7 @@ Bifrost.namespace("Bifrost", {
         function resolveImplementation(namespace, name) {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
-            $.each(resolvers, function (index, resolver) {
+            resolvers.forEach(function (resolver) {
                 if (resolvedSystem != null) return;
                 var canResolve = resolver.canResolve(namespace, name);
                 if (canResolve) {

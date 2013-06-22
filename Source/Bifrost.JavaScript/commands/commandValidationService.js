@@ -55,7 +55,7 @@
                 var path = members[memberIndex].split(".");
                 var property = null;
                 var target = command;
-                $.each(path, function (pathIndex, member) {
+                path.forEach(function (member) {
                     property = member.toCamelCase();
                     if (property in target) {
                         if (typeof target[property] === "object") {

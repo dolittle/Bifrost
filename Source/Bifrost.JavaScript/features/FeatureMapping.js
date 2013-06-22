@@ -36,7 +36,7 @@ Bifrost.features.FeatureMapping = (function () {
         this.resolve = function (uri) {
             var match = uri.match(uriRegex);
             var result = mappedUri;
-            $.each(components, function (i, c) {
+            components.forEach(function (c, i) {
                 result = result.replace(c, match[i + 1]);
             });
 

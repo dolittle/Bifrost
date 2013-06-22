@@ -24,7 +24,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 		
 		
 		this.onUriChanged = function(uri) {
-			$.each(self.uriChangedSubscribers, function(index, callback) {
+			self.uriChangedSubscribers.forEach(function(callback) {
 				callback(uri);
 			});
 		}
@@ -34,7 +34,7 @@ Bifrost.features.ViewModel = (function(window, undefined) {
 				self.handleUriState();
 			}
 			
-			$.each(self.activatedSubscribers, function(index, callback) {
+			self.activatedSubscribers.forEach(function(callback) {
 				callback();
 			});
 		}

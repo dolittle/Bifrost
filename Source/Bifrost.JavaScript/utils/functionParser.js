@@ -5,7 +5,7 @@ Bifrost.namespace("Bifrost", {
 			
             var match = func.toString ().match (/function\w*\s*\((.*?)\)/);
 			var arguments = match[1].split (/\s*,\s*/);
-			$.each(arguments, function(index, item) {
+			arguments.forEach(function(item) {
 				if( item.trim().length > 0 ) {
 					result.push({
 						name:item
