@@ -84,7 +84,6 @@ namespace Bifrost.Web.Configuration
                 builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
 
             builder.Append(proxies.All);
-            builder.Append(GetResource("Bifrost.Web.Scripts.defaultConfiguration.js"));
 
             var files = assetsManager.GetFilesForExtension("js");
             var serialized = JsonConvert.SerializeObject(files);

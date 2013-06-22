@@ -54,6 +54,8 @@
     <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
     <Content Include="commands\hasChanges.js" />
+    <Content Include="extensions\HTMLCollectionExtensions.js" />
+    <Content Include="extensions\NodeListExtensions.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
@@ -91,14 +93,6 @@
     <Content Include="read\readModelService.js" />
     <Content Include="utils\configure.js" />
     <Content Include="execution\Promise.js" />
-    <Content Include="features\exceptions.js" />
-    <Content Include="features\featureBindingHandler.js" />
-    <Content Include="features\featureManager.js" />
-    <Content Include="features\Feature.js" />
-    <Content Include="features\FeatureMapping.js" />
-    <Content Include="features\featureMapper.js" />
-    <Content Include="features\ViewModel.js" />
-    <Content Include="features\ViewModelDefinition.js" />
     <Content Include="Libraries\domReady.js" />
     <Content Include="Libraries\jasmine.js" />
     <Content Include="Libraries\JasmineAdapter.js" />
@@ -134,7 +128,7 @@
     <Content Include="utils\namespaces.js" />
     <Content Include="utils\path.js" />
     <Content Include="utils\Singleton.js" />
-    <Content Include="utils\stringExtensions.js" />
+    <Content Include="extensions\stringExtensions.js" />
     <Content Include="utils\Type.js" />
     <Content Include="utils\Uri.js" />
     <Content Include="validation\email.js" />
@@ -180,7 +174,7 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </Target>
   -->
   <ItemGroup>
-    <Content Include="utils\ArrayExtensions.js" />
+    <Content Include="extensions\ArrayExtensions.js" />
     <Content Include="commands\commandValidationService.js" />
     <Content Include="commands\commandSecurityContextFactory.js" />
     <Compile Include="..\Common\CommonAssemblyInfo.cs">

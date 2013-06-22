@@ -65,14 +65,6 @@
 @depends read/queryService.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
-@depends features/exceptions.js
-@depends features/FeatureMapping.js
-@depends features/featureMapper.js
-@depends features/ViewModel.js
-@depends features/ViewModelDefinition.js
-@depends features/Feature.js
-@depends features/featureManager.js
-@depends features/featureBindingHandler.js
 @depends messaging/Messenger.js
 @depends messaging/observableMessage.js
 @depends services/Service.js

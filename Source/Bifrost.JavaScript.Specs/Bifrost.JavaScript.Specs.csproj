@@ -104,30 +104,6 @@
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
-    <Content Include="features\for_featureManager\when_getting_a_feature_the_first_time.js" />
-    <Content Include="features\for_featureManager\when_getting_the_same_feature_twice.js" />
-    <Content Include="features\for_featureManager\when_hooking_up.js" />
-    <Content Include="features\for_FeatureState\when_a_value_changes.js" />
-    <Content Include="features\for_FeatureState\when_creating_with_state.js" />
-    <Content Include="features\for_Feature\when_defining_a_view_model.js" />
-    <Content Include="features\for_featureMapper\when_adding_mapping.js" />
-    <Content Include="features\for_featureMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
-    <Content Include="features\for_featureMapper\when_resolving_a_uri_that_should_match_a_uri_with_expansion.js" />
-    <Content Include="features\for_featureMapper\when_resolving_a_uri_without_any_expansion.js" />
-    <Content Include="features\for_FeatureMapping\when_creating_without_a_mapped_uri.js" />
-    <Content Include="features\for_FeatureMapping\when_creating_without_a_uri.js" />
-    <Content Include="features\for_FeatureMapping\when_matching_a_uri_that_should_match.js" />
-    <Content Include="features\for_FeatureMapping\when_matching_a_uri_that_should_not_match.js" />
-    <Content Include="features\for_FeatureMapping\when_resolving_a_uri.js" />
-    <Content Include="features\for_Feature\when_performing_actual_rendering.js" />
-    <Content Include="features\for_ViewModelDefinition\when_defining_as_singleton_and_getting_two_instances.js" />
-    <Content Include="features\for_ViewModelDefinition\when_defining_as_transient_and_getting_two_instances.js" />
-    <Content Include="features\for_ViewModelDefinition\when_defining_without_specifying_lifecycle_and_getting_two_instances.js" />
-    <Content Include="features\for_ViewModelDefinition\when_getting_an_instance.js" />
-    <Content Include="features\for_ViewModel\when_activating.js" />
-    <Content Include="features\for_ViewModel\when_creating_instance_of_implementor.js" />
-    <Content Include="features\for_ViewModel\when_route_parameters_change_and_viewmodel_has_properties_representing_them.js" />
-    <Content Include="features\for_ViewModel\when_setting_as_base.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_globally_with_one_subscriber.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_with_multiple_subscribers.js" />
@@ -168,8 +144,8 @@
     <Content Include="read\for_ReadModelOf\when_populating_command_on_changes.js" />
     <Content Include="read\for_ReadModelOf\when_populating_command_on_changes_and_an_instance_exist.js" />
     <Content Include="read\for_ReadModel\when_copying_to.js" />
-    <Content Include="Utils\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements_with_this_specified.js" />
-    <Content Include="Utils\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements.js" />
+    <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements_with_this_specified.js" />
+    <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements.js" />
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
@@ -228,11 +204,11 @@
     <Content Include="Utils\for_path\when_changing_extension.js" />
     <Content Include="Utils\for_path\when_making_path_starting_with_slash_relative.js" />
     <Content Include="Utils\for_Singleton\when_creating_two_instances.js" />
-    <Content Include="Utils\for_stringExtensions\when_turning_camel_case_into_pascal_case.js" />
-    <Content Include="Utils\for_stringExtensions\when_turning_pascal_case_into_camel_case.js" />
+    <Content Include="extensions\for_stringExtensions\when_turning_camel_case_into_pascal_case.js" />
+    <Content Include="extensions\for_stringExtensions\when_turning_pascal_case_into_camel_case.js" />
     <Content Include="Utils\for_StringMapper\when_adding_mapping.js" />
     <Content Include="Utils\for_StringMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
-    <Content Include="Utils\for_StringMapper\when_resolving_an_empty_string_that_has_match.js" />
+    <Content Include="Utils\for_StringMapper\when_resolving_an_empty_string.js" />
     <Content Include="Utils\for_StringMapper\when_resolving_a_string_that_should_match_a_string_with_expansion.js" />
     <Content Include="Utils\for_StringMapper\when_resolving_a_string_without_any_expansion.js" />
     <Content Include="Utils\for_StringMapping\when_creating_with_parameters.js" />
@@ -375,7 +351,7 @@
     <Content Include="commands\for_commandValidationService\when_applying_rules_to_command_with_properties_as_observable.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Utils\for_stringExtensions\when_replacing_many_instances_of_a_char_with_new_char.js" />
+    <Content Include="extensions\for_stringExtensions\when_replacing_many_instances_of_a_char_with_new_char.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has.js" />

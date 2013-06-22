@@ -177,9 +177,6 @@
     <EmbeddedResource Include="quickStart.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\defaultConfiguration.js" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.1.min.js" />
