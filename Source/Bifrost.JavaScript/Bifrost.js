@@ -1,4 +1,5 @@
 /*
+@depends utils/ArrayExtensions.js
 @depends utils/stringExtensions.js
 @depends utils/extend.js
 @depends utils/namespace.js
