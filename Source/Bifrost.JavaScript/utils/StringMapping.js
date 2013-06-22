@@ -38,7 +38,7 @@
         this.getValues = function (input) {
             var output = {};
             var match = input.match(formatRegex);
-            $.each(components, function (i, c) {
+            components.forEach(function (c, i) {
                 var component = c.substr(1, c.length - 2);
                 var value = match[i + 1];
                 if (c.indexOf("**") != 0) {
@@ -54,7 +54,7 @@
             var result = mappedFormat;
             var wildcardOffset = 0;
 
-            $.each(components, function (i, c) {
+            components.forEach(function (c, i) {
                 var value = match[i + 1];
                 if (c.indexOf("**") == 0) {
                     var wildcard = mappedFormatWildcardMatch[wildcardOffset];
