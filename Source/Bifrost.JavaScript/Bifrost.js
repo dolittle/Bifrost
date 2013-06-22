@@ -1,6 +1,8 @@
 /*
-@depends utils/ArrayExtensions.js
-@depends utils/stringExtensions.js
+@depends extensions/ArrayExtensions.js
+@depends extensions/stringExtensions.js
+@depends extensions/NodeListExtensions.js
+@depends extensions/HTMLCollectionExtensions.js
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
