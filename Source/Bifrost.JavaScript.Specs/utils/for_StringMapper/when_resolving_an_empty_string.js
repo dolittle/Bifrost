@@ -16,19 +16,19 @@
     }
 
     return {
-        create: function (format, mappedFormat) {
-            var mapping = new StringMapping(format, mappedFormat);
+        create: function (options) {
+            var mapping = new StringMapping(options.format, options.mappedFormat);
             return mapping;
         }
     }
 })();
 
-describe("when resolving an empty string that has match", function () {
+describe("when resolving an empty string", function () {
     var mapper = Bifrost.StringMapper.create();
     mapper.addMapping("{feature}", "/Features/{feature}");
 
     mapper.mappings[0].shouldMatch = true;
-    mapper.mappings[0].expectedUri = "/Features//";
+    mapper.mappings[0].expectedFormat = "/Features//";
 
     var mappedFormat = mapper.resolve("");
 

@@ -36,7 +36,7 @@
 
         this.resolve = function (input) {
             try {
-                if( input === null || typeof input === "undefined" ) return "";
+                if( input === null || typeof input === "undefined" || input == "" ) return "";
                 
                 var mapping = self.getMappingFor(input);
                 return mapping.resolve(input);

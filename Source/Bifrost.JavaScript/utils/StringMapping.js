@@ -40,7 +40,7 @@
             var match = input.match(formatRegex);
             components.forEach(function (c, i) {
                 var component = c.substr(1, c.length - 2);
-                var value = match[i + 1];
+                var value = match[i + 2];
                 if (c.indexOf("**") != 0) {
                     output[component] = value;
                 }
