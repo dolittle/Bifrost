@@ -57,6 +57,7 @@
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
+    <Content Include="polyfills\ElementPolyfills.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />

@@ -3,6 +3,7 @@
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
+@depends polyfills/ElementPolyfills.js
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
