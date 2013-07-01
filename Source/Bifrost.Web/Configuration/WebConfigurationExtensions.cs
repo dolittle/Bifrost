@@ -70,9 +70,9 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-        public static WebConfiguration Namespaces(this WebConfiguration configuration, Action<NamespaceMappers> callback)
+        public static WebConfiguration Namespaces(this WebConfiguration configuration, Action<PathToNamespaceMappers> callback)
         {
-            callback(configuration.Namespaces);
+            callback(configuration.PathsToNamespaces);
             return configuration;
         }
 	}

@@ -31,6 +31,7 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="Machine.Specifications">
       <HintPath>..\Solutions\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
@@ -53,6 +54,12 @@
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_request_with_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_a_route_matching_incoming_request.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_route_with_placeholder_and_request_path_matches.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\when_generating__booleans__.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\when_generating__datetimes__.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\when_generating__datetime_nullables__.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\when_generating__int32s__.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\ObjectTypes.cs" />
+    <Compile Include="Proxies\for_ReadModelProxyExtensions\when_generating__strings__.cs" />
     <Compile Include="Services\for_RequestParamsFactory\given\a_request_params_factory.cs" />
     <Compile Include="Services\for_RequestParamsFactory\when_building_a_request_params_object.cs" />
     <Compile Include="Services\for_RestServiceMethodInvoker\ComplexType.cs" />

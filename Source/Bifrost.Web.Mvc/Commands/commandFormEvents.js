@@ -14,8 +14,9 @@ Bifrost.commands.commandFormEvents = {
 
         if (data.Invalid === true) {
             var errors = {};
-            $.each(data.ValidationResults, function (validationResultIndex, validationResult) {
-                $.each(validationResult.MemberNames, function (memberIndex, member) {
+            
+            data.ValidationResults.forEach(function (validationResult, validationResultIndex) {
+                validationResult.MemberNames.forEach(function (member, memberIndex) {
                     errors[member] = validationResult.ErrorMessage;
                 });
             });

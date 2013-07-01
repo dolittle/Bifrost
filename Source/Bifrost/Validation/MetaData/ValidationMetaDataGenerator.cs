@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -93,12 +94,13 @@ namespace Bifrost.Validation.MetaData
                             var isConcept = false;
                             if (genericArguments.Length == 1)
                             {
-#if(NETFX_CORE)
-                                var property = genericArguments[0].GetTypeInfo().GetDeclaredProperty(member.Key);
-#else
-                                var property = genericArguments[0].GetProperty(member.Key);
-#endif
-                                isConcept = property.PropertyType.IsConcept();
+                                //var type = member.Key == ModelRule<string>.ModelRulePropertyName
+                                //                   ? genericArguments[0]
+                                //                   : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
+
+                                var type = genericArguments[0].GetProperty(member.Key).PropertyType;
+
+                                isConcept = type.IsConcept();
                             }
 
                             var childValidator = (validator as ChildValidatorAdaptor).Validator;
@@ -106,7 +108,6 @@ namespace Bifrost.Validation.MetaData
                         }
                         else if (validator is IPropertyValidator)
                         {
-                            
                             GenerateFor(metaData, currentKey, validator as IPropertyValidator);
                         }
                     }
@@ -150,6 +151,15 @@ namespace Bifrost.Validation.MetaData
                     _generatorsByType[validatorType] = generator;
                 }
             }
+        }
+
+        PropertyInfo GetPropertyInfo(Type type, string name)
+        {
+        #if(NETFX_CORE)
+            return type.GetTypeInfo().GetDeclaredProperty(name);
+        #else
+            return type.GetProperty(name);
+        #endif
         }
     }
 }

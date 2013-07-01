@@ -1,4 +1,4 @@
-﻿describe("when getting values from placesholders", function () {
+﻿describe("when getting values from placeholders", function () {
     var expectedResult = "Say/hello/to/mr.potatohead";
     var mapping = Bifrost.StringMapping.create({
         format: "{something}/{else}",

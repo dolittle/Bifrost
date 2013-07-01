@@ -37,7 +37,6 @@
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();
-                Bifrost.features.featureManager.hookup($);
                 Bifrost.views.viewManager.create().initializeLandingPage();
                 Bifrost.navigation.navigationManager.hookup();
             });

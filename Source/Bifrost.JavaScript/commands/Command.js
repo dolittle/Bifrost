@@ -12,7 +12,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var valid = true;
-            $.each(self.validators(), function (index, validator) {
+            self.validators().forEach(function (validator) {
                 if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
                     valid = false;
                     return false;
@@ -39,7 +39,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
-            $.each(self.hasChangesObservables(), function (index, item) {
+            self.hasChangesObservables().forEach(function (item) {
                 if (item() === true) {
                     hasChange = true;
                     return;
@@ -110,7 +110,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.makePropertiesObservable = function () {
             var properties = self.getProperties();
-            $.each(properties, function (index, property) {
+            properties.forEach(function (property) {
                 var value = null;
                 var propertyValue = self.targetCommand[property];
 
@@ -131,7 +131,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.extendPropertiesWithHasChanges = function () {
             var properties = self.getProperties();
-            $.each(properties, function(index, property) {
+            properties.forEach(function(property) {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
                     propertyValue.extend({ hasChanges: {} })
@@ -147,7 +147,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.onFailed = function (commandResult) {
             self.options.failed(commandResult);
 
-            $.each(self.failedCallbacks, function (index, callback) {
+            self.failedCallbacks.forEach(function (callback) {
                 callback(commandResult);
             });
         };
@@ -155,7 +155,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.onSucceeded = function (commandResult) {
             self.options.succeeded(commandResult);
 
-            $.each(self.succeededCallbacks, function (index, callback) {
+            self.succeededCallbacks.forEach(function (callback) {
                 callback(commandResult);
             });
         };
@@ -163,7 +163,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.onCompleted = function (commandResult) {
             self.options.completed(commandResult);
 
-            $.each(self.completedCallbacks, function (index, callback) {
+            self.completedCallbacks.forEach(function (callback) {
                 callback(commandResult);
             });
         };
@@ -220,7 +220,7 @@ Bifrost.namespace("Bifrost.commands", {
             var properties = this.getProperties();
 
             for (var valueProperty in values) {
-                $.each(properties, function (index, property) {
+                properties.forEach(function (property) {
                     if (valueProperty == property) {
                         var value = ko.utils.unwrapObservable(values[property]);
                         var observable = self.targetCommand[property];

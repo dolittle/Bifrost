@@ -24,7 +24,7 @@
         },
         hasScript: function(script) {
             var found = false;
-            $.each(Bifrost.assetsManager.scripts, function (index, scriptInSystem) {
+            Bifrost.assetsManager.scripts.forEach(function (scriptInSystem) {
                 if (scriptInSystem === script) {
                     found = true;
                     return;
@@ -36,7 +36,7 @@
         getScriptPaths: function () {
             var paths = [];
 
-            $.each(Bifrost.assetsManager.scripts, function (index, fullPath) {
+            Bifrost.assetsManager.scripts.forEach(function (fullPath) {
                 var path = Bifrost.path.getPathWithoutFilename(fullPath);
                 if (paths.indexOf(path) == -1) {
                     paths.push(path);

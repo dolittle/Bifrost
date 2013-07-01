@@ -9,7 +9,7 @@ Bifrost.namespace = function (ns, content) {
     var parent = window;
     var name = "";
     var parts = ns.split('.');
-    $.each(parts, function (index, part) {
+    parts.forEach(function (part) {
         if (name.length > 0) {
             name += ".";
         }

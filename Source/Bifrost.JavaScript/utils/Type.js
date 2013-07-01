@@ -32,7 +32,7 @@ Bifrost.namespace("Bifrost", {
         var createFunctionString = "Function('definition', 'dependencies','return new definition(";
             
         if( typeof typeDefinition._dependencies !== "undefined" ) {
-            $.each(typeDefinition._dependencies, function(index, dependency) {
+            typeDefinition._dependencies.forEach(function(dependency, index) {
                 if (!firstParameter) {
                     createFunctionString += ",";
                 }
@@ -48,7 +48,7 @@ Bifrost.namespace("Bifrost", {
     getDependencyInstances = function(namespace, typeDefinition) {
         var dependencyInstances = [];
         if( typeof typeDefinition._dependencies !== "undefined" ) {
-            $.each(typeDefinition._dependencies, function(index, dependency) {
+            typeDefinition._dependencies.forEach(function(dependency) {
                 var dependencyInstance = Bifrost.dependencyResolver.resolve(namespace, dependency);
                 dependencyInstances.push(dependencyInstance);
             });
@@ -107,7 +107,7 @@ Bifrost.namespace("Bifrost", {
     };
 
     resolveDependencyInstancesThatHasNotBeenResolved = function(dependencyInstances, typeDefinition) {
-        $.each(dependencyInstances, function(index, dependencyInstance) {
+        dependencyInstances.forEach(function(dependencyInstance, index) {
             if( dependencyInstance == null || typeof dependencyInstance == "undefined" ) {
                 var dependency = typeDefinition._dependencies[index];
                 dependencyInstances[index] = Bifrost.dependencyResolver.resolve(typeDefinition._namespace, dependency);

@@ -16,6 +16,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 
         Because of = () => result = generator.GenerateFrom(validator);
 
-        It should_have_required_for_concept = () => result["stringConcept"]["required"].ShouldNotBeNull();
+        It should_have_required_for_string_concept = () => result["stringConcept"]["required"].ShouldNotBeNull();
+        It should_have_required_for_long_concept = () => result["longConcept"]["required"].ShouldNotBeNull();
     }
 }

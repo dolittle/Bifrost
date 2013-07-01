@@ -38,7 +38,7 @@ Bifrost.Exception = (function(global, undefined) {
 		
 		var scope = global;
         var parts = ns.split('.');
-		$.each(parts, function(index, part) {
+		parts.forEach(function(part) {
 			scope = scope[part];
 		});
 		

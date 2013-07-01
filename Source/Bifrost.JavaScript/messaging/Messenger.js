@@ -4,7 +4,7 @@ Bifrost.namespace("Bifrost.messaging", {
 
         this.publish = function (topic, message) {
             if (subscribers.hasOwnProperty(topic)) {
-                $.each(subscribers[topic].subscribers, function (index, item) {
+                subscribers[topic].subscribers.forEach(function (item) {
                     item(message);
                 });
             }

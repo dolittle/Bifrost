@@ -69,6 +69,7 @@
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />
     <Compile Include="Configuration\ConfigurationRouteHttpHandler.cs" />
     <Compile Include="Configuration\NamespaceMappers.cs" />
+    <Compile Include="Configuration\PathToNamespaceMappers.cs" />
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,9 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="quickStart.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\defaultConfiguration.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.1.intellisense.js" />

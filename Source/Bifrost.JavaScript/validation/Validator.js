@@ -14,7 +14,7 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validate = function(value) {
-            $.each(self.rules, function(index, rule) {
+            self.rules.forEach(function(rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
@@ -27,7 +27,7 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validateSilently = function (value) {
-            $.each(self.rules, function (index, rule) {
+            self.rules.forEach(function (rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     return false;
@@ -54,7 +54,7 @@ Bifrost.validation.Validator = (function () {
             }
 
             if (itemOrItems instanceof Array) {
-                $.each(itemOrItems, function (index, item) {
+                itemOrItems.forEach(function (item) {
 
                     applyToItem(item);
                 });

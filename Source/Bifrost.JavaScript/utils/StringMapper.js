@@ -6,7 +6,7 @@
 
         this.hasMappingFor = function (input) {
             var found = false;
-            $.each(self.mappings, function (i, m) {
+            self.mappings.forEach(function (m) {
                 if (m.matches(input)) {
                     found = true;
                     return false;
@@ -17,7 +17,7 @@
 
         this.getMappingFor = function (input) {
             var found;
-            $.each(self.mappings, function (i, m) {
+            self.mappings.forEach(function (m) {
                 if (m.matches(input)) {
                     found = m;
                     return false;
@@ -36,7 +36,7 @@
 
         this.resolve = function (input) {
             try {
-                if( input === null || typeof input === "undefined" ) return "";
+                if( input === null || typeof input === "undefined" || input == "" ) return "";
                 
                 var mapping = self.getMappingFor(input);
                 return mapping.resolve(input);

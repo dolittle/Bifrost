@@ -89,6 +89,12 @@ namespace Bifrost.CodeGeneration.JavaScript
                     assignment.WithEmptyArray();
                 else if (property.PropertyType.IsConcept())
                     assignment.WithDefaultValue(property.PropertyType.GetConceptValueType());
+                else if (property.PropertyType.IsNullable())
+                    assignment.WithNullValue();
+                else if (property.IsDateTime())
+                    assignment.WithDate();
+                else if (property.IsBoolean())
+                    assignment.WithBoolean();
                 else if (property.PropertyType.IsNumericType())
                     assignment.WithDefaultNumericValue(property.PropertyType);
                 else if (property.HasPrimitiveDefaultValue())
@@ -151,14 +157,23 @@ namespace Bifrost.CodeGeneration.JavaScript
                     property.PropertyType.HasInterface<IDictionary>();
         }
 
+        static bool IsDateTime(this PropertyInfo property)
+        {
+            return property.PropertyType == typeof(DateTime);
+        }
+
+        static bool IsBoolean(this PropertyInfo property)
+        {
+            return property.PropertyType == typeof(bool);
+        }
+
         static bool HasPrimitiveDefaultValue(this PropertyInfo property)
         {
             return property.PropertyType.IsValueType ||
                     property.PropertyType == typeof(string) ||
                     property.PropertyType == typeof(Type) ||
                     property.PropertyType == typeof(MethodInfo) ||
-                    property.PropertyType == typeof(Guid) ||
-                    property.PropertyType.IsNullable();
+                    property.PropertyType == typeof(Guid);
         }
 
         static bool IsObservable(this PropertyInfo property)
