@@ -59,8 +59,8 @@ namespace Bifrost.Web.Proxies
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMappers.HasMappingFor(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMappers.Resolve(@namespace.Key));
+                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
                 else
                     currentNamespace = globalCommands;
                 
@@ -75,6 +75,7 @@ namespace Bifrost.Web.Proxies
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
+                                        .Property("fullName", p => p.WithString(currentNamespace.GetFullyQualifiedNameForType(name)))
                                         .WithObservablePropertiesFrom(type, typeof(ICommand)));
                 }
 

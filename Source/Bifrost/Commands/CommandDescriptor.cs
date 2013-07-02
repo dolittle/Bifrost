@@ -35,6 +35,11 @@ namespace Bifrost.Commands
         public string Name { get; set; }
 
         /// <summary>
+        /// Namespace of command
+        /// </summary>
+        public string FullName { get; set; }
+
+        /// <summary>
         /// Command content
         /// </summary>
         public string Command { get; set; }

@@ -696,6 +696,26 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    Bifrost.Type.typeOf = function (type) {
+
+        if (typeof this._super == "undefined" ||
+            typeof this._super._typeId == "undefined") {
+            return false;
+        }
+
+        if (this._super._typeId === type._typeId) {
+            return true;
+        }
+
+        if (typeof type._super !== "undefined") {
+            var isType = this._super.typeOf(type);
+            if (isType == true) return true;
+        }
+
+
+        return false;
+    };
+
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
@@ -1674,7 +1694,7 @@ Bifrost.namespace("Bifrost.commands", {
                 commandDescriptor: JSON.stringify(commandDescriptor)
             };
 
-            sendToHandler(baseUrl + "/Handle", JSON.stringify(methodParameters), function (jqXHR) {
+            sendToHandler(baseUrl + "/Handle?_cmd=" + command.Name, JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
                 promise.signal(commandResult);
             });
@@ -1815,6 +1835,7 @@ Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
         var self = this;
         this.name = "";
+        this.fullName = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.hasChangesObservables = ko.observableArray();
@@ -2104,6 +2125,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
     }
 
     this.name = command.name;
+    this.fullName = command.fullName;
     this.id = Bifrost.Guid.create();
 
     var properties = getPropertiesFromCommand(command);
@@ -2233,6 +2255,7 @@ Bifrost.namespace("Bifrost.read", {
         function createDescriptorFrom(query) {
             var descriptor = {
                 nameOfQuery: query.name,
+                fullNameOfQuery: query.fullName,
                 parameters: {}
             };
 
@@ -2255,7 +2278,7 @@ Bifrost.namespace("Bifrost.read", {
             };
 
             $.ajax({
-                url: "/Bifrost/Query/Execute",
+                url: "/Bifrost/Query/Execute?_q=" + descriptor.fullNameOfQuery,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(methodParameters),
@@ -2472,7 +2495,7 @@ Bifrost.namespace("Bifrost.read", {
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching",
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.name,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),
@@ -2533,6 +2556,7 @@ Bifrost.namespace("Bifrost.read", {
         function createDescriptorFrom(query) {
             var descriptor = {
                 nameOfQuery: query.name,
+                fullNameOfQuery: query.fullName,
                 parameters: {}
             };
 
@@ -2555,7 +2579,7 @@ Bifrost.namespace("Bifrost.read", {
             };
 
             $.ajax({
-                url: "/Bifrost/Query/Execute",
+                url: "/Bifrost/Query/Execute?_q=" + descriptor.fullNameOfQuery,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(methodParameters),

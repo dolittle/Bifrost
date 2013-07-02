@@ -16,7 +16,7 @@ Bifrost.namespace("Bifrost.read", {
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching",
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.name,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),

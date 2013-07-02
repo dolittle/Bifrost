@@ -31,6 +31,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
     }
 
     this.name = command.name;
+    this.fullName = command.fullName;
     this.id = Bifrost.Guid.create();
 
     var properties = getPropertiesFromCommand(command);

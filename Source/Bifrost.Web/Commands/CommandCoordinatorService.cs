@@ -85,7 +85,7 @@ namespace Bifrost.Web.Commands
 
         ICommand GetCommandFromDescriptor(CommandDescriptor commandDescriptor)
         {
-            var commandName = commandDescriptor.Name;
+            var commandName = commandDescriptor.FullName;
             var commandType = _commandTypeManager.GetFromName(commandName);
             var commandInstance = _serializer.FromJson(commandType, commandDescriptor.Command) as ICommand;
             return commandInstance;
