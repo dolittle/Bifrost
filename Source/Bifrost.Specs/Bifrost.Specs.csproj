@@ -224,6 +224,8 @@
     <Compile Include="Execution\for_ExecutionContextManager\given\all_dependencies.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\given\an_execution_context_manager.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\when_getting_current_twice.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\a_read_only_container.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_creating_and_setting_value_during_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\given\a_write_once_expando_object_without_values.cs" />
