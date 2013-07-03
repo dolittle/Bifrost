@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Bifrost.Commands;
+using Bifrost.Execution;
 using Bifrost.Serialization;
 using Microsoft.AspNet.SignalR;
 
@@ -26,18 +27,18 @@ namespace Bifrost.SignalR.Commands
     public class CommandCoordinator : Hub
     {
         ICommandCoordinator _commandCoordinator;
-        ICommandTypeManager _commandTypeManager;
+        ITypeDiscoverer _typeDiscoverer;
         ICommandContextConnectionManager _commandContextConnectionManager;
         ISerializer _serializer;
 
         public CommandCoordinator(
             ICommandCoordinator commandCoordinator,
-            ICommandTypeManager commandTypeManager,
+            ITypeDiscoverer typeDiscoverer,
             ICommandContextConnectionManager commandContextConnectionManager,
             ISerializer serializer)
         {
             _commandCoordinator = commandCoordinator;
-            _commandTypeManager = commandTypeManager;
+            _typeDiscoverer = typeDiscoverer;
             _commandContextConnectionManager = commandContextConnectionManager;
             _serializer = serializer;
         }
@@ -46,7 +47,7 @@ namespace Bifrost.SignalR.Commands
         {
             try
             {
-                var commandType = _commandTypeManager.GetFromName(descriptor.Name);
+                var commandType = _typeDiscoverer.GetCommandTypeByName(descriptor.GeneratedFrom);
                 var command = (ICommand)_serializer.FromJson(commandType, descriptor.Command);
                 command.Id = descriptor.Id;
                 _commandContextConnectionManager.Register(Context.ConnectionId, command.Id);

@@ -19,6 +19,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Bifrost.Utils
 {
     /// <summary>
@@ -40,7 +42,7 @@ namespace Bifrost.Utils
             return false;
         }
 
-        public IStringMapping GetMappingFor(string input)
+        public IStringMapping GetFirstMatchingMappingFor(string input)
         {
             foreach (var mapping in Mappings)
                 if (mapping.Matches(input))
@@ -49,9 +51,14 @@ namespace Bifrost.Utils
             return null;
         }
 
+        public IEnumerable<IStringMapping> GetAllMatchingMappingsFor(string input)
+        {
+            return Mappings.Where(mapping => mapping.Matches(input));
+        }
+
         public string Resolve(string input)
         {
-            var mapping = GetMappingFor(input);
+            var mapping = GetFirstMatchingMappingFor(input);
             if (mapping != null)
                 return mapping.Resolve(input);
 

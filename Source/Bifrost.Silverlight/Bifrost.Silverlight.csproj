@@ -90,9 +90,6 @@
     <Compile Include="..\Bifrost\Commands\CommandContextManager.cs">
       <Link>Commands\CommandContextManager.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Commands\CommandDescriptor.cs">
-      <Link>Commands\CommandDescriptor.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Commands\CommandHandlerInvoker.cs">
       <Link>Commands\CommandHandlerInvoker.cs</Link>
     </Compile>

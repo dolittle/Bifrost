@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Bifrost.Commands;
+using Bifrost.SignalR.Commands;
 using Bifrost.SignalR.Silverlight.Hubs;
 
 namespace Bifrost.SignalR.Silverlight.Commands.Proxies

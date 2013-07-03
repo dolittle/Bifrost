@@ -72,6 +72,9 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bifrost.SignalR\Commands\CommandDescriptor.cs">
+      <Link>Commands\CommandDescriptor.cs</Link>
+    </Compile>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>

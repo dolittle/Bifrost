@@ -426,9 +426,12 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly_multitple_times.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_no_one_can_resolve.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_it_has.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_no_mappings_matching.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_one_mapping_matching.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_two_mappings_matching.cs" />
     <Compile Include="Utils\for_StringMapper\when_resolving_a_string_without_any_match.cs" />
-    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string_with_second_mapping_matching.cs" />
-    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_first_mapping_for_a_string_where_the_second_mapping_matches.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_first_mapping_for_a_string.cs" />
     <Compile Include="Utils\for_StringMapper\when_adding_a_specific_mapping.cs" />
     <Compile Include="Utils\for_StringMapper\when_adding_mapping.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.cs" />
@@ -578,12 +581,6 @@
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
     <Compile Include="Views\Stubs.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\given\a_command_type_manager.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_asking_for_a_command_that_exists.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\SomeCommand.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_asking_for_a_command_that_does_not_exist.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\given\a_command_type_manager_with_one_command.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_creating_an_instance_of_command_type_manager_and_multiple_commands_with_same_name_exists.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Globalization\for_Localizer\given\" />

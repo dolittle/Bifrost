@@ -94,11 +94,9 @@ namespace Bifrost.Validation.MetaData
                             var isConcept = false;
                             if (genericArguments.Length == 1)
                             {
-                                //var type = member.Key == ModelRule<string>.ModelRulePropertyName
-                                //                   ? genericArguments[0]
-                                //                   : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
-
-                                var type = genericArguments[0].GetProperty(member.Key).PropertyType;
+                                var type = member.Key == ModelRule<string>.ModelRulePropertyName
+                                                   ? genericArguments[0]
+                                                   : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
 
                                 isConcept = type.IsConcept();
                             }

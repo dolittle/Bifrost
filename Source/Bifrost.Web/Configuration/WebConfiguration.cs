@@ -23,16 +23,16 @@ namespace Bifrost.Web.Configuration
 {
     public class WebConfiguration : IFrontendTargetConfiguration
     {
-        public WebConfiguration()
+        public WebConfiguration(NamespaceMapper namespaceMapper)
         {
             ScriptsToInclude = new ScriptsToInclude();
             PathsToNamespaces = new PathToNamespaceMappers();
-            NamespaceMappers = new NamespaceMappers();
+            NamespaceMapper = namespaceMapper;
         }
 
         public ScriptsToInclude ScriptsToInclude { get; set; }
         public PathToNamespaceMappers PathsToNamespaces { get; set; }
-        public NamespaceMappers NamespaceMappers { get; set; }
+        public NamespaceMapper NamespaceMapper { get; set; }
 
         public void Initialize(IContainer container)
         {

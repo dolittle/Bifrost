@@ -1694,7 +1694,7 @@ Bifrost.namespace("Bifrost.commands", {
                 commandDescriptor: JSON.stringify(commandDescriptor)
             };
 
-            sendToHandler(baseUrl + "/Handle?_cmd=" + command.Name, JSON.stringify(methodParameters), function (jqXHR) {
+            sendToHandler(baseUrl + "/Handle?_cmd=" + command.generatedFrom, JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
                 promise.signal(commandResult);
             });
@@ -1806,7 +1806,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.applyRulesTo = function (command) {
             var validators = [];
             extendProperties(command, validators);
-            self.validationService.getForCommand(command.name).continueWith(function (rules) {
+            self.validationService.getForCommand(command.generatedFrom).continueWith(function (rules) {
                 for (var rule in rules) {
                     var path = rule.split(".");
                     var member = command;
@@ -1835,7 +1835,7 @@ Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
         var self = this;
         this.name = "";
-        this.fullName = "";
+        this.generatedFrom = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.hasChangesObservables = ko.observableArray();
@@ -2125,7 +2125,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
     }
 
     this.name = command.name;
-    this.fullName = command.fullName;
+    this.generatedFrom = command.generatedFrom;
     this.id = Bifrost.Guid.create();
 
     var properties = getPropertiesFromCommand(command);
@@ -2211,10 +2211,10 @@ Bifrost.namespace("Bifrost.commands", {
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
             var context = self.commandSecurityContextFactory.create();
-            if( typeof command.name == "undefined" || command.name == "" ) {
+            if (typeof command.generatedFrom == "undefined" || command.generatedFrom == "") {
                 promise.signal(context);
             } else {
-                var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.name;
+                var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.generatedFrom;
                 $.getJSON(url, function (e) {
                     context.isAuthorized(e.isAuthorized);
                     promise.signal(context);
@@ -2255,7 +2255,7 @@ Bifrost.namespace("Bifrost.read", {
         function createDescriptorFrom(query) {
             var descriptor = {
                 nameOfQuery: query.name,
-                fullNameOfQuery: query.fullName,
+                generatedFrom: query.generatedFrom,
                 parameters: {}
             };
 
@@ -2278,7 +2278,7 @@ Bifrost.namespace("Bifrost.read", {
             };
 
             $.ajax({
-                url: "/Bifrost/Query/Execute?_q=" + descriptor.fullNameOfQuery,
+                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(methodParameters),
@@ -2490,12 +2490,13 @@ Bifrost.namespace("Bifrost.read", {
 		    var methodParameters = {
 		        descriptor: JSON.stringify({
 		            readModel: self.target.name,
+                    generatedBy: self.generatedBy,
 		            propertyFilters: propertyFilters
 		        })
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.name,
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.generatedBy,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),
@@ -2527,26 +2528,26 @@ Bifrost.namespace("Bifrost.read", {
 });
 Bifrost.dependencyResolvers.readModelOf = {
     canResolve: function (namespace, name) {
-        if (typeof readModels !== "undefined") {
-            return name in readModels;
+        if (typeof read !== "undefined") {
+            return name in read;
         }
         return false;
     },
 
     resolve: function (namespace, name) {
-        return readModels[name].create();
+        return read[name].create();
     }
 };
 Bifrost.dependencyResolvers.query = {
     canResolve: function (namespace, name) {
-        if (typeof queries !== "undefined") {
-            return name in queries;
+        if (typeof read !== "undefined") {
+            return name in read;
         }
         return false;
     },
 
     resolve: function (namespace, name) {
-        return queries[name].create();
+        return read[name].create();
     }
 };
 Bifrost.namespace("Bifrost.read", {
@@ -2556,7 +2557,7 @@ Bifrost.namespace("Bifrost.read", {
         function createDescriptorFrom(query) {
             var descriptor = {
                 nameOfQuery: query.name,
-                fullNameOfQuery: query.fullName,
+                generatedFrom: query.generatedFrom,
                 parameters: {}
             };
 
@@ -2579,7 +2580,7 @@ Bifrost.namespace("Bifrost.read", {
             };
 
             $.ajax({
-                url: "/Bifrost/Query/Execute?_q=" + descriptor.fullNameOfQuery,
+                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(methodParameters),

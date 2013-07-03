@@ -29,6 +29,7 @@ namespace Bifrost.Web.Proxies
 {
     public class ReadModelProxies : IProxyGenerator
     {
+       
         ITypeDiscoverer _typeDiscoverer;
         ICodeGenerator _codeGenerator;
         WebConfiguration _configuration;
@@ -47,14 +48,14 @@ namespace Bifrost.Web.Proxies
             var result = new StringBuilder();
 
             Namespace currentNamespace;
-            Namespace globalCommands = _codeGenerator.Namespace("commands");
+            Namespace globalRead = _codeGenerator.Namespace(Namespaces.READ);
 
             foreach (var @namespace in typesByNamespace)
             {
                 if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
                     currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
                 else
-                    currentNamespace = globalCommands;
+                    currentNamespace = globalRead;
 
 
                 foreach (var type in @namespace)
@@ -75,15 +76,15 @@ namespace Bifrost.Web.Proxies
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
-                                        .Property("fullName", p => p.WithString(currentNamespace.GetFullyQualifiedNameForType(name)))
+                                        .Property("generatedFrom", p => p.WithString(type.FullName))
                                         .Property("readModelType", p => p.WithLiteral(currentNamespace.Name+"." + name))
                                         .WithReadModelConvenienceFunctions(type));
                 }
 
-                if (currentNamespace != globalCommands)
+                if (currentNamespace != globalRead)
                     result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
-            result.Append(_codeGenerator.GenerateFrom(globalCommands));
+            result.Append(_codeGenerator.GenerateFrom(globalRead));
             return result.ToString();
         }
     }

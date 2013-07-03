@@ -11,12 +11,13 @@ Bifrost.namespace("Bifrost.read", {
 		    var methodParameters = {
 		        descriptor: JSON.stringify({
 		            readModel: self.target.name,
+                    generatedBy: self.generatedBy,
 		            propertyFilters: propertyFilters
 		        })
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.name,
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.generatedBy,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),

@@ -55,7 +55,7 @@ namespace Bifrost.Web.Proxies
             var result = new StringBuilder();
 
             Namespace currentNamespace;
-            Namespace globalCommands = _codeGenerator.Namespace("commands");
+            Namespace globalCommands = _codeGenerator.Namespace(Namespaces.COMMANDS);
 
             foreach (var @namespace in typesByNamespace)
             {
@@ -75,8 +75,8 @@ namespace Bifrost.Web.Proxies
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
-                                        .Property("fullName", p => p.WithString(currentNamespace.GetFullyQualifiedNameForType(name)))
-                                        .WithObservablePropertiesFrom(type, typeof(ICommand)));
+                                        .Property("generatedFrom", p => p.WithString(type.FullName))
+                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom:typeof(ICommand)));
                 }
 
                 if (currentNamespace != globalCommands)

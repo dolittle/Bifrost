@@ -97,7 +97,7 @@
         this.applyRulesTo = function (command) {
             var validators = [];
             extendProperties(command, validators);
-            self.validationService.getForCommand(command.name).continueWith(function (rules) {
+            self.validationService.getForCommand(command.generatedFrom).continueWith(function (rules) {
                 for (var rule in rules) {
                     var path = rule.split(".");
                     var member = command;

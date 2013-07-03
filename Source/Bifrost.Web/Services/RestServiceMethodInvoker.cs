@@ -59,9 +59,10 @@ namespace Bifrost.Web.Services
 
         void FilterInputParameters(NameValueCollection inputParameters)
         {
-            if (inputParameters.AllKeys.Contains("_"))
-                inputParameters.Remove("_");
-            
+            inputParameters.Remove("_");
+            inputParameters.Remove("_q");
+            inputParameters.Remove("_rm");
+            inputParameters.Remove("_cmd");
         }
 
         object[] GetParameterValues(NameValueCollection inputParameters, MethodInfo method)

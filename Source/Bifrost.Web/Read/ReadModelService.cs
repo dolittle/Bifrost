@@ -17,8 +17,6 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -29,20 +27,19 @@ namespace Bifrost.Web.Read
 {
     public class ReadModelService
     {
-        IEnumerable<Type> _readModelTypes;
-        IContainer _container;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly IContainer _container;
 
         public ReadModelService(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
+            _typeDiscoverer = typeDiscoverer;
             _container = container;
-            _readModelTypes = typeDiscoverer.FindMultiple<IReadModel>();
         }
 
 
         public object InstanceMatching(ReadModelQueryDescriptor descriptor)
         {
-            var readModel = descriptor.ReadModel.ToPascalCase();
-            var readModelType = _readModelTypes.SingleOrDefault(t => t.Name == readModel);
+            var readModelType = _typeDiscoverer.FindTypeByFullName(descriptor.GeneratedFrom);
             if (readModelType != null)
             {
                 var readModelOfType = typeof(IReadModelOf<>).MakeGenericType(readModelType);

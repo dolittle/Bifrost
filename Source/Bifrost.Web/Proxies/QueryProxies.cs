@@ -47,7 +47,7 @@ namespace Bifrost.Web.Proxies
             var result = new StringBuilder();
 
             Namespace currentNamespace;
-            Namespace globalRead = _codeGenerator.Namespace("read");
+            Namespace globalRead = _codeGenerator.Namespace(Namespaces.READ);
 
             foreach (var @namespace in typesByNamespace)
             {
@@ -67,7 +67,7 @@ namespace Bifrost.Web.Proxies
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
-                                        .Property("fullName", p => p.WithString(currentNamespace.GetFullyQualifiedNameForType(name)))
+                                        .Property("generatedFrom", p => p.WithString(type.FullName))
                                         .Property("readModel", p => p.WithLiteral(currentNamespace.Name + "." + queryForTypeName))
                                         .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
 

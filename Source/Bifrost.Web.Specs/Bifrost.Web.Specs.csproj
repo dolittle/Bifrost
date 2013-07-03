@@ -47,6 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Configuration\given\AMappedServerType.cs" />
+    <Compile Include="Configuration\given\a_namespace_mapper.cs" />
+    <Compile Include="Configuration\when_adding_a_namespace_mapping.cs" />
+    <Compile Include="Configuration\when_getting_the_client_namespace_from_the_server_namespace.cs" />
+    <Compile Include="Configuration\when_getting_the_server_type_from_the_client_namespace.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_an_empty_request_string_and_no_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context_with_default_routes.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_only_a_slash_in_request_string_and_no_extension.cs" />

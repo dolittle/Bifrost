@@ -23,7 +23,7 @@ namespace Bifrost.Web.Read
     public class QueryDescriptor
     {
         public string NameOfQuery { get; set; }
-        public string FullNameOfQuery { get; set; }
+        public string GeneratedFrom { get; set; }
         public Dictionary<string, object> Parameters { get; set; }
     }
 }

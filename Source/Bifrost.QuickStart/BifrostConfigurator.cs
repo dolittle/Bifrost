@@ -25,8 +25,8 @@ namespace Bifrost.QuickStart
                         w.PathsToNamespaces.Clear();
                         w.PathsToNamespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
                         w.PathsToNamespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
-                        w.NamespaceMappers.AddMapping("Bifrost.QuickStart.Domain.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
-                        w.NamespaceMappers.AddMapping("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
+                        w.NamespaceMapper.Add("Bifrost.QuickStart.Domain.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
+                        w.NamespaceMapper.Add("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
 					})
                 .WithMimir();
         }
