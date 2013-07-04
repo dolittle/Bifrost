@@ -14,11 +14,11 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validate = function(value) {
-            self.rules.forEach(function(rule) {
+            self.rules.some(function(rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
-                    return false;
+                    return true;
                 } else {
                     self.isValid(true);
                     self.message("");
@@ -27,10 +27,10 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validateSilently = function (value) {
-            self.rules.forEach(function (rule) {
+            self.rules.some(function (rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
-                    return false;
+                    return true;
                 } else {
                     self.isValid(true);
                 }

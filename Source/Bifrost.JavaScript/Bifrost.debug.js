@@ -283,7 +283,7 @@ Bifrost.namespace("Bifrost", {
         },
         hasScript: function(script) {
             var found = false;
-            Bifrost.assetsManager.scripts.forEach(function (scriptInSystem) {
+            Bifrost.assetsManager.scripts.some(function (scriptInSystem) {
                 if (scriptInSystem === script) {
                     found = true;
                     return;
@@ -1172,21 +1172,21 @@ Bifrost.namespace("Bifrost", {
 
         this.hasMappingFor = function (input) {
             var found = false;
-            self.mappings.forEach(function (m) {
+            self.mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = true;
-                    return false;
                 }
+                return found;
             });
             return found;
         };
 
         this.getMappingFor = function (input) {
             var found;
-            self.mappings.forEach(function (m) {
+            self.mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = m;
-                    return false;
+                    return true;
                 }
             });
 
@@ -1278,11 +1278,11 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validate = function(value) {
-            self.rules.forEach(function(rule) {
+            self.rules.some(function(rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
                     self.message(rule.message);
-                    return false;
+                    return true;
                 } else {
                     self.isValid(true);
                     self.message("");
@@ -1291,10 +1291,10 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validateSilently = function (value) {
-            self.rules.forEach(function (rule) {
+            self.rules.some(function (rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
-                    return false;
+                    return true;
                 } else {
                     self.isValid(true);
                 }
@@ -1846,10 +1846,10 @@ Bifrost.namespace("Bifrost.commands", {
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var valid = true;
-            self.validators().forEach(function (validator) {
+            self.validators().some(function (validator) {
                 if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
                     valid = false;
-                    return false;
+                    return true;
                 }
             });
 
@@ -1873,10 +1873,10 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
-            self.hasChangesObservables().forEach(function (item) {
+            self.hasChangesObservables().some(function (item) {
                 if (item() === true) {
                     hasChange = true;
-                    return;
+                    return true;
                 }
             });
 
@@ -2481,6 +2481,7 @@ Bifrost.namespace("Bifrost.read", {
 	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
 	    var self = this;
 	    this.name = "";
+	    this.generatedFrom = "";
 	    this.target = null;
 	    this.readModelType = Bifrost.Type.extend(function () { });
 	    this.instance = ko.observable();
@@ -2490,13 +2491,13 @@ Bifrost.namespace("Bifrost.read", {
 		    var methodParameters = {
 		        descriptor: JSON.stringify({
 		            readModel: self.target.name,
-                    generatedBy: self.generatedBy,
+                    generatedFrom: self.target.generatedFrom,
 		            propertyFilters: propertyFilters
 		        })
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.generatedBy,
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.generatedFrom,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),

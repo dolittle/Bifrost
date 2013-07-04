@@ -13,10 +13,10 @@ Bifrost.namespace("Bifrost.commands", {
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var valid = true;
-            self.validators().forEach(function (validator) {
+            self.validators().some(function (validator) {
                 if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
                     valid = false;
-                    return false;
+                    return true;
                 }
             });
 
@@ -40,10 +40,10 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
-            self.hasChangesObservables().forEach(function (item) {
+            self.hasChangesObservables().some(function (item) {
                 if (item() === true) {
                     hasChange = true;
-                    return;
+                    return true;
                 }
             });
 

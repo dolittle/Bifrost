@@ -6,21 +6,21 @@
 
         this.hasMappingFor = function (input) {
             var found = false;
-            self.mappings.forEach(function (m) {
+            self.mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = true;
-                    return false;
                 }
+                return found;
             });
             return found;
         };
 
         this.getMappingFor = function (input) {
             var found;
-            self.mappings.forEach(function (m) {
+            self.mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = m;
-                    return false;
+                    return true;
                 }
             });
 
