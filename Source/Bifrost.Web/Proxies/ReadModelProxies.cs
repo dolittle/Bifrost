@@ -67,6 +67,7 @@ namespace Bifrost.Web.Proxies
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
+                                        .Property("generatedFrom", p => p.WithString(type.FullName))
                                         .WithPropertiesFrom(type, typeof(IReadModel)));
 
                     currentNamespace.Content.Assign("readModelOf" + name.ToPascalCase())
