@@ -115,9 +115,11 @@
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_authorizing_a_command.cs" />
-    <Compile Include="Concepts\for_ConceptAs\given\concepts.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_equating.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_getting_hash_code.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_an_inherited_concept.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_a_concept.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_a_primitive.cs" />
     <Compile Include="Concepts\for_Value\given\value_objects.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_single_instance.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_value_with_an_inherited_type_with_identical_values.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_different_values.cs" />
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_identical_values.cs" />
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_transposed_values.cs" />
+    <Compile Include="Concepts\given\concepts.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_multiple_bindings_for_specific_storage.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeOtherType.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeType.cs" />

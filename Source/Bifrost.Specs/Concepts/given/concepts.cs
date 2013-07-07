@@ -1,7 +1,7 @@
-﻿using Bifrost.Concepts;
+using Bifrost.Concepts;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Concepts.for_ConceptAs.given
+namespace Bifrost.Specs.Concepts.given
 {
     public class concepts
     {
@@ -10,6 +10,7 @@ namespace Bifrost.Specs.Concepts.for_ConceptAs.given
         protected static StringConcept same_value_as_second_string;
         protected static IntConcept value_as_an_int;
         protected static LongConcept value_as_a_long;
+        protected static InheritingFromLongConcept value_as_a_long_inherited;
 
         Establish context = () =>
             {
@@ -19,6 +20,7 @@ namespace Bifrost.Specs.Concepts.for_ConceptAs.given
 
                 value_as_a_long = 1;
                 value_as_an_int = 1;
+                value_as_a_long_inherited = 1;
             };
 
         public class StringConcept : ConceptAs<string>
@@ -42,6 +44,14 @@ namespace Bifrost.Specs.Concepts.for_ConceptAs.given
             public static implicit operator LongConcept(long value)
             {
                 return new LongConcept { Value = value };
+            }
+        }
+
+        public class InheritingFromLongConcept : LongConcept
+        {
+            public static implicit operator InheritingFromLongConcept(long value)
+            {
+                return new InheritingFromLongConcept { Value = value };
             }
         }
     }

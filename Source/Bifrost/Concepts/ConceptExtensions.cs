@@ -36,31 +36,7 @@ namespace Bifrost.Concepts
         /// <returns>True if type is a concept, false if not</returns>
         public static bool IsConcept(this Type objectType)
         {
-#if(NETFX_CORE)
-            var baseType = objectType.GetTypeInfo().BaseType.GetTypeInfo();
-            if (baseType != null && baseType.IsGenericType)
-            {
-                var genericArgumentType = baseType.GenericTypeArguments[0];
-                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                {
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
-                    return isConcept;
-                }
-            }
-#else
-            var baseType = objectType.BaseType;
-            if (baseType != null && baseType.IsGenericType)
-            {
-                var genericArgumentType = baseType.GetGenericArguments()[0];
-                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                {
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(objectType);
-                    return isConcept;
-                }
-            }
-#endif
-
-            return false;
+            return objectType.IsDerivedFromOpenGeneric(typeof (ConceptAs<>));
         }
 
 
