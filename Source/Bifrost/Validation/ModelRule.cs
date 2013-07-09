@@ -17,10 +17,14 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentValidation.Internal;
 using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.Validators;
+
 #if(NETFX_CORE)
 using System.Linq;
 #endif

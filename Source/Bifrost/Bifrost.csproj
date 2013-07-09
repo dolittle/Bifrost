@@ -300,6 +300,7 @@
     <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
     <Compile Include="Validation\DynamicState.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
@@ -328,6 +329,7 @@
     <Compile Include="Validation\MetaData\Rule.cs" />
     <Compile Include="Validation\MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="Validation\ModelRule.cs" />
+    <Compile Include="Validation\NameResolvers.cs" />
     <Compile Include="Validation\NullChapterValidator.cs" />
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
+    <Compile Include="Validation\TypeExtensions.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />

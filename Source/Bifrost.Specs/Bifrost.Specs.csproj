@@ -558,6 +558,8 @@
     <Compile Include="Validation\for_RuleBuilderExtensions\FakePropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state.cs" />
+    <Compile Include="Validation\for_Validator\when_validating_a_complex_graph_with_model_rules_and_concepts.cs" />
+    <Compile Include="Validation\for_Validator\given\a_complex_object_graph_and_validator.cs" />
     <Compile Include="Validation\for_Validator\SimpleObject.cs" />
     <Compile Include="Validation\for_Validator\ValidatorWithModelRuleWithOneMustClause.cs" />
     <Compile Include="Validation\for_Validator\when_applying_model_rule_with_a_must_callback.cs" />
