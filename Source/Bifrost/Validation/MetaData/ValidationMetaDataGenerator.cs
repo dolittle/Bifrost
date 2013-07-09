@@ -64,7 +64,7 @@ namespace Bifrost.Validation.MetaData
             return metaData;
         }
 
-        void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey, bool isParentConcept = false)
+        void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
         {
             var inputValidatorType = inputValidator.GetType();
 #if(NETFX_CORE)
@@ -83,8 +83,9 @@ namespace Bifrost.Validation.MetaData
                 {
                     foreach (var validator in rule.Validators)
                     {
+                        var isModelRule = member.Key == ModelRule<string>.ModelRulePropertyName;
                         var currentKey = string.Empty;
-                        if (isParentConcept)
+                        if (isParentConcept || isParentModelRule || isModelRule)
                             currentKey = parentKey;
                         else
                             currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
@@ -92,17 +93,15 @@ namespace Bifrost.Validation.MetaData
                         if (validator is ChildValidatorAdaptor)
                         {
                             var isConcept = false;
+                            
                             if (genericArguments.Length == 1)
                             {
-                                var type = member.Key == ModelRule<string>.ModelRulePropertyName
-                                                   ? genericArguments[0]
-                                                   : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
-
+                                var type = isModelRule ? genericArguments[0] : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
                                 isConcept = type.IsConcept();
                             }
 
                             var childValidator = (validator as ChildValidatorAdaptor).Validator;
-                            GetValue(childValidator, metaData, currentKey, isConcept);
+                            GetValue(childValidator, metaData, currentKey, isConcept, isModelRule);
                         }
                         else if (validator is IPropertyValidator)
                         {

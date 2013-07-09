@@ -8,10 +8,15 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
     {
         public ObjectWithConceptValidator()
         {
-            RuleFor(o => o.StringConcept).SetValidator(new ConceptAsStringValidator());
-            RuleFor(o => o.LongConcept)
+            RuleForConcept(o => o.StringConcept)
+                .NotNull()
+                .SetValidator(new ConceptAsStringValidator());
+            RuleForConcept(o => o.LongConcept)
                 .NotNull()
                 .SetValidator(new ConceptAsLongValidator());
+            RuleFor(o => o.NonConceptObject)
+                .NotNull()
+                .SetValidator(new ObjectValidator());
         }
     }
 }

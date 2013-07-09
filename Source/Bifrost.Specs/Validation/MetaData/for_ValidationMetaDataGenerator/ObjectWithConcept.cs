@@ -6,5 +6,6 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
     {
         public ConceptAsString StringConcept { get; set; }
         public ConceptAsLong LongConcept { get; set; }
+        public object NonConceptObject { get; set; }
     }
 }
