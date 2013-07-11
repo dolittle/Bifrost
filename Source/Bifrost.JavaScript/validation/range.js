@@ -1,39 +1,36 @@
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.range = {
-    isNumber: function (number) {
-        return !isNaN(parseFloat(number)) && isFinite(number);
-    },
-    throwIfOptionsUndefined: function (options) {
-        if (typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-    throwIfMinUndefined: function (options) {
-        if (typeof options.min === "undefined") {
-            throw new Bifrost.validation.MinNotSpecified();
-        }
-    },
-    throwIfMaxUndefined: function (options) {
-        if (typeof options.max === "undefined") {
+        if (this.notSet(options.max)) {
             throw new Bifrost.validation.MaxNotSpecified();
         }
+        if (this.notSet(options.min)) {
+            throw new Bifrost.validation.MinNotSpecified();
+        }
+        this.throwIfValueIsNotANumber(options.min, "min")
+        this.throwIfValueIsNotANumber(options.max, "max")
     },
-    throwIfNotANumber: function (value) {
+
+    throwIfValueIsNotANumber: function (value, param) {
         if (!Bifrost.isNumber(value)) {
-            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+            throw new Bifrost.validation.NotANumber(param + " value " + value + " is not a number");
         }
     },
 
     validate: function (value, options) {
-        this.throwIfNotANumber(value);
-        this.throwIfOptionsUndefined(options);
-        this.throwIfMaxUndefined(options);
-        this.throwIfMinUndefined(options);
-
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
+        this.throwIfValueIsNotANumber(value, "value");
+        return options.min <= value && value <= options.max;
+    },
 
-        return value <= options.max && value >= options.min;
-    }
+    notSet: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    },
 };
+
