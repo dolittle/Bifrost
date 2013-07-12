@@ -105,6 +105,28 @@
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
+            var elements = self.documentService.getAllElementsWithViewModelFilesSorted();
+            var loadedViewModels = 0;
+
+            elements.forEach(function (element) {
+                var viewModelFile = self.documentService.getViewModelFileFrom(element);
+
+                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                    documentService.setViewModelOn(element, instance);
+
+                    loadedViewModels++;
+
+                    if (loadedViewModels == elements.length) {
+                        elements.forEach(function (elementToApplyBindingsTo) {
+                            applyViewModel(
+                                self.documentService.getViewModelFrom(elementToApplyBindingsTo),
+                                self.documentService.getViewModelFileFrom(elementToApplyBindingsTo)
+                            );
+                        });
+                    }
+                });
+            });
+            
         };
     })
 });

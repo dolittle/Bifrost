@@ -19,9 +19,9 @@
     });
 
     it("should have the third view model element", function () {
-        expect(elements[0]).toBe(thirdElement);
+        expect(elements[0]).toBe(root);
     });
     it("should have the root view model element", function () {
-        expect(elements[1]).toBe(root);
+        expect(elements[1]).toBe(thirdElement);
     });
 });

@@ -320,6 +320,7 @@
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_root_and_one_child_having_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
+    <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_sorted_from_an_element_with_two_deep_hierarchies.js" />
     <Content Include="views\for_documentService\when_setting_viewmodel_on_element.js" />
     <Content Include="views\for_documentService\when_getting_viewmodel_file_from_element_without_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_setting_viewmodel_file_on_element.js" />

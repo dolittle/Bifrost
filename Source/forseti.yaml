@@ -11,6 +11,8 @@ Harnesses:
         - Bifrost.JavaScript/Libraries/sinon-1.3.1.js
         - Bifrost.JavaScript/Libraries/require.js
         - Bifrost.JavaScript/extensions/ArrayExtensions.js
+        - Bifrost.JavaScript/extensions/HTMLCollectionExtensions.js
+        - Bifrost.JavaScript/extensions/NodeListExtensions.js
         - Bifrost.JavaScript/extensions/stringExtensions.js
         - Bifrost.JavaScript/utils/namespace.js
         - Bifrost.JavaScript/utils/Exception.js

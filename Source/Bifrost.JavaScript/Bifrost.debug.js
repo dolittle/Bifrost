@@ -2847,12 +2847,38 @@ Bifrost.namespace("Bifrost.views", {
 
         this.getAllElementsWithViewModelFilesFrom = function (root) {
             var elements = [];
-            $(root).contents().andSelf().filter("[data-viewmodel-file]").each(function () {
+            if (typeof $(root).data("viewmodel-file") != "undefined") {
+                elements.push(root);
+            }
+            $("[data-viewmodel-file]",root).each(function () {
                 elements.push(this);
             });
             return elements;
         };
 
+        function collectViewModelFilesFrom(parent, elements) {
+
+            if (typeof parent.childNodes != "undefined") {
+                parent.childNodes.forEach(function (child) {
+                    collectViewModelFilesFrom(child, elements);
+                });
+            }
+
+            var viewModelFile = $(parent).data("viewmodel-file");
+            if (typeof viewModelFile != "undefined") {
+                elements.push(parent);
+            }
+        }
+
+        this.getAllElementsWithViewModelFilesSortedFrom = function (root) {
+            var elements = [];
+
+            
+            
+            collectViewModelFilesFrom(root, elements);
+
+            return elements;
+        };
 
         this.getViewModelFileFrom = function (element) {
             var file = $(element).data("viewmodel-file");
@@ -2869,6 +2895,8 @@ Bifrost.namespace("Bifrost.views", {
             element.viewModel = viewModel;
             $(element).data("viewmodel", viewModel);
         };
+
+        
     })
 });
 Bifrost.namespace("Bifrost.views", {

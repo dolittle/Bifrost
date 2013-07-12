@@ -7,6 +7,7 @@
                 scriptAskedFor = script;
             }
         },
+        documentService: {},
         viewModelLoader: {}
     });
 
