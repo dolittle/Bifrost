@@ -189,6 +189,11 @@ Bifrost.execution.Promise.create = function() {
 	return promise;
 };
 Bifrost.namespace("Bifrost", {
+	isObject : function(o) {
+	    return Object.prototype.toString.call(o) === '[object Object]';
+	}
+});
+Bifrost.namespace("Bifrost", {
     isNumber: function (number) {
         return !isNaN(parseFloat(number)) && isFinite(number);
     }
@@ -199,9 +204,19 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 Bifrost.namespace("Bifrost", {
-	isObject : function(o) {
-	    return Object.prototype.toString.call(o) === '[object Object]';
-	}
+    isNull: function (value) {
+        return value === null;
+    }
+});
+Bifrost.namespace("Bifrost", {
+    isString: function (value) {
+        return typeof value === "string";
+        }
+});
+Bifrost.namespace("Bifrost", {
+    isUndefined: function (value) {
+        return typeof value === "undefined";
+    }
 });
 Bifrost.namespace("Bifrost", {
     path: {
