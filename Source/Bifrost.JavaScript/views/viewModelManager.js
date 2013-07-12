@@ -1,71 +1,32 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader) {
         var self = this;
         this.assetsManager = assetsManager;
-
-        var partialViewModelBindingProvider = function (currentViewModel) {
-            var self = this;
-            this.currentViewModel = currentViewModel;
-
-            var originalBindingProvider = ko.bindingProvider.instance;
-
-            this.nodeHasBindings = function (node) {
-                if (typeof $(node).data("navigation-frame") !== "undefined") {
-                    return false;
-                }
-
-                var closestViewModel = $(node).closest("[data-viewmodel-file]");
-                if (closestViewModel.length == 1) {
-                    var viewModelName = closestViewModel.data("viewmodel-file");
-                    if (viewModelName == self.currentViewModel) {
-                        return originalBindingProvider.nodeHasBindings(node);
-                    } else {
-                        return false;
-                    }
-                }
-
-                return originalBindingProvider.nodeHasBindings(node)
-            },
-
-            this.getBindings = function (node, bindingContext) {
-                return originalBindingProvider.getBindings(node, bindingContext);
-            }
-        }
+        this.viewModelLoader = viewModelLoader;
+        this.documentService = documentService;
 
         function applyViewModel(instance, target) {
-            var viewModelFile = $(target).data("viewmodel-file");
-
-            target.viewModel = instance;
-
-            /*
-            $(target).find("*").each(function () {
-                $(this).unbind();
+            var viewModelFile = self.documentService.getViewModelFileFrom(target);
+            ko.applyBindingsToNode(target, {
+                'with': instance
             });
-            ko.cleanNode(target);*/
-
-            var previousBindingProvider = ko.bindingProvider.instance;
-            ko.bindingProvider.instance = new partialViewModelBindingProvider(viewModelFile);
-            ko.applyBindings(instance, target);
-            ko.bindingProvider.instance = previousBindingProvider;
-
-            $(target).data("viewmodel", instance);
-
+            self.documentService.setViewModelOn(target, instance);
             if (typeof instance.activated == "function") {
                 instance.activated();
             }
         }
 
-
-
         function applyViewModelsByAttribute(path, container) {
             var viewModelApplied = false;
 
-            $("[data-viewmodel-file]", container).andSelf().each(function () {
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
+            elements.forEach(function(target) {
                 viewModelApplied = true;
-                var target = $(this)[0];
                 var viewModelFile = $(this).data("viewmodel-file");
-                self.get(viewModelFile, path).continueWith(function (instance) {
-                    applyViewModel(instance, target, viewModelFile);
+                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                    applyViewModelInMemory(scriptFile, function (instance) {
+                        applyViewModel(instance, target, viewModelFile);
+                    });
                 });
             });
 
@@ -75,8 +36,8 @@
         function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
-                $(container).attr("data-viewmodel-file", viewModelFile);
-                $(container).data("viewmodel-file", viewModelFile);
+                self.documentService.setViewModelFileOn(container, viewModelFile);
+
                 self.getForView(path).continueWith(function (instance) {
                     applyViewModel(instance, container);
                 });
@@ -97,7 +58,9 @@
                     if (filename in namespace) {
                         wasInMemory = true;
                         namespace[filename].beginCreate().continueWith(function (instance) {
-                            callback(instance);
+                            if (typeof callback != null) {
+                                callback(instance);
+                            }
                         });
                     }
                 }
@@ -105,18 +68,6 @@
 
             return wasInMemory;
         }
-
-
-        this.get = function (path) {
-            var promise = Bifrost.execution.Promise.create();
-            if (!path.startsWith("/")) path = "/" + path;
-            require([path], function () {
-                applyViewModelInMemory(path, function (instance) {
-                    promise.signal(instance);
-                });
-            });
-            return promise;
-        };
 
         this.hasForView = function (viewPath) {
             var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
@@ -132,7 +83,9 @@
 
         this.getForView = function (viewPath) {
             var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
-            return self.get(scriptFile);
+            return self.viewModelLoader.load(scriptFile).continueWith(function () {
+                applyViewModelInMemory(scriptFile);
+            });
         };
 
         this.applyToViewIfAny = function (view) {
@@ -140,8 +93,7 @@
 
             viewModelApplied = applyViewModelInMemory(view.path, function (instance) {
                 var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
-                $(view.element).attr("data-viewmodel-file", viewModelFile);
-                $(view.element).data("viewmodel-file", viewModelFile);
+                self.documentService.setViewModelFileOn(view.element,viewModelFile);
                 applyViewModel(instance, view.element);
             });
             if (viewModelApplied == false) {
@@ -150,6 +102,9 @@
                     applyViewModelByConventionFromPath(view.path, view.element);
                 }
             }
+        };
+
+        this.loadAndApplyAllViewModelsInDocument = function () {
         };
     })
 });

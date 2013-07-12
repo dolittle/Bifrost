@@ -17,6 +17,7 @@
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
 @depends utils/WellKnownTypesDependencyResolver.js
+@depends utils/DOMRootDependencyResolver.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js
@@ -70,6 +71,7 @@
 @depends messaging/observableMessage.js
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
+@depends views/documentService.js
 @depends views/View.js
 @depends views/ViewRenderer.js
 @depends views/viewRenderers.js
@@ -78,6 +80,7 @@
 @depends views/viewLoader.js
 @depends views/viewManager.js
 @depends views/ViewModel.js
+@depends views/viewModelLoader.js
 @depends views/viewModelManager.js
 @depends views/PathResolver.js
 @depends views/pathResolvers.js

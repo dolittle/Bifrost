@@ -23,6 +23,9 @@
         function onStartup() {
             var self = this;
 
+            Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
+            Bifrost.views.viewBindingHandler.initialize();
+
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
             }

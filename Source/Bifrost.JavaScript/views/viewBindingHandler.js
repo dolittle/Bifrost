@@ -26,4 +26,8 @@ Bifrost.namespace("Bifrost.views", {
         }
     })
 });
-ko.bindingHandlers.view = Bifrost.views.viewBindingHandler.create();
+
+Bifrost.views.viewBindingHandler.initialize = function () {
+    ko.bindingHandlers.view = Bifrost.views.viewBindingHandler.create();
+};
+
