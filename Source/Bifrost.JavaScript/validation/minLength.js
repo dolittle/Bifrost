@@ -35,4 +35,3 @@ Bifrost.validation.ruleHandlers.minLength = {
         return Bifrost.isUndefined(value) || Bifrost.isNull(value);
     }, 
 };
-};

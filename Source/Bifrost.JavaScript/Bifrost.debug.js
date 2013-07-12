@@ -200,7 +200,7 @@ Bifrost.namespace("Bifrost", {
 });
 Bifrost.namespace("Bifrost", {
 	isObject : function(o) {
-		return Object.prototype.toString.call(o) === '[object Object]';
+	    return Object.prototype.toString.call(o) === '[object Object]';
 	}
 });
 Bifrost.namespace("Bifrost", {
@@ -1226,7 +1226,9 @@ Bifrost.namespace("Bifrost", {
 });
 Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
+Bifrost.Exception.define("Bifrost.validation.OptionsValueNotSpecified", "Required value in Options is not specified. ");
 Bifrost.Exception.define("Bifrost.validation.NotANumber", "Value is not a number");
+Bifrost.Exception.define("Bifrost.validation.NotAString", "Value is not a string");
 Bifrost.Exception.define("Bifrost.validation.ValueNotSpecified","Value is not specified");
 Bifrost.Exception.define("Bifrost.validation.MinNotSpecified","Min is not specified");
 Bifrost.Exception.define("Bifrost.validation.MaxNotSpecified","Max is not specified");
@@ -1441,134 +1443,181 @@ Bifrost.WellKnownTypesDependencyResolver.types.validationService = Bifrost.valid
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.required = {
     validate: function (value, options) {
-        return !(typeof value == "undefined" || value == "");
+        return !(Bifrost.isUndefined(value) || Bifrost.isNull(value) || value == "");
     }
 };
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.minLength = {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
+            throw new Bifrost.validation.OptionsNotDefined();
+        }
+        if (this.notSet(options.length)) {
+            throw new Bifrost.validation.MinNotSpecified();
+        }
+        this.throwIfValueIsNotANumber(options.length)
+    },
+
+    throwIfValueIsNotANumber: function (value) {
+        if (!Bifrost.isNumber(value)) {
+            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        }
+    },
+    
+    throwIfValueIsNotAString: function (string) {
+        if (!Bifrost.isString(string)) {
+            throw new Bifrost.validation.NotAString("Value " + string + " is not a string");
+        }
+    },
+
     validate: function (value, options) {
-        if (typeof options === "undefined" || typeof options.length === "undefined") {
-            throw {
-                message: "length is not specified for the minLength validator"
-            }
-        }
-
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
-
         }
-
+        this.throwIfValueIsNotAString(value);
         return value.length >= options.length;
-    }
+    },
+    
+    notSet: function(value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    }, 
 };
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.maxLength = {
-    validate: function (value, options) {
-        if (typeof options === "undefined" || typeof options.length === "undefined") {
-            throw {
-                message: "length is not specified for the maxLength validator"
-            }
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
+            throw new Bifrost.validation.OptionsNotDefined();
         }
+        if (this.notSet(options.length)) {
+            throw new Bifrost.validation.MaxNotSpecified();
+        }
+        this.throwIfValueIsNotANumber(options.length)
+    },
 
-        if (typeof value === "undefined") {
+    throwIfValueIsNotANumber: function (value) {
+        if (!Bifrost.isNumber(value)) {
+            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        }
+    },
+    
+    throwIfValueIsNotAString: function (string) {
+        if (!Bifrost.isString(string)) {
+            throw new Bifrost.validation.NotAString("Value " + string + " is not a string");
+        }
+    },
+
+    validate: function (value, options) {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
-
+        this.throwIfValueIsNotAString(value);
         return value.length <= options.length;
-    }
+    },
+    
+    notSet: function(value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    }, 
 };
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.range = {
-    isNumber: function (number) {
-        return !isNaN(parseFloat(number)) && isFinite(number);
-    },
-    throwIfOptionsUndefined: function (options) {
-        if (typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-    throwIfMinUndefined: function (options) {
-        if (typeof options.min === "undefined") {
-            throw new Bifrost.validation.MinNotSpecified();
-        }
-    },
-    throwIfMaxUndefined: function (options) {
-        if (typeof options.max === "undefined") {
+        if (this.notSet(options.max)) {
             throw new Bifrost.validation.MaxNotSpecified();
         }
+        if (this.notSet(options.min)) {
+            throw new Bifrost.validation.MinNotSpecified();
+        }
+        this.throwIfValueIsNotANumber(options.min, "min")
+        this.throwIfValueIsNotANumber(options.max, "max")
     },
-    throwIfNotANumber: function (value) {
+
+    throwIfValueIsNotANumber: function (value, param) {
         if (!Bifrost.isNumber(value)) {
-            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+            throw new Bifrost.validation.NotANumber(param + " value " + value + " is not a number");
         }
     },
 
     validate: function (value, options) {
-        this.throwIfNotANumber(value);
-        this.throwIfOptionsUndefined(options);
-        this.throwIfMaxUndefined(options);
-        this.throwIfMinUndefined(options);
-
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
+        this.throwIfValueIsNotANumber(value, "value");
+        return options.min <= value && value <= options.max;
+    },
 
-        return value <= options.max && value >= options.min;
-    }
+    notSet: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    },
 };
+
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.lessThan = {
-    throwIfOptionsUndefined: function (options) {
-        if (typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-    throwIfValueUndefined: function (options) {
-        if (typeof options.value === "undefined") {
-            throw new Bifrost.validation.ValueNotSpecified();
+        if (this.notSet(options.value)) {
+            var exception = new Bifrost.validation.OptionsValueNotSpecified();
+            exception.message = exception.message + " 'value' is not set."
+            throw exception;
         }
     },
-    throwIfNotANumber: function (value) {
+
+    throwIsValueToCheckIsNotANumber: function (value) {
         if (!Bifrost.isNumber(value)) {
             throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
         }
     },
 
+    notSet: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    },
+
     validate: function (value, options) {
-        this.throwIfNotANumber(value);
-        this.throwIfOptionsUndefined(options);
-        this.throwIfValueUndefined(options);
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
+        this.throwIsValueToCheckIsNotANumber(value);
         return parseFloat(value) < parseFloat(options.value);
     }
 };
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.greaterThan = {
-    throwIfOptionsUndefined: function (options) {
-        if (!options || typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-    throwIfValueUndefined: function (options) {
-        if (typeof options.value === "undefined") {
-            throw new Bifrost.validation.ValueNotSpecified();
+        if (this.notSet(options.value)) {
+            var exception = new Bifrost.validation.OptionsValueNotSpecified();
+            exception.message = exception.message + " 'value' is not set."
+            throw exception;
         }
+        this.throwIfValueToCheckIsNotANumber(options.value);
     },
-    throwIfNotANumber: function (value) {
+       
+    throwIfValueToCheckIsNotANumber: function (value) {
         if (!Bifrost.isNumber(value)) {
             throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
         }
     },
 
+    notSet: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    },
+
     validate: function (value, options) {
-        this.throwIfNotANumber(value);
-        this.throwIfOptionsUndefined(options);
-        this.throwIfValueUndefined(options);
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
+        this.throwIfValueToCheckIsNotANumber(value);
         return parseFloat(value) > parseFloat(options.value);
     }
 };
@@ -1577,29 +1626,46 @@ Bifrost.validation.ruleHandlers.email = {
     regex : /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
 
     validate: function (value, options) {
+        if (this.notSet(value)) {
+            return false;
+        }
+
+        if (!Bifrost.isString(value)) {
+            throw new Bifrost.validation.NotAString("Value " + value + " is not a string");
+        }
+
         return (value.match(this.regex) == null) ? false : true;
+    },
+    
+    notSet: function(value) {
+        return Bifrost.isNull(value) || Bifrost.isUndefined(value);
     }
 };
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 
 Bifrost.validation.ruleHandlers.regex = {
-    throwIfOptionsUndefined: function (options) {
-        if (typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-
-    throwIfExpressionMissing: function (options) {
-        if (!options.expression) {
+        if (this.notSet(options.expression)) {
             throw new Bifrost.validation.MissingExpression();
         }
     },
 
     validate: function (value, options) {
-        this.throwIfOptionsUndefined(options);
-        this.throwIfExpressionMissing(options);
-
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
+            return false;
+        }
+        if (!Bifrost.isString(value)) {
+            throw new Bifrost.validation.NotAString("Value " + value + " is not a string.");
+        }
         return (value.match(options.expression) == null) ? false : true;
+    },
+    
+    notSet: function(value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
     }
 };
 if (typeof ko !== 'undefined') {
