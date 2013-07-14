@@ -1,7 +1,7 @@
 ﻿describe("when loading and applying all viewmodels with two viewmodels", function () {
 
-    var firstElement = $("<div data-viewmodel-file='first'/>");
-    var secondElement = $("<div data-viewmodel-file='second'/>");
+    var firstElement = $("<div data-viewmodel-file='somePath/first/viewModel.js'/>");
+    var secondElement = $("<div data-viewmodel-file='somePath/second/viewModel.js'/>");
 
     var firstViewModel = { something: 42, activated: sinon.stub() };
     var secondViewModel = { something: 43, activated: sinon.stub() };
@@ -20,7 +20,7 @@
         }
     };
 
-
+    var viewModelApplied = null;
 
     beforeEach(function () {
 
@@ -31,8 +31,8 @@
                     return [secondElement, firstElement];
                 },
                 getViewModelFileFrom: function (element) {
-                    if (element == firstElement) return "first";
-                    return "second";
+                    if (element == firstElement) return "somePath/first/viewModel.js";
+                    return "somePath/second/viewModel.js";
                 },
                 setViewModelOn: function (element, viewModel) {
                     element.viewModel = viewModel;
@@ -43,14 +43,14 @@
             },
             viewModelLoader: {
                 load: function (viewModel) {
-                    if( viewModel == "first" ) return firstPromise;
+                    if (viewModel == "somePath/first/viewModel.js") return firstPromise;
                     return secondPromise;
                 }
             }
         });
 
-        sinon.stub(ko, "applyBindingsToNode", function (target, bindings) {
-            appliedBindings.push({ element: target, bindings: bindings });
+        sinon.stub(ko, "applyBindings", function (viewModel) {
+            viewModelApplied = viewModel;
         });
 
         manager.loadAndApplyAllViewModelsInDocument();
@@ -60,19 +60,27 @@
     });
 
     afterEach(function () {
-        ko.applyBindingsToNode.restore();
+        ko.applyBindings.restore();
     });
 
-    it("should apply two viewmodels", function() {
-        expect(appliedBindings.length).toBe(2);
+    it("should apply a master view model", function() {
+        expect(ko.applyBindings.called).toBe(true);
     });
 
-    it("should apply second viewmodel first", function () {
-        expect(appliedBindings[0].bindings.with).toBe(secondViewModel);
+    it("should have an observable property for first viewmodel", function() {
+        expect(ko.isObservable(viewModelApplied.somePathfirstviewModel)).toBe(true);
     });
 
-    it("should apply first viewmodel second", function () {
-        expect(appliedBindings[1].bindings.with).toBe(firstViewModel);
+    it("should have an observable property for second viewmodel", function() {
+        expect(ko.isObservable(viewModelApplied.somePathsecondviewModel)).toBe(true);
+    });
+
+    it("should apply set binding expression to point to first viewmodel for its element", function () {
+        expect($(firstElement).attr("data-bind").indexOf("viewModel: $data.somePathfirstviewModel") >= 0).toBe(true);
+    });
+
+    it("should apply set binding expression to point to second viewmodel for its element", function () {
+        expect($(secondElement).attr("data-bind").indexOf("viewModel: $data.somePathsecondviewModel") >= 0).toBe(true);
     });
 
     it("should activate first viewmodel", function () {

@@ -317,6 +317,8 @@
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
     <Content Include="views\for_DataAttributeViewRenderer\when_asking_to_resolve_element_without_data_view_attribute_on_it.js" />
     <Content Include="views\for_DataAttributeViewRenderer\when_asking_to_resolve_element_with_data_view_attribute_on_it.js" />
+    <Content Include="views\for_documentService\when_getting_viewmodel_from_element.js" />
+    <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_sorted_with_two_deep_hierarchies.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_root_and_one_child_having_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
@@ -330,7 +332,7 @@
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
     <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
     <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
-    <Content Include="views\for_viewModelManager\when_loading_and_applying_all_viewmodels_with_one_viewmodel.js" />
+    <Content Include="views\for_viewModelManager\when_loading_and_applying_all_viewmodels_with_two_viewmodels.js" />
     <Content Include="views\for_viewRenderers\when_asking_if_can_resolve_and_there_are_no_resolvers.js" />
     <Content Include="views\for_viewRenderers\when_asking_if_can_resolve_and_there_are_two_resolvers_and_first_resolver_can_not_resolve.js" />
     <Content Include="views\for_viewRenderers\when_asking_if_can_resolve_and_there_are_two_resolvers_and_first_resolver_can_resolve.js" />

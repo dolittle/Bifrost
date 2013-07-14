@@ -24,7 +24,7 @@
             var self = this;
 
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
-            Bifrost.views.viewBindingHandler.initialize();
+            Bifrost.views.viewModelBindingHandler.initialize();
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
