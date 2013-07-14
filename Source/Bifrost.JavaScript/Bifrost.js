@@ -7,9 +7,12 @@
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
+@depends utils/isObject.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
-@depends utils/isObject.js
+@depends utils/isNull.js
+@depends utils/isString.js
+@depends utils/isUndefined.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js

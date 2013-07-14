@@ -1,28 +1,32 @@
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.lessThan = {
-    throwIfOptionsUndefined: function (options) {
-        if (typeof options === "undefined") {
+    throwIfOptionsInvalid: function (options) {
+        if (this.notSet(options)) {
             throw new Bifrost.validation.OptionsNotDefined();
         }
-    },
-    throwIfValueUndefined: function (options) {
-        if (typeof options.value === "undefined") {
-            throw new Bifrost.validation.ValueNotSpecified();
+        if (this.notSet(options.value)) {
+            var exception = new Bifrost.validation.OptionsValueNotSpecified();
+            exception.message = exception.message + " 'value' is not set."
+            throw exception;
         }
     },
-    throwIfNotANumber: function (value) {
+
+    throwIsValueToCheckIsNotANumber: function (value) {
         if (!Bifrost.isNumber(value)) {
             throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
         }
     },
 
+    notSet: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
+    },
+
     validate: function (value, options) {
-        this.throwIfNotANumber(value);
-        this.throwIfOptionsUndefined(options);
-        this.throwIfValueUndefined(options);
-        if (typeof value === "undefined") {
+        this.throwIfOptionsInvalid(options);
+        if (this.notSet(value)) {
             return false;
         }
+        this.throwIsValueToCheckIsNotANumber(value);
         return parseFloat(value) < parseFloat(options.value);
     }
 };

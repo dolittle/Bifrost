@@ -1,6 +1,6 @@
 Bifrost.namespace("Bifrost.validation.ruleHandlers");
 Bifrost.validation.ruleHandlers.required = {
     validate: function (value, options) {
-        return !(typeof value == "undefined" || value == "");
+        return !(Bifrost.isUndefined(value) || Bifrost.isNull(value) || value == "");
     }
 };
