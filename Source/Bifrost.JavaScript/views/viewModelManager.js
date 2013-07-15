@@ -33,8 +33,6 @@
             self.masterViewModel[propertyName] = ko.observable(instance);
 
             $(target).attr("data-bind", "viewModel: $data." + propertyName);
-
-            //console.log("Apply : " + viewModelFile + " - ViewModel : '" + instance._type._name + "' in '" + instance._type._namespace._name + "' with path '" + instance._type._namespace._path);
             
             if (typeof instance.activated == "function") {
                 instance.activated();
