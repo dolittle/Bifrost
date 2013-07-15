@@ -17,38 +17,21 @@
 //
 #endregion
 using System;
-using System.Collections;
+
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents the result of a query
+    /// The exception that is thrown when a well known query does not have the query property on it
     /// </summary>
-    public class QueryResult
+    public class NoQueryPropertyException : ArgumentException
     {
         /// <summary>
-        /// Gets or sets the count of total items from a query
+        /// Initializes a new instance of <see cref="NoQueryPropertyException"/>
         /// </summary>
-        public int TotalItems { get; set; }
-
-        /// <summary>
-        /// Gets or sets the items as the result of a query
-        /// </summary>
-        public IEnumerable Items { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exception that occured during execution
-        /// </summary>
-        public Exception Exception { get; set; }
-
-        /// <summary>
-        /// Get wether or not the query was successful or not
-        /// </summary>
-        public bool Success
+        /// <param name="query"><see cref="IQuery"/> that does not have the property on it</param>
+        public NoQueryPropertyException(IQuery query)
+            : base(string.Format("No query property for {0}. Hint: It should be a public instance property with a get on it.", query.GetType().FullName))
         {
-            get
-            {
-                return Exception == null && Items != null;
-            }
         }
     }
 }

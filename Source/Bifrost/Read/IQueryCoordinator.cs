@@ -16,39 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using System.Collections;
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents the result of a query
+    /// Defines a coordinator of queries
     /// </summary>
-    public class QueryResult
+    public interface IQueryCoordinator
     {
         /// <summary>
-        /// Gets or sets the count of total items from a query
+        /// Execute a <see cref="IQuery"/>
         /// </summary>
-        public int TotalItems { get; set; }
-
-        /// <summary>
-        /// Gets or sets the items as the result of a query
-        /// </summary>
-        public IEnumerable Items { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exception that occured during execution
-        /// </summary>
-        public Exception Exception { get; set; }
-
-        /// <summary>
-        /// Get wether or not the query was successful or not
-        /// </summary>
-        public bool Success
-        {
-            get
-            {
-                return Exception == null && Items != null;
-            }
-        }
+        /// <param name="query"><see cref="IQuery"/> to execute</param>
+        /// <param name="clauses"><see cref="Clauses"/> applied to the query</param>
+        /// <returns><see cref="QueryResult">Result</see> of the query</returns>
+        QueryResult Execute(IQuery query, Clauses clauses);
     }
 }

@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
 using Bifrost.Sagas;
@@ -96,6 +97,11 @@ namespace Bifrost.Commands
                             _commandHandlerManager.Handle(command);
                             transaction.Commit();
                         }
+                        catch (TargetInvocationException ex)
+                        {
+                            commandResult.Exception = ex.InnerException;
+                            transaction.Rollback();
+                        }
                         catch (Exception exception)
                         {
                             commandResult.Exception = exception;
@@ -103,6 +109,10 @@ namespace Bifrost.Commands
                         }
                     }
                 }
+            }
+            catch (TargetInvocationException ex)
+            {
+                commandResult.Exception = ex.InnerException;
             }
             catch (Exception ex)
             {
