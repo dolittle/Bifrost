@@ -1,6 +1,8 @@
 Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
+Bifrost.Exception.define("Bifrost.validation.OptionsValueNotSpecified", "Required value in Options is not specified. ");
 Bifrost.Exception.define("Bifrost.validation.NotANumber", "Value is not a number");
+Bifrost.Exception.define("Bifrost.validation.NotAString", "Value is not a string");
 Bifrost.Exception.define("Bifrost.validation.ValueNotSpecified","Value is not specified");
 Bifrost.Exception.define("Bifrost.validation.MinNotSpecified","Min is not specified");
 Bifrost.Exception.define("Bifrost.validation.MaxNotSpecified","Max is not specified");

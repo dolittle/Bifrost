@@ -7,9 +7,12 @@
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
+@depends utils/isObject.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
-@depends utils/isObject.js
+@depends utils/isNull.js
+@depends utils/isString.js
+@depends utils/isUndefined.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
@@ -17,6 +20,7 @@
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
 @depends utils/WellKnownTypesDependencyResolver.js
+@depends utils/DOMRootDependencyResolver.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js
@@ -70,6 +74,7 @@
 @depends messaging/observableMessage.js
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
+@depends views/documentService.js
 @depends views/View.js
 @depends views/ViewRenderer.js
 @depends views/viewRenderers.js
@@ -78,12 +83,13 @@
 @depends views/viewLoader.js
 @depends views/viewManager.js
 @depends views/ViewModel.js
+@depends views/viewModelLoader.js
 @depends views/viewModelManager.js
 @depends views/PathResolver.js
 @depends views/pathResolvers.js
 @depends views/UriMapperPathResolver.js
 @depends views/RelativePathResolver.js
-@depends views/viewBindingHandler.js
+@depends views/viewModelBindingHandler.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

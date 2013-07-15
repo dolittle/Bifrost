@@ -5,6 +5,7 @@ Bifrost.namespace("Bifrost.read", {
         function createDescriptorFrom(query) {
             var descriptor = {
                 nameOfQuery: query.name,
+                generatedFrom: query.generatedFrom,
                 parameters: {}
             };
 
@@ -27,7 +28,7 @@ Bifrost.namespace("Bifrost.read", {
             };
 
             $.ajax({
-                url: "/Bifrost/Query/Execute",
+                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(methodParameters),

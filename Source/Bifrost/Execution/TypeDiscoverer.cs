@@ -92,6 +92,11 @@ namespace Bifrost.Execution
 			var typesFound = Find(type);
 			return typesFound;
 		}
+
+        public Type FindTypeByFullName(string fullName)
+        {
+            return _types.SingleOrDefault(t => t.FullName == fullName);
+        }
 #pragma warning restore 1591 // Xml Comments
 
 #if(WINDOWS_PHONE)

@@ -9,8 +9,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
     {
         public ConceptAsStringValidator()
         {
-            //RuleFor(c => c.Value).NotEmpty();
-            ModelRule().NotEmpty();
+            RuleFor(c => c.Value).NotEmpty();
         }
     }
 
@@ -31,6 +30,15 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
             RuleFor(c => c.Value)
                 .NotEmpty()
                 .GreaterThan(0);
+        }
+    }
+
+    public class ObjectValidator : Validator<object>
+    {
+        public ObjectValidator()
+        {
+            ModelRule()
+                .NotNull();
         }
     }
 }

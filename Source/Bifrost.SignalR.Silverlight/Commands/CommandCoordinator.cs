@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
 using Bifrost.Commands;
-using Bifrost.Domain;
 using Bifrost.Dynamic;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
+using Bifrost.SignalR.Commands;
 using Bifrost.SignalR.Silverlight.Hubs;
 using SignalR.Client.Hubs;
 
@@ -64,7 +63,8 @@ namespace Bifrost.SignalR.Silverlight.Commands
             {
                 Id = Guid.NewGuid(),
                 Name = command.Name,
-                Command = _serializer.ToJson(command.Parameters)
+                Command = _serializer.ToJson(command.Parameters),
+                GeneratedFrom = command.GetType().FullName
             };
             _commands[descriptor.Id] = command;
             command.IsBusy = true;

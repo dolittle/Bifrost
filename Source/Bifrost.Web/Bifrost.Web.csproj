@@ -64,11 +64,12 @@
     <Compile Include="Assets\AssetsManager.cs" />
     <Compile Include="Assets\IAssetsManager.cs" />
     <Compile Include="Commands\CommandCoordinatorService.cs" />
+    <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\CommandSecurityService.cs" />
     <Compile Include="Configuration\ConfigurationRoute.cs" />
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />
     <Compile Include="Configuration\ConfigurationRouteHttpHandler.cs" />
-    <Compile Include="Configuration\NamespaceMappers.cs" />
+    <Compile Include="Configuration\NamespaceMapper.cs" />
     <Compile Include="Configuration\PathToNamespaceMappers.cs" />
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Proxies\GeneratedProxies.cs" />
     <Compile Include="Proxies\NamespaceConfigurationProxies.cs" />
     <Compile Include="Proxies\NamespaceExtensions.cs" />
+    <Compile Include="Proxies\Namespaces.cs" />
     <Compile Include="Proxies\ProxyRoute.cs" />
     <Compile Include="Proxies\QueryProxies.cs" />
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />

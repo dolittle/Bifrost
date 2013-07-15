@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Collections.Generic;
@@ -167,5 +169,15 @@ namespace Bifrost.Extensions
             return constantExpression.Value;
         }
 
+        /// <summary>
+        /// A Func to extract a member expression from an Expression
+        /// </summary>
+        public static Func<Expression, MemberExpression> Unwrap = (Func<Expression, MemberExpression>)(toUnwrap =>
+        {
+            var unwrap = toUnwrap as UnaryExpression;
+            if (unwrap != null)
+                return unwrap.Operand as MemberExpression;
+            return toUnwrap as MemberExpression;
+        });
 	}
 }

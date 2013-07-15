@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+
+using Bifrost.Extensions;
+
 namespace Bifrost.CodeGeneration.JavaScript
 {
     /// <summary>
@@ -43,6 +46,16 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// Gets the <see cref="ObjectLiteral"/> representing the content of the namespace
         /// </summary>
         public ObjectLiteral Content { get; private set; }
+
+        /// <summary>
+        /// Gets the fully qualified name for a type in this namespace
+        /// </summary>
+        /// <param name="typeName">Name of a type in this namespace</param>
+        /// <returns>Fully qualified name</returns>
+        public string GetFullyQualifiedNameForType(string typeName)
+        {
+            return string.Concat(Name, ".", typeName.ToPascalCase());
+        }
 
 #pragma warning disable 1591
         public override void Write(ICodeWriter writer)

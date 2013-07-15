@@ -18,7 +18,6 @@
 #endregion
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -28,34 +27,25 @@ namespace Bifrost.Web.Read
 {
     public class QueryService
     {
-        ITypeDiscoverer _typeDiscoverer;
-        IContainer _container;
-        IEnumerable<Type> _queryTypes;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly IContainer _container;
 
         public QueryService(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;
-            _container = container;
-            _queryTypes = _typeDiscoverer.FindMultiple(typeof(IQueryFor<>));
-            
+            _container = container;     
         }
 
         public IEnumerable Execute(QueryDescriptor descriptor)
         {
-            var nameOfQuery = descriptor.NameOfQuery.ToPascalCase();
-            var queryType = _queryTypes.SingleOrDefault(t => t.Name == nameOfQuery);
-            if (queryType != null)
-            {
-                var instance = _container.Get(queryType);
+            var queryType = _typeDiscoverer.GetQueryTypeByName(descriptor.GeneratedFrom);
+            var instance = _container.Get(queryType);
 
-				PopulateProperties (descriptor, queryType, instance);
+			PopulateProperties (descriptor, queryType, instance);
 
-                var queryProperty = queryType.GetProperty("Query");
-                var queryable = queryProperty.GetValue(instance, null) as IQueryable;
-                return queryable;
-            }
-            
-            return new object[0];
+            var queryProperty = queryType.GetProperty("Query");
+            var queryable = queryProperty.GetValue(instance, null) as IQueryable;
+            return queryable;
         }
 
 		void PopulateProperties (QueryDescriptor descriptor, Type queryType, object instance)

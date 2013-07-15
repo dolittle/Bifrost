@@ -65,6 +65,7 @@
     <Compile Include="BifrostDependencyResolver.cs" />
     <Compile Include="Commands\CommandContextConnectionManager.cs" />
     <Compile Include="Commands\CommandCoordinator.cs" />
+    <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\ICommandContextConnectionManager.cs" />
     <Compile Include="Commands\UnknownCommandContextException.cs" />
     <Compile Include="ConfigurationExtensions.cs" />

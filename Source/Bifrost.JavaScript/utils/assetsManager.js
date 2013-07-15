@@ -24,7 +24,7 @@
         },
         hasScript: function(script) {
             var found = false;
-            Bifrost.assetsManager.scripts.forEach(function (scriptInSystem) {
+            Bifrost.assetsManager.scripts.some(function (scriptInSystem) {
                 if (scriptInSystem === script) {
                     found = true;
                     return;

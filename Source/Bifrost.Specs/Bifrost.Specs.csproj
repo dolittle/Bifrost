@@ -115,9 +115,11 @@
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_authorizing_a_command.cs" />
-    <Compile Include="Concepts\for_ConceptAs\given\concepts.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_equating.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_getting_hash_code.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_an_inherited_concept.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_a_concept.cs" />
+    <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_a_primitive.cs" />
     <Compile Include="Concepts\for_Value\given\value_objects.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_single_instance.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_value_with_an_inherited_type_with_identical_values.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_different_values.cs" />
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_identical_values.cs" />
     <Compile Include="Concepts\for_Value\when_getting_hashcode_for_values_with_transposed_values.cs" />
+    <Compile Include="Concepts\given\concepts.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\when_initializing_multiple_bindings_for_specific_storage.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeOtherType.cs" />
     <Compile Include="Configuration\for_ConfigurationExtensions\SomeType.cs" />
@@ -224,6 +227,8 @@
     <Compile Include="Execution\for_ExecutionContextManager\given\all_dependencies.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\given\an_execution_context_manager.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\when_getting_current_twice.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
+    <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\a_read_only_container.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_creating_and_setting_value_during_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\given\a_write_once_expando_object_without_values.cs" />
@@ -427,9 +432,12 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly_multitple_times.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_no_one_can_resolve.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_it_has.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_no_mappings_matching.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_one_mapping_matching.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_two_mappings_matching.cs" />
     <Compile Include="Utils\for_StringMapper\when_resolving_a_string_without_any_match.cs" />
-    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string_with_second_mapping_matching.cs" />
-    <Compile Include="Utils\for_StringMapper\when_getting_mapping_for_a_string.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_first_mapping_for_a_string_where_the_second_mapping_matches.cs" />
+    <Compile Include="Utils\for_StringMapper\when_getting_first_mapping_for_a_string.cs" />
     <Compile Include="Utils\for_StringMapper\when_adding_a_specific_mapping.cs" />
     <Compile Include="Utils\for_StringMapper\when_adding_mapping.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.cs" />
@@ -553,6 +561,8 @@
     <Compile Include="Validation\for_RuleBuilderExtensions\FakePropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator.cs" />
     <Compile Include="Validation\for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state.cs" />
+    <Compile Include="Validation\for_Validator\when_validating_a_complex_graph_with_model_rules_and_concepts.cs" />
+    <Compile Include="Validation\for_Validator\given\a_complex_object_graph_and_validator.cs" />
     <Compile Include="Validation\for_Validator\SimpleObject.cs" />
     <Compile Include="Validation\for_Validator\ValidatorWithModelRuleWithOneMustClause.cs" />
     <Compile Include="Validation\for_Validator\when_applying_model_rule_with_a_must_callback.cs" />
@@ -565,7 +575,7 @@
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ConceptAsStringValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectWithConcept.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectWithConceptValidator.cs" />
-    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_an_object_with_concept_on_it.cs" />
+    <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_an_object_with_concept_on_it_and_a_model_rule.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating_for_nested_properties.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
@@ -579,12 +589,6 @@
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
     <Compile Include="Views\Stubs.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\given\a_command_type_manager.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_asking_for_a_command_that_exists.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\SomeCommand.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_asking_for_a_command_that_does_not_exist.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\given\a_command_type_manager_with_one_command.cs" />
-    <Compile Include="Commands\for_CommandTypeManager\when_creating_an_instance_of_command_type_manager_and_multiple_commands_with_same_name_exists.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Globalization\for_Localizer\given\" />

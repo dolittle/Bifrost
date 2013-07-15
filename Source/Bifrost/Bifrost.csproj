@@ -90,7 +90,6 @@
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandContextFactory.cs" />
-    <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
@@ -98,6 +97,7 @@
     <Compile Include="Commands\HandleCommand.cs" />
     <Compile Include="Commands\ICommandContextFactory.cs" />
     <Compile Include="Commands\ICommandSecurityManager.cs" />
+    <Compile Include="Commands\TypeDiscovererExtensions.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concepts\ConceptExtensions.cs" />
     <Compile Include="Concepts\ConceptFactory.cs" />
@@ -179,6 +179,9 @@
     <Compile Include="Read\ReadModelOf.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Read\QueryResult.cs" />
+    <Compile Include="Read\TypeDiscovererExtensions.cs" />
+    <Compile Include="Read\UnknownQueryException.cs" />
+    <Compile Include="Read\UnknownReadModelOfException.cs" />
     <Compile Include="Rules\And.cs" />
     <Compile Include="Rules\CompositeRule.cs" />
     <Compile Include="Rules\Negative.cs" />
@@ -301,6 +304,7 @@
     <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
     <Compile Include="Validation\DynamicState.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
@@ -329,6 +333,7 @@
     <Compile Include="Validation\MetaData\Rule.cs" />
     <Compile Include="Validation\MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="Validation\ModelRule.cs" />
+    <Compile Include="Validation\NameResolvers.cs" />
     <Compile Include="Validation\NullChapterValidator.cs" />
     <Compile Include="Validation\NullCommandBusinessValidator.cs" />
     <Compile Include="Validation\NullCommandInputValidator.cs" />
@@ -356,6 +361,7 @@
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
+    <Compile Include="Validation\TypeExtensions.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
@@ -417,8 +423,6 @@
     <Compile Include="Time\SystemClock.cs" />
     <Compile Include="Validation\ConventionValidatorFactory.cs" />
     <Compile Include="Validation\CommandValidatorFactory.cs" />
-    <Compile Include="Commands\ICommandTypeManager.cs" />
-    <Compile Include="Commands\CommandTypeManager.cs" />
     <Compile Include="Commands\UnknownCommandException.cs" />
     <Compile Include="Configuration\ISerializationConfiguration.cs" />
     <Compile Include="Configuration\SerializationConfiguration.cs" />

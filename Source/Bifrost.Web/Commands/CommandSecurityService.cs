@@ -18,27 +18,26 @@
 #endregion
 using System;
 using Bifrost.Commands;
+using Bifrost.Execution;
 using Bifrost.Security;
 
 namespace Bifrost.Web.Commands
 {
     public class CommandSecurityService
     {
-        ICommandTypeManager _commandTypeManager;
-        ICommandSecurityManager _commandSecurityManager;
+        readonly ICommandSecurityManager _commandSecurityManager;
+        readonly ITypeDiscoverer _typeDiscoverer;
 
-        public CommandSecurityService(
-            ICommandTypeManager commandTypeManager,
-            ICommandSecurityManager commandSecurityManager)
+        public CommandSecurityService(ICommandSecurityManager commandSecurityManager, ITypeDiscoverer typeDiscoverer)
         {
-            _commandTypeManager = commandTypeManager;
+            _typeDiscoverer = typeDiscoverer;
             _commandSecurityManager = commandSecurityManager;
         }
 
         public AuthorizationResult GetForCommand(string commandName)
         {
-            var type = _commandTypeManager.GetFromName(commandName);
-            var commandInstance = Activator.CreateInstance(type) as ICommand;
+            var commandType = _typeDiscoverer.GetCommandTypeByName(commandName);
+            var commandInstance = Activator.CreateInstance(commandType) as ICommand;
             var result = _commandSecurityManager.Authorize(commandInstance);
             return result;
         }

@@ -172,5 +172,25 @@ namespace Bifrost.Extensions
             return hasInterface;
         }
 
+        /// <summary>
+        /// Check if a type derives from an open generic type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="openGenericType"></param>
+        /// <returns></returns>
+        public static bool IsDerivedFromOpenGeneric(this Type type, Type openGenericType)
+        {
+            var typeToCheck = type;
+            while (typeToCheck != null && typeToCheck != typeof(object))
+            {
+                var currentType = typeToCheck.IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
+                if (openGenericType == currentType)
+                {
+                    return true;
+                }
+                typeToCheck = typeToCheck.BaseType;
+            }
+            return false;
+        }
 	}
 }

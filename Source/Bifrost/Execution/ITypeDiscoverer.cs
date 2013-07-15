@@ -77,5 +77,12 @@ namespace Bifrost.Execution
 		/// If it is a class, it will find anyone inheriting from that class
 		/// </remarks>
 		Type[] FindMultiple(Type type);
+
+	    /// <summary>
+	    /// Find a single type using the full name, without assembly
+	    /// </summary>
+	    /// <param name="fullName">full name of the type to find</param>
+	    /// <returns>The type is found, null otherwise</returns>
+	    Type FindTypeByFullName(string fullName);
 	}
 }

@@ -27,22 +27,18 @@ namespace Bifrost.Web.Commands
 {
     public class CommandCoordinatorService
     {
-        ICommandCoordinator _commandCoordinator;
-        ICommandTypeManager _commandTypeManager;
-        ISerializer _serializer;
-        ITypeDiscoverer _typeDiscoverer;
-        ISagaLibrarian _sagaLibrarian;
-
+        readonly ICommandCoordinator _commandCoordinator;
+        readonly ISerializer _serializer;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly ISagaLibrarian _sagaLibrarian;
 
         public CommandCoordinatorService(
             ICommandCoordinator commandCoordinator, 
-            ICommandTypeManager commandTypeManager,
             ISerializer serializer,
             ITypeDiscoverer typeDiscoverer,
             ISagaLibrarian sagaLibrarian)
         {
             _commandCoordinator = commandCoordinator;
-            _commandTypeManager = commandTypeManager;
             _serializer = serializer;
             _typeDiscoverer = typeDiscoverer;
             _sagaLibrarian = sagaLibrarian;
@@ -85,8 +81,7 @@ namespace Bifrost.Web.Commands
 
         ICommand GetCommandFromDescriptor(CommandDescriptor commandDescriptor)
         {
-            var commandName = commandDescriptor.Name;
-            var commandType = _commandTypeManager.GetFromName(commandName);
+            var commandType = _typeDiscoverer.GetCommandTypeByName(commandDescriptor.GeneratedFrom);
             var commandInstance = _serializer.FromJson(commandType, commandDescriptor.Command) as ICommand;
             return commandInstance;
         }

@@ -53,7 +53,7 @@ namespace Bifrost.Validation
         /// Add a predicate rule based on a Func that will be called when validation occurs
         /// </summary>
         /// <param name="validateFor"><see cref="Func(T, bool)"/> that will be called for validation</param>
-        /// <returns><see cref="IRuleBuilderOptions(T, object)"/> that can be used to fluently configure options for the rule</returns>
+        /// <returns><see cref="IRuleBuilderOptions"/> that can be used to fluently configure options for the rule</returns>
         public IRuleBuilderOptions<T, object> AddRule(Func<T, bool> validateFor)
         {
             var rule = CommandPredicateRule<T>.Create(validateFor);

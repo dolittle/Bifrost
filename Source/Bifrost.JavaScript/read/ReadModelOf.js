@@ -2,6 +2,7 @@ Bifrost.namespace("Bifrost.read", {
 	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
 	    var self = this;
 	    this.name = "";
+	    this.generatedFrom = "";
 	    this.target = null;
 	    this.readModelType = Bifrost.Type.extend(function () { });
 	    this.instance = ko.observable();
@@ -11,12 +12,13 @@ Bifrost.namespace("Bifrost.read", {
 		    var methodParameters = {
 		        descriptor: JSON.stringify({
 		            readModel: self.target.name,
+                    generatedFrom: self.target.generatedFrom,
 		            propertyFilters: propertyFilters
 		        })
 		    };
 
 		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching",
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.generatedFrom,
 		        type: 'POST',
 		        dataType: 'json',
 		        data: JSON.stringify(methodParameters),

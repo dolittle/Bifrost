@@ -159,6 +159,26 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    Bifrost.Type.typeOf = function (type) {
+
+        if (typeof this._super == "undefined" ||
+            typeof this._super._typeId == "undefined") {
+            return false;
+        }
+
+        if (this._super._typeId === type._typeId) {
+            return true;
+        }
+
+        if (typeof type._super !== "undefined") {
+            var isType = this._super.typeOf(type);
+            if (isType == true) return true;
+        }
+
+
+        return false;
+    };
+
     Bifrost.Type.extend = function (typeDefinition) {
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
@@ -243,6 +263,14 @@ Bifrost.namespace("Bifrost", {
             this.instancesPerScope[scope] = instance;
         }
 
+        return instance;
+    };
+
+    Bifrost.Type.createWithoutScope = function (instanceHash, isSuper) {
+        var scope = this.scope;
+        this.defaultScope();
+        var instance = this.create(instanceHash, isSuper);
+        this.scope = scope;
         return instance;
     };
 
