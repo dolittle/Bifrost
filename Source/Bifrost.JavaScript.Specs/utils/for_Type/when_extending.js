@@ -28,4 +28,9 @@ describe("when extending", function () {
     it("should add a type id", function () {
         expect(typeDefinition._typeId).toBeDefined();
     });
+
+    it("should add this type to the list of types that extend Bifrost Type", function () {
+        var extenders = Bifrost.Type.getExtenders();
+        expect(extenders).toContain(typeDefinition);
+    });
 });

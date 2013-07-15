@@ -235,6 +235,7 @@
     <Content Include="Utils\for_Type\when_creating_with_one_dependency_and_defined_parameters.js" />
     <Content Include="Utils\for_Type\when_creating_asynchronously_with_defined_parameters.js" />
     <Content Include="Utils\for_Type\when_creating_asynchronously_with_one_dependency_and_other_parameters.js" />
+    <Content Include="Utils\for_Type\when_extending_an_extended_type.js" />
     <Content Include="Utils\for_Type\when_extending_two_different_types.js" />
     <Content Include="Utils\for_Type\when_creating_instance_with_function_as_scope.js" />
     <Content Include="Utils\for_Type\when_creating_two_instances_scope_to_same_object.js" />
@@ -315,6 +316,7 @@
     <Content Include="validation\for_range\when_value_to_be_validated_is_not_a_number.js" />
     <Content Include="validation\for_range\when_value_to_be_validated_is_null.js" />
     <Content Include="validation\for_range\when_value_to_be_validated_is_undefined.js" />
+    <Content Include="validation\for_regex\when_validating_with_expression_of_wrong_type.js" />
     <Content Include="validation\for_regex\when_validating_with_null_expression.js" />
     <Content Include="validation\for_regex\when_not_using_options.js" />
     <Content Include="validation\for_regex\when_validating_and_it_should_match.js" />
@@ -323,9 +325,10 @@
     <Content Include="validation\for_regex\when_value_to_be_validated_is_not_a_string.js" />
     <Content Include="validation\for_regex\when_value_to_be_validated_is_null.js" />
     <Content Include="validation\for_regex\when_value_to_be_validated_is_undefined.js" />
+    <Content Include="validation\for_required\Copy of when_validating_with_undefined.js" />
     <Content Include="validation\for_required\when_validating_with_empty_string.js" />
     <Content Include="validation\for_required\when_validating_with_string_with_content.js" />
-    <Content Include="validation\for_required\when_validating_with_undefined.js" />
+    <Content Include="validation\for_required\when_validating_with_null.js" />
     <Content Include="validation\for_Rule\when_creating_without_options.js" />
     <Content Include="validation\for_Rule\when_creating_with_a_known_rule.js" />
     <Content Include="validation\for_Rule\when_creating_with_a_known_rule_and_options.js" />

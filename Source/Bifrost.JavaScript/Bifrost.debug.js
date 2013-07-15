@@ -569,9 +569,9 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
-    addStaticProperties = function(typeDefinition) {
+    addStaticProperties = function (typeDefinition) {
         for (var property in Bifrost.Type) {
-            if (Bifrost.Type.hasOwnProperty(property)) {
+            if (Bifrost.Type.hasOwnProperty(property) && property != "_extenders") {
                 typeDefinition[property] = Bifrost.Type[property];
             }
         }
@@ -705,6 +705,8 @@ Bifrost.namespace("Bifrost", {
         }
     };
 
+    Bifrost.Type._extenders = [];
+
     Bifrost.Type.scope = {
         getFor : function(namespace, name) {
             return null;
@@ -731,15 +733,34 @@ Bifrost.namespace("Bifrost", {
         return false;
     };
 
-    Bifrost.Type.extend = function (typeDefinition) {
+    Bifrost.Type.getExtenders = function () {
+        return this._extenders;
+    };
+  
+
+    Bifrost.Type.extend = function (typeDefinition) {     
         throwIfMissingTypeDefinition(typeDefinition);
         throwIfTypeDefinitionIsObjectLiteral(typeDefinition);
+
         addStaticProperties(typeDefinition);
         setupDependencies(typeDefinition);
         typeDefinition._super = this;
         typeDefinition._typeId = Bifrost.Guid.create();
+        typeDefinition._extenders = [];
+        Bifrost.Type.registerExtender(this, typeDefinition);
         return typeDefinition;
     };
+
+    Bifrost.Type.registerExtender = function (typeExtended, typeDefined) {
+        var superType = typeExtended;
+        
+        while (superType != null) {
+            if (superType._extenders.indexOf(typeDefined) === -1) {
+                superType._extenders.push(typeDefined);
+            }
+            superType = superType._super;
+        }
+    }
 
     Bifrost.Type.scopeTo = function(scope) {
         if( typeof scope === "function" ) {
