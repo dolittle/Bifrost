@@ -6,7 +6,9 @@
             hasScript: function (script) {
                 scriptAskedFor = script;
             }
-        }
+        },
+        documentService: {},
+        viewModelLoader: {}
     });
 
     viewModelManager.hasForView("/Something/index.html");

@@ -287,6 +287,14 @@ Bifrost.namespace("Bifrost", {
         return instance;
     };
 
+    Bifrost.Type.createWithoutScope = function (instanceHash, isSuper) {
+        var scope = this.scope;
+        this.defaultScope();
+        var instance = this.create(instanceHash, isSuper);
+        this.scope = scope;
+        return instance;
+    };
+
     Bifrost.Type.beginCreate = function(instanceHash) {
         var self = this;
 
