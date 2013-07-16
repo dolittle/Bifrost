@@ -62,6 +62,7 @@
 @depends commands/hasChanges.js
 @depends read/queryService.js
 @depends read/readModelMapper.js
+@depends read/Clauses.js
 @depends read/Queryable.js
 @depends read/Query.js
 @depends read/ReadModel.js
