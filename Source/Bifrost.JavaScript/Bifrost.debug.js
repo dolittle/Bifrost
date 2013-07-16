@@ -258,15 +258,17 @@ Bifrost.namespace("Bifrost", {
 		parse: function(func) {
 			var result = [];
 			
-            var match = func.toString ().match (/function\w*\s*\((.*?)\)/);
-			var arguments = match[1].split (/\s*,\s*/);
-			arguments.forEach(function(item) {
-				if( item.trim().length > 0 ) {
-					result.push({
-						name:item
-					});
-				}
-			});
+			var match = func.toString().match(/function\w*\s*\((.*?)\)/);
+			if (match != null) {
+			    var arguments = match[1].split(/\s*,\s*/);
+			    arguments.forEach(function (item) {
+			        if (item.trim().length > 0) {
+			            result.push({
+			                name: item
+			            });
+			        }
+			    });
+			}
 			
 			return result;
 		}
@@ -2449,6 +2451,22 @@ Bifrost.namespace("Bifrost.read", {
 	})
 });
 Bifrost.namespace("Bifrost.read", {
+    Queryable: Bifrost.Type.extend(function() {
+        var self = this;
+
+        this.pageSize = ko.observable(0);
+        this.pageNumber = ko.observable(0);
+    })
+});
+Bifrost.read.Queryable.new = function () {
+    var observable = ko.observableArray();
+    var queryable = Bifrost.read.Queryable.create();
+    Bifrost.extend(observable, queryable);
+    return observable;
+};
+
+
+Bifrost.namespace("Bifrost.read", {
     Query: Bifrost.Type.extend(function (queryService, readModelMapper) {
         var self = this;
         this.name = "";
@@ -3287,8 +3305,6 @@ Bifrost.namespace("Bifrost.views", {
             self.masterViewModel[propertyName] = ko.observable(instance);
 
             $(target).attr("data-bind", "viewModel: $data." + propertyName);
-
-            //console.log("Apply : " + viewModelFile + " - ViewModel : '" + instance._type._name + "' in '" + instance._type._namespace._name + "' with path '" + instance._type._namespace._path);
             
             if (typeof instance.activated == "function") {
                 instance.activated();

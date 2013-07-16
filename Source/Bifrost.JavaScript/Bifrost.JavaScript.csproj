@@ -62,6 +62,7 @@
     <Content Include="Libraries\knockout.mapping-latest.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
+    <Content Include="read\Queryable.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
