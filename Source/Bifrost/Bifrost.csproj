@@ -180,6 +180,7 @@
     <Compile Include="Read\NoQueryPropertyException.cs" />
     <Compile Include="Read\QueryableProvider.cs" />
     <Compile Include="Read\QueryCoordinator.cs" />
+    <Compile Include="Read\QueryProviderResult.cs" />
     <Compile Include="Read\ReadModelOf.cs" />
     <Compile Include="Read\ReadModelRepositoryFor.cs" />
     <Compile Include="Read\QueryResult.cs" />

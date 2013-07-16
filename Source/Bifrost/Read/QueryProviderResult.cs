@@ -21,16 +21,18 @@ using System.Collections;
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a provider that can deal with a query for
+    /// Represents the result of issuing a query for a provider
     /// </summary>
-    public interface IQueryProviderFor<T>
+    public class QueryProviderResult
     {
         /// <summary>
-        /// Execute a query with clauses applied
+        /// Gets or sets the count of total items from a query
         /// </summary>
-        /// <param name="query">Query to execute</param>
-        /// <param name="clauses"><see cref="Clauses"/> to apply</param>
-        /// <returns><see cref="QueryResult">Result</see> from the query</returns>
-        QueryProviderResult Execute(T query, Clauses clauses);
+        public int TotalItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the items as the result of a query
+        /// </summary>
+        public IEnumerable Items { get; set; }
     }
 }

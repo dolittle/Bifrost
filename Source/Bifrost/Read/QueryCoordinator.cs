@@ -55,31 +55,27 @@ namespace Bifrost.Read
         {
             ThrowIfNoQueryPropertyOnQuery(query);
 
+            var result = new QueryResult();
             try
             {
                 var property = GetQueryPropertyFromQuery(query);
                 var queryProviderType = _queryProviderTypesPerTargetType[property.PropertyType];
                 var provider = _container.Get(queryProviderType);
                 var actualQuery = property.GetValue(query, null);
-                var result = ExecuteOnProvider(provider, actualQuery, clauses);
-
-                return result;
+                var providerResult = ExecuteOnProvider(provider, actualQuery, clauses);
+                result.TotalItems = providerResult.TotalItems;
+                result.Items = providerResult.Items;
             }
-            catch( TargetInvocationException ex) {
-                var result = new QueryResult
-                {
-                    Exception = ex.InnerException
-                };
-                return result;
-            } 
+            catch (TargetInvocationException ex)
+            {
+                result.Exception = ex.InnerException;
+            }
             catch (Exception ex)
             {
-                var result = new QueryResult
-                {
-                    Exception = ex
-                };
-                return result;
+                result.Exception = ex;
             }
+
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -97,10 +93,10 @@ namespace Bifrost.Read
             return property;
         }
 
-        QueryResult ExecuteOnProvider(object provider, object query, Clauses clauses)
+        QueryProviderResult ExecuteOnProvider(object provider, object query, Clauses clauses)
         {
             var method = provider.GetType().GetMethod(ExecuteMethodName);
-            var result = method.Invoke(provider, new[] { query, clauses }) as QueryResult;
+            var result = method.Invoke(provider, new[] { query, clauses }) as QueryProviderResult;
             return result;
         }
 

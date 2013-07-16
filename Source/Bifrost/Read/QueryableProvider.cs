@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Bifrost.Read
@@ -29,9 +30,16 @@ namespace Bifrost.Read
     public class QueryableProvider : IQueryProviderFor<IQueryable>
     {
 #pragma warning disable 1591 // Xml Comments
-        public QueryResult Execute(IQueryable query, Clauses clauses)
+        public QueryProviderResult Execute(IQueryable query, Clauses clauses)
         {
-            throw new NotImplementedException();
+            var result = new QueryProviderResult();
+            var queryable = query.OfType<object>();
+            result.TotalItems = queryable.Count();
+            if( clauses.Paging )
+                queryable = queryable.Skip(clauses.PageSize * clauses.PageNumber).Take(clauses.PageSize);
+
+            result.Items = queryable.AsEnumerable();
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
     }

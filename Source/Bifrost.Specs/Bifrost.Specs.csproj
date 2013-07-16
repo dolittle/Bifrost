@@ -271,6 +271,7 @@
     <Compile Include="Read\for_Clauses\when_page_size_is_less_than_zero.cs" />
     <Compile Include="Read\for_Clauses\when_page_size_is_more_than_zero.cs" />
     <Compile Include="Read\for_Clauses\when_page_size_is_zero.cs" />
+    <Compile Include="Read\for_QueryableProvider\when_paging_is_set_two_show_second_page.cs" />
     <Compile Include="Read\for_QueryCoordinator\given\a_query_coordinator_with_known_provider.cs" />
     <Compile Include="Read\for_QueryCoordinator\QueryForKnownProvider.cs" />
     <Compile Include="Read\for_QueryCoordinator\QueryType.cs" />
@@ -606,7 +607,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Globalization\for_Localizer\given\" />
-    <Folder Include="Read\for_QueryableProvider\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />
   </ItemGroup>
