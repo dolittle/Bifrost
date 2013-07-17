@@ -30,9 +30,17 @@ namespace Bifrost.NHibernate.Read
             var result = new QueryProviderResult();
             if (paging.Enabled)
             {
+                result.TotalItems = (int)query.RootCriteria.SetProjection(Projections.Count("*")).UniqueResult(); // .FutureValue<int>(); //
+
                 query.RootCriteria.SetFirstResult(paging.Size * paging.Number);
                 query.RootCriteria.SetMaxResults(paging.Size);
+                
             }
+            result.Items = query.RootCriteria.List();
+
+            // For Total Items - idea
+            // http://ayende.com/blog/2334/paged-data-count-with-nhibernate-the-really-easy-way
+            
 
             return result;
         }
