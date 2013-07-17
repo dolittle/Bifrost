@@ -22,7 +22,7 @@
         }
     });
 
-    it("should call execute on the queryable", function () {
-        expect(options.query.areAllParametersSet.called).toBe(true);
+    it("should not call execute on the queryable", function () {
+        expect(options.query.areAllParametersSet.called).toBe(false);
     });
 });

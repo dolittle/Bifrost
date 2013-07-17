@@ -2,6 +2,8 @@
     Queryable: Bifrost.Type.extend(function (query, queryService, targetObservable) {
         var self = this;
 
+        this.canExecute = true;
+
         this.target = targetObservable;
         this.query = query;
         this.queryService = queryService;
@@ -10,11 +12,15 @@
         this.completedCallbacks = [];
 
         this.pageSize.subscribe(function () {
-            self.execute();
+            if (self.canExecute) {
+                self.execute();
+            }
         });
 
         this.pageNumber.subscribe(function () {
-            self.execute();
+            if (self.canExecute) {
+                self.execute();
+            }
         });
 
         function observePropertiesFrom(query) {
@@ -56,17 +62,19 @@
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {
+            self.canExecute = false;
             self.pageSize(pageSize);
             self.pageNumber(pageNumber);
+            self.canExecute = true;
+            self.execute();
         };
     })
 });
-Bifrost.read.Queryable.new = function (options) {
+Bifrost.read.Queryable.new = function (options, executeQuery) {
     var observable = ko.observableArray();
     options.targetObservable = observable;
     var queryable = Bifrost.read.Queryable.create(options);
     Bifrost.extend(observable, queryable);
-    observable.execute();
     return observable;
 };
 

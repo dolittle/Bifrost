@@ -50,6 +50,7 @@
             var queryable = Bifrost.read.Queryable.new({
                 query: self.target
             });
+            queryable.execute();
             return queryable;
         };
 
