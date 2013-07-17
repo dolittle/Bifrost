@@ -62,7 +62,7 @@
     <Content Include="Libraries\knockout.mapping-latest.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
-    <Content Include="read\Clauses.js" />
+    <Content Include="read\PagingInfo.js" />
     <Content Include="read\Queryable.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
@@ -74,6 +74,7 @@
     <Content Include="utils\isObject.js" />
     <Content Include="utils\isUndefined.js" />
     <Content Include="utils\namespaceMappers.js" />
+    <Content Include="utils\server.js" />
     <Content Include="utils\StringMapper.js" />
     <Content Include="utils\uriMappers.js" />
     <Content Include="utils\StringMapping.js" />

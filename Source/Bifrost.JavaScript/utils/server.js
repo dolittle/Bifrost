@@ -2,6 +2,28 @@
     server: Bifrost.Singleton(function () {
         var self = this;
 
+        function deserialize(data) {
+            if (Bifrost.isArray(data)) {
+                data.forEach(function (item) {
+                    deserialize(item);
+                });
+            } else {
+                for (var property in data) {
+                    if (Bifrost.isArray(data[property])) {
+                        data[property] = deserialize(data[property]);
+                    } else {
+                        var value = data[property];
+
+                        if (Bifrost.isNumber(value)) {
+                            data[property] = parseFloat(value);
+                        } else {
+                            data[property] = data[property];
+                        }
+                    }
+                }
+            }
+        }
+
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
 
@@ -19,9 +41,7 @@
                 contentType: 'application/json; charset=utf-8',
                 complete: function (result) {
                     var data = $.parseJSON(result.responseText);
-                    for (var property in data) {
-                        data[property] = $.parseJSON(data[property]);
-                    }
+                    deserialize(data);
                     promise.signal(data);
                 }
             });
@@ -40,9 +60,7 @@
                 contentType: 'application/json; charset=utf-8',
                 complete: function (result) {
                     var data = $.parseJSON(result.responseText);
-                    for (var property in data) {
-                        data[property] = $.parseJSON(data[property]);
-                    }
+                    deserialize(data);
                     promise.signal(data);
                 }
             });

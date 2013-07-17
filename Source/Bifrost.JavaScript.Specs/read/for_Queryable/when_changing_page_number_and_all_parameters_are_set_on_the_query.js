@@ -7,26 +7,26 @@
         }
 
     };
-    var clauses = {
-        pageSize: 0,
-        pageNumber: 0
+    var paging = {
+        size: 0,
+        number: 0
     };
 
-    var clausesType = null;
+    var pagingInfoType = null;
 
     var queryService = null;
 
     beforeEach(function () {
-        clausesType = Bifrost.read.Clauses;
+        pagingInfoType = Bifrost.read.PagingInfo;
 
-        Bifrost.read.Clauses = {
+        Bifrost.read.PagingInfo = {
             create: function () {
-                return clauses;
+                return paging;
             }
         };
 
         queryService = {
-            execute: sinon.mock().withArgs(query, clauses).once()
+            execute: sinon.mock().withArgs(query, paging).once()
         };
 
         var instance = Bifrost.read.Queryable.create({
@@ -39,7 +39,7 @@
     });
 
     afterEach(function () {
-        Bifrost.read.Clauses = clausesType;
+        Bifrost.read.PagingInfo = pagingInfoType;
     });
 
 

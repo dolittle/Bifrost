@@ -37,13 +37,17 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <param name="container"><see cref="Container"/> to add properties to</param>
         /// <param name="type"><see cref="Type"/> to get properties from</param>
         /// <param name="excludePropertiesFrom">Optional <see cref="Type"/> to use as basis for excluding properties</param>
+        /// <param name="propertyVisitor">Optional visitor that gets called for every property - return false will ignore the property</param>
         /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
         /// <returns><see cref="Container"/> to keep building on</returns>
-        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
+        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
+
+            if (propertyVisitor != null)
+                properties = properties.Where(propertyVisitor).ToArray();
 
             AddObservablePropertiesFromType(container, properties, assignmentVisitor);
 

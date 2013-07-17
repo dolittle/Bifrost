@@ -45,11 +45,11 @@
                 return;
             }
 
-            var clauses = Bifrost.read.Clauses.create({
-                pageSize: self.pageSize(),
-                pageNumber: self.pageNumber
+            var paging = Bifrost.read.PagingInfo.create({
+                size: self.pageSize(),
+                number: self.pageNumber()
             });
-            self.queryService.execute(query, clauses).continueWith(function (items) {
+            self.queryService.execute(query, paging).continueWith(function (items) {
                 self.target(items);
                 self.onCompleted(items);
             });
@@ -66,6 +66,7 @@ Bifrost.read.Queryable.new = function (options) {
     options.targetObservable = observable;
     var queryable = Bifrost.read.Queryable.create(options);
     Bifrost.extend(observable, queryable);
+    observable.execute();
     return observable;
 };
 

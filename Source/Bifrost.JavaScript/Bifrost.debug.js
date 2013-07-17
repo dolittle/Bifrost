@@ -1271,6 +1271,78 @@ Bifrost.namespace("Bifrost", {
     uriMappers: {
     }
 });
+Bifrost.namespace("Bifrost", {
+    server: Bifrost.Singleton(function () {
+        var self = this;
+
+        function deserialize(data) {
+            if (Bifrost.isArray(data)) {
+                data.forEach(function (item) {
+                    deserialize(item);
+                });
+            } else {
+                for (var property in data) {
+                    if (Bifrost.isArray(data[property])) {
+                        data[property] = deserialize(data[property]);
+                    } else {
+                        var value = data[property];
+
+                        if (Bifrost.isNumber(value)) {
+                            data[property] = parseFloat(value);
+                        } else {
+                            data[property] = data[property];
+                        }
+                    }
+                }
+            }
+        }
+
+        this.post = function (url, parameters) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var actualParameters = {};
+
+            for (var property in parameters) {
+                actualParameters[property] = JSON.stringify(parameters[property]);
+            }
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                data: JSON.stringify(actualParameters),
+                contentType: 'application/json; charset=utf-8',
+                complete: function (result) {
+                    var data = $.parseJSON(result.responseText);
+                    deserialize(data);
+                    promise.signal(data);
+                }
+            });
+
+            return promise;
+        };
+
+        this.get = function (url, parameters) {
+            var promise = Bifrost.execution.Promise.create();
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                data: parameters,
+                contentType: 'application/json; charset=utf-8',
+                complete: function (result) {
+                    var data = $.parseJSON(result.responseText);
+                    deserialize(data);
+                    promise.signal(data);
+                }
+            });
+
+            return promise;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.server = Bifrost.server;
 Bifrost.namespace("Bifrost.validation");
 Bifrost.Exception.define("Bifrost.validation.OptionsNotDefined", "Option was undefined");
 Bifrost.Exception.define("Bifrost.validation.OptionsValueNotSpecified", "Required value in Options is not specified. ");
@@ -2362,48 +2434,36 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function () {
+    queryService: Bifrost.Singleton(function (server, readModelMapper) {
         var self = this;
+        this.server = server;
+        this.readModelMapper = readModelMapper;
 
-        function createDescriptorFrom(query) {
-            var descriptor = {
-                nameOfQuery: query.name,
-                generatedFrom: query.generatedFrom,
-                parameters: {}
-            };
-
-            for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
-                    descriptor.parameters[property] = query[property]();
-                }
-            }
-
-            return descriptor;
-        }
-
-
-        this.execute = function (query) {
+        this.execute = function (query, paging) {
             var promise = Bifrost.execution.Promise.create();
-            var descriptor = createDescriptorFrom(query);
 
-            var methodParameters = {
-                descriptor: JSON.stringify(descriptor)
-            };
-
-            $.ajax({
-                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(methodParameters),
-                contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
-                    var items = $.parseJSON(result.responseText);
-                    promise.signal(items);
+            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+            self.server.post(url, {
+                descriptor: {
+                    nameOfQuery: query.name,
+                    generatedFrom: query.generatedFrom,
+                    parameters: query.getParameterValues()
+                },
+                paging: {
+                    size: paging.size,
+                    number: paging.number
                 }
+            }).continueWith(function (data) {
+                var actualData = data;
+
+                if (query.hasReadModel()) {
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                }
+                promise.signal(actualData);
             });
 
             return promise;
-        }
+        };
     })
 });
 Bifrost.namespace("Bifrost.read", { 
@@ -2445,89 +2505,46 @@ Bifrost.namespace("Bifrost.read", {
 				return mapSingleInstance(readModel, data);
 			}
 		};
-
-
-
 	})
 });
 Bifrost.namespace("Bifrost.read", {
-    Queryable: Bifrost.Type.extend(function() {
+    PagingInfo: Bifrost.Type.extend(function (size, number) {
         var self = this;
 
-        this.pageSize = ko.observable(0);
-        this.pageNumber = ko.observable(0);
+        this.size = size;
+        this.number = number;
     })
 });
-Bifrost.read.Queryable.new = function () {
-    var observable = ko.observableArray();
-    var queryable = Bifrost.read.Queryable.create();
-    Bifrost.extend(observable, queryable);
-    return observable;
-};
-
-
 Bifrost.namespace("Bifrost.read", {
-    Query: Bifrost.Type.extend(function (queryService, readModelMapper) {
+    Queryable: Bifrost.Type.extend(function (query, queryService, targetObservable) {
         var self = this;
-        this.name = "";
-        this.queryService = queryService;
-        this.queryables = {};
 
+        this.target = targetObservable;
+        this.query = query;
+        this.queryService = queryService;
+        this.pageSize = ko.observable(0);
+        this.pageNumber = ko.observable(0);
         this.completedCallbacks = [];
 
-        this.currentQuery = 0;
+        this.pageSize.subscribe(function () {
+            self.execute();
+        });
 
-        this.isQueryingEnabled = true;
+        this.pageNumber.subscribe(function () {
+            self.execute();
+        });
 
-        this.target = this;
-
-        function createQueryable() {
-            var observable = ko.observableArray();
-            observable.execute = function () {
-                if (self.isAllParametersSet() == false) return;
-
-                var query = function (queryNumber) {
-                    var queryNumber = queryNumber;
-                    self.queryService.execute(self.target).continueWith(function (data) {
-                        if (queryNumber == self.currentQuery) {
-                            var mappedReadModels = readModelMapper.mapDataToReadModel(self.target.readModel, data);
-                            observable(mappedReadModels);
-                            self.onCompleted(mappedReadModels);
-                        }
-                    });
-                }
-
-                self.currentQuery = self.currentQuery+1;
-                new query(self.currentQuery);
-            };
-            return observable;
-        }
-
-        function observeProperties(query) {
+        function observePropertiesFrom(query) {
             for (var property in query) {
                 if (ko.isObservable(query[property]) == true) {
                     query[property].subscribe(function () {
-                        query.execute();
+                        self.execute();
                     });
                 }
             }
         }
 
-        this.isAllParametersSet = function () {
-            var isSet = false;
-            var hasParameters = false;
-            for (var property in self.target) {
-                if (ko.isObservable(self.target[property]) == true) {
-                    hasParameters = true;
-                    if (typeof self.target[property]() != "undefined" && self.target[property]() != null) {
-                        isSet = true;
-                    }
-                }
-            }
-            if (hasParameters == false) return true;
-
-            return isSet;
-        }
+        observePropertiesFrom(query);
 
         this.completed = function (callback) {
             self.completedCallbacks.push(callback);
@@ -2540,41 +2557,121 @@ Bifrost.namespace("Bifrost.read", {
             });
         };
 
-
         this.execute = function () {
-            if( self.isQueryingEnabled ) {
-                for (var queryable in self.queryables) {
-                    self.queryables[queryable].execute();
-                }
+            if (self.query.areAllParametersSet() !== true) {
+                return;
             }
+
+            var paging = Bifrost.read.PagingInfo.create({
+                size: self.pageSize(),
+                number: self.pageNumber()
+            });
+            self.queryService.execute(query, paging).continueWith(function (items) {
+                self.target(items);
+                self.onCompleted(items);
+            });
+        };
+
+        this.setPageInfo = function (pageSize, pageNumber) {
+            self.pageSize(pageSize);
+            self.pageNumber(pageNumber);
+        };
+    })
+});
+Bifrost.read.Queryable.new = function (options) {
+    var observable = ko.observableArray();
+    options.targetObservable = observable;
+    var queryable = Bifrost.read.Queryable.create(options);
+    Bifrost.extend(observable, queryable);
+    observable.execute();
+    return observable;
+};
+
+
+Bifrost.namespace("Bifrost.read", {
+    Query: Bifrost.Type.extend(function () {
+        var self = this;
+        this.name = "";
+        this.target = this;
+        this.generatedFrom = "";
+        this.readModel = null;
+
+        this.areAllParametersSet = null;
+
+        this.hasReadModel = function () {
+            return typeof self.target.readModel != "undefined" && self.target.readModel != null;
         };
 
         this.setParameters = function (parameters) {
             try {
-                self.isQueryingEnabled = false;
                 for (var property in parameters) {
                     if (self.target.hasOwnProperty(property) && ko.isObservable(self.target[property]) == true) {
                         self.target[property](parameters[property]);
                     }
                 }
             } catch(ex) {}
-
-            self.isQueryingEnabled = true;
         };
 
+        this.getParameters = function () {
+            var parameters = {};
 
-        this.all = function (execute) {
-            if (typeof execute === "undefined") execute = true;
-            if (typeof self.queryables.all === "undefined") self.queryables.all = createQueryable();
-            if (execute === true) {
-                self.queryables.all.execute();
+            for (var property in self.target) {
+                if (ko.isObservable(self.target[property]) &&
+                    property != "areAllParametersSet") {
+                    parameters[property] = self.target[property];
+                }
             }
-            return self.queryables.all;
+
+            return parameters;
         };
+
+        this.getParameterValues = function () {
+            var parameterValues = {};
+
+            var parameters = self.getParameters();
+            for (var property in parameters) {
+                parameterValues[property] = ko.utils.unwrapObservable(parameters[property]);
+            }
+
+            return parameterValues;
+        };
+
+        this.all = function () {
+            var queryable = Bifrost.read.Queryable.new({
+                query: self.target
+            });
+            return queryable;
+        };
+
+        this.paged = function (pageSize, pageNumber) {
+            var queryable = Bifrost.read.Queryable.new({
+                query: self.target
+            });
+            queryable.setPageInfo(pageSize, pageNumber);
+            return queryable;
+        };
+
+        
 
         this.onCreated = function (query) {
             self.target = query;
-            observeProperties(query);
+
+            self.areAllParametersSet = ko.computed(function () {
+                var isSet = true;
+                var hasParameters = false;
+                for (var property in self.target) {
+                    if (ko.isObservable(self.target[property]) == true) {
+                        hasParameters = true;
+                        var value = self.target[property]();
+                        if (typeof value == "undefined" || value === null) {
+                            isSet = false;
+                            break;
+                        }
+                    }
+                }
+                if (hasParameters == false) return true;
+                return isSet;
+            });
         };
     })
 });
@@ -2681,48 +2778,36 @@ Bifrost.dependencyResolvers.query = {
     }
 };
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function () {
+    queryService: Bifrost.Singleton(function (server, readModelMapper) {
         var self = this;
+        this.server = server;
+        this.readModelMapper = readModelMapper;
 
-        function createDescriptorFrom(query) {
-            var descriptor = {
-                nameOfQuery: query.name,
-                generatedFrom: query.generatedFrom,
-                parameters: {}
-            };
-
-            for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
-                    descriptor.parameters[property] = query[property]();
-                }
-            }
-
-            return descriptor;
-        }
-
-
-        this.execute = function (query) {
+        this.execute = function (query, paging) {
             var promise = Bifrost.execution.Promise.create();
-            var descriptor = createDescriptorFrom(query);
 
-            var methodParameters = {
-                descriptor: JSON.stringify(descriptor)
-            };
-
-            $.ajax({
-                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(methodParameters),
-                contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
-                    var items = $.parseJSON(result.responseText);
-                    promise.signal(items);
+            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+            self.server.post(url, {
+                descriptor: {
+                    nameOfQuery: query.name,
+                    generatedFrom: query.generatedFrom,
+                    parameters: query.getParameterValues()
+                },
+                paging: {
+                    size: paging.size,
+                    number: paging.number
                 }
+            }).continueWith(function (data) {
+                var actualData = data;
+
+                if (query.hasReadModel()) {
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                }
+                promise.signal(actualData);
             });
 
             return promise;
-        }
+        };
     })
 });
 Bifrost.namespace("Bifrost.sagas");

@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Read.for_QueryableProvider
     public class when_paging_is_set_two_show_second_page
     {
         static QueryableProvider provider;
-        static Clauses clauses;
+        static PagingInfo clauses;
         static IQueryable source;
         static QueryProviderResult result;
         static int expected_total_items;
@@ -20,10 +20,10 @@ namespace Bifrost.Specs.Read.for_QueryableProvider
         Establish context = () => 
         {
             provider = new QueryableProvider();
-            clauses = new Clauses
+            clauses = new PagingInfo
             {
-                PageSize = 2,
-                PageNumber = 1
+                Size = 2,
+                Number = 1
             };
 
             first_page = new [] {

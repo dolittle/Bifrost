@@ -3,16 +3,16 @@
     var query = Bifrost.read.Query.create();
 
     var queryReceived = null;
+    var setPageInfoMock = null;
 
     var queryable = {
-        create: function (options) {
+        new: function (options) {
             queryReceived = options.query;
 
+            setPageInfoMock = sinon.mock().withArgs(2,5).once();
             return {
-                pageSize: ko.observable(),
-                pageNumber: ko.observable(),
+                setPageInfo: setPageInfoMock
             }
-
         },
     };
 
@@ -35,11 +35,7 @@
         expect(queryReceived).toBe(query);
     });
 
-    it("should pass the page size to the queryable", function () {
-        expect(paged.pageSize()).toBe(2);
-    });
-
-    it("should pass the page number to the queryable", function () {
-        expect(paged.pageNumber()).toBe(5);
+    it("should set the pageinfo on the queryable", function () {
+        expect(setPageInfoMock.verify()).toBe(true);
     });
 });

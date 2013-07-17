@@ -2,7 +2,7 @@
 
     var query = Bifrost.read.Query.create();
     var queryable = {
-        create: sinon.mock().withArgs({ query: query }).once()
+        new: sinon.mock().withArgs({ query: query }).once()
     };
 
     var queryableType;
@@ -10,7 +10,6 @@
     beforeEach(function () {
         queryableType = Bifrost.read.Queryable;
         Bifrost.read.Queryable = queryable;
-
         
         query.all();
     });
@@ -20,6 +19,6 @@
     });
 
     it("should create a queryable and pass the query as parameter", function () {
-        expect(queryable.create.verify()).toBe(true);
+        expect(queryable.new.verify()).toBe(true);
     });
 });

@@ -51,7 +51,7 @@ namespace Bifrost.Read
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public QueryResult Execute(IQuery query, Clauses clauses)
+        public QueryResult Execute(IQuery query, PagingInfo paging)
         {
             ThrowIfNoQueryPropertyOnQuery(query);
 
@@ -59,10 +59,11 @@ namespace Bifrost.Read
             try
             {
                 var property = GetQueryPropertyFromQuery(query);
-                var queryProviderType = _queryProviderTypesPerTargetType[property.PropertyType];
+                var queryProviderType = GetActualProviderTypeFrom(property.PropertyType);
+                ThrowIfUnknownQueryType(queryProviderType, query, property);
                 var provider = _container.Get(queryProviderType);
                 var actualQuery = property.GetValue(query, null);
-                var providerResult = ExecuteOnProvider(provider, actualQuery, clauses);
+                var providerResult = ExecuteOnProvider(provider, actualQuery, paging);
                 result.TotalItems = providerResult.TotalItems;
                 result.Items = providerResult.Items;
             }
@@ -77,6 +78,8 @@ namespace Bifrost.Read
 
             return result;
         }
+
+
 #pragma warning restore 1591 // Xml Comments
 
 
@@ -87,13 +90,19 @@ namespace Bifrost.Read
                 throw new NoQueryPropertyException(query);
         }
 
+        void ThrowIfUnknownQueryType(Type queryProviderType, IQuery query, PropertyInfo property)
+        {
+            if (queryProviderType == null) throw new UnknownQueryTypeException(query, property.PropertyType);
+        }
+
+
         PropertyInfo GetQueryPropertyFromQuery(IQuery query)
         {
             var property = query.GetType().GetProperty(QueryPropertyName, BindingFlags.Public | BindingFlags.Instance);
             return property;
         }
 
-        QueryProviderResult ExecuteOnProvider(object provider, object query, Clauses clauses)
+        QueryProviderResult ExecuteOnProvider(object provider, object query, PagingInfo clauses)
         {
             var method = provider.GetType().GetMethod(ExecuteMethodName);
             var result = method.Invoke(provider, new[] { query, clauses }) as QueryProviderResult;
@@ -106,5 +115,23 @@ namespace Bifrost.Read
             var queryType = queryProviderForType.GetGenericArguments()[0];
             return queryType;
         }
+
+        Type GetActualProviderTypeFrom(Type type)
+        {
+            if (_queryProviderTypesPerTargetType.ContainsKey(type))
+                return _queryProviderTypesPerTargetType[type];
+            else
+            {
+                var interfaces = type.GetInterfaces();
+                foreach (var @interface in interfaces)
+                {
+                    type = GetActualProviderTypeFrom(@interface);
+                    if (type != null)
+                        return type;
+                }
+            }
+            return null;
+        }
+
     }
 }

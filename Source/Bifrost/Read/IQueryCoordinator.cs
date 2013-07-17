@@ -27,8 +27,8 @@ namespace Bifrost.Read
         /// Execute a <see cref="IQuery"/>
         /// </summary>
         /// <param name="query"><see cref="IQuery"/> to execute</param>
-        /// <param name="clauses"><see cref="Clauses"/> applied to the query</param>
+        /// <param name="paging"><see cref="PagingInfo"/> applied to the query</param>
         /// <returns><see cref="QueryResult">Result</see> of the query</returns>
-        QueryResult Execute(IQuery query, Clauses clauses);
+        QueryResult Execute(IQuery query, PagingInfo paging);
     }
 }

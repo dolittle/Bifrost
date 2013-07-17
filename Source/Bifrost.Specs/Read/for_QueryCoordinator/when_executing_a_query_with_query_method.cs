@@ -7,13 +7,13 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
     public class when_executing_a_query_with_query_method : given.a_query_coordinator
     {
         static IQuery query;
-        static Clauses clauses;
+        static PagingInfo clauses;
         static Exception exception;
 
         Establish   context = () => 
         {
             query = new QueryWithQueryMethod();
-            clauses = new Clauses();
+            clauses = new PagingInfo();
         };
 
         Because of = () => exception = Catch.Exception(() => coordinator.Execute(query, clauses));

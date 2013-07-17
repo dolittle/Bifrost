@@ -1,6 +1,8 @@
 ﻿describe("when creating a new instance using new", function () {
     var options = {
-        query: {},
+        query: {
+            areAllParametersSet: sinon.stub().returns(false)
+        },
         queryService: {},
     };
     var instance = Bifrost.read.Queryable.new(options);
@@ -18,5 +20,9 @@
         for (var property in queryable) {
             expect(instance.hasOwnProperty(property)).toBe(true);
         }
+    });
+
+    it("should call execute on the queryable", function () {
+        expect(options.query.areAllParametersSet.called).toBe(true);
     });
 });

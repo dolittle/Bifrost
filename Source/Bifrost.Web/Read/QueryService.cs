@@ -27,25 +27,29 @@ namespace Bifrost.Web.Read
 {
     public class QueryService
     {
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IContainer _container;
+        ITypeDiscoverer _typeDiscoverer;
+        IContainer _container;
+        IQueryCoordinator _queryCoordinator;
 
-        public QueryService(ITypeDiscoverer typeDiscoverer, IContainer container)
+        public QueryService(ITypeDiscoverer typeDiscoverer, IContainer container, IQueryCoordinator queryCoordinator)
         {
             _typeDiscoverer = typeDiscoverer;
-            _container = container;     
+            _container = container;
+            _queryCoordinator = queryCoordinator;
         }
 
-        public IEnumerable Execute(QueryDescriptor descriptor)
+        public IEnumerable Execute(QueryDescriptor descriptor, PagingInfo paging)
         {
             var queryType = _typeDiscoverer.GetQueryTypeByName(descriptor.GeneratedFrom);
-            var instance = _container.Get(queryType);
+            var query = _container.Get(queryType) as IQuery;
 
-			PopulateProperties (descriptor, queryType, instance);
+			PopulateProperties (descriptor, queryType, query);
 
-            var queryProperty = queryType.GetProperty("Query");
-            var queryable = queryProperty.GetValue(instance, null) as IQueryable;
-            return queryable;
+            var result = _queryCoordinator.Execute(query, paging);
+
+            //var queryProperty = queryType.GetProperty("Query");
+            //var queryable = queryProperty.GetValue(query, null) as IQueryable;
+            return result.Items;
         }
 
 		void PopulateProperties (QueryDescriptor descriptor, Type queryType, object instance)

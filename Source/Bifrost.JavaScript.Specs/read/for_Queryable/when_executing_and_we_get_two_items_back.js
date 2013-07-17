@@ -11,11 +11,11 @@
     var observable = ko.observableArray();
     var queryService = null;
 
-    var clausesType = null;
+    var pagingInfoType = null;
 
     beforeEach(function () {
-        clausesType = Bifrost.read.Clauses;
-        Bifrost.read.Clauses = {
+        pagingInfoType = Bifrost.read.PagingInfo;
+        Bifrost.read.PagingInfo = {
             create: function () {
                 return {};
             }
@@ -43,7 +43,7 @@
     });
 
     afterEach(function () {
-        Bifrost.read.Clauses = clausesType;
+        Bifrost.read.PagingInfo = pagingInfoType;
     });
 
 

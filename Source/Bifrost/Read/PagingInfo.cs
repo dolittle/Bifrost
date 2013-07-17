@@ -16,21 +16,29 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections;
-
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a provider that can deal with a query for
+    /// Represents clauses that can be added to a query
     /// </summary>
-    public interface IQueryProviderFor<T>
+    public class PagingInfo
     {
         /// <summary>
-        /// Execute a query with clauses applied
+        /// Gets or sets the size of the pages
         /// </summary>
-        /// <param name="query">Query to execute</param>
-        /// <param name="clauses"><see cref="PagingInfo"/> to apply</param>
-        /// <returns><see cref="QueryResult">Result</see> from the query</returns>
-        QueryProviderResult Execute(T query, PagingInfo clauses);
+        public int Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current page number
+        /// </summary>
+        public int Number { get; set; }
+
+        /// <summary>
+        /// Gets wether or not Paging is enabled
+        /// </summary>
+        public bool Enabled
+        {
+            get { return Size > 0; }
+        }
     }
 }

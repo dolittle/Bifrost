@@ -1,45 +1,33 @@
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function () {
+    queryService: Bifrost.Singleton(function (server, readModelMapper) {
         var self = this;
+        this.server = server;
+        this.readModelMapper = readModelMapper;
 
-        function createDescriptorFrom(query) {
-            var descriptor = {
-                nameOfQuery: query.name,
-                generatedFrom: query.generatedFrom,
-                parameters: {}
-            };
-
-            for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
-                    descriptor.parameters[property] = query[property]();
-                }
-            }
-
-            return descriptor;
-        }
-
-
-        this.execute = function (query) {
+        this.execute = function (query, paging) {
             var promise = Bifrost.execution.Promise.create();
-            var descriptor = createDescriptorFrom(query);
 
-            var methodParameters = {
-                descriptor: JSON.stringify(descriptor)
-            };
-
-            $.ajax({
-                url: "/Bifrost/Query/Execute?_q=" + descriptor.generatedFrom,
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify(methodParameters),
-                contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
-                    var items = $.parseJSON(result.responseText);
-                    promise.signal(items);
+            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+            self.server.post(url, {
+                descriptor: {
+                    nameOfQuery: query.name,
+                    generatedFrom: query.generatedFrom,
+                    parameters: query.getParameterValues()
+                },
+                paging: {
+                    size: paging.size,
+                    number: paging.number
                 }
+            }).continueWith(function (data) {
+                var actualData = data;
+
+                if (query.hasReadModel()) {
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                }
+                promise.signal(actualData);
             });
 
             return promise;
-        }
+        };
     })
 });

@@ -37,8 +37,5 @@ Bifrost.namespace("Bifrost.read", {
 				return mapSingleInstance(readModel, data);
 			}
 		};
-
-
-
 	})
 });

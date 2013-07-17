@@ -1,48 +1,74 @@
-﻿describe("when executing", sinon.test(function () {
-
-    var server = sinon.fakeServer.create();
-
-    var expectedData = [{ something: 'hello' }, { something: 'world'}];
-    var requestBody = null;
-    var descriptor = null;
-    server.respondWith("POST", "/Bifrost/Query/Execute", function (xhr) {
-        requestBody = $.parseJSON(xhr.requestBody);
-        descriptor = $.parseJSON(requestBody.descriptor);
-        xhr.respond(200, { "Content-Type": "application/json" }, JSON.stringify(expectedData));
-    });
-
+﻿describe("when executing", function() {
     var query = {
-        name: "SomeQuery",
-        integer: ko.observable(42),
-        string: ko.observable("Hello world")
+        name: "Its a query",
+        generatedFrom: "Something",
+        getParameterValues: function() {
+            return {
+                firstValue: 42,
+                secondValue: "43"
+            };
+        }
     };
 
-    var receivedData = null;
-    var queryService = Bifrost.read.queryService.create();
-    var promise = queryService.execute(query);
-    promise.continueWith(function (data) {
-        receivedData = data;
+    var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+    var postedUrl = null;
+    var postedParameters = null;
+
+    var server = {
+        post: function (url, parameters) {
+            postedUrl = url;
+            postedParameters = parameters;
+
+            return {
+                continueWith: function () { }
+            }
+        }
+    };
+
+    var readModelMapper = {};
+
+
+    var instance = Bifrost.read.queryService.createWithoutScope({
+        server: server,
+        readModelMapper: readModelMapper
     });
 
-    server.respond();
+    var paging = {
+        size: 2,
+        number: 5
+    };
+    
+    var promise = instance.execute(query, paging);
+
 
     it("should return a promise", function () {
         expect(promise instanceof Bifrost.execution.Promise).toBe(true);
     });
 
-    it("should continue with the data from the server", function () {
-        expect(receivedData).toEqual(expectedData);
+    it("should post to the correct URL", function () {
+        expect(postedUrl).toBe(url);
     });
 
-    it("should send the name of query in the descriptor", function () {
-        expect(descriptor.nameOfQuery).toEqual(query.name);
+    it("should put the name of query as part of the parameters", function () {
+        expect(postedParameters.descriptor.nameOfQuery).toBe(query.name);
     });
 
-    it("should add the integer parameter to the request", function () {
-        expect(descriptor.parameters.integer).toBe(42);
+    it("should put the generated from as part of the parameters", function () {
+        expect(postedParameters.descriptor.generatedFrom).toBe(query.generatedFrom);
     });
 
-    it("should add the string parameter to the request", function () {
-        expect(descriptor.parameters.string).toBe("Hello world");
+    it("should put the first value into the parameters", function () {
+        expect(postedParameters.descriptor.parameters.firstValue).toBe(42);
     });
-}));
+
+    it("should put the second value into the parameters", function () {
+        expect(postedParameters.descriptor.parameters.secondValue).toBe("43");
+    });
+
+    it("should include the size from paging", function () {
+        expect(postedParameters.paging.size).toBe(2)
+    });
+    it("should include the number from paging", function () {
+        expect(postedParameters.paging.number).toBe(5)
+    });
+});

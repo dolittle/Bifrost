@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
     public class when_executing_and_provider_throws_an_exception : given.a_query_coordinator_with_known_provider
     {
         static QueryForKnownProvider query;
-        static Clauses clauses;
+        static PagingInfo clauses;
         static QueryType actual_query;
         static Exception exception_thrown;
         static QueryResult result;
@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
         Establish context = () =>
         {
             query = new QueryForKnownProvider();
-            clauses = new Clauses();
+            clauses = new PagingInfo();
 
             actual_query = new QueryType();
             query.QueryToReturn = actual_query;

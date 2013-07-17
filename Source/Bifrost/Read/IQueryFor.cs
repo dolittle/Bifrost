@@ -24,11 +24,8 @@ namespace Bifrost.Read
     /// Defines a query for a specified type, typically a ReadModel
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IQueryFor<T> where T:IReadModel
+    public interface IQueryFor<T> : IQuery
+        where T:IReadModel
     {
-        /// <summary>
-        /// Gets the query that will be executed
-        /// </summary>
-        IQueryable<T> Query { get; }
     }
 }

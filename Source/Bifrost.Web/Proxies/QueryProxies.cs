@@ -69,7 +69,7 @@ namespace Bifrost.Web.Proxies
                                         .Property("name", p => p.WithString(name))
                                         .Property("generatedFrom", p => p.WithString(type.FullName))
                                         .Property("readModel", p => p.WithLiteral(currentNamespace.Name + "." + queryForTypeName))
-                                        .WithObservablePropertiesFrom(type, typeof(IQueryFor<>)));
+                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(IQueryFor<>), propertyVisitor: (p) => p.Name != "Query"));
 
                 }
                 if (currentNamespace != globalRead)

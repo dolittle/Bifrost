@@ -16,29 +16,23 @@
 // limitations under the License.
 //
 #endregion
+using System;
+
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents clauses that can be added to a query
+    /// The exception that is thrown when a well known query does not have the query property on it
     /// </summary>
-    public class Clauses
+    public class UnknownQueryTypeException : ArgumentException
     {
         /// <summary>
-        /// Gets or sets the size of the pages
+        /// Initializes a new instance of <see cref="UnknownQueryTypeException"/>
         /// </summary>
-        public int PageSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current page number
-        /// </summary>
-        public int PageNumber { get; set; }
-
-        /// <summary>
-        /// Gets wether or not Paging is enabled
-        /// </summary>
-        public bool Paging
+        /// <param name="query"><see cref="IQuery"/> that does not have the property on it</param>
+        /// <param name="type"><see cref="Type"/> of the expected query returned from the Query property</param>
+        public UnknownQueryTypeException(IQuery query, Type type)
+            : base(string.Format("Unable to find a query provider of type '{0}' for the query '{1}'. Hint: Are you sure the query return type has a known query provider for it?", type.FullName, query.GetType().FullName))
         {
-            get { return PageSize > 0; }
         }
     }
 }
