@@ -33,6 +33,7 @@
 @depends utils/StringMapping.js
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js
+@depends utils/server.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
