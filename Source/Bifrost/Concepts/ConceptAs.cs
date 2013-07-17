@@ -86,6 +86,14 @@ namespace Bifrost.Concepts
 
         public bool IsEmpty()
         {
+            if (Value == null)
+                return true;
+
+            var value = Value as string;
+
+            if (value != null)
+                return value == string.Empty;
+
             return Value.Equals(default(T));
         }
 #pragma warning restore 1591 // Xml Comments

@@ -115,6 +115,7 @@
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_authorizing_a_command.cs" />
+    <Compile Include="Concepts\for_ConceptAs\when_checking_is_empty_on_a_populated_string_concept.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_equating.cs" />
     <Compile Include="Concepts\for_ConceptAs\when_getting_hash_code.cs" />
     <Compile Include="Concepts\for_ConceptExtensions\when_checking_is_concept_on_an_inherited_concept.cs" />
