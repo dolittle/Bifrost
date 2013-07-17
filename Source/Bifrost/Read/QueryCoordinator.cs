@@ -102,10 +102,10 @@ namespace Bifrost.Read
             return property;
         }
 
-        QueryProviderResult ExecuteOnProvider(object provider, object query, PagingInfo clauses)
+        QueryProviderResult ExecuteOnProvider(object provider, object query, PagingInfo paging)
         {
             var method = provider.GetType().GetMethod(ExecuteMethodName);
-            var result = method.Invoke(provider, new[] { query, clauses }) as QueryProviderResult;
+            var result = method.Invoke(provider, new[] { query, paging }) as QueryProviderResult;
             return result;
         }
 

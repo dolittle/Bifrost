@@ -19,7 +19,7 @@
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents clauses that can be added to a query
+    /// Represents paging that can be added to a query
     /// </summary>
     public class PagingInfo
     {

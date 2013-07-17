@@ -30,13 +30,13 @@ namespace Bifrost.Read
     public class QueryableProvider : IQueryProviderFor<IQueryable>
     {
 #pragma warning disable 1591 // Xml Comments
-        public QueryProviderResult Execute(IQueryable query, PagingInfo clauses)
+        public QueryProviderResult Execute(IQueryable query, PagingInfo paging)
         {
             var result = new QueryProviderResult();
             var queryable = query.OfType<object>();
             result.TotalItems = queryable.Count();
-            if( clauses.Enabled )
-                queryable = queryable.Skip(clauses.Size * clauses.Number).Take(clauses.Size);
+            if( paging.Enabled )
+                queryable = queryable.Skip(paging.Size * paging.Number).Take(paging.Size);
 
             result.Items = queryable.AsEnumerable();
             return result;

@@ -7,16 +7,16 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
     public class when_executing_a_query_with_query_method : given.a_query_coordinator
     {
         static IQuery query;
-        static PagingInfo clauses;
+        static PagingInfo paging;
         static Exception exception;
 
         Establish   context = () => 
         {
             query = new QueryWithQueryMethod();
-            clauses = new PagingInfo();
+            paging = new PagingInfo();
         };
 
-        Because of = () => exception = Catch.Exception(() => coordinator.Execute(query, clauses));
+        Because of = () => exception = Catch.Exception(() => coordinator.Execute(query, paging));
 
         It should_throw_the_no_query_property_exception = () => exception.ShouldBeOfType<NoQueryPropertyException>();
     }

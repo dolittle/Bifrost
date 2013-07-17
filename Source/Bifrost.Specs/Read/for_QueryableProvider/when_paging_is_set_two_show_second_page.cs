@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Read.for_QueryableProvider
     public class when_paging_is_set_two_show_second_page
     {
         static QueryableProvider provider;
-        static PagingInfo clauses;
+        static PagingInfo paging;
         static IQueryable source;
         static QueryProviderResult result;
         static int expected_total_items;
@@ -20,7 +20,7 @@ namespace Bifrost.Specs.Read.for_QueryableProvider
         Establish context = () => 
         {
             provider = new QueryableProvider();
-            clauses = new PagingInfo
+            paging = new PagingInfo
             {
                 Size = 2,
                 Number = 1
@@ -49,7 +49,7 @@ namespace Bifrost.Specs.Read.for_QueryableProvider
             source = allPages.AsQueryable();
         };
 
-        Because of = () => result = provider.Execute(source, clauses);
+        Because of = () => result = provider.Execute(source, paging);
 
         It should_return_only_second_page_elements = () => result.Items.ShouldContain(second_page);
         It should_set_the_total_items_to_the_total_number_of_items_in_the_non_paged_source = () => result.TotalItems.ShouldEqual(expected_total_items);

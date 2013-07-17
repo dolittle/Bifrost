@@ -26,11 +26,11 @@ namespace Bifrost.Read
     public interface IQueryProviderFor<T>
     {
         /// <summary>
-        /// Execute a query with clauses applied
+        /// Execute a query 
         /// </summary>
         /// <param name="query">Query to execute</param>
-        /// <param name="clauses"><see cref="PagingInfo"/> to apply</param>
+        /// <param name="paging"><see cref="PagingInfo"/> to apply</param>
         /// <returns><see cref="QueryResult">Result</see> from the query</returns>
-        QueryProviderResult Execute(T query, PagingInfo clauses);
+        QueryProviderResult Execute(T query, PagingInfo paging);
     }
 }
