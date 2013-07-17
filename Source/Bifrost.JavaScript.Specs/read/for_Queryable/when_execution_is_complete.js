@@ -1,4 +1,4 @@
-﻿describe("when executing and we get two items back", function () {
+﻿describe("when execution is complete", function () {
     var items = [
         { firstItem: 1 },
         { secondItem: 2 }
@@ -12,6 +12,17 @@
     var queryService = null;
 
     var clausesType = null;
+
+
+    var dataReceived = null;
+    var dataInQueryable = null;
+
+    var completeCallback = function (data) {
+        dataInQueryable = observable();
+        
+        dataReceived = data;
+    };
+
 
     beforeEach(function () {
         clausesType = Bifrost.read.Clauses;
@@ -38,8 +49,9 @@
             targetObservable: observable
         });
 
-        queryable.execute();
+        queryable.completed(completeCallback);
 
+        queryable.execute();
     });
 
     afterEach(function () {
@@ -47,8 +59,11 @@
     });
 
 
-    it("should populate the target observable", function () {
-        expect(observable()).toBe(items);
+    it("should call the complete callback", function () {
+        expect(dataReceived).toBe(items);
     });
 
+    it("should have set the data into the observable at before calling the callback", function () {
+        expect(dataInQueryable).toBe(items);
+    });
 });

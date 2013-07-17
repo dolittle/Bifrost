@@ -128,10 +128,16 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_match.js" />
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
+    <Content Include="read\for_Queryable\when_setting_paging_info.js" />
+    <Content Include="read\for_Queryable\when_changing_page_number.js" />
+    <Content Include="read\for_Queryable\when_changing_page_size.js" />
+    <Content Include="read\for_Queryable\when_executing_when_we_have_one_item_and_we_get_two_items_back.js" />
+    <Content Include="read\for_Queryable\when_creating_a_new_instance_using_new.js" />
+    <Content Include="read\for_Queryable\when_executing_and_we_get_two_items_back.js" />
+    <Content Include="read\for_Queryable\when_property_on_query_changes.js" />
     <Content Include="read\for_queryService\when_executing.js" />
-    <Content Include="read\for_Query\when_getting_all.js" />
-    <Content Include="read\for_Query\when_executing_and_all_has_been_retrieved.js" />
-    <Content Include="read\for_Query\when_property_changes_and_all_query_is_used.js" />
+    <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_all_set.js" />
+    <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_not_all_set.js" />
     <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
     <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />
@@ -400,6 +406,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="read\for_Query\when_asking_for_all.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

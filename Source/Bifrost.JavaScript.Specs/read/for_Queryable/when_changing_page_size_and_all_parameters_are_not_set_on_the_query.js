@@ -1,7 +1,10 @@
-﻿describe("when setting paging info", function () {
+﻿describe("when changing page size and all parameters are not set on the query", function () {
 
     var query = {
-        someProperty: ko.observable()
+        someProperty: ko.observable(),
+        areAllParametersSet: function () {
+            return false;
+        }
     };
     var clauses = {
         pageSize: 0,
@@ -22,7 +25,7 @@
         };
 
         queryService = {
-            execute: sinon.mock().withArgs(query, clauses).once()
+            execute: sinon.mock().withArgs(query, clauses).never()
         };
 
         var instance = Bifrost.read.Queryable.create({
@@ -31,7 +34,7 @@
             targetObservable: {}
         });
 
-        instance.setPageInfo(2, 5);
+        instance.pageSize(5);
     });
 
     afterEach(function () {
@@ -39,7 +42,7 @@
     });
 
 
-    it("should execute the query on the query service", function () {
+    it("should not execute the query on the query service", function () {
         expect(queryService.execute.verify()).toBe(true);
     });
 });

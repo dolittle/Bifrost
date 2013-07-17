@@ -1,7 +1,11 @@
-﻿describe("when changing page number", function () {
+﻿describe("when changing page number and all parameters are set on the query", function () {
 
     var query = {
-        someProperty: ko.observable()
+        someProperty: ko.observable(),
+        areAllParametersSet: function () {
+            return true;
+        }
+
     };
     var clauses = {
         pageSize: 0,

@@ -13,5 +13,4 @@
     it("should return false", function () {
         expect(result).toBe(false);
     });
-
 });

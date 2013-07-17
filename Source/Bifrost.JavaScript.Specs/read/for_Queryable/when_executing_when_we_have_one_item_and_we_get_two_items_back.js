@@ -3,7 +3,11 @@
         { firstItem: 1 },
         { secondItem: 2 }
     ];
-    var query = {};
+    var query = {
+        areAllParametersSet: function () {
+            return true;
+        }
+    };
     var observable = ko.observableArray([
         { initialItem: 0 }
     ]);

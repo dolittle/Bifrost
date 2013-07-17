@@ -7,6 +7,7 @@
         this.queryService = queryService;
         this.pageSize = ko.observable(0);
         this.pageNumber = ko.observable(0);
+        this.completedCallbacks = [];
 
         this.pageSize.subscribe(function () {
             self.execute();
@@ -28,13 +29,29 @@
 
         observePropertiesFrom(query);
 
+        this.completed = function (callback) {
+            self.completedCallbacks.push(callback);
+            return self;
+        };
+
+        this.onCompleted = function (data) {
+            self.completedCallbacks.forEach(function (callback) {
+                callback(data);
+            });
+        };
+
         this.execute = function () {
+            if (self.query.areAllParametersSet() !== true) {
+                return;
+            }
+
             var clauses = Bifrost.read.Clauses.create({
                 pageSize: self.pageSize(),
                 pageNumber: self.pageNumber
             });
             self.queryService.execute(query, clauses).continueWith(function (items) {
                 self.target(items);
+                self.onCompleted(items);
             });
         };
 

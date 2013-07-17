@@ -16,7 +16,6 @@
             } catch(ex) {}
         };
 
-
         this.all = function () {
             var queryable = Bifrost.read.Queryable.create({
                 query: self.target
@@ -24,9 +23,17 @@
             return queryable;
         };
 
+        this.paged = function (pageSize, pageNumber) {
+            var queryable = Bifrost.read.Queryable.create({
+                query: self.target
+            });
+            queryable.pageSize(pageSize);
+            queryable.pageNumber(pageNumber);
+            return queryable;
+        };
+
         this.onCreated = function (query) {
             self.target = query;
-
 
             self.areAllParametersSet = ko.computed(function () {
                 var isSet = true;
