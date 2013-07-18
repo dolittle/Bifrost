@@ -56,6 +56,7 @@
                 number: self.pageNumber()
             });
             self.queryService.execute(query, paging).continueWith(function (items) {
+                if (typeof items == "undefined" || items == null) items = [];
                 self.target(items);
                 self.onCompleted(items);
             });

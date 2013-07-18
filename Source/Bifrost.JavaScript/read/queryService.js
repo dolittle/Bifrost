@@ -20,9 +20,10 @@ Bifrost.namespace("Bifrost.read", {
                 }
             }).continueWith(function (data) {
                 var actualData = data;
+                if (typeof actualData == "undefined" || actualData == null) actualData = [];
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
                 }
                 promise.signal(actualData);
             });
