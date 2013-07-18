@@ -142,10 +142,21 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns>The <see cref="Assignment"/> to build on</returns>
         public static Assignment WithDefaultValue(this Assignment assignment, Type type)
         {
-            var defaultValue = type.HasDefaultConstructor() ?
-                                Activator.CreateInstance(type)
-                                : "";
-            assignment.WithLiteral(string.Format("\"{0}\"", defaultValue));
+            if (type.IsValueType)
+            {
+                if (type.IsNumericType())
+                    return assignment.WithDefaultNumericValue(type);
+
+                if (type.IsDate())
+                    return assignment.WithDate();
+
+                if (type.IsBoolean())
+                    return assignment.WithBoolean();
+            }
+            else
+            {
+                return assignment.WithNullValue();
+            }
             return assignment;
         }
 
@@ -191,14 +202,14 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns>The <see cref="Assignment"/> to build on</returns>
         public static Assignment WithDefaultNumericValue(this Assignment assignment, Type type)
         {
-            if (type.HasDefaultConstructor())
-            {
-                var defaultValue = Activator.CreateInstance(type);
-                if (defaultValue == null)
-                    return assignment.WithNullValue();
+            if(type == null)
+                throw new ArgumentException("Type cannot be null");
 
-                assignment.WithLiteral(string.Format("{0}", defaultValue));
-            }
+            if(!type.IsNumericType())
+                throw new ArgumentException(string.Concat("Type must be a numeric type.  Type is: ",type.ToString()));
+
+            var defaultValue = Activator.CreateInstance(type);
+            assignment.WithLiteral(string.Format("{0}", defaultValue));
             
             return assignment;
         }

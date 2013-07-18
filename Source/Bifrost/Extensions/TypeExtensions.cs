@@ -29,7 +29,6 @@ namespace Bifrost.Extensions
 	/// </summary>
 	public static class TypeExtensions
 	{
-
         static HashSet<Type> NumericTypes = new HashSet<Type>
         {
             typeof(byte), typeof(sbyte),
@@ -87,6 +86,26 @@ namespace Bifrost.Extensions
         {
             return NumericTypes.Contains(type) ||
                    NumericTypes.Contains(Nullable.GetUnderlyingType(type));
+        }
+
+        /// <summary>
+        /// Check if a type is a Date or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a date, false if not</returns>
+        public static bool IsDate(this Type type)
+        {
+            return type == typeof (DateTime) || Nullable.GetUnderlyingType(type) == typeof (DateTime);
+        }
+
+        /// <summary>
+        /// Check if a type is a Boolean or not
+        /// </summary>
+        /// <param name="type"><see cref="Type"/> to check</param>
+        /// <returns>True if type is a boolean, false if not</returns>
+        public static bool IsBoolean(this Type type)
+        {
+            return type == typeof (Boolean) || Nullable.GetUnderlyingType(type) == typeof (Boolean);
         }
 
         /// <summary>
