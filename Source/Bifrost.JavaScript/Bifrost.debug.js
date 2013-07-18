@@ -157,7 +157,7 @@ Bifrost.namespace("Bifrost.execution", {
             if (self.failedCallback != null) self.failedCallback(error);
             self.hasFailed = true;
             self.error = error;
-            throw error;
+            //throw error;
         };
 
         this.onFail = function (callback) {
@@ -422,7 +422,7 @@ Bifrost.namespace("Bifrost", {
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
                                 promise.signal(handleSystemInstance(actualSystem));
-                            });
+                            }).onFail(function(e) { promise.fail(e); });
                         });
                     } else {
                         promise.signal(handleSystemInstance(resolvedSystem));
@@ -633,13 +633,14 @@ Bifrost.namespace("Bifrost", {
     };
 
     resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
-        var resolverPromise = 
+        var promise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
                 .continueWith(function(result, nextPromise) {
                     instances[index] = result;
                     resolvedCallback(result, nextPromise);
                 });
+        return promise;
     };
 
 
@@ -657,8 +658,8 @@ Bifrost.namespace("Bifrost", {
                     solvedDependencies++;
                     if( solvedDependencies == dependenciesToResolve ) {
                         promise.signal(dependencyInstances);
-                    } 
-                });
+                    }
+                }).onFail(function(e) { promise.fail(e); });
             }
 
         }
@@ -855,10 +856,15 @@ Bifrost.namespace("Bifrost", {
 
         var promise = Bifrost.execution.Promise.create();
         var superPromise = Bifrost.execution.Promise.create();
+        superPromise.onFail(function (e) {
+            promise.fail(e);
+        });
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function(_super, nextPromise) {
+            this._super.beginCreate().continueWith(function (_super, nextPromise) {
                 superPromise.signal(_super);
+            }).onFail(function (e) {
+                promise.fail(e);
             });
         } else {
             superPromise.signal(null);
@@ -884,8 +890,12 @@ Bifrost.namespace("Bifrost", {
                             }
                         }
 
-                        var instance = self.create(dependencyInstances);
-                        promise.signal(instance);
+                        try {
+                            var instance = self.create(dependencyInstances);
+                            promise.signal(instance);
+                        } catch (e) {
+                            promise.fail(e);
+                        }
                     });
 
             }
@@ -2455,9 +2465,10 @@ Bifrost.namespace("Bifrost.read", {
                 }
             }).continueWith(function (data) {
                 var actualData = data;
+                if (typeof actualData == "undefined" || actualData == null) actualData = [];
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
                 }
                 promise.signal(actualData);
             });
@@ -2466,37 +2477,37 @@ Bifrost.namespace("Bifrost.read", {
         };
     })
 });
-Bifrost.namespace("Bifrost.read", { 
+Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
 		var self = this;
 
 		function copyProperties (from, to) {
-			for (var prop in from){
-				if (typeof to[prop] !== "undefined" ){
-					if(Bifrost.isObject( to[prop] ) ){
-						copyProperties(from[prop], to[prop]);
+			for (var property in from){
+			    if (typeof to[property] !== "undefined") {
+			        if (Bifrost.isObject(to[property])) {
+			            copyProperties(from[property], to[property]);
 					} else {
-						to[prop] = from[prop];
+			            to[property] = from[property];
 					}
 				}
 			}
 		}
 
-		function mapSingleInstance(readModel, data){
-			var instance = readModel.create();
-			copyProperties(data, instance);
-			return instance;
-		}
+		function mapSingleInstance(readModel, data) {
+		    var instance = readModel.create();
+		    copyProperties(data, instance);
+		    return instance;
+		};
 
-		function mapMultipleInstances(readModel, data){
-			var mappedInstances = [];
-			for (var i = 0; i < data.length; i++) {
-				var singleData = data[i];
-				mappedInstances.push(mapSingleInstance(readModel, singleData));
-			}
-			return mappedInstances;
-		}
+		function mapMultipleInstances(readModel, data) {
+		    var mappedInstances = [];
+		    for (var i = 0; i < data.length; i++) {
+		        var singleData = data[i];
+		        mappedInstances.push(mapSingleInstance(readModel, singleData));
+		    }
+		    return mappedInstances;
+		};
 
 		this.mapDataToReadModel = function(readModel, data) {
 			if(Bifrost.isArray(data)){
@@ -2573,6 +2584,7 @@ Bifrost.namespace("Bifrost.read", {
                 number: self.pageNumber()
             });
             self.queryService.execute(query, paging).continueWith(function (items) {
+                if (typeof items == "undefined" || items == null) items = [];
                 self.target(items);
                 self.onCompleted(items);
             });
@@ -2808,9 +2820,10 @@ Bifrost.namespace("Bifrost.read", {
                 }
             }).continueWith(function (data) {
                 var actualData = data;
+                if (typeof actualData == "undefined" || actualData == null) actualData = [];
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, data);
+                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
                 }
                 promise.signal(actualData);
             });
@@ -3355,6 +3368,8 @@ Bifrost.namespace("Bifrost.views", {
                     if (filename in namespace) {
                         namespace[filename].beginCreate().continueWith(function (instance) {
                             promise.signal(instance);
+                        }).onFail(function () {
+                            promise.signal({});
                         });
                     }
                 }

@@ -97,7 +97,7 @@ Bifrost.namespace("Bifrost", {
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
                                 promise.signal(handleSystemInstance(actualSystem));
-                            });
+                            }).onFail(function(e) { promise.fail(e); });
                         });
                     } else {
                         promise.signal(handleSystemInstance(resolvedSystem));

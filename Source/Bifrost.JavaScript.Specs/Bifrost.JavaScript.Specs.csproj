@@ -129,6 +129,8 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_PagingInfo\when_creating_with_values.js" />
+    <Content Include="read\for_Queryable\when_executing_and_we_get_null_back.js" />
+    <Content Include="read\for_Queryable\when_executing_and_we_get_undefined_back.js" />
     <Content Include="read\for_Queryable\when_execution_is_complete.js" />
     <Content Include="read\for_Queryable\when_changing_page_number_and_all_parameters_are_not_set_on_the_query.js" />
     <Content Include="read\for_Queryable\when_changing_page_size_and_all_parameters_are_not_set_on_the_query.js" />
@@ -140,6 +142,8 @@
     <Content Include="read\for_Queryable\when_creating_a_new_instance_using_new.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_two_items_back.js" />
     <Content Include="read\for_Queryable\when_property_on_query_changes.js" />
+    <Content Include="read\for_queryService\when_executing_with_null_coming_back.js" />
+    <Content Include="read\for_queryService\when_executing_with_undefined_coming_back.js" />
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back_for_a_readmodel.js" />
     <Content Include="read\for_queryService\when_executing.js" />
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back.js" />

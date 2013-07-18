@@ -1,14 +1,26 @@
 ﻿describe("when creating instance of a scoped type explicitly ignoring the scope", function () {
+    var existingGetDependenciesFor = null;
+    var firstInstance = 41;
+    var secondInstance = 42;
 
-    var counter = 0;
-    var type = Bifrost.Type.extend(function () {
-        var self = this;
+    beforeEach(function () {
+        existingGetDependenciesFor = Bifrost.dependencyResolver.getDependenciesFor;
+        Bifrost.dependencyResolver.getDependenciesFor = function () { return []; };
 
-        this.id = counter++;
-    }).scopeTo(window);
+        var counter = 0;
+        var type = Bifrost.Type.extend(function () {
+            var self = this;
 
-    var firstInstance = type.createWithoutScope();
-    var secondInstance = type.createWithoutScope();
+            this.id = counter++;
+        }).scopeTo(window);
+
+        firstInstance = type.createWithoutScope();
+        secondInstance = type.createWithoutScope();
+    });
+
+    afterEach(function () {
+        Bifrost.dependencyResolver.getDependenciesFor = existingGetDependenciesFor;
+    });
 
     it("should have two different instances", function () {
         expect(firstInstance).not.toBe(secondInstance);

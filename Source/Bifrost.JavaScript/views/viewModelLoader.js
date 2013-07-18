@@ -29,6 +29,8 @@
                     if (filename in namespace) {
                         namespace[filename].beginCreate().continueWith(function (instance) {
                             promise.signal(instance);
+                        }).onFail(function () {
+                            promise.signal({});
                         });
                     }
                 }

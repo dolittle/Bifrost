@@ -57,13 +57,14 @@ Bifrost.namespace("Bifrost", {
     };
 
     resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
-        var resolverPromise = 
+        var promise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
                 .continueWith(function(result, nextPromise) {
                     instances[index] = result;
                     resolvedCallback(result, nextPromise);
                 });
+        return promise;
     };
 
 
@@ -81,8 +82,8 @@ Bifrost.namespace("Bifrost", {
                     solvedDependencies++;
                     if( solvedDependencies == dependenciesToResolve ) {
                         promise.signal(dependencyInstances);
-                    } 
-                });
+                    }
+                }).onFail(function(e) { promise.fail(e); });
             }
 
         }
@@ -279,10 +280,15 @@ Bifrost.namespace("Bifrost", {
 
         var promise = Bifrost.execution.Promise.create();
         var superPromise = Bifrost.execution.Promise.create();
+        superPromise.onFail(function (e) {
+            promise.fail(e);
+        });
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function(_super, nextPromise) {
+            this._super.beginCreate().continueWith(function (_super, nextPromise) {
                 superPromise.signal(_super);
+            }).onFail(function (e) {
+                promise.fail(e);
             });
         } else {
             superPromise.signal(null);
@@ -308,8 +314,12 @@ Bifrost.namespace("Bifrost", {
                             }
                         }
 
-                        var instance = self.create(dependencyInstances);
-                        promise.signal(instance);
+                        try {
+                            var instance = self.create(dependencyInstances);
+                            promise.signal(instance);
+                        } catch (e) {
+                            promise.fail(e);
+                        }
                     });
 
             }
