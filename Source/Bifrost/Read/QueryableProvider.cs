@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace Bifrost.Read
@@ -33,12 +34,19 @@ namespace Bifrost.Read
         public QueryProviderResult Execute(IQueryable query, PagingInfo paging)
         {
             var result = new QueryProviderResult();
-            var queryable = query.OfType<object>();
-            result.TotalItems = queryable.Count();
-            if( paging.Enabled )
-                queryable = queryable.Skip(paging.Size * paging.Number).Take(paging.Size);
 
-            result.Items = queryable.AsEnumerable();
+            result.TotalItems = query.Count();
+
+            if (paging.Enabled)
+            {
+                var start = paging.Size * paging.Number;
+                var end = paging.Size;
+                if (query.IsTakeEndIndex()) end += start;
+                query = query.Skip(start).Take(end);
+            }
+
+            result.Items = query;
+
             return result;
         }
 #pragma warning restore 1591 // Xml Comments
