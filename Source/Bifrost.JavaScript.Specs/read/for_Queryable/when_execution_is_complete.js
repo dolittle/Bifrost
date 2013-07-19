@@ -19,9 +19,10 @@
 
     var completeCallback = function (data) {
         dataInQueryable = observable();
-        
         dataReceived = data;
     };
+
+    var queryable;
 
 
     beforeEach(function () {
@@ -37,13 +38,16 @@
                 return {
                     continueWith: function (callback) {
                         
-                        callback(items);
+                        callback({
+                            items: items,
+                            totalItems: 4
+                        });
                     }
                 }
             }
         };
 
-        var queryable = Bifrost.read.Queryable.create({
+        queryable = Bifrost.read.Queryable.create({
             query: query,
             queryService: queryService,
             targetObservable: observable
@@ -61,6 +65,10 @@
 
     it("should call the complete callback", function () {
         expect(dataReceived).toBe(items);
+    });
+
+    it("should set the total items", function () {
+        expect(queryable.totalItems()).toBe(4);
     });
 
     it("should have set the data into the observable at before calling the callback", function () {

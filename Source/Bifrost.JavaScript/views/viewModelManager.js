@@ -96,7 +96,7 @@
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
-            var elements = self.documentService.getAllElementsWithViewModelFilesSorted();
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom();
             var loadedViewModels = 0;
 
             self.masterViewModel = {};

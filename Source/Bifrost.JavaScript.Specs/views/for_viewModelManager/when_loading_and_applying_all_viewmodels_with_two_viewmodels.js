@@ -27,7 +27,7 @@
         var manager = Bifrost.views.viewModelManager.createWithoutScope({
             assetsManager: {},
             documentService: {
-                getAllElementsWithViewModelFilesSorted: function () {
+                getAllElementsWithViewModelFilesFrom: function () {
                     return [secondElement, firstElement];
                 },
                 getViewModelFileFrom: function (element) {

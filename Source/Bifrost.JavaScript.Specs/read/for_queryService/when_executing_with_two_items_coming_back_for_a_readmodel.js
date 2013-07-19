@@ -43,13 +43,13 @@
         number: 5
     };
 
-    var itemsReceived = null;
+    var result = null;
 
     instance.execute(query, paging).continueWith(function (data) {
-        itemsReceived = data;
+        result = data;
     });
 
     it("should map the items and pass the resultto the promise", function () {
-        expect(itemsReceived).toBe(mappedItems);
+        expect(result.items).toBe(mappedItems);
     });
 });

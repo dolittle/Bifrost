@@ -29,7 +29,7 @@
         expect(queryable.new.verify()).toBe(true);
     });
 
-    it("should call execute on the queryable", function () {
-        expect(executeStub.called).toBe(true);
+    it("should not call execute on the queryable", function () {
+        expect(executeStub.called).toBe(false);
     });
 });

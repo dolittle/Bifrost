@@ -14,6 +14,7 @@
     var queryService = null;
 
     var pagingInfoType = null;
+    var queryable = null;
 
     beforeEach(function () {
         pagingInfoType = Bifrost.read.PagingInfo;
@@ -28,13 +29,16 @@
                 return {
                     continueWith: function (callback) {
                         
-                        callback(items);
+                        callback({
+                            items: items,
+                            totalItems: 4
+                        });
                     }
                 }
             }
         };
 
-        var queryable = Bifrost.read.Queryable.create({
+        queryable = Bifrost.read.Queryable.create({
             query: query,
             queryService: queryService,
             targetObservable: observable
@@ -50,5 +54,9 @@
 
     it("should populate the target observable", function () {
         expect(observable()).toBe(items);
+    });
+
+    it("should set the total items", function () {
+        expect(queryable.totalItems()).toBe(4);
     });
 });

@@ -38,7 +38,7 @@ namespace Bifrost.Web.Read
             _queryCoordinator = queryCoordinator;
         }
 
-        public IEnumerable Execute(QueryDescriptor descriptor, PagingInfo paging)
+        public QueryResult Execute(QueryDescriptor descriptor, PagingInfo paging)
         {
             var queryType = _typeDiscoverer.GetQueryTypeByName(descriptor.GeneratedFrom);
             var query = _container.Get(queryType) as IQuery;
@@ -46,10 +46,7 @@ namespace Bifrost.Web.Read
 			PopulateProperties (descriptor, queryType, query);
 
             var result = _queryCoordinator.Execute(query, paging);
-
-            //var queryProperty = queryType.GetProperty("Query");
-            //var queryable = queryProperty.GetValue(query, null) as IQueryable;
-            return result.Items;
+            return result;
         }
 
 		void PopulateProperties (QueryDescriptor descriptor, Type queryType, object instance)

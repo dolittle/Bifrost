@@ -28,13 +28,16 @@
         number: 5
     };
 
-    var itemsReceived = null;
+    var result = null;
 
     instance.execute(query, paging).continueWith(function (data) {
-        itemsReceived = data;
+        result = data;
     });
 
-    it("should pass an empty array to the promise", function () {
-        expect(itemsReceived).toEqual([]);
+    it("should create a default result with empty items to the promise", function () {
+        expect(result).toEqual({
+            items: [],
+            totalItems: 0
+        });
     });
 });

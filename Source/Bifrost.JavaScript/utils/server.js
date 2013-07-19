@@ -4,9 +4,11 @@
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
+                var items = [];
                 data.forEach(function (item) {
-                    deserialize(item);
+                    items.push(deserialize(item));
                 });
+                return items;
             } else {
                 for (var property in data) {
                     if (Bifrost.isArray(data[property])) {
@@ -21,6 +23,7 @@
                         }
                     }
                 }
+                return data;
             }
         }
 

@@ -9,6 +9,7 @@
         this.queryService = queryService;
         this.pageSize = ko.observable(0);
         this.pageNumber = ko.observable(0);
+        this.totalItems = ko.observable(0);
         this.completedCallbacks = [];
 
         this.pageSize.subscribe(function () {
@@ -55,10 +56,10 @@
                 size: self.pageSize(),
                 number: self.pageNumber()
             });
-            self.queryService.execute(query, paging).continueWith(function (items) {
-                if (typeof items == "undefined" || items == null) items = [];
-                self.target(items);
-                self.onCompleted(items);
+            self.queryService.execute(query, paging).continueWith(function (result) {
+                self.totalItems(result.totalItems);
+                self.target(result.items);
+                self.onCompleted(result.items);
             });
         };
 
@@ -76,6 +77,7 @@ Bifrost.read.Queryable.new = function (options, executeQuery) {
     options.targetObservable = observable;
     var queryable = Bifrost.read.Queryable.create(options);
     Bifrost.extend(observable, queryable);
+    observable.isQueryable = true;
     return observable;
 };
 

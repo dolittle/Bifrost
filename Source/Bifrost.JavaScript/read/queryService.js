@@ -18,14 +18,17 @@ Bifrost.namespace("Bifrost.read", {
                     size: paging.size,
                     number: paging.number
                 }
-            }).continueWith(function (data) {
-                var actualData = data;
-                if (typeof actualData == "undefined" || actualData == null) actualData = [];
+            }).continueWith(function (result) {
+                if (typeof result == "undefined" || result == null) {
+                    result = {};
+                }
+                if (typeof result.items == "undefined" || result.items == null) result.items = [];
+                if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
+                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
                 }
-                promise.signal(actualData);
+                promise.signal(result);
             });
 
             return promise;

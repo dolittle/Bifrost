@@ -157,7 +157,7 @@ Bifrost.namespace("Bifrost.execution", {
             if (self.failedCallback != null) self.failedCallback(error);
             self.hasFailed = true;
             self.error = error;
-            //throw error;
+            throw error;
         };
 
         this.onFail = function (callback) {
@@ -1308,9 +1308,11 @@ Bifrost.namespace("Bifrost", {
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
+                var items = [];
                 data.forEach(function (item) {
-                    deserialize(item);
+                    items.push(deserialize(item));
                 });
+                return items;
             } else {
                 for (var property in data) {
                     if (Bifrost.isArray(data[property])) {
@@ -1325,6 +1327,7 @@ Bifrost.namespace("Bifrost", {
                         }
                     }
                 }
+                return data;
             }
         }
 
@@ -2484,14 +2487,17 @@ Bifrost.namespace("Bifrost.read", {
                     size: paging.size,
                     number: paging.number
                 }
-            }).continueWith(function (data) {
-                var actualData = data;
-                if (typeof actualData == "undefined" || actualData == null) actualData = [];
+            }).continueWith(function (result) {
+                if (typeof result == "undefined" || result == null) {
+                    result = {};
+                }
+                if (typeof result.items == "undefined" || result.items == null) result.items = [];
+                if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
+                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
                 }
-                promise.signal(actualData);
+                promise.signal(result);
             });
 
             return promise;
@@ -2558,6 +2564,7 @@ Bifrost.namespace("Bifrost.read", {
         this.queryService = queryService;
         this.pageSize = ko.observable(0);
         this.pageNumber = ko.observable(0);
+        this.totalItems = ko.observable(0);
         this.completedCallbacks = [];
 
         this.pageSize.subscribe(function () {
@@ -2604,10 +2611,10 @@ Bifrost.namespace("Bifrost.read", {
                 size: self.pageSize(),
                 number: self.pageNumber()
             });
-            self.queryService.execute(query, paging).continueWith(function (items) {
-                if (typeof items == "undefined" || items == null) items = [];
-                self.target(items);
-                self.onCompleted(items);
+            self.queryService.execute(query, paging).continueWith(function (result) {
+                self.totalItems(result.totalItems);
+                self.target(result.items);
+                self.onCompleted(result.items);
             });
         };
 
@@ -2625,6 +2632,7 @@ Bifrost.read.Queryable.new = function (options, executeQuery) {
     options.targetObservable = observable;
     var queryable = Bifrost.read.Queryable.create(options);
     Bifrost.extend(observable, queryable);
+    observable.isQueryable = true;
     return observable;
 };
 
@@ -2681,7 +2689,6 @@ Bifrost.namespace("Bifrost.read", {
             var queryable = Bifrost.read.Queryable.new({
                 query: self.target
             });
-            queryable.execute();
             return queryable;
         };
 
@@ -2839,14 +2846,17 @@ Bifrost.namespace("Bifrost.read", {
                     size: paging.size,
                     number: paging.number
                 }
-            }).continueWith(function (data) {
-                var actualData = data;
-                if (typeof actualData == "undefined" || actualData == null) actualData = [];
+            }).continueWith(function (result) {
+                if (typeof result == "undefined" || result == null) {
+                    result = {};
+                }
+                if (typeof result.items == "undefined" || result.items == null) result.items = [];
+                if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    actualData = self.readModelMapper.mapDataToReadModel(query.readModel, actualData);
+                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
                 }
-                promise.signal(actualData);
+                promise.signal(result);
             });
 
             return promise;
@@ -3498,7 +3508,7 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
-            var elements = self.documentService.getAllElementsWithViewModelFilesSorted();
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom();
             var loadedViewModels = 0;
 
             self.masterViewModel = {};
