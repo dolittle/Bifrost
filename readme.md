@@ -13,7 +13,7 @@ For more details, samples, documentation, please go to the official [site](http:
 Check out the github [issue-list](https://github.com/dolittle/Bifrost/issues) to see if there's anything you could contribute to. Also, look into the coding standard section below if you're interested in contributing.
 
 ### Coding standard
-Try to follow the general style of naming and structure that's already in place in the solution.
+Try to follow the general style of naming and structure that's already in place in the solution. For a more extensive guide, have a look at our [contributing page](http://bifrost.dolittle.com/tutorials)
 
 ### Testing
 We expect any code going through to a pull request to be tested.
