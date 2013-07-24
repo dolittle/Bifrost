@@ -39,6 +39,7 @@
         }
     }
     var command = Bifrost.commands.Command.create(parameters);
+
     command.execute();
 
     var commandResult = {
