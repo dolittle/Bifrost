@@ -194,15 +194,19 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.execute = function () {
             self.isBusy(true);
-            self.onBeforeExecute();
-            var validationResult = self.commandValidationService.validate(this);
-            if (validationResult.valid === true) {
-                self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
+            try {
+                self.onBeforeExecute();
+                var validationResult = self.commandValidationService.validate(this);
+                if (validationResult.valid === true) {
+                        self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
+                            self.handleCommandResult(commandResult);
+                        });
+                } else {
+                    var commandResult = self.getCommandResultFromValidationResult(validationResult);
                     self.handleCommandResult(commandResult);
-                });
-            } else {
-                var commandResult = self.getCommandResultFromValidationResult(validationResult);
-                self.handleCommandResult(commandResult);
+                }
+            } catch (ex) {
+                self.isBusy(false);
             }
         };
 
