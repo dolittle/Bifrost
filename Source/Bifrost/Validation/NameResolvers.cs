@@ -50,6 +50,7 @@ namespace Bifrost.Validation
         /// <returns></returns>
         public static string DisplayNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
         {
+            if (expression == null) return "[N/A]";
             var displayName = FromExpression(expression);
             return displayName;
         }
