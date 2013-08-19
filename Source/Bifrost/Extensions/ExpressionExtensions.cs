@@ -147,6 +147,7 @@ namespace Bifrost.Extensions
             if (null == constantExpression)
             {
                 var innerMember = memberExpression.Expression as MemberExpression;
+                if( innerMember.Member is FieldInfo ) return ((FieldInfo)innerMember.Member).GetValue(null);
                 constantExpression = innerMember.Expression as ConstantExpression;
                 return GetValue(innerMember, constantExpression);
             }
