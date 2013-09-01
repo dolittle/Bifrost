@@ -313,7 +313,10 @@
     <Compile Include="Validation\CommandValidatorProvider.cs" />
     <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
+    <Compile Include="Validation\DynamicCommandBusinessValidator.cs" />
+    <Compile Include="Validation\DynamicCommandInputValidator.cs" />
     <Compile Include="Validation\DynamicState.cs" />
+    <Compile Include="Validation\IAmValidatable.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />
     <Compile Include="Validation\IChapterValidator.cs" />
@@ -323,7 +326,10 @@
     <Compile Include="Validation\ICommandInputValidator.cs" />
     <Compile Include="Validation\ICommandValidationService.cs" />
     <Compile Include="Validation\ICommandValidatorProvider.cs" />
+    <Compile Include="Validation\InputValidator.cs" />
     <Compile Include="Validation\InvalidValidatorTypeException.cs" />
+    <Compile Include="Validation\IValidateBusinessRules.cs" />
+    <Compile Include="Validation\IValidateInput.cs" />
     <Compile Include="Validation\MetaData\Regex.cs" />
     <Compile Include="Validation\MetaData\RegexGenerator.cs" />
     <Compile Include="Validation\MetaData\RequiredGenerator.cs" />
@@ -369,7 +375,7 @@
     <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
     <Compile Include="Validation\TypeExtensions.cs" />
-    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\BusinessValidator.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
     <Compile Include="Commands\CommandContext.cs" />
