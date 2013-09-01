@@ -33,7 +33,7 @@ namespace Bifrost.Validation
     /// Commands inherting from this base class will be automatically registered.
     /// </remarks>
     /// <typeparam name="T">Concrete type of the Command to validate</typeparam>
-    public abstract class CommandBusinessValidator<T> : Validator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
+    public abstract class CommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
     {
 #pragma warning disable 1591 // Xml Comments
         public virtual IEnumerable<ValidationResult> ValidateFor(T command)

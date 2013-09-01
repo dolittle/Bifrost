@@ -29,15 +29,15 @@ using FluentValidation.Results;
 namespace Bifrost.Validation
 {
     /// <summary>
-    /// Base class to inherit from for basic validation rules
+    /// Base class to inherit from for basic business validation rules
     /// </summary>
     /// <typeparam name="T">Type to add validation rules for</typeparam>
-    public class Validator<T> : AbstractValidator<T>
+    public class BusinessValidator<T> : AbstractValidator<T>, IValidateBusinessRules<T>
     {
         /// <summary>
         /// Start building rules for the model
         /// </summary>
-        /// <returns><see cref="IRuleBuilderInitial(T, T)"/> that can be used to fluently set up rules</returns>
+        /// <returns><see cref="IRuleBuilderInitial{T, T}"/> that can be used to fluently set up rules</returns>
         public IRuleBuilderInitial<T, T> ModelRule()
         {
             var rule = new ModelRule<T>();

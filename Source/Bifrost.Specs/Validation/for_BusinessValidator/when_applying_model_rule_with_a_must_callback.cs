@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Bifrost.Specs.Validation.for_Validator;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_Validator
+namespace Bifrost.Specs.Validation.for_BusinessValidator
 {
     public class when_applying_model_rule_with_a_must_callback
     {
