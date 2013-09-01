@@ -20,4 +20,13 @@ namespace Bifrost.QuickStart.Concepts.Persons
                 .Length(6);
         }
     }
+
+    public class AnotherSocialSecurityNumberInputValidator : InputValidator<SocialSecurityNumber>
+    {
+        public AnotherSocialSecurityNumberInputValidator()
+        {
+            RuleFor(ssn => ssn.Value)
+                .NotEmpty();
+        }
+    }
 }

@@ -89,10 +89,11 @@ namespace Bifrost.Validation
             List<Type> dynamicallyDiscoveredValidatorTypes;
             _dynamicallyDiscoveredBusinessValidators.TryGetValue(commandType, out dynamicallyDiscoveredValidatorTypes);
 
+            IDictionary<Type, IEnumerable<Type>> typesAndDiscoveredValidators;
             if (dynamicallyDiscoveredValidatorTypes == null)
-                dynamicallyDiscoveredValidatorTypes = DiscoverAndRegisterValidatorsFor(commandType, _dynamicallyDiscoveredBusinessValidators);
+                typesAndDiscoveredValidators = DiscoverAndRegisterValidatorsFor(commandType, _dynamicallyDiscoveredInputValidators);
 
-            return BuildDynamicallyDiscoveredBusinessValidator(commandType, dynamicallyDiscoveredValidatorTypes);
+            return BuildDynamicallyDiscoveredBusinessValidator(commandType, typesAndDiscoveredValidators);
         }
 
         public ICanValidate GetInputValidatorFor(Type commandType)
@@ -106,20 +107,21 @@ namespace Bifrost.Validation
             List<Type> dynamicallyDiscoveredValidatorTypes;
             _dynamicallyDiscoveredInputValidators.TryGetValue(commandType, out dynamicallyDiscoveredValidatorTypes);
 
+            IDictionary<Type, IEnumerable<Type>> typesAndDiscoveredValidators;
             if (dynamicallyDiscoveredValidatorTypes == null)
-                dynamicallyDiscoveredValidatorTypes = DiscoverAndRegisterValidatorsFor(commandType, _dynamicallyDiscoveredInputValidators);
+                typesAndDiscoveredValidators = DiscoverAndRegisterValidatorsFor(commandType, _dynamicallyDiscoveredInputValidators);
 
-            return BuildDynamicallyDiscoveredInputValidator(commandType, dynamicallyDiscoveredValidatorTypes);
+            return BuildDynamicallyDiscoveredInputValidator(commandType, typesAndDiscoveredValidators);
         }
 
-        List<Type> DiscoverAndRegisterValidatorsFor(Type commandType, Dictionary<Type, List<Type>> registeredTypes)
+        Dictionary<Type,IEnumerable<Type>> DiscoverAndRegisterValidatorsFor(Type commandType, Dictionary<Type, List<Type>> registeredTypes)
         {
             var typesOnCommand = GetTypesFromCommand(commandType).ToList();
-            var validatorTypes = new List<Type>();
+            var validatorTypes = new Dictionary<Type, IEnumerable<Type>>();
             foreach (var typeToBeValidated in typesOnCommand)
             {
                 if (registeredTypes.ContainsKey(typeToBeValidated))
-                    validatorTypes.AddRange(registeredTypes[typeToBeValidated]);
+                    validatorTypes.Add(typeToBeValidated, registeredTypes[typeToBeValidated]);
             }
             return validatorTypes;
         }
@@ -130,34 +132,34 @@ namespace Bifrost.Validation
             return commandPropertyTypes;
         }
 
-        ICanValidate BuildDynamicallyDiscoveredInputValidator(Type commandType, IEnumerable<Type> dynamicallyDiscoveredValidatorTypes)
+        ICanValidate BuildDynamicallyDiscoveredInputValidator(Type commandType, IDictionary<Type,IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
             var closedValidatorType = typeof(DynamicCommandInputValidator<>).MakeGenericType(typeArgs);
 
-
-            var validatorInstances = new List<InputValidator<IAmValidatable>>();
-            if(dynamicallyDiscoveredValidatorTypes.Any())
+            var propertyTypeAndValidatorInstances = new Dictionary<Type, IEnumerable<InputValidator<IAmValidatable>>>();
+            foreach (var key in typeAndAssociatedValidatorTypes.Keys)
             {
-                validatorInstances.AddRange(dynamicallyDiscoveredValidatorTypes.Select(v => _container.Get(v) as InputValidator<IAmValidatable>)
-                                                   .ToArray());
+                var validatorTypes = typeAndAssociatedValidatorTypes[key];
+                if(validatorTypes.Any())
+                    propertyTypeAndValidatorInstances.Add(key,validatorTypes.Select(v => _container.Get(v) as InputValidator<IAmValidatable>).ToArray());
             }
-            return Activator.CreateInstance(closedValidatorType, validatorInstances) as ICanValidate;
+            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICanValidate;
         }
 
-        ICanValidate BuildDynamicallyDiscoveredBusinessValidator(Type commandType, IEnumerable<Type> dynamicallyDiscoveredValidatorTypes)
+        ICanValidate BuildDynamicallyDiscoveredBusinessValidator(Type commandType, IDictionary<Type, IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
             var closedValidatorType = typeof(DynamicCommandBusinessValidator<>).MakeGenericType(typeArgs);
 
-
-            var validatorInstances = new List<BusinessValidator<IAmValidatable>>();
-            if (dynamicallyDiscoveredValidatorTypes.Any())
+            var propertyTypeAndValidatorInstances = new Dictionary<Type, IEnumerable<BusinessValidator<IAmValidatable>>>();
+            foreach (var key in typeAndAssociatedValidatorTypes.Keys)
             {
-                validatorInstances.AddRange(dynamicallyDiscoveredValidatorTypes.Select(v => _container.Get(v) as BusinessValidator<IAmValidatable>)
-                                                   .ToArray());
+                var validatorTypes = typeAndAssociatedValidatorTypes[key];
+                if (validatorTypes.Any())
+                    propertyTypeAndValidatorInstances.Add(key, validatorTypes.Select(v => _container.Get(v) as BusinessValidator<IAmValidatable>).ToArray());
             }
-            return Activator.CreateInstance(closedValidatorType, validatorInstances) as ICanValidate;
+            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICanValidate;
         }
 #pragma warning restore 1591 // Xml Comments
 

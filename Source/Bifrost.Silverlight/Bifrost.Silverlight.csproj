@@ -976,6 +976,7 @@
     <Compile Include="Notification\IgnoreChangesAttribute.cs" />
     <Compile Include="Notification\NotifyChangesForAttribute.cs" />
     <Compile Include="Notification\NotifyingObjectWeaver.cs" />
+    <Compile Include="Validation\CompositeValidator.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

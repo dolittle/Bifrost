@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
 
@@ -12,10 +13,10 @@ namespace Bifrost.Validation
         /// <summary>
         /// Instantiates an Instance of a <see cref="DynamicCommandInputValidator"/>
         /// </summary>
-        /// <param name="validators">A collection of dynamically discovered validators to use</param>
-        public DynamicCommandInputValidator(IEnumerable<InputValidator<IAmValidatable>> validators)
+        /// <param name="propertyTypesAndValidators">A collection of dynamically discovered validators to use</param>
+        public DynamicCommandInputValidator(IDictionary<Type,IEnumerable<BusinessValidator<IAmValidatable>>> propertyTypesAndValidators)
         {
-            
+            //TODO: Map up the propety types to properties on the command
         } 
 
 #pragma warning disable 1591 // Xml Comments
