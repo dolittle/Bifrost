@@ -552,6 +552,9 @@
     <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
       <Link>Extensions\ExpressionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Extensions\FluentValidationRuleExtensions.cs">
+      <Link>Extensions\FluentValidationRuleExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
       <Link>Extensions\ITypeInfo.cs</Link>
     </Compile>
@@ -976,7 +979,7 @@
     <Compile Include="Notification\IgnoreChangesAttribute.cs" />
     <Compile Include="Notification\NotifyChangesForAttribute.cs" />
     <Compile Include="Notification\NotifyingObjectWeaver.cs" />
-    <Compile Include="Validation\CompositeValidator.cs" />
+    <Compile Include="Validation\ValidatorWrapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

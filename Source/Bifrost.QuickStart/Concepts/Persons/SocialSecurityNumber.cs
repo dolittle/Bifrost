@@ -29,4 +29,22 @@ namespace Bifrost.QuickStart.Concepts.Persons
                 .NotEmpty();
         }
     }
+
+    public class SocialSecurityNumberBusinessValidator : BusinessValidator<SocialSecurityNumber>
+    {
+        public SocialSecurityNumberBusinessValidator()
+        {
+            RuleFor(ssn => ssn.Value)
+                .Must(s => s == "123456");
+        }
+    }
+
+    public class AnotherSocialSecurityNumberBusinessValidator : BusinessValidator<SocialSecurityNumber>
+    {
+        public AnotherSocialSecurityNumberBusinessValidator()
+        {
+            RuleFor(ssn => ssn.Value)
+                .Equal("123456");
+        }
+    }
 }

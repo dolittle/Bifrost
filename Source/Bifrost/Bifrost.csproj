@@ -166,6 +166,7 @@
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
+    <Compile Include="Extensions\FluentValidationRuleExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
@@ -311,6 +312,7 @@
     <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\ValidatorWrapper.cs" />
     <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
     <Compile Include="Validation\DynamicCommandBusinessValidator.cs" />

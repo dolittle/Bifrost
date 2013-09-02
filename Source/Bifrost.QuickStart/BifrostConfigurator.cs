@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Diagnostics;
+using System.Web;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.QuickStart.Concepts.Persons;
@@ -37,6 +38,14 @@ namespace Bifrost.QuickStart
             var validatorProvider = configure.Container.Get<ICommandValidatorProvider>();
             var inputValidator = validatorProvider.GetInputValidatorFor(typeof (RegisterEmployee));
             var businessValidator = validatorProvider.GetBusinessValidatorFor(typeof (RegisterEmployee));
+
+            var command = new RegisterEmployee()
+                {
+                    SocialSecurityNumber = "invalid"
+                };
+
+            var inputResult = inputValidator.ValidateFor(command);
+            var businessResult = businessValidator.ValidateFor(command);
         }
     }
 }
