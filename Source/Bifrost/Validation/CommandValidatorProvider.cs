@@ -34,17 +34,17 @@ namespace Bifrost.Validation
     [Singleton]
     public class CommandValidatorProvider : ICommandValidatorProvider
     {
-        static ICommandInputValidator NullInputValidator = new NullCommandInputValidator();
-        static ICommandBusinessValidator NullBusinessValidator = new NullCommandBusinessValidator();
-        static Type _inputValidatorType = typeof (ICommandInputValidator);
-        static Type _businessValidatorType = typeof (ICommandBusinessValidator);
-        static Type _validatesType = typeof (ICanValidate<>);
+        static readonly ICommandInputValidator NullInputValidator = new NullCommandInputValidator();
+        static readonly ICommandBusinessValidator NullBusinessValidator = new NullCommandBusinessValidator();
+        static readonly Type _inputValidatorType = typeof (ICommandInputValidator);
+        static readonly Type _businessValidatorType = typeof (ICommandBusinessValidator);
+        static readonly Type _validatesType = typeof (ICanValidate<>);
 
-        ITypeDiscoverer _typeDiscoverer;
-        IContainer _container;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly IContainer _container;
 
         Dictionary<Type, Type> _inputValidators;
-        Dictionary<Type, Type> _businessValidators;
+        Dictionary<Type, Type[]> _businessValidators;
 
         /// <summary>
         /// Initializes an instance of <see cref="CommandValidatorProvider"/> CommandValidatorProvider
@@ -77,18 +77,22 @@ namespace Bifrost.Validation
         {
             Type registeredType;
             _inputValidators.TryGetValue(type, out registeredType);
-
-            var inputValidator = (registeredType != null ? _container.Get(registeredType) : NullInputValidator) as ICanValidate;
-            return inputValidator;
+            
+            return registeredType != null ? _container.Get(registeredType) as ICanValidate : NullInputValidator as ICanValidate;
         }
 
         public ICanValidate GetBusinessValidatorFor(Type type)
         {
-            Type registeredType;
-            _businessValidators.TryGetValue(type, out registeredType);
+            Type[] registeredTypes;
+            _businessValidators.TryGetValue(type, out registeredTypes);
 
-            var businessValidator = (registeredType != null ? _container.Get(registeredType) : NullBusinessValidator) as ICanValidate;
-            return businessValidator;
+            if (registeredTypes != null && registeredTypes.Length > 0)
+            {
+                var validators = registeredTypes.Select(t => _container.Get(t) as ICanValidate);
+                return new AggregatedValidator(validators);
+            }
+
+            return NullBusinessValidator as ICanValidate;
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -105,10 +109,33 @@ namespace Bifrost.Validation
         /// </summary>
         public IEnumerable<Type> RegisteredBusinessValidators
         {
-            get { return _businessValidators.Values; }
+            get { return _businessValidators.Values.SelectMany(r => r.Select(t => t)); }
         }
 
 
+        void Initialize()
+        {
+            _inputValidators = new Dictionary<Type, Type>();
+            _businessValidators = new Dictionary<Type, Type[]>();
+
+            var commandContractType = typeof (ICommand);
+            var inputValidators = _typeDiscoverer.FindMultiple(_inputValidatorType);
+            var businessValidators = _typeDiscoverer.FindMultiple(_businessValidatorType);
+            var commandTypes = _typeDiscoverer.FindMultiple(commandContractType);
+
+            foreach (var commandType in commandTypes)
+            {
+                var commandInterfaces = commandType.GetInterfaces().Where(i => commandContractType.IsAssignableFrom(i) && i != typeof(ICommand));
+                var commandInputValidator = inputValidators.Single(t => GetCommandType(t) == commandType);
+                var commandBusinessValidators = businessValidators.Where(t => GetCommandType(t) == commandType || commandInterfaces.Contains(GetCommandType(t)));
+
+                _inputValidators.Add(commandType, commandInputValidator);
+                _businessValidators.Add(commandType, commandBusinessValidators.ToArray());
+            }
+        }
+
+
+        /*
         void Initialize()
         {
             _inputValidators = new Dictionary<Type, Type>();
@@ -140,6 +167,8 @@ namespace Bifrost.Validation
 
             validatorRegistry.Add(commandType, typeToRegister);
         }
+        */
+
 
         Type GetCommandType(Type typeToRegister)
         {

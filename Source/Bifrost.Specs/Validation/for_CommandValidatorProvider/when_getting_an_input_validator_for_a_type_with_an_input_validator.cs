@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Specs.Validation.for_CommandValidatorProvider.given;
 using Bifrost.Validation;
@@ -14,6 +15,6 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 
         Because of = () => input_validator = command_validator_provider.GetInputValidatorFor(new SimpleCommand(Guid.NewGuid()));
 
-        It should_return_the_correct_input_validator = () => input_validator.ShouldBeOfType(typeof(SimpleCommandInputValidator));
+        private It should_return_the_correct_input_validator = () => input_validator.ShouldBeOfType(typeof(SimpleCommandInputValidator));
     }
 }

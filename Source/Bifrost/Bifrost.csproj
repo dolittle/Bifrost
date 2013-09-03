@@ -271,6 +271,7 @@
     <Compile Include="Utils\IStringMapping.cs" />
     <Compile Include="Utils\StringMapper.cs" />
     <Compile Include="Utils\StringMapping.cs" />
+    <Compile Include="Validation\AggregatedValidator.cs" />
     <Compile Include="Validation\ChapterValidationService.cs" />
     <Compile Include="Sagas\ICanTransitionTo.cs" />
     <Compile Include="Sagas\ISaga.cs" />

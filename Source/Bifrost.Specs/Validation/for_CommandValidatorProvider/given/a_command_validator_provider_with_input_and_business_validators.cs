@@ -1,3 +1,4 @@
+using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Validation;
@@ -49,6 +50,14 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
                                                     typeof(NullCommandBusinessValidator)
                                                 }
                                         );
+
+                                    type_discoverer_mock.Setup(td => td.FindMultiple(typeof(ICommand)))
+                                       .Returns(new[]
+                                                {
+                                                    typeof(SimpleCommand),
+                                                    typeof(AnotherSimpleCommand)
+                                                }
+                                       );
 
                                     command_validator_provider = new CommandValidatorProvider(
                                         type_discoverer_mock.Object,

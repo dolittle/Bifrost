@@ -1,4 +1,6 @@
+using System.Linq;
 using Bifrost.Specs.Validation.for_CommandValidatorProvider.given;
+using Bifrost.Validation;
 using Machine.Specifications;
 using System;
 using Bifrost.Execution;
