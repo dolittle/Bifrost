@@ -139,42 +139,6 @@ namespace Bifrost.Validation
             }
         }
 
-
-        /*
-        void Initialize()
-        {
-            _inputValidators = new Dictionary<Type, Type>();
-            _businessValidators = new Dictionary<Type, Type>();
-
-            var inputValidators = _typeDiscoverer.FindMultiple(_inputValidatorType);
-            var businessValidators = _typeDiscoverer.FindMultiple(_businessValidatorType);
-
-            inputValidators.ForEach(type => Register(type, _inputValidatorType));
-            businessValidators.ForEach(type => Register(type, _businessValidatorType));
-        }
-
-        void Register(Type typeToRegister, Type registerFor)
-        {
-            var validatorRegistry = registerFor == _inputValidatorType
-                                        ? _inputValidators
-                                        : _businessValidators;
-
-            var commandType = GetCommandType(typeToRegister);
-
-            if (commandType == null || 
-#if(NETFX_CORE)
-                commandType.GetTypeInfo().IsInterface ||
-#else
-                commandType.IsInterface ||
-#endif
-                validatorRegistry.ContainsKey(commandType))
-                return;
-
-            validatorRegistry.Add(commandType, typeToRegister);
-        }
-        */
-
-
         Type GetCommandType(Type typeToRegister)
         {
             var types = from interfaceType in typeToRegister
