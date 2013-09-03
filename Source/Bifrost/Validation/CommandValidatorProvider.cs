@@ -121,15 +121,20 @@ namespace Bifrost.Validation
             var commandContractType = typeof (ICommand);
             var inputValidators = _typeDiscoverer.FindMultiple(_inputValidatorType);
             var businessValidators = _typeDiscoverer.FindMultiple(_businessValidatorType);
-            var commandTypes = _typeDiscoverer.FindMultiple(commandContractType);
+            var commandTypes = _typeDiscoverer.FindMultiple(commandContractType).Where(t => t.IsInterface == false && t.IsAbstract == false);
 
             foreach (var commandType in commandTypes)
             {
                 var commandInterfaces = commandType.GetInterfaces().Where(i => commandContractType.IsAssignableFrom(i) && i != typeof(ICommand));
-                var commandInputValidator = inputValidators.Single(t => GetCommandType(t) == commandType);
+                
+                var commandInputValidator = inputValidators.SingleOrDefault(t => GetCommandType(t) == commandType);
+                
+                if (commandInputValidator != null)
+                {
+                    _inputValidators.Add(commandType, commandInputValidator);
+                }
+                
                 var commandBusinessValidators = businessValidators.Where(t => GetCommandType(t) == commandType || commandInterfaces.Contains(GetCommandType(t)));
-
-                _inputValidators.Add(commandType, commandInputValidator);
                 _businessValidators.Add(commandType, commandBusinessValidators.ToArray());
             }
         }
