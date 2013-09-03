@@ -45,12 +45,23 @@ namespace Bifrost.Web.Validation
         {
             var commandType = _discoverer.GetCommandTypeByName(name);
 
-            var inputValidator = _commandValidatorProvider.GetInputValidatorFor(commandType) as IValidator;
+            var inputValidator = _commandValidatorProvider.GetInputValidatorFor(commandType);
+
             if (inputValidator != null)
             {
-                var metaData = _validationMetaDataGenerator.GenerateFrom(inputValidator);
-                return metaData;
+                if (inputValidator is AggregatedValidator)
+                {
+                    var metaData = _validationMetaDataGenerator.GenerateFrom(inputValidator as AggregatedValidator);
+                    return metaData;
+                }
+
+                if (inputValidator is IValidator)
+                {
+                    var metaData = _validationMetaDataGenerator.GenerateFrom(inputValidator as IValidator);
+                    return metaData;
+                }
             }
+
             return new ValidationMetaData();
 		}
     }

@@ -31,5 +31,12 @@ namespace Bifrost.Validation.MetaData
         /// <param name="validator">Validator to generate from</param>
         /// <returns>The actual metadata</returns>
         ValidationMetaData GenerateFrom(IValidator validator);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validator"></param>
+        /// <returns></returns>
+        ValidationMetaData GenerateFrom(AggregatedValidator validator);
     }
 }

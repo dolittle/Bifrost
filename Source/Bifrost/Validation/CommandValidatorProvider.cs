@@ -43,7 +43,7 @@ namespace Bifrost.Validation
         readonly ITypeDiscoverer _typeDiscoverer;
         readonly IContainer _container;
 
-        Dictionary<Type, Type> _inputValidators;
+        Dictionary<Type, Type[]> _inputValidators;
         Dictionary<Type, Type[]> _businessValidators;
 
         /// <summary>
@@ -75,10 +75,21 @@ namespace Bifrost.Validation
 
         public ICanValidate GetInputValidatorFor(Type type)
         {
-            Type registeredType;
+            /*Type registeredType;
             _inputValidators.TryGetValue(type, out registeredType);
             
-            return registeredType != null ? _container.Get(registeredType) as ICanValidate : NullInputValidator as ICanValidate;
+            return registeredType != null ? _container.Get(registeredType) as ICanValidate : NullInputValidator as ICanValidate;*/
+
+            Type[] registeredTypes;
+            _inputValidators.TryGetValue(type, out registeredTypes);
+
+            if (registeredTypes != null && registeredTypes.Length > 0)
+            {
+                var validators = registeredTypes.Select(t => _container.Get(t) as ICanValidate);
+                return new AggregatedValidator(validators);
+            }
+
+            return NullInputValidator as ICanValidate;
         }
 
         public ICanValidate GetBusinessValidatorFor(Type type)
@@ -101,7 +112,7 @@ namespace Bifrost.Validation
         /// </summary>
         public IEnumerable<Type> RegisteredInputValidators
         {
-            get { return _inputValidators.Values; }
+            get { return _inputValidators.Values.SelectMany(r => r.Select(t => t)); ; }
         }
 
         /// <summary>
@@ -115,7 +126,7 @@ namespace Bifrost.Validation
 
         void Initialize()
         {
-            _inputValidators = new Dictionary<Type, Type>();
+            _inputValidators = new Dictionary<Type, Type[]>();
             _businessValidators = new Dictionary<Type, Type[]>();
 
             var commandContractType = typeof (ICommand);
@@ -126,13 +137,9 @@ namespace Bifrost.Validation
             foreach (var commandType in commandTypes)
             {
                 var commandInterfaces = commandType.GetInterfaces().Where(i => commandContractType.IsAssignableFrom(i) && i != typeof(ICommand));
-                
-                var commandInputValidator = inputValidators.SingleOrDefault(t => GetCommandType(t) == commandType);
-                
-                if (commandInputValidator != null)
-                {
-                    _inputValidators.Add(commandType, commandInputValidator);
-                }
+              
+                var commandInputValidator = inputValidators.Where(t => GetCommandType(t) == commandType || commandInterfaces.Contains(GetCommandType(t)));
+                _inputValidators.Add(commandType, commandInputValidator.ToArray());
                 
                 var commandBusinessValidators = businessValidators.Where(t => GetCommandType(t) == commandType || commandInterfaces.Contains(GetCommandType(t)));
                 _businessValidators.Add(commandType, commandBusinessValidators.ToArray());
