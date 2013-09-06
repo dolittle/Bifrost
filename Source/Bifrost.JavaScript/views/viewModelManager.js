@@ -95,8 +95,8 @@
             }
         };
 
-        this.loadAndApplyAllViewModelsInDocument = function () {
-            var elements = self.documentService.getAllElementsWithViewModelFilesFrom();
+        this.loadAndApplyAllViewModelsWithinElement = function (root) {
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
             self.masterViewModel = {};
@@ -119,7 +119,10 @@
                     }
                 });
             });
-            
+        };
+
+        this.loadAndApplyAllViewModelsInDocument = function () {
+            self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
 });
