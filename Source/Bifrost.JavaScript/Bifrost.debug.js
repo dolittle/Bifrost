@@ -2152,8 +2152,8 @@ Bifrost.namespace("Bifrost.commands", {
         this.getProperties = function () {
             var properties = [];
             for (var property in self.targetCommand) {
-                if (self.targetCommand.hasOwnProperty(property) &&
-                    !self.hasOwnProperty(property)) {
+                if (self.targetCommand.hasOwnProperty(property) && 
+                    !(self.hasOwnProperty(property))) {
                     properties.push(property);
                 }
             }
@@ -2205,8 +2205,22 @@ Bifrost.namespace("Bifrost.commands", {
             });
         };
 
+        this.setInitialValuesFromCurrentValues = function () {
+            var properties = self.getProperties();
+            properties.forEach(function (propertyName) {
+                var property = self.targetCommand[propertyName];
+                if (ko.isObservable(property)) {
+                    var value = property();
+                    property.setInitialValue(value);
+                }
+            });
+        };
+
+
         this.onSucceeded = function (commandResult) {
             self.options.succeeded(commandResult);
+
+            self.setInitialValuesFromCurrentValues();
 
             self.succeededCallbacks.forEach(function (callback) {
                 callback(commandResult);
@@ -2246,15 +2260,19 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.execute = function () {
             self.isBusy(true);
-            self.onBeforeExecute();
-            var validationResult = self.commandValidationService.validate(this);
-            if (validationResult.valid === true) {
-                self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
+            try {
+                self.onBeforeExecute();
+                var validationResult = self.commandValidationService.validate(this);
+                if (validationResult.valid === true) {
+                        self.commandCoordinator.handle(self.targetCommand).continueWith(function (commandResult) {
+                            self.handleCommandResult(commandResult);
+                        });
+                } else {
+                    var commandResult = self.getCommandResultFromValidationResult(validationResult);
                     self.handleCommandResult(commandResult);
-                });
-            } else {
-                var commandResult = self.getCommandResultFromValidationResult(validationResult);
-                self.handleCommandResult(commandResult);
+                }
+            } catch (ex) {
+                self.isBusy(false);
             }
         };
 
@@ -2604,7 +2622,8 @@ Bifrost.namespace("Bifrost.read", {
 
         this.execute = function () {
             if (self.query.areAllParametersSet() !== true) {
-                return;
+                // TODO: Diagnostics - warning
+                return self.target;
             }
 
             var paging = Bifrost.read.PagingInfo.create({
@@ -2616,6 +2635,8 @@ Bifrost.namespace("Bifrost.read", {
                 self.target(result.items);
                 self.onCompleted(result.items);
             });
+
+            return self.target;
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {
@@ -3507,8 +3528,8 @@ Bifrost.namespace("Bifrost.views", {
             }
         };
 
-        this.loadAndApplyAllViewModelsInDocument = function () {
-            var elements = self.documentService.getAllElementsWithViewModelFilesFrom();
+        this.loadAndApplyAllViewModelsWithinElement = function (root) {
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
             self.masterViewModel = {};
@@ -3531,7 +3552,10 @@ Bifrost.namespace("Bifrost.views", {
                     }
                 });
             });
-            
+        };
+
+        this.loadAndApplyAllViewModelsInDocument = function () {
+            self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
 });
@@ -3644,13 +3668,14 @@ Bifrost.namespace("Bifrost.views", {
         this.viewManager = viewManager;
         this.documentService = documentService;
 
-        this.init = function (element, valueAccessor, allBindingAccessor, viewMode, bindingContext) {
+        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var viewModel = self.documentService.getViewModelFrom(element);
             var childBindingContext = bindingContext.createChildContext(viewModel);
+            childBindingContext.$root = viewModel;
             ko.applyBindingsToDescendants(childBindingContext, element);
             return { controlsDescendantBindings: true };
         };
-        this.update = function (element, valueAccessor, allBindingAccessor, viewModel, bindingContext) {
+        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
     })
 });
