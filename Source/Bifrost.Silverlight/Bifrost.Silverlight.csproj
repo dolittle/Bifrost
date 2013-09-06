@@ -264,6 +264,45 @@
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\IProblems.cs">
+      <Link>Diagnostics\IProblems.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\IProblemsFactory.cs">
+      <Link>Diagnostics\IProblemsFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\IProblemsReporter.cs">
+      <Link>Diagnostics\IProblemsReporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\IProblemTypes.cs">
+      <Link>Diagnostics\IProblemTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\IQualityAssurance.cs">
+      <Link>Diagnostics\IQualityAssurance.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ITypeRuleFor.cs">
+      <Link>Diagnostics\ITypeRuleFor.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ITypeRules.cs">
+      <Link>Diagnostics\ITypeRules.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\Problem.cs">
+      <Link>Diagnostics\Problem.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\Problems.cs">
+      <Link>Diagnostics\Problems.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ProblemSeverity.cs">
+      <Link>Diagnostics\ProblemSeverity.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ProblemsReporter.cs">
+      <Link>Diagnostics\ProblemsReporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\ProblemType.cs">
+      <Link>Diagnostics\ProblemType.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Diagnostics\QualityAssurance.cs">
+      <Link>Diagnostics\QualityAssurance.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Domain\AggregateRoot.cs">
       <Link>Domain\AggregateRoot.cs</Link>
     </Compile>

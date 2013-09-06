@@ -24,10 +24,21 @@ namespace Bifrost.Diagnostics
     /// </summary>
     public class QualityAssurance : IQualityAssurance
     {
+        ITypeRules _typeRules;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="QualityAssurance"/>
+        /// </summary>
+        /// <param name="typeRules"></param>
+        public QualityAssurance(ITypeRules typeRules)
+        {
+            _typeRules = typeRules;
+        }
+
 #pragma warning disable 1591 // Xml Comments
         public void Validate()
         {
-            throw new System.NotImplementedException();
+            _typeRules.ValidateAll();
         }
 #pragma warning restore 1591 // Xml Comments
     }

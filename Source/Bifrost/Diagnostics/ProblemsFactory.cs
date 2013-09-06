@@ -16,24 +16,20 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
 
 namespace Bifrost.Diagnostics
 {
     /// <summary>
-    /// Defines a reporter for reporting any <see cref="IProblems">problems</see>
+    /// Represents an implementation of <see cref="IProblemsFactory"/>
     /// </summary>
-    public interface IProblemsReporter
+    public class ProblemsFactory : IProblemsFactory
     {
-        /// <summary>
-        /// Gets all the problems registered
-        /// </summary>
-        IEnumerable<IProblems> All { get; }
-
-        /// <summary>
-        /// Report any <see cref="IProblems">problems</see>
-        /// </summary>
-        /// <param name="problems"><see cref="IProblems">Problems</see> to report</param>
-        void Report(IProblems problems);
+#pragma warning disable 1591 // Xml Comments
+        public IProblems Create()
+        {
+            var problems = new Problems();
+            return problems;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

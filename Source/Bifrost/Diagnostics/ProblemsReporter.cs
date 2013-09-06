@@ -16,24 +16,27 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
 
+using System.Collections.Generic;
+using Bifrost.Execution;
 namespace Bifrost.Diagnostics
 {
     /// <summary>
-    /// Defines a reporter for reporting any <see cref="IProblems">problems</see>
+    /// Represents an implementation of <see cref="IProblemsReporter"/>
     /// </summary>
-    public interface IProblemsReporter
+    [Singleton]
+    public class ProblemsReporter : IProblemsReporter
     {
-        /// <summary>
-        /// Gets all the problems registered
-        /// </summary>
-        IEnumerable<IProblems> All { get; }
+        List<IProblems> _allProblems = new List<IProblems>();
 
-        /// <summary>
-        /// Report any <see cref="IProblems">problems</see>
-        /// </summary>
-        /// <param name="problems"><see cref="IProblems">Problems</see> to report</param>
-        void Report(IProblems problems);
+#pragma warning disable 1591 // Xml Comments
+        public void Report(IProblems problems)
+        {
+            _allProblems.Add(problems);
+        }
+
+        public IEnumerable<IProblems> All { get { return _allProblems;  } }
+#pragma warning restore 1591 // Xml Comments
+
     }
 }

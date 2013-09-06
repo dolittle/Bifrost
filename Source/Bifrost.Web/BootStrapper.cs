@@ -19,9 +19,11 @@
 
 using System.Web.Routing;
 using Bifrost.Configuration;
+using Bifrost.Diagnostics;
 using Bifrost.Web.Assets;
 using Bifrost.Web.Commands;
 using Bifrost.Web.Configuration;
+using Bifrost.Web.Diagnostics;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
@@ -49,6 +51,7 @@ namespace Bifrost.Web
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
             RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
+            RouteTable.Routes.AddService<ProblemsService>("Bifrost/Problems");
             RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(BootStrapper).Assembly);
 		}
 

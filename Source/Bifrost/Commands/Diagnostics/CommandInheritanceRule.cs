@@ -16,24 +16,25 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
+using System;
+using Bifrost.Diagnostics;
+using Bifrost.Extensions;
 
-namespace Bifrost.Diagnostics
+namespace Bifrost.Commands.Diagnostics
 {
     /// <summary>
-    /// Defines a reporter for reporting any <see cref="IProblems">problems</see>
+    /// Represents a rule that will check if a <see cref="ICommand"/> has too many properties
     /// </summary>
-    public interface IProblemsReporter
+    public class CommandInheritanceRule : ITypeRuleFor<ICommand>
     {
-        /// <summary>
-        /// Gets all the problems registered
-        /// </summary>
-        IEnumerable<IProblems> All { get; }
+#pragma warning disable 1591 // Xml Comments
+        public void Validate(Type type, IProblems problems)
+        {
+            var implementsInterface = type.HasInterface<ICommand>() && type.BaseType == typeof(Object);
 
-        /// <summary>
-        /// Report any <see cref="IProblems">problems</see>
-        /// </summary>
-        /// <param name="problems"><see cref="IProblems">Problems</see> to report</param>
-        void Report(IProblems problems);
+            if (!implementsInterface && type.BaseType != typeof(Command))
+                problems.Report(ProblemTypes.CommandInheritance, type);
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

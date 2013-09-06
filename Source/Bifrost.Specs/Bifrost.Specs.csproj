@@ -70,6 +70,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandInheritingCommand.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandImplementingICommand.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\when_validating_type_with_nested_inheritance_hierarchy.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\NestedCommandInheritanceHierarchy.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\when_validating_type_implementing_icommand.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\given\a_command_inheritance_rule.cs" />
+    <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\when_validating_type_inheriting_command.cs" />
+    <Compile Include="Commands\Diagnostics\for_TooManyPropertiesRule\CommandWithoutTooManyProperties.cs" />
+    <Compile Include="Commands\Diagnostics\for_TooManyPropertiesRule\CommandWithTooManyProperties.cs" />
+    <Compile Include="Commands\Diagnostics\for_TooManyPropertiesRule\when_validating_type_without_too_many_properties.cs" />
+    <Compile Include="Commands\Diagnostics\for_TooManyPropertiesRule\given\a_too_many_properties_rule.cs" />
+    <Compile Include="Commands\Diagnostics\for_TooManyPropertiesRule\when_validating_type_with_too_many_properties.cs" />
     <Compile Include="Commands\for_CommandContextFactory\given\a_command_context_factory.cs" />
     <Compile Include="Commands\for_CommandContextFactory\when_building_for_a_command.cs" />
     <Compile Include="Commands\for_CommandContextFactory\when_building_for_a_command_in_a_saga.cs" />
@@ -162,10 +174,13 @@
     <Compile Include="Configuration\for_Configure\when_initializing.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />
+    <Compile Include="Diagnostics\for_ProblemsFactory\when_creating.cs" />
+    <Compile Include="Diagnostics\for_ProblemsReporter\when_reporting.cs" />
     <Compile Include="Diagnostics\for_Problems\when_asking_if_has_any_problems_with_one_problem.cs" />
     <Compile Include="Diagnostics\for_Problems\when_asking_if_has_any_problems_without_any.cs" />
     <Compile Include="Diagnostics\for_Problems\when_reporting.cs" />
     <Compile Include="Diagnostics\for_ProblemType\when_creating.cs" />
+    <Compile Include="Diagnostics\for_QualityAssurance\when_validating.cs" />
     <Compile Include="Diagnostics\for_TypeRules\when_validating_all_with_one_rule_and_two_types_in_the_system_with_problems.cs" />
     <Compile Include="Diagnostics\for_TypeRules\given\type_rules_with_one_rule_and_two_types.cs" />
     <Compile Include="Diagnostics\for_TypeRules\when_validating_all_with_one_rule_and_two_types_in_the_system.cs" />

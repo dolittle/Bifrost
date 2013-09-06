@@ -93,6 +93,10 @@
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
+    <Compile Include="Commands\Diagnostics\ComplexTypesRule.cs" />
+    <Compile Include="Commands\Diagnostics\CommandInheritanceRule.cs" />
+    <Compile Include="Commands\Diagnostics\TooManyPropertiesRule.cs" />
+    <Compile Include="Commands\Diagnostics\ProblemTypes.cs" />
     <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
     <Compile Include="Commands\HandleCommand.cs" />
     <Compile Include="Commands\ICommandContextFactory.cs" />
@@ -139,6 +143,8 @@
     <Compile Include="Diagnostics\ITypeRules.cs" />
     <Compile Include="Diagnostics\Problems.cs" />
     <Compile Include="Diagnostics\ProblemSeverity.cs" />
+    <Compile Include="Diagnostics\ProblemsFactory.cs" />
+    <Compile Include="Diagnostics\ProblemsReporter.cs" />
     <Compile Include="Diagnostics\ProblemType.cs" />
     <Compile Include="Diagnostics\QualityAssurance.cs" />
     <Compile Include="Diagnostics\TypeRules.cs" />

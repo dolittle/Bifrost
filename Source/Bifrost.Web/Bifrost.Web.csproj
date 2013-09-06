@@ -73,6 +73,7 @@
     <Compile Include="Configuration\PathToNamespaceMappers.cs" />
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
+    <Compile Include="Diagnostics\ProblemsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\GeneratedProxies.cs" />
@@ -189,5 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\noext.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Debugging\Problems\index.html" />
   </ItemGroup>
 </Project>

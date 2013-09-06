@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Bifrost.Execution;
+
 namespace Bifrost.Diagnostics
 {
     /// <summary>
