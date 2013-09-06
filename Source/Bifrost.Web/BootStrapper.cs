@@ -23,7 +23,6 @@ using Bifrost.Diagnostics;
 using Bifrost.Web.Assets;
 using Bifrost.Web.Commands;
 using Bifrost.Web.Configuration;
-using Bifrost.Web.Diagnostics;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
@@ -51,13 +50,36 @@ namespace Bifrost.Web
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
             RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
-            RouteTable.Routes.AddService<ProblemsService>("Bifrost/Problems");
             RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(BootStrapper).Assembly);
 		}
 
         public static void PostApplicationStart()
         {
             Configure.DiscoverAndConfigure();
+
+            AddAllAssetsForThisAssembly();
+        }
+
+        // TODO: this is just a temporary solution for this particular Web Application - we need to revisit this whole thing so that any applications added from an assembly gets their assets relative to their route registered!
+        // it probably needs formalizing the AssetsManager a bit more!
+        static void AddAllAssetsForThisAssembly()
+        {
+            var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
+
+            var rootNamespace = typeof(BootStrapper).Namespace;
+            var resources = typeof(BootStrapper).Assembly.GetManifestResourceNames();
+            foreach (var resource in resources)
+            {
+                var resourceName = resource.Replace(rootNamespace + ".", string.Empty);
+                resourceName = resourceName.Replace(".", "/");
+                resourceName = "Bifrost/" + resourceName;
+                var formatted = string.Format("{0}.{1}",
+                    resourceName.Substring(0, resourceName.LastIndexOf("/")),
+                    resourceName.Substring(resourceName.LastIndexOf("/") + 1)
+                    );
+
+                assetsManager.AddAsset(formatted);
+            }
         }
 	}
 }

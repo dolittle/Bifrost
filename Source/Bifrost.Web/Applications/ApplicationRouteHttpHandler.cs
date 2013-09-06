@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Web;
+using Bifrost.Configuration;
+using Bifrost.Web.Assets;
 
 namespace Bifrost.Web.Applications
 {
@@ -47,7 +49,6 @@ namespace Bifrost.Web.Applications
                 var resourceName = GetRelativePathFromResourceName(resource);
                 _resources[resourceName] = bytes;
             }
-
         }
 
         string GetRelativePathFromResourceName(string resourceName)

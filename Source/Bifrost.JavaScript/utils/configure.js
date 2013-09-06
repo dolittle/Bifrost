@@ -37,6 +37,11 @@
             defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.uriMappers.default = defaultUriMapper;
 
+            var bifrostDebuggerUriMapper = Bifrost.StringMapper.create();
+            bifrostDebuggerUriMapper.addMapping("Debugging/{module}/{view}", "/Bifrost/Debugging/{module}/{view}.html");
+            bifrostDebuggerUriMapper.addMapping("Debugging/{view}", "/Bifrost/Debugging/{view}.html");
+            Bifrost.uriMappers.bifrostDebugger = bifrostDebuggerUriMapper;
+
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
                 self.onReady();

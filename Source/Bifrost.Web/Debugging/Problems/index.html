@@ -6,8 +6,63 @@
     <title></title>
 </head>
 <body>
+    <style>
+        table th, table td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-    problems
+        table tbody tr {
+            height: 30px;
+        }
+    </style>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:allProblems">
+            <tr>
+                <td>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">
+                                    Name
+                                </th>
+                                <th style="width: 200px;">
+                                    Description
+                                </th>
+                                <th style="width: 30px;">
+                                    Severity
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody data-bind="foreach: all">
+                            <tr>
+                                <td>
+                                    <div data-bind="text: data.name, attr: { title: data.namespace +'.'+ data.name }"></div>
+
+                                </td>
+                                <td>
+                                    <div data-bind="text: type.description"></div>
+                                </td>
+                                <td>
+                                    <i data-bind="css: { 'icon-eye-open': type.severity == 0, 'icon-warning-sign': type.severity == 1, 'icon-exclamation-sign': type.severity == 2}"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>
