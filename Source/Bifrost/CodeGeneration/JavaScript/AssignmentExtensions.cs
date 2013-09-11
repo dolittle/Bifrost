@@ -142,7 +142,9 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns>The <see cref="Assignment"/> to build on</returns>
         public static Assignment WithDefaultValue(this Assignment assignment, Type type)
         {
-            if (type.IsValueType)
+            if( type == typeof(Guid) )
+                return assignment.WithGuidEmpty();
+            else if (type.IsValueType)
             {
                 if (type.IsNumericType())
                     return assignment.WithDefaultNumericValue(type);
@@ -158,6 +160,16 @@ namespace Bifrost.CodeGeneration.JavaScript
                 return assignment.WithNullValue();
             }
             return assignment;
+        }
+
+        /// <summary>
+        /// Assign an empty guid value
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithGuidEmpty(this Assignment assignment)
+        {
+            return assignment.WithLiteral("Bifrost.Guid.empty");
         }
 
         /// <summary>
