@@ -2621,7 +2621,8 @@ Bifrost.namespace("Bifrost.read", {
 
         this.execute = function () {
             if (self.query.areAllParametersSet() !== true) {
-                return;
+                // TODO: Diagnostics - warning
+                return self.target;
             }
 
             var paging = Bifrost.read.PagingInfo.create({
@@ -2633,6 +2634,8 @@ Bifrost.namespace("Bifrost.read", {
                 self.target(result.items);
                 self.onCompleted(result.items);
             });
+
+            return self.target;
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {
@@ -2654,3 +2657,168 @@ Bifrost.read.Queryable.new = function (options, executeQuery) {
 };
 
 
+Bifrost.namespace("Bifrost.read", {
+    Query: Bifrost.Type.extend(function () {
+        var self = this;
+        this.name = "";
+        this.target = this;
+        this.generatedFrom = "";
+        this.readModel = null;
+
+        this.areAllParametersSet = null;
+
+        this.hasReadModel = function () {
+            return typeof self.target.readModel != "undefined" && self.target.readModel != null;
+        };
+
+        this.setParameters = function (parameters) {
+            try {
+                for (var property in parameters) {
+                    if (self.target.hasOwnProperty(property) && ko.isObservable(self.target[property]) == true) {
+                        self.target[property](parameters[property]);
+                    }
+                }
+            } catch(ex) {}
+        };
+
+        this.getParameters = function () {
+            var parameters = {};
+
+            for (var property in self.target) {
+                if (ko.isObservable(self.target[property]) &&
+                    property != "areAllParametersSet") {
+                    parameters[property] = self.target[property];
+                }
+            }
+
+            return parameters;
+        };
+
+        this.getParameterValues = function () {
+            var parameterValues = {};
+
+            var parameters = self.getParameters();
+            for (var property in parameters) {
+                parameterValues[property] = ko.utils.unwrapObservable(parameters[property]);
+            }
+
+            return parameterValues;
+        };
+
+        this.all = function () {
+            var queryable = Bifrost.read.Queryable.new({
+                query: self.target
+            });
+            return queryable;
+        };
+
+        this.paged = function (pageSize, pageNumber) {
+            var queryable = Bifrost.read.Queryable.new({
+                query: self.target
+            });
+            queryable.setPageInfo(pageSize, pageNumber);
+            return queryable;
+        };
+
+        
+
+        this.onCreated = function (query) {
+            self.target = query;
+
+            self.areAllParametersSet = ko.computed(function () {
+                var isSet = true;
+                var hasParameters = false;
+                for (var property in self.target) {
+                    if (ko.isObservable(self.target[property]) == true) {
+                        hasParameters = true;
+                        var value = self.target[property]();
+                        if (typeof value == "undefined" || value === null) {
+                            isSet = false;
+                            break;
+                        }
+                    }
+                }
+                if (hasParameters == false) return true;
+                return isSet;
+            });
+        };
+    })
+});
+Bifrost.namespace("Bifrost.read", {
+    ReadModel: Bifrost.Type.extend(function () {
+        var self = this;
+        var actualReadModel = this;
+
+
+        this.copyTo = function (target) {
+            for (var property in actualReadModel) {
+                if (actualReadModel.hasOwnProperty(property) && property.indexOf("_") != 0) {
+                    var value = ko.utils.unwrapObservable(actualReadModel[property]);
+                    if (!target.hasOwnProperty(property)) {
+                        target[property] = ko.observable(value);
+                    } else {
+                        if (ko.isObservable(target[property])) {
+                            target[property](value);
+                        } else {
+                            target[property] = value;
+                        }
+                    }
+                }
+            }
+        };
+
+        this.onCreated = function (lastDescendant) {
+            actualReadModel = lastDescendant;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.read", {
+	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
+	    var self = this;
+	    this.name = "";
+	    this.generatedFrom = "";
+	    this.target = null;
+	    this.readModelType = Bifrost.Type.extend(function () { });
+	    this.instance = ko.observable();
+	    this.commandToPopulate = null;
+
+		this.instanceMatching = function (propertyFilters) {
+		    var methodParameters = {
+		        descriptor: JSON.stringify({
+		            readModel: self.target.name,
+                    generatedFrom: self.target.generatedFrom,
+		            propertyFilters: propertyFilters
+		        })
+		    };
+
+		    $.ajax({
+		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.generatedFrom,
+		        type: 'POST',
+		        dataType: 'json',
+		        data: JSON.stringify(methodParameters),
+		        contentType: 'application/json; charset=utf-8',
+		        complete: function (result) {
+		            var item = $.parseJSON(result.responseText);
+					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
+		            self.instance(mappedReadModel);
+		        }
+		    });
+		};
+
+		this.populateCommandOnChanges = function (command) {
+		    command.populatedExternally();
+
+		    if (typeof self.instance() != "undefined" && self.instance() != null) {
+		        command.populateFromExternalSource(self.instance());
+		    }
+
+		    self.instance.subscribe(function (newValue) {
+		        command.populateFromExternalSource(newValue);
+		    });
+		};
+
+		this.onCreated = function (lastDescendant) {
+		    self.target = lastDescendant;
+		};
+	})
+});

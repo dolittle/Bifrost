@@ -130,6 +130,7 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_PagingInfo\when_creating_with_values.js" />
+    <Content Include="read\for_Queryable\when_executing.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_null_back.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_undefined_back.js" />
     <Content Include="read\for_Queryable\when_execution_is_complete.js" />
