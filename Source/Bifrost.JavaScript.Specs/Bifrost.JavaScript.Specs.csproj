@@ -157,6 +157,7 @@
     <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_not_all_set.js" />
     <Content Include="read\for_Query\when_getting_parameters.js" />
     <Content Include="read\for_Query\when_setting_parameters_with_two_observables_on_query_type.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_read_model_type_specified.js" />
     <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
     <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />

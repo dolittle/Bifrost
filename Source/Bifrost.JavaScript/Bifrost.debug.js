@@ -2539,6 +2539,14 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		function mapSingleInstance(readModel, data) {
+		    if (typeof data._readModelType != "undefined") {
+		        
+		        var readModelType = eval(data._readModelType);
+		        if (typeof readModelType != "undefined" && readModelType !== null) {
+		            readModel = readModelType;
+		        }
+		    }
+
 		    var instance = readModel.create();
 		    copyProperties(data, instance);
 		    return instance;
@@ -2822,3 +2830,1211 @@ Bifrost.namespace("Bifrost.read", {
 		};
 	})
 });
+Bifrost.dependencyResolvers.readModelOf = {
+    canResolve: function (namespace, name) {
+        if (typeof read !== "undefined") {
+            return name in read;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return read[name].create();
+    }
+};
+Bifrost.dependencyResolvers.query = {
+    canResolve: function (namespace, name) {
+        if (typeof read !== "undefined") {
+            return name in read;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return read[name].create();
+    }
+};
+Bifrost.namespace("Bifrost.read", {
+    queryService: Bifrost.Singleton(function (server, readModelMapper) {
+        var self = this;
+        this.server = server;
+        this.readModelMapper = readModelMapper;
+
+        this.execute = function (query, paging) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+            self.server.post(url, {
+                descriptor: {
+                    nameOfQuery: query.name,
+                    generatedFrom: query.generatedFrom,
+                    parameters: query.getParameterValues()
+                },
+                paging: {
+                    size: paging.size,
+                    number: paging.number
+                }
+            }).continueWith(function (result) {
+                if (typeof result == "undefined" || result == null) {
+                    result = {};
+                }
+                if (typeof result.items == "undefined" || result.items == null) result.items = [];
+                if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
+
+                if (query.hasReadModel()) {
+                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
+                }
+                promise.signal(result);
+            });
+
+            return promise;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.sagas");
+Bifrost.sagas.Saga = (function () {
+    function Saga() {
+        var self = this;
+
+        this.executeCommands = function (commands, options) {
+
+            var canExecuteSaga = true;
+            
+            commands.forEach(function (command) {
+                if (command.onBeforeExecute() === false) {
+                    canExecuteSaga = false;
+                    return false;
+                }
+            });
+
+            if (canExecuteSaga === false) {
+                return;
+            }
+            Bifrost.commands.commandCoordinator.handleForSaga(self, commands, options);
+        }
+    }
+
+    return {
+        create: function (configuration) {
+            var saga = new Saga();
+            Bifrost.extend(saga, configuration);
+            return saga;
+        }
+    }
+})();
+Bifrost.namespace("Bifrost.sagas");
+Bifrost.sagas.sagaNarrator = (function () {
+    var baseUrl = "/Bifrost/SagaNarrator";
+    // Todo : abstract away into general Service code - look at CommandCoordinator.js for the other copy of this!s
+    function post(url, data, completeHandler) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            contentType: 'application/json; charset=utf-8',
+            complete: completeHandler
+        });
+    }
+
+    function isRequestSuccess(jqXHR, commandResult) {
+        if (jqXHR.status === 200) {
+            if (commandResult.success === true) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    return {
+        conclude: function (saga, success, error) {
+            var methodParameters = {
+                sagaId: saga.Id
+            };
+            post(baseUrl + "/Conclude", JSON.stringify(methodParameters), function (jqXHR) {
+                var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
+                var isSuccess = isRequestSuccess(jqXHR, commandResult);
+                if (isSuccess == true && typeof success === "function") {
+                    success(saga);
+                }
+                if (isSuccess == false && typeof error === "function") {
+                    error(saga);
+                }
+            });
+        }
+    }
+})();
+Bifrost.namespace("Bifrost.messaging", {
+    Messenger: Bifrost.Type.extend(function () {
+        var subscribers = [];
+
+        this.publish = function (topic, message) {
+            if (subscribers.hasOwnProperty(topic)) {
+                subscribers[topic].subscribers.forEach(function (item) {
+                    item(message);
+                });
+            }
+        };
+
+        this.subscribeTo = function (topic, subscriber) {
+            var subscribersByTopic;
+
+            if (subscribers.hasOwnProperty(topic)) {
+                subscribersByTopic = subscribers[topic];
+            } else {
+                subscribersByTopic = { subscribers: [] };
+                subscribers[topic] = subscribersByTopic;
+            }
+
+            subscribersByTopic.subscribers.push(subscriber);
+        };
+
+        return {
+            publish: this.publish,
+            subscribeTo: this.subscribeTo
+        };
+    })
+});
+Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
+Bifrost.WellKnownTypesDependencyResolver.types.globalMessenger = Bifrost.messaging.Messenger.global;
+if (typeof ko !== 'undefined') {
+    ko.observableMessage = function (message, defaultValue) {
+        var observable = ko.observable(defaultValue);
+
+        var internal = false;
+        observable.subscribe(function (newValue) {
+            if (internal == true) return;
+            Bifrost.messaging.Messenger.global.publish(message, newValue);
+        });
+
+        Bifrost.messaging.Messenger.global.subscribeTo(message, function (value) {
+            internal = true;
+            observable(value);
+            internal = false;
+        });
+        return observable;
+    }
+}
+Bifrost.namespace("Bifrost.services", {
+    Service: Bifrost.Type.extend(function () {
+        var self = this;
+
+        this.url = "";
+        this.name = "";
+
+        function prepareArguments(args) {
+            var prepared = {};
+
+            for (var property in args) {
+                prepared[property] = JSON.stringify(args[property]);
+            }
+
+            var stringified = JSON.stringify(prepared);
+            return stringified;
+        }
+
+        function call(method, args, callback) {
+            $.ajax({
+                url: self.url + "/" + method,
+                type: 'POST',
+                dataType: 'json',
+                data: prepareArguments(args),
+                contentType: 'application/json; charset=utf-8',
+                complete: function (result) {
+                    var v = $.parseJSON(result.responseText);
+                    callback(v);
+                }
+            });
+        }
+
+
+        this.callWithoutReturnValue = function (method, args) {
+            var promise = Bifrost.execution.Promise.create();
+            call(method, args, function (v) {
+                promise.signal();
+            });
+            return promise;
+        };
+
+        this.callWithObjectAsReturn = function (method, args) {
+            var value = ko.observable();
+            call(method, args, function (v) {
+                value(v);
+            });
+            return value;
+        };
+
+        this.callWithArrayAsReturn = function (method, args) {
+            var value = ko.observableArray();
+            call(method, args, function (v) {
+                value(v);
+            });
+            return value;
+        };
+
+        this.onCreated = function (lastDescendant) {
+            self.url = lastDescendant.url;
+            if (self.url.indexOf("/") != 0) self.url = "/" + self.url;
+
+            self.name = lastDescendant.name;
+        };
+    })
+});
+Bifrost.dependencyResolvers.service = {
+    canResolve: function (namespace, name) {
+        if (typeof services !== "undefined") {
+            return name in services;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return services[name].create();
+    }
+};
+Bifrost.namespace("Bifrost.views", {
+    documentService: Bifrost.Singleton(function (DOMRoot) {
+        var self = this;
+
+        this.DOMRoot = DOMRoot;
+
+        this.getAllElementsWithViewModelFiles = function () {
+            return self.getAllElementsWithViewModelFilesFrom(self.DOMRoot);
+        };
+
+        this.getAllElementsWithViewModelFilesFrom = function (root) {
+            var elements = [];
+            if (typeof $(root).data("viewmodel-file") != "undefined") {
+                elements.push(root);
+            }
+            $("[data-viewmodel-file]",root).each(function () {
+                elements.push(this);
+            });
+            return elements;
+        };
+
+        function collectViewModelFilesFrom(parent, elements) {
+
+            if (typeof parent.childNodes != "undefined") {
+                parent.childNodes.forEach(function (child) {
+                    collectViewModelFilesFrom(child, elements);
+                });
+            }
+
+            var viewModelFile = $(parent).data("viewmodel-file");
+            if (typeof viewModelFile != "undefined") {
+                elements.push(parent);
+            }
+        }
+
+        this.getAllElementsWithViewModelFilesSorted = function () {
+            return self.getAllElementsWithViewModelFilesSortedFrom(self.DOMRoot);
+        };
+
+        this.getAllElementsWithViewModelFilesSortedFrom = function (root) {
+            var elements = [];
+            collectViewModelFilesFrom(root, elements);
+            return elements;
+        };
+
+        this.getViewModelFileFrom = function (element) {
+            var file = $(element).data("viewmodel-file");
+            if (typeof file == "undefined") file = "";
+            return file;
+        };
+
+        this.setViewModelFileOn = function (element, file) {
+            $(element).data("viewmodel-file", file);
+            $(element).attr("data-viewmodel-file", file);
+        };
+
+        this.setViewModelOn = function (element, viewModel) {
+            element.viewModel = viewModel;
+            $(element).data("viewmodel", viewModel);
+        };
+
+        this.getViewModelFrom = function (element) {
+            return element.viewModel;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    View: Bifrost.Type.extend(function (viewLoader, path) {
+        var self = this;
+        this.viewLoader = viewLoader;
+
+        this.path = path;
+        this.content = "[CONTENT NOT LOADED]";
+        this.element = null;
+
+
+        this.load = function () {
+            var promise = Bifrost.execution.Promise.create();
+            self.viewLoader.load(self.path).continueWith(function (html) {
+                self.content = html;
+                promise.signal(self);
+            });
+
+            return promise;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    ViewRenderer: Bifrost.Type.extend(function () {
+        this.canRender = function (element) {
+            return false;
+        };
+
+        this.render = function (element) {
+        };
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	viewRenderers: Bifrost.Singleton(function() {
+		var self = this;
+
+		function getRenderers() {
+			var renderers = [];
+			for( var property in Bifrost.views.viewRenderers ) {
+				if( Bifrost.views.viewRenderers.hasOwnProperty(property)) {
+					var value = Bifrost.views.viewRenderers[property];
+					if( typeof value == "function" && 
+						typeof value.create == "function")  {
+						var renderer = value.create();
+						if( typeof renderer.canRender == "function") renderers.push(renderer);
+					}
+				}
+			}
+			return renderers;
+		}
+
+		this.canRender = function(element) {
+		    var renderers = getRenderers();
+		    for (var rendererIndex = 0; rendererIndex < renderers.length; rendererIndex++) {
+		        var renderer = renderers[rendererIndex];
+		        var result = renderer.canRender(element);
+				if( result == true ) return true;
+			}
+
+			return false;
+		};
+
+		this.render = function(element) {
+		    var renderers = getRenderers();
+		    for (var rendererIndex = 0; rendererIndex < renderers.length; rendererIndex++) {
+		        var renderer = renderers[rendererIndex];
+		        if (renderer.canRender(element)) return renderer.render(element);
+			}
+
+			return null;
+		};
+
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager) {
+	    var self = this;
+
+	    this.viewFactory = viewFactory;
+	    this.pathResolvers = pathResolvers;
+	    this.viewModelManager = viewModelManager;
+
+		this.canRender = function(element) {
+		    return typeof $(element).data("view") !== "undefined";
+		};
+
+		this.render = function (element) {
+		    var promise = Bifrost.execution.Promise.create();
+		    var path = $(element).data("view");
+
+		    if (self.pathResolvers.canResolve(element, path)) {
+		        var actualPath = self.pathResolvers.resolve(element, path);
+		        var view = self.viewFactory.createFrom(actualPath);
+
+		        view.element = element;
+		        view.load().continueWith(function (targetView) {
+		            $(element).empty();
+		            $(element).append(targetView.content);
+
+		            if (self.viewModelManager.hasForView(actualPath)) {
+		                var viewModelFile = Bifrost.path.changeExtension(actualPath, "js");
+		                $(element).attr("data-viewmodel-file", viewModelFile);
+		                $(element).data("viewmodel-file", viewModelFile);
+		            }
+
+		            promise.signal(targetView);
+		        });
+		    } else {
+                // Todo: throw an exception at this point! - Or something like 404.. 
+		        promise.signal(null);
+		    }
+
+		    return promise;
+		};
+	})
+});
+if (typeof Bifrost.views.viewRenderers != "undefined") {
+	Bifrost.views.viewRenderers.DataAttributeViewRenderer = Bifrost.views.DataAttributeViewRenderer;
+}
+
+Bifrost.namespace("Bifrost.views", {
+    viewFactory: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.createFrom = function (path) {
+            var view = Bifrost.views.View.create({
+                path: path
+            });
+            return view;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.viewFactory = Bifrost.views.viewFactory;
+Bifrost.namespace("Bifrost.views", {
+    viewLoader: Bifrost.Singleton(function (viewModelManager) {
+        var self = this;
+
+        this.viewModelManager = viewModelManager;
+        
+        this.load = function (path) {
+            var promise = Bifrost.execution.Promise.create();
+
+            if (!path.startsWith("/")) path = "/" + path;
+
+            var files = [];
+
+            var viewFile = "text!" + path + "!strip";
+            if (!Bifrost.path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
+            files.push(viewFile);
+
+            if (self.viewModelManager.hasForView(path)) {
+                var viewModelFile = self.viewModelManager.getViewModelPathForView(path);
+                files.push(viewModelFile);
+            }
+
+            require(files, function (view) {
+                promise.signal(view);
+            });
+            return promise;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager) {
+        var self = this;
+        
+        this.viewRenderers = viewRenderers;
+        this.viewFactory = viewFactory;
+        this.pathResolvers = pathResolvers;
+        this.viewModelManager = viewModelManager;
+
+        function renderChildren(element) {
+            if(element.hasChildNodes() == true) {
+                for (var child = element.firstChild; child; child = child.nextSibling) {
+                    self.render(child);
+                }
+            }
+        }
+
+        this.initializeLandingPage = function () {
+            var body = $("body")[0];
+            if (body !== null) {
+                var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+                if (file == "") file = "index";
+                $(body).data("view", file);
+
+                if (self.pathResolvers.canResolve(body, file)) {
+                    var actualPath = self.pathResolvers.resolve(body, file);
+                    var view = self.viewFactory.createFrom(actualPath);
+                    view.element = body;
+                    view.content = body.innerHTML;
+
+                    // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
+                    //self.viewModelManager.applyToViewIfAny(view);
+
+                    renderChildren(body);
+                }
+            }
+        };
+
+        this.render = function (element) {
+            var promise = Bifrost.execution.Promise.create();
+
+            if (self.viewRenderers.canRender(element)) {
+                self.viewRenderers.render(element).continueWith(function (view) {
+                    var newElement = view.element;
+                    newElement.view = view;
+                    self.viewModelManager.applyToViewIfAny(view);
+                    renderChildren(newElement);
+                });
+            } else {
+                renderChildren(element);
+            }
+
+            return promise;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;
+Bifrost.namespace("Bifrost.views", {
+    ViewModel: Bifrost.Type.extend(function () {
+        var self = this;
+        this.targetViewModel = this;
+
+        this.activated = function () {
+            if (typeof self.targetViewModel.onActivated === "function") {
+                self.targetViewModel.onActivated();
+            }
+        };
+
+        this.onCreated = function (lastDescendant) {
+            self.targetViewModel = lastDescendant;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    viewModelLoader: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.load = function (path) {
+            var promise = Bifrost.execution.Promise.create();
+            if (!path.startsWith("/")) path = "/" + path;
+            require([path], function () {
+
+                self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
+                    promise.signal(instance);
+                });
+            });
+            return promise;
+        };
+
+        this.beginCreateInstanceOfViewModel = function (path) {
+            var localPath = Bifrost.path.getPathWithoutFilename(path);
+            var filename = Bifrost.path.getFilenameWithoutExtension(path);
+
+            var promise = Bifrost.execution.Promise.create();
+
+            for (var mapperKey in Bifrost.namespaceMappers) {
+                var mapper = Bifrost.namespaceMappers[mapperKey];
+                if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
+                    var namespacePath = mapper.resolve(localPath);
+                    var namespace = Bifrost.namespace(namespacePath);
+
+                    if (filename in namespace) {
+                        namespace[filename].beginCreate().continueWith(function (instance) {
+                            promise.signal(instance);
+                        }).onFail(function () {
+                            promise.signal({});
+                        });
+                    }
+                }
+            }
+
+            return promise;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader) {
+        var self = this;
+        this.assetsManager = assetsManager;
+        this.viewModelLoader = viewModelLoader;
+        this.documentService = documentService;
+
+        this.masterViewModel = {};
+
+
+        function applyViewModel(instance, target) {
+            var viewModelFile = self.documentService.getViewModelFileFrom(target);
+            self.documentService.setViewModelOn(target, instance);
+            
+            ko.applyBindingsToNode(target, {
+                'viewModel': instance
+            });
+
+            if (typeof instance.activated == "function") {
+                instance.activated();
+            }
+        }
+
+        function setViewModelBindingExpression(instance, target) {
+            var viewModelFile = self.documentService.getViewModelFileFrom(target);
+            self.documentService.setViewModelOn(target, instance);
+
+            if (viewModelFile.indexOf(".") > 0) {
+                viewModelFile = viewModelFile.substr(0, viewModelFile.indexOf("."));
+            }
+
+            var propertyName = viewModelFile.replaceAll("/", "");
+            self.masterViewModel[propertyName] = ko.observable(instance);
+
+            $(target).attr("data-bind", "viewModel: $data." + propertyName);
+            
+            if (typeof instance.activated == "function") {
+                instance.activated();
+            }
+        }
+
+        function applyViewModelsByAttribute(path, container) {
+            var viewModelApplied = false;
+
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
+            elements.forEach(function(target) {
+                viewModelApplied = true;
+                var viewModelFile = $(this).data("viewmodel-file");
+                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                    applyViewModel(instance, target, viewModelFile);
+                });
+            });
+
+            return viewModelApplied;
+        }
+
+        function applyViewModelByConventionFromPath(path, container) {
+            if (self.hasForView(path)) {
+                var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                self.documentService.setViewModelFileOn(container, viewModelFile);
+
+                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                    applyViewModel(instance, target, viewModelFile);
+                });
+            }
+        }
+
+        this.hasForView = function (viewPath) {
+            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            scriptFile = Bifrost.path.makeRelative(scriptFile);
+            var hasViewModel = self.assetsManager.hasScript(scriptFile);
+            return hasViewModel;
+        };
+
+        this.getViewModelPathForView = function (viewPath) {
+            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            return scriptFile;
+        };
+
+        this.applyToViewIfAny = function (view) {
+            var viewModelApplied = false;
+
+            if (self.hasForView(view.path)) {
+                var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                self.documentService.setViewModelFileOn(view.element,viewModelFile);
+
+                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                    applyViewModel(instance, view.element);
+                });
+            } else {
+                viewModelApplied = applyViewModelsByAttribute(view.path, view.element);
+                if (viewModelApplied == false) {
+                    applyViewModelByConventionFromPath(view.path, view.element);
+                }
+            }
+        };
+
+        this.loadAndApplyAllViewModelsWithinElement = function (root) {
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
+            var loadedViewModels = 0;
+
+            self.masterViewModel = {};
+
+            elements.forEach(function (element) {
+                var viewModelFile = self.documentService.getViewModelFileFrom(element);
+
+                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                    documentService.setViewModelOn(element, instance);
+
+                    loadedViewModels++;
+
+                    if (loadedViewModels == elements.length) {
+                        elements.forEach(function (elementToApplyBindingsTo) {
+                            var viewModel = self.documentService.getViewModelFrom(elementToApplyBindingsTo);
+                            setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
+                        });
+
+                        ko.applyBindings(self.masterViewModel);
+                    }
+                });
+            });
+        };
+
+        this.loadAndApplyAllViewModelsInDocument = function () {
+            self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    PathResolver: Bifrost.Type.extend(function () {
+        this.canResolve = function (element, path) {
+            return false;
+        };
+
+        this.resolve = function (element, path) {
+            
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    pathResolvers: Bifrost.Singleton(function () {
+
+        function getResolvers() {
+            var resolvers = [];
+            for (var property in Bifrost.views.pathResolvers) {
+                if (Bifrost.views.pathResolvers.hasOwnProperty(property)) {
+                    var value = Bifrost.views.pathResolvers[property];
+                    if( typeof value == "function" &&
+                        typeof value.create == "function") {
+
+                        var resolver = value.create();
+                        if (typeof resolver.canResolve == "function") resolvers.push(resolver);
+                    }
+                }
+            }
+            return resolvers;
+        }
+
+
+        this.canResolve = function (element, path) {
+            var resolvers = getResolvers();
+            for (var resolverIndex = 0; resolverIndex < resolvers.length; resolverIndex++) {
+                var resolver = resolvers[resolverIndex];
+                var result = resolver.canResolve(element, path);
+                if (result == true) return true;
+            }
+            return false;
+        };
+
+        this.resolve = function (element, path) {
+            var resolvers = getResolvers();
+            for (var resolverIndex = 0; resolverIndex < resolvers.length; resolverIndex++) {
+                var resolver = resolvers[resolverIndex];
+                if (resolver.canResolve(element, path)) return resolver.resolve(element, path);
+            }
+            return null;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    UriMapperPathResolver: Bifrost.views.PathResolver.extend(function () {
+        this.canResolve = function (element, path) {
+            var closest = $(element).closest("[data-urimapper]");
+            if (closest.length == 1) {
+                var mapperName = $(closest[0]).data("urimapper");
+                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) return true;
+            }
+            return Bifrost.uriMappers.default.hasMappingFor(path);
+        };
+
+        this.resolve = function (element, path) {
+            var closest = $(element).closest("[data-urimapper]");
+            if (closest.length == 1) {
+                var mapperName = $(closest[0]).data("urimapper");
+                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) {
+                    return Bifrost.uriMappers[mapperName].resolve(path);
+                }
+            }
+            return Bifrost.uriMappers.default.resolve(path);
+        };
+    })
+});
+if (typeof Bifrost.views.pathResolvers != "undefined") {
+    Bifrost.views.pathResolvers.UriMapperPathResolver = Bifrost.views.UriMapperPathResolver;
+}
+Bifrost.namespace("Bifrost.views", {
+    RelativePathResolver: Bifrost.views.PathResolver.extend(function () {
+        this.canResolve = function (element, path) {
+            var closest = $(element).closest("[data-view]");
+            if (closest.length == 1) {
+                var view = $(closest[0]).view;
+                
+            }
+            return false;
+        };
+
+        this.resolve = function (element, path) {
+            var closest = $(element).closest("[data-urimapper]");
+            if (closest.length == 1) {
+                var mapperName = $(closest[0]).data("urimapper");
+                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) {
+                    return Bifrost.uriMappers[mapperName].resolve(path);
+                }
+            }
+            return Bifrost.uriMappers.default.resolve(path);
+        };
+    })
+});
+if (typeof Bifrost.views.pathResolvers != "undefined") {
+    Bifrost.views.pathResolvers.RelativePathResolver = Bifrost.views.RelativePathResolver;
+}
+Bifrost.namespace("Bifrost.views", {
+    viewModelBindingHandler: Bifrost.Type.extend(function(viewManager, documentService) {
+        var self = this;
+        this.viewManager = viewManager;
+        this.documentService = documentService;
+
+        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            var viewModel = self.documentService.getViewModelFrom(element);
+            var childBindingContext = bindingContext.createChildContext(viewModel);
+            childBindingContext.$root = viewModel;
+            ko.applyBindingsToDescendants(childBindingContext, element);
+            return { controlsDescendantBindings: true };
+        };
+        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+        };
+    })
+});
+Bifrost.views.viewModelBindingHandler.initialize = function () {
+    ko.bindingHandlers.viewModel = Bifrost.views.viewModelBindingHandler.create();
+};
+
+Bifrost.namespace("Bifrost.navigation", {
+    NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
+        var self = this;
+
+        this.home = home;
+        this.locationAware = locationAware || false;
+        this.history = history;
+        this.viewManager = viewManager;
+
+        this.container = null;
+        this.currentUri = ko.observable(home);
+        this.currentRenderedPath = null;
+        this.uriMapper = uriMapper || null;
+
+        this.currentUri.subscribe(function () {
+            self.render();
+        });
+        
+        this.setCurrentUri = function (path) {
+            if (path.indexOf("/") == 0) path = path.substr(1);
+            if (path == null || path.length == 0) path = self.home;
+            if (self.uriMapper != null && !self.uriMapper.hasMappingFor(path)) path = self.home;
+            self.currentUri(path);
+        };
+
+        this.setCurrentUriFromCurrentLocation = function () {
+            var state = self.history.getState();
+            var uri = Bifrost.Uri.create(state.url);
+            self.setCurrentUri(uri.path);
+        }
+
+        if (locationAware === true) {
+            history.Adapter.bind(window, "statechange", function () {
+                self.setCurrentUriFromCurrentLocation();
+            });
+        }
+
+        this.setContainer = function (container) {
+            if (self.locationAware === true) {
+                self.setCurrentUriFromCurrentLocation();
+            }
+
+            self.container = container;
+
+            var uriMapper = $(container).closest("[data-urimapper]");
+            if (uriMapper.length == 1) {
+                var uriMapperName = $(uriMapper[0]).data("urimapper");
+                if (uriMapperName in Bifrost.uriMappers) {
+                    self.uriMapper = Bifrost.uriMappers[uriMapperName];
+                }
+            }
+            if (self.uriMapper == null) self.uriMapper = Bifrost.uriMappers.default;
+            return self.render();
+        };
+
+        this.render = function () {
+            var promise = Bifrost.execution.Promise.create();
+            var path = self.currentUri();
+            if (self.container == null) return;
+            if (path == self.currentRenderedPath) return;
+            self.currentRenderedPath = path;
+
+            if (path !== null && typeof path !== "undefined") {
+                $(self.container).data("view", path);
+                self.viewManager.render(self.container).continueWith(function (view) {
+                    promise.signal(view);
+                });
+            }
+            return promise;
+        };
+
+        this.navigate = function (uri) {
+            self.setCurrentUri(uri);
+        };
+
+    })
+});
+Bifrost.namespace("Bifrost.navigation", {
+    navigationFrames: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.hookup = function () {
+            $("[data-navigation-frame]").each(function (index, element) {
+                var configurationString = $(element).data("navigation-frame");
+                var configurationItems = ko.expressionRewriting.parseObjectLiteral(configurationString);
+
+                var configuration = {};
+
+                for (var index = 0; index < configurationItems.length; index++) {
+                    var item = configurationItems[index];
+                    configuration[item.key.trim()] = item.value.trim();
+                }
+
+                if (typeof configuration.uriMapper !== "undefined") {
+                    var mapper = Bifrost.uriMappers[configuration.uriMapper];
+                    var frame = Bifrost.navigation.NavigationFrame.create({
+                        stringMapper: mapper,
+                        home: configuration.home || ''
+                    });
+                    frame.setContainer(element);
+
+                    element.navigationFrame = frame;
+                }
+            });
+        };
+    })
+});
+if (typeof ko !== 'undefined' && typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+    ko.bindingHandlers.navigateTo = {
+        init: function (element, valueAccessor, allBindingAccessor, viewModel) {
+            ko.applyBindingsToNode(element, { 
+				click: function() {
+					var featureName = valueAccessor()();
+					History.pushState({feature:featureName},$(element).attr("title"),"/"+featureName);
+				} 
+			}, viewModel);
+        }
+    };
+}
+Bifrost.namespace("Bifrost.navigation", {
+    navigateTo: function (featureName, queryString) {
+        var url = featureName;
+
+        if (featureName.charAt(0) !== "/")
+            url = "/" + url;
+        if (queryString)
+            url += queryString;
+
+        // TODO: Support title somehow
+        if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+            History.pushState({}, "", url);
+        }
+    },
+    navigationManager: {
+        hookup: function () {
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                $("body").click(function (e) {
+                    var href = e.target.href;
+                    if (typeof href == "undefined") {
+                        var closestAnchor = $(e.target).closest("a")[0];
+                        if (!closestAnchor) {
+                            return;
+                        }
+                        href = closestAnchor.href;
+                    }
+                    if (href.indexOf("#") > 0) {
+                        href = href.substr(0, href.indexOf("#"));
+                    }
+
+                    if (href.length == 0) {
+                        href = "/";
+                    }
+                    var targetUri = Bifrost.Uri.create(href);
+                    if (targetUri.isSameAsOrigin &&
+                        targetUri.queryString.indexOf("postback")<0) {
+                        var target = targetUri.path;
+                        while (target.indexOf("/") == 0) {
+                            target = target.substr(1);
+                        }
+                        e.preventDefault();
+
+                        var result = $(e.target).closest("[data-navigation-target]");
+                        if (result.length == 1) {
+                            var id = $(result[0]).data("navigation-target");
+                            var element = $("#"+id);
+                            if (element.length == 1 && typeof element[0].navigationFrame !== "undefined") {
+                                element[0].navigationFrame.navigate(targetUri.path);
+                            } else {
+                                // Element not found
+                            }
+                        } else {
+                            var queryString = targetUri.queryString.length > 0 ? "?" + targetUri.queryString : "";
+                            History.pushState({}, "", "/" + target + queryString);
+                        }
+                    }
+                });
+            }
+        }
+    }
+});
+Bifrost.namespace("Bifrost.navigation", {
+    NavigationFrameViewRenderer: Bifrost.views.ViewRenderer.extend(function () {
+
+        this.canRender = function (element) {
+            return typeof $(element).data("navigation-frame") !== "undefined" && 
+                    typeof $(element).data("view") === "undefined";
+        };
+
+        this.render = function (element) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var configurationString = $(element).data("navigation-frame");
+            var configurationItems = ko.expressionRewriting.parseObjectLiteral(configurationString);
+
+            var configuration = {};
+
+            for (var index = 0; index < configurationItems.length; index++) {
+                var item = configurationItems[index];
+                configuration[item.key.trim()] = item.value.trim();
+            }
+
+            if (typeof configuration.uriMapper !== "undefined") {
+                $(element).data("urimapper", configuration.uriMapper);
+            } else {
+                configuration.uriMapper = "default";
+            }
+
+            var frame = Bifrost.navigation.NavigationFrame.create({
+                home: configuration.home || '',
+                locationAware: configuration.locationAware || true,
+                uriMapper: Bifrost.uriMappers[configuration.uriMapper]
+            });
+            element.navigationFrame = frame;
+            frame.setContainer(element).continueWith(function (view) {
+                promise.signal(view);
+            });
+
+            return promise;
+        };
+    })
+});
+if (typeof Bifrost.views.viewRenderers != "undefined") {
+    Bifrost.views.viewRenderers.NavigationFrameViewRenderer = Bifrost.navigation.NavigationFrameViewRenderer;
+}
+if (typeof ko !== "undefined") {
+    (function () {
+        var historyEnabled = typeof History !== "undefined" && typeof History.Adapter !== "undefined";
+
+        ko.observableQueryParameter = function (parameterName, defaultValue) {
+            var self = this;
+            var observable = null;
+
+            this.getState = function () {
+                var uri = Bifrost.Uri.create(location.toString());
+                if (uri.parameters.hasOwnProperty(parameterName)) {
+                    return uri.parameters[parameterName];
+                }
+
+                return null;
+            }
+
+            if (historyEnabled) {
+                History.Adapter.bind(window, "statechange", function () {
+                    if (observable != null) {
+                        observable(self.getState());
+                    }
+                });
+            }
+
+            observable = ko.observable(self.getState() || defaultValue);
+
+            observable.subscribe(function (newValue) {
+                var state = History.getState();
+                state[parameterName] = newValue;
+
+                var parameters = Bifrost.hashString.decode(state.url);
+                parameters[parameterName] = newValue;
+
+
+                var url = "?";
+                var parameterIndex = 0;
+                for (var parameter in parameters) {
+                    if (parameterIndex > 0) {
+                        url += "&";
+                    }
+                    url += parameter + "=" + parameters[parameter];
+                    parameterIndex++;
+                }
+
+                if (historyEnabled) {
+                    History.pushState(state, state.title, url);
+                }
+            });
+
+            return observable;
+        }
+    })();
+}
+Bifrost.namespace("Bifrost", {
+    configure: (function () {
+        var self = this;
+
+        this.ready = false;
+        this.readyCallbacks = [];
+
+        function ready(callback) {
+            if (self.ready == true) {
+                callback();
+            } else {
+                readyCallbacks.push(callback);
+            }
+        }
+
+        function onReady() {
+            self.ready = true;
+            for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
+                self.readyCallbacks[callbackIndex]();
+            }
+        }
+
+        function onStartup() {
+            var self = this;
+
+            Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
+            Bifrost.views.viewModelBindingHandler.initialize();
+
+            if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
+                Bifrost.WellKnownTypesDependencyResolver.types.history = History;
+            }
+
+            var defaultUriMapper = Bifrost.StringMapper.create();
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{view}", "{view}.html");
+            Bifrost.uriMappers.default = defaultUriMapper;
+
+            var promise = Bifrost.assetsManager.initialize();
+            promise.continueWith(function () {
+                self.onReady();
+                Bifrost.views.viewManager.create().initializeLandingPage();
+                Bifrost.navigation.navigationManager.hookup();
+            });
+        }
+
+        function reset() {
+            self.ready = false;
+            self.readyCallbacks = [];
+        }
+
+        return {
+            ready: ready,
+            onReady: onReady,
+            onStartup: onStartup,
+            reset: reset,
+            isReady: function () {
+                return self.ready;
+            }
+        }
+    })()
+});
+(function ($) {
+    $(function () {
+        if( typeof Bifrost.assetsManager !== "undefined" ) {
+            Bifrost.configure.onStartup();
+        }
+    });
+})(jQuery);
