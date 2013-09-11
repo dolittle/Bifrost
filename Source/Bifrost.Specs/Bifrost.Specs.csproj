@@ -165,6 +165,8 @@
     <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateless_aggregate_root.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_that_has_events.cs" />
+    <Compile Include="Dynamic\for_DynamicExtensions\ObjectWithProperties.cs" />
+    <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
