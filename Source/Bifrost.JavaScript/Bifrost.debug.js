@@ -2286,6 +2286,14 @@ Bifrost.namespace("Bifrost.commands", {
             self.populatedFromExternalSource(true);
         };
 
+        function setValueOnObservable(observable, value) {
+            observable(value);
+
+            if (typeof observable.setInitialValue == "function") {
+                observable.setInitialValue(value);
+            }
+        }
+
 
         this.setPropertyValuesFrom = function (values) {
             var properties = this.getProperties();
@@ -2295,9 +2303,14 @@ Bifrost.namespace("Bifrost.commands", {
                     if (valueProperty == property) {
                         var value = ko.utils.unwrapObservable(values[property]);
                         var observable = self.targetCommand[property];
-                        observable(value);
-                        if (typeof observable.setInitialValue == "function") {
-                            observable.setInitialValue(value);
+
+                        if (!ko.isObservable(observable)) {
+
+                            for (var subProperty in observable) {
+                                setValueOnObservable(observable[subProperty], value[subProperty]);
+                            }
+                        } else {
+                            setValueOnObservable(observable, value);
                         }
                     }
                 });

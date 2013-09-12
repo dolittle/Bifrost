@@ -63,6 +63,7 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_setting_property_values_with_object_literal_containing_observables_in_command.js" />
     <Content Include="commands\for_Command\when_executing_with_exception_in_coordinator.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change.js" />
