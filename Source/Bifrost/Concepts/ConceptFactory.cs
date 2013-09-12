@@ -42,7 +42,7 @@ namespace Bifrost.Concepts
                 value = Guid.Parse(value.ToString());
 
             if (value.GetType() != genericArgumentType)
-                value = Convert.ChangeType(value, genericArgumentType);
+                value = Convert.ChangeType(value, genericArgumentType, null);
 
             type.GetProperty("Value").SetValue(instance, value, null);
 #endif
