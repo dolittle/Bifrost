@@ -15,7 +15,7 @@
         });
 
         target.setInitialValue = function (value) {
-            var intialValue;
+            var initialValue;
             if (Bifrost.isArray(value))
                 initialValue = value.clone();
             else
