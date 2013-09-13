@@ -13,7 +13,7 @@ function polyfillForEach() {
 function polyFillClone() {
     if (typeof Array.prototype.clone !== "function") {
         Array.prototype.clone = function () {
-            return this.splice(0);
+            return this.slice(0);
         }
     }
 }
