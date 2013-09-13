@@ -10,8 +10,17 @@ function polyfillForEach() {
     }
 }
 
+function polyFillClone() {
+    if (typeof Array.prototype.clone !== "function") {
+        Array.prototype.clone = function () {
+            return this.slice(0);
+        }
+    }
+}
+
 (function () {
     polyfillForEach();
+    polyFillClone();
 })();
 if ( typeof String.prototype.startsWith != 'function' ) {
 	String.prototype.startsWith = function( str ) {
@@ -216,6 +225,11 @@ Bifrost.namespace("Bifrost", {
 Bifrost.namespace("Bifrost", {
     isUndefined: function (value) {
         return typeof value === "undefined";
+    }
+});
+Bifrost.namespace("Bifrost", {
+    isFunction: function (value) {
+        return typeof value === "function";
     }
 });
 Bifrost.namespace("Bifrost", {
@@ -2491,7 +2505,13 @@ if (typeof ko !== 'undefined') {
         });
 
         target.setInitialValue = function (value) {
-            target._initialValue = value;
+            var initialValue;
+            if (Bifrost.isArray(value))
+                initialValue = value.clone();
+            else
+                initialValue = value;
+            
+            target._initialValue = initialValue;
             target._initialValueSet = true;
             updateHasChanges();
         };
