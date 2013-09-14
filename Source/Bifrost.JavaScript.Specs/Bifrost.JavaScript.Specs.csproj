@@ -63,6 +63,7 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_setting_property_values_with_object_literal_containing_observables_in_command.js" />
     <Content Include="commands\for_Command\when_executing_with_exception_in_coordinator.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change.js" />
@@ -130,6 +131,7 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_PagingInfo\when_creating_with_values.js" />
+    <Content Include="read\for_Queryable\when_executing.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_null_back.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_undefined_back.js" />
     <Content Include="read\for_Queryable\when_execution_is_complete.js" />
@@ -156,6 +158,7 @@
     <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_not_all_set.js" />
     <Content Include="read\for_Query\when_getting_parameters.js" />
     <Content Include="read\for_Query\when_setting_parameters_with_two_observables_on_query_type.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_read_model_type_specified.js" />
     <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
     <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />

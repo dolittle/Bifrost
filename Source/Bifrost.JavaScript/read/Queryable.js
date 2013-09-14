@@ -49,7 +49,8 @@
 
         this.execute = function () {
             if (self.query.areAllParametersSet() !== true) {
-                return;
+                // TODO: Diagnostics - warning
+                return self.target;
             }
 
             var paging = Bifrost.read.PagingInfo.create({
@@ -61,6 +62,8 @@
                 self.target(result.items);
                 self.onCompleted(result.items);
             });
+
+            return self.target;
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {

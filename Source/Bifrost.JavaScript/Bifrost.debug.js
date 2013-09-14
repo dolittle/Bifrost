@@ -10,8 +10,17 @@ function polyfillForEach() {
     }
 }
 
+function polyFillClone() {
+    if (typeof Array.prototype.clone !== "function") {
+        Array.prototype.clone = function () {
+            return this.slice(0);
+        }
+    }
+}
+
 (function () {
     polyfillForEach();
+    polyFillClone();
 })();
 if ( typeof String.prototype.startsWith != 'function' ) {
 	String.prototype.startsWith = function( str ) {
@@ -216,6 +225,11 @@ Bifrost.namespace("Bifrost", {
 Bifrost.namespace("Bifrost", {
     isUndefined: function (value) {
         return typeof value === "undefined";
+    }
+});
+Bifrost.namespace("Bifrost", {
+    isFunction: function (value) {
+        return typeof value === "function";
     }
 });
 Bifrost.namespace("Bifrost", {
@@ -2286,6 +2300,14 @@ Bifrost.namespace("Bifrost.commands", {
             self.populatedFromExternalSource(true);
         };
 
+        function setValueOnObservable(observable, value) {
+            observable(value);
+
+            if (typeof observable.setInitialValue == "function") {
+                observable.setInitialValue(value);
+            }
+        }
+
 
         this.setPropertyValuesFrom = function (values) {
             var properties = this.getProperties();
@@ -2295,9 +2317,14 @@ Bifrost.namespace("Bifrost.commands", {
                     if (valueProperty == property) {
                         var value = ko.utils.unwrapObservable(values[property]);
                         var observable = self.targetCommand[property];
-                        observable(value);
-                        if (typeof observable.setInitialValue == "function") {
-                            observable.setInitialValue(value);
+
+                        if (!ko.isObservable(observable)) {
+
+                            for (var subProperty in observable) {
+                                setValueOnObservable(observable[subProperty], value[subProperty]);
+                            }
+                        } else {
+                            setValueOnObservable(observable, value);
                         }
                     }
                 });
@@ -2343,7 +2370,6 @@ Bifrost.commands.CommandDescriptor = function(command) {
         if (builtInCommand.hasOwnProperty(property)) return true;
         if (ko.isObservable(target[property])) return false;
         if (typeof target[property] === "function") return true;
-        if (target[property] instanceof Bifrost.Type) return true;
         if (property == "_type") return true;
         if (property == "_namespace") return true;
 
@@ -2479,7 +2505,13 @@ if (typeof ko !== 'undefined') {
         });
 
         target.setInitialValue = function (value) {
-            target._initialValue = value;
+            var initialValue;
+            if (Bifrost.isArray(value))
+                initialValue = value.clone();
+            else
+                initialValue = value;
+            
+            target._initialValue = initialValue;
             target._initialValueSet = true;
             updateHasChanges();
         };
@@ -2540,6 +2572,14 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		function mapSingleInstance(readModel, data) {
+		    if (typeof data._readModelType != "undefined") {
+		        
+		        var readModelType = eval(data._readModelType);
+		        if (typeof readModelType != "undefined" && readModelType !== null) {
+		            readModel = readModelType;
+		        }
+		    }
+
 		    var instance = readModel.create();
 		    copyProperties(data, instance);
 		    return instance;
@@ -2622,7 +2662,8 @@ Bifrost.namespace("Bifrost.read", {
 
         this.execute = function () {
             if (self.query.areAllParametersSet() !== true) {
-                return;
+                // TODO: Diagnostics - warning
+                return self.target;
             }
 
             var paging = Bifrost.read.PagingInfo.create({
@@ -2634,6 +2675,8 @@ Bifrost.namespace("Bifrost.read", {
                 self.target(result.items);
                 self.onCompleted(result.items);
             });
+
+            return self.target;
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {
@@ -3525,8 +3568,8 @@ Bifrost.namespace("Bifrost.views", {
             }
         };
 
-        this.loadAndApplyAllViewModelsInDocument = function () {
-            var elements = self.documentService.getAllElementsWithViewModelFilesFrom();
+        this.loadAndApplyAllViewModelsWithinElement = function (root) {
+            var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
             self.masterViewModel = {};
@@ -3549,7 +3592,10 @@ Bifrost.namespace("Bifrost.views", {
                     }
                 });
             });
-            
+        };
+
+        this.loadAndApplyAllViewModelsInDocument = function () {
+            self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
 });
@@ -3662,13 +3708,14 @@ Bifrost.namespace("Bifrost.views", {
         this.viewManager = viewManager;
         this.documentService = documentService;
 
-        this.init = function (element, valueAccessor, allBindingAccessor, viewMode, bindingContext) {
+        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var viewModel = self.documentService.getViewModelFrom(element);
             var childBindingContext = bindingContext.createChildContext(viewModel);
+            childBindingContext.$root = viewModel;
             ko.applyBindingsToDescendants(childBindingContext, element);
             return { controlsDescendantBindings: true };
         };
-        this.update = function (element, valueAccessor, allBindingAccessor, viewModel, bindingContext) {
+        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
     })
 });

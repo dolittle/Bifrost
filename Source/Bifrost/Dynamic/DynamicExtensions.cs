@@ -16,28 +16,30 @@
 // limitations under the License.
 //
 #endregion
-using System.Dynamic;
-using System.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Bifrost.Dynamic
 {
     /// <summary>
-    /// Provides a set of helper methods for working with dynamic types
+    /// Provides a set of extension methods for working with dynamic types
     /// </summary>
-    public class DynamicHelpers
+    public static class DynamicExtensions
     {
         /// <summary>
-        /// Populate a dynamic object, typically something like a <see cref="System.Dynamic.ExpandoObject"/>
+        /// Converts an object to a dynamic <see cref="ExpandoObject"/>
         /// </summary>
-        /// <param name="target">Target object that will receive all properties and values from source</param>
-        /// <param name="source">Source object containing all properties with values - this can in fact be any type, including an anonymous one</param>
-        public static void Populate(dynamic target, dynamic source)
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static dynamic AsExpandoObject(this object source)
         {
-            var dictionary = target as IDictionary<string, object>;
+            var expando = new ExpandoObject();
 
             foreach (var property in source.GetType().GetProperties())
-                dictionary[property.Name] = property.GetValue(source, null);
+                ((IDictionary<string,object>)expando)[property.Name] = property.GetValue(source, null);
+
+            return expando;
         }
     }
 }

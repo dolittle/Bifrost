@@ -131,6 +131,11 @@
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_long_concept.cs" />
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_non_concept.cs" />
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_string_concept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_long_concept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\LongConcept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_long_concept_with_value_as_string.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\GuidConcept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_guid_concept_with_value_as_string.cs" />
     <Compile Include="Concepts\for_Value\given\value_objects.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_single_instance.cs" />
     <Compile Include="Concepts\for_Value\when_equating_a_value_with_an_inherited_type_with_identical_values.cs" />
@@ -165,6 +170,8 @@
     <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateless_aggregate_root.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_that_has_events.cs" />
+    <Compile Include="Dynamic\for_DynamicExtensions\ObjectWithProperties.cs" />
+    <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />

@@ -23,11 +23,17 @@ namespace Bifrost.Configuration
 {
     public static class ConfigurationExtensions
     {
+        static bool _configured = false;
+
         public static IConfigure UsingCommonServiceLocator(this IConfigure configure)
         {
-            var serviceLocator = new ContainerServiceLocator(configure.Container);
-            configure.Container.Bind<IServiceLocator>(serviceLocator);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            if (!_configured)
+            {
+                var serviceLocator = new ContainerServiceLocator(configure.Container);
+                configure.Container.Bind<IServiceLocator>(serviceLocator);
+                ServiceLocator.SetLocatorProvider(() => serviceLocator);
+                _configured = true;
+            }
             return Configure.Instance;
         }
     }
