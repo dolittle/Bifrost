@@ -10,15 +10,15 @@ namespace Bifrost.Validation
     /// Combines multiples validators into a single validator
     /// </summary>
     /// <typeparam name="T">Type that the composite validator validates</typeparam>
-    public class ValidatorWrapper<T> : AbstractValidator<T>
+    public class ComposedValidator<T> : AbstractValidator<T>
     {
-        List<IValidator> registeredValidators = new List<IValidator>();
+        readonly List<IValidator> registeredValidators = new List<IValidator>();
 
         /// <summary>
-        /// Instantiates an instance of a <see cref="ValidatorWrapper{T}"/>
+        /// Instantiates an instance of a <see cref="ComposedValidator{T}"/>
         /// </summary>
         /// <param name="validators"></param>
-        public ValidatorWrapper(IEnumerable<IValidator> validators)
+        public ComposedValidator(IEnumerable<IValidator> validators)
         {
             registeredValidators.AddRange(validators);
         }
