@@ -66,10 +66,10 @@ namespace Bifrost.Concepts
 
         public static bool operator ==(ConceptAs<T> a, ConceptAs<T> b)
         {
-            if (a == null && b == null)
+            if (ReferenceEquals(a,null) && ReferenceEquals(b,null))
                 return true;
 
-            if (a == null ^ b == null)
+            if (ReferenceEquals(a,null) ^ ReferenceEquals(b,null))
                 return false;
 
             return a.Equals(b);
