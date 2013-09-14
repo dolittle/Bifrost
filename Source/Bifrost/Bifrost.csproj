@@ -312,11 +312,11 @@
     <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
-    <Compile Include="Validation\ValidatorWrapper.cs" />
+    <Compile Include="Validation\ComposedValidator.cs" />
     <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
-    <Compile Include="Validation\DynamicCommandBusinessValidator.cs" />
-    <Compile Include="Validation\DynamicCommandInputValidator.cs" />
+    <Compile Include="Validation\ComposedCommandBusinessValidator.cs" />
+    <Compile Include="Validation\ComposedCommandInputValidator.cs" />
     <Compile Include="Validation\DynamicState.cs" />
     <Compile Include="Validation\IAmValidatable.cs" />
     <Compile Include="Validation\ICanValidate.cs" />

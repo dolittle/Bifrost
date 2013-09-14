@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 
         Because of = () => business_validator = command_validator_provider.GetBusinessValidatorFor(command);
 
-        It should_return_a_dynamically_constructed_validator = () => business_validator.ShouldBeOfType(typeof(DynamicCommandBusinessValidator<MySimpleCommand>));
+        It should_return_a_dynamically_constructed_validator = () => business_validator.ShouldBeOfType(typeof(ComposedCommandBusinessValidator<MySimpleCommand>));
     }
 }

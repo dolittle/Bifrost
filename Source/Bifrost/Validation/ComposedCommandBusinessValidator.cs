@@ -13,36 +13,36 @@ namespace Bifrost.Validation
     /// <summary>
     /// Represents a command business validator that is constructed from discovered rules.
     /// </summary>
-    public class DynamicCommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandInputValidator where T : class, ICommand
+    public class ComposedCommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandInputValidator where T : class, ICommand
     {
         /// <summary>
-        /// Instantiates an Instance of a <see cref="DynamicCommandBusinessValidator"/>
+        /// Instantiates an Instance of a <see cref="ComposedCommandBusinessValidator{T}"/>
         /// </summary>
         /// <param name="propertyTypesAndValidators">A collection of dynamically discovered validators to use</param>
-        public DynamicCommandBusinessValidator(IDictionary<Type, IEnumerable<IValidator>> propertyTypesAndValidators)
+        public ComposedCommandBusinessValidator(IDictionary<Type, IEnumerable<IValidator>> propertyTypesAndValidators)
         {
             foreach (var propertyType in propertyTypesAndValidators.Keys)
             {
                 var validators = propertyTypesAndValidators[propertyType];
 
-                if (validators != null && validators.Any())
-                {
-                    var validator = GetValidator(validators);
+                if (validators == null || !validators.Any()) 
+                    continue;
 
-                    var properties = GetPropertiesWithType(propertyType);
-                    foreach (var property in properties)
-                    {
-                        var expression = BuildGetExpression(property);
-                        RuleFor(expression)
-                            .DynamicValidationRule(validator, property.Name);
-                    }
+                var validator = GetValidator(validators);
+
+                var properties = GetPropertiesWithType(propertyType);
+                foreach (var property in properties)
+                {
+                    var expression = BuildGetExpression(property);
+                    RuleFor(expression)
+                        .DynamicValidationRule(validator, property.Name);
                 }
             }
         }
 
         IValidator GetValidator(IEnumerable<IValidator> propertyTypesAndValidator)
         {
-            return new ValidatorWrapper<IAmValidatable>(propertyTypesAndValidator);
+            return new ComposedValidator<IAmValidatable>(propertyTypesAndValidator);
         }
 
         IEnumerable<PropertyInfo> GetPropertiesWithType(Type propertyType)
@@ -55,7 +55,7 @@ namespace Bifrost.Validation
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<ValidationResult> ValidateFor(ICommand command)
         {
-            return ValidateFor(command);
+            return ValidateFor(command as T);
         }
 
         public virtual IEnumerable<ValidationResult> ValidateFor(T command)
@@ -73,16 +73,13 @@ namespace Bifrost.Validation
 
         static Expression<Func<T, IAmValidatable>> BuildGetExpression(PropertyInfo propertyInfo)
         {
-            Type type = typeof(T);
-            ParameterExpression arg = Expression.Parameter(type, "x");
+            var type = typeof(T);
+            var arg = Expression.Parameter(type, "x");
             Expression expr = arg;
 
             expr = Expression.Property(expr, propertyInfo);
-            type = propertyInfo.PropertyType;
 
             return Expression.Lambda<Func<T, IAmValidatable>>(expr, arg);
         }
-
-
     }
 }

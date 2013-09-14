@@ -125,7 +125,7 @@ namespace Bifrost.Validation
         ICanValidate BuildDynamicallyDiscoveredInputValidator(Type commandType, IDictionary<Type,IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
-            var closedValidatorType = typeof(DynamicCommandInputValidator<>).MakeGenericType(typeArgs);
+            var closedValidatorType = typeof(ComposedCommandInputValidator<>).MakeGenericType(typeArgs);
 
             var propertyTypeAndValidatorInstances = new Dictionary<Type, IEnumerable<IValidator>>();
             foreach (var key in typeAndAssociatedValidatorTypes.Keys)
@@ -141,7 +141,7 @@ namespace Bifrost.Validation
         ICanValidate BuildDynamicallyDiscoveredBusinessValidator(Type commandType, IDictionary<Type, IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
-            var closedValidatorType = typeof(DynamicCommandBusinessValidator<>).MakeGenericType(typeArgs);
+            var closedValidatorType = typeof(ComposedCommandBusinessValidator<>).MakeGenericType(typeArgs);
 
             var propertyTypeAndValidatorInstances = new Dictionary<Type, IEnumerable<IValidator>>();
             foreach (var key in typeAndAssociatedValidatorTypes.Keys)
@@ -189,9 +189,9 @@ namespace Bifrost.Validation
             _dynamicallyDiscoveredInputValidators = new Dictionary<Type, List<Type>>();
 
             var inputValidators = _typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
-                .Where(t => t != typeof(InputValidator<>) && t != typeof(DynamicCommandInputValidator<>));
+                .Where(t => t != typeof(InputValidator<>) && t != typeof(ComposedCommandInputValidator<>));
             var businessValidators = _typeDiscoverer.FindMultiple(typeof(IValidateBusinessRules<>))
-                .Where(t => t != typeof(BusinessValidator<>) && t != typeof(DynamicCommandInputValidator<>));
+                .Where(t => t != typeof(BusinessValidator<>) && t != typeof(ComposedCommandInputValidator<>));
 
             inputValidators.ForEach(type => RegisterValidator(type, _inputValidatorType));
             businessValidators.ForEach(type => RegisterValidator(type, _businessValidatorType));

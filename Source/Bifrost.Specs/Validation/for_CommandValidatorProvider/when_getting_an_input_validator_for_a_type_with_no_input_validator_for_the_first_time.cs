@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 
         Because of = () => input_validator = command_validator_provider.GetInputValidatorFor(command);
 
-        It should_return_the_a_dynamically_constructed_validator = () => input_validator.ShouldBeOfType(typeof(DynamicCommandInputValidator<MySimpleCommand>));
+        It should_return_the_a_dynamically_constructed_validator = () => input_validator.ShouldBeOfType(typeof(ComposedCommandInputValidator<MySimpleCommand>));
     }
 }
