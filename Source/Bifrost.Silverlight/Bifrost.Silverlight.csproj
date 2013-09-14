@@ -864,17 +864,20 @@
     <Compile Include="..\Bifrost\Validation\CommandValidatorProvider.cs">
       <Link>Validation\CommandValidatorProvider.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedCommandBusinessValidator.cs">
+      <Link>Validation\ComposedCommandBusinessValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedCommandInputValidator.cs">
+      <Link>Validation\ComposedCommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedValidator.cs">
+      <Link>Validation\ComposedValidator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\ConventionValidatorFactory.cs">
       <Link>Validation\ConventionValidatorFactory.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Validation\DefaultValidatorFactory.cs">
       <Link>Validation\DefaultValidatorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\DynamicCommandBusinessValidator.cs">
-      <Link>Validation\DynamicCommandBusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\DynamicCommandInputValidator.cs">
-      <Link>Validation\DynamicCommandInputValidator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
@@ -979,7 +982,6 @@
     <Compile Include="Notification\IgnoreChangesAttribute.cs" />
     <Compile Include="Notification\NotifyChangesForAttribute.cs" />
     <Compile Include="Notification\NotifyingObjectWeaver.cs" />
-    <Compile Include="Validation\ValidatorWrapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
