@@ -64,7 +64,7 @@
                     }
                 });
 
-                if (property != null) {
+                if (property != null && property.length) {
                     var member = target[property];
 
                     if (typeof member.validator !== "undefined") {
