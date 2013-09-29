@@ -1,4 +1,4 @@
-﻿namespace Bifrost.Specs.Validation.for_Validator
+﻿namespace Bifrost.Specs.Validation.for_BusinessValidator
 {
     public class SimpleObject
     {

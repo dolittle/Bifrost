@@ -6,6 +6,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 {
+    [Subject(typeof(CommandValidatorProvider))]
     public class when_getting_an_input_validator_for_a_type_with_an_input_validator : a_command_validator_provider_with_input_and_business_validators
     {
         static ICanValidate input_validator;

@@ -167,6 +167,7 @@
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
+    <Compile Include="Extensions\FluentValidationRuleExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
@@ -312,9 +313,13 @@
     <Compile Include="Validation\CommandValidationResult.cs" />
     <Compile Include="Validation\CommandValidationService.cs" />
     <Compile Include="Validation\CommandValidatorProvider.cs" />
+    <Compile Include="Validation\ComposedValidator.cs" />
     <Compile Include="Validation\Configurator.cs" />
     <Compile Include="Validation\DefaultValidatorFactory.cs" />
+    <Compile Include="Validation\ComposedCommandBusinessValidator.cs" />
+    <Compile Include="Validation\ComposedCommandInputValidator.cs" />
     <Compile Include="Validation\DynamicState.cs" />
+    <Compile Include="Validation\IAmValidatable.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
     <Compile Include="Validation\IChapterValidationService.cs" />
     <Compile Include="Validation\IChapterValidator.cs" />
@@ -324,11 +329,14 @@
     <Compile Include="Validation\ICommandInputValidator.cs" />
     <Compile Include="Validation\ICommandValidationService.cs" />
     <Compile Include="Validation\ICommandValidatorProvider.cs" />
+    <Compile Include="Validation\InputValidator.cs" />
     <Compile Include="Validation\InvalidValidatorTypeException.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqual.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqualGenerator.cs" />
     <Compile Include="Validation\MetaData\GreaterThanOrEqual.cs" />
     <Compile Include="Validation\MetaData\GreaterThanOrEqualGenerator.cs" />
+    <Compile Include="Validation\IValidateBusinessRules.cs" />
+    <Compile Include="Validation\IValidateInput.cs" />
     <Compile Include="Validation\MetaData\Regex.cs" />
     <Compile Include="Validation\MetaData\RegexGenerator.cs" />
     <Compile Include="Validation\MetaData\RequiredGenerator.cs" />
@@ -374,7 +382,7 @@
     <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
     <Compile Include="Validation\TypeExtensions.cs" />
-    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\BusinessValidator.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
     <Compile Include="Commands\CommandContext.cs" />

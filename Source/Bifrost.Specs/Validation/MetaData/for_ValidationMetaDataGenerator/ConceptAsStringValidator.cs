@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 {
-    public class ConceptAsStringValidator : Validator<ConceptAsString>
+    public class ConceptAsStringValidator : BusinessValidator<ConceptAsString>
     {
         public ConceptAsStringValidator()
         {
@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         }
     }
 
-    public class ConceptAsLongValidator : Validator<ConceptAsLong>
+    public class ConceptAsLongValidator : BusinessValidator<ConceptAsLong>
     {
         public ConceptAsLongValidator()
         {
@@ -23,7 +23,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         }
     }
 
-    public class LongValidator: Validator<ConceptAs<long>>
+    public class LongValidator: BusinessValidator<ConceptAs<long>>
     {
         public LongValidator()
         {
@@ -33,7 +33,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         }
     }
 
-    public class ObjectValidator : Validator<object>
+    public class ObjectValidator : BusinessValidator<object>
     {
         public ObjectValidator()
         {

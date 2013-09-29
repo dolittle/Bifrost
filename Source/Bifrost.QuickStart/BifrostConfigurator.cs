@@ -1,5 +1,10 @@
-﻿using System.Web;
+﻿using System.Diagnostics;
+using System.Web;
 using Bifrost.Configuration;
+using Bifrost.Execution;
+using Bifrost.QuickStart.Concepts.Persons;
+using Bifrost.QuickStart.Domain.HumanResources.Employees;
+using Bifrost.Validation;
 
 namespace Bifrost.QuickStart
 {
@@ -29,6 +34,18 @@ namespace Bifrost.QuickStart
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Read.HumanResources.**.");
 					})
                 .WithMimir();
+
+            var validatorProvider = configure.Container.Get<ICommandValidatorProvider>();
+            var inputValidator = validatorProvider.GetInputValidatorFor(typeof (RegisterEmployee));
+            var businessValidator = validatorProvider.GetBusinessValidatorFor(typeof (RegisterEmployee));
+
+            var command = new RegisterEmployee()
+                {
+                    SocialSecurityNumber = "invalid"
+                };
+
+            var inputResult = inputValidator.ValidateFor(command);
+            var businessResult = businessValidator.ValidateFor(command);
         }
     }
 }

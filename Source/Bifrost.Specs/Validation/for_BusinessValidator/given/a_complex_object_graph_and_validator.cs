@@ -1,11 +1,10 @@
-﻿using System;
-using Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator;
+﻿using Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator;
 using Bifrost.Testing.Fakes.Concepts;
 using Bifrost.Validation;
 using FluentValidation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_Validator.given
+namespace Bifrost.Specs.Validation.for_BusinessValidator.given
 {
     public class a_complex_object_graph_and_validator
     {
@@ -63,7 +62,7 @@ namespace Bifrost.Specs.Validation.for_Validator.given
         public int GrandchildSimpleIntegerProperty { get; set; }
     }
 
-    public class GrandchildValidator : Validator<Grandchild>
+    public class GrandchildValidator : BusinessValidator<Grandchild>
     {
         public GrandchildValidator()
         {
@@ -77,7 +76,7 @@ namespace Bifrost.Specs.Validation.for_Validator.given
         }
     }
 
-    public class ChildValidator : Validator<Child>
+    public class ChildValidator : BusinessValidator<Child>
     {
         public ChildValidator()
         {
@@ -93,7 +92,7 @@ namespace Bifrost.Specs.Validation.for_Validator.given
         }
     }
 
-    public class ParentValidator : Validator<Parent>
+    public class ParentValidator : BusinessValidator<Parent>
     {
         public ParentValidator()
         {
