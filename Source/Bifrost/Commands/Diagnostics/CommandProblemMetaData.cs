@@ -18,23 +18,22 @@
 #endregion
 using System;
 using Bifrost.Diagnostics;
-using Bifrost.Extensions;
 
 namespace Bifrost.Commands.Diagnostics
 {
     /// <summary>
-    /// Represents a rule that will check if a <see cref="ICommand"/> has too many properties
+    /// Represents the metadata for a <see cref="IProblem"/> generated for a <see cref="ICommand"/>
     /// </summary>
-    public class CommandInheritanceRule : ITypeRuleFor<ICommand>
+    public class CommandProblemMetaData
     {
-#pragma warning disable 1591 // Xml Comments
-        public void Validate(Type type, IProblems problems)
+        /// <summary>
+        /// Get the metadata for a specific type
+        /// </summary>
+        /// <param name="type">Type to get from</param>
+        /// <returns>The metadata associated with the type for a problem</returns>
+        public static object From(Type type)
         {
-            var implementsInterface = type.HasInterface<ICommand>() && type.BaseType == typeof(Object);
-
-            if (!implementsInterface && type.BaseType != typeof(Command))
-                problems.Report(ProblemTypes.CommandInheritance, CommandProblemMetaData.From(type));
+            return new { Name = type.Name, Namespace = type.Namespace };
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <link href="Visualizer/styles.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("body").mouseover(function (e) {
+                if ($(e.target).closest("table.bifrostSidebarIcons").length != 1) {
+                    $("#icons").removeClass("bifrostSidebarWithContent");
+                    $("#icons").removeClass("bifrostSidebarFullSize");
+                }
+
+            });
+
+
+            $("#sidebar").mouseover(function () {
+                $("#icons").addClass("bifrostSidebarIconsVisible");
+            });
+
+            $("#sidebar").mouseout(function (e) {
+                $("#icons").removeClass("bifrostSidebarIconsVisible");
+
+            });
+
+            $("#icons").mouseover(function () {
+                //$("#sidebar").addClass("bifrostSidebarFullSize");
+            });
+
+            $("#icons").mouseout(function (e) {
+                $("#icons").addClass("bifrostSidebarFullSize");
+            });
+
+
+            $("#icons").click(function () {
+                $("#icons").addClass("bifrostSidebarWithContent");
+            });
+
+        });
+
+    </script>
+
+
+    <div id="sidebar" class="bifrostSidebar">
+        <div>
+            <img src="Visualizer/BifrostIcon.png" style="margin: 0px" />
+        </div>
+        <table id="icons" class="bifrostSidebarIcons">
+            <tr>
+                <td>
+                    <ul data-bind="foreach: categories">
+                        <li>
+                            <div class="bifrostSidebarIconAndText" data-bind="attr: {title: description}">
+                                <img data-bind="attr: { src: '/Bifrost/Visualizer/'+name+'/icon.png' }" />
+                                <span class="bifrostSidebarText" data-bind="text: displayName"></span>
+                                <span class="bifrostCounter bifrostCounterRed">1</span>
+
+                            </div>
+                        </li>
+                    </ul>
+                </td>
+                <td class="bifrostSidebarContent">
+                    <div data-view="Visualizer/QualityAssurance/index" >
+                    </div>
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+
+</body>
+</html>

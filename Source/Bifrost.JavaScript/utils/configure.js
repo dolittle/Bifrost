@@ -37,10 +37,10 @@
             defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.uriMappers.default = defaultUriMapper;
 
-            var bifrostDebuggerUriMapper = Bifrost.StringMapper.create();
-            bifrostDebuggerUriMapper.addMapping("Debugging/{module}/{view}", "/Bifrost/Debugging/{module}/{view}.html");
-            bifrostDebuggerUriMapper.addMapping("Debugging/{view}", "/Bifrost/Debugging/{view}.html");
-            Bifrost.uriMappers.bifrostDebugger = bifrostDebuggerUriMapper;
+            var bifrostVisualizerUriMapper = Bifrost.StringMapper.create();
+            bifrostVisualizerUriMapper.addMapping("Visualizer/{module}/{view}", "/Bifrost/Visualizer/{module}/{view}.html");
+            bifrostVisualizerUriMapper.addMapping("Visualizer/{view}", "/Bifrost/Visualizer/{view}.html");
+            Bifrost.uriMappers.bifrostVisualizer = bifrostVisualizerUriMapper;
 
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {

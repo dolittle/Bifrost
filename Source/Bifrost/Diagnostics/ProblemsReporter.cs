@@ -30,6 +30,11 @@ namespace Bifrost.Diagnostics
         List<IProblems> _allProblems = new List<IProblems>();
 
 #pragma warning disable 1591 // Xml Comments
+        public void Clear()
+        {
+            _allProblems.Clear();
+        }
+
         public void Report(IProblems problems)
         {
             _allProblems.Add(problems);

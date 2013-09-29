@@ -93,6 +93,7 @@
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
+    <Compile Include="Commands\Diagnostics\CommandProblemMetaData.cs" />
     <Compile Include="Commands\Diagnostics\ComplexTypesRule.cs" />
     <Compile Include="Commands\Diagnostics\CommandInheritanceRule.cs" />
     <Compile Include="Commands\Diagnostics\TooManyPropertiesRule.cs" />

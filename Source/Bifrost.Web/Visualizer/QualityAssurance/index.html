@@ -7,17 +7,18 @@
 </head>
 <body>
     <style>
-        table th, table td {
+        .bifrostTable th, table td {
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        table tbody tr {
+        bifrostTable tbody tr {
             height: 30px;
         }
     </style>
 
-    <table class="table table-bordered table-striped">
+
+    <table class="bifrostTable bifrostTable-bordered bifrostTable-striped">
 
         <thead>
             <tr>
@@ -28,7 +29,7 @@
         <tbody data-bind="foreach:allProblems">
             <tr>
                 <td>
-                    <table class="table table-bordered table-striped">
+                    <table class="bifrostTable-bordered bifrostTable-striped">
                         <thead>
                             <tr>
                                 <th style="width: 80px;">
@@ -53,7 +54,7 @@
                                     <div data-bind="text: type.description"></div>
                                 </td>
                                 <td>
-                                    <i data-bind="css: { 'icon-eye-open': type.severity == 0, 'icon-warning-sign': type.severity == 1, 'icon-exclamation-sign': type.severity == 2}"></i>
+                                    <img data-bind="attr: {src: $root.getSeverityImageSrc(type.severity)}" />
                                 </td>
                             </tr>
                         </tbody>

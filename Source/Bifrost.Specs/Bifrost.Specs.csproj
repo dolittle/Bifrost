@@ -175,6 +175,7 @@
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration.cs" />
     <Compile Include="Configuration\for_EventsConfiguration\given\an_events_configuration_and_container_object.cs" />
     <Compile Include="Diagnostics\for_ProblemsFactory\when_creating.cs" />
+    <Compile Include="Diagnostics\for_ProblemsReporter\when_clearing_after_reporting.cs" />
     <Compile Include="Diagnostics\for_ProblemsReporter\when_reporting.cs" />
     <Compile Include="Diagnostics\for_Problems\when_asking_if_has_any_problems_with_one_problem.cs" />
     <Compile Include="Diagnostics\for_Problems\when_asking_if_has_any_problems_without_any.cs" />

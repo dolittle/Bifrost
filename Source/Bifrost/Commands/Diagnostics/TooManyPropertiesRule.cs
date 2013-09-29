@@ -33,7 +33,7 @@ namespace Bifrost.Commands.Diagnostics
                 return;
 
             if (type.GetProperties().Length > 10)
-                problems.Report(ProblemTypes.TooManyProperties, type);
+                problems.Report(ProblemTypes.TooManyProperties, CommandProblemMetaData.From(type));
         }
 #pragma warning restore 1591 // Xml Comments
     }

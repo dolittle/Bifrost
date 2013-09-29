@@ -192,8 +192,6 @@ namespace Bifrost.Configuration
             Security.Initialize(Container);
         	InitializeCulture();
             DefaultStorage.Initialize(Container);
-
-            QualityAssurance.Validate();
         }
 #pragma warning restore 1591 // Xml Comments
 

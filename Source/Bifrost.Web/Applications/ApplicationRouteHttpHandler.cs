@@ -63,7 +63,11 @@ namespace Bifrost.Web.Applications
 
         public void ProcessRequest(HttpContext context)
         {
-            var url = context.Request.Url.AbsolutePath.Replace("/"+_url,string.Empty);
+            var route = "/"+_url;
+            var url = context.Request.Url.AbsolutePath;
+            if (url.StartsWith(route))
+                url = url.Substring(route.Length);
+            url.Replace("/"+_url,string.Empty);
             if (string.IsNullOrEmpty(url) || url == "/" )
                 url = "index.html";
 
@@ -80,6 +84,10 @@ namespace Bifrost.Web.Applications
                 return;
             }
 
+            if (url.Contains(".png"))
+                context.Response.ContentType = "image/png";
+            if (url.Contains(".jpg"))
+                context.Response.ContentType = "image/jpg";
             if (url.Contains(".js"))
                 context.Response.ContentType = "text/javascript";
             if (url.Contains(".css"))
@@ -120,7 +128,7 @@ namespace Bifrost.Web.Applications
         {
             if (line.Contains("<param name=\"source\" value=\""))
             {
-                actualLine = actualLine.Replace("value=\"", "value=\"" + _url + "/");
+                actualLine = actualLine.Replace("value=\"", "value=\"/" + _url + "/");
             }
             else
             {
@@ -131,13 +139,13 @@ namespace Bifrost.Web.Applications
                 {
                     if (line.Contains(attribute + "=\"/") && line.Contains(attribute + "='/"))
                     {
-                        actualLine = actualLine.Replace(attribute + "=\"/", attribute + "=\"" + _url + "/");
-                        actualLine = actualLine.Replace(attribute + "='/", attribute + "='" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "=\"/", attribute + "=\"/" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "='/", attribute + "='/" + _url + "/");
                     }
                     else
                     {
-                        actualLine = actualLine.Replace(attribute + "=\"", attribute + "=\"" + _url + "/");
-                        actualLine = actualLine.Replace(attribute + "='", attribute + "='" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "=\"", attribute + "=\"/" + _url + "/");
+                        actualLine = actualLine.Replace(attribute + "='", attribute + "='/" + _url + "/");
                     }
                 }
             }

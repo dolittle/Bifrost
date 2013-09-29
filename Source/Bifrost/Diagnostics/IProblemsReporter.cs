@@ -26,6 +26,11 @@ namespace Bifrost.Diagnostics
     public interface IProblemsReporter
     {
         /// <summary>
+        /// Clear any reported problems
+        /// </summary>
+        void Clear();
+
+        /// <summary>
         /// Gets all the problems registered
         /// </summary>
         IEnumerable<IProblems> All { get; }

@@ -2,7 +2,7 @@
 using Bifrost.Diagnostics;
 using Bifrost.Read;
 
-namespace Bifrost.Web.Debugging.Problems
+namespace Bifrost.Web.Visualizer.QualityAssurance
 {
     public class Problems : IReadModel
     {
