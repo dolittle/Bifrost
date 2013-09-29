@@ -22,18 +22,19 @@ using FluentValidation.Validators;
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Represents the generater that can generate a <see cref="Required"/> rule from
-    /// a <see cref="RequiredValidator"/>
+    /// Represents the generater that can generate a <see cref="GreaterThanOrEqual"/> rule from
+    /// a <see cref="GreaterThanOrEqualValidator"/>
     /// </summary>
-    public class RequiredGenerator : ICanGenerateRule
+    public class GreaterThanOrEqualGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(INotEmptyValidator), typeof(INotNullValidator) }; } }
+        public Type[] From { get { return new[] { typeof(GreaterThanOrEqualValidator) }; } }
 
         public Rule GeneratorFrom(IPropertyValidator propertyValidator)
         {
-            return new Required
+            return new GreaterThanOrEqual
             {
+                Value = ((GreaterThanOrEqualValidator)propertyValidator).ValueToCompare,
                 Message = propertyValidator.ErrorMessageSource.GetString()
             };
         }

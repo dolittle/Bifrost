@@ -17,27 +17,16 @@
 //
 #endregion
 using System;
-using FluentValidation.Validators;
-
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Represents the generater that can generate a <see cref="Required"/> rule from
-    /// a <see cref="RequiredValidator"/>
+    /// Represents the metadata for the GreaterThanOrEqual validation rule
     /// </summary>
-    public class RequiredGenerator : ICanGenerateRule
+    public class GreaterThanOrEqual : Rule
     {
-#pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(INotEmptyValidator), typeof(INotNullValidator) }; } }
-
-        public Rule GeneratorFrom(IPropertyValidator propertyValidator)
-        {
-            return new Required
-            {
-                Message = propertyValidator.ErrorMessageSource.GetString()
-            };
-        }
-#pragma warning restore 1591 // Xml Comments
-
+        /// <summary>
+        /// Gets or sets the value that values validated up against must be greater than
+        /// </summary>
+        public object Value { get; set; }
     }
 }

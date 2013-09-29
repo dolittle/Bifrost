@@ -47,7 +47,9 @@
 @depends validation/maxLength.js
 @depends validation/range.js
 @depends validation/lessThan.js
+@depends validation/lessThanOrEqual.js
 @depends validation/greaterThan.js
+@depends validation/greaterThanOrEqual.js
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js

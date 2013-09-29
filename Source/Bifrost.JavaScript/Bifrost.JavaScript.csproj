@@ -78,6 +78,8 @@
     <Content Include="utils\StringMapper.js" />
     <Content Include="utils\uriMappers.js" />
     <Content Include="utils\StringMapping.js" />
+    <Content Include="validation\lessThanOrEqual.js" />
+    <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\DataAttributeViewRenderer.js" />
     <Content Include="views\documentService.js" />
     <Content Include="views\RelativePathResolver.js" />
