@@ -186,14 +186,14 @@ namespace Bifrost.Execution
 		{
 			var query = from t in _types
 						where 
-                            t.HasInterface(type) && 
 #if(NETFX_CORE)
                             !t.GetTypeInfo().IsInterface &&
-                            !t.GetTypeInfo().IsAbstract
+                            !t.GetTypeInfo().IsAbstract &&
 #else
                             !t.IsInterface && 
-                            !t.IsAbstract
+                            !t.IsAbstract &&
 #endif
+                            t.HasInterface(type)
 						select t;
 			var typesFound = query.ToArray();
 			return typesFound;
