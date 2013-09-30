@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Bifrost.Execution;
+using Bifrost.Validation;
 
 namespace Bifrost.Concepts
 {
@@ -11,7 +12,7 @@ namespace Bifrost.Concepts
     /// A base class for providing value object equality semantics.  A Value Object does not have an identity and its value comes from its properties.
     /// </summary>
     /// <typeparam name="T">The specific type to provide value object equality semantics to.</typeparam>
-    public abstract class Value<T> : IEquatable<T> where T : Value<T>
+    public abstract class Value<T> : IAmValidatable, IEquatable<T> where T : Value<T>
     {
         static IList<FieldInfo> _fields = new List<FieldInfo>();
 

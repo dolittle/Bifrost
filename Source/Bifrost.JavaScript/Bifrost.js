@@ -13,6 +13,7 @@
 @depends utils/isNull.js
 @depends utils/isString.js
 @depends utils/isUndefined.js
+@depends utils/isFunction.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
@@ -47,7 +48,9 @@
 @depends validation/maxLength.js
 @depends validation/range.js
 @depends validation/lessThan.js
+@depends validation/lessThanOrEqual.js
 @depends validation/greaterThan.js
+@depends validation/greaterThanOrEqual.js
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js

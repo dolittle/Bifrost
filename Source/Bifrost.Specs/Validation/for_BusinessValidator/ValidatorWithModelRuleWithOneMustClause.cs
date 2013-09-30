@@ -1,9 +1,10 @@
-﻿using Bifrost.Validation;
+﻿using Bifrost.Specs.Validation.for_BusinessValidator;
+using Bifrost.Validation;
 using FluentValidation;
 
 namespace Bifrost.Specs.Validation.for_Validator
 {
-    public class ValidatorWithModelRuleWithOneMustClause : Validator<SimpleObject>
+    public class ValidatorWithModelRuleWithOneMustClause : BusinessValidator<SimpleObject>
     {
         public bool CallbackCalled = false;
         public ValidatorWithModelRuleWithOneMustClause()

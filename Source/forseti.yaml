@@ -21,9 +21,13 @@ Harnesses:
         - Bifrost.JavaScript/utils/configure.js
         - Bifrost.JavaScript/execution/Promise.js
         - Bifrost.JavaScript/utils/guid.js
-        - Bifrost.JavaScript/utils/isNumber.js
         - Bifrost.JavaScript/utils/isObject.js
+        - Bifrost.JavaScript/utils/isNumber.js
         - Bifrost.JavaScript/utils/isArray.js
+        - Bifrost.JavaScript/utils/isNull.js
+        - Bifrost.JavaScript/utils/isString.js
+        - Bifrost.JavaScript/utils/isUndefined.js
+        - Bifrost.JavaScript/utils/isFunction.js
         - Bifrost.JavaScript/utils/functionParser.js
         - Bifrost.JavaScript/utils/dependencyResolver.js
         - Bifrost.JavaScript/utils/WellKnownTypesDependencyResolver.js
@@ -34,3 +38,13 @@ Harnesses:
         - Bifrost.JavaScript/utils/path.js
         - Bifrost.JavaScript/validation/exceptions.js
         - Bifrost.JavaScript/views/viewRenderer.js
+
+
+
+		
+		
+		
+		
+		
+		
+		

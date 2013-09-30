@@ -15,7 +15,13 @@
         });
 
         target.setInitialValue = function (value) {
-            target._initialValue = value;
+            var initialValue;
+            if (Bifrost.isArray(value))
+                initialValue = value.clone();
+            else
+                initialValue = value;
+            
+            target._initialValue = initialValue;
             target._initialValueSet = true;
             updateHasChanges();
         };

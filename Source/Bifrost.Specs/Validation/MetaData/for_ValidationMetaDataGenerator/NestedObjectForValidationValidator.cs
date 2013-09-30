@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 {
-    public class NestedObjectForValidationValidator : Validator<NestedObjectForValidation>
+    public class NestedObjectForValidationValidator : BusinessValidator<NestedObjectForValidation>
     {
         public NestedObjectForValidationValidator(ObjectForValidationValidator objectForValidationValidator)
         {

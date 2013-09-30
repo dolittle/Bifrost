@@ -22,8 +22,8 @@ using FluentValidation.Validators;
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Represents the generater that can generate a <see cref="GreaterThan"/> rule from
-    /// a <see cref="GreaterThanValidator"/>
+    /// Represents the generater that can generate a <see cref="Required"/> rule from
+    /// a <see cref="RequiredValidator"/>
     /// </summary>
     public class RequiredGenerator : ICanGenerateRule
     {
