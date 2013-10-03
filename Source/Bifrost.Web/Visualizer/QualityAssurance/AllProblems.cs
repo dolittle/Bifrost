@@ -31,6 +31,7 @@ namespace Bifrost.Web.Visualizer.QualityAssurance
         public AllProblems(IProblemsReporter reporter)
         {
             _reporter = reporter;
+            reporter.Clear();
             Configure.Instance.QualityAssurance.Validate();
         }
 
