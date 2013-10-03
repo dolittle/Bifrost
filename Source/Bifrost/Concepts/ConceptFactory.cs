@@ -37,14 +37,20 @@ namespace Bifrost.Concepts
 #if(NETFX_CORE)
 
 #else
+
+            var valueProperty = type.GetProperty("Value");
+
             var genericArgumentType = type.BaseType.GetGenericArguments()[0];
             if (genericArgumentType == typeof(Guid))
                 value = Guid.Parse(value.ToString());
 
+            if (valueProperty.PropertyType.IsPrimitive && value == null)
+                value = Activator.CreateInstance(valueProperty.PropertyType);
+
             if (value.GetType() != genericArgumentType)
                 value = Convert.ChangeType(value, genericArgumentType, null);
 
-            type.GetProperty("Value").SetValue(instance, value, null);
+            valueProperty.SetValue(instance, value, null);
 #endif
             return instance;
         }

@@ -131,6 +131,13 @@
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_long_concept.cs" />
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_non_concept.cs" />
     <Compile Include="Concepts\for_ConceptExtensions\when_getting_the_value_from_a_string_concept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_double_concept_with_coming_in_as_null.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\FloatConcept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_float_concept_with_coming_in_as_null.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\DoubleConcept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\IntConcept.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_int_concept_with_coming_in_as_null.cs" />
+    <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_long_concept_with_coming_in_as_null.cs" />
     <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_long_concept.cs" />
     <Compile Include="Concepts\for_ConceptFactory\LongConcept.cs" />
     <Compile Include="Concepts\for_ConceptFactory\when_creating_instance_of_long_concept_with_value_as_string.cs" />
