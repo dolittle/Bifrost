@@ -51,6 +51,7 @@ namespace Bifrost.Web.Proxies
         public string Generate()
         {
             var typesByNamespace = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t=>t.Namespace);
+            var commandPropertyExtenders = _typeDiscoverer.FindMultiple<ICanExtendCommandProperty>();
 
             var result = new StringBuilder();
 

@@ -39,8 +39,9 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <param name="excludePropertiesFrom">Optional <see cref="Type"/> to use as basis for excluding properties</param>
         /// <param name="propertyVisitor">Optional visitor that gets called for every property - return false will ignore the property</param>
         /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
+        /// <param name="observableVisitor">Optional <see cref="Action{Observable}">visitor</see> that gets called for every observable property</param>
         /// <returns><see cref="Container"/> to keep building on</returns>
-        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null)
+        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null, Action<Observable> observableVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
@@ -49,7 +50,7 @@ namespace Bifrost.CodeGeneration.JavaScript
             if (propertyVisitor != null)
                 properties = properties.Where(propertyVisitor).ToArray();
 
-            AddObservablePropertiesFromType(container, properties, assignmentVisitor);
+            AddObservablePropertiesFromType(container, properties, assignmentVisitor, observableVisitor);
 
             return container;
         }
@@ -116,8 +117,8 @@ namespace Bifrost.CodeGeneration.JavaScript
 
             }
         }
-    
-        static void AddObservablePropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor)
+
+        static void AddObservablePropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor, Action<Observable> observableVisitor)
         {
             foreach (var property in properties)
             {
@@ -134,12 +135,12 @@ namespace Bifrost.CodeGeneration.JavaScript
                 else if (property.IsEnumerable())
                     assignment.WithObservableArray();
                 else if (property.IsObservable())
-                    assignment.WithObservable();
+                    assignment.WithObservable(observableVisitor);
                 else
                 {
                     var objectLiteral = new ObjectLiteral();
                     assignment.Value = objectLiteral;
-                    AddObservablePropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
+                    AddObservablePropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor, observableVisitor);
                 }
 
                 if (assignmentVisitor != null) assignmentVisitor(assignment);

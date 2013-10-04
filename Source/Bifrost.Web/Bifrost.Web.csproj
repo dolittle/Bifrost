@@ -74,6 +74,7 @@
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\ICanExtendCommandProperty.cs" />
     <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\GeneratedProxies.cs" />
     <Compile Include="Proxies\NamespaceConfigurationProxies.cs" />
