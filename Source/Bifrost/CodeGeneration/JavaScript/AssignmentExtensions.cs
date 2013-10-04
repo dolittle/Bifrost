@@ -157,6 +157,7 @@ namespace Bifrost.CodeGeneration.JavaScript
             }
             else
             {
+                if( type == typeof(string) )return assignment.WithLiteral("\"\"");
                 return assignment.WithNullValue();
             }
             return assignment;
