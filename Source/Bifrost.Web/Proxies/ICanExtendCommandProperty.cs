@@ -18,8 +18,11 @@
 #endregion
 namespace Bifrost.Web.Proxies
 {
+    /// <summary>
+    /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands
+    /// </summary>
     public interface ICanExtendCommandProperty
     {
-        void Extend(
+        
     }
 }
