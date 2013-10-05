@@ -31,6 +31,20 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns>The <see cref="Observable"/> to build on</returns>
         public static Observable WithDefaultValue(this Observable observable, object defaultValue)
         {
+            observable.Parameters = new Literal[] { new Literal(defaultValue) };
+            return observable;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="observable"></param>
+        /// <param name="name"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static Observable ExtendWith(this Observable observable, string name, string options)
+        {
+            observable.AddExtension(name, options);
             return observable;
         }
     }

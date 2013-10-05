@@ -74,6 +74,10 @@
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\given\an_assignment.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\given\MyAssignment.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\when_assigning_with_observable_without_callback.cs" />
+    <Compile Include="CodeGeneration\JavaScript\for_ObservableExtension\given\an_observable_without_default_value.cs" />
+    <Compile Include="CodeGeneration\JavaScript\for_ObservableExtension\when_extending.cs" />
+    <Compile Include="CodeGeneration\JavaScript\for_ObservableExtension\when_specifying_default_value.cs" />
+    <Compile Include="CodeGeneration\JavaScript\for_Observable\when_adding_extension.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_with_default_value.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_without_default_value.cs" />
     <Compile Include="Commands\for_CommandContextFactory\given\a_command_context_factory.cs" />

@@ -71,7 +71,9 @@
     <Compile Include="CodeGeneration\JavaScript\Null.cs" />
     <Compile Include="CodeGeneration\JavaScript\Global.cs" />
     <Compile Include="CodeGeneration\JavaScript\Observable.cs" />
+    <Compile Include="CodeGeneration\JavaScript\ObservableExtension.cs" />
     <Compile Include="CodeGeneration\JavaScript\ObservableExtensions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\ObservableVisitor.cs" />
     <Compile Include="CodeGeneration\JavaScript\Return.cs" />
     <Compile Include="CodeGeneration\JavaScript\Function.cs" />
     <Compile Include="CodeGeneration\JavaScript\FunctionBody.cs" />

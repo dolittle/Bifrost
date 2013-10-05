@@ -123,14 +123,14 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// Assign an observable
         /// </summary>
         /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
-        /// <param name="callback">Optional <see cref="Action{Observable}"/> that gets called to build the observable</param>
+        /// <param name="visitor">Optional <see cref="Action{Observable}"/> that gets called to build the observable</param>
         /// <returns>The <see cref="Assignment"/> to build on</returns>
-        public static Assignment WithObservable(this Assignment assignment, Action<Observable> callback = null)
+        public static Assignment WithObservable(this Assignment assignment, ObservableVisitor visitor = null)
         {
             var observable = new Observable();
             assignment.Value = observable;
 
-            if (callback != null) callback(observable);
+            if (visitor != null) visitor(assignment.Name, observable);
 
             return assignment;
         }

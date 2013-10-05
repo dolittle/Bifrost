@@ -41,7 +41,7 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <param name="assignmentVisitor">Optional <see cref="Action{Assignment}">visitor</see> that gets called for every assignment for any property</param>
         /// <param name="observableVisitor">Optional <see cref="Action{Observable}">visitor</see> that gets called for every observable property</param>
         /// <returns><see cref="Container"/> to keep building on</returns>
-        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null, Action<Observable> observableVisitor = null)
+        public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null, ObservableVisitor observableVisitor = null)
         {
             var properties = type.GetProperties();
             if (excludePropertiesFrom != null)
@@ -118,7 +118,7 @@ namespace Bifrost.CodeGeneration.JavaScript
             }
         }
 
-        static void AddObservablePropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor, Action<Observable> observableVisitor)
+        static void AddObservablePropertiesFromType(Container parent, IEnumerable<PropertyInfo> properties, Action<Assignment> assignmentVisitor, ObservableVisitor observableVisitor)
         {
             foreach (var property in properties)
             {
