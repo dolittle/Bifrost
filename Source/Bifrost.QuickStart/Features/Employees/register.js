@@ -6,7 +6,7 @@
 
         this.register = registerEmployee;
 
-        this.register.completed(function () {
+        this.register.succeeded(function () {
             setTimeout(function () {
                 self.globalMessenger.publish("employeeRegistered");
             }, 100);

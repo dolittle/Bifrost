@@ -4,7 +4,7 @@
         this.employees = allEmployees.paged(4,1);
 
         globalMessenger.subscribeTo("employeeRegistered", function () {
-            allEmployees.execute();
+            self.employees.execute();
         });
     })
 });
