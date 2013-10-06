@@ -5,7 +5,7 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.stub(),
-            getPropertiesWithValidation: sinon.stub()
+            getValidatorsFor: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {

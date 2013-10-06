@@ -275,7 +275,7 @@ Bifrost.namespace("Bifrost.commands", {
             this.extendPropertiesWithHasChanges();
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
-                var validators = commandValidationService.getPropertiesWithValidation(lastDescendant);
+                var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
             }
             commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {

@@ -7,7 +7,7 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.stub(),
-            getPropertiesWithValidation: function (command) {
+            getValidatorsFor: function (command) {
 
                 command.something.extend({ validation: {} });
 

@@ -96,14 +96,24 @@
             extendProperties(command);
         };
 
-        this.getPropertiesWithValidation = function (command) {
-            var validators = [];
-            for (var property in command) {
-                var value = command[property];
+
+        function collectValidators(source, validators) {
+            for (var property in source) {
+                var value = source[property];
+
+                if (shouldSkipProperty(source, property)) continue;
+
                 if (ko.isObservable(value) && typeof value.validator != "undefined") {
                     validators.push(value.validator);
+                } else if (Bifrost.isObject(value)) {
+                    collectValidators(value, validators);
                 }
             }
+        }
+
+        this.getValidatorsFor = function (command) {
+            var validators = [];
+            collectValidators(command, validators);
             return validators;
         };
     })

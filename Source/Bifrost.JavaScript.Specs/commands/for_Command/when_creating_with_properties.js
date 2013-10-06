@@ -4,7 +4,7 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.stub(),
-            getPropertiesWithValidation: sinon.stub()
+            getValidatorsFor: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {
@@ -62,6 +62,6 @@
     });
 
     it("should get all properties with validation", function () {
-        expect(parameters.commandValidationService.getPropertiesWithValidation.called).toBe(true);
+        expect(parameters.commandValidationService.getValidatorsFor.called).toBe(true);
     });
 });

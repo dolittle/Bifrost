@@ -58,6 +58,7 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
     <Content Include="commands\for_commandSecurityService\when_getting_context_for_a_command.js" />
+    <Content Include="commands\for_commandValidationService\when_getting_validators.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_deep_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_valid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
