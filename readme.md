@@ -7,7 +7,7 @@ To get an idea of how the framework will help you get up and running fast, have 
 
 # Sponsors
 
-![alt tag](https://raw.github.com/dolittle/Bifrost-Site/master/Sponsors/NDepend.png)
+[![alt tag](https://raw.github.com/dolittle/Bifrost-Site/master/Sponsors/NDepend.png)](http://www.ndepend.com)
 
 # Site
 For more details, samples, documentation, please go to the official [site](http://bifrost.dolittle.com)
