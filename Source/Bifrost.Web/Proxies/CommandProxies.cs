@@ -33,6 +33,8 @@ namespace Bifrost.Web.Proxies
         static List<string> _namespacesToExclude = new List<string>();
 
         ITypeDiscoverer _typeDiscoverer;
+        ITypeImporter _typeImporter;
+
         ICodeGenerator _codeGenerator;
         WebConfiguration _configuration;
 
@@ -41,9 +43,10 @@ namespace Bifrost.Web.Proxies
             _namespacesToExclude.Add(@namespace);
         }
 
-        public CommandProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
+        public CommandProxies(ITypeDiscoverer typeDiscoverer, ITypeImporter typeImporter, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
+            _typeImporter = typeImporter;
             _codeGenerator = codeGenerator;
             _configuration = configuration;
         }
@@ -51,7 +54,7 @@ namespace Bifrost.Web.Proxies
         public string Generate()
         {
             var typesByNamespace = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t=>t.Namespace);
-            var commandPropertyExtenders = _typeDiscoverer.FindMultiple<ICanExtendCommandProperty>();
+            var commandPropertyExtenders = _typeImporter.ImportMany<ICanExtendCommandProperty>();
 
             var result = new StringBuilder();
 
@@ -77,7 +80,11 @@ namespace Bifrost.Web.Proxies
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
                                         .Property("generatedFrom", p => p.WithString(type.FullName))
-                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom:typeof(ICommand)));
+                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
+                                        {
+                                            foreach (var commandPropertyExtender in commandPropertyExtenders)
+                                                commandPropertyExtender.Extend(type, propertyName, observable);
+                                        }));
                 }
 
                 if (currentNamespace != globalCommands)

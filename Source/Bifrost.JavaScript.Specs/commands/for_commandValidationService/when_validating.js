@@ -18,18 +18,13 @@
     command.something.validator = new validator();
     command.deep.property.validator = new validator();
 
-    var parameters = {
-        validationService: {
-        }
-    };
 
-    var commandValidationService = Bifrost.commands.commandValidationService.create(parameters);
+    var commandValidationService = Bifrost.commands.commandValidationService.create();
     var result = commandValidationService.validate(command);
 
     it("should return a result", function () {
         expect(result).toBeDefined();
     });
-
 
     it("should call validate on the top level property", function () {
         expect(command.something.validator.validate.called).toBe(true);

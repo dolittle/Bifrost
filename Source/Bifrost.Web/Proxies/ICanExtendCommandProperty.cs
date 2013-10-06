@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using Bifrost.CodeGeneration.JavaScript;
+
 namespace Bifrost.Web.Proxies
 {
     /// <summary>
@@ -23,6 +26,12 @@ namespace Bifrost.Web.Proxies
     /// </summary>
     public interface ICanExtendCommandProperty
     {
-        
+        /// <summary>
+        /// Extend a given property
+        /// </summary>
+        /// <param name="commandType">Type of command property belongs to</param>
+        /// <param name="propertyName">Name of the property that can be extended</param>
+        /// <param name="observable">The observable that can be extended</param>
+        void Extend(Type commandType, string propertyName, Observable observable);
     }
 }

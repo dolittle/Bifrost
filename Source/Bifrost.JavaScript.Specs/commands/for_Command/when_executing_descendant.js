@@ -33,7 +33,8 @@
             }
         },
         commandValidationService: {
-            applyRulesTo: function () { },
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getPropertiesWithValidation: sinon.stub(),
             validate: function (command) {
                 validatedCommand = command;
                 return { valid: true };

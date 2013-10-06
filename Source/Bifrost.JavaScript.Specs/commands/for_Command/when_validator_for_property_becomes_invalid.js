@@ -6,7 +6,8 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getPropertiesWithValidation: function (command) {
 
                 command.something.extend({ validation: {} });
 

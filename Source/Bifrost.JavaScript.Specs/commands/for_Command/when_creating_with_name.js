@@ -1,12 +1,10 @@
 ﻿describe("when creating with name", function () {
-    var commandAppliedTo = null;
     var parameters = {
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
-                commandAppliedTo = command
-            }
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getPropertiesWithValidation: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

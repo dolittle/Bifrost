@@ -3,8 +3,8 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
-            }
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getPropertiesWithValidation: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {

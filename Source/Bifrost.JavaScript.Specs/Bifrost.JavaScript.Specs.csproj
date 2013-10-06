@@ -370,7 +370,6 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
-    <Content Include="validation\for_validationService\when_getting_for_a_command.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_array_of_items.js" />
     <Content Include="validation\for_Validator\when_applying_to_properties.js" />
     <Content Include="validation\for_Validator\when_creating_without_options_and_setting_options_later.js" />
@@ -429,7 +428,7 @@
     <Content Include="commands\for_Command\when_creating_from_an_extended_command_with_properties.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="commands\for_commandValidationService\when_applying_rules_to_command_with_properties_as_observable.js" />
+    <Content Include="commands\for_commandValidationService\when_extending_properties_without_validation.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="extensions\for_stringExtensions\when_replacing_many_instances_of_a_char_with_new_char.js" />

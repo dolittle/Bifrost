@@ -1,12 +1,10 @@
 ﻿describe("when creating with properties", function () {
-    var commandAppliedTo = null;
     var parameters = {
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
-                commandAppliedTo = command
-            }
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getPropertiesWithValidation: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {
@@ -59,7 +57,11 @@
         expect(command.arrayOfIntegers()).toBe(parameters.options.properties.arrayOfIntegers);
     });
 
-    it("should apply validation rules to properties", function () {
-        expect(commandAppliedTo).toBe(command);
+    it("should extend properties without validation with validator", function () {
+        expect(parameters.commandValidationService.extendPropertiesWithoutValidation.called).toBe(true);
+    });
+
+    it("should get all properties with validation", function () {
+        expect(parameters.commandValidationService.getPropertiesWithValidation.called).toBe(true);
     });
 });

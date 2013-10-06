@@ -1,7 +1,6 @@
 ﻿Bifrost.namespace("Bifrost.commands", {
-    commandValidationService: Bifrost.Singleton(function (validationService) {
+    commandValidationService: Bifrost.Singleton(function () {
         var self = this;
-        this.validationService = validationService;
 
         function shouldSkipProperty(target, property) {
             if (!target.hasOwnProperty(property)) return true;
@@ -14,15 +13,14 @@
             return false;
         }
 
-
         function extendProperties(target, validators) {
             for (var property in target) {
                 if (shouldSkipProperty(target, property)) continue;
+                if (typeof target[property].validator != "undefined") continue;
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
                     target[property].validator.propertyName = property;
-                    validators.push(target[property].validator);
                 } else if (typeof target[property] === "object") {
                     extendProperties(target[property], validators);
                 }
@@ -94,30 +92,18 @@
             return result;
         };
 
-        this.applyRulesTo = function (command) {
+        this.extendPropertiesWithoutValidation = function (command) {
+            extendProperties(command);
+        };
+
+        this.getPropertiesWithValidation = function (command) {
             var validators = [];
-            extendProperties(command, validators);
-            self.validationService.getForCommand(command.generatedFrom).continueWith(function (rules) {
-                for (var rule in rules) {
-                    var path = rule.split(".");
-                    var member = command;
-                    for (var i in path) {
-
-                        var step = path[i];
-                        if (step in member) {
-                            member = member[step];
-                        } else {
-                            console.log( "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")");
-                        }
-                    }
-
-                    if (typeof member.validator !== "undefined") {
-                        member.validator.setOptions(rules[rule]);
-                    }
+            for (var property in command) {
+                var value = command[property];
+                if (ko.isObservable(value) && typeof value.validator != "undefined") {
+                    validators.push(value.validator);
                 }
-
-                validatePropertiesFor(command, { valid: true }, true);
-            });
+            }
             return validators;
         };
     })
