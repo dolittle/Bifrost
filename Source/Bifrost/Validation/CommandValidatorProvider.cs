@@ -118,7 +118,8 @@ namespace Bifrost.Validation
 
         IEnumerable<Type> GetTypesFromCommand(Type commandType)
         {
-            var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).Select(p => p.PropertyType);
+            var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                                            .Where(p => !p.PropertyType.IsAPrimitiveType()).Select(p => p.PropertyType);
             return commandPropertyTypes;
         }
 
@@ -225,7 +226,7 @@ namespace Bifrost.Validation
 
             var validatedType = GetValidatedType(typeToRegister);
 
-            if (validatedType == null || validatedType.IsInterface)
+            if (validatedType == null || validatedType.IsInterface || validatedType.IsAPrimitiveType())
                 return;
 
             if (validatorRegistry.ContainsKey(validatedType))

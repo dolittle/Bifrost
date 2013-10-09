@@ -2090,14 +2090,24 @@ Bifrost.namespace("Bifrost.commands", {
             extendProperties(command);
         };
 
-        this.getPropertiesWithValidation = function (command) {
-            var validators = [];
-            for (var property in command) {
-                var value = command[property];
+
+        function collectValidators(source, validators) {
+            for (var property in source) {
+                var value = source[property];
+
+                if (shouldSkipProperty(source, property)) continue;
+
                 if (ko.isObservable(value) && typeof value.validator != "undefined") {
                     validators.push(value.validator);
+                } else if (Bifrost.isObject(value)) {
+                    collectValidators(value, validators);
                 }
             }
+        }
+
+        this.getValidatorsFor = function (command) {
+            var validators = [];
+            collectValidators(command, validators);
             return validators;
         };
     })
@@ -2379,7 +2389,7 @@ Bifrost.namespace("Bifrost.commands", {
             this.extendPropertiesWithHasChanges();
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
-                var validators = commandValidationService.getPropertiesWithValidation(lastDescendant);
+                var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
             }
             commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
