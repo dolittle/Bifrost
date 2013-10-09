@@ -533,6 +533,7 @@
     <Compile Include="Validation\for_CommandValidationService\when_validating_a_command_with_no_validators.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\given\a_command_validator_provider_with_input_and_business_validators.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_created.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_that_is_not_a_command.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_an_input_validator.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator_for_the_first_time.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator_for_the_second_time.cs" />
@@ -611,6 +612,7 @@
     <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_no_business_validator_for_the_second_time.cs" />
+    <Compile Include="Validation\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_type_that_is_not_a_command.cs" />
     <Compile Include="Validation\for_ComposedCommandBusinessValidator\given\a_composed_command_business_validator.cs" />
     <Compile Include="Validation\for_ComposedCommandBusinessValidator\when_composing_a_validator.cs" />
     <Compile Include="Validation\for_ComposedCommandBusinessValidator\when_validating_a_command_with_an_invalid_long_with_a_composed_validator.cs" />
