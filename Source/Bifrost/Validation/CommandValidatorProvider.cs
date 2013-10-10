@@ -50,6 +50,9 @@ namespace Bifrost.Validation
         Dictionary<Type, List<Type>> _dynamicallyDiscoveredInputValidators = new Dictionary<Type, List<Type>>();
         Dictionary<Type, List<Type>> _dynamicallyDiscoveredBusinessValidators = new Dictionary<Type, List<Type>>();
 
+        NullCommandBusinessValidator _nullCommandBusinessValidator = new NullCommandBusinessValidator();
+        NullCommandInputValidator _nullCommandInputValidator = new NullCommandInputValidator();
+
         /// <summary>
         /// Initializes an instance of <see cref="CommandValidatorProvider"/> CommandValidatorProvider
         /// </summary>
@@ -80,6 +83,9 @@ namespace Bifrost.Validation
 
         public ICanValidate GetBusinessValidatorFor(Type commandType)
         {
+            if (!typeof (ICommand).IsAssignableFrom(commandType))
+                return _nullCommandBusinessValidator;
+
             Type registeredBusinessValidatorType;
             _businessCommandValidators.TryGetValue(commandType, out registeredBusinessValidatorType);
 
@@ -93,6 +99,9 @@ namespace Bifrost.Validation
 
         public ICanValidate GetInputValidatorFor(Type commandType)
         {
+            if (!typeof(ICommand).IsAssignableFrom(commandType))
+                return _nullCommandInputValidator;
+
             Type registeredInputValidatorType;
             _inputCommandValidators.TryGetValue(commandType, out registeredInputValidatorType);
 
@@ -118,7 +127,8 @@ namespace Bifrost.Validation
 
         IEnumerable<Type> GetTypesFromCommand(Type commandType)
         {
-            var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).Select(p => p.PropertyType);
+            var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                                            .Where(p => !p.PropertyType.IsAPrimitiveType()).Select(p => p.PropertyType);
             return commandPropertyTypes;
         }
 
@@ -225,7 +235,7 @@ namespace Bifrost.Validation
 
             var validatedType = GetValidatedType(typeToRegister);
 
-            if (validatedType == null || validatedType.IsInterface)
+            if (validatedType == null || validatedType.IsInterface || validatedType.IsAPrimitiveType())
                 return;
 
             if (validatorRegistry.ContainsKey(validatedType))

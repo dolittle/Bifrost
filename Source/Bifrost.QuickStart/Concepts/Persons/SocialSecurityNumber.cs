@@ -47,4 +47,9 @@ namespace Bifrost.QuickStart.Concepts.Persons
                 .Equal("123456");
         }
     }
+
+    public class BadlyWrittenValidatorThatValidatesAPrimitive : InputValidator<long>
+    {
+        
+    }
 }

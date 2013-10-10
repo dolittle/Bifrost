@@ -29,6 +29,11 @@ namespace Bifrost.Extensions
 	/// </summary>
 	public static class TypeExtensions
 	{
+        static HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
+            {
+                typeof(decimal),typeof(string),typeof(Guid),typeof(DateTime),typeof(DateTimeOffset),typeof(TimeSpan)
+            }; 
+
         static HashSet<Type> NumericTypes = new HashSet<Type>
         {
             typeof(byte), typeof(sbyte),
@@ -210,6 +215,17 @@ namespace Bifrost.Extensions
                 typeToCheck = typeToCheck.BaseType;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Check if a type is a "primitve" type.  This is not just dot net primitives but basic types like string, decimal, datetime,
+        /// that are not classified as primitive types.
+        /// </summary>
+        /// <param name="type">Type to check</param>
+        /// <returns>True if a "primitive"</returns>
+        public static bool IsAPrimitiveType(this Type type)
+        {
+            return type.IsPrimitive || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type);
         }
 	}
 }
