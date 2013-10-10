@@ -36,9 +36,11 @@ namespace Bifrost.Execution
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
-        private readonly IAssemblyLocator _assemblyLocator;
-        readonly static List<string> NamespaceStartingWithExclusions = new List<string>();
-		readonly List<Type> _types;
+        static List<string> NamespaceStartingWithExclusions = new List<string>();
+
+        IAssemblyLocator _assemblyLocator;
+        Dictionary<string, Type> _types;
+        Dictionary<Type, Type[]> _implementingTypes;
 
 		/// <summary>
 		/// Exclude discovering of types in a specific namespace
@@ -55,7 +57,8 @@ namespace Bifrost.Execution
 		public TypeDiscoverer(IAssemblyLocator assemblyLocator)
 		{
 		    _assemblyLocator = assemblyLocator;
-		    _types = new List<Type>();
+		    _types = new Dictionary<string, Type>();
+            _implementingTypes = new Dictionary<Type, Type[]>();
 			CollectTypes();
 		}
 
@@ -63,7 +66,7 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<Type> GetAll()
         {
-            return _types;
+            return _types.Values;
         }
 
         public Type FindSingle<T>()
@@ -95,12 +98,24 @@ namespace Bifrost.Execution
 
         public Type FindTypeByFullName(string fullName)
         {
-            return _types.SingleOrDefault(t => t.FullName == fullName);
+            if (!_types.ContainsKey(fullName)) return null;
+            return _types[fullName];
         }
 #pragma warning restore 1591 // Xml Comments
 
+        void AddTypes(IEnumerable<Type> types)
+        {
+            foreach (var type in types)
+            {
+                if (!_types.ContainsKey(type.FullName))
+                {
+                    _types.Add(type.FullName, type);
+                }
+            }
+        }
+
 #if(WINDOWS_PHONE)
-        private void CollectTypes()
+        void CollectTypes()
         {
             if (null != Deployment.Current)
             {
@@ -109,15 +124,14 @@ namespace Bifrost.Execution
                 {
                     var assemblyName = part.Source.Replace(".dll", string.Empty);
                     var assembly = Assembly.Load(assemblyName);
-                    var types = assembly.GetTypes();
-                    _types.AddRange(types);
+                    AddTypes(assembly.GetTypes());
                 }
             }
         }
 #else
 
 #if(SILVERLIGHT)
-		private void CollectTypes()
+		void CollectTypes()
 		{
 
 			if (null != Deployment.Current)
@@ -133,22 +147,21 @@ namespace Bifrost.Execution
 			}
 		}
 
-		private void AddTypesFromPart(AssemblyPart part)
+		void AddTypesFromPart(AssemblyPart part)
 		{
 			var info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative));
 			var assembly = part.Load(info.Stream);
-			var types = assembly.GetTypes();
-			_types.AddRange(types);
+			AddTypes(assembly.GetTypes());
 		}
 #else
 #if(NETFX_CORE)
 		void CollectTypes()
 		{
             foreach (var assembly in _assemblyLocator.GetAll())
-                _types.AddRange(assembly.DefinedTypes.Select(t => t.AsType()));
+               AddTypes(assembly.DefinedTypes.Select(t => t.AsType());
 		}
 #else
-		private void CollectTypes()
+        void CollectTypes()
 		{
 		    var assemblies = _assemblyLocator.GetAll();
 			var query = from a in assemblies
@@ -159,7 +172,7 @@ namespace Bifrost.Execution
             {
                 try
                 {
-                    _types.AddRange(assembly.GetTypes());
+                    AddTypes(assembly.GetTypes());
                 } catch(ReflectionTypeLoadException ex)
                 {
                     foreach (var loaderException in ex.LoaderExceptions)
@@ -171,7 +184,7 @@ namespace Bifrost.Execution
 #endif
 #endif
 #endif
-		private static bool ShouldAddAssembly(string name)
+		static bool ShouldAddAssembly(string name)
 		{
 			if (NameStartsWithAnExcludedNamespace(name)) return false;
 			return !name.Contains("System.") && !name.Contains("mscorlib");
@@ -182,21 +195,27 @@ namespace Bifrost.Execution
 			return NamespaceStartingWithExclusions.Any(name.StartsWith);
 		}
 
-		private Type[] Find(Type type)
+		Type[] Find(Type type)
 		{
-			var query = from t in _types
-						where 
+		    Type[] typesFound;
+		    if (!_implementingTypes.TryGetValue(type, out typesFound))
+		    {
+		        var query = from t in _types.Values
+		                    where
+		                        t.HasInterface(type) &&
 #if(NETFX_CORE)
-                            !t.GetTypeInfo().IsInterface &&
-                            !t.GetTypeInfo().IsAbstract &&
+                                !t.GetTypeInfo().IsInterface &&
+                                !t.GetTypeInfo().IsAbstract
 #else
-                            !t.IsInterface && 
-                            !t.IsAbstract &&
+		                        !t.IsInterface &&
+		                        !t.IsAbstract
 #endif
-                            t.HasInterface(type)
-						select t;
-			var typesFound = query.ToArray();
-			return typesFound;
+		                    select t;
+		        typesFound = query.ToArray();
+		        _implementingTypes[type] = typesFound;
+		    }
+
+		    return typesFound;
 		}
 	}
 }
