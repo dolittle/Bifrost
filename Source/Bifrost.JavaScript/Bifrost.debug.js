@@ -18,9 +18,25 @@ function polyFillClone() {
     }
 }
 
+function shallowEquals() {
+    if (typeof Array.prototype.shallowEquals !== "function") {
+        Array.prototype.shallowEquals = function (other) {
+            if (this === other) return true;
+            if (this === null || other === null) return false;
+            if (this.length != be.length) return false;
+
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] !== other[i]) return false;
+            }
+            return true;
+        }
+    }
+}
+
 (function () {
     polyfillForEach();
     polyFillClone();
+    shallowEquals();
 })();
 if ( typeof String.prototype.startsWith != 'function' ) {
 	String.prototype.startsWith = function( str ) {
@@ -2545,7 +2561,12 @@ if (typeof ko !== 'undefined') {
             if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                target.hasChanges(target._initialValue !== target());
+                if(Bifrost.isArray(_initialValue)){
+                    target.hasChanges(!_initialValue.shallowEquals(target()));
+                    return;
+                }
+                else
+                    target.hasChanges(target._initialValue !== target());
             }
         }
 
