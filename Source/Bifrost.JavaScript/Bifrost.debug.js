@@ -23,7 +23,7 @@ function shallowEquals() {
         Array.prototype.shallowEquals = function (other) {
             if (this === other) return true;
             if (this === null || other === null) return false;
-            if (this.length != be.length) return false;
+            if (this.length != other.length) return false;
 
             for (var i = 0; i < this.length; i++) {
                 if (this[i] !== other[i]) return false;
@@ -2561,8 +2561,8 @@ if (typeof ko !== 'undefined') {
             if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                if(Bifrost.isArray(_initialValue)){
-                    target.hasChanges(!_initialValue.shallowEquals(target()));
+                if(Bifrost.isArray(target._initialValue)){
+                    target.hasChanges(!target._initialValue.shallowEquals(target()));
                     return;
                 }
                 else
@@ -3793,6 +3793,26 @@ Bifrost.views.viewModelBindingHandler.initialize = function () {
     ko.bindingHandlers.viewModel = Bifrost.views.viewModelBindingHandler.create();
 };
 
+Bifrost.namespace("Bifrost.views", {
+    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers) {
+        var self = this;
+        this.viewRenderers = viewRenderers;
+
+        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+        };
+        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            var uri = ko.utils.unwrapObservable(valueAccessor());
+            
+            $(element).data("view", uri);
+
+            viewRenderers.render(element);
+        };
+    })
+});
+Bifrost.views.viewBindingHandler.initialize = function () {
+    ko.bindingHandlers.view = Bifrost.views.viewBindingHandler.create();
+};
+
 Bifrost.namespace("Bifrost.navigation", {
     NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
         var self = this;
@@ -4098,6 +4118,7 @@ Bifrost.namespace("Bifrost", {
 
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
+            Bifrost.views.viewBindingHandler.initialize();
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;

@@ -95,6 +95,7 @@
 @depends views/UriMapperPathResolver.js
 @depends views/RelativePathResolver.js
 @depends views/viewModelBindingHandler.js
+@depends views/viewBindingHandler.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js
