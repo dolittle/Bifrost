@@ -3815,16 +3815,12 @@ Bifrost.namespace("Bifrost.views", {
             var uri = ko.utils.unwrapObservable(valueAccessor());
 
             $(element).data("view", uri);
-            //var file = Bifrost.path.getFilenameWithoutExtension(uri);
             if (self.pathResolvers.canResolve(element, uri)) {
                 var actualPath = self.pathResolvers.resolve(element, uri);
                 var view = self.viewFactory.createFrom(actualPath);
                 view.element = element;
                 view.content = element.innerHTML;
-                //self.render(element);
-
-                // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
-                //  self.viewModelManager.applyToViewIfAny(view);
+                self.render(element);
 
                 renderChildren(element);
             }
