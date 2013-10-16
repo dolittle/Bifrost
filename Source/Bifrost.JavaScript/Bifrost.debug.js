@@ -471,7 +471,7 @@ Bifrost.namespace("Bifrost", {
                 var resolvers = [
                     new Bifrost.WellKnownTypesDependencyResolver(),
                     new Bifrost.DefaultDependencyResolver(),
-                    new Bifrost.KnownArtifactsDependencyResolver()
+                    new Bifrost.KnownArtifactTypesDependencyResolver()
                 ];
                 for (var property in this) {
                     if (property.indexOf("_") != 0 &&
