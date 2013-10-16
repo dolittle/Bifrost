@@ -2,7 +2,11 @@ Bifrost.namespace("Bifrost", {
     dependencyResolvers: (function () {
         return {
             getAll: function () {
-                var resolvers = [new Bifrost.WellKnownTypesDependencyResolver(), new Bifrost.DefaultDependencyResolver()];
+                var resolvers = [
+                    new Bifrost.WellKnownTypesDependencyResolver(),
+                    new Bifrost.DefaultDependencyResolver(),
+                    new Bifrost.KnownArtifactsDependencyResolver()
+                ];
                 for (var property in this) {
                     if (property.indexOf("_") != 0 &&
                         this.hasOwnProperty(property) &&

@@ -223,6 +223,12 @@
     <Content Include="Utils\for_isArray\when_checking_an_array.js" />
     <Content Include="Utils\for_isArray\when_checking_an_object.js" />
     <Content Include="Utils\for_isArray\when_checking_a_function.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type_that_has_multiple_same_named_extenders.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_unsupported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_readModelTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_queryTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_commandTypes.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace_with_content.js" />
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />

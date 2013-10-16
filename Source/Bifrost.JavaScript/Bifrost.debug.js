@@ -468,7 +468,11 @@ Bifrost.namespace("Bifrost", {
     dependencyResolvers: (function () {
         return {
             getAll: function () {
-                var resolvers = [new Bifrost.WellKnownTypesDependencyResolver(), new Bifrost.DefaultDependencyResolver()];
+                var resolvers = [
+                    new Bifrost.WellKnownTypesDependencyResolver(),
+                    new Bifrost.DefaultDependencyResolver(),
+                    new Bifrost.KnownArtifactsDependencyResolver()
+                ];
                 for (var property in this) {
                     if (property.indexOf("_") != 0 &&
                         this.hasOwnProperty(property) &&
@@ -604,6 +608,35 @@ Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady = function
         promise.signal(document.body);
     });
 };
+Bifrost.namespace("Bifrost", {
+    KnownArtifactTypesDependencyResolver: function () {
+        var self = this;
+        var supportedArtifacts = {
+            readModelTypes: Bifrost.read.ReadModelOf,
+            commandTypes: Bifrost.commands.Command,
+            queryTypes: Bifrost.read.Query
+        };
+
+        this.canResolve = function (namespace, name) {
+            return name in supportedArtifacts;
+        },
+        this.resolve = function (namespace, name) {
+            var type = supportedArtifacts[name];
+            var extenders = type.getExtendersIn(namespace);
+            var resolvedTypes = {};
+
+            extenders.forEach(function (extender) {
+                var name = extender._name;
+                if (resolvedTypes[name] && resolvedTypes[name]._namespace.name.length > extender._namespace.name.length)
+                    return;
+
+                resolvedTypes[name] = extender;
+            });
+
+            return resolvedTypes;
+        }
+    }
+})
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
@@ -791,6 +824,28 @@ Bifrost.namespace("Bifrost", {
     Bifrost.Type.getExtenders = function () {
         return this._extenders;
     };
+
+    Bifrost.Type.getExtendersIn = function (namespace) {
+        var inNamespace = [];
+        
+        this._extenders.forEach(function (extender) {
+            var current = namespace;
+            while (current !== window) {
+                if (extender._namespace == current) {
+                    inNamespace.push(extender);
+                    break;
+                }
+
+                if (Bifrost.isUndefined(current.parent))
+                    break;
+
+                current = current.parent;
+            }
+            
+        });
+        return inNamespace;
+    };
+
   
 
     Bifrost.Type.extend = function (typeDefinition) {     

@@ -196,6 +196,10 @@ Bifrost.namespace("Bifrost", {
                     inNamespace.push(extender);
                     break;
                 }
+
+                if (Bifrost.isUndefined(current.parent))
+                    break;
+
                 current = current.parent;
             }
             

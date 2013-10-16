@@ -22,6 +22,7 @@
 @depends utils/defaultDependencyResolver.js
 @depends utils/WellKnownTypesDependencyResolver.js
 @depends utils/DOMRootDependencyResolver.js
+@depends utils/KnownArtifactTypesDependencyResolver.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js

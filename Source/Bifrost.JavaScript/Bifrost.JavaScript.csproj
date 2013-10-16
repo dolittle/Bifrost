@@ -68,6 +68,7 @@
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="utils\KnownArtifactTypesDependencyResolver.js" />
     <Content Include="utils\isFunction.js" />
     <Content Include="utils\DOMRootDependencyResolver.js" />
     <Content Include="utils\isString.js" />
