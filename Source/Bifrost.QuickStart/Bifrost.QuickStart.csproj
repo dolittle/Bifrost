@@ -132,11 +132,7 @@
     <Compile Include="BifrostConfigurator.cs" />
     <Compile Include="Concepts\Persons\SocialSecurityNumber.cs" />
     <Compile Include="ContainerCreator.cs" />
-    <Compile Include="Domain\HumanResources\DeleteEmployee.cs" />
-    <Compile Include="Domain\HumanResources\SqueezeEmployee.cs" />
     <Compile Include="Domain\HumanResources\Employees\CommandHandlers.cs" />
-    <Compile Include="Domain\HumanResources\Employees\HugEmployee.cs" />
-    <Compile Include="Domain\HumanResources\Employees\DeleteEmployee.cs" />
     <Compile Include="Domain\HumanResources\Employees\Employee.cs" />
     <Compile Include="Domain\HumanResources\Employees\RegisterEmployee.cs" />
     <Compile Include="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" />
