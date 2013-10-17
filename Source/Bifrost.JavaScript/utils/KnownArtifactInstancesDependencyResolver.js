@@ -1,10 +1,10 @@
 ﻿Bifrost.namespace("Bifrost", {
-    KnownArtifactTypesDependencyResolver: function () {
+    KnownArtifactInstancesDependencyResolver: function () {
         var self = this;
         var supportedArtifacts = {
-            readModelTypes: Bifrost.read.ReadModelOf,
-            commandTypes: Bifrost.commands.Command,
-            queryTypes: Bifrost.read.Query
+            readModels: Bifrost.read.ReadModelOf,
+            commands: Bifrost.commands.Command,
+            queries: Bifrost.read.Query
         };
 
         function isMoreSpecificNamespace(base, compareTo) {
@@ -40,7 +40,12 @@
                 resolvedTypes[name] = extender;
             });
 
-            return resolvedTypes;
+            var resolvedInstances = {};
+            for (var prop in resolvedTypes) {
+                resolvedInstances[prop] = resolvedTypes[prop].create();
+            }
+
+            return resolvedInstances;
         }
     }
 })
