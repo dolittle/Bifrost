@@ -3,11 +3,13 @@
     var scripts = ["something.js", "something_else.js"];
     var scriptsReturned = [];
     var promiseCalled = false;
+    var nameSpaceInitializedStub;
 
     beforeEach(function () {
+        nameSpaceInitializedStub = sinon.stub();
         Bifrost.assetsManager.scripts = undefined;
         Bifrost.namespaces = Bifrost.namespaces || {};
-        Bifrost.namespaces.initialize = sinon.stub();
+        Bifrost.namespaces.create = function () { return { initialize: nameSpaceInitializedStub }; };
         sinon.stub($, "get", function (url, parameters, callback) {
             extension = parameters.extension;
             callback(scripts);
@@ -30,7 +32,7 @@
     });
 
     it("should initialize namespaces after scripts have been received", function () {
-        expect(Bifrost.namespaces.initialize.called).toBe(true);
+        expect(nameSpaceInitializedStub.called).toBe(true);
     });
 
     it("should signal the promise after scripts have been received", function () {
