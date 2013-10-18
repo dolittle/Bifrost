@@ -36,16 +36,30 @@ namespace Bifrost.QuickStart
                 .WithMimir();
 
             var validatorProvider = configure.Container.Get<ICommandValidatorProvider>();
-            var inputValidator = validatorProvider.GetInputValidatorFor(typeof (RegisterEmployee));
-            var businessValidator = validatorProvider.GetBusinessValidatorFor(typeof (RegisterEmployee));
+            var inputValidator = validatorProvider.GetInputValidatorFor(typeof(TestCommandWithMultiplePropertiesOfTheSameType));
+            var businessValidator = validatorProvider.GetBusinessValidatorFor(typeof(TestCommandWithMultiplePropertiesOfTheSameType));
 
-            var command = new RegisterEmployee()
+            var validcommand = new TestCommandWithMultiplePropertiesOfTheSameType()
                 {
-                    SocialSecurityNumber = "invalid"
+                    First = "valid",
+                    Second = "valid"
                 };
 
-            var inputResult = inputValidator.ValidateFor(command);
-            var businessResult = businessValidator.ValidateFor(command);
+            var invalidcommand1 = new TestCommandWithMultiplePropertiesOfTheSameType()
+            {
+                First = "valid",
+                Second = "invalid"
+            };
+
+            var invalidcommand2 = new TestCommandWithMultiplePropertiesOfTheSameType()
+            {
+                First = "invalid",
+                Second = "valid"
+            };
+
+            var inputResul1 = inputValidator.ValidateFor(validcommand);
+            var inputResult2 = inputValidator.ValidateFor(invalidcommand1);
+            var inputResult3 = inputValidator.ValidateFor(invalidcommand2);
         }
     }
 }
