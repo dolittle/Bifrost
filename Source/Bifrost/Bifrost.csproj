@@ -105,6 +105,7 @@
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concepts\ConceptExtensions.cs" />
     <Compile Include="Concepts\ConceptFactory.cs" />
+    <Compile Include="Concepts\ConceptMap.cs" />
     <Compile Include="Concepts\Value.cs" />
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />

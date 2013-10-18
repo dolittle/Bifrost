@@ -40,7 +40,7 @@ namespace Bifrost.Concepts
 
             var valueProperty = type.GetProperty("Value");
 
-            var genericArgumentType = type.BaseType.GetGenericArguments()[0];
+            var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
             if (genericArgumentType == typeof(Guid))
                 value = Guid.Parse(value.ToString());
 
@@ -53,6 +53,11 @@ namespace Bifrost.Concepts
             valueProperty.SetValue(instance, value, null);
 #endif
             return instance;
+        }
+
+        static Type GetPrimitiveTypeConceptIsBasedOn(Type conceptType)
+        {
+            return ConceptMap.GetConceptValueType(conceptType);
         }
     }
 }
