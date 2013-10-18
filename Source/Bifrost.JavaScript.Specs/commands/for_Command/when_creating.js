@@ -35,6 +35,10 @@
     it("should get validators", function () {
         expect(parameters.commandValidationService.getValidatorsFor.called).toBe(true);
     });
+    
+    it("should validate silently", function () {
+        expect(parameters.commandValidationService.validateSilently.called).toBe(true);
+    });
 
     it("should get security context for command", function () {
         expect(commandAskedForSecurityContext).toBe(command);
