@@ -9,4 +9,10 @@ namespace Bifrost.QuickStart.Domain.HumanResources.Employees
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
+
+    public class TestCommandWithMultiplePropertiesOfTheSameType : Command
+    {
+        public SocialSecurityNumber First { get; set; }
+        public SocialSecurityNumber Second { get; set; }
+    }
 }

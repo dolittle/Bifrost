@@ -17,7 +17,7 @@ namespace Bifrost.QuickStart.Concepts.Persons
         public SocialSecurityNumberInputValidator()
         {
             RuleFor(ssn => ssn.Value)
-                .Length(6);
+                .Length(5);
         }
     }
 
