@@ -8,7 +8,8 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.mock(command).once(),
-            getValidatorsFor: sinon.mock(command).once()
+            getValidatorsFor: sinon.mock(command).once(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {

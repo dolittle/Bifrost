@@ -4,7 +4,8 @@
         },
         commandValidationService: {
             applyRulesTo: function (command) {
-            }
+            },
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

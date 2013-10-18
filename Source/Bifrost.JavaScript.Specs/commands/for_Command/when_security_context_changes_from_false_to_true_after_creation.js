@@ -8,7 +8,8 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.stub(),
-            getValidatorsFor: sinon.stub()
+            getValidatorsFor: sinon.stub(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {
