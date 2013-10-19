@@ -37,13 +37,27 @@ namespace Bifrost.Concepts
 #if(NETFX_CORE)
 
 #else
-            var genericArgumentType = type.BaseType.GetGenericArguments()[0];
+
+            var valueProperty = type.GetProperty("Value");
+
+            var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
             if (genericArgumentType == typeof(Guid))
                 value = Guid.Parse(value.ToString());
 
-            type.GetProperty("Value").SetValue(instance, value, null);
+            if (valueProperty.PropertyType.IsPrimitive && value == null)
+                value = Activator.CreateInstance(valueProperty.PropertyType);
+
+            if (value.GetType() != genericArgumentType)
+                value = Convert.ChangeType(value, genericArgumentType, null);
+
+            valueProperty.SetValue(instance, value, null);
 #endif
             return instance;
+        }
+
+        static Type GetPrimitiveTypeConceptIsBasedOn(Type conceptType)
+        {
+            return ConceptMap.GetConceptValueType(conceptType);
         }
     }
 }

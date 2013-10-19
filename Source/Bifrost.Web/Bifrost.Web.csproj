@@ -74,6 +74,7 @@
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\ICanExtendCommandProperty.cs" />
     <Compile Include="Proxies\IProxyGenerator.cs" />
     <Compile Include="Proxies\GeneratedProxies.cs" />
     <Compile Include="Proxies\NamespaceConfigurationProxies.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
     <Compile Include="Proxies\ServiceProxies.cs" />
     <Compile Include="Proxies\ServiceExtensions.cs" />
+    <Compile Include="Proxies\ValidationCommandPropertyExtender.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="Read\ReadModelQueryDescriptor.cs" />
@@ -115,7 +117,6 @@
     <Compile Include="Services\RestServiceRouteHandler.cs" />
     <Compile Include="Services\RestServiceRouteHttpHandler.cs" />
     <Compile Include="Services\ServiceRoutingExtensions.cs" />
-    <Compile Include="Validation\ValidationService.cs" />
     <Compile Include="Configuration\WebConfiguration.cs" />
     <Compile Include="WebCallContext.cs" />
     <Compile Include="WebContext.cs" />

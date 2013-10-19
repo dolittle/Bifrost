@@ -1,5 +1,4 @@
 ﻿describe("when creating", function () {
-    var commandAppliedTo = null;
     var commandAskedForSecurityContext = null;
 
     var securityContext = "SecurityContext";
@@ -8,9 +7,9 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
-                commandAppliedTo = command
-            }
+            extendPropertiesWithoutValidation: sinon.mock(command).once(),
+            getValidatorsFor: sinon.mock(command).once(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {
@@ -30,8 +29,16 @@
 
     command = Bifrost.commands.Command.create(parameters);
 
-    it("should apply validation rules to properties", function () {
-        expect(commandAppliedTo).toBe(command);
+    it("should extend properties without validation with validator", function () {
+        expect(parameters.commandValidationService.extendPropertiesWithoutValidation.called).toBe(true);
+    });
+
+    it("should get validators", function () {
+        expect(parameters.commandValidationService.getValidatorsFor.called).toBe(true);
+    });
+    
+    it("should validate silently", function () {
+        expect(parameters.commandValidationService.validateSilently.called).toBe(true);
     });
 
     it("should get security context for command", function () {

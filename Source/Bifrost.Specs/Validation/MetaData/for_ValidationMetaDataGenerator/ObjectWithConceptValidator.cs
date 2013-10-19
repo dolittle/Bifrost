@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 {
-    public class ObjectWithConceptValidator : Validator<ObjectWithConcept>
+    public class ObjectWithConceptValidator : BusinessValidator<ObjectWithConcept>
     {
         public ObjectWithConceptValidator()
         {

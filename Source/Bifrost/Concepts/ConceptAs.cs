@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using Bifrost.Execution;
+using Bifrost.Validation;
 
 namespace Bifrost.Concepts
 {
@@ -26,7 +27,7 @@ namespace Bifrost.Concepts
     /// Expresses a Concept as a another type, usually a primitive such as Guid, Int or String
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ConceptAs<T> : IEquatable<ConceptAs<T>> where T : IEquatable<T>
+    public class ConceptAs<T> : IAmValidatable ,IEquatable<ConceptAs<T>> where T : IEquatable<T>
     {
         /// <summary>
         /// The underlying primitive value of this concept
@@ -65,10 +66,10 @@ namespace Bifrost.Concepts
 
         public static bool operator ==(ConceptAs<T> a, ConceptAs<T> b)
         {
-            if ((object)a == null && (object)b == null)
+            if (ReferenceEquals(a,null) && ReferenceEquals(b,null))
                 return true;
 
-            if ((object)a == null ^ (object)b == null)
+            if (ReferenceEquals(a,null) ^ ReferenceEquals(b,null))
                 return false;
 
             return a.Equals(b);
@@ -86,7 +87,7 @@ namespace Bifrost.Concepts
 
         public bool IsEmpty()
         {
-            if (Value == null)
+            if (!(Value != null))
                 return true;
 
             var value = Value as string;

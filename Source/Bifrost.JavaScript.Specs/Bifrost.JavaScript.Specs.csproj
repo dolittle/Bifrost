@@ -58,11 +58,13 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
     <Content Include="commands\for_commandSecurityService\when_getting_context_for_a_command.js" />
+    <Content Include="commands\for_commandValidationService\when_getting_validators_for_command.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_deep_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_valid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
+    <Content Include="commands\for_Command\when_setting_property_values_with_object_literal_containing_observables_in_command.js" />
     <Content Include="commands\for_Command\when_executing_with_exception_in_coordinator.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change.js" />
@@ -130,6 +132,7 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_PagingInfo\when_creating_with_values.js" />
+    <Content Include="read\for_Queryable\when_executing.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_null_back.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_undefined_back.js" />
     <Content Include="read\for_Queryable\when_execution_is_complete.js" />
@@ -156,6 +159,7 @@
     <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_not_all_set.js" />
     <Content Include="read\for_Query\when_getting_parameters.js" />
     <Content Include="read\for_Query\when_setting_parameters_with_two_observables_on_query_type.js" />
+    <Content Include="read\for_readModelMapper\when_mapping_object_with_read_model_type_specified.js" />
     <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
     <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />
@@ -219,6 +223,12 @@
     <Content Include="Utils\for_isArray\when_checking_an_array.js" />
     <Content Include="Utils\for_isArray\when_checking_an_object.js" />
     <Content Include="Utils\for_isArray\when_checking_a_function.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type_that_has_multiple_same_named_extenders.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_unsupported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_readModelTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_queryTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_commandTypes.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace_with_content.js" />
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
@@ -252,6 +262,8 @@
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_only_a_wildcard.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_at_the_end.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_in_the_middle.js" />
+    <Content Include="Utils\for_Type\when_asking_for_extenders_in_sub_namespace.js" />
+    <Content Include="Utils\for_Type\when_asking_for_extenders_in_root_namespace.js" />
     <Content Include="Utils\for_Type\when_asking_type_not_extending_beyond_type_if_it_is_of_a_type.js" />
     <Content Include="Utils\for_Type\when_asking_type_extending_an_extended_type_if_it_is_of_top_level_type.js" />
     <Content Include="Utils\for_Type\when_adding_multiple_requirements_explicitly.js" />
@@ -367,7 +379,6 @@
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
     <Content Include="validation\for_Rule\when_validating.js" />
     <Content Include="validation\for_Rule\when_doing_validation_with_options.js" />
-    <Content Include="validation\for_validationService\when_getting_for_a_command.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_array_of_items.js" />
     <Content Include="validation\for_Validator\when_applying_to_properties.js" />
     <Content Include="validation\for_Validator\when_creating_without_options_and_setting_options_later.js" />
@@ -426,7 +437,7 @@
     <Content Include="commands\for_Command\when_creating_from_an_extended_command_with_properties.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="commands\for_commandValidationService\when_applying_rules_to_command_with_properties_as_observable.js" />
+    <Content Include="commands\for_commandValidationService\when_extending_properties_without_validation.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="extensions\for_stringExtensions\when_replacing_many_instances_of_a_char_with_new_char.js" />

@@ -10,6 +10,31 @@ function polyfillForEach() {
     }
 }
 
+function polyFillClone() {
+    if (typeof Array.prototype.clone !== "function") {
+        Array.prototype.clone = function () {
+            return this.slice(0);
+        }
+    }
+}
+
+function shallowEquals() {
+    if (typeof Array.prototype.shallowEquals !== "function") {
+        Array.prototype.shallowEquals = function (other) {
+            if (this === other) return true;
+            if (this === null || other === null) return false;
+            if (this.length != other.length) return false;
+
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] !== other[i]) return false;
+            }
+            return true;
+        }
+    }
+}
+
 (function () {
     polyfillForEach();
+    polyFillClone();
+    shallowEquals();
 })();

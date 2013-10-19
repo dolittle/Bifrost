@@ -1,5 +1,10 @@
-﻿using System.Web;
+﻿using System.Diagnostics;
+using System.Web;
 using Bifrost.Configuration;
+using Bifrost.Execution;
+using Bifrost.QuickStart.Concepts.Persons;
+using Bifrost.QuickStart.Domain.HumanResources.Employees;
+using Bifrost.Validation;
 
 namespace Bifrost.QuickStart
 {
@@ -25,10 +30,12 @@ namespace Bifrost.QuickStart
                         w.PathsToNamespaces.Clear();
                         w.PathsToNamespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
                         w.PathsToNamespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
-                        w.NamespaceMapper.Add("Bifrost.QuickStart.Domain.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
-                        w.NamespaceMapper.Add("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
+                        w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Domain.HumanResources.**.");
+                        w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Read.HumanResources.**.");
 					})
                 .WithMimir();
+
+           
         }
     }
 }

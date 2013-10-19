@@ -13,6 +13,7 @@
 @depends utils/isNull.js
 @depends utils/isString.js
 @depends utils/isUndefined.js
+@depends utils/isFunction.js
 @depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
@@ -21,6 +22,8 @@
 @depends utils/defaultDependencyResolver.js
 @depends utils/WellKnownTypesDependencyResolver.js
 @depends utils/DOMRootDependencyResolver.js
+@depends utils/KnownArtifactTypesDependencyResolver.js
+@depends utils/KnownArtifactInstancesDependencyResolver.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/Exception.js
@@ -41,13 +44,14 @@
 @depends validation/validationSummaryFor.js
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
-@depends validation/validationService.js
 @depends validation/required.js
 @depends validation/minLength.js
 @depends validation/maxLength.js
 @depends validation/range.js
 @depends validation/lessThan.js
+@depends validation/lessThanOrEqual.js
 @depends validation/greaterThan.js
+@depends validation/greaterThanOrEqual.js
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js
@@ -93,6 +97,7 @@
 @depends views/UriMapperPathResolver.js
 @depends views/RelativePathResolver.js
 @depends views/viewModelBindingHandler.js
+@depends views/viewBindingHandler.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

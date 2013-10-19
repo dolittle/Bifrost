@@ -1,7 +1,6 @@
 ﻿Bifrost.namespace("Bifrost.commands", {
-    commandValidationService: Bifrost.Singleton(function (validationService) {
+    commandValidationService: Bifrost.Singleton(function () {
         var self = this;
-        this.validationService = validationService;
 
         function shouldSkipProperty(target, property) {
             if (!target.hasOwnProperty(property)) return true;
@@ -14,15 +13,14 @@
             return false;
         }
 
-
         function extendProperties(target, validators) {
             for (var property in target) {
                 if (shouldSkipProperty(target, property)) continue;
+                if (typeof target[property].validator != "undefined") continue;
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
                     target[property].validator.propertyName = property;
-                    validators.push(target[property].validator);
                 } else if (typeof target[property] === "object") {
                     extendProperties(target[property], validators);
                 }
@@ -64,7 +62,7 @@
                     }
                 });
 
-                if (property != null) {
+                if (property != null && property.length) {
                     var member = target[property];
 
                     if (typeof member.validator !== "undefined") {
@@ -93,31 +91,35 @@
             validatePropertiesFor(command, result);
             return result;
         };
+        
+        this.validateSilently = function (command) {
+            var result = { valid: true };
+            validatePropertiesFor(command, result, true);
+            return result;
+        };
 
-        this.applyRulesTo = function (command) {
-            var validators = [];
-            extendProperties(command, validators);
-            self.validationService.getForCommand(command.generatedFrom).continueWith(function (rules) {
-                for (var rule in rules) {
-                    var path = rule.split(".");
-                    var member = command;
-                    for (var i in path) {
+        this.extendPropertiesWithoutValidation = function (command) {
+            extendProperties(command);
+        };
 
-                        var step = path[i];
-                        if (step in member) {
-                            member = member[step];
-                        } else {
-                            console.log( "Error applying validation rules: " + step + " is not a member of " + member + " (" + rule + ")");
-                        }
-                    }
 
-                    if (typeof member.validator !== "undefined") {
-                        member.validator.setOptions(rules[rule]);
-                    }
+        function collectValidators(source, validators) {
+            for (var property in source) {
+                var value = source[property];
+
+                if (shouldSkipProperty(source, property)) continue;
+
+                if (ko.isObservable(value) && typeof value.validator != "undefined") {
+                    validators.push(value.validator);
+                } else if (Bifrost.isObject(value)) {
+                    collectValidators(value, validators);
                 }
+            }
+        }
 
-                validatePropertiesFor(command, { valid: true }, true);
-            });
+        this.getValidatorsFor = function (command) {
+            var validators = [];
+            collectValidators(command, validators);
             return validators;
         };
     })

@@ -3,7 +3,8 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: sinon.stub()
+            applyRulesTo: sinon.stub(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

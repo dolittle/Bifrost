@@ -123,15 +123,16 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// Assign an observable
         /// </summary>
         /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
-        /// <param name="defaultValue">Optional default value</param>
+        /// <param name="visitor">Optional <see cref="Action{Observable}"/> that gets called to build the observable</param>
         /// <returns>The <see cref="Assignment"/> to build on</returns>
-        public static Assignment WithObservable(this Assignment assignment, string defaultValue = null)
+        public static Assignment WithObservable(this Assignment assignment, ObservableVisitor visitor = null)
         {
-            return assignment.WithFunctionCall(f =>
-            {
-                f.WithName("ko.observable");
-                if (defaultValue != null) f.WithParameters(defaultValue);
-            });
+            var observable = new Observable();
+            assignment.Value = observable;
+
+            if (visitor != null) visitor(assignment.Name, observable);
+
+            return assignment;
         }
 
         /// <summary>
@@ -142,7 +143,9 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns>The <see cref="Assignment"/> to build on</returns>
         public static Assignment WithDefaultValue(this Assignment assignment, Type type)
         {
-            if (type.IsValueType)
+            if( type == typeof(Guid) )
+                return assignment.WithGuidEmpty();
+            else if (type.IsValueType)
             {
                 if (type.IsNumericType())
                     return assignment.WithDefaultNumericValue(type);
@@ -155,9 +158,20 @@ namespace Bifrost.CodeGeneration.JavaScript
             }
             else
             {
+                if( type == typeof(string) )return assignment.WithLiteral("\"\"");
                 return assignment.WithNullValue();
             }
             return assignment;
+        }
+
+        /// <summary>
+        /// Assign an empty guid value
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithGuidEmpty(this Assignment assignment)
+        {
+            return assignment.WithLiteral("Bifrost.Guid.empty");
         }
 
         /// <summary>

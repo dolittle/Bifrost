@@ -26,7 +26,6 @@ using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
 using Bifrost.Web.Services;
-using Bifrost.Web.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"PreApplicationStart")]
@@ -43,7 +42,6 @@ namespace Bifrost.Web
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
             RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
-            RouteTable.Routes.AddService<ValidationService>("Bifrost/Validation");
             RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");
             RouteTable.Routes.AddService<CommandSecurityService>("Bifrost/CommandSecurity");
             RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");

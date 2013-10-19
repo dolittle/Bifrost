@@ -4,8 +4,9 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
-            }
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getValidatorsFor: sinon.stub(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {

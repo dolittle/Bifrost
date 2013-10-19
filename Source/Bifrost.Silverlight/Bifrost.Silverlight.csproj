@@ -138,6 +138,9 @@
     <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
       <Link>Concepts\ConceptFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concepts\Value.cs">
+      <Link>Concepts\Value.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concurrency\IScheduler.cs">
       <Link>Concurrency\IScheduler.cs</Link>
     </Compile>
@@ -552,6 +555,9 @@
     <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
       <Link>Extensions\ExpressionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Extensions\FluentValidationRuleExtensions.cs">
+      <Link>Extensions\FluentValidationRuleExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
       <Link>Extensions\ITypeInfo.cs</Link>
     </Compile>
@@ -828,6 +834,9 @@
     <Compile Include="..\Bifrost\Time\SystemClock.cs">
       <Link>Time\SystemClock.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\BusinessValidator.cs">
+      <Link>Validation\BusinessValidator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\ChapterValidation.cs">
       <Link>Validation\ChapterValidation.cs</Link>
     </Compile>
@@ -858,11 +867,23 @@
     <Compile Include="..\Bifrost\Validation\CommandValidatorProvider.cs">
       <Link>Validation\CommandValidatorProvider.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedCommandBusinessValidator.cs">
+      <Link>Validation\ComposedCommandBusinessValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedCommandInputValidator.cs">
+      <Link>Validation\ComposedCommandInputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\ComposedValidator.cs">
+      <Link>Validation\ComposedValidator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\ConventionValidatorFactory.cs">
       <Link>Validation\ConventionValidatorFactory.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Validation\DefaultValidatorFactory.cs">
       <Link>Validation\DefaultValidatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
+      <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Validation\ICanValidate.cs">
       <Link>Validation\ICanValidate.cs</Link>
@@ -888,6 +909,15 @@
     <Compile Include="..\Bifrost\Validation\ICommandValidatorProvider.cs">
       <Link>Validation\ICommandValidatorProvider.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Validation\InputValidator.cs">
+      <Link>Validation\InputValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IValidateBusinessRules.cs">
+      <Link>Validation\IValidateBusinessRules.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Validation\IValidateInput.cs">
+      <Link>Validation\IValidateInput.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Validation\ModelRule.cs">
       <Link>Validation\ModelRule.cs</Link>
     </Compile>
@@ -899,9 +929,6 @@
     </Compile>
     <Compile Include="..\Bifrost\Validation\NullCommandInputValidator.cs">
       <Link>Validation\NullCommandInputValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\Validator.cs">
-      <Link>Validation\Validator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Views\IHaveId.cs">
       <Link>Views\IHaveId.cs</Link>
@@ -941,6 +968,7 @@
     <Compile Include="Commands\INotifyCommandResultsReceived.cs" />
     <Compile Include="Commands\INotifyEventsProcessed.cs" />
     <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
+    <Compile Include="Concepts\ConceptMap.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />

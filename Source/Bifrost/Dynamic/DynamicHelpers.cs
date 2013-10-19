@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace Bifrost.Dynamic
 {
     /// <summary>
-    /// Provides a set of extension methods for working with dynamic types
+    /// Provides a set of helper methods for working with dynamic types
     /// </summary>
     public class DynamicHelpers
     {

@@ -29,6 +29,9 @@
     }, {
         errorMessage: "deep property is wrong",
         memberNames: ["deep.property"]
+    }, {
+        errorMessage: "general error message without a property",
+        memberNames: [""]
     }];
 
     var commandValidationService = Bifrost.commands.commandValidationService.create(parameters);
@@ -41,7 +44,7 @@
     it("should add the validation message to the top level property", function () {
         expect(command.something.validator.message()).toBe(validationResults[0].errorMessage);
     });
-
+        
     it("should invalidate the deep property", function () {
         expect(command.deep.property.validator.isValid()).toBe(false);
     });

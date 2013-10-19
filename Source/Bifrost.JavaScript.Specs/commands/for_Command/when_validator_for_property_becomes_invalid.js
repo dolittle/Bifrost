@@ -6,14 +6,16 @@
         commandCoordinator: {
         },
         commandValidationService: {
-            applyRulesTo: function (command) {
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getValidatorsFor: function (command) {
 
                 command.something.extend({ validation: {} });
 
                 return [{
                     isValid: isValid
                 }];
-            }
+            },
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

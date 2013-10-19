@@ -1,3 +1,4 @@
+using System;
 using Bifrost.Concepts;
 using Machine.Specifications;
 
@@ -14,6 +15,7 @@ namespace Bifrost.Specs.Concepts.given
         protected static LongConcept value_as_a_long;
         protected static InheritingFromLongConcept value_as_a_long_inherited;
         protected static InheritingFromLongConcept empty_long_value;
+
 
         Establish context = () =>
             {
@@ -53,11 +55,27 @@ namespace Bifrost.Specs.Concepts.given
             }
         }
 
+        public class GuidConcept : ConceptAs<Guid>
+        {
+            public static implicit operator GuidConcept(Guid value)
+            {
+                return new GuidConcept { Value = value };
+            }
+        }
+
         public class InheritingFromLongConcept : LongConcept
         {
             public static implicit operator InheritingFromLongConcept(long value)
             {
                 return new InheritingFromLongConcept { Value = value };
+            }
+        }
+
+        public class MultiLevelInheritanceConcept : InheritingFromLongConcept
+        {
+            public static implicit operator MultiLevelInheritanceConcept(long value)
+            {
+                return new MultiLevelInheritanceConcept { Value = value };
             }
         }
     }

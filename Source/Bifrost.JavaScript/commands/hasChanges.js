@@ -6,7 +6,12 @@
             if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                target.hasChanges(target._initialValue !== target());
+                if(Bifrost.isArray(target._initialValue)){
+                    target.hasChanges(!target._initialValue.shallowEquals(target()));
+                    return;
+                }
+                else
+                    target.hasChanges(target._initialValue !== target());
             }
         }
 
@@ -15,7 +20,13 @@
         });
 
         target.setInitialValue = function (value) {
-            target._initialValue = value;
+            var initialValue;
+            if (Bifrost.isArray(value))
+                initialValue = value.clone();
+            else
+                initialValue = value;
+            
+            target._initialValue = initialValue;
             target._initialValueSet = true;
             updateHasChanges();
         };

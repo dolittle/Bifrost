@@ -234,6 +234,14 @@ Bifrost.namespace("Bifrost.commands", {
             self.populatedFromExternalSource(true);
         };
 
+        function setValueOnObservable(observable, value) {
+            observable(value);
+
+            if (typeof observable.setInitialValue == "function") {
+                observable.setInitialValue(value);
+            }
+        }
+
 
         this.setPropertyValuesFrom = function (values) {
             var properties = this.getProperties();
@@ -243,9 +251,14 @@ Bifrost.namespace("Bifrost.commands", {
                     if (valueProperty == property) {
                         var value = ko.utils.unwrapObservable(values[property]);
                         var observable = self.targetCommand[property];
-                        observable(value);
-                        if (typeof observable.setInitialValue == "function") {
-                            observable.setInitialValue(value);
+
+                        if (!ko.isObservable(observable)) {
+
+                            for (var subProperty in observable) {
+                                setValueOnObservable(observable[subProperty], value[subProperty]);
+                            }
+                        } else {
+                            setValueOnObservable(observable, value);
                         }
                     }
                 });
@@ -261,8 +274,10 @@ Bifrost.namespace("Bifrost.commands", {
             this.makePropertiesObservable();
             this.extendPropertiesWithHasChanges();
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
-                var validators = commandValidationService.applyRulesTo(lastDescendant);
+                commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
+                var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
+                commandValidationService.validateSilently(this);
             }
             commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
                 lastDescendant.securityContext(securityContext);

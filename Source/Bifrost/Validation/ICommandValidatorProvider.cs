@@ -50,8 +50,8 @@ namespace Bifrost.Validation
         /// <summary>
         /// Retrieves an business-rule validator specific to the command type
         /// </summary>
-        /// <param name="type">Type of the Command to be validates</param>
+        /// <param name="commandType">Type of the Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICanValidate GetBusinessValidatorFor(Type type);
+        ICanValidate GetBusinessValidatorFor(Type commandType);
     }
 }

@@ -33,11 +33,13 @@
             }
         },
         commandValidationService: {
-            applyRulesTo: function () { },
+            extendPropertiesWithoutValidation: sinon.stub(),
+            getValidatorsFor: sinon.stub(),
             validate: function (command) {
                 validatedCommand = command;
                 return { valid: true };
-            }
+            },
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

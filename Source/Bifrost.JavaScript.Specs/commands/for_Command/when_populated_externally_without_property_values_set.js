@@ -6,7 +6,8 @@
         commandValidationService: {
             applyRulesTo: function (command) {
                 commandAppliedTo = command
-            }
+            },
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {
