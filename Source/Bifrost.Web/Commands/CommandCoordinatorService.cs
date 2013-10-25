@@ -54,6 +54,32 @@ namespace Bifrost.Web.Commands
             return result;
         }
 
+        public IEnumerable<CommandResult> HandleMany(IEnumerable<CommandDescriptor> commandDescriptors)
+        {
+            var results = new List<CommandResult>();
+            foreach (var commandDescriptor in commandDescriptors)
+            {
+                ICommand commandInstance = null;
+                try
+                {
+                    commandInstance = GetCommandFromDescriptor(commandDescriptor);
+                    if (commandInstance == null)
+                        results.Add(new CommandResult { Exception = new UnknownCommandException(commandDescriptor.Name) });
+                    else 
+                        results.Add(_commandCoordinator.Handle(commandInstance));
+                }
+                catch (Exception ex)
+                {
+                    var commandResult = CommandResult.ForCommand(commandInstance);
+                    commandResult.Exception = ex;
+                    return new[] { commandResult };
+                }
+            }
+
+            return results.ToArray();
+        }
+
+
         public IEnumerable<CommandResult> HandleForSaga(Guid sagaId, CommandDescriptor[] commandDescriptors)
         {
             var results = new List<CommandResult>();

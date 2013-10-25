@@ -47,6 +47,36 @@ Bifrost.namespace("Bifrost.commands", {
 
             return promise;
         };
+
+        this.handleMany = function (commands) {
+            var promise = Bifrost.execution.Promise.create();
+            var commandDescriptors = [];
+
+            commands.forEach(function (command) {
+                var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
+                commandDescriptors.push(commandDescriptor);
+            });
+
+            var methodParameters = {
+                commandDescriptors: JSON.stringify(commandDescriptors)
+            };
+
+            sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
+                var results = JSON.parse(jqXHR.responseText);
+
+                var commandResults = [];
+
+                results.forEach(function (result) {
+                    var commandResult = Bifrost.commands.CommandResult.createFrom(result);
+                    commandResults.push(commandResult);
+                });
+
+                promise.signal(commandResult);
+            });
+
+            return promise;
+        };
+
         this.handleForSaga = function (saga, commands, options) {
             throw "not implemented";
         };
