@@ -128,7 +128,7 @@ namespace Bifrost.Validation
         IEnumerable<Type> GetTypesFromCommand(Type commandType)
         {
             var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
-                                            .Where(p => !p.PropertyType.IsAPrimitiveType()).Select(p => p.PropertyType);
+                                            .Where(p => !p.PropertyType.IsAPrimitiveType()).Select(p => p.PropertyType).Distinct();
             return commandPropertyTypes;
         }
 

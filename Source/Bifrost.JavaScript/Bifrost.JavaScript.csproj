@@ -68,6 +68,8 @@
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="utils\KnownArtifactInstancesDependencyResolver.js" />
+    <Content Include="utils\KnownArtifactTypesDependencyResolver.js" />
     <Content Include="utils\isFunction.js" />
     <Content Include="utils\DOMRootDependencyResolver.js" />
     <Content Include="utils\isString.js" />
@@ -81,6 +83,7 @@
     <Content Include="utils\StringMapping.js" />
     <Content Include="validation\lessThanOrEqual.js" />
     <Content Include="validation\greaterThanOrEqual.js" />
+    <Content Include="views\viewBindingHandler.js" />
     <Content Include="views\DataAttributeViewRenderer.js" />
     <Content Include="views\documentService.js" />
     <Content Include="views\RelativePathResolver.js" />

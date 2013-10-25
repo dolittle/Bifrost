@@ -45,7 +45,7 @@
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
             elements.forEach(function(target) {
                 viewModelApplied = true;
-                var viewModelFile = $(this).data("viewmodel-file");
+                var viewModelFile = $(target).data("viewmodel-file");
                 self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
                 });

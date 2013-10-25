@@ -223,6 +223,12 @@
     <Content Include="Utils\for_isArray\when_checking_an_array.js" />
     <Content Include="Utils\for_isArray\when_checking_an_object.js" />
     <Content Include="Utils\for_isArray\when_checking_a_function.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type_that_has_multiple_same_named_extenders.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_unsupported_type.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_readModelTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_queryTypes.js" />
+    <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_commandTypes.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace_with_content.js" />
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
@@ -256,6 +262,8 @@
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_only_a_wildcard.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_at_the_end.js" />
     <Content Include="Utils\for_StringMapping\when_resolving_a_string_with_wildcard_in_the_middle.js" />
+    <Content Include="Utils\for_Type\when_asking_for_extenders_in_sub_namespace.js" />
+    <Content Include="Utils\for_Type\when_asking_for_extenders_in_root_namespace.js" />
     <Content Include="Utils\for_Type\when_asking_type_not_extending_beyond_type_if_it_is_of_a_type.js" />
     <Content Include="Utils\for_Type\when_asking_type_extending_an_extended_type_if_it_is_of_top_level_type.js" />
     <Content Include="Utils\for_Type\when_adding_multiple_requirements_explicitly.js" />

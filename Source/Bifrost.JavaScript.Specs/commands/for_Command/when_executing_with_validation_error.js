@@ -14,7 +14,8 @@
                 return {
                     valid: false
                 };
-            }
+            },
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {

@@ -56,24 +56,7 @@ namespace Bifrost.Concepts
         /// <returns>The type of the <see cref="ConceptAs{T}"/> value</returns>
         public static Type GetConceptValueType(this Type type)
         {
-#if(NETFX_CORE)
-            var baseType = type.GetTypeInfo().BaseType.GetTypeInfo();
-            if (baseType != null && baseType.IsGenericType)
-            {
-                var genericArgumentType = baseType.GenericTypeArguments[0];
-                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                    return genericArgumentType;
-            }
-#else
-            var baseType = type.BaseType;
-            if (baseType != null && baseType.IsGenericType)
-            {
-                var genericArgumentType = baseType.GetGenericArguments()[0];
-                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                    return genericArgumentType;
-            }
-#endif
-            return null;
+            return ConceptMap.GetConceptValueType(type);
         }
 
         /// <summary>

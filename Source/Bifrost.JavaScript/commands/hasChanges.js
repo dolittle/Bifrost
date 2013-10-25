@@ -6,7 +6,12 @@
             if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                target.hasChanges(target._initialValue !== target());
+                if(Bifrost.isArray(target._initialValue)){
+                    target.hasChanges(!target._initialValue.shallowEquals(target()));
+                    return;
+                }
+                else
+                    target.hasChanges(target._initialValue !== target());
             }
         }
 

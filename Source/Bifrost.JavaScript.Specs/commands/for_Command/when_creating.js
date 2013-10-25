@@ -8,7 +8,8 @@
         },
         commandValidationService: {
             extendPropertiesWithoutValidation: sinon.mock(command).once(),
-            getValidatorsFor: sinon.mock(command).once()
+            getValidatorsFor: sinon.mock(command).once(),
+            validateSilently: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function (command) {
@@ -34,6 +35,10 @@
 
     it("should get validators", function () {
         expect(parameters.commandValidationService.getValidatorsFor.called).toBe(true);
+    });
+    
+    it("should validate silently", function () {
+        expect(parameters.commandValidationService.validateSilently.called).toBe(true);
     });
 
     it("should get security context for command", function () {

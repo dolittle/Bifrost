@@ -91,6 +91,12 @@
             validatePropertiesFor(command, result);
             return result;
         };
+        
+        this.validateSilently = function (command) {
+            var result = { valid: true };
+            validatePropertiesFor(command, result, true);
+            return result;
+        };
 
         this.extendPropertiesWithoutValidation = function (command) {
             extendProperties(command);

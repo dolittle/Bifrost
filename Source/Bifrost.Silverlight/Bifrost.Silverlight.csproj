@@ -138,6 +138,9 @@
     <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
       <Link>Concepts\ConceptFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Concepts\Value.cs">
+      <Link>Concepts\Value.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concurrency\IScheduler.cs">
       <Link>Concurrency\IScheduler.cs</Link>
     </Compile>
@@ -1004,6 +1007,7 @@
     <Compile Include="Commands\INotifyCommandResultsReceived.cs" />
     <Compile Include="Commands\INotifyEventsProcessed.cs" />
     <Compile Include="Commands\UnsupportedParametersConstruct.cs" />
+    <Compile Include="Concepts\ConceptMap.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />

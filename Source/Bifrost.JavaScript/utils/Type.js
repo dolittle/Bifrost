@@ -185,6 +185,28 @@ Bifrost.namespace("Bifrost", {
     Bifrost.Type.getExtenders = function () {
         return this._extenders;
     };
+
+    Bifrost.Type.getExtendersIn = function (namespace) {
+        var inNamespace = [];
+        
+        this._extenders.forEach(function (extender) {
+            var current = namespace;
+            while (current !== window) {
+                if (extender._namespace == current) {
+                    inNamespace.push(extender);
+                    break;
+                }
+
+                if (Bifrost.isUndefined(current.parent))
+                    break;
+
+                current = current.parent;
+            }
+            
+        });
+        return inNamespace;
+    };
+
   
 
     Bifrost.Type.extend = function (typeDefinition) {     

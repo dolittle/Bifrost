@@ -8,6 +8,9 @@
         this.isDefault = true;
     };
 
+    Bifrost.KnownArtifactTypesDependencyResolver = function () { };
+    Bifrost.KnownArtifactInstancesDependencyResolver = function () { };
+
     Bifrost.dependencyResolvers.myResolver = {
         identifier: "Hello"
     };

@@ -18,9 +18,25 @@ function polyFillClone() {
     }
 }
 
+function shallowEquals() {
+    if (typeof Array.prototype.shallowEquals !== "function") {
+        Array.prototype.shallowEquals = function (other) {
+            if (this === other) return true;
+            if (this === null || other === null) return false;
+            if (this.length != other.length) return false;
+
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] !== other[i]) return false;
+            }
+            return true;
+        }
+    }
+}
+
 (function () {
     polyfillForEach();
     polyFillClone();
+    shallowEquals();
 })();
 if ( typeof String.prototype.startsWith != 'function' ) {
 	String.prototype.startsWith = function( str ) {
@@ -452,7 +468,13 @@ Bifrost.namespace("Bifrost", {
     dependencyResolvers: (function () {
         return {
             getAll: function () {
-                var resolvers = [new Bifrost.WellKnownTypesDependencyResolver(), new Bifrost.DefaultDependencyResolver()];
+                var resolvers = [
+                    new Bifrost.WellKnownTypesDependencyResolver(),
+                    new Bifrost.DefaultDependencyResolver(),
+                    new Bifrost.KnownArtifactTypesDependencyResolver(),
+                    new Bifrost.KnownArtifactInstancesDependencyResolver(),
+
+                ];
                 for (var property in this) {
                     if (property.indexOf("_") != 0 &&
                         this.hasOwnProperty(property) &&
@@ -588,6 +610,103 @@ Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady = function
         promise.signal(document.body);
     });
 };
+Bifrost.namespace("Bifrost", {
+    KnownArtifactTypesDependencyResolver: function () {
+        var self = this;
+        var supportedArtifacts = {
+            readModelTypes: Bifrost.read.ReadModelOf,
+            commandTypes: Bifrost.commands.Command,
+            queryTypes: Bifrost.read.Query
+        };
+
+        function isMoreSpecificNamespace(base, compareTo) {
+            var isDeeper = false;
+            var matchesbase = false;
+
+            var baseParts = base.name.split(".");
+            var compareToParts = compareTo.name.split(".");
+
+            if (baseParts.length > compareToParts.length)
+                return false;
+
+            for (var i = 0; i < baseParts.length; i++) {
+                if (baseParts[i] !== compareToParts[i])
+                    return false;
+            }
+            return true;
+        }
+
+        this.canResolve = function (namespace, name) {
+            return name in supportedArtifacts;
+        },
+        this.resolve = function (namespace, name) {
+            var type = supportedArtifacts[name];
+            var extenders = type.getExtendersIn(namespace);
+            var resolvedTypes = {};
+
+            extenders.forEach(function (extender) {
+                var name = extender._name;
+                if (resolvedTypes[name] && !isMoreSpecificNamespace(resolvedTypes[name]._namespace, extender._namespace))
+                    return;
+
+                resolvedTypes[name] = extender;
+            });
+
+            return resolvedTypes;
+        }
+    }
+})
+Bifrost.namespace("Bifrost", {
+    KnownArtifactInstancesDependencyResolver: function () {
+        var self = this;
+        var supportedArtifacts = {
+            readModels: Bifrost.read.ReadModelOf,
+            commands: Bifrost.commands.Command,
+            queries: Bifrost.read.Query
+        };
+
+        function isMoreSpecificNamespace(base, compareTo) {
+            var isDeeper = false;
+            var matchesbase = false;
+
+            var baseParts = base.name.split(".");
+            var compareToParts = compareTo.name.split(".");
+
+            if (baseParts.length > compareToParts.length)
+                return false;
+
+            for (var i = 0; i < baseParts.length; i++) {
+                if (baseParts[i] !== compareToParts[i])
+                    return false;
+            }
+            return true;
+        }
+
+        this.canResolve = function (namespace, name) {
+            return name in supportedArtifacts;
+        },
+        this.resolve = function (namespace, name) {
+            var type = supportedArtifacts[name];
+            var extenders = type.getExtendersIn(namespace);
+            var resolvedTypes = {};
+
+            extenders.forEach(function (extender) {
+                var name = extender._name;
+                if (resolvedTypes[name] && !isMoreSpecificNamespace(resolvedTypes[name]._namespace, extender._namespace))
+                    return;
+
+                resolvedTypes[name] = extender;
+            });
+
+            var resolvedInstances = {};
+            for (var prop in resolvedTypes) {
+                resolvedInstances[prop] = resolvedTypes[prop].create();
+            }
+
+            return resolvedInstances;
+        }
+    }
+})
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
@@ -775,6 +894,28 @@ Bifrost.namespace("Bifrost", {
     Bifrost.Type.getExtenders = function () {
         return this._extenders;
     };
+
+    Bifrost.Type.getExtendersIn = function (namespace) {
+        var inNamespace = [];
+        
+        this._extenders.forEach(function (extender) {
+            var current = namespace;
+            while (current !== window) {
+                if (extender._namespace == current) {
+                    inNamespace.push(extender);
+                    break;
+                }
+
+                if (Bifrost.isUndefined(current.parent))
+                    break;
+
+                current = current.parent;
+            }
+            
+        });
+        return inNamespace;
+    };
+
   
 
     Bifrost.Type.extend = function (typeDefinition) {     
@@ -2545,7 +2686,12 @@ if (typeof ko !== 'undefined') {
             if (target._initialValueSet == false) {
                 target.hasChanges(false);
             } else {
-                target.hasChanges(target._initialValue !== target());
+                if(Bifrost.isArray(target._initialValue)){
+                    target.hasChanges(!target._initialValue.shallowEquals(target()));
+                    return;
+                }
+                else
+                    target.hasChanges(target._initialValue !== target());
             }
         }
 
@@ -3567,7 +3713,7 @@ Bifrost.namespace("Bifrost.views", {
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
             elements.forEach(function(target) {
                 viewModelApplied = true;
-                var viewModelFile = $(this).data("viewmodel-file");
+                var viewModelFile = $(target).data("viewmodel-file");
                 self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
                 });
@@ -3770,6 +3916,61 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.views.viewModelBindingHandler.initialize = function () {
     ko.bindingHandlers.viewModel = Bifrost.views.viewModelBindingHandler.create();
+};
+
+Bifrost.namespace("Bifrost.views", {
+    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers, pathResolvers, viewFactory, viewModelManager) {
+        var self = this;
+        this.viewRenderers = viewRenderers;
+        this.pathResolvers = pathResolvers;
+        this.viewFactory = viewFactory;
+        this.viewModelManager = viewModelManager;
+
+        function renderChildren(element) {
+            if (element.hasChildNodes() == true) {
+                for (var child = element.firstChild; child; child = child.nextSibling) {
+                    self.render(child);
+                }
+            }
+        }
+
+        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+        };
+        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            var uri = ko.utils.unwrapObservable(valueAccessor());
+
+            $(element).data("view", uri);
+            if (self.pathResolvers.canResolve(element, uri)) {
+                var actualPath = self.pathResolvers.resolve(element, uri);
+                var view = self.viewFactory.createFrom(actualPath);
+                view.element = element;
+                view.content = element.innerHTML;
+                self.render(element);
+
+                renderChildren(element);
+            }
+        };
+
+        this.render = function (element) {
+            var promise = Bifrost.execution.Promise.create();
+
+            if (self.viewRenderers.canRender(element)) {
+                self.viewRenderers.render(element).continueWith(function (view) {
+                    var newElement = view.element;
+                    newElement.view = view;
+                    self.viewModelManager.applyToViewIfAny(view);
+                    renderChildren(newElement);
+                });
+            } else {
+                renderChildren(element);
+            }
+
+            return promise;
+        };
+    })
+});
+Bifrost.views.viewBindingHandler.initialize = function () {
+    ko.bindingHandlers.view = Bifrost.views.viewBindingHandler.create();
 };
 
 Bifrost.namespace("Bifrost.navigation", {
@@ -4077,6 +4278,7 @@ Bifrost.namespace("Bifrost", {
 
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
+            Bifrost.views.viewBindingHandler.initialize();
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
