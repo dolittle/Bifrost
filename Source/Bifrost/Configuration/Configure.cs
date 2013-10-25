@@ -34,6 +34,7 @@ using Windows.Storage;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.Diagnostics;
 
 
 namespace Bifrost.Configuration
@@ -165,6 +166,7 @@ namespace Bifrost.Configuration
         public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
+        public IQualityAssurance QualityAssurance { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
 
@@ -208,6 +210,7 @@ namespace Bifrost.Configuration
             CallContext = Container.Get<ICallContextConfiguration>();
             ExecutionContext = Container.Get<IExecutionContextConfiguration>();
             Security = Container.Get<ISecurityConfiguration>();
+            QualityAssurance = Container.Get<IQualityAssurance>();
         }
 
 		void InitializeCulture()
