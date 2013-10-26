@@ -6,16 +6,22 @@
         }
     };
     beforeEach(function () {
-        Bifrost.validation.Rule = {
+        someRule = {
+            _name: "someRule",
             create: function (dependencies) {
                 return {
                     message: dependencies.options.message,
                     validate: function (value, options) {
                         return true;
                     }
-                }
+                };
             }
-        }
+        };
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [someRule];
+            }
+        };
 
         validator = Bifrost.validation.Validator.create(options);
         validator.validate("something");

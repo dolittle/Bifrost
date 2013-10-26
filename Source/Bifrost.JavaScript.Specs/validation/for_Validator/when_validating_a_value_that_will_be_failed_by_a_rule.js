@@ -5,17 +5,25 @@
             message: "The message"
         }
     };
+    var someRule = null;
+
     beforeEach(function () {
-        Bifrost.validation.Rule = {
-            create: function (dependencies) {
+        someRule = {
+            _name: "someRule",
+            create: function(dependencies) {
                 return {
                     message: dependencies.options.message,
                     validate: function (value, options) {
                         return false;
                     }
-                }
+                };
             }
-        }
+        };
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [someRule];
+            }
+        };
 
         validator = Bifrost.validation.Validator.create(options);
         validator.validate("something");

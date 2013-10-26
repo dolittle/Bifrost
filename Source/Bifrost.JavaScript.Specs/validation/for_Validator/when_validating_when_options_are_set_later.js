@@ -5,19 +5,21 @@
     var validateStub = sinon.stub();
 
     beforeEach(function () {
-        Bifrost.validation.ruleHandlers = {
-            knownRule: {
-                validate: function (value, options) {
-                }
-            }
-        };
-        Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
+        var knownRule = {
+            _name: "knownRule",
+            create: function (dependencies) {
                 return {
+                    message: dependencies.options.message,
                     validate: validateStub
                 }
             }
-        }
+        };
+
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [knownRule];
+            }
+        };
 
         validator = Bifrost.validation.Validator.create({ ruleName: "", options: {} });
         validator.setOptions(rules);

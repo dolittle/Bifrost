@@ -1,15 +1,21 @@
 ﻿describe("when validating without options", function () {
+    var someRule = null;
+
     beforeEach(function () {
+        someRule = {
+            _name: "someRule",
+            create: sinon.mock().withArgs({ ruleName: "someRule", options: {} }).once().returns({})
+        };
         Bifrost.validation.Rule = {
-            create: function (options) {
-                Bifrost.validation.Rule.optionsPassed = options;
+            getExtenders: function () {
+                return [someRule];
             }
-        }
+        };
+
+        Bifrost.validation.Validator.create({ someRule: null });
     });
 
     it("should pass empty options rule creation", function () {
-        var validator = Bifrost.validation.Validator.create({ rule: null });
-        expect(Bifrost.validation.Rule.optionsPassed).not.toBeUndefined();
-        expect(Bifrost.validation.Rule.optionsPassed).not.toBeNull();
+        expect(someRule.create.called).toBe(true);
     });
 });

@@ -9,8 +9,13 @@ Bifrost.validation.Validator = (function () {
 
         this.setOptions = function (options) {
             for (var property in options) {
-                var rule = Bifrost.validation.Rule.create({ ruleName: property, options: options[property] || {} });
-                self.rules.push(rule);
+                var ruleTypes = Bifrost.validation.Rule.getExtenders();
+                ruleTypes.some(function (ruleType) {
+                    if (ruleType._name === property) {
+                        var rule = ruleType.create({ ruleName: property, options: options[property] || {} });
+                        self.rules.push(rule);
+                    }
+                });
             }
         };
 

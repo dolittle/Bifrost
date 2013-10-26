@@ -2,16 +2,18 @@
     var options = { something: "hello world" };
     var rules = { knownRule: options };
     var validator = null;
+    var knownRule = null;
 
     beforeEach(function () {
-        Bifrost.validation.ruleHandlers = {
-            knownRule: {
-                validate: function (value, options) {
-                }
-            }
-        };
-        Bifrost.validation.Rule = {
+        knownRule = {
+            _name: "knownRule",
             create: sinon.mock().withArgs({ ruleName: "knownRule", options: options }).once()
+        };
+
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [knownRule];
+            }
         }
 
         validator = Bifrost.validation.Validator.create();
@@ -19,6 +21,6 @@
     });
 
     it("should create a rule with correct name and options", function () {
-        expect(Bifrost.validation.Rule.create.called).toBe(true);
+        expect(knownRule.create.called).toBe(true);
     });
 });

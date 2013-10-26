@@ -1,18 +1,19 @@
-﻿describe("when creating with known rule handler", function () {
+﻿describe("when creating with known rule", function () {
     var options = { something: "hello world" };
     var validator = null;
+    var knownRule = null;
 
     beforeEach(function () {
-        Bifrost.validation.ruleHandlers = {
-            knownRule: {
-                validate: function (value, options) {
-                }
-            }
+        knownRule = {
+            _name: "knownRule",
+            create: sinon.mock().withArgs({ ruleName: "knownRule", options: options }).once()
         };
         Bifrost.validation.Rule = {
-            create: sinon.mock().withArgs({ ruleName: "knownRule", options: options }).once()
+            getExtenders: function () {
+                return [knownRule];
+            }
         }
-        
+
         validator = Bifrost.validation.Validator.create({
             knownRule: options
         });
@@ -23,6 +24,6 @@
     });
 
     it("should create a rule with correct name and options passed along", function () {
-        expect(Bifrost.validation.Rule.create.called).toBe(true);
+        expect(knownRule.create.called).toBe(true);
     });
 });
