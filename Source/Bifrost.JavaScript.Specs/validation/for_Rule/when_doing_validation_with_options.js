@@ -1,4 +1,7 @@
 ﻿describe("when doing validation with options", function () {
+    var options = { something: "hello world" };
+    var rule = null;
+
     beforeEach(function () {
         Bifrost.validation.ruleHandlers = {
             knownRule: {
@@ -7,12 +10,12 @@
                 }
             }
         };
+
+        rule = Bifrost.validation.Rule.create({ ruleName: "knownRule", options: options });
+        rule.validate("something");
     });
 
     it("should forward options to rule handler", function () {
-        var options = { something: "hello world" };
-        var rule = Bifrost.validation.Rule.create("knownRule", options);
-        rule.validate("something");
         expect(Bifrost.validation.ruleHandlers.knownRule.optionsPassed.something).toBe(options.something);
     });
 });

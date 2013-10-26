@@ -9,7 +9,8 @@ Bifrost.validation.Validator = (function () {
 
         this.setOptions = function (options) {
             for (var property in options) {
-                this.rules.push(Bifrost.validation.Rule.create(property, options[property] || {}));
+                var rule = Bifrost.validation.Rule.create({ ruleName: property, options: options[property] || {} });
+                self.rules.push(rule);
             }
         };
 

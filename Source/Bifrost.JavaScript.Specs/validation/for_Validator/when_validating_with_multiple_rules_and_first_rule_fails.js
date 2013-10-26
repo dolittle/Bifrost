@@ -10,11 +10,11 @@
     };
     beforeEach(function () {
         Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
+            create: function (dependencies) {
                 return {
-                    message: options.message,
+                    message: dependencies.options.message,
                     validate: function (value, options) {
-                        if (ruleName == "firstRule") {
+                        if (dependencies.ruleName == "firstRule") {
                             return false;
                         }
                         return true;

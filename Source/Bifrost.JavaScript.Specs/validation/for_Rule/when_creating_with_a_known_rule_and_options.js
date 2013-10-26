@@ -1,4 +1,7 @@
 ﻿describe("when creating with a known rule and options", function () {
+    var rule = null;
+    var options = { something: "hello world" };
+
     beforeEach(function () {
         Bifrost.validation.ruleHandlers = {
             knownRule: {
@@ -6,12 +9,15 @@
                 }
             }
         };
+        
+        rule = Bifrost.validation.Rule.create({ ruleName: "knownRule", options: options });
     });
 
     it("should return a rule with the options set", function () {
-        var options = { something: "hello world" };
-        var rule = Bifrost.validation.Rule.create("knownRule", options);
         expect(rule.options).not.toBeUndefined();
+    });
+
+    it("should merge the content of the options", function () {
         expect(rule.options.something).toEqual(options.something);
     });
 });

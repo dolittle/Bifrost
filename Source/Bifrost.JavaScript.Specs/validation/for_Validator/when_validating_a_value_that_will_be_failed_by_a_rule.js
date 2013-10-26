@@ -7,9 +7,9 @@
     };
     beforeEach(function () {
         Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
+            create: function (dependencies) {
                 return {
-                    message: options.message,
+                    message: dependencies.options.message,
                     validate: function (value, options) {
                         return false;
                     }
@@ -18,15 +18,14 @@
         }
 
         validator = Bifrost.validation.Validator.create(options);
+        validator.validate("something");
     });
 
     it("should set isValid to false", function () {
-        validator.validate("something");
-        expect(validator.isValid()).toBeFalsy();
+        expect(validator.isValid()).toBe(false);
     });
 
     it("should set message", function () {
-        validator.validate("something");
         expect(validator.message()).toBe(options.someRule.message);
     });
 });

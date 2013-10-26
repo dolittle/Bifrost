@@ -1,4 +1,7 @@
 ﻿describe("when creating without message", function () {
+
+    var rule = null;
+
     beforeEach(function () {
         Bifrost.validation.ruleHandlers = {
             knownRule: {
@@ -6,10 +9,12 @@
                 }
             }
         };
+
+        rule = Bifrost.validation.Rule.create({ ruleName: "knownRule", options: {} });
     });
+    
 
     it("should set message in rule", function () {
-        var rule = Bifrost.validation.Rule.create("knownRule", {});
         expect(rule.message).toBe("");
     });
 

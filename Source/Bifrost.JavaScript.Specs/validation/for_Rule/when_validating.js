@@ -1,32 +1,24 @@
 ﻿describe("when validating", function () {
+    var value = "something";
+    var rule = null;
+    var result = null;
+
     beforeEach(function () {
         Bifrost.validation.ruleHandlers = {
             knownRule: {
-                validate: function (value, options) {
-                    Bifrost.validation.ruleHandlers.knownRule.validateCalled = true;
-                    Bifrost.validation.ruleHandlers.knownRule.valueCalledWith = value;
-                    return true;
-                }
+                validate: sinon.mock().withArgs(value).once().returns(true)
             }
         };
+
+        rule = Bifrost.validation.Rule.create({ ruleName: "knownRule", options: {} });
+        result = rule.validate(value);
     });
 
-    it("should forward call to rule handler", function () {
-        var rule = Bifrost.validation.Rule.create("knownRule", {});
-        rule.validate("something");
-        expect(Bifrost.validation.ruleHandlers.knownRule.validateCalled).toBeTruthy();
-    });
-
-    it("should forward value to rule handler", function () {
-        var value = "something";
-        var rule = Bifrost.validation.Rule.create("knownRule", {});
-        rule.validate(value);
-        expect(Bifrost.validation.ruleHandlers.knownRule.valueCalledWith).toBe(value);
+    it("should forward call to rule handler with value", function () {
+        expect(Bifrost.validation.ruleHandlers.knownRule.validate.called).toBe(true);
     });
 
     it("should return the return value from the handler", function () {
-        var rule = Bifrost.validation.Rule.create("knownRule", {});
-        var result = rule.validate("something");
         expect(result).toBeTruthy();
     });
 });

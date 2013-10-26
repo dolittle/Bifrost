@@ -1,6 +1,5 @@
-Bifrost.namespace("Bifrost.validation");
-Bifrost.validation.Rule = (function () {
-    function Rule(ruleName, options) {
+Bifrost.namespace("Bifrost.validation", {
+    Rule: Bifrost.Type.extend(function (ruleName, options) {
         var self = this;
         this.name = ruleName;
         this.handler = Bifrost.validation.ruleHandlers[ruleName];
@@ -13,13 +12,6 @@ Bifrost.validation.Rule = (function () {
 
         this.validate = function (value) {
             return self.handler.validate(value, self.options);
-        }
-    }
-
-    return {
-        create: function (ruleName, options) {
-            var rule = new Rule(ruleName, options);
-            return rule;
-        }
-    };
-})();
+        };
+    })
+});

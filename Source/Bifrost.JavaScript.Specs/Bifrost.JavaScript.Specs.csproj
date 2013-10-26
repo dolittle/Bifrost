@@ -372,7 +372,6 @@
     <Content Include="validation\for_required\when_validating_with_empty_string.js" />
     <Content Include="validation\for_required\when_validating_with_string_with_content.js" />
     <Content Include="validation\for_required\when_validating_with_null.js" />
-    <Content Include="validation\for_Rule\when_creating_without_options.js" />
     <Content Include="validation\for_Rule\when_creating_with_a_known_rule.js" />
     <Content Include="validation\for_Rule\when_creating_with_a_known_rule_and_options.js" />
     <Content Include="validation\for_Rule\when_creating_without_a_message.js" />
@@ -383,6 +382,7 @@
     <Content Include="validation\for_Validator\when_applying_to_properties.js" />
     <Content Include="validation\for_Validator\when_creating_without_options_and_setting_options_later.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_pass_by_a_rule.js" />
+    <Content Include="validation\for_Validator\when_validating_when_options_are_set_later.js" />
     <Content Include="validation\for_Validator\when_validating_without_options.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_item.js" />
     <Content Include="validation\for_Validator\when_creating_with_known_rule_handler.js" />
