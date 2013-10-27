@@ -1398,8 +1398,23 @@ Bifrost.namespace("Bifrost", {
     })
 });
 Bifrost.namespace("Bifrost", {
-    StringMapper: Bifrost.Type.extend(function () {
+    stringMappingFactory: Bifrost.Singleton(function () {
         var self = this;
+
+        this.create = function (format, mappedFormat) {
+            var mapping = Bifrost.StringMapping.create({
+                format: format,
+                mappedFormat: mappedFormat
+            });
+            return mapping;
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
+    StringMapper: Bifrost.Type.extend(function (stringMappingFactory) {
+        var self = this;
+
+        this.stringMappingFactory = stringMappingFactory;
 
         this.mappings = [];
 
@@ -1445,10 +1460,7 @@ Bifrost.namespace("Bifrost", {
         };
 
         this.addMapping = function (format, mappedFormat) {
-            var mapping = Bifrost.StringMapping.create({
-                format: format,
-                mappedFormat: mappedFormat
-            });
+            var mapping = self.stringMappingFactory.create(format, mappedFormat);
             self.mappings.push(mapping);
         };
     })
@@ -2127,6 +2139,36 @@ Bifrost.namespace("Bifrost.commands", {
 
             return promise;
         };
+
+        this.handleMany = function (commands) {
+            var promise = Bifrost.execution.Promise.create();
+            var commandDescriptors = [];
+
+            commands.forEach(function (command) {
+                var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
+                commandDescriptors.push(commandDescriptor);
+            });
+
+            var methodParameters = {
+                commandDescriptors: JSON.stringify(commandDescriptors)
+            };
+
+            sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
+                var results = JSON.parse(jqXHR.responseText);
+
+                var commandResults = [];
+
+                results.forEach(function (result) {
+                    var commandResult = Bifrost.commands.CommandResult.createFrom(result);
+                    commandResults.push(commandResult);
+                });
+
+                promise.signal(commandResult);
+            });
+
+            return promise;
+        };
+
         this.handleForSaga = function (saga, commands, options) {
             throw "not implemented";
         };
@@ -2224,6 +2266,12 @@ Bifrost.namespace("Bifrost.commands", {
         this.validate = function (command) {
             var result = { valid: true };
             validatePropertiesFor(command, result);
+            return result;
+        };
+        
+        this.validateSilently = function (command) {
+            var result = { valid: true };
+            validatePropertiesFor(command, result, true);
             return result;
         };
 
@@ -2532,6 +2580,7 @@ Bifrost.namespace("Bifrost.commands", {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
                 var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
+                commandValidationService.validateSilently(this);
             }
             commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
                 lastDescendant.securityContext(securityContext);
@@ -3711,13 +3760,24 @@ Bifrost.namespace("Bifrost.views", {
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
-            elements.forEach(function(target) {
-                viewModelApplied = true;
-                var viewModelFile = $(target).data("viewmodel-file");
-                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
-                    applyViewModel(instance, target, viewModelFile);
-                });
-            });
+            if (elements.length > 0) {
+
+                function loadAndApply(target) {
+                    viewModelApplied = true;
+                    var viewModelFile = $(target).data("viewmodel-file");
+                    self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                        applyViewModel(instance, target, viewModelFile);
+                    });
+                }
+
+                if (elements.length == 1) {
+                    loadAndApply(elements[0]);
+                } else {
+                    for (var elementIndex = elements.length - 1; elementIndex > 0; elementIndex--) {
+                        loadAndApply(elements[elementIndex]);
+                    }
+                }
+            }
 
             return viewModelApplied;
         }
