@@ -34,6 +34,7 @@
 @depends utils/namespaces.js
 @depends utils/namespaceMappers.js
 @depends utils/StringMapping.js
+@depends utils/stringMappingFactory.js
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js
 @depends utils/server.js

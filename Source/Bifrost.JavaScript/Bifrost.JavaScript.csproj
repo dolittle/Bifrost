@@ -79,6 +79,7 @@
     <Content Include="utils\namespaceMappers.js" />
     <Content Include="utils\server.js" />
     <Content Include="utils\StringMapper.js" />
+    <Content Include="utils\stringMappingFactory.js" />
     <Content Include="utils\uriMappers.js" />
     <Content Include="utils\StringMapping.js" />
     <Content Include="validation\lessThanOrEqual.js" />
