@@ -4,7 +4,7 @@
     beforeEach(function () {
         someRule = {
             _name: "someRule",
-            create: sinon.mock().withArgs({ ruleName: "someRule", options: {} }).once().returns({})
+            create: sinon.mock().withArgs({ options: {} }).once().returns({})
         };
         Bifrost.validation.Rule = {
             getExtenders: function () {

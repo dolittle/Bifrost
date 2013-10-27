@@ -7,7 +7,7 @@
     beforeEach(function () {
         knownRule = {
             _name: "knownRule",
-            create: sinon.mock().withArgs({ ruleName: "knownRule", options: options }).once()
+            create: sinon.mock().withArgs({ options: options }).once()
         };
 
         Bifrost.validation.Rule = {

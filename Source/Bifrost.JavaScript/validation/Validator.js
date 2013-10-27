@@ -12,7 +12,7 @@ Bifrost.validation.Validator = (function () {
                 var ruleTypes = Bifrost.validation.Rule.getExtenders();
                 ruleTypes.some(function (ruleType) {
                     if (ruleType._name === property) {
-                        var rule = ruleType.create({ ruleName: property, options: options[property] || {} });
+                        var rule = ruleType.create({ options: options[property] || {} });
                         self.rules.push(rule);
                     }
                 });

@@ -1,6 +1,8 @@
 ﻿describe("when string is longer", function () {
-    it("should return false", function () {
-        var result = Bifrost.validation.ruleHandlers.maxLength.validate("123456", { length: 5 });
-        expect(result).toBeFalsy();
+    var validator = Bifrost.validation.maxLength.create({ options: { length: 5 } });
+    var result = validator.validate("123456");
+
+    it("should not be valid", function () {
+        expect(result).toBe(false);
     });
 });

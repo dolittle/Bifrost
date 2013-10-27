@@ -1,6 +1,8 @@
 ﻿describe("when value to be validated is undefined", function () {
+    var validator = Bifrost.validation.email.create({ options: {} });
+    var result = validator.validate(undefined);
+
     it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.email.validate(undefined);
-        expect(value).toBeFalsy(); 
+        expect(result).toBe(false); 
     });
 });

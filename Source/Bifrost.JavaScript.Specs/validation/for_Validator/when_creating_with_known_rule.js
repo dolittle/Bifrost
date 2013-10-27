@@ -6,7 +6,7 @@
     beforeEach(function () {
         knownRule = {
             _name: "knownRule",
-            create: sinon.mock().withArgs({ ruleName: "knownRule", options: options }).once()
+            create: sinon.mock().withArgs({ options: options }).once()
         };
         Bifrost.validation.Rule = {
             getExtenders: function () {
@@ -23,7 +23,7 @@
         expect(validator).not.toBeUndefined();
     });
 
-    it("should create a rule with correct name and options passed along", function () {
+    it("should create a rule and pass options along", function () {
         expect(knownRule.create.called).toBe(true);
     });
 });

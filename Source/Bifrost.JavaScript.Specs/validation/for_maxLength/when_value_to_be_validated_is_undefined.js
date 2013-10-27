@@ -1,6 +1,8 @@
 ﻿describe("when value to be validated is undefined", function () {
-    it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.maxLength.validate(undefined, { length: 3 });
-        expect(value).toBeFalsy();
+    var validator = Bifrost.validation.maxLength.create({ options: { length: 3 } })
+    var result = validator.validate(undefined)
+
+    it("should be invalid", function () {
+        expect(result).toBe(false);
     });
 });

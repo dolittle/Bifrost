@@ -1,6 +1,10 @@
-Bifrost.namespace("Bifrost.validation.ruleHandlers");
-Bifrost.validation.ruleHandlers.required = {
-    validate: function (value, options) {
-        return !(Bifrost.isUndefined(value) || Bifrost.isNull(value) || value == "");
-    }
-};
+Bifrost.namespace("Bifrost.validation", {
+    required: Bifrost.validation.Rule.extend(function () {
+        var self = this;
+
+        this.validate = function (value) {
+            return !(Bifrost.isUndefined(value) || Bifrost.isNull(value) || value == "");
+        }
+    })
+});
+

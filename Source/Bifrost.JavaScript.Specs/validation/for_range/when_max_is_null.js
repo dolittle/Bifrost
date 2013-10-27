@@ -1,9 +1,12 @@
 ﻿describe("when max is null", function () {
+    var exception = null;
+    try {
+        var validator = Bifrost.validation.range.create({ options: { min: 5, max: null } });
+        validator.validate("1234");
+    } catch (e) {
+        exception = e;
+    }
     it("should throw an exception", function () {
-        try {
-            Bifrost.validation.ruleHandlers.range.validate("1234", { min: 5, max: null });
-        } catch (e) {
-            expect(e instanceof Bifrost.validation.MaxNotSpecified).toBeTruthy();
-        }
+        expect(exception instanceof Bifrost.validation.MaxNotSpecified).toBe(true);
     });
 });

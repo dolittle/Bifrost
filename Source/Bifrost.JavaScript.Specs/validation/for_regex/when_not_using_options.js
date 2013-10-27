@@ -1,9 +1,13 @@
 ﻿describe("when not using options", function () {
-    it("should throw an exception", function () {
-        try {
-            Bifrost.validation.ruleHandlers.regex.validate("1234");
-        } catch (e) {
-            expect(e instanceof Bifrost.validation.OptionsNotDefined).toBe(true);
-        }
+    var exception = null;
+    try {
+        var validator = Bifrost.validation.regex.create({ options: {} });
+        validator.validate("1234");
+    } catch (e) {
+        exception = e;
+    }
+
+    it("should throw options not defined exception", function () {
+        expect(exception instanceof Bifrost.validation.OptionsNotDefined).toBe(true);
     });
 });
