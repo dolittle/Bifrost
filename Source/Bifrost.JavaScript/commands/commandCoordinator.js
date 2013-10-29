@@ -53,26 +53,38 @@ Bifrost.namespace("Bifrost.commands", {
             var commandDescriptors = [];
 
             commands.forEach(function (command) {
+                command.isBusy(true);
                 var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
                 commandDescriptors.push(commandDescriptor);
             });
 
-            var methodParameters = {
-                commandDescriptors: JSON.stringify(commandDescriptors)
-            };
+            try {
+                var methodParameters = {
+                    commandDescriptors: JSON.stringify(commandDescriptors)
+                };
 
-            sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
-                var results = JSON.parse(jqXHR.responseText);
+                sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
+                    var results = JSON.parse(jqXHR.responseText);
 
-                var commandResults = [];
+                    var commandResults = [];
 
-                results.forEach(function (result) {
-                    var commandResult = Bifrost.commands.CommandResult.createFrom(result);
-                    commandResults.push(commandResult);
+                    results.forEach(function (result) {
+                        var commandResult = Bifrost.commands.CommandResult.createFrom(result);
+                        commandResults.push(commandResult);
+                    });
+
+                    commands.forEach(function(command, index) {
+                        command.handleCommandResult(commandResults[index]);
+                        command.isBusy(false);
+                    });
+
+                    promise.signal(commandResults);
                 });
-
-                promise.signal(commandResult);
-            });
+            } catch(e) {
+                commands.forEach(function(command) {
+                    command.isBusy(false);
+                });
+            }
 
             return promise;
         };
