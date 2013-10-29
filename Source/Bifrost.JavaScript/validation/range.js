@@ -1,36 +1,41 @@
-Bifrost.namespace("Bifrost.validation.ruleHandlers");
-Bifrost.validation.ruleHandlers.range = {
-    throwIfOptionsInvalid: function (options) {
-        if (this.notSet(options)) {
-            throw new Bifrost.validation.OptionsNotDefined();
-        }
-        if (this.notSet(options.max)) {
-            throw new Bifrost.validation.MaxNotSpecified();
-        }
-        if (this.notSet(options.min)) {
-            throw new Bifrost.validation.MinNotSpecified();
-        }
-        this.throwIfValueIsNotANumber(options.min, "min")
-        this.throwIfValueIsNotANumber(options.max, "max")
-    },
+Bifrost.namespace("Bifrost.validation", {
+    range: Bifrost.validation.Rule.extend(function () {
+        var self = this;
 
-    throwIfValueIsNotANumber: function (value, param) {
-        if (!Bifrost.isNumber(value)) {
-            throw new Bifrost.validation.NotANumber(param + " value " + value + " is not a number");
+        function notSet(value) {
+            return Bifrost.isUndefined(value) || Bifrost.isNull(value);
         }
-    },
 
-    validate: function (value, options) {
-        this.throwIfOptionsInvalid(options);
-        if (this.notSet(value)) {
-            return false;
+        function throwIfValueIsNotANumber(value, param) {
+            if (!Bifrost.isNumber(value)) {
+                throw new Bifrost.validation.NotANumber(param + " value " + value + " is not a number");
+            }
         }
-        this.throwIfValueIsNotANumber(value, "value");
-        return options.min <= value && value <= options.max;
-    },
 
-    notSet: function (value) {
-        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
-    },
-};
 
+        function throwIfOptionsInvalid(options) {
+            if (notSet(options)) {
+                throw new Bifrost.validation.OptionsNotDefined();
+            }
+            if (notSet(options.max)) {
+                throw new Bifrost.validation.MaxNotSpecified();
+            }
+            if (notSet(options.min)) {
+                throw new Bifrost.validation.MinNotSpecified();
+            }
+            throwIfValueIsNotANumber(options.min, "min")
+            throwIfValueIsNotANumber(options.max, "max")
+        }
+
+
+        this.validate = function (value) {
+            throwIfOptionsInvalid(self.options);
+            if (notSet(value)) {
+                return false;
+            }
+            throwIfValueIsNotANumber(value, "value");
+            return self.options.min <= value && value <= self.options.max;
+        };
+
+    })
+});

@@ -1,5 +1,13 @@
 ﻿describe("when value to be validated is not a string", function () {
-    it("should throw an exception", function () {
-            expect(function () { Bifrost.validation.ruleHandlers.maxLength.validate(2, { length: 3 }) }).toThrow();
-        });
+    var exception = null;
+    try {
+        var validator = Bifrost.validation.maxLength.create({ options: { length: 3 } })
+        validator.validate(2)
+    } catch (e) {
+        exception = e;
+    }
+
+    it("should throw not a string exception", function () {
+        expect(exception instanceof Bifrost.validation.NotAString).toBe(true);
+    });
 });

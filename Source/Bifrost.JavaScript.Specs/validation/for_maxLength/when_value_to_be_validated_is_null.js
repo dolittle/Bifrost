@@ -1,6 +1,8 @@
 ﻿describe("when value to be validated is null", function () {
-    it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.maxLength.validate(null, { length: 3 });
-        expect(value).toBeFalsy();
+    var validator = Bifrost.validation.maxLength.create({ options: { length: 3 } })
+    var result = validator.validate(null)
+
+    it("should be invalid", function () {
+        expect(result).toBe(false);
     });
 });

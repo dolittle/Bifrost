@@ -1,6 +1,5 @@
-﻿describe("when creating without options and setting options later", function () {
+﻿describe("when creating with known rule", function () {
     var options = { something: "hello world" };
-    var rules = { knownRule: options };
     var validator = null;
     var knownRule = null;
 
@@ -9,18 +8,22 @@
             _name: "knownRule",
             create: sinon.mock().withArgs({ options: options }).once()
         };
-
         Bifrost.validation.Rule = {
             getExtenders: function () {
                 return [knownRule];
             }
         }
 
-        validator = Bifrost.validation.Validator.create();
-        validator.setOptions(rules);
+        validator = Bifrost.validation.Validator.create({
+            knownRule: options
+        });
     });
 
-    it("should create a rule with correct name and options", function () {
+    it("should create a validator", function () {
+        expect(validator).not.toBeUndefined();
+    });
+
+    it("should create a rule and pass options along", function () {
         expect(knownRule.create.called).toBe(true);
     });
 });

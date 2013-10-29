@@ -1,37 +1,42 @@
-Bifrost.namespace("Bifrost.validation.ruleHandlers");
-Bifrost.validation.ruleHandlers.minLength = {
-    throwIfOptionsInvalid: function (options) {
-        if (this.notSet(options)) {
-            throw new Bifrost.validation.OptionsNotDefined();
-        }
-        if (this.notSet(options.length)) {
-            throw new Bifrost.validation.MinNotSpecified();
-        }
-        this.throwIfValueIsNotANumber(options.length)
-    },
+Bifrost.namespace("Bifrost.validation", {
+    minLength: Bifrost.validation.Rule.extend(function () {
+        var self = this;
 
-    throwIfValueIsNotANumber: function (value) {
-        if (!Bifrost.isNumber(value)) {
-            throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+        function notSet(value) {
+            return Bifrost.isUndefined(value) || Bifrost.isNull(value);
         }
-    },
-    
-    throwIfValueIsNotAString: function (string) {
-        if (!Bifrost.isString(string)) {
-            throw new Bifrost.validation.NotAString("Value " + string + " is not a string");
-        }
-    },
 
-    validate: function (value, options) {
-        this.throwIfOptionsInvalid(options);
-        if (this.notSet(value)) {
-            return false;
+        function throwIfValueIsNotANumber(value) {
+            if (!Bifrost.isNumber(value)) {
+                throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");
+            }
         }
-        this.throwIfValueIsNotAString(value);
-        return value.length >= options.length;
-    },
-    
-    notSet: function(value) {
-        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
-    }, 
-};
+
+        function throwIfOptionsInvalid(options) {
+            if (notSet(options)) {
+                throw new Bifrost.validation.OptionsNotDefined();
+            }
+            if (notSet(options.length)) {
+                throw new Bifrost.validation.MaxNotSpecified();
+            }
+            throwIfValueIsNotANumber(options.length)
+        }
+
+
+        function throwIfValueIsNotAString(string) {
+            if (!Bifrost.isString(string)) {
+                throw new Bifrost.validation.NotAString("Value " + string + " is not a string");
+            }
+        }
+
+        this.validate = function (value) {
+            throwIfOptionsInvalid(self.options);
+            if (notSet(value)) {
+                return false;
+            }
+            throwIfValueIsNotAString(value);
+            return value.length >= self.options.length;
+        };
+    })
+});
+
