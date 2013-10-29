@@ -2178,15 +2178,11 @@ Bifrost.namespace("Bifrost.commands", {
             var commandDescriptors = [];
 
             commands.forEach(function (command) {
-<<<<<<< HEAD
                 command.isBusy(true);
-=======
->>>>>>> ValidationRefactoring
                 var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
                 commandDescriptors.push(commandDescriptor);
             });
 
-<<<<<<< HEAD
             try {
                 var methodParameters = {
                     commandDescriptors: JSON.stringify(commandDescriptors)
@@ -2214,24 +2210,6 @@ Bifrost.namespace("Bifrost.commands", {
                     command.isBusy(false);
                 });
             }
-=======
-            var methodParameters = {
-                commandDescriptors: JSON.stringify(commandDescriptors)
-            };
-
-            sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
-                var results = JSON.parse(jqXHR.responseText);
-
-                var commandResults = [];
-
-                results.forEach(function (result) {
-                    var commandResult = Bifrost.commands.CommandResult.createFrom(result);
-                    commandResults.push(commandResult);
-                });
-
-                promise.signal(commandResult);
-            });
->>>>>>> ValidationRefactoring
 
             return promise;
         };
