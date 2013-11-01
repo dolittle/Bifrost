@@ -54,32 +54,6 @@ namespace Bifrost.QuickStart
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
 					})
                 .WithMimir();
-
-            var validatorProvider = configure.Container.Get<ICommandValidatorProvider>();
-            var inputValidator = validatorProvider.GetInputValidatorFor(typeof(TestCommandWithMultiplePropertiesOfTheSameType));
-            var businessValidator = validatorProvider.GetBusinessValidatorFor(typeof(TestCommandWithMultiplePropertiesOfTheSameType));
-
-            var validcommand = new TestCommandWithMultiplePropertiesOfTheSameType()
-                {
-                    First = "valid",
-                    Second = "valid"
-                };
-
-            var invalidcommand1 = new TestCommandWithMultiplePropertiesOfTheSameType()
-            {
-                First = "valid",
-                Second = "invalid"
-            };
-
-            var invalidcommand2 = new TestCommandWithMultiplePropertiesOfTheSameType()
-            {
-                First = "invalid",
-                Second = "valid"
-            };
-
-            var inputResul1 = inputValidator.ValidateFor(validcommand);
-            var inputResult2 = inputValidator.ValidateFor(invalidcommand1);
-            var inputResult3 = inputValidator.ValidateFor(invalidcommand2);
         }
     }
 }
