@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace Bifrost.Web.Proxies
 {
-    public class ValidationCommandPropertyExtender : ICanExtendCommandProperty
+    public class CommandValidationPropertyExtender : ICanExtendCommandProperty
     {
         ICommandValidatorProvider _commandValidatorProvider;
         IValidationMetaDataGenerator _validationMetaDataGenerator;
 
-        public ValidationCommandPropertyExtender(ICommandValidatorProvider commandValidatorProvider, IValidationMetaDataGenerator validationMetaDataGenerator)
+        public CommandValidationPropertyExtender(ICommandValidatorProvider commandValidatorProvider, IValidationMetaDataGenerator validationMetaDataGenerator)
         {
             _commandValidatorProvider = commandValidatorProvider;
             _validationMetaDataGenerator = validationMetaDataGenerator;

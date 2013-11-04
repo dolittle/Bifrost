@@ -89,7 +89,7 @@
     <Compile Include="Proxies\ReadModelProxyExtensions.cs" />
     <Compile Include="Proxies\ServiceProxies.cs" />
     <Compile Include="Proxies\ServiceExtensions.cs" />
-    <Compile Include="Proxies\ValidationCommandPropertyExtender.cs" />
+    <Compile Include="Proxies\CommandValidationPropertyExtender.cs" />
     <Compile Include="Read\QueryDescriptor.cs" />
     <Compile Include="Read\QueryService.cs" />
     <Compile Include="Read\ReadModelQueryDescriptor.cs" />
