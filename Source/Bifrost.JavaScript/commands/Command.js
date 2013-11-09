@@ -279,16 +279,19 @@ Bifrost.namespace("Bifrost.commands", {
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
                 commandValidationService.validateSilently(this);
             }
-            commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
-                lastDescendant.securityContext(securityContext);
+            
+            if (lastDescendant.securityContext() == null) {
+                commandSecurityService.getContextFor(lastDescendant).continueWith(function (securityContext) {
+                    lastDescendant.securityContext(securityContext);
 
-                if (ko.isObservable(securityContext.isAuthorized)) {
-                    lastDescendant.isAuthorized(securityContext.isAuthorized());
-                    securityContext.isAuthorized.subscribe(function (newValue) {
-                        lastDescendant.isAuthorized(newValue);
-                    });
-                }
-            });
+                    if (ko.isObservable(securityContext.isAuthorized)) {
+                        lastDescendant.isAuthorized(securityContext.isAuthorized());
+                        securityContext.isAuthorized.subscribe(function (newValue) {
+                            lastDescendant.isAuthorized(newValue);
+                        });
+                    }
+                });
+            }
         };
     })
 });
