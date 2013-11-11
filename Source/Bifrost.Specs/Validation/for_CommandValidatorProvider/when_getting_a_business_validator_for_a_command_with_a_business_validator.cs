@@ -18,8 +18,7 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 
         It should_return_the_correct_business_validator = () =>
                                                               {
-                                                                  business_validator.ShouldBeOfType(typeof(AggregatedValidator));
-                                                                  ((AggregatedValidator)business_validator).Validators.First().ShouldBeOfType(typeof(SimpleCommandBusinessValidator));
+                                                                  business_validator.ShouldBeOfType(typeof(SimpleCommandBusinessValidator));
                                                               };
     }
 }

@@ -19,8 +19,7 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
         private It should_return_the_correct_input_validator = () =>
                                                                    {
 
-                                                                       input_validator.ShouldBeOfType(typeof (AggregatedValidator));
-                                                                       ((AggregatedValidator) input_validator).Validators.First().ShouldBeOfType(typeof (SimpleCommandInputValidator));
+                                                                       input_validator.ShouldBeOfType(typeof(SimpleCommandInputValidator));
                                                                    };
     }
 }
