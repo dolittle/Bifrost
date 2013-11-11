@@ -60,8 +60,7 @@ namespace Bifrost.Configuration
             container.Bind<IConfigure>(this);
 
             Container = container;
-            ExcludeNamespacesForTypeDiscovery();
-
+        
             defaultBindings.Initialize(Container);
             defaultConventions.Initialize();
             
@@ -237,24 +236,7 @@ namespace Bifrost.Configuration
                 canConfigure.Configure(this);
             }
         }
-
-        static void ExcludeNamespacesForTypeDiscovery()
-        {
-            // TODO : This is BAD..  Need to move this away, maybe include a list of files some how for all extensions instead!!!!
-            // reason its bad, Core suddenly knows about all extensions and what not.   No Good!
-            TypeDiscoverer.ExcludeNamespaceStartingWith("NHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("FluentNHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Castle");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("log4net");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Iesi");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Ninject");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Microsoft");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("AutoMapper");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("SignalR");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("RavenDb");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
-        }
-
+        
         static Type DiscoverCanCreateContainerType(IEnumerable<Assembly> assemblies)
         {
             Type createContainerType = null;
