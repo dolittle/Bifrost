@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +25,7 @@ using System.Linq;
 using System.Windows;
 #endif
 using System.Reflection;
+using System.Threading.Tasks;
 using Bifrost.Extensions;
 
 namespace Bifrost.Execution
@@ -39,8 +41,8 @@ namespace Bifrost.Execution
         static List<string> NamespaceStartingWithExclusions = new List<string>();
 
         IAssemblyLocator _assemblyLocator;
-        Dictionary<string, Type> _types;
-        Dictionary<Type, Type[]> _implementingTypes;
+        IDictionary<string, Type> _types;
+        IDictionary<Type, Type[]> _implementingTypes;
 
 		/// <summary>
 		/// Exclude discovering of types in a specific namespace
@@ -57,7 +59,13 @@ namespace Bifrost.Execution
 		public TypeDiscoverer(IAssemblyLocator assemblyLocator)
 		{
 		    _assemblyLocator = assemblyLocator;
-		    _types = new Dictionary<string, Type>();
+
+            #if(SILVERLIGHT)
+            _types = new Dictionary<string, Type>();
+            #else
+            _types = new ConcurrentDictionary<string, Type>();
+            #endif
+
             _implementingTypes = new Dictionary<Type, Type[]>();
 			CollectTypes();
 		}
@@ -112,6 +120,7 @@ namespace Bifrost.Execution
                     _types.Add(type.FullName, type);
                 }
             }
+           
         }
 
 #if(WINDOWS_PHONE)
@@ -163,23 +172,23 @@ namespace Bifrost.Execution
 #else
         void CollectTypes()
 		{
-		    var assemblies = _assemblyLocator.GetAll();
-			var query = from a in assemblies
-			            where ShouldAddAssembly(a.FullName)
-			            select a;
+		    var assemblies = _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
 
-            foreach (var assembly in query)
-            {
-                try
-                {
-                    AddTypes(assembly.GetTypes());
-                } catch(ReflectionTypeLoadException ex)
-                {
-                    foreach (var loaderException in ex.LoaderExceptions)
-                        Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
-                }
+            Parallel.ForEach(assemblies, assembly =>
+                                             {
+                                                     try
+                                                     {
+                                                         AddTypes(assembly.GetTypes());
+                                                     }
+                                                    catch(ReflectionTypeLoadException ex)
+                                                    {
+                                                        foreach (var loaderException in ex.LoaderExceptions)
+                                                            Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
+                                                    }
 
-            }
+                                             });
+           
+
 		}
 #endif
 #endif
