@@ -38,19 +38,19 @@ namespace Bifrost.Execution
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
-        static List<string> NamespaceStartingWithExclusions = new List<string>();
+        static List<string> AssembliesToInclude = new List<string>();
 
         IAssemblyLocator _assemblyLocator;
         IDictionary<string, Type> _types;
         IDictionary<Type, Type[]> _implementingTypes;
 
 		/// <summary>
-		/// Exclude discovering of types in a specific namespace
+		/// Include discovering of types in a specific assembly
 		/// </summary>
-		/// <param name="name">Namespace to exclude</param>
-		public static void ExcludeNamespaceStartingWith(string name)
+		/// <param name="name">Full/partial assembly name to include.</param>
+		public static void AddAssembly(string name)
 		{
-			NamespaceStartingWithExclusions.Add(name);
+			AssembliesToInclude.Add(name);
 		}
 
 		/// <summary>
@@ -188,21 +188,25 @@ namespace Bifrost.Execution
 
                                              });
            
-
 		}
 #endif
 #endif
 #endif
-		static bool ShouldAddAssembly(string name)
+		static bool ShouldAddAssembly(string assemblyName)
 		{
-			if (NameStartsWithAnExcludedNamespace(name)) return false;
-			return !name.Contains("System.") && !name.Contains("mscorlib");
+			if (assemblyName.Equals("System") || assemblyName.StartsWith("System.") || assemblyName.StartsWith("mscorlib"))
+			{
+			    return false;
+			}
+
+            if (assemblyName.StartsWith("Bifrost,") || assemblyName.StartsWith("Bifrost."))
+            {
+                return true;
+            }
+
+            return AssembliesToInclude.Any(name => assemblyName.StartsWith(name));
 		}
 
-		static bool NameStartsWithAnExcludedNamespace(string name)
-		{
-			return NamespaceStartingWithExclusions.Any(name.StartsWith);
-		}
 
 		Type[] Find(Type type)
 		{
