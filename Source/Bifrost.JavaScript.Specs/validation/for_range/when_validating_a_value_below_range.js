@@ -1,6 +1,8 @@
 ﻿describe("when validating a value below range", function () {
-    it("should return false", function () {
-        var value = Bifrost.validation.ruleHandlers.range.validate("4", { min: 5, max: 10 });
-        expect(value).toBeFalsy();
+    var validator = Bifrost.validation.range.create({ options: { min: 5, max: 10 } });
+    var result = validator.validate("4");
+
+    it("should not be valid", function () {
+        expect(result).toBe(false);
     });
 });

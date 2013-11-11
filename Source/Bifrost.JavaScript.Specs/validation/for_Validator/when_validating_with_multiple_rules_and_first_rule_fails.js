@@ -8,26 +8,41 @@
             message: "Second rule"
         }
     };
-    beforeEach(function () {
-        Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
-                return {
-                    message: options.message,
-                    validate: function (value, options) {
-                        if (ruleName == "firstRule") {
-                            return false;
-                        }
-                        return true;
-                    }
+    var firstRule = {
+        _name: "firstRule",
+        create: function (dependencies) {
+            return {
+                message: dependencies.options.message,
+                validate: function () {
+                    return false;
                 }
             }
         }
+    };
+
+    var secondRuleValidateFunction = sinon.stub();
+    var secondRule = {
+        _name: "secondRule",
+        create: function (dependencies) {
+            return {
+                message: dependencies.options.message,
+                validate: secondRuleValidateFunction
+            }
+        }
+    };
+
+    beforeEach(function () {
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [firstRule, secondRule];
+            }
+        };
 
         validator = Bifrost.validation.Validator.create(options);
+        validator.validate("something");
     });
 
     it("should not run subsequent rules", function () {
-        validator.validate("something");
-        expect(validator.message()).toBe(options.firstRule.message);
+        expect(secondRuleValidateFunction.called).toBe(false);
     });
 });

@@ -71,21 +71,26 @@ namespace Bifrost.Web.Assets
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
-                var extension = Path.GetExtension(file);
                 var relativePath = FormatPath(file.Replace(root, string.Empty));
-
-                List<string> assets;
-                if (!_assetsByExtension.ContainsKey(extension))
-                {
-                    assets = new List<string>();
-                    _assetsByExtension[extension] = assets;
-                }
-                else
-                    assets = _assetsByExtension[extension];
-
-                assets.Add(relativePath);
+                AddAsset(relativePath);
             }
 
+        }
+
+        public void AddAsset(string relativePath)
+        {
+            var extension = Path.GetExtension(relativePath);
+
+            List<string> assets;
+            if (!_assetsByExtension.ContainsKey(extension))
+            {
+                assets = new List<string>();
+                _assetsByExtension[extension] = assets;
+            }
+            else
+                assets = _assetsByExtension[extension];
+
+            assets.Add(relativePath);
         }
     }
 }

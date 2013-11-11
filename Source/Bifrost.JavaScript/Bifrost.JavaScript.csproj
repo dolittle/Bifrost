@@ -79,6 +79,7 @@
     <Content Include="utils\namespaceMappers.js" />
     <Content Include="utils\server.js" />
     <Content Include="utils\StringMapper.js" />
+    <Content Include="utils\stringMappingFactory.js" />
     <Content Include="utils\uriMappers.js" />
     <Content Include="utils\StringMapping.js" />
     <Content Include="validation\lessThanOrEqual.js" />
@@ -103,8 +104,6 @@
     <Content Include="commands\CommandResult.js" />
     <Content Include="navigation\NavigationFrame.js" />
     <Content Include="navigation\navigationFrames.js" />
-    <Content Include="navigation\UriMapper.js" />
-    <Content Include="navigation\UriMapping.js" />
     <Content Include="read\Query.js" />
     <Content Include="read\queryDependencyResolver.js" />
     <Content Include="read\queryService.js" />

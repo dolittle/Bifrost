@@ -1,6 +1,8 @@
 ﻿describe("when validating with undefined", function () {
-    it("should return false", function () {
-        var result = Bifrost.validation.ruleHandlers.required.validate(null);
-        expect(result).toBeFalsy();
+    var validator = Bifrost.validation.required.create({ options: {} });
+    var result = validator.validate(null);
+
+    it("should not be valid", function () {
+        expect(result).toBe(false);
     });
 });

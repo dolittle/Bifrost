@@ -1,6 +1,8 @@
 ﻿describe("when validating a value less than", function () {
-    it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.lessThan.validate("2", { value: 3 });
-        expect(value).toBeTruthy();
+    var validator = Bifrost.validation.lessThan.create({ options: { value: 3 } });
+    var result = validator.validate("2");
+
+    it("should be valid", function () {
+        expect(result).toBe(true);
     });
 });

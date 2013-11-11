@@ -1,47 +1,26 @@
 ﻿describe("when creating without options and setting options later", function () {
-    beforeEach(function () {
-        Bifrost.validation.ruleHandlers = {
-            knownRule: {
-                validate: function (value, options) {
-                }
-            }
-        };
-        Bifrost.validation.Rule = {
-            create: function (ruleName, options) {
-                Bifrost.validation.Rule.ruleNamePassed = ruleName;
-                Bifrost.validation.Rule.createCalled = true;
-                Bifrost.validation.Rule.optionsPassed = options;
+    var options = { something: "hello world" };
+    var rules = { knownRule: options };
+    var validator = null;
+    var knownRule = null;
 
-                return {
-                    validate: function () {
-                        Bifrost.validation.Rule.validateCalled = true;
-                    }
-                }
+    beforeEach(function () {
+        knownRule = {
+            _name: "knownRule",
+            create: sinon.mock().withArgs({ options: options }).once()
+        };
+
+        Bifrost.validation.Rule = {
+            getExtenders: function () {
+                return [knownRule];
             }
         }
+
+        validator = Bifrost.validation.Validator.create();
+        validator.setOptions(rules);
     });
 
-    it("should create a rule", function () {
-        var rules = { knownRule: {} };
-        var validator = Bifrost.validation.Validator.create();
-        validator.setOptions(rules);
-        expect(Bifrost.validation.Rule.createCalled).toBeTruthy();
-    });
-
-    it("should pass the options to the rule", function () {
-        var options = { something: "hello world" };
-        var rules = { knownRule: options };
-        var validator = Bifrost.validation.Validator.create();
-        validator.setOptions(rules);
-        expect(Bifrost.validation.Rule.optionsPassed).toEqual(options);
-    });
-
-    it("should run against the rule when validating", function () {
-        var options = { something: "hello world" };
-        var rules = { knownRule: options };
-        var validator = Bifrost.validation.Validator.create();
-        validator.setOptions(rules);
-        validator.validate("something");
-        expect(Bifrost.validation.Rule.validateCalled).toBeTruthy();
+    it("should create a rule with correct name and options", function () {
+        expect(knownRule.create.called).toBe(true);
     });
 });

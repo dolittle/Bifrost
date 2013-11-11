@@ -89,9 +89,6 @@
     <Compile Include="Validation\FluentValidationModelValidatorProviderExtensions.cs" />
     <Compile Include="Validation\GreaterThanPropertyValidator.cs" />
     <Compile Include="Validation\ValidatorPropertyValidator.cs" />
-    <Compile Include="Views\KnockoutRazorView.cs" />
-    <Compile Include="Views\KnockoutRazorViewEngine.cs" />
-    <Compile Include="Views\ViewEngineExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">

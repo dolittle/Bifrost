@@ -1,6 +1,8 @@
 ﻿describe("when value to be validated is null", function () {
-    it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.range.validate(null, { min: 3, max: 10 });
-        expect(value).toBeFalsy();
+    var validator = Bifrost.validation.range.create({ options: { min: 3, max: 10 } });
+    var result = validator.validate(null);
+
+    it("should not be valid", function () {
+        expect(result).toBe(false);
     });
 });

@@ -1,6 +1,8 @@
 ﻿Bifrost.namespace("Bifrost", {
-    StringMapper: Bifrost.Type.extend(function () {
+    StringMapper: Bifrost.Type.extend(function (stringMappingFactory) {
         var self = this;
+
+        this.stringMappingFactory = stringMappingFactory;
 
         this.mappings = [];
 
@@ -46,10 +48,7 @@
         };
 
         this.addMapping = function (format, mappedFormat) {
-            var mapping = Bifrost.StringMapping.create({
-                format: format,
-                mappedFormat: mappedFormat
-            });
+            var mapping = self.stringMappingFactory.create(format, mappedFormat);
             self.mappings.push(mapping);
         };
     })

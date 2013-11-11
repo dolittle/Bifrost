@@ -1,6 +1,8 @@
 ﻿describe("when validating without at", function () {
+    var validator = Bifrost.validation.email.create({ options: {} });
+    var result = validator.validate("something");
+
     it("should return false", function () {
-        var result = Bifrost.validation.ruleHandlers.email.validate("something");
         expect(result).toBe(false);
     });
 });

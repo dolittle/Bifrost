@@ -1,9 +1,13 @@
 ﻿describe("when value to be validated is not a number", function () {
+    var exception = null;
+    try {
+        var validator = Bifrost.validation.greaterThan.create({ options: { value: 3 } });
+        validator.validate("Joe");
+    } catch (e) {
+        exception = e;
+        
+    }
     it("should throw an exception", function () {
-        try {
-            Bifrost.validation.ruleHandlers.greaterThan.validate("Joe", { value: 3 });
-        } catch (e) {
-            expect(e instanceof Bifrost.validation.NotANumber).toBeTruthy();
-        }
+        expect(exception instanceof Bifrost.validation.NotANumber).toBe(true);
     });
 });

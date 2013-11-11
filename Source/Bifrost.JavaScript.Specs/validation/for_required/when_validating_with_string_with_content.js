@@ -1,6 +1,8 @@
 ﻿describe("when validating with string with content", function () {
-    it("should return true", function () {
-        var result = Bifrost.validation.ruleHandlers.required.validate("something");
-        expect(result).toBeTruthy();
+    var validator = Bifrost.validation.required.create({ options: {} });
+    var result = validator.validate("something");
+
+    it("should be valid", function () {
+        expect(result).toBe(true);
     });
 });

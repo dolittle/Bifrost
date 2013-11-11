@@ -43,13 +43,24 @@
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
-            elements.forEach(function(target) {
-                viewModelApplied = true;
-                var viewModelFile = $(target).data("viewmodel-file");
-                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
-                    applyViewModel(instance, target, viewModelFile);
-                });
-            });
+            if (elements.length > 0) {
+
+                function loadAndApply(target) {
+                    viewModelApplied = true;
+                    var viewModelFile = $(target).data("viewmodel-file");
+                    self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                        applyViewModel(instance, target, viewModelFile);
+                    });
+                }
+
+                if (elements.length == 1) {
+                    loadAndApply(elements[0]);
+                } else {
+                    for (var elementIndex = elements.length - 1; elementIndex > 0; elementIndex--) {
+                        loadAndApply(elements[elementIndex]);
+                    }
+                }
+            }
 
             return viewModelApplied;
         }

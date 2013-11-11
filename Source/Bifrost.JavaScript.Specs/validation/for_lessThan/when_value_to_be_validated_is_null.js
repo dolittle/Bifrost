@@ -1,6 +1,8 @@
 ﻿describe("when value to be validated is null", function () {
-    it("should be false", function () {
-        var value = Bifrost.validation.ruleHandlers.lessThan.validate(null, { value: 3 });
-        expect(value).toBeFalsy();
+    var validator = Bifrost.validation.lessThan.create({ options: { value: 3 } });
+    var result = validator.validate(null);
+
+    it("should not be valid", function () {
+        expect(result).toBe(false);
     });
 });
