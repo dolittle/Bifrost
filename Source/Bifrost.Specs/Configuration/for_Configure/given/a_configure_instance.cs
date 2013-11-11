@@ -23,6 +23,8 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<ICallContextConfiguration> call_context_configuration_mock;
         protected static Mock<IExecutionContextConfiguration> execution_context_configuration_mock;
         protected static Mock<ISecurityConfiguration> security_configuration_mock;
+        protected static Mock<ITypeDiscovererConfiguration> type_discoverer_configuration_mock;
+
         protected static Mock<ITypeImporter> type_importer_mock;
 
         Establish context = () =>
@@ -64,6 +66,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
                                     security_configuration_mock = new Mock<ISecurityConfiguration>();
                                     container_mock.Setup(c => c.Get<ISecurityConfiguration>()).Returns(security_configuration_mock.Object);
+
+                                    type_discoverer_configuration_mock = new Mock<ITypeDiscovererConfiguration>();
+                                    container_mock.Setup(c => c.Get<ITypeDiscovererConfiguration>()).Returns(type_discoverer_configuration_mock.Object);
 
                                     type_importer_mock = new Mock<ITypeImporter>();
                                     container_mock.Setup(c => c.Get<ITypeImporter>()).Returns(type_importer_mock.Object);

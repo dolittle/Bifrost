@@ -38,20 +38,11 @@ namespace Bifrost.Execution
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
-        static List<string> AssembliesToInclude = new List<string>();
+        static IList<string> AssembliesToInclude = new List<string>();
 
         IAssemblyLocator _assemblyLocator;
         IDictionary<string, Type> _types;
         IDictionary<Type, Type[]> _implementingTypes;
-
-		/// <summary>
-		/// Include discovering of types in a specific assembly
-		/// </summary>
-		/// <param name="name">Full/partial assembly name to include.</param>
-		public static void AddAssembly(string name)
-		{
-			AssembliesToInclude.Add(name);
-		}
 
 		/// <summary>
 		/// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
@@ -70,6 +61,15 @@ namespace Bifrost.Execution
 			CollectTypes();
 		}
 
+
+        /// <summary>
+        /// Include discovering of types in a specific assembly
+        /// </summary>
+        /// <param name="name">Full/partial assembly name to include.</param>
+        public static void AddAssembly(string name)
+        {
+            AssembliesToInclude.Add(name);
+        }
 
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<Type> GetAll()
@@ -109,6 +109,8 @@ namespace Bifrost.Execution
             if (!_types.ContainsKey(fullName)) return null;
             return _types[fullName];
         }
+
+
 #pragma warning restore 1591 // Xml Comments
 
         void AddTypes(IEnumerable<Type> types)

@@ -132,9 +132,14 @@
     <Compile Include="Configuration\IHaveStorage.cs" />
     <Compile Include="Configuration\ISecurityConfiguration.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
+    <Compile Include="Configuration\ITypeDiscovererConfiguration.cs" />
+    <Compile Include="Configuration\ITypeDiscovererTargetConfiguration.cs" />
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\SecurityConfiguration.cs" />
     <Compile Include="Configuration\TasksConfiguration.cs" />
+    <Compile Include="Configuration\TypeDiscovererConfiguration.cs" />
+    <Compile Include="Configuration\TypeDiscovererConfigurationExtensions.cs" />
+    <Compile Include="Configuration\TypeDiscovererTargetConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />
     <Compile Include="Configuration\IConfigure.cs" />
     <Compile Include="Configuration\ISagasConfiguration.cs" />

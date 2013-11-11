@@ -166,6 +166,7 @@ namespace Bifrost.Configuration
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
+        public ITypeDiscovererConfiguration TypeDiscoverer { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
 
@@ -180,6 +181,7 @@ namespace Bifrost.Configuration
             ConfigureFromCanConfigurables();
             InitializeCulture();
             
+            
             var initializationList = new List<Action>();
             initializationList.Add(() => Serialization.Initialize(Container));
             initializationList.Add(() => Commands.Initialize(Container));
@@ -192,7 +194,7 @@ namespace Bifrost.Configuration
             initializationList.Add(() => ExecutionContext.Initialize(Container));
             initializationList.Add(() => Security.Initialize(Container));
             initializationList.Add(() => DefaultStorage.Initialize(Container));
-
+            initializationList.Add(() => TypeDiscoverer.Initialize(Container));
             #if(SILVERLIGHT)
             initializationList.ForEach(initializator => initializator());
             #else
@@ -218,6 +220,7 @@ namespace Bifrost.Configuration
             ExecutionContext = Container.Get<IExecutionContextConfiguration>();
             Security = Container.Get<ISecurityConfiguration>();
             QualityAssurance = Container.Get<IQualityAssurance>();
+            TypeDiscoverer = Container.Get<ITypeDiscovererConfiguration>();
         }
 
 		void InitializeCulture()

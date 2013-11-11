@@ -9,6 +9,7 @@ namespace Bifrost.QuickStart
         {
             var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
             configure
+                .TypeDiscoverer.Types(t => t.AddAssembly("Bifrost.QuickStart"))
                 .Serialization
                     .UsingJson()
                 .Events
