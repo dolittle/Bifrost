@@ -30,7 +30,7 @@ using System.Windows;
 #if(NETFX_CORE)
 using Windows.Storage;
 #endif
-
+using System.Threading.Tasks;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -62,9 +62,9 @@ namespace Bifrost.Configuration
             Container = container;
             ExcludeNamespacesForTypeDiscovery();
 
-            defaultBindings.Initialize(container);
+            defaultBindings.Initialize(Container);
             defaultConventions.Initialize();
-
+            
             InitializeProperties();
         }
 
@@ -179,19 +179,27 @@ namespace Bifrost.Configuration
         public void Initialize()
         {
             ConfigureFromCanConfigurables();
+            InitializeCulture();
+            
+            var initializationList = new List<Action>();
+            initializationList.Add(() => Serialization.Initialize(Container));
+            initializationList.Add(() => Commands.Initialize(Container));
+            initializationList.Add(() => Events.Initialize(Container));
+            initializationList.Add(() => Tasks.Initialize(Container));
+            initializationList.Add(() => Views.Initialize(Container));
+            initializationList.Add(() => Sagas.Initialize(Container));
+            initializationList.Add(() => Frontend.Initialize(Container));
+            initializationList.Add(() => CallContext.Initialize(Container));
+            initializationList.Add(() => ExecutionContext.Initialize(Container));
+            initializationList.Add(() => Security.Initialize(Container));
+            initializationList.Add(() => DefaultStorage.Initialize(Container));
 
-			Serialization.Initialize(Container);
-            Commands.Initialize(Container);
-            Events.Initialize(Container);
-            Tasks.Initialize(Container);
-            Views.Initialize(Container);
-			Sagas.Initialize(Container);
-            Frontend.Initialize(Container);
-            CallContext.Initialize(Container);
-            ExecutionContext.Initialize(Container);
-            Security.Initialize(Container);
-        	InitializeCulture();
-            DefaultStorage.Initialize(Container);
+            #if(SILVERLIGHT)
+            initializationList.ForEach(initializator => initializator());
+            #else
+            Parallel.ForEach(initializationList, initializator => initializator());
+            #endif
+            
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -225,7 +233,9 @@ namespace Bifrost.Configuration
         {
             var typeImporter = Container.Get<ITypeImporter>();
             foreach (var canConfigure in typeImporter.ImportMany<ICanConfigure>())
+            {
                 canConfigure.Configure(this);
+            }
         }
 
         static void ExcludeNamespacesForTypeDiscovery()
