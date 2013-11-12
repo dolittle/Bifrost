@@ -23,15 +23,20 @@
             '{"isAuthorized": true}'
         ]);
 
-
+    var command = {
+        name: "SomeCommand",
+        generatedFrom : "SomeCommand",
+        _type: {
+            _name: "SomeCommand",
+            _namespace: {}
+        }
+    };
     var service = Bifrost.commands.commandSecurityService.create(parameters);
-    service.getContextFor({name:"SomeCommand"}).continueWith(function (context) {
+    service.getContextFor(command).continueWith(function (context) {
         securityContextReceived = context;
     });
 
-
     server.respond();
-
 
     it("should create a security context", function () {
         expect(createCalled).toBe(true);

@@ -57,6 +57,7 @@
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />
     <Content Include="commands\for_CommandResult\when_creating_a_command_result.js" />
+    <Content Include="commands\for_commandSecurityService\when_getting_context_for_a_command_with_security_context_in_namespace.js" />
     <Content Include="commands\for_commandSecurityService\when_getting_context_for_a_command.js" />
     <Content Include="commands\for_commandValidationService\when_getting_validators_for_command.js" />
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_deep_properties.js" />
@@ -64,7 +65,6 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
-    <Content Include="commands\for_Command\when_creating_with_security_context_set_on_descendant.js" />
     <Content Include="commands\for_Command\when_setting_property_values_with_object_literal_containing_observables_in_command.js" />
     <Content Include="commands\for_Command\when_executing_with_exception_in_coordinator.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />

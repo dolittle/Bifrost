@@ -34,10 +34,7 @@ namespace Bifrost.Web.Proxies
 
         ITypeDiscoverer _typeDiscoverer;
         ITypeImporter _typeImporter;
-
         ICodeGenerator _codeGenerator;
-        IContainer _container;
-        ICommandSecurityManager _commandSecurityManager;
         WebConfiguration _configuration;
 
         public static void ExcludeCommandsStartingWithNamespace(string @namespace)
@@ -45,13 +42,12 @@ namespace Bifrost.Web.Proxies
             _namespacesToExclude.Add(@namespace);
         }
 
-        public CommandProxies(ITypeDiscoverer typeDiscoverer, ITypeImporter typeImporter, ICodeGenerator codeGenerator, IContainer container, ICommandSecurityManager commandSecurityManager, WebConfiguration configuration)
+        public CommandProxies(ITypeDiscoverer typeDiscoverer, ITypeImporter typeImporter, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _typeImporter = typeImporter;
             _codeGenerator = codeGenerator;
-            _container = container;
-            _commandSecurityManager = commandSecurityManager;
+            
             _configuration = configuration;
         }
 
@@ -75,9 +71,7 @@ namespace Bifrost.Web.Proxies
                 foreach (var type in @namespace)
                 {
                     if (type.IsGenericType) continue;
-
-                    var command = _container.Get(type) as ICommand;
-                    var authorizationResult = _commandSecurityManager.Authorize(command);
+                    
                     var name = type.Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
@@ -87,6 +81,8 @@ namespace Bifrost.Web.Proxies
                                         .Variant("self", v => v.WithThis())
                                         .Property("name", p => p.WithString(name))
                                         .Property("generatedFrom", p => p.WithString(type.FullName))
+
+                                        /*
                                         .Access("this",a=>a.WithFunctionCall(p=>p
                                             .WithName("securityContext")
                                             .WithParameters("Bifrost.commands.CommandSecurityContext.create()"))
@@ -98,6 +94,8 @@ namespace Bifrost.Web.Proxies
                                                 .WithParameters(authorizationResult.IsAuthorized.ToString().ToCamelCase())
                                             )
                                         )
+                                         */
+
                                         .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
                                         {
                                             foreach (var commandPropertyExtender in commandPropertyExtenders)

@@ -26,6 +26,7 @@ using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Sagas;
+using Bifrost.Web.Security;
 using Bifrost.Web.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
@@ -41,6 +42,7 @@ namespace Bifrost.Web
 			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
 
             RouteTable.Routes.Add(new ProxyRoute());
+            RouteTable.Routes.Add(new SecurityRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
             RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
             RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");

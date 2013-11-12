@@ -19,6 +19,7 @@
 using System.Text;
 using System.Linq;
 using Bifrost.Execution;
+using Bifrost.Web.Security;
 
 namespace Bifrost.Web.Proxies
 {
@@ -27,6 +28,7 @@ namespace Bifrost.Web.Proxies
     {
         public GeneratedProxies(
             CommandProxies commandProxies,
+            CommandSecurityProxies commandSecurityProxies,
             QueryProxies queryProxies,
             ReadModelProxies readModelProxies,
             ServiceProxies serviceProxies,
@@ -36,6 +38,7 @@ namespace Bifrost.Web.Proxies
         {
             var builder = new StringBuilder();
             builder.Append(commandProxies.Generate());
+            builder.Append(commandSecurityProxies.Generate());
             builder.Append(readModelProxies.Generate());
             builder.Append(queryProxies.Generate());
             builder.Append(serviceProxies.Generate());

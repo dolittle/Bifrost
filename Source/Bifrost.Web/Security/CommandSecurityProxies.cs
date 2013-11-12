@@ -16,14 +16,24 @@ namespace Bifrost.Web.Security
         ITypeDiscoverer _typeDiscoverer;
         ITypeImporter _typeImporter;
         ICodeGenerator _codeGenerator;
+        ICommandSecurityManager _commandSecurityManager;
+        IContainer _container;
         WebConfiguration _configuration;
 
-        public CommandSecurityProxies(ITypeDiscoverer typeDiscoverer, ITypeImporter typeImporter, ICodeGenerator codeGenerator, WebConfiguration configuration)
+        public CommandSecurityProxies(
+                ITypeDiscoverer typeDiscoverer, 
+                ITypeImporter typeImporter, 
+                ICodeGenerator codeGenerator,
+                ICommandSecurityManager commandSecurityManager,
+                IContainer container,
+                WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _typeImporter = typeImporter;
             _codeGenerator = codeGenerator;
             _configuration = configuration;
+            _container = container;
+            _commandSecurityManager = commandSecurityManager;
         }
 
         public string Generate()
@@ -44,6 +54,9 @@ namespace Bifrost.Web.Security
                 foreach (var type in @namespace)
                 {
                     if (type.IsGenericType) continue;
+
+                    var command = _container.Get(type) as ICommand;
+                    var authorizationResult = _commandSecurityManager.Authorize(command);
                     var name = string.Format("{0}SecurityContext",type.Name.ToCamelCase());
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
@@ -51,10 +64,17 @@ namespace Bifrost.Web.Security
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
-                                        .Call(f => f.WithName("isAuthorized").WithParameters("false"))
+                                        .Access("this", a=>a
+                                            .WithFunctionCall(f => f
+                                                .WithName("isAuthorized")
+                                                .WithParameters(authorizationResult.IsAuthorized.ToString().ToCamelCase())
+                                            )
+                                        )
                             );
 
                 }
+                if (currentNamespace != globalCommands)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
             result.Append(_codeGenerator.GenerateFrom(globalCommands));
             

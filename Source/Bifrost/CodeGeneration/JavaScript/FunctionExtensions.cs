@@ -128,19 +128,6 @@ namespace Bifrost.CodeGeneration.JavaScript
         }
 
         /// <summary>
-        /// Add a call to a function
-        /// </summary>
-        /// <param name="functionBody"><see cref="FunctionBody"/> to add to</param>
-        /// <param name="callback"><see cref="Action{FunctionCall}"/> that gets called for working with the <see cref="FunctionCall"/></param>
-        /// <returns>Chained <see cref="FunctionBody"/> to keep building on</returns>
-        public static FunctionBody Call(this FunctionBody functionBody, Action<FunctionCall> callback)
-        {
-            var functionCall = new FunctionCall();
-            callback(functionCall);
-            return functionBody;
-        }
-
-        /// <summary>
         /// Set the parameters for a <see cref="FunctionCall"/> based on strings
         /// </summary>
         /// <param name="functionCall"><see cref="FunctionCall"/> to set for</param>
