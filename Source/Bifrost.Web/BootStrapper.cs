@@ -19,7 +19,6 @@
 
 using System.Web.Routing;
 using Bifrost.Configuration;
-using Bifrost.Diagnostics;
 using Bifrost.Web.Assets;
 using Bifrost.Web.Commands;
 using Bifrost.Web.Configuration;
@@ -30,16 +29,18 @@ using Bifrost.Web.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"PreApplicationStart")]
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.BootStrapper), "PostApplicationStart")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.BootStrapper), "Start")]
 
 namespace Bifrost.Web
 {
 	public class BootStrapper
 	{
-		public static void PreApplicationStart()
+        private static volatile object _lockObject = new object();
+	    private static bool _isInitialized;
+
+		private static void PreApplicationStart()
 		{
 			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
-
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
             RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
@@ -49,13 +50,23 @@ namespace Bifrost.Web
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
             RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
             RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(BootStrapper).Assembly);
-		}
+        }
 
-        public static void PostApplicationStart()
+        public static void Start()
         {
-            Configure.DiscoverAndConfigure();
+            lock (_lockObject)
+            {
+                if (_isInitialized)
+                {
+                    return;
+                }
+                
+                Configure.DiscoverAndConfigure();
 
-            AddAllAssetsForThisAssembly();
+                AddAllAssetsForThisAssembly();
+
+                _isInitialized = true;
+            }
         }
 
         // TODO: this is just a temporary solution for this particular Web Application - we need to revisit this whole thing so that any applications added from an assembly gets their assets relative to their route registered!

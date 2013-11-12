@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,6 +25,7 @@ using System.Linq;
 using System.Windows;
 #endif
 using System.Reflection;
+using System.Threading.Tasks;
 using Bifrost.Extensions;
 
 namespace Bifrost.Execution
@@ -36,20 +38,11 @@ namespace Bifrost.Execution
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
-        static List<string> NamespaceStartingWithExclusions = new List<string>();
+        static IList<string> AssembliesToInclude = new List<string>();
 
         IAssemblyLocator _assemblyLocator;
-        Dictionary<string, Type> _types;
-        Dictionary<Type, Type[]> _implementingTypes;
-
-		/// <summary>
-		/// Exclude discovering of types in a specific namespace
-		/// </summary>
-		/// <param name="name">Namespace to exclude</param>
-		public static void ExcludeNamespaceStartingWith(string name)
-		{
-			NamespaceStartingWithExclusions.Add(name);
-		}
+        IDictionary<string, Type> _types;
+        IDictionary<Type, Type[]> _implementingTypes;
 
 		/// <summary>
 		/// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
@@ -57,11 +50,26 @@ namespace Bifrost.Execution
 		public TypeDiscoverer(IAssemblyLocator assemblyLocator)
 		{
 		    _assemblyLocator = assemblyLocator;
-		    _types = new Dictionary<string, Type>();
+
+            #if(SILVERLIGHT)
+            _types = new Dictionary<string, Type>();
+            #else
+            _types = new ConcurrentDictionary<string, Type>();
+            #endif
+
             _implementingTypes = new Dictionary<Type, Type[]>();
 			CollectTypes();
 		}
 
+
+        /// <summary>
+        /// Include discovering of types in a specific assembly
+        /// </summary>
+        /// <param name="name">Full/partial assembly name to include.</param>
+        public static void AddAssembly(string name)
+        {
+            AssembliesToInclude.Add(name);
+        }
 
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<Type> GetAll()
@@ -101,6 +109,8 @@ namespace Bifrost.Execution
             if (!_types.ContainsKey(fullName)) return null;
             return _types[fullName];
         }
+
+
 #pragma warning restore 1591 // Xml Comments
 
         void AddTypes(IEnumerable<Type> types)
@@ -112,6 +122,7 @@ namespace Bifrost.Execution
                     _types.Add(type.FullName, type);
                 }
             }
+           
         }
 
 #if(WINDOWS_PHONE)
@@ -163,37 +174,41 @@ namespace Bifrost.Execution
 #else
         void CollectTypes()
 		{
-		    var assemblies = _assemblyLocator.GetAll();
-			var query = from a in assemblies
-			            where ShouldAddAssembly(a.FullName)
-			            select a;
+		    var assemblies = _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
 
-            foreach (var assembly in query)
+            Parallel.ForEach(assemblies, assembly =>
+                                             {
+                                                     try
+                                                     {
+                                                         AddTypes(assembly.GetTypes());
+                                                     }
+                                                    catch(ReflectionTypeLoadException ex)
+                                                    {
+                                                        foreach (var loaderException in ex.LoaderExceptions)
+                                                            Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
+                                                    }
+
+                                             });
+           
+		}
+#endif
+#endif
+#endif
+		static bool ShouldAddAssembly(string assemblyName)
+		{
+			if (assemblyName.Equals("System") || assemblyName.StartsWith("System.") || assemblyName.StartsWith("mscorlib"))
+			{
+			    return false;
+			}
+
+            if (assemblyName.StartsWith("Bifrost,") || assemblyName.StartsWith("Bifrost."))
             {
-                try
-                {
-                    AddTypes(assembly.GetTypes());
-                } catch(ReflectionTypeLoadException ex)
-                {
-                    foreach (var loaderException in ex.LoaderExceptions)
-                        Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
-                }
-
+                return true;
             }
-		}
-#endif
-#endif
-#endif
-		static bool ShouldAddAssembly(string name)
-		{
-			if (NameStartsWithAnExcludedNamespace(name)) return false;
-			return !name.Contains("System.") && !name.Contains("mscorlib");
+
+            return AssembliesToInclude.Any(name => assemblyName.StartsWith(name));
 		}
 
-		static bool NameStartsWithAnExcludedNamespace(string name)
-		{
-			return NamespaceStartingWithExclusions.Any(name.StartsWith);
-		}
 
 		Type[] Find(Type type)
 		{

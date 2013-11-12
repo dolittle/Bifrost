@@ -207,6 +207,8 @@ namespace Bifrost.CodeGeneration.JavaScript
             assignment.Value = new Boolean(value);
             return assignment;
         }
+
+     
         
         /// <summary>
         /// Assign the default value of a given Type

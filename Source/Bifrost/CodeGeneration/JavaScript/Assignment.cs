@@ -47,5 +47,5 @@ namespace Bifrost.CodeGeneration.JavaScript
 #pragma warning disable 1591
         public abstract override void Write(ICodeWriter writer);
 #pragma warning restore 1591
-    }
+  }
 }

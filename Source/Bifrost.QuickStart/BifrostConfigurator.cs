@@ -1,10 +1,5 @@
-﻿using System.Diagnostics;
-using System.Web;
+﻿using System.Web;
 using Bifrost.Configuration;
-using Bifrost.Execution;
-using Bifrost.QuickStart.Concepts.Persons;
-using Bifrost.QuickStart.Domain.HumanResources.Employees;
-using Bifrost.Validation;
 
 namespace Bifrost.QuickStart
 {
@@ -14,6 +9,7 @@ namespace Bifrost.QuickStart
         {
             var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
             configure
+                .TypeDiscoverer.Types(t => t.AddAssembly("Bifrost.QuickStart"))
                 .Serialization
                     .UsingJson()
                 .Events
