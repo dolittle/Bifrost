@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Specs.Validation.for_CommandValidatorProvider.given;
 using Bifrost.Validation;
@@ -15,6 +16,9 @@ namespace Bifrost.Specs.Validation.for_CommandValidatorProvider
 
         Because of = () => business_validator = command_validator_provider.GetBusinessValidatorFor(new SimpleCommand(Guid.NewGuid()));
 
-        It should_return_the_correct_business_validator = () => business_validator.ShouldBeOfType(typeof(SimpleCommandBusinessValidator));
+        It should_return_the_correct_business_validator = () =>
+                                                              {
+                                                                  business_validator.ShouldBeOfType(typeof(SimpleCommandBusinessValidator));
+                                                              };
     }
 }

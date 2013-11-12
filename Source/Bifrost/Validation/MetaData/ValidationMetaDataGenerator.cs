@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
@@ -61,6 +62,18 @@ namespace Bifrost.Validation.MetaData
 
             GetValue(inputValidator, metaData, String.Empty);
 
+            return metaData;
+        }
+
+        public ValidationMetaData GenerateFrom(AggregatedValidator inputValidator)
+        {
+            var metaData = new ValidationMetaData();
+
+            foreach (var validator in inputValidator.Validators.OfType<IValidator>())
+            {
+                GetValue(validator, metaData, String.Empty);
+            }
+            
             return metaData;
         }
 

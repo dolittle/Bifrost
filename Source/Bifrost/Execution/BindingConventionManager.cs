@@ -89,7 +89,7 @@ namespace Bifrost.Execution
         public void DiscoverAndInitialize()
         {
             var conventionTypes = _typeDiscoverer.FindMultiple<IBindingConvention>();
-            foreach( var conventionType in conventionTypes )
+            foreach( var conventionType in conventionTypes)
                 Add(conventionType);
 
             Initialize();

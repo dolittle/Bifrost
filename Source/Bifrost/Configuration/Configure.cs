@@ -30,7 +30,7 @@ using System.Windows;
 #if(NETFX_CORE)
 using Windows.Storage;
 #endif
-
+using System.Threading.Tasks;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -60,11 +60,10 @@ namespace Bifrost.Configuration
             container.Bind<IConfigure>(this);
 
             Container = container;
-            ExcludeNamespacesForTypeDiscovery();
-
-            defaultBindings.Initialize(container);
+        
+            defaultBindings.Initialize(Container);
             defaultConventions.Initialize();
-
+            
             InitializeProperties();
         }
 
@@ -167,6 +166,7 @@ namespace Bifrost.Configuration
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
+        public ITypeDiscovererConfiguration TypeDiscoverer { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
 
@@ -179,19 +179,28 @@ namespace Bifrost.Configuration
         public void Initialize()
         {
             ConfigureFromCanConfigurables();
-
-			Serialization.Initialize(Container);
-            Commands.Initialize(Container);
-            Events.Initialize(Container);
-            Tasks.Initialize(Container);
-            Views.Initialize(Container);
-			Sagas.Initialize(Container);
-            Frontend.Initialize(Container);
-            CallContext.Initialize(Container);
-            ExecutionContext.Initialize(Container);
-            Security.Initialize(Container);
-        	InitializeCulture();
-            DefaultStorage.Initialize(Container);
+            InitializeCulture();
+            
+            
+            var initializationList = new List<Action>();
+            initializationList.Add(() => Serialization.Initialize(Container));
+            initializationList.Add(() => Commands.Initialize(Container));
+            initializationList.Add(() => Events.Initialize(Container));
+            initializationList.Add(() => Tasks.Initialize(Container));
+            initializationList.Add(() => Views.Initialize(Container));
+            initializationList.Add(() => Sagas.Initialize(Container));
+            initializationList.Add(() => Frontend.Initialize(Container));
+            initializationList.Add(() => CallContext.Initialize(Container));
+            initializationList.Add(() => ExecutionContext.Initialize(Container));
+            initializationList.Add(() => Security.Initialize(Container));
+            initializationList.Add(() => DefaultStorage.Initialize(Container));
+            initializationList.Add(() => TypeDiscoverer.Initialize(Container));
+            #if(SILVERLIGHT)
+            initializationList.ForEach(initializator => initializator());
+            #else
+            Parallel.ForEach(initializationList, initializator => initializator());
+            #endif
+            
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -211,6 +220,7 @@ namespace Bifrost.Configuration
             ExecutionContext = Container.Get<IExecutionContextConfiguration>();
             Security = Container.Get<ISecurityConfiguration>();
             QualityAssurance = Container.Get<IQualityAssurance>();
+            TypeDiscoverer = Container.Get<ITypeDiscovererConfiguration>();
         }
 
 		void InitializeCulture()
@@ -225,26 +235,11 @@ namespace Bifrost.Configuration
         {
             var typeImporter = Container.Get<ITypeImporter>();
             foreach (var canConfigure in typeImporter.ImportMany<ICanConfigure>())
+            {
                 canConfigure.Configure(this);
+            }
         }
-
-        static void ExcludeNamespacesForTypeDiscovery()
-        {
-            // TODO : This is BAD..  Need to move this away, maybe include a list of files some how for all extensions instead!!!!
-            // reason its bad, Core suddenly knows about all extensions and what not.   No Good!
-            TypeDiscoverer.ExcludeNamespaceStartingWith("NHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("FluentNHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Castle");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("log4net");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Iesi");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Ninject");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Microsoft");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("AutoMapper");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("SignalR");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("RavenDb");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
-        }
-
+        
         static Type DiscoverCanCreateContainerType(IEnumerable<Assembly> assemblies)
         {
             Type createContainerType = null;
