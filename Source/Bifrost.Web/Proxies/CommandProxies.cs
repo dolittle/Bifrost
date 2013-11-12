@@ -30,7 +30,7 @@ namespace Bifrost.Web.Proxies
 {
     public class CommandProxies : IProxyGenerator
     {
-        static List<string> _namespacesToExclude = new List<string>();
+        internal static List<string> _namespacesToExclude = new List<string>();
 
         ITypeDiscoverer _typeDiscoverer;
         ITypeImporter _typeImporter;

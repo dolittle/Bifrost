@@ -73,6 +73,10 @@
     <Compile Include="Configuration\PathToNamespaceMappers.cs" />
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
+    <Compile Include="Security\CommandSecurityProxies.cs" />
+    <Compile Include="Security\SecurityRoute.cs" />
+    <Compile Include="Security\SecurityRouteHandler.cs" />
+    <Compile Include="Security\SecurityRouteHttpHandler.cs" />
     <Compile Include="Visualizer\Categories.cs" />
     <Compile Include="Visualizer\Category.cs" />
     <Compile Include="Visualizer\QualityAssurance\AllProblems.cs" />

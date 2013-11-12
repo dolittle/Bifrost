@@ -17,6 +17,7 @@
 //
 #endregion
 using System.Text;
+using System.Linq;
 using Bifrost.Execution;
 
 namespace Bifrost.Web.Proxies
@@ -29,28 +30,26 @@ namespace Bifrost.Web.Proxies
             QueryProxies queryProxies,
             ReadModelProxies readModelProxies,
             ServiceProxies serviceProxies,
-            NamespaceConfigurationProxies namespaceConfigurationProxies)
+            NamespaceConfigurationProxies namespaceConfigurationProxies,
+            ITypeDiscoverer typeDiscoverer,
+            IContainer container)
         {
-            CommandProxies = commandProxies.Generate();
-            ReadModelProxies = readModelProxies.Generate();
-            QueryProxies = queryProxies.Generate();
-            ServiceProxies = serviceProxies.Generate();
-            NamespaceConfigurationProxies = namespaceConfigurationProxies.Generate();
-
             var builder = new StringBuilder();
-            builder.Append(CommandProxies);
-            builder.Append(ReadModelProxies);
-            builder.Append(QueryProxies);
-            builder.Append(ServiceProxies);
-            builder.Append(NamespaceConfigurationProxies);
+            builder.Append(commandProxies.Generate());
+            builder.Append(readModelProxies.Generate());
+            builder.Append(queryProxies.Generate());
+            builder.Append(serviceProxies.Generate());
+            builder.Append(namespaceConfigurationProxies.Generate());
+
+            var generatorTypes = typeDiscoverer.FindMultiple<IProxyGenerator>().Where(t => !t.Namespace.StartsWith("Bifrost"));
+            foreach (var generatorType in generatorTypes)
+            {
+                var generator = container.Get(generatorType) as IProxyGenerator;
+                builder.Append(generator.Generate());
+            }
+
             All = builder.ToString();
         }
-
-        public string CommandProxies { get; private set; }
-        public string ReadModelProxies { get; private set; }
-        public string QueryProxies { get; private set; }
-        public string ServiceProxies { get; private set; }
-        public string NamespaceConfigurationProxies { get; private set; }
 
         public string All { get; private set; }
     }
