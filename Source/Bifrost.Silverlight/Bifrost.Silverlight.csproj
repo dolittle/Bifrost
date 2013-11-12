@@ -246,6 +246,12 @@
     <Compile Include="..\Bifrost\Configuration\ITasksConfiguration.cs">
       <Link>ITasksConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\ITypeDiscovererConfiguration.cs">
+      <Link>Configuration\ITypeDiscovererConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\ITypeDiscovererTargetConfiguration.cs">
+      <Link>Configuration\ITypeDiscovererTargetConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>
@@ -263,6 +269,15 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\TasksConfiguration.cs">
       <Link>TasksConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\TypeDiscovererConfiguration.cs">
+      <Link>Configuration\TypeDiscovererConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\TypeDiscovererConfigurationExtensions.cs">
+      <Link>Configuration\TypeDiscovererConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\TypeDiscovererTargetConfiguration.cs">
+      <Link>Configuration\TypeDiscovererTargetConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\ViewsConfiguration.cs">
       <Link>Configuration\ViewsConfiguration.cs</Link>

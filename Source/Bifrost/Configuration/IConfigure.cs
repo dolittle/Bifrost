@@ -106,7 +106,13 @@ namespace Bifrost.Configuration
         /// </summary>
         ISecurityConfiguration Security { get; }
 
+        /// <summary>
+        /// Gets the configuration for type discoverer
+        /// </summary>
+        ITypeDiscovererConfiguration TypeDiscoverer { get; }
+
 		
+
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
 		/// </summary>
