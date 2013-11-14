@@ -293,15 +293,14 @@ Bifrost.namespace("Bifrost", {
             instance = new actualType();    
         }
 
+        instance._type = {
+            _name: this._name,
+            _namespace: this._namespace
+        };
+
         if( isSuper !== true ) {
             handleOnCreate(actualType, instance, instance);
         }
-
-
-        instance._type = {
-            _name : this._name,
-            _namespace : this._namespace
-        };
 
         if( scope != null ) {
             this.instancesPerScope[scope] = instance;
