@@ -67,7 +67,6 @@
 @depends commands/commandSecurityContextFactory.js
 @depends commands/commandSecurityService.js
 @depends commands/hasChanges.js
-@depends read/queryService.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js

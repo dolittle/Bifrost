@@ -26,7 +26,7 @@
 
         function observePropertiesFrom(query) {
             for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
+                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) ) {
                     query[property].subscribe(function () {
                         self.execute();
                     });
