@@ -24,7 +24,8 @@
             var promise = Bifrost.execution.Promise.create();
 
             if( hasSecurityContextInNamespaceFor(command) ) {
-                var context = getSecurityContextInNamespaceFor(command);
+                var contextType = getSecurityContextInNamespaceFor(command);
+                var context = contextType.create();
                 promise.signal(context);
             } else {
                 var context = self.commandSecurityContextFactory.create();
