@@ -47,6 +47,9 @@ namespace Bifrost.Concepts
             if (valueProperty.PropertyType.IsPrimitive && value == null)
                 value = Activator.CreateInstance(valueProperty.PropertyType);
 
+            if (valueProperty.PropertyType == typeof(string) && value == null)
+                value = string.Empty;
+
             if (value.GetType() != genericArgumentType)
                 value = Convert.ChangeType(value, genericArgumentType, null);
 
