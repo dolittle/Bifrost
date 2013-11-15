@@ -3,6 +3,7 @@
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
+@depends extensions/DateExtensions.js
 @depends polyfills/ElementPolyfills.js
 @depends utils/extend.js
 @depends utils/namespace.js
@@ -66,7 +67,6 @@
 @depends commands/commandSecurityContextFactory.js
 @depends commands/commandSecurityService.js
 @depends commands/hasChanges.js
-@depends read/queryService.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js

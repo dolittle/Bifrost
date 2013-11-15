@@ -54,6 +54,7 @@
     <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
     <Content Include="commands\hasChanges.js" />
+    <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
     <Content Include="Libraries\knockout-2.2.1.debug.js" />

@@ -17,7 +17,11 @@
         _type: {
             _name: "SomeCommand",
             _namespace: {
-                SomeCommandSecurityContext: securityContext
+                SomeCommandSecurityContext: {
+                    create: function () {
+                        return securityContext;
+                    }
+                }
             }
         }
     };

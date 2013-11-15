@@ -71,6 +71,27 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 NodeList.prototype.length = Array.prototype.length;
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 HTMLCollection.prototype.length = Array.prototype.length;
+// From the following thread : http://stackoverflow.com/questions/1056728/formatting-a-date-in-javascript
+Date.prototype.format = function (format) //author: meizz
+{
+    var o = {
+        "M+": this.getMonth() + 1, //month
+        "d+": this.getDate(),    //day
+        "h+": this.getHours(),   //hour
+        "m+": this.getMinutes(), //minute
+        "s+": this.getSeconds(), //second
+        "q+": Math.floor((this.getMonth() + 3) / 3),  //quarter
+        "S": this.getMilliseconds() //millisecond
+    }
+
+    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
+      (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o) if (new RegExp("(" + k + ")").test(format))
+        format = format.replace(RegExp.$1,
+          RegExp.$1.length == 1 ? o[k] :
+            ("00" + o[k]).substr(("" + o[k]).length));
+    return format;
+};
 // From: http://www.jonathantneal.com/blog/faking-the-future/
 this.Element && (function (ElementPrototype, polyfill) {
     function NodeList() { [polyfill] }
@@ -1002,15 +1023,14 @@ Bifrost.namespace("Bifrost", {
             instance = new actualType();    
         }
 
+        instance._type = {
+            _name: this._name,
+            _namespace: this._namespace
+        };
+
         if( isSuper !== true ) {
             handleOnCreate(actualType, instance, instance);
         }
-
-
-        instance._type = {
-            _name : this._name,
-            _namespace : this._namespace
-        };
 
         if( scope != null ) {
             this.instancesPerScope[scope] = instance;
@@ -2776,7 +2796,8 @@ Bifrost.namespace("Bifrost.commands", {
             var promise = Bifrost.execution.Promise.create();
 
             if( hasSecurityContextInNamespaceFor(command) ) {
-                var context = getSecurityContextInNamespaceFor(command);
+                var contextType = getSecurityContextInNamespaceFor(command);
+                var context = contextType.create();
                 promise.signal(context);
             } else {
                 var context = self.commandSecurityContextFactory.create();
@@ -2829,43 +2850,6 @@ if (typeof ko !== 'undefined') {
         };
     };
 }
-Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function (server, readModelMapper) {
-        var self = this;
-        this.server = server;
-        this.readModelMapper = readModelMapper;
-
-        this.execute = function (query, paging) {
-            var promise = Bifrost.execution.Promise.create();
-
-            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
-            self.server.post(url, {
-                descriptor: {
-                    nameOfQuery: query.name,
-                    generatedFrom: query.generatedFrom,
-                    parameters: query.getParameterValues()
-                },
-                paging: {
-                    size: paging.size,
-                    number: paging.number
-                }
-            }).continueWith(function (result) {
-                if (typeof result == "undefined" || result == null) {
-                    result = {};
-                }
-                if (typeof result.items == "undefined" || result.items == null) result.items = [];
-                if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
-
-                if (query.hasReadModel()) {
-                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
-                }
-                promise.signal(result);
-            });
-
-            return promise;
-        };
-    })
-});
 Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
@@ -2951,7 +2935,7 @@ Bifrost.namespace("Bifrost.read", {
 
         function observePropertiesFrom(query) {
             for (var property in query) {
-                if (ko.isObservable(query[property]) == true) {
+                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) ) {
                     query[property].subscribe(function () {
                         self.execute();
                     });
@@ -3038,7 +3022,7 @@ Bifrost.namespace("Bifrost.read", {
             var parameters = {};
 
             for (var property in self.target) {
-                if (ko.isObservable(self.target[property]) &&
+                if (ko.isObservable(self.target[property]) && 
                     property != "areAllParametersSet") {
                     parameters[property] = self.target[property];
                 }

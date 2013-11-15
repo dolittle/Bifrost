@@ -82,20 +82,6 @@ namespace Bifrost.Web.Proxies
                                         .Property("name", p => p.WithString(name))
                                         .Property("generatedFrom", p => p.WithString(type.FullName))
 
-                                        /*
-                                        .Access("this",a=>a.WithFunctionCall(p=>p
-                                            .WithName("securityContext")
-                                            .WithParameters("Bifrost.commands.CommandSecurityContext.create()"))
-                                        )
-                                        .Access("this",a=>a
-                                            .WithFunctionCall(p=>p.WithName("securityContext"))
-                                            .WithFunctionCall(p=>p
-                                                .WithName("isAuthorized")
-                                                .WithParameters(authorizationResult.IsAuthorized.ToString().ToCamelCase())
-                                            )
-                                        )
-                                         */
-
                                         .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
                                         {
                                             foreach (var commandPropertyExtender in commandPropertyExtenders)
