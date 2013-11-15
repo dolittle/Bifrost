@@ -26,7 +26,7 @@
 
         function observePropertiesFrom(query) {
             for (var property in query) {
-                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) ) {
+                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) && property != "areAllParametersSet" ) {
                     query[property].subscribe(function () {
                         self.execute();
                     });
@@ -65,6 +65,12 @@
 
             return self.target;
         };
+
+        if (typeof self.query.areAllParametersSet.subscribe == "function") {
+            self.query.areAllParametersSet.subscribe(function (isSet) {
+                if (isSet === true) self.execute();
+            });
+        }
 
         this.setPageInfo = function (pageSize, pageNumber) {
             self.canExecute = false;
