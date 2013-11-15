@@ -23,8 +23,6 @@ namespace Bifrost.Web.Security
 {
     public class SecurityRouteHttpHandler : IHttpHandler
     {
-        CommandSecurityProxies _proxies;
-
         public SecurityRouteHttpHandler()
         {
         }
@@ -33,9 +31,9 @@ namespace Bifrost.Web.Security
 
         public void ProcessRequest(HttpContext context)
         {
-            if (_proxies == null) _proxies = Configure.Instance.Container.Get<CommandSecurityProxies>();
+            var proxies = Configure.Instance.Container.Get<CommandSecurityProxies>();
             context.Response.ContentType = "text/javascript";
-            context.Response.Write(_proxies.Generate());
+            context.Response.Write(proxies.Generate());
         }
     }
 }
