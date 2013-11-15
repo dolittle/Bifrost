@@ -2935,7 +2935,7 @@ Bifrost.namespace("Bifrost.read", {
 
         function observePropertiesFrom(query) {
             for (var property in query) {
-                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) ) {
+                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) && property != "areAllParametersSet" ) {
                     query[property].subscribe(function () {
                         self.execute();
                     });
@@ -2974,6 +2974,12 @@ Bifrost.namespace("Bifrost.read", {
 
             return self.target;
         };
+
+        if (typeof self.query.areAllParametersSet.subscribe == "function") {
+            self.query.areAllParametersSet.subscribe(function (isSet) {
+                if (isSet === true) self.execute();
+            });
+        }
 
         this.setPageInfo = function (pageSize, pageNumber) {
             self.canExecute = false;
@@ -3022,7 +3028,7 @@ Bifrost.namespace("Bifrost.read", {
             var parameters = {};
 
             for (var property in self.target) {
-                if (ko.isObservable(self.target[property]) && 
+                if (ko.isObservable(self.target[property]) &&
                     property != "areAllParametersSet") {
                     parameters[property] = self.target[property];
                 }

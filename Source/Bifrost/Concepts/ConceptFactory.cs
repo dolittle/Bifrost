@@ -37,7 +37,6 @@ namespace Bifrost.Concepts
 #if(NETFX_CORE)
 
 #else
-
             var valueProperty = type.GetProperty("Value");
 
             var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
