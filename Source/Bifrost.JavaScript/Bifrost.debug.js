@@ -2850,6 +2850,99 @@ if (typeof ko !== 'undefined') {
         };
     };
 }
+Bifrost.namespace("Bifrost.interaction", {
+    Operation: Bifrost.Type.extend(function () {
+        /// <summary>Defines an operation that be performed</summary>
+        var self = this;
+
+        /// <field name="canPerform" type="observable">asdad</field>
+        this.canPerform = ko.observable(true);
+        
+        this.perform = function (context) {
+            /// <summary>Function that gets called when an operation gets performed</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being performed within</param>
+            /// <returns>State change, if any - typically helpful when undoing</returns>
+            return {};
+        };
+
+        this.undo = function (context, state) {
+            /// <summary>Function that gets called when an operation gets undoed</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being undoed within</param>
+            /// <param name="state" type="object">State generated when the operation was performed</param>
+        };
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    OperationContext: Bifrost.Type.extend(function () {
+        /// <summary>Defines the context in which an operation is being performed or undoed within</summary>
+        var self = this;
+
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    OperationEntry: Bifrost.Type.extend(function (context, operation, state) {
+        /// <summary></summary>
+        var self = this;
+
+        /// <field name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</field>
+        this.context = context;
+
+        /// <field name="operation" type="Bifrost.interaction.Operation">Operation that was performed</field>
+        this.operation = operation;
+
+        /// <field name="state" type="object">State that operation generated</field>
+        this.state = state;
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    operationEntryFactory: Bifrost.Singleton(function () {
+        /// <summary>Represents a factory that can create OperationEntries</summary>
+        var self = this;
+
+        this.create = function (context, operation, state) {
+            /// <sumary>Create an instance of a OperationEntry</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</param>
+            /// <param name="operation" type="Bifrost.interaction.Operation">Operation that was performed</param>
+            /// <param name="state" type="object">State that operation generated</param>
+            /// <returns>An OperationEntry</returns>
+            
+            var instance = Bifrost.interaction.OperationEntry.create({
+                context: context,
+                operation: operation,
+                state: state
+            });
+            return instance;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    Operations: Bifrost.Type.extend(function (operationEntryFactory) {
+        /// <summary>Represents a stack of operations and the ability to perform and put operations on the stack</summary>
+        var self = this;
+
+        /// <field name="all" type="observableArray">Holds all operations</field>
+        this.all = ko.observableArray();
+
+        this.perform = function (context, operation) {
+            /// <summary>Perform an operation in a given context</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">Context in which the operation is being performed in</param>
+            /// <param name="operation" type="Bifrost.interaction.Operation">Operation to perform</param>
+
+
+            if (operation.canPerform() === true) {
+                var state = operation.perform(context);
+                var entry = operationEntryFactory.create(context, operation, state);
+                self.all.push(entry);
+            }
+        };
+
+        this.undo = function () {
+            /// <summary>Undo the last operation on the stack and remove it as an operation</summary>
+
+            throw "Not implemented";
+        }
+    })
+});
 Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
