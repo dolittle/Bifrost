@@ -1,26 +1,7 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    regionManager: Bifrost.Singleton(function (documentService) {
+    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager) {
         /// <summary>Represents a manager that knows how to deal with Regions on the page</summary>
         var self = this;
-
-        function describeRegion(view, region) {
-            var promise = Bifrost.execution.Promise.create();
-            var localPath = Bifrost.path.getPathWithoutFilename(view.path);
-            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
-            if (namespacePath != null) {
-                var namespace = Bifrost.namespace(namespacePath);
-                
-                Bifrost.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
-                    descriptor.describe(region);
-                    promise.signal();
-                }).onFail(function () {
-                    promise.signal();
-                });
-            } else {
-                promise.signal();
-            }
-            return promise;
-        }
 
         function manageInheritance(element) {
             var parentRegion = documentService.getParentRegionFor(element);
@@ -58,7 +39,7 @@
             var parentRegion = manageInheritance(element);
             var region = manageHierarchy(parentRegion, view);
 
-            describeRegion(view, region).continueWith(function () {
+            regionDescriptorManager.describe(view, region).continueWith(function () {
                 documentService.setRegionOn(element, region);
                 promise.signal(region);
             });

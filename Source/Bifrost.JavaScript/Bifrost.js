@@ -107,6 +107,7 @@
 @depends views/Region.js
 @depends views/regionManager.js
 @depends views/RegionDescriptor.js
+@depends views/regionDescriptorManager.js
 @depends views/RegionDescriptorDependencyResolver.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js

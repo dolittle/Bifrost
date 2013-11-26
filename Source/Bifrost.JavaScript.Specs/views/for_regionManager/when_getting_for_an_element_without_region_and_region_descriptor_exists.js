@@ -17,7 +17,6 @@
     var regionSet = null;
     var setRegionOnCalled = false;
 
-
     var documentService = {
         hasOwnRegion: sinon.mock().withArgs(element).returns(false),
         getParentRegionFor: sinon.mock().withArgs(element).returns(region),
@@ -27,6 +26,16 @@
             }
             elementSetRegionOn = element;
             regionSet = r;
+        }
+    };
+
+    var regionDescriptorManager = {
+        describe: function () {
+            return {
+                continueWith: function (callback) {
+                    callback();
+                }
+            }
         }
     };
 
@@ -42,25 +51,10 @@
     beforeEach(function () {
         regionType = Bifrost.views.Region;
         Bifrost.views.Region = function () { };
-        namespaceMappersType = Bifrost.namespaceMappers;
-        Bifrost.namespaceMappers = {
-            mapPathToNamespace: function () { return "MagicUnicorn"; }
-        };
-        dependencyResolverType = Bifrost.dependencyResolver;
-        Bifrost.dependencyResolver = {
-            beginResolve: function () {
-                return {
-                    continueWith: function (callback) {
-                        callback(descriptor);
-                        return this;
-                    },
-                    onFail: function () { }
-                };
-            }
-        };
 
         var instance = Bifrost.views.regionManager.createWithoutScope({
-            documentService: documentService
+            documentService: documentService,
+            regionDescriptorManager: regionDescriptorManager
         });
         
         instance.getFor(view).continueWith(function (instance) {
@@ -70,13 +64,6 @@
     
     afterEach(function () {
         Bifrost.views.Region = regionType;
-        Bifrost.namespaceMappers = namespaceMappersType;
-        Bifrost.dependencyResolver = dependencyResolverType;
-        MagicUnicorn = null;
-    });
-
-    it("should describe the region", function() {
-        expect(descriptor.describe.called).toBe(true);
     });
 
     it("should set region on the element", function () {

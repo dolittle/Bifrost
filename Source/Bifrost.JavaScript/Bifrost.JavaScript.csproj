@@ -93,6 +93,7 @@
     <Content Include="views\Region.js" />
     <Content Include="views\RegionDescriptor.js" />
     <Content Include="views\RegionDescriptorDependencyResolver.js" />
+    <Content Include="views\regionDescriptorManager.js" />
     <Content Include="views\regionManager.js" />
     <Content Include="views\viewBindingHandler.js" />
     <Content Include="views\DataAttributeViewRenderer.js" />

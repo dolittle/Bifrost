@@ -16,8 +16,13 @@
         getRegionFor: sinon.mock().withArgs(element).returns(region)
     };
 
+    var regionDescriptorManager = {
+        describe: sinon.stub()
+    };
+
     var instance = Bifrost.views.regionManager.createWithoutScope({
-        documentService: documentService
+        documentService: documentService,
+        regionDescriptorManager: regionDescriptorManager
     });
 
     var regionReturned = null;

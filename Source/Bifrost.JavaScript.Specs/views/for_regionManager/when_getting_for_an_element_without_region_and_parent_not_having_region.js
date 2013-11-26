@@ -25,6 +25,16 @@
         }
     };
 
+    var regionDescriptorManager = {
+        describe: function () {
+            return {
+                continueWith: function (callback) {
+                    callback();
+                }
+            }
+        }
+    };
+
     var regionReturned = null;
     var regionType = null;
     var namespaceMappersType = null;
@@ -38,7 +48,8 @@
         };
 
         var instance = Bifrost.views.regionManager.createWithoutScope({
-            documentService: documentService
+            documentService: documentService,
+            regionDescriptorManager: regionDescriptorManager
         });
         
         instance.getFor(view).continueWith(function (instance) {
