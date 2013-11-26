@@ -798,7 +798,7 @@ Bifrost.namespace("Bifrost", {
     };
 
 
-    beginGetDependencyInstances = function(namespace, typeDefinition) {
+    beginGetDependencyInstances = function(namespace, typeDefinition, instanceHash) {
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
@@ -808,12 +808,21 @@ Bifrost.namespace("Bifrost", {
             var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
                 dependency = typeDefinition._dependencies[dependencyIndex];
-                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(result, nextPromise) {
+
+                if (instanceHash && instanceHash.hasOwnProperty(dependency)) {
+                    dependencyInstances[dependencyIndex] = instanceHash[dependency];
                     solvedDependencies++;
-                    if( solvedDependencies == dependenciesToResolve ) {
+                    if (solvedDependencies == dependenciesToResolve) {
                         promise.signal(dependencyInstances);
                     }
-                }).onFail(function(e) { promise.fail(e); });
+                } else {
+                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function (result, nextPromise) {
+                        solvedDependencies++;
+                        if (solvedDependencies == dependenciesToResolve) {
+                            promise.signal(dependencyInstances);
+                        }
+                    }).onFail(function (e) { promise.fail(e); });
+                }
             }
 
         }
@@ -1057,7 +1066,7 @@ Bifrost.namespace("Bifrost", {
         });
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function (_super, nextPromise) {
+            this._super.beginCreate(instanceHash).continueWith(function (_super, nextPromise) {
                 superPromise.signal(_super);
             }).onFail(function (e) {
                 promise.fail(e);
@@ -1076,7 +1085,7 @@ Bifrost.namespace("Bifrost", {
                 var instance = self.create();
                 promise.signal(instance);
             } else {
-                beginGetDependencyInstances(self._namespace, self)
+                beginGetDependencyInstances(self._namespace, self, instanceHash)
                     .continueWith(function(dependencies, nextPromise) {
                         var dependencyInstances = {};
                         expandDependenciesToInstanceHash(self, dependencies, dependencyInstances);
@@ -1343,7 +1352,20 @@ Bifrost.namespace("Bifrost", {
     })
 });
 Bifrost.namespace("Bifrost", {
-    namespaceMappers: {}
+    namespaceMappers: {
+
+        mapPathToNamespace: function (path) {
+            for (var mapperKey in Bifrost.namespaceMappers) {
+                var mapper = Bifrost.namespaceMappers[mapperKey];
+                if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
+                    var namespacePath = mapper.resolve(path);
+                    return namespacePath;
+                }
+            }
+
+            return null;
+        }
+    }
 });
 Bifrost.namespace("Bifrost", {
     StringMapping: Bifrost.Type.extend(function (format, mappedFormat) {
@@ -2850,6 +2872,99 @@ if (typeof ko !== 'undefined') {
         };
     };
 }
+Bifrost.namespace("Bifrost.interaction", {
+    Operation: Bifrost.Type.extend(function () {
+        /// <summary>Defines an operation that be performed</summary>
+        var self = this;
+
+        /// <field name="canPerform" type="observable">asdad</field>
+        this.canPerform = ko.observable(true);
+        
+        this.perform = function (context) {
+            /// <summary>Function that gets called when an operation gets performed</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being performed within</param>
+            /// <returns>State change, if any - typically helpful when undoing</returns>
+            return {};
+        };
+
+        this.undo = function (context, state) {
+            /// <summary>Function that gets called when an operation gets undoed</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being undoed within</param>
+            /// <param name="state" type="object">State generated when the operation was performed</param>
+        };
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    OperationContext: Bifrost.Type.extend(function () {
+        /// <summary>Defines the context in which an operation is being performed or undoed within</summary>
+        var self = this;
+
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    OperationEntry: Bifrost.Type.extend(function (context, operation, state) {
+        /// <summary>Represents an entry for an operation in a specific context with resulting state</summary>
+        var self = this;
+
+        /// <field name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</field>
+        this.context = context;
+
+        /// <field name="operation" type="Bifrost.interaction.Operation">Operation that was performed</field>
+        this.operation = operation;
+
+        /// <field name="state" type="object">State that operation generated</field>
+        this.state = state;
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    operationEntryFactory: Bifrost.Singleton(function () {
+        /// <summary>Represents a factory that can create OperationEntries</summary>
+        var self = this;
+
+        this.create = function (context, operation, state) {
+            /// <sumary>Create an instance of a OperationEntry</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</param>
+            /// <param name="operation" type="Bifrost.interaction.Operation">Operation that was performed</param>
+            /// <param name="state" type="object">State that operation generated</param>
+            /// <returns>An OperationEntry</returns>
+            
+            var instance = Bifrost.interaction.OperationEntry.create({
+                context: context,
+                operation: operation,
+                state: state
+            });
+            return instance;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.interaction", {
+    Operations: Bifrost.Type.extend(function (operationEntryFactory) {
+        /// <summary>Represents a stack of operations and the ability to perform and put operations on the stack</summary>
+        var self = this;
+
+        /// <field name="all" type="observableArray">Holds all operations</field>
+        this.all = ko.observableArray();
+
+        this.perform = function (context, operation) {
+            /// <summary>Perform an operation in a given context</summary>
+            /// <param name="context" type="Bifrost.interaction.OperationContext">Context in which the operation is being performed in</param>
+            /// <param name="operation" type="Bifrost.interaction.Operation">Operation to perform</param>
+
+
+            if (operation.canPerform() === true) {
+                var state = operation.perform(context);
+                var entry = operationEntryFactory.create(context, operation, state);
+                self.all.push(entry);
+            }
+        };
+
+        this.undo = function () {
+            /// <summary>Undo the last operation on the stack and remove it as an operation</summary>
+
+            throw "Not implemented";
+        }
+    })
+});
 Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
@@ -3495,6 +3610,49 @@ Bifrost.namespace("Bifrost.views", {
         this.getViewModelFrom = function (element) {
             return element.viewModel;
         };
+
+
+        this.hasOwnRegion = function (element) {
+            /// <summary>Check if element has its own region</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to check</param>
+            /// <returns>true if it has its own region, false it not</returns>
+
+            if (element.region) return true;
+            return false;
+        };
+
+        this.getParentRegionFor = function (element) {
+            /// <summary>Get the parent region for a given element</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to get for</param>
+            /// <returns>An instance of the region, if no region is found it will return null</returns>
+            var found = null;
+
+            while (element.parentNode) {
+                element = element.parentNode;
+                if (element.region) return element.region;
+            }
+
+            return found;
+        }
+
+        this.getRegionFor = function (element) {
+            /// <summary>Get region for an element, either directly or implicitly through the nearest parent, null if none</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to get for</param>
+            /// <returns>An instance of the region, if no region is found it will return null</returns>
+            var found = null;
+
+            if (element.region) return element.region;
+            found = self.getParentRegionFor(element);
+            return found;
+        };
+
+        this.setRegionOn = function (element, region) {
+            /// <summary>Set region on a specific element</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to set on</param>
+            /// <param name="region" type="Bifrost.views.Region">Region to set on element</param>
+
+            element.region = region;
+        };
     })
 });
 Bifrost.namespace("Bifrost.views", {
@@ -3703,8 +3861,9 @@ Bifrost.namespace("Bifrost.views", {
                 self.viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view);
-                    renderChildren(newElement);
+                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
+                        renderChildren(newElement);
+                    });
                 });
             } else {
                 renderChildren(element);
@@ -3716,9 +3875,10 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;
 Bifrost.namespace("Bifrost.views", {
-    ViewModel: Bifrost.Type.extend(function () {
+    ViewModel: Bifrost.Type.extend(function (region) {
         var self = this;
         this.targetViewModel = this;
+        this.region = region;
 
         this.activated = function () {
             if (typeof self.targetViewModel.onActivated === "function") {
@@ -3735,37 +3895,36 @@ Bifrost.namespace("Bifrost.views", {
     viewModelLoader: Bifrost.Singleton(function () {
         var self = this;
 
-        this.load = function (path) {
+        this.load = function (path, region) {
             var promise = Bifrost.execution.Promise.create();
             if (!path.startsWith("/")) path = "/" + path;
             require([path], function () {
 
-                self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
+                self.beginCreateInstanceOfViewModel(path, region).continueWith(function (instance) {
                     promise.signal(instance);
                 });
             });
             return promise;
         };
 
-        this.beginCreateInstanceOfViewModel = function (path) {
+        this.beginCreateInstanceOfViewModel = function (path, region) {
             var localPath = Bifrost.path.getPathWithoutFilename(path);
             var filename = Bifrost.path.getFilenameWithoutExtension(path);
 
             var promise = Bifrost.execution.Promise.create();
 
-            for (var mapperKey in Bifrost.namespaceMappers) {
-                var mapper = Bifrost.namespaceMappers[mapperKey];
-                if (typeof mapper.hasMappingFor === "function" && mapper.hasMappingFor(path)) {
-                    var namespacePath = mapper.resolve(localPath);
-                    var namespace = Bifrost.namespace(namespacePath);
+            namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            if (namespacePath != null) {
+                var namespace = Bifrost.namespace(namespacePath);
 
-                    if (filename in namespace) {
-                        namespace[filename].beginCreate().continueWith(function (instance) {
-                            promise.signal(instance);
-                        }).onFail(function () {
-                            promise.signal({});
-                        });
-                    }
+                if (filename in namespace) {
+                    namespace[filename].beginCreate({
+                        region: region
+                    }).continueWith(function (instance) {
+                        promise.signal(instance);
+                    }).onFail(function () {
+                        promise.signal({});
+                    });
                 }
             }
 
@@ -3774,7 +3933,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager) {
         var self = this;
         this.assetsManager = assetsManager;
         this.viewModelLoader = viewModelLoader;
@@ -3814,7 +3973,7 @@ Bifrost.namespace("Bifrost.views", {
             }
         }
 
-        function applyViewModelsByAttribute(path, container) {
+        function applyViewModelsByAttribute(path, container, region) {
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
@@ -3823,8 +3982,9 @@ Bifrost.namespace("Bifrost.views", {
                 function loadAndApply(target) {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
-                    self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                         applyViewModel(instance, target, viewModelFile);
+                        region.viewModel = instance;
                     });
                 }
 
@@ -3840,13 +4000,14 @@ Bifrost.namespace("Bifrost.views", {
             return viewModelApplied;
         }
 
-        function applyViewModelByConventionFromPath(path, container) {
+        function applyViewModelByConventionFromPath(path, container, region) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
-                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
+                    region.viewModel = instance;
                 });
             }
         }
@@ -3866,19 +4027,28 @@ Bifrost.namespace("Bifrost.views", {
         this.applyToViewIfAny = function (view) {
             var viewModelApplied = false;
 
-            if (self.hasForView(view.path)) {
-                var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
-                self.documentService.setViewModelFileOn(view.element,viewModelFile);
+            var promise = Bifrost.execution.Promise.create();
 
-                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
-                    applyViewModel(instance, view.element);
-                });
-            } else {
-                viewModelApplied = applyViewModelsByAttribute(view.path, view.element);
-                if (viewModelApplied == false) {
-                    applyViewModelByConventionFromPath(view.path, view.element);
+            regionManager.getFor(view).continueWith(function (region) {
+                if (self.hasForView(view.path)) {
+                    var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                    self.documentService.setViewModelFileOn(view.element, viewModelFile);
+
+                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                        applyViewModel(instance, view.element);
+                        region.viewModel = instance;
+                        promise.signal();
+                    });
+                } else {
+                    viewModelApplied = applyViewModelsByAttribute(view.path, view.element, region);
+                    if (viewModelApplied == false) {
+                        applyViewModelByConventionFromPath(view.path, view.element, region);
+                    }
+                    promise.signal();
                 }
-            }
+            });
+
+            return promise;
         };
 
         this.loadAndApplyAllViewModelsWithinElement = function (root) {
@@ -3890,7 +4060,7 @@ Bifrost.namespace("Bifrost.views", {
             elements.forEach(function (element) {
                 var viewModelFile = self.documentService.getViewModelFileFrom(element);
 
-                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                     documentService.setViewModelOn(element, instance);
 
                     loadedViewModels++;
@@ -4076,8 +4246,9 @@ Bifrost.namespace("Bifrost.views", {
                 self.viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view);
-                    renderChildren(newElement);
+                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
+                        renderChildren(newElement);
+                    });
                 });
             } else {
                 renderChildren(element);
@@ -4091,6 +4262,139 @@ Bifrost.views.viewBindingHandler.initialize = function () {
     ko.bindingHandlers.view = Bifrost.views.viewBindingHandler.create();
 };
 
+Bifrost.namespace("Bifrost.views", {
+    Region: function() {
+        /// <summary>Represents a region in the visual composition on a page</summary>
+        var self = this;
+
+        /// <field name="view" type="Bifrost.views.View">View for the composing</field>
+        this.view = null;
+
+        /// <field name="viewModel" type="Bifrost.views.ViewModel">The ViewModel associated with the view</field>
+        this.viewModel = null;
+
+        /// <field name="messenger" type="Bifrost.messaging.Messenger">The messenger for the region</field>
+        this.messenger = Bifrost.messaging.Messenger.create();
+
+        /// <field name="globalMessenger" type="Bifrost.messaging.Messenger">The global messenger</field>
+        this.globalMessenger = Bifrost.messaging.Messenger.global;
+
+        /// field name="parent" type="Bifrost.views.Region">Parent region, null if there is no parent</field>
+        this.parent = null;
+
+        /// field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
+        this.children = [];
+    }
+});
+Bifrost.namespace("Bifrost.views", {
+    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager) {
+        /// <summary>Represents a manager that knows how to deal with Regions on the page</summary>
+        var self = this;
+
+        function manageInheritance(element) {
+            var parentRegion = documentService.getParentRegionFor(element);
+            if (parentRegion) {
+                Bifrost.views.Region.prototype = parentRegion;
+            } else {
+                var topLevel = new Bifrost.views.Region();
+                regionDescriptorManager.describeTopLevel(topLevel);
+                Bifrost.views.Region.prototype = topLevel;
+            }
+            return parentRegion;
+        }
+
+        function manageHierarchy(parentRegion, view) {
+            var region = new Bifrost.views.Region();
+            region.parent = parentRegion;
+            region.view = view;
+            if (parentRegion) {
+                parentRegion.children.push(region);
+            }
+            return region;
+        }
+
+        this.getFor = function (view) {
+            /// <summary>Gets the region for the given element and creates one if none exist</summary>
+            /// <param name="element" type="HTMLElement">Element to get a region for</param>
+            /// <returns>The region for the element</returns>
+            var promise = Bifrost.execution.Promise.create();
+
+            var element = view.element;
+
+            if (documentService.hasOwnRegion(element)) {
+                promise.signal(documentService.getRegionFor(element));
+                return promise;
+            }
+
+            var parentRegion = manageInheritance(element);
+            var region = manageHierarchy(parentRegion, view);
+
+            regionDescriptorManager.describe(view, region).continueWith(function () {
+                documentService.setRegionOn(element, region);
+                promise.signal(region);
+            });
+
+            return promise;
+        };
+
+        this.evict = function (region) {
+            /// <summary>Evict a region from the page</summary>
+            /// <param name="region" type="Bifrost.views.Region">Region to evict</param>
+
+            if (region.parentRegion) {
+                region.parentRegion.children.remove(region);
+            }
+            region.parentRegion = null;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    RegionDescriptor: Bifrost.Type.extend(function () {
+        var self = this;
+
+        this.describe = function (region) {
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+    regionDescriptorManager: Bifrost.Singleton(function () {
+        var self = this;
+
+        this.describe = function (view, region) {
+            var promise = Bifrost.execution.Promise.create();
+            var localPath = Bifrost.path.getPathWithoutFilename(view.path);
+            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            if (namespacePath != null) {
+                var namespace = Bifrost.namespace(namespacePath);
+
+                Bifrost.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
+                    descriptor.describe(region);
+                    promise.signal();
+                }).onFail(function () {
+                    promise.signal();
+                });
+            } else {
+                promise.signal();
+            }
+            return promise;
+        };
+
+        this.describeTopLevel = function (region) {
+            region.operations = Bifrost.interaction.Operations.create();
+        };
+    })
+});
+Bifrost.dependencyResolvers.RegionDescriptor = {
+    canResolve: function (namespace, name) {
+        return name === "RegionDescriptor";
+    },
+
+    resolve: function (namespace, name) {
+        return {
+            describe: function () { }
+        };
+    }
+};
 Bifrost.namespace("Bifrost.navigation", {
     NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
         var self = this;

@@ -38,8 +38,9 @@ Bifrost.namespace("Bifrost.views", {
                 self.viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view);
-                    renderChildren(newElement);
+                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
+                        renderChildren(newElement);
+                    });
                 });
             } else {
                 renderChildren(element);

@@ -1,9 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
-    list: Bifrost.views.ViewModel.extend(function (allEmployees, globalMessenger) {
+    list: Bifrost.views.ViewModel.extend(function (allEmployees) {
         var self = this;
-        this.employees = ko.observableArray([]);//allEmployees.paged(4,1);
+        this.employees = allEmployees.paged(8,0);
 
-        globalMessenger.subscribeTo("employeeRegistered", function () {
+        self.region.globalMessenger.subscribeTo("employeeRegistered", function () {
             self.employees.execute();
         });
     })

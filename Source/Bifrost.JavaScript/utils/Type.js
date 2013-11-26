@@ -68,7 +68,7 @@ Bifrost.namespace("Bifrost", {
     };
 
 
-    beginGetDependencyInstances = function(namespace, typeDefinition) {
+    beginGetDependencyInstances = function(namespace, typeDefinition, instanceHash) {
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
@@ -78,12 +78,21 @@ Bifrost.namespace("Bifrost", {
             var dependency = "";
             for( var dependencyIndex=0; dependencyIndex<dependenciesToResolve; dependencyIndex++ ) {
                 dependency = typeDefinition._dependencies[dependencyIndex];
-                resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function(result, nextPromise) {
+
+                if (instanceHash && instanceHash.hasOwnProperty(dependency)) {
+                    dependencyInstances[dependencyIndex] = instanceHash[dependency];
                     solvedDependencies++;
-                    if( solvedDependencies == dependenciesToResolve ) {
+                    if (solvedDependencies == dependenciesToResolve) {
                         promise.signal(dependencyInstances);
                     }
-                }).onFail(function(e) { promise.fail(e); });
+                } else {
+                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function (result, nextPromise) {
+                        solvedDependencies++;
+                        if (solvedDependencies == dependenciesToResolve) {
+                            promise.signal(dependencyInstances);
+                        }
+                    }).onFail(function (e) { promise.fail(e); });
+                }
             }
 
         }
@@ -327,7 +336,7 @@ Bifrost.namespace("Bifrost", {
         });
 
         if( this._super != null ) {
-            this._super.beginCreate().continueWith(function (_super, nextPromise) {
+            this._super.beginCreate(instanceHash).continueWith(function (_super, nextPromise) {
                 superPromise.signal(_super);
             }).onFail(function (e) {
                 promise.fail(e);
@@ -346,7 +355,7 @@ Bifrost.namespace("Bifrost", {
                 var instance = self.create();
                 promise.signal(instance);
             } else {
-                beginGetDependencyInstances(self._namespace, self)
+                beginGetDependencyInstances(self._namespace, self, instanceHash)
                     .continueWith(function(dependencies, nextPromise) {
                         var dependencyInstances = {};
                         expandDependenciesToInstanceHash(self, dependencies, dependencyInstances);

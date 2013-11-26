@@ -57,6 +57,11 @@
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
+    <Content Include="interaction\Operation.js" />
+    <Content Include="interaction\OperationContext.js" />
+    <Content Include="interaction\OperationEntry.js" />
+    <Content Include="interaction\operationEntryFactory.js" />
+    <Content Include="interaction\Operations.js" />
     <Content Include="Libraries\knockout-2.2.1.debug.js" />
     <Content Include="Libraries\knockout-2.2.1.js" />
     <Content Include="Libraries\knockout.mapping-latest.debug.js" />
@@ -85,6 +90,11 @@
     <Content Include="utils\StringMapping.js" />
     <Content Include="validation\lessThanOrEqual.js" />
     <Content Include="validation\greaterThanOrEqual.js" />
+    <Content Include="views\Region.js" />
+    <Content Include="views\RegionDescriptor.js" />
+    <Content Include="views\RegionDescriptorDependencyResolver.js" />
+    <Content Include="views\regionDescriptorManager.js" />
+    <Content Include="views\regionManager.js" />
     <Content Include="views\viewBindingHandler.js" />
     <Content Include="views\DataAttributeViewRenderer.js" />
     <Content Include="views\documentService.js" />
