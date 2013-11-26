@@ -25,6 +25,8 @@
         }
     };
 
+    var topLevelDescribed = null;
+
     var regionDescriptorManager = {
         describe: function () {
             return {
@@ -32,7 +34,8 @@
                     callback();
                 }
             }
-        }
+        },
+        describeTopLevel: function(topLevel) { topLevelDescribed = topLevel; }
     };
 
     var regionReturned = null;
@@ -71,5 +74,9 @@
 
     it("should set the parent region as prototype", function () {
         expect(regionReturned.__proto__).not.toBeNull();
+    });
+
+    it("should describe the top level", function () {
+        expect(topLevelDescribed).toBe(regionReturned.__proto__);
     });
 });

@@ -8,7 +8,9 @@
             if (parentRegion) {
                 Bifrost.views.Region.prototype = parentRegion;
             } else {
-                Bifrost.views.Region.prototype = {};
+                var topLevel = new Bifrost.views.Region();
+                regionDescriptorManager.describeTopLevel(topLevel);
+                Bifrost.views.Region.prototype = topLevel;
             }
             return parentRegion;
         }

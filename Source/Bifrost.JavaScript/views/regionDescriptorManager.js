@@ -20,5 +20,9 @@
             }
             return promise;
         };
+
+        this.describeTopLevel = function (region) {
+            region.operations = Bifrost.interaction.Operations.create();
+        };
     })
 });
