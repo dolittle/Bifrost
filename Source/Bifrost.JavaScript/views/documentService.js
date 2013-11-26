@@ -73,19 +73,28 @@
             return false;
         };
 
-        this.getRegionFrom = function (element) {
-            /// <summary>Get region for an element, either directly or implicitly through the nearest parent, null if none</summary>
+        this.getParentRegionFor = function (element) {
+            /// <summary>Get the parent region for a given element</summary>
             /// <param name="element" type="HTMLElement">HTML Element to get for</param>
             /// <returns>An instance of the region, if no region is found it will return null</returns>
             var found = null;
-
-            if (element.region) return element.region;
 
             while (element.parentNode) {
                 element = element.parentNode;
                 if (element.region) return element.region;
             }
 
+            return found;
+        }
+
+        this.getRegionFor = function (element) {
+            /// <summary>Get region for an element, either directly or implicitly through the nearest parent, null if none</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to get for</param>
+            /// <returns>An instance of the region, if no region is found it will return null</returns>
+            var found = null;
+
+            if (element.region) return element.region;
+            found = self.getParentRegionFor(element);
             return found;
         };
 

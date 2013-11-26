@@ -1,7 +1,8 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewModel: Bifrost.Type.extend(function () {
+    ViewModel: Bifrost.Type.extend(function (region) {
         var self = this;
         this.targetViewModel = this;
+        this.region = region;
 
         this.activated = function () {
             if (typeof self.targetViewModel.onActivated === "function") {

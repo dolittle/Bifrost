@@ -1,10 +1,13 @@
-﻿describe("when getting region from element and there is no region to find", function () {
+﻿describe("when getting parent region from element with parent holding the region", function () {
     var service = Bifrost.views.documentService.createWithoutScope({
         DOMRoot: {}
     });
 
+    var parent = $("<div/>");
     var element = $("<div/>")[0];
-    var regionFromElement = service.getRegionFor(element);
+    parent.append(element);
+
+    var regionFromElement = service.getParentRegionFor(element);
 
     it("should return null", function () {
         expect(regionFromElement).toBeNull();

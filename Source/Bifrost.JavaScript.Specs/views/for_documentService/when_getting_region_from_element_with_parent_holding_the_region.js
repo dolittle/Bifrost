@@ -11,7 +11,7 @@
     parent.append(element);
 
     parent[0].region = region;
-    var regionFromElement = service.getRegionFrom(element);
+    var regionFromElement = service.getRegionFor(element);
 
     it("should get it from the element", function () {
         expect(regionFromElement).toBe(region);

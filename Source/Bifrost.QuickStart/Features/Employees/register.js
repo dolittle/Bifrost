@@ -1,14 +1,12 @@
 ﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
-    register: Bifrost.views.ViewModel.extend(function (registerEmployee, globalMessenger) {
+    register: Bifrost.views.ViewModel.extend(function (registerEmployee) {
         var self = this;
-
-        this.globalMessenger = globalMessenger;
 
         this.register = registerEmployee;
 
         this.register.succeeded(function () {
             setTimeout(function () {
-                self.globalMessenger.publish("employeeRegistered");
+                self.region.globalMessenger.publish("employeeRegistered");
             }, 100);
         });
     })

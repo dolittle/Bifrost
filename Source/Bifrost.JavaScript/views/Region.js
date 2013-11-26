@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    Region: Bifrost.Type.extend(function () {
+    Region: function() {
         /// <summary>Represents a region in the visual composition on a page</summary>
         var self = this;
 
@@ -10,12 +10,15 @@
         this.viewModel = null;
 
         /// <field name="messenger" type="Bifrost.messaging.Messenger">The messenger for the region</field>
-        this.messenger = null;
+        this.messenger = Bifrost.messaging.Messenger.create();
+
+        /// <field name="globalMessenger" type="Bifrost.messaging.Messenger">The global messenger</field>
+        this.globalMessenger = Bifrost.messaging.Messenger.global;
 
         /// field name="parent" type="Bifrost.views.Region">Parent region, null if there is no parent</field>
         this.parent = null;
 
         /// field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = [];
-    })
+    }
 });

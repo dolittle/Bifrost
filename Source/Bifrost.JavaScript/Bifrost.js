@@ -104,6 +104,10 @@
 @depends views/RelativePathResolver.js
 @depends views/viewModelBindingHandler.js
 @depends views/viewBindingHandler.js
+@depends views/Region.js
+@depends views/regionManager.js
+@depends views/RegionDescriptor.js
+@depends views/RegionDescriptorDependencyResolver.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

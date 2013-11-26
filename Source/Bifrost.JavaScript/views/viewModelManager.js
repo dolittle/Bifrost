@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager) {
         var self = this;
         this.assetsManager = assetsManager;
         this.viewModelLoader = viewModelLoader;
@@ -39,7 +39,7 @@
             }
         }
 
-        function applyViewModelsByAttribute(path, container) {
+        function applyViewModelsByAttribute(path, container, region) {
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
@@ -48,8 +48,9 @@
                 function loadAndApply(target) {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
-                    self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                         applyViewModel(instance, target, viewModelFile);
+                        region.viewModel = instance;
                     });
                 }
 
@@ -65,13 +66,14 @@
             return viewModelApplied;
         }
 
-        function applyViewModelByConventionFromPath(path, container) {
+        function applyViewModelByConventionFromPath(path, container, region) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
-                self.viewModelLoader.load(viewModelFile, path).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
+                    region.viewModel = instance;
                 });
             }
         }
@@ -91,19 +93,28 @@
         this.applyToViewIfAny = function (view) {
             var viewModelApplied = false;
 
-            if (self.hasForView(view.path)) {
-                var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
-                self.documentService.setViewModelFileOn(view.element,viewModelFile);
+            var promise = Bifrost.execution.Promise.create();
 
-                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
-                    applyViewModel(instance, view.element);
-                });
-            } else {
-                viewModelApplied = applyViewModelsByAttribute(view.path, view.element);
-                if (viewModelApplied == false) {
-                    applyViewModelByConventionFromPath(view.path, view.element);
+            regionManager.getFor(view).continueWith(function (region) {
+                if (self.hasForView(view.path)) {
+                    var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                    self.documentService.setViewModelFileOn(view.element, viewModelFile);
+
+                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                        applyViewModel(instance, view.element);
+                        region.viewModel = instance;
+                        promise.signal();
+                    });
+                } else {
+                    viewModelApplied = applyViewModelsByAttribute(view.path, view.element, region);
+                    if (viewModelApplied == false) {
+                        applyViewModelByConventionFromPath(view.path, view.element, region);
+                    }
+                    promise.signal();
                 }
-            }
+            });
+
+            return promise;
         };
 
         this.loadAndApplyAllViewModelsWithinElement = function (root) {
@@ -115,7 +126,7 @@
             elements.forEach(function (element) {
                 var viewModelFile = self.documentService.getViewModelFileFrom(element);
 
-                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                     documentService.setViewModelOn(element, instance);
 
                     loadedViewModels++;
