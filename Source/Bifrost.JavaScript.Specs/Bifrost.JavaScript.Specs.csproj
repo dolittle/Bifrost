@@ -108,9 +108,13 @@
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
+    <Content Include="interaction\for_EventTrigger\when_event_is_triggered.js" />
+    <Content Include="interaction\for_EventTrigger\when_initialized_without_event_name_set.js" />
     <Content Include="interaction\for_operationEntryFactory\when_creating.js" />
     <Content Include="interaction\for_Operations\when_performing_and_operation_can_not_perform.js" />
     <Content Include="interaction\for_Operations\when_performing.js" />
+    <Content Include="interaction\for_Trigger\when_adding_action.js" />
+    <Content Include="interaction\for_Trigger\when_signalling_with_one_action.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_globally_with_one_subscriber.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_with_a_subscriber_subscribing_to_different_message.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_with_multiple_subscribers.js" />
