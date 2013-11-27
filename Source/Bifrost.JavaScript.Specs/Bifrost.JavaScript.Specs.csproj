@@ -113,6 +113,7 @@
     <Content Include="interaction\for_operationEntryFactory\when_creating.js" />
     <Content Include="interaction\for_Operations\when_performing_and_operation_can_not_perform.js" />
     <Content Include="interaction\for_Operations\when_performing.js" />
+    <Content Include="interaction\for_Trigger\when_signalling_with_two_actions.js" />
     <Content Include="interaction\for_Trigger\when_adding_action.js" />
     <Content Include="interaction\for_Trigger\when_signalling_with_one_action.js" />
     <Content Include="messaging\for_Messenger\when_publishing_a_message_globally_with_one_subscriber.js" />
