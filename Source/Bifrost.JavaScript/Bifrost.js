@@ -72,6 +72,7 @@
 @depends interaction/OperationEntry.js
 @depends interaction/operationEntryFactory.js
 @depends interaction/Operations.js
+@depends interaction/operationsFactory.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
@@ -121,7 +122,7 @@
 @depends tasks/Task.js
 @depends tasks/taskHistory.js
 @depends tasks/Tasks.js
-@depends tasks/HttpTask.js
+@depends tasks/tasksFactory.js
 @depends tasks/HttpGetTask.js
 @depends tasks/HttpPostTask.js
 */

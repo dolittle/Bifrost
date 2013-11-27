@@ -59,6 +59,7 @@
     <Content Include="extensions\NodeListExtensions.js" />
     <Content Include="interaction\Action.js" />
     <Content Include="interaction\EventTrigger.js" />
+    <Content Include="interaction\operationsFactory.js" />
     <Content Include="interaction\Operation.js" />
     <Content Include="interaction\OperationContext.js" />
     <Content Include="interaction\OperationEntry.js" />
@@ -69,6 +70,7 @@
     <Content Include="Libraries\knockout-2.2.1.js" />
     <Content Include="Libraries\knockout.mapping-latest.debug.js" />
     <Content Include="Libraries\knockout.mapping-latest.js" />
+    <Content Include="messaging\messengerFactory.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
     <Content Include="read\PagingInfo.js" />
@@ -79,7 +81,7 @@
     <Content Include="services\serviceDependencyResolver.js" />
     <Content Include="tasks\HttpGetTask.js" />
     <Content Include="tasks\HttpPostTask.js" />
-    <Content Include="tasks\HttpTask.js" />
+    <Content Include="tasks\tasksFactory.js" />
     <Content Include="tasks\Task.js" />
     <Content Include="tasks\taskHistory.js" />
     <Content Include="tasks\Tasks.js" />

@@ -184,6 +184,9 @@
     <Content Include="read\for_ReadModel\when_copying_to.js" />
     <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements_with_this_specified.js" />
     <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements.js" />
+    <Content Include="tasks\for_HttpPostTask\when_executing_with_failure.js" />
+    <Content Include="tasks\for_HttpPostTask\when_executing_successfully.js" />
+    <Content Include="tasks\for_Task\when_reporting_error.js" />
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
@@ -418,6 +421,7 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
     <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
     <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />

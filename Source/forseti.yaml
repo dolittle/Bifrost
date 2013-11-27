@@ -42,13 +42,5 @@ Harnesses:
         - Bifrost.JavaScript/validation/Rule.js
         - Bifrost.JavaScript/views/viewRenderer.js
         - Bifrost.JavaScript/interaction/Trigger.js
-
-
-
-		
-		
-		
-		
-		
-		
+        - Bifrost.JavaScript/tasks/Task.js
 		

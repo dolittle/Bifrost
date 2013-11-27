@@ -1559,6 +1559,9 @@ Bifrost.namespace("Bifrost", {
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    promise.fail(textStatus);
                 }
             });
 
@@ -1578,6 +1581,9 @@ Bifrost.namespace("Bifrost", {
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    promise.fail(textStatus);
                 }
             });
 
@@ -2965,6 +2971,15 @@ Bifrost.namespace("Bifrost.interaction", {
         }
     })
 });
+Bifrost.namespace("Bifrost.interaction", {
+    operationsFactory: Bifrost.Singleton(function () {
+        this.create = function () {
+            var operations = Bifrost.interaction.Operations.create();
+            return operations;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.operationsFactory = Bifrost.interaction.operationsFactory;
 Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
@@ -3451,6 +3466,19 @@ Bifrost.namespace("Bifrost.messaging", {
 });
 Bifrost.messaging.Messenger.global = Bifrost.messaging.Messenger.create();
 Bifrost.WellKnownTypesDependencyResolver.types.globalMessenger = Bifrost.messaging.Messenger.global;
+Bifrost.namespace("Bifrost.messaging", {
+    messengerFactory: Bifrost.Singleton(function () {
+        this.create = function () {
+            var messenger = Bifrost.messaging.Messenger.create();
+            return messenger;
+        };
+
+        this.global = function () {
+            return Bifrost.messaging.Messenger.global;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.messengerFactory = Bifrost.messaging.messengerFactory;
 if (typeof ko !== 'undefined') {
     ko.observableMessage = function (message, defaultValue) {
         var observable = ko.observable(defaultValue);
@@ -4263,7 +4291,7 @@ Bifrost.views.viewBindingHandler.initialize = function () {
 };
 
 Bifrost.namespace("Bifrost.views", {
-    Region: function() {
+    Region: function(messengerFactory, operationsFactory, tasksFactory) {
         /// <summary>Represents a region in the visual composition on a page</summary>
         var self = this;
 
@@ -4274,10 +4302,16 @@ Bifrost.namespace("Bifrost.views", {
         this.viewModel = null;
 
         /// <field name="messenger" type="Bifrost.messaging.Messenger">The messenger for the region</field>
-        this.messenger = Bifrost.messaging.Messenger.create();
+        this.messenger = messengerFactory.create();
 
         /// <field name="globalMessenger" type="Bifrost.messaging.Messenger">The global messenger</field>
-        this.globalMessenger = Bifrost.messaging.Messenger.global;
+        this.globalMessenger = messengerFactory.global();
+
+        /// <field name="operations" type="Bifrost.interaction.Operations">Operations for the region</field>
+        this.operations = operationsFactory.create();
+
+        /// <field name="tasks" type="Bifrost.tasks.Tasks">Tasks for the region</field>
+        this.tasks = tasksFactory.create();
 
         /// field name="parent" type="Bifrost.views.Region">Parent region, null if there is no parent</field>
         this.parent = null;
@@ -4286,17 +4320,33 @@ Bifrost.namespace("Bifrost.views", {
         this.children = [];
     }
 });
+Bifrost.views.Region.current = null;
+Bifrost.dependencyResolvers.Region = {
+    canResolve: function (namespace, name) {
+        return name === "region";
+    },
+
+    resolve: function (namespace, name) {
+        return Bifrost.views.Region.current;
+    }
+};
 Bifrost.namespace("Bifrost.views", {
-    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager) {
+    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager, messengerFactory, operationsFactory, tasksFactory) {
         /// <summary>Represents a manager that knows how to deal with Regions on the page</summary>
         var self = this;
+
+        function createRegionInstance() {
+            var instance = new Bifrost.views.Region(messengerFactory, operationsFactory, tasksFactory);
+            return instance;
+        }
+
 
         function manageInheritance(element) {
             var parentRegion = documentService.getParentRegionFor(element);
             if (parentRegion) {
                 Bifrost.views.Region.prototype = parentRegion;
             } else {
-                var topLevel = new Bifrost.views.Region();
+                var topLevel = createRegionInstance();
                 regionDescriptorManager.describeTopLevel(topLevel);
                 Bifrost.views.Region.prototype = topLevel;
             }
@@ -4304,7 +4354,7 @@ Bifrost.namespace("Bifrost.views", {
         }
 
         function manageHierarchy(parentRegion, view) {
-            var region = new Bifrost.views.Region();
+            var region = createRegionInstance();
             region.parent = parentRegion;
             region.view = view;
             if (parentRegion) {
@@ -4358,9 +4408,13 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.namespace("Bifrost.views", {
     regionDescriptorManager: Bifrost.Singleton(function () {
+        /// <summary>Represents a manager that knows how to manage region descriptors</summary>
         var self = this;
 
         this.describe = function (view, region) {
+            /// <summary>Describe a specific region related to a view</summary>
+            /// <param name="view" type="Bifrost.views.View">View related to the region</param>
+            /// <param name="region" type="Bifrost.views.Region">Region that needs to be described</param>
             var promise = Bifrost.execution.Promise.create();
             var localPath = Bifrost.path.getPathWithoutFilename(view.path);
             var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
@@ -4380,7 +4434,7 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.describeTopLevel = function (region) {
-            region.operations = Bifrost.interaction.Operations.create();
+            
         };
     })
 });
@@ -4749,3 +4803,94 @@ Bifrost.namespace("Bifrost", {
         }
     });
 })(jQuery);
+Bifrost.namespace("Bifrost.tasks", {
+    Task: Bifrost.Type.extend(function () {
+        /// <summary>Represents a task that can be done in the system</summary>
+        var self = this;
+
+        /// <field name="errors" type="observableArray">Observable array of errors</field>
+        this.errors = ko.observableArray();
+
+        this.execute = function () {
+            /// <summary>Executes the task</summary>
+            /// <returns>A promise</returns>
+            var promise = Bifrost.execution.Promise.create();
+            promise.signal();
+            return promise;
+        };
+
+        this.reportError = function (error) {
+            /// <summary>Report an error from executing the task</summary>
+            /// <param name="error" type="String">Error coming back</param>
+            self.errors.push(error);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
+    taskHistory: Bifrost.Singleton(function () {
+        /// <summary>Represents the history of tasks that has been executed since the start of the application</summary>
+        var self = this;
+
+        /// <field param="entries" type="observableArray">Observable array of entries</field>
+        this.entries = ko.observableArray();
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
+    Tasks: Bifrost.Type.extend(function (taskHistory) {
+        /// <summary>Represents an aggregation of tasks</summary>
+        var self = this;
+
+        /// <field name="all" type="Bifrost.tasks.Task">All tasks being executed</field>
+        this.all = ko.observableArray();
+
+        /// <field name="errors" type="observableArrayOfString">All errors that occured during execution of the task</field>
+        this.errors = ko.observableArray();
+        
+        /// <field name="isBusy" type="Boolean">Returns true if the system is busy working, false if not</field>
+        this.isBusy = ko.computed(function () {
+            return self.all().length > 0;
+        });
+
+        this.execute = function (task) {
+            /// <summary>Adds a task and starts executing it right away</summary>
+            /// <param name="task" type="Bifrost.tasks.Task">Task to add</summary>
+        };
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
+    tasksFactory: Bifrost.Singleton(function () {
+        this.create = function () {
+            var tasks = Bifrost.tasks.Tasks.create();
+            return tasks;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.tasksFactory = Bifrost.tasks.tasksFactory;
+Bifrost.namespace("Bifrost.tasks", {
+    HttpGetTask: Bifrost.tasks.HttpTask.extend(function () {
+        /// <summary>Represents a task that can perform Http Get requests</summary>
+        var self = this;
+
+        this.execute = function () {
+        };
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
+    HttpPostTask: Bifrost.tasks.Task.extend(function (server, url, payload) {
+        /// <summary>Represents a task that can perform a Http Post request</summary>
+        var self = this;
+
+        this.execute = function () {
+            var promise = Bifrost.execution.Promise.create();
+            server
+                .post(url, payload)
+                    .continueWith(function (result) {
+                        promise.signal(result);
+                    })
+                    .onFail(function (error) {
+                        promise.fail(error);
+                    });
+            return promise;
+        };
+    })
+});

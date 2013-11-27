@@ -46,6 +46,9 @@
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    promise.fail(textStatus);
                 }
             });
 
@@ -65,6 +68,9 @@
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    promise.fail(textStatus);
                 }
             });
 
