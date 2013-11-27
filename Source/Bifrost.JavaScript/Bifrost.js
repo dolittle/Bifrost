@@ -84,6 +84,7 @@
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
 @depends messaging/Messenger.js
+@depends messaging/messengerFactory.js
 @depends messaging/observableMessage.js
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
@@ -105,6 +106,7 @@
 @depends views/viewModelBindingHandler.js
 @depends views/viewBindingHandler.js
 @depends views/Region.js
+@depends views/RegionDependencyResolver.js
 @depends views/regionManager.js
 @depends views/RegionDescriptor.js
 @depends views/regionDescriptorManager.js
@@ -116,4 +118,10 @@
 @depends navigation/NavigationFrameViewRenderer.js
 @depends navigation/observableQueryParameter.js
 @depends utils/configure.js
+@depends tasks/Task.js
+@depends tasks/taskHistory.js
+@depends tasks/Tasks.js
+@depends tasks/HttpTask.js
+@depends tasks/HttpGetTask.js
+@depends tasks/HttpPostTask.js
 */

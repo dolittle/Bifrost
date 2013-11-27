@@ -77,6 +77,12 @@
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="tasks\HttpGetTask.js" />
+    <Content Include="tasks\HttpPostTask.js" />
+    <Content Include="tasks\HttpTask.js" />
+    <Content Include="tasks\Task.js" />
+    <Content Include="tasks\taskHistory.js" />
+    <Content Include="tasks\Tasks.js" />
     <Content Include="utils\KnownArtifactInstancesDependencyResolver.js" />
     <Content Include="utils\KnownArtifactTypesDependencyResolver.js" />
     <Content Include="utils\isFunction.js" />
@@ -94,6 +100,7 @@
     <Content Include="validation\lessThanOrEqual.js" />
     <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\Region.js" />
+    <Content Include="views\RegionDependencyResolver.js" />
     <Content Include="views\RegionDescriptor.js" />
     <Content Include="views\RegionDescriptorDependencyResolver.js" />
     <Content Include="views\regionDescriptorManager.js" />
