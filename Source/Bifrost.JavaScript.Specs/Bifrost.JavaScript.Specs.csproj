@@ -426,7 +426,10 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_child_region_becomes_busy.js" />
+    <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />
+    <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
     <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
     <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
