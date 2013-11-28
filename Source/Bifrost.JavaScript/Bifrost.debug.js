@@ -3931,19 +3931,19 @@ Bifrost.namespace("Bifrost.views", {
     viewModelLoader: Bifrost.Singleton(function () {
         var self = this;
 
-        this.load = function (path, region) {
+        this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
             if (!path.startsWith("/")) path = "/" + path;
             require([path], function () {
 
-                self.beginCreateInstanceOfViewModel(path, region).continueWith(function (instance) {
+                self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
                     promise.signal(instance);
                 });
             });
             return promise;
         };
 
-        this.beginCreateInstanceOfViewModel = function (path, region) {
+        this.beginCreateInstanceOfViewModel = function (path) {
             var localPath = Bifrost.path.getPathWithoutFilename(path);
             var filename = Bifrost.path.getFilenameWithoutExtension(path);
 
@@ -3954,13 +3954,13 @@ Bifrost.namespace("Bifrost.views", {
                 var namespace = Bifrost.namespace(namespacePath);
 
                 if (filename in namespace) {
-                    namespace[filename].beginCreate({
-                        region: region
-                    }).continueWith(function (instance) {
-                        promise.signal(instance);
-                    }).onFail(function () {
-                        promise.signal({});
-                    });
+                    namespace[filename]
+                        .beginCreate()
+                            .continueWith(function (instance) {
+                                promise.signal(instance);
+                            }).onFail(function () {
+                                promise.signal({});
+                            });
                 }
             }
 
@@ -4009,7 +4009,7 @@ Bifrost.namespace("Bifrost.views", {
             }
         }
 
-        function applyViewModelsByAttribute(path, container, region) {
+        function applyViewModelsByAttribute(path, container) {
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
@@ -4018,9 +4018,9 @@ Bifrost.namespace("Bifrost.views", {
                 function loadAndApply(target) {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
-                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                    self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
                         applyViewModel(instance, target, viewModelFile);
-                        region.viewModel = instance;
+                        instance.region.viewModel = instance;
                     });
                 }
 
@@ -4036,14 +4036,14 @@ Bifrost.namespace("Bifrost.views", {
             return viewModelApplied;
         }
 
-        function applyViewModelByConventionFromPath(path, container, region) {
+        function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
-                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
-                    region.viewModel = instance;
+                    instance.region.viewModel = instance;
                 });
             }
         }

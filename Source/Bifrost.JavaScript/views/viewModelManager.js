@@ -39,7 +39,7 @@
             }
         }
 
-        function applyViewModelsByAttribute(path, container, region) {
+        function applyViewModelsByAttribute(path, container) {
             var viewModelApplied = false;
 
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(container);
@@ -48,9 +48,9 @@
                 function loadAndApply(target) {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
-                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                    self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
                         applyViewModel(instance, target, viewModelFile);
-                        region.viewModel = instance;
+                        instance.region.viewModel = instance;
                     });
                 }
 
@@ -66,14 +66,14 @@
             return viewModelApplied;
         }
 
-        function applyViewModelByConventionFromPath(path, container, region) {
+        function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
                 var viewModelFile = Bifrost.path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
-                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
                     applyViewModel(instance, target, viewModelFile);
-                    region.viewModel = instance;
+                    instance.region.viewModel = instance;
                 });
             }
         }

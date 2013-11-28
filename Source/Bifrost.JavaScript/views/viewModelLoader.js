@@ -2,19 +2,19 @@
     viewModelLoader: Bifrost.Singleton(function () {
         var self = this;
 
-        this.load = function (path, region) {
+        this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
             if (!path.startsWith("/")) path = "/" + path;
             require([path], function () {
 
-                self.beginCreateInstanceOfViewModel(path, region).continueWith(function (instance) {
+                self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
                     promise.signal(instance);
                 });
             });
             return promise;
         };
 
-        this.beginCreateInstanceOfViewModel = function (path, region) {
+        this.beginCreateInstanceOfViewModel = function (path) {
             var localPath = Bifrost.path.getPathWithoutFilename(path);
             var filename = Bifrost.path.getFilenameWithoutExtension(path);
 
@@ -25,13 +25,13 @@
                 var namespace = Bifrost.namespace(namespacePath);
 
                 if (filename in namespace) {
-                    namespace[filename].beginCreate({
-                        region: region
-                    }).continueWith(function (instance) {
-                        promise.signal(instance);
-                    }).onFail(function () {
-                        promise.signal({});
-                    });
+                    namespace[filename]
+                        .beginCreate()
+                            .continueWith(function (instance) {
+                                promise.signal(instance);
+                            }).onFail(function () {
+                                promise.signal({});
+                            });
                 }
             }
 
