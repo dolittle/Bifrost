@@ -73,12 +73,14 @@
     <Content Include="messaging\messengerFactory.js" />
     <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
+    <Content Include="read\queryableFactory.js" />
     <Content Include="read\PagingInfo.js" />
     <Content Include="read\Queryable.js" />
     <Content Include="read\readModelMapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />
+    <Content Include="taskFactory.js" />
     <Content Include="tasks\HttpGetTask.js" />
     <Content Include="tasks\HttpPostTask.js" />
     <Content Include="tasks\tasksFactory.js" />

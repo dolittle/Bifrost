@@ -5,5 +5,14 @@
 
         /// <field param="entries" type="observableArray">Observable array of entries</field>
         this.entries = ko.observableArray();
+
+        this.begin = function (task) {
+        };
+
+        this.end = function (task) {
+        };
+
+        this.failed = function (task) {
+        };
     })
 });

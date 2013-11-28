@@ -17,6 +17,25 @@
         this.execute = function (task) {
             /// <summary>Adds a task and starts executing it right away</summary>
             /// <param name="task" type="Bifrost.tasks.Task">Task to add</summary>
+            /// <returns>A promise to work with for chaining further events</returns>
+
+            var promise = Bifrost.execution.Promise.create();
+
+            self.all.push(task);
+
+            taskHistory.begin(task);
+
+            task.execute().continueWith(function (result) {
+                self.all.remove(task);
+                taskHistory.end(task);
+                promise.signal(result);
+            }).onFail(function (error) {
+                self.all.remove(task);
+                taskHistory.failed(task);
+                promise.fail(error);
+            });
+
+            return promise;
         };
     })
 });

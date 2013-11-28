@@ -76,6 +76,7 @@
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
+@depends read/queryableFactory.js
 @depends read/Query.js
 @depends read/ReadModel.js
 @depends read/ReadModelOf.js
@@ -125,4 +126,5 @@
 @depends tasks/tasksFactory.js
 @depends tasks/HttpGetTask.js
 @depends tasks/HttpPostTask.js
+@depends taskFactory.js
 */

@@ -161,6 +161,7 @@
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back_for_a_readmodel.js" />
     <Content Include="read\for_queryService\when_executing.js" />
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back.js" />
+    <Content Include="read\for_Query\when_creating.js" />
     <Content Include="read\for_Query\when_asking_query_type_if_has_read_model_and_it_is_set.js" />
     <Content Include="read\for_Query\when_asking_query_type_if_has_read_model_and_it_is_not_set.js" />
     <Content Include="read\for_Query\when_getting_parameter_values.js" />
@@ -184,8 +185,12 @@
     <Content Include="read\for_ReadModel\when_copying_to.js" />
     <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements_with_this_specified.js" />
     <Content Include="extensions\for_ArrayExtensions\when_for_eaching_an_array_with_two_elements.js" />
+    <Content Include="tasks\for_HttpGetTask\when_executing_successfully.js" />
+    <Content Include="tasks\for_HttpGetTask\when_executing_with_failure.js" />
     <Content Include="tasks\for_HttpPostTask\when_executing_with_failure.js" />
     <Content Include="tasks\for_HttpPostTask\when_executing_successfully.js" />
+    <Content Include="tasks\for_Tasks\when_executing_task_that_fails.js" />
+    <Content Include="tasks\for_Tasks\when_executing_task_that_successfully_finishes.js" />
     <Content Include="tasks\for_Task\when_reporting_error.js" />
     <Content Include="Utils\for_assetsManager\when_checking_if_has_script_and_it_has_not.js" />
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />

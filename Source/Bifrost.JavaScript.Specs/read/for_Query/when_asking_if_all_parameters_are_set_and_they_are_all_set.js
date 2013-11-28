@@ -7,7 +7,13 @@
         this.secondParameter = ko.observable(2);
     });
 
-    var instance = queryType.create();
+    var queryableFactory = {};
+    var region = {};
+
+    var instance = queryType.create({
+        queryableFactory: queryableFactory,
+        region: region
+    });
     var result = instance.areAllParametersSet();
 
     it("should return true", function () {

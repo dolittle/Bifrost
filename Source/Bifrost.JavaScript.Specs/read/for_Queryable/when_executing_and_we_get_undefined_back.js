@@ -8,6 +8,7 @@
     var queryService = null;
 
     var pagingInfoType = null;
+    var region = {};
 
     beforeEach(function () {
         pagingInfoType = Bifrost.read.PagingInfo;
@@ -29,6 +30,7 @@
 
         var queryable = Bifrost.read.Queryable.create({
             query: query,
+            region: region,
             queryService: queryService,
             targetObservable: observable
         });

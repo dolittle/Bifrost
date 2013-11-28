@@ -1,26 +1,38 @@
 ﻿describe("when executing with null coming back", function() {
+    var task = {
+        some: "task"
+    };
+    var tasks = {
+        execute: sinon.mock().withArgs(task).returns({
+            continueWith: function (callback) {
+                callback(null);
+            }
+        })
+    };
     var query = {
         name: "Its a query",
         generatedFrom: "Something",
         getParameterValues: function () { return {}; },
-        hasReadModel: function () { return false; }
-    };
-
-    var server = {
-        post: function () {
-            return {
-                continueWith: function (callback) {
-                    callback(null);
-                }
-            }
+        hasReadModel: function () { return false; },
+        region: {
+            tasks: tasks
         }
     };
 
     var readModelMapper = {};
 
+    var payloadWhenCreatingTask = null;
+    var taskFactory = {
+        createHttpPost: function (url, payload) {
+            taskFactory.createHttpPost.called = true;
+            payloadWhenCreatingTask = payload;
+            return task;
+        }
+    };
+
     var instance = Bifrost.read.queryService.createWithoutScope({
-        server: server,
-        readModelMapper: readModelMapper
+        readModelMapper: readModelMapper,
+        taskFactory: taskFactory
     });
 
     var paging = {

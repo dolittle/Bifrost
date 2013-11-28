@@ -1,32 +1,24 @@
 ﻿describe("when asking for all", function () {
 
-    var query = Bifrost.read.Query.create();
-    var queryable = null; 
+    var region = { some:"region"};
 
-    var queryableType;
-    var executeStub = null;
+    var queryableFactory = {
+    };
 
-    beforeEach(function () {
-        queryableType = Bifrost.read.Queryable;
-
-        executeStub = sinon.stub();
-        queryable = {
-            new: sinon.mock().withArgs({ query: query }).once().returns({
-                execute: executeStub
-            })
-        };
-
-        Bifrost.read.Queryable = queryable;
-
-        query.all();
+    var query = Bifrost.read.Query.create({
+        queryableFactory: queryableFactory,
+        region: region
     });
 
-    afterEach(function () {
-        Bifrost.read.Queryable = queryableType;
+    queryableFactory.create = sinon.mock().withArgs(query, region).once().returns({
+        execute: executeStub
     });
+
+    var executeStub = sinon.stub();
+    query.all();
 
     it("should create a queryable and pass the query as parameter", function () {
-        expect(queryable.new.verify()).toBe(true);
+        expect(queryableFactory.create.called).toBe(true);
     });
 
     it("should not call execute on the queryable", function () {

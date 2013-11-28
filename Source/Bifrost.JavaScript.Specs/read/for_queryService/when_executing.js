@@ -1,4 +1,15 @@
-﻿describe("when executing", function() {
+﻿describe("when executing", function () {
+    var task = {
+        some:"task"
+    };
+    var tasks = {
+        execute: sinon.mock().withArgs(task).returns({
+            continueWith: function (callback) {
+                callback();
+            }
+        })
+    };
+    
     var query = {
         name: "Its a query",
         generatedFrom: "Something",
@@ -7,68 +18,67 @@
                 firstValue: 42,
                 secondValue: "43"
             };
+        },
+        hasReadModel: function() { return false; },
+        region: {
+            tasks: tasks
         }
     };
-
+    
     var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
-    var postedUrl = null;
-    var postedParameters = null;
-
-    var server = {
-        post: function (url, parameters) {
-            postedUrl = url;
-            postedParameters = parameters;
-
-            return {
-                continueWith: function () { }
-            }
-        }
-    };
 
     var readModelMapper = {};
+    var payloadWhenCreatingTask = null;
 
-
+    var taskFactory = {
+        createHttpPost: function (url, payload) {
+            taskFactory.createHttpPost.called = true;
+            payloadWhenCreatingTask = payload;
+            return task;
+        }
+    };
+    
     var instance = Bifrost.read.queryService.createWithoutScope({
-        server: server,
-        readModelMapper: readModelMapper
+        readModelMapper: readModelMapper,
+        taskFactory: taskFactory
     });
-
+   
     var paging = {
         size: 2,
         number: 5
     };
     
     var promise = instance.execute(query, paging);
-
+    
+    it("should create a http post task", function () {
+        expect(taskFactory.createHttpPost.called).toBe(true);
+    });
 
     it("should return a promise", function () {
         expect(promise instanceof Bifrost.execution.Promise).toBe(true);
     });
 
-    it("should post to the correct URL", function () {
-        expect(postedUrl).toBe(url);
-    });
-
+    
     it("should put the name of query as part of the parameters", function () {
-        expect(postedParameters.descriptor.nameOfQuery).toBe(query.name);
+        expect(payloadWhenCreatingTask.descriptor.nameOfQuery).toBe(query.name);
     });
 
     it("should put the generated from as part of the parameters", function () {
-        expect(postedParameters.descriptor.generatedFrom).toBe(query.generatedFrom);
+        expect(payloadWhenCreatingTask.descriptor.generatedFrom).toBe(query.generatedFrom);
     });
 
     it("should put the first value into the parameters", function () {
-        expect(postedParameters.descriptor.parameters.firstValue).toBe(42);
+        expect(payloadWhenCreatingTask.descriptor.parameters.firstValue).toBe(42);
     });
 
     it("should put the second value into the parameters", function () {
-        expect(postedParameters.descriptor.parameters.secondValue).toBe("43");
+        expect(payloadWhenCreatingTask.descriptor.parameters.secondValue).toBe("43");
     });
 
     it("should include the size from paging", function () {
-        expect(postedParameters.paging.size).toBe(2)
+        expect(payloadWhenCreatingTask.paging.size).toBe(2)
     });
     it("should include the number from paging", function () {
-        expect(postedParameters.paging.number).toBe(5)
+        expect(payloadWhenCreatingTask.paging.number).toBe(5)
     });
 });

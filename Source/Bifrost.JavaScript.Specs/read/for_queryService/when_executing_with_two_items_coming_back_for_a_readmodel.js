@@ -1,31 +1,35 @@
 ﻿describe("when executing with two items coming back for a read model", function() {
+    var task = {
+        some: "task"
+    };
+    var items = [
+        { something: 42 },
+        { somethingElse: 43 }
+    ];
+    var tasks = {
+        execute: sinon.mock().withArgs(task).returns({
+            continueWith: function (callback) {
+                callback(items);
+            }
+        })
+    };
+
     var query = {
         name: "Its a query",
         generatedFrom: "Something",
         getParameterValues: function () { return {}; },
         readModel: "SureIsAReadModel",
-        hasReadModel: function () { return true; }
+        hasReadModel: function () { return true; },
+        region: {
+            tasks: tasks
+        }
     };
 
-    var items = [
-        { something: 42 },
-        { somethingElse: 43 }
-    ];
 
     var mappedItems = [
         { somethingElse: 44 },
         { something: 45 }
     ];
-
-    var server = {
-        post: function () {
-            return {
-                continueWith: function (callback) {
-                    callback(items);
-                }
-            }
-        }
-    };
 
     var readModelMapper = {
         mapDataToReadModel: function (readModel, data) {
@@ -33,9 +37,20 @@
         }
     };
 
+    var payloadWhenCreatingTask = null;
+    var taskFactory = {
+        createHttpPost: function (url, payload) {
+            taskFactory.createHttpPost.called = true;
+            payloadWhenCreatingTask = payload;
+            return task;
+        }
+    };
+
+
     var instance = Bifrost.read.queryService.createWithoutScope({
-        server: server,
-        readModelMapper: readModelMapper
+        readModelMapper: readModelMapper,
+        taskFactory: taskFactory
+
     });
 
     var paging = {

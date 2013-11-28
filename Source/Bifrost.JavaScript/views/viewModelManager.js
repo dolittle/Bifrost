@@ -96,7 +96,8 @@
             var promise = Bifrost.execution.Promise.create();
 
             regionManager.getFor(view).continueWith(function (region) {
-                var currentRegion = Bifrost.views.Region.current;
+                var previousRegion = Bifrost.views.Region.current;
+                Bifrost.views.Region.current = region;
 
                 if (self.hasForView(view.path)) {
                     var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
@@ -115,7 +116,7 @@
                     promise.signal();
                 }
 
-                Bifrost.views.Region.current
+                Bifrost.views.Region.current = previousRegion;
             });
 
             return promise;
