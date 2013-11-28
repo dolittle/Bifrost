@@ -19,7 +19,7 @@
     };
 
     var tasks = {
-        some:"tasks"
+        all: ko.observableArray()
     };
     var tasksFactory = {
         create: sinon.stub().returns(tasks)

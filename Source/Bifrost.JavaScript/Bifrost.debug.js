@@ -4326,11 +4326,24 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="tasks" type="Bifrost.tasks.Tasks">Tasks for the region</field>
         this.tasks = tasksFactory.create();
 
+
         /// field name="parent" type="Bifrost.views.Region">Parent region, null if there is no parent</field>
         this.parent = null;
 
         /// field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
-        this.children = [];
+        this.children = ko.observableArray();
+
+        this.isBusy = ko.computed(function () {
+            var isBusy = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.tasks.all().length > 0) {
+                    isBusy = true;
+                    return;
+                }
+            });
+
+            return isBusy;
+        });
     }
 });
 Bifrost.views.Region.current = null;
@@ -4933,14 +4946,21 @@ Bifrost.namespace("Bifrost.tasks", {
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-            server
-                .post(url, payload)
-                    .continueWith(function (result) {
-                        promise.signal(result);
-                    })
-                    .onFail(function (error) {
-                        promise.fail(error);
-                    });
+
+            
+
+            setTimeout(function () {
+                server
+                    .post(url, payload)
+                        .continueWith(function (result) {
+                            promise.signal(result);
+                        })
+                        .onFail(function (error) {
+                            promise.fail(error);
+                        });
+                
+            }, 1000);
+
             return promise;
         };
     })
