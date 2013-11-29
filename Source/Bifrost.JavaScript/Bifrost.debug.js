@@ -4558,8 +4558,10 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
+        /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
+        /// <field name="isValid" type="observable">Indiciates wether or not region or any of its child regions are in an invalid state</field>
         this.isValid = ko.computed(function () {
             isValid = true;
 
@@ -4578,6 +4580,7 @@ Bifrost.namespace("Bifrost.views", {
             return isValid;
         });
 
+        /// <field name="validationMessages" type="observableArray">Holds the regions and any of its child regions validation messages</field>
         this.validationMessages = ko.computed(function () {
             var messages = [];
 
@@ -4601,7 +4604,6 @@ Bifrost.namespace("Bifrost.views", {
 
             return messages; 
         });
-
 
         /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
         this.isExecuting = ko.computed(function () {
