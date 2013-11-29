@@ -27,6 +27,71 @@
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
+        /// <field name="commands" type="observableArray">Array of commands inside the region</field>
+        this.commands = ko.observableArray();
+
+        /// <field name="isValid" type="observable">Indiciates wether or not region or any of its child regions are in an invalid state</field>
+        this.isValid = ko.computed(function () {
+            isValid = true;
+
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isValid() === false) {
+                    isValid = false;
+                    return;
+                }
+            });
+
+            self.commands().forEach(function (command) {
+                if( command.isValid() === false ) isValid = false;
+            });
+
+            // Walk through all operations and find ones with commands and see if we are invalid
+            return isValid;
+        });
+
+        /// <field name="validationMessages" type="observableArray">Holds the regions and any of its child regions validation messages</field>
+        this.validationMessages = ko.computed(function () {
+            var messages = [];
+
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isValid() === false) {
+                    childRegion.validationMessages().forEach(function (message) {
+                        messages.push(message);
+                    });
+                }
+            });
+
+            self.commands().forEach(function (command) {
+                if (command.isValid() === false) {
+                    command.validators().forEach(function (validator) {
+                        if (validator.isValid() === false) {
+                            messages.push(validator.message());
+                        }
+                    });
+                }
+            });
+
+            return messages; 
+        });
+
+        /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
+        this.isExecuting = ko.computed(function () {
+            var isExecuting = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isExecuting() === true) {
+                    isExecuting = true;
+                    return;
+                }
+            });
+
+            self.tasks.all().forEach(function (task) {
+                if (task instanceof Bifrost.tasks.ExecutionTask) isExecuting = true;
+            });
+
+            return isExecuting;
+        });
+
+        /// <field name="isLoading" type="observable">Indiciates wether or not loading tasks are being performend in this region or any of its child regions</field>
         this.isLoading = ko.computed(function () {
             var isLoading = false;
             self.children().forEach(function (childRegion) {

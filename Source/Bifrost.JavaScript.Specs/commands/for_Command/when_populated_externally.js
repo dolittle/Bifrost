@@ -19,7 +19,10 @@
                 }
             }
         },
-        options: {}
+        options: {},
+        region: {
+            commands: []
+        }
     });
 
     command.populatedExternally();

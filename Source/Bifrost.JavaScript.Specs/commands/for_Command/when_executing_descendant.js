@@ -47,6 +47,9 @@
                     continueWith: function () { }
                 };
             }
+        },
+        region: {
+            commands: []
         }
     }
 

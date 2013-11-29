@@ -46,6 +46,9 @@
                     continueWith: function () { }
                 };
             }
+        },
+        region: {
+            commands: []
         }
     }
     command = Bifrost.commands.Command.create(parameters);

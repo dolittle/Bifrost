@@ -24,7 +24,11 @@
     );
 
     var childRegion = {
-        isBusy: ko.observable(false)
+        isLoading: ko.observable(false),
+        isBusy: ko.observable(false),
+        isValid: ko.observable(false),
+        isExecuting: ko.observable(false),
+        validationMessages: ko.observableArray()
     };
 
     region.children.push(childRegion);

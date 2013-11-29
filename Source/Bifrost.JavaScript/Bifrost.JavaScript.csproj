@@ -57,6 +57,7 @@
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
+    <Content Include="tasks\ExecutionTask.js" />
     <Content Include="tasks\FileLoadTask.js" />
     <Content Include="interaction\Action.js" />
     <Content Include="interaction\EventTrigger.js" />

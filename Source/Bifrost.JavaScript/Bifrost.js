@@ -47,6 +47,7 @@
 @depends tasks/HttpPostTask.js
 @depends tasks/LoadTask.js
 @depends tasks/FileLoadTask.js
+@depends tasks/ExecutionTask.js
 @depends taskFactory.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js

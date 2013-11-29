@@ -22,6 +22,9 @@
                 arrayOfIntegers: [1, 2, 3]
             },
             name:"something"
+        },
+        region: {
+            commands: []
         }
     }
     var command = Bifrost.commands.Command.create(parameters);

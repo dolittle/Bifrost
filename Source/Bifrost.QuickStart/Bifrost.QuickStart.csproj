@@ -125,6 +125,7 @@
     <EmbeddedResource Include="img\glyphicons-halflings.png" />
     <EmbeddedResource Include="img\pattern_40.gif" />
     <EmbeddedResource Include="img\yggdrasil-icon.png" />
+    <Content Include="img\warning.png" />
     <Content Include="img\spinner.gif" />
     <Content Include="index.html" />
     <None Include="Web.config.transform" />

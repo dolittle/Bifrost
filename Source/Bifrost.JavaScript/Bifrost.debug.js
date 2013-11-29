@@ -1723,8 +1723,6 @@ Bifrost.namespace("Bifrost.tasks", {
 Bifrost.namespace("Bifrost.tasks", {
     LoadTask: Bifrost.tasks.Task.extend(function () {
         /// <summary>Represents a base task that represents anything that is loading things</summary>
-        var self = this;
-
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
             promise.signal();
@@ -1733,13 +1731,22 @@ Bifrost.namespace("Bifrost.tasks", {
     })
 });
 Bifrost.namespace("Bifrost.tasks", {
-    FileLoadTask: Bifrost.tasks.LoadTask.extend(function(files) {
+    FileLoadTask: Bifrost.tasks.LoadTask.extend(function (files) {
+        /// <summary>Represents a task for loading files asynchronously</summary>
+
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
             require(files, function () {
                 promise.signal();
             });
             return promise;
+        }
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
+    ExecutionTask: Bifrost.tasks.LoadTask.extend(function (files) {
+        /// <summary>Represents a base task that represents anything that is executing</summary>
+        this.execute = function () {
         }
     })
 });
@@ -2589,7 +2596,7 @@ Bifrost.namespace("Bifrost.commands", {
     })
 });
 Bifrost.namespace("Bifrost.commands", {
-    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options, region) {
         var self = this;
         this.name = "";
         this.generatedFrom = "";
@@ -2856,6 +2863,7 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.onCreated = function (lastDescendant) {
+            region.commands.push(lastDescendant);
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
@@ -4032,12 +4040,9 @@ Bifrost.namespace("Bifrost.views", {
     ViewLoadTask: Bifrost.tasks.LoadTask.extend(function(files) {
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-
-            setTimeout(function () {
-                require(files, function (view) {
-                    promise.signal(view);
-                });
-            }, 1000);
+            require(files, function (view) {
+                promise.signal(view);
+            });
             return promise;
         }
     })
@@ -4553,6 +4558,69 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
+        this.commands = ko.observableArray();
+
+        this.isValid = ko.computed(function () {
+            isValid = true;
+
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isValid() === false) {
+                    isValid = false;
+                    return;
+                }
+            });
+
+            self.commands().forEach(function (command) {
+                if( command.isValid() === false ) isValid = false;
+            });
+
+            // Walk through all operations and find ones with commands and see if we are invalid
+            return isValid;
+        });
+
+        this.validationMessages = ko.computed(function () {
+            var messages = [];
+
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isValid() === false) {
+                    childRegion.validationMessages().forEach(function (message) {
+                        messages.push(message);
+                    });
+                }
+            });
+
+            self.commands().forEach(function (command) {
+                if (command.isValid() === false) {
+                    command.validators().forEach(function (validator) {
+                        if (validator.isValid() === false) {
+                            messages.push(validator.message());
+                        }
+                    });
+                }
+            });
+
+            return messages; 
+        });
+
+
+        /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
+        this.isExecuting = ko.computed(function () {
+            var isExecuting = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isExecuting() === true) {
+                    isExecuting = true;
+                    return;
+                }
+            });
+
+            self.tasks.all().forEach(function (task) {
+                if (task instanceof Bifrost.tasks.ExecutionTask) isExecuting = true;
+            });
+
+            return isExecuting;
+        });
+
+        /// <field name="isLoading" type="observable">Indiciates wether or not loading tasks are being performend in this region or any of its child regions</field>
         this.isLoading = ko.computed(function () {
             var isLoading = false;
             self.children().forEach(function (childRegion) {

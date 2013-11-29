@@ -20,6 +20,9 @@
         },
         options: {
             name: "something"
+        },
+        region: {
+            commands: []
         }
     }
     var command = Bifrost.commands.Command.create(parameters);
