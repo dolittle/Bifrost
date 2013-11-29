@@ -1591,6 +1591,13 @@ Bifrost.namespace("Bifrost", {
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.server = Bifrost.server;
+Bifrost.namespace("Bifrost", {
+    systemClock: Bifrost.Singleton(function () {
+        this.nowInMilliseconds = function () {
+            return window.performance.now();
+        };
+    })
+});
 Bifrost.namespace("Bifrost.tasks", {
     Task: Bifrost.Type.extend(function () {
         /// <summary>Represents a task that can be done in the system</summary>
@@ -1615,23 +1622,85 @@ Bifrost.namespace("Bifrost.tasks", {
     })
 });
 Bifrost.namespace("Bifrost.tasks", {
-    taskHistory: Bifrost.Singleton(function () {
+    TaskHistoryEntry: Bifrost.Type.extend(function () {
+        var self = this;
+
+        this.type = "";
+        this.content = "";
+
+        this.begin = ko.observable();
+        this.end = ko.observable();
+        this.total = ko.computed(function () {
+            if (typeof self.end() !== "undefined" && typeof (self.begin()) !== "undefined") {
+                return self.end() - self.begin();
+            }
+            return 0;
+        });
+        this.result = ko.observable();
+        this.error = ko.observable();
+
+        this.isFinished = ko.computed(function () {
+            return typeof self.end() !== "undefined";
+        });
+        this.hasFailed = ko.computed(function () {
+            return typeof self.error() !== "undefined";
+        });
+
+        this.isSuccess = ko.computed(function () {
+            return self.isFinished() && !self.hasFailed();
+        });
+    }),
+
+    taskHistory: Bifrost.Singleton(function (systemClock) {
         /// <summary>Represents the history of tasks that has been executed since the start of the application</summary>
         var self = this;
+
+        var entriesById = {};
 
         /// <field param="entries" type="observableArray">Observable array of entries</field>
         this.entries = ko.observableArray();
 
         this.begin = function (task) {
+            var id = Bifrost.Guid.create();
+            var entry = Bifrost.tasks.TaskHistoryEntry.create();
+
+            entry.type = task._type._name;
+
+            var content = {};
+
+            for (var property in task) {
+                if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
+                    content[property] = task[property];
+                }
+            }
+
+
+            entry.content = JSON.stringify(content);
+
+            entry.begin(systemClock.nowInMilliseconds());
+            entriesById[id] = entry;
+            self.entries.push(entry);
+            return id;
         };
 
-        this.end = function (task) {
+        this.end = function (id, result) {
+            if (entriesById.hasOwnProperty(id)) {
+                var entry = entriesById[id];
+                entry.end(systemClock.nowInMilliseconds());
+                entry.result(result);
+            }
         };
 
-        this.failed = function (task) {
+        this.failed = function (id, error) {
+            if (entriesById.hasOwnProperty(id)) {
+                var entry = entriesById[id];
+                entry.end(systemClock.nowInMilliseconds());
+                entry.error(error);
+            }
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.taskHistory = Bifrost.tasks.taskHistory;
 Bifrost.namespace("Bifrost.tasks", {
     Tasks: Bifrost.Type.extend(function (taskHistory) {
         /// <summary>Represents an aggregation of tasks</summary>
@@ -1657,15 +1726,15 @@ Bifrost.namespace("Bifrost.tasks", {
 
             self.all.push(task);
 
-            taskHistory.begin(task);
+            var taskHistoryId = taskHistory.begin(task);
 
             task.execute().continueWith(function (result) {
                 self.all.remove(task);
-                taskHistory.end(task);
+                taskHistory.end(taskHistoryId, result);
                 promise.signal(result);
             }).onFail(function (error) {
                 self.all.remove(task);
-                taskHistory.failed(task);
+                taskHistory.failed(taskHistoryId, error);
                 promise.fail(error);
             });
 
@@ -1708,6 +1777,7 @@ Bifrost.namespace("Bifrost.tasks", {
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
+
             server
                 .post(url, payload)
                     .continueWith(function (result) {
@@ -1732,7 +1802,9 @@ Bifrost.namespace("Bifrost.tasks", {
 });
 Bifrost.namespace("Bifrost.tasks", {
     FileLoadTask: Bifrost.tasks.LoadTask.extend(function (files) {
-        /// <summary>Represents a task for loading files asynchronously</summary>
+        /// <summary>Represents a task for loading view related files asynchronously</summary>
+
+        this.files = files;
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
@@ -3543,6 +3615,9 @@ Bifrost.namespace("Bifrost.read", {
             }
         };
 
+        this.query = query.name;
+        this.paging = payload.paging;
+
         var innerTask = taskFactory.createHttpPost(url, payload);
 
         this.execute = function () {
@@ -4037,7 +4112,11 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.viewFactory = Bifrost.views.viewFactory;
 Bifrost.namespace("Bifrost.views", {
-    ViewLoadTask: Bifrost.tasks.LoadTask.extend(function(files) {
+    ViewLoadTask: Bifrost.tasks.LoadTask.extend(function (files) {
+        /// <summary>Represents a task for loading files asynchronously</summary>
+
+        this.files = files;
+
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
             require(files, function (view) {

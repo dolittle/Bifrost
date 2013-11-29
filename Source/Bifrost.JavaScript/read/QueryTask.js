@@ -13,6 +13,9 @@
             }
         };
 
+        this.query = query.name;
+        this.paging = payload.paging;
+
         var innerTask = taskFactory.createHttpPost(url, payload);
 
         this.execute = function () {

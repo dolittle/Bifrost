@@ -5,6 +5,7 @@
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
+
             server
                 .post(url, payload)
                     .continueWith(function (result) {

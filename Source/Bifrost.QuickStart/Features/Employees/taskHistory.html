@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <style>
+        .historyEntry {
+            height: 16px;
+            border:2px solid;
+            border-radius:8px;
+        }
+
+        .succeeded {
+            background-color: lightgreen;
+        }
+
+        .failed {
+            background-color: red;
+        }
+
+        .historyContentTooltip {
+            position: absolute;
+            z-index: 10;
+        }
+    </style>
+
+    <div class="well historyContentTooltip" 
+         data-bind="
+            visible: typeof currentEntry() !== 'undefined',
+            style: {
+                left: tooltipXPosition,
+                top: tooltipYPosition,
+            },
+            with: currentEntry
+         ">
+        <span data-bind="text: content"></span>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td style="width:200px;">Task</td>
+                        <td>Time</td>
+                    </tr>
+                </thead>
+
+                <tbody data-bind="foreach: taskHistory.entries">
+                    <tr>
+                        <td>
+                            <span data-bind="text: type">
+
+                            </span>
+                        </td>
+                        <td>
+                            <span data-bind="text: $root.getTotalFormatted($data)"></span>
+                            ms
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span8">
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>Timeline</td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: taskHistory.entries">
+                    <tr>
+                        <td>
+                            <div class="historyEntry" 
+                                 data-bind="
+                                    visible: isFinished,
+                                    event: {
+                                        mouseenter: $root.entryEntered,
+                                        mousemove: $root.entryHovered,
+                                        mouseleave: $root.entryLeft
+                                    },
+                                    css: { 
+                                        succeeded: isSuccess, 
+                                        failed: hasFailed 
+                                    },
+                                    style: {
+                                        'margin-left': $root.getOffsetFor($data),
+                                        'width': isFinished() ? $root.getWidthFor($data) : '30px'
+                                    }">
+                            </div>
+                            <img src="/img/taskRunning.gif" 
+                                 data-bind="
+                                    visible: !isFinished(),
+                                    style: {
+                                            'margin-left': $root.getOffsetFor($data),
+                                    }" />
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

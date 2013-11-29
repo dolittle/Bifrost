@@ -108,6 +108,7 @@
     <EmbeddedResource Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="css\dolittle.css" />
+    <Content Include="Features\Employees\taskHistory.js" />
     <Content Include="Features\Employees\index.html" />
     <Content Include="Features\Employees\index.js" />
     <Content Include="Features\Employees\list.html" />
@@ -125,6 +126,8 @@
     <EmbeddedResource Include="img\glyphicons-halflings.png" />
     <EmbeddedResource Include="img\pattern_40.gif" />
     <EmbeddedResource Include="img\yggdrasil-icon.png" />
+    <Content Include="Features\Employees\taskHistory.html" />
+    <Content Include="img\taskRunning.gif" />
     <Content Include="img\warning.png" />
     <Content Include="img\spinner.gif" />
     <Content Include="index.html" />
