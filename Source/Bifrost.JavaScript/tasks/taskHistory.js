@@ -9,10 +9,10 @@
         this.begin = function (task) {
         };
 
-        this.end = function (task) {
+        this.end = function (taskHistoryId, result) {
         };
 
-        this.failed = function (task) {
+        this.failed = function (taskHistoryId, error) {
         };
     })
 });

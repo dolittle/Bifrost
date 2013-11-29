@@ -14,13 +14,10 @@
         </div>
     </div>    
 
-    <img src="/img/spinner.gif" data-bind="visible: region.isLoading" />
+    <img src="/img/spinner.gif" data-bind="visible: region.isLoading()" />
     <img src="/img/spinner.gif" data-bind="visible: region.isBusy" />
     <img src="/img/spinner.gif" data-bind="visible: region.isExecuting" />
     <img src="/img/warning.png" data-bind="visible: region.isValid() === false" />
-    <ul data-bind="foreach: region.validationMessages">
-        <li data-bind="text: $data"></li>
-    </ul>
     
     <div class="regionOuter" style="background-color: white;">
         <div class="container-narrow">

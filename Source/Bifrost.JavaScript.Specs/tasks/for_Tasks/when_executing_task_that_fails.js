@@ -13,9 +13,10 @@
         })
     };
 
+    var taskHistoryId = "someId";
     var taskHistory = {
-        begin: sinon.mock().withArgs(task),
-        failed: sinon.mock().withArgs(task)
+        begin: sinon.mock().withArgs(task).returns(taskHistoryId),
+        failed: sinon.mock().withArgs(taskHistoryId, error)
     };
 
     var tasks = Bifrost.tasks.Tasks.create({ taskHistory: taskHistory });

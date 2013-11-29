@@ -23,15 +23,15 @@
 
             self.all.push(task);
 
-            taskHistory.begin(task);
+            var taskHistoryId = taskHistory.begin(task);
 
             task.execute().continueWith(function (result) {
                 self.all.remove(task);
-                taskHistory.end(task);
+                taskHistory.end(taskHistoryId, result);
                 promise.signal(result);
             }).onFail(function (error) {
                 self.all.remove(task);
-                taskHistory.failed(task);
+                taskHistory.failed(taskHistoryId, error);
                 promise.fail(error);
             });
 
