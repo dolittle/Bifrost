@@ -46,6 +46,7 @@
 @depends tasks/HttpGetTask.js
 @depends tasks/HttpPostTask.js
 @depends tasks/LoadTask.js
+@depends tasks/FileLoadTask.js
 @depends taskFactory.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
@@ -105,6 +106,7 @@
 @depends views/viewRenderers.js
 @depends views/DataAttributeViewRenderer.js
 @depends views/viewFactory.js
+@depends views/ViewLoadTask.js
 @depends views/viewLoader.js
 @depends views/viewManager.js
 @depends views/ViewModel.js

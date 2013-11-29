@@ -27,6 +27,22 @@
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
+        this.isLoading = ko.computed(function () {
+            var isLoading = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isLoading() === true) {
+                    isLoading = true;
+                    return;
+                }
+            });
+
+            self.tasks.all().forEach(function (task) {
+                if (task instanceof Bifrost.tasks.LoadTask) isLoading = true;
+            });
+
+            return isLoading;
+        });
+
         /// <field name="isBusy" type="observable">Indicates wether or not tasks are being performed in this region or any of its child regions</field>
         this.isBusy = ko.computed(function () {
             var isBusy = false;

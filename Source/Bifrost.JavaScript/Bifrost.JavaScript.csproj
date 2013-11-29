@@ -57,6 +57,7 @@
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
+    <Content Include="tasks\FileLoadTask.js" />
     <Content Include="interaction\Action.js" />
     <Content Include="interaction\EventTrigger.js" />
     <Content Include="interaction\operationsFactory.js" />
@@ -105,6 +106,7 @@
     <Content Include="utils\StringMapping.js" />
     <Content Include="validation\lessThanOrEqual.js" />
     <Content Include="validation\greaterThanOrEqual.js" />
+    <Content Include="views\ViewLoadTask.js" />
     <Content Include="views\Region.js" />
     <Content Include="views\RegionDependencyResolver.js" />
     <Content Include="views\RegionDescriptor.js" />

@@ -25,5 +25,19 @@
             });
             return task;
         };
+
+        this.createViewLoad = function (files) {
+            var task = Bifrost.views.ViewLoadTask.create({
+                files: files
+            });
+            return task;
+        };
+
+        this.createFileLoad = function (files) {
+            var task = Bifrost.tasks.FileLoadTask.create({
+                files: files
+            });
+            return task;
+        };
     })
 });

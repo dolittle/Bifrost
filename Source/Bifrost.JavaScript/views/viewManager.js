@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
@@ -31,7 +31,10 @@
                     // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
                     //self.viewModelManager.applyToViewIfAny(view);
 
-                    renderChildren(body);
+                    regionManager.getFor(view).continueWith(function (region) {
+                        Bifrost.views.Region.current = region;
+                        renderChildren(body);
+                    });
                 }
             }
         };
