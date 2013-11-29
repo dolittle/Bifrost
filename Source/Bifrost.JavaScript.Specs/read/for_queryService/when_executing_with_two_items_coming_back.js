@@ -23,12 +23,8 @@
         }
     };
 
-
-    var payloadWhenCreatingTask = null;
     var taskFactory = {
-        createHttpPost: function (url, payload) {
-            taskFactory.createHttpPost.called = true;
-            payloadWhenCreatingTask = payload;
+        createQuery: function (url, payload) {
             return task;
         }
     };

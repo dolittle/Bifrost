@@ -21,14 +21,12 @@
 
     var readModelMapper = {};
 
-    var payloadWhenCreatingTask = null;
     var taskFactory = {
-        createHttpPost: function (url, payload) {
-            taskFactory.createHttpPost.called = true;
-            payloadWhenCreatingTask = payload;
+        createQuery: function (query, paging) {
             return task;
         }
     };
+
 
     var instance = Bifrost.read.queryService.createWithoutScope({
         readModelMapper: readModelMapper,

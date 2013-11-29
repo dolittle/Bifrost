@@ -6,20 +6,7 @@ Bifrost.namespace("Bifrost.read", {
             var promise = Bifrost.execution.Promise.create();
             var region = query.region;
 
-            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
-            var payload = {
-                descriptor: {
-                    nameOfQuery: query.name,
-                    generatedFrom: query.generatedFrom,
-                    parameters: query.getParameterValues()
-                },
-                paging: {
-                    size: paging.size,
-                    number: paging.number
-                }
-            };
-
-            var task = taskFactory.createHttpPost(url,payload);
+            var task = taskFactory.createQuery(query, paging);
             region.tasks.execute(task).continueWith(function (result) {
                 if (typeof result == "undefined" || result == null) {
                     result = {};

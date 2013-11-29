@@ -43,4 +43,5 @@ Harnesses:
         - Bifrost.JavaScript/views/viewRenderer.js
         - Bifrost.JavaScript/interaction/Trigger.js
         - Bifrost.JavaScript/tasks/Task.js
+        - Bifrost.JavaScript/tasks/LoadTask.js
 		

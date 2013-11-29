@@ -39,6 +39,14 @@
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js
 @depends utils/server.js
+@depends tasks/Task.js
+@depends tasks/taskHistory.js
+@depends tasks/Tasks.js
+@depends tasks/tasksFactory.js
+@depends tasks/HttpGetTask.js
+@depends tasks/HttpPostTask.js
+@depends tasks/LoadTask.js
+@depends taskFactory.js
 @depends validation/exceptions.js
 @depends validation/ruleHandlers.js
 @depends validation/Rule.js
@@ -82,6 +90,7 @@
 @depends read/ReadModelOf.js
 @depends read/readModelOfDependencyResolver.js
 @depends read/queryDependencyResolver.js
+@depends read/QueryTask.js
 @depends read/queryService.js
 @depends sagas/Saga.js
 @depends sagas/sagaNarrator.js
@@ -120,11 +129,4 @@
 @depends navigation/NavigationFrameViewRenderer.js
 @depends navigation/observableQueryParameter.js
 @depends utils/configure.js
-@depends tasks/Task.js
-@depends tasks/taskHistory.js
-@depends tasks/Tasks.js
-@depends tasks/tasksFactory.js
-@depends tasks/HttpGetTask.js
-@depends tasks/HttpPostTask.js
-@depends taskFactory.js
 */

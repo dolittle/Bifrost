@@ -25,15 +25,15 @@
         }
     };
     
-    var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
-
     var readModelMapper = {};
-    var payloadWhenCreatingTask = null;
+    var queryForTask = null;
+    var payloadForTask = null;
 
     var taskFactory = {
-        createHttpPost: function (url, payload) {
-            taskFactory.createHttpPost.called = true;
-            payloadWhenCreatingTask = payload;
+        createQuery: function (query, paging) {
+            taskFactory.createQuery.called = true;
+            queryForTask = query;
+            pagingForTask = paging;
             return task;
         }
     };
@@ -50,35 +50,19 @@
     
     var promise = instance.execute(query, paging);
     
-    it("should create a http post task", function () {
-        expect(taskFactory.createHttpPost.called).toBe(true);
+    it("should create a query task", function () {
+        expect(taskFactory.createQuery.called).toBe(true);
     });
 
     it("should return a promise", function () {
         expect(promise instanceof Bifrost.execution.Promise).toBe(true);
     });
 
-    
-    it("should put the name of query as part of the parameters", function () {
-        expect(payloadWhenCreatingTask.descriptor.nameOfQuery).toBe(query.name);
+    it("should pass along the query to the task", function () {
+        expect(queryForTask).toBe(query);
     });
 
-    it("should put the generated from as part of the parameters", function () {
-        expect(payloadWhenCreatingTask.descriptor.generatedFrom).toBe(query.generatedFrom);
-    });
-
-    it("should put the first value into the parameters", function () {
-        expect(payloadWhenCreatingTask.descriptor.parameters.firstValue).toBe(42);
-    });
-
-    it("should put the second value into the parameters", function () {
-        expect(payloadWhenCreatingTask.descriptor.parameters.secondValue).toBe("43");
-    });
-
-    it("should include the size from paging", function () {
-        expect(payloadWhenCreatingTask.paging.size).toBe(2)
-    });
-    it("should include the number from paging", function () {
-        expect(payloadWhenCreatingTask.paging.number).toBe(5)
+    it("should pass along the paging to the task", function () {
+        expect(pagingForTask).toBe(paging);
     });
 });

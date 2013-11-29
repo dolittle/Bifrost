@@ -37,15 +37,11 @@
         }
     };
 
-    var payloadWhenCreatingTask = null;
     var taskFactory = {
-        createHttpPost: function (url, payload) {
-            taskFactory.createHttpPost.called = true;
-            payloadWhenCreatingTask = payload;
+        createQuery: function (url, payload) {
             return task;
         }
     };
-
 
     var instance = Bifrost.read.queryService.createWithoutScope({
         readModelMapper: readModelMapper,
