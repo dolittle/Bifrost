@@ -125,20 +125,36 @@
 
             elements.forEach(function (element) {
                 var viewModelFile = self.documentService.getViewModelFileFrom(element);
+                var viewFile = self.documentService.getViewFileFrom(element);
 
-                self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                    documentService.setViewModelOn(element, instance);
+                var view = Bifrost.views.View.create({
+                    viewLoader: {
+                        load: function () {
+                            var promise = Bifrost.execution.Promise.create();
+                            promise.signal(element.innerHTML);
+                            return promise;
+                        }
+                    },
+                    path: viewFile
+                });
+                view.element = element;
+                view.content = element.innerHTML;
 
-                    loadedViewModels++;
+                regionManager.getFor(view).continueWith(function (region) {
+                    self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                        documentService.setViewModelOn(element, instance);
 
-                    if (loadedViewModels == elements.length) {
-                        elements.forEach(function (elementToApplyBindingsTo) {
-                            var viewModel = self.documentService.getViewModelFrom(elementToApplyBindingsTo);
-                            setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
-                        });
+                        loadedViewModels++;
 
-                        ko.applyBindings(self.masterViewModel);
-                    }
+                        if (loadedViewModels == elements.length) {
+                            elements.forEach(function (elementToApplyBindingsTo) {
+                                var viewModel = self.documentService.getViewModelFrom(elementToApplyBindingsTo);
+                                setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
+                            });
+
+                            ko.applyBindings(self.masterViewModel);
+                        }
+                    });
                 });
             });
         };
