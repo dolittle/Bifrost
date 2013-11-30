@@ -1,0 +1,2 @@
+﻿Bifrost.namespace("Bifrost.commands", {
+});
