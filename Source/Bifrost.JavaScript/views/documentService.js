@@ -43,6 +43,12 @@
             return elements;
         };
 
+        this.getViewFileFrom = function (element) {
+            var file = $(element).data("view-file");
+            if (typeof file == "undefined") file = "";
+            return file;
+        };
+
         this.getViewModelFileFrom = function (element) {
             var file = $(element).data("viewmodel-file");
             if (typeof file == "undefined") file = "";
