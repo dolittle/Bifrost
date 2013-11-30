@@ -16,16 +16,19 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		function mapSingleInstance(readModel, data) {
-		    if (typeof data._readModelType != "undefined") {
-		        
-		        var readModelType = eval(data._readModelType);
-		        if (typeof readModelType != "undefined" && readModelType !== null) {
-		            readModel = readModelType;
-		        }
-		    }
-
 		    var instance = readModel.create();
-		    copyProperties(data, instance);
+
+		    if (data) {
+		        if (typeof data._readModelType != "undefined") {
+
+		            var readModelType = eval(data._readModelType);
+		            if (typeof readModelType != "undefined" && readModelType !== null) {
+		                readModel = readModelType;
+		            }
+		        }
+
+		        copyProperties(data, instance);
+		    }
 		    return instance;
 		};
 
