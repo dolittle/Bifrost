@@ -352,7 +352,7 @@ Bifrost.namespace("Bifrost", {
                 typeof self._dependencies == "undefined" || 
                 self._dependencies.length == 0) {
 
-                var instance = self.create();
+                var instance = self.create(instanceHash);
                 promise.signal(instance);
             } else {
                 beginGetDependencyInstances(self._namespace, self, instanceHash)
