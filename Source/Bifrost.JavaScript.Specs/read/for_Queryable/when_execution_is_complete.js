@@ -10,6 +10,7 @@
     };
     var observable = ko.observableArray();
     var queryService = null;
+    var region = {};
 
     var pagingInfoType = null;
 
@@ -49,6 +50,7 @@
 
         queryable = Bifrost.read.Queryable.create({
             query: query,
+            region: region,
             queryService: queryService,
             targetObservable: observable
         });

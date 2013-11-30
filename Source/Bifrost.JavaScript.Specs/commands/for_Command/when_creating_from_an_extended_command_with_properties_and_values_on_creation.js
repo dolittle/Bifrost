@@ -25,6 +25,9 @@
                 string: "hello",
                 arrayOfIntegers: [1, 2, 3]
             }
+        },
+        region: {
+            commands: []
         }
     }
 

@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.commands", {
-    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options) {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options, region) {
         var self = this;
         this.name = "";
         this.generatedFrom = "";
@@ -266,6 +266,7 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.onCreated = function (lastDescendant) {
+            region.commands.push(lastDescendant);
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);

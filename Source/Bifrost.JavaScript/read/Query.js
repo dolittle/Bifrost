@@ -1,10 +1,11 @@
 ﻿Bifrost.namespace("Bifrost.read", {
-    Query: Bifrost.Type.extend(function () {
+    Query: Bifrost.Type.extend(function (queryableFactory, region) {
         var self = this;
         this.name = "";
         this.target = this;
         this.generatedFrom = "";
         this.readModel = null;
+        this.region = region;
 
         this.areAllParametersSet = null;
 
@@ -47,21 +48,15 @@
         };
 
         this.all = function () {
-            var queryable = Bifrost.read.Queryable.new({
-                query: self.target
-            });
+            var queryable = queryableFactory.create(self.target, region);
             return queryable;
         };
 
         this.paged = function (pageSize, pageNumber) {
-            var queryable = Bifrost.read.Queryable.new({
-                query: self.target
-            });
+            var queryable = queryableFactory.create(self.target, region);
             queryable.setPageInfo(pageSize, pageNumber);
             return queryable;
         };
-
-        
 
         this.onCreated = function (query) {
             self.target = query;

@@ -22,7 +22,6 @@ Bifrost.namespace("Bifrost.execution", {
             if (self.failedCallback != null) self.failedCallback(error);
             self.hasFailed = true;
             self.error = error;
-            throw error;
         };
 
         this.onFail = function (callback) {

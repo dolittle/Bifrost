@@ -23,6 +23,9 @@
                     continueWith: function () { }
                 };
             }
+        },
+        region: {
+            commands: []
         }
     }
 

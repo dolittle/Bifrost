@@ -1,14 +1,20 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager) {
+    regionManager: Bifrost.Singleton(function (documentService, regionDescriptorManager, messengerFactory, operationsFactory, tasksFactory) {
         /// <summary>Represents a manager that knows how to deal with Regions on the page</summary>
         var self = this;
+
+        function createRegionInstance() {
+            var instance = new Bifrost.views.Region(messengerFactory, operationsFactory, tasksFactory);
+            return instance;
+        }
+
 
         function manageInheritance(element) {
             var parentRegion = documentService.getParentRegionFor(element);
             if (parentRegion) {
                 Bifrost.views.Region.prototype = parentRegion;
             } else {
-                var topLevel = new Bifrost.views.Region();
+                var topLevel = createRegionInstance();
                 regionDescriptorManager.describeTopLevel(topLevel);
                 Bifrost.views.Region.prototype = topLevel;
             }
@@ -16,7 +22,7 @@
         }
 
         function manageHierarchy(parentRegion, view) {
-            var region = new Bifrost.views.Region();
+            var region = createRegionInstance();
             region.parent = parentRegion;
             region.view = view;
             if (parentRegion) {

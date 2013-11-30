@@ -1,8 +1,12 @@
 ﻿Bifrost.namespace("Bifrost.views", {
     regionDescriptorManager: Bifrost.Singleton(function () {
+        /// <summary>Represents a manager that knows how to manage region descriptors</summary>
         var self = this;
 
         this.describe = function (view, region) {
+            /// <summary>Describe a specific region related to a view</summary>
+            /// <param name="view" type="Bifrost.views.View">View related to the region</param>
+            /// <param name="region" type="Bifrost.views.Region">Region that needs to be described</param>
             var promise = Bifrost.execution.Promise.create();
             var localPath = Bifrost.path.getPathWithoutFilename(view.path);
             var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
@@ -22,7 +26,7 @@
         };
 
         this.describeTopLevel = function (region) {
-            region.operations = Bifrost.interaction.Operations.create();
+            
         };
     })
 });

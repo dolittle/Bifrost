@@ -7,6 +7,7 @@
         number : 0
     };
 
+    var region = {};
     var pagingInfoType = null;
     var queryService = {
         execute: sinon.mock().withArgs(query, paging).once().returns({
@@ -26,6 +27,7 @@
 
         var instance = Bifrost.read.Queryable.create({
             query: query,
+            region: region,
             queryService: queryService,
             targetObservable: {}
         });

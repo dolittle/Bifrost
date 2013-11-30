@@ -19,6 +19,9 @@
             }
         },
         options: {
+        },
+        region: {
+            commands: []
         }
     }
 

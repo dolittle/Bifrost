@@ -10,7 +10,12 @@
                 <h2>Human Resources : Employee registration</h2>
             </div>
         </div>
-    </div>    
+    </div>
+
+    <img src="/img/spinner.gif" data-bind="visible: region.isLoading()" />
+    <img src="/img/spinner.gif" data-bind="visible: region.isBusy" />
+    <img src="/img/spinner.gif" data-bind="visible: region.isExecuting" />
+    <img src="/img/warning.png" data-bind="visible: region.isValid() === false" />
 
     <div class="regionOuter" style="background-color: white;">
         <div class="container-narrow">
@@ -20,5 +25,7 @@
             </div>
         </div>
     </div>
+
+    <div data-view="Employees/taskHistory"></div>
 </body>
 </html>

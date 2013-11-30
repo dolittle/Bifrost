@@ -20,9 +20,16 @@
         describe: sinon.stub()
     };
 
+    var messengerFactory = { messenger: "factory" };
+    var operationsFactory = { operations: "factory" };
+    var tasksFactory = { tasks: "factory" };
+
     var instance = Bifrost.views.regionManager.createWithoutScope({
         documentService: documentService,
-        regionDescriptorManager: regionDescriptorManager
+        regionDescriptorManager: regionDescriptorManager,
+        messengerFactory: messengerFactory,
+        operationsFactory: operationsFactory,
+        tasksFactory: tasksFactory
     });
 
     var regionReturned = null;

@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.read", {
-    Queryable: Bifrost.Type.extend(function (query, queryService, targetObservable) {
+    Queryable: Bifrost.Type.extend(function (query, queryService, region, targetObservable) {
         var self = this;
 
         this.canExecute = true;
@@ -81,9 +81,10 @@
         };
     })
 });
-Bifrost.read.Queryable.new = function (options, executeQuery) {
+Bifrost.read.Queryable.new = function (options, region) {
     var observable = ko.observableArray();
     options.targetObservable = observable;
+    options.region = region;
     var queryable = Bifrost.read.Queryable.create(options);
     Bifrost.extend(observable, queryable);
     observable.isQueryable = true;

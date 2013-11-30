@@ -4,7 +4,13 @@
         this.readModel = "Something";
     });
 
-    var instance = queryType.create();
+    var queryableFactory = {};
+    var region = {};
+
+    var instance = queryType.create({
+        queryableFactory: queryableFactory,
+        region: region
+    });
     var result = instance.hasReadModel();
 
     it("should return true", function () {

@@ -1,31 +1,39 @@
 ﻿describe("when executing with two items coming back", function() {
-    var query = {
-        name: "Its a query",
-        generatedFrom: "Something",
-        getParameterValues: function () { return {}; },
-        hasReadModel: function () { return false; }
+    var task = {
+        some: "task"
     };
-
     var items = [
         { something: 42 },
         { somethingElse: 43 }
     ];
-
-    var server = {
-        post: function () {
-            return {
-                continueWith: function (callback) {
-                    callback(items);
-                }
+    var tasks = {
+        execute: sinon.mock().withArgs(task).returns({
+            continueWith: function (callback) {
+                callback(items);
             }
+        })
+    };
+    var query = {
+        name: "Its a query",
+        generatedFrom: "Something",
+        getParameterValues: function () { return {}; },
+        hasReadModel: function () { return false; },
+        region: {
+            tasks: tasks
+        }
+    };
+
+    var taskFactory = {
+        createQuery: function (url, payload) {
+            return task;
         }
     };
 
     var readModelMapper = {};
 
     var instance = Bifrost.read.queryService.createWithoutScope({
-        server: server,
-        readModelMapper: readModelMapper
+        readModelMapper: readModelMapper,
+        taskFactory: taskFactory
     });
 
     var paging = {

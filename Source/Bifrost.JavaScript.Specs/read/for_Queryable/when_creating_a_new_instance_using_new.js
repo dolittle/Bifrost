@@ -1,12 +1,16 @@
 ﻿describe("when creating a new instance using new", function () {
+    var region = {};
     var options = {
+        region: region,
         query: {
             areAllParametersSet: sinon.stub().returns(false)
         },
         queryService: {},
     };
-    var instance = Bifrost.read.Queryable.new(options);
+    
+    var instance = Bifrost.read.Queryable.new(options, region);
     var queryable = Bifrost.read.Queryable.create(options);
+
 
     it("should return an instance", function () {
         expect(instance).toBeDefined();

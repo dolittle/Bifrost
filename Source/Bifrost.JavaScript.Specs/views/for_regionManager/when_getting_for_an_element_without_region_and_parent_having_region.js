@@ -44,19 +44,31 @@
     var regionType = null;
     var namespaceMappersType = null;
 
+    var messengerFactory = { messenger: "factory" };
+    var operationsFactory = { operations: "factory" };
+    var tasksFactory = { tasks: "factory" };
+
     beforeEach(function () {
         regionType = Bifrost.views.Region;
-        Bifrost.views.Region = function () { };
+        Bifrost.views.Region = function (messengerFactory, operationsFactory, tasksFactory) {
+            this.messengerFactory = messengerFactory;
+            this.operationsFactory = operationsFactory;
+            this.tasksFactory = tasksFactory;
+        };
         namespaceMappersType = Bifrost.namespaceMappers;
         Bifrost.namespaceMappers = {
             mapPathToNamespace: function () { return null; }
         };
 
+
         var instance = Bifrost.views.regionManager.createWithoutScope({
             documentService: documentService,
-            regionDescriptorManager : regionDescriptorManager
+            regionDescriptorManager: regionDescriptorManager,
+            messengerFactory: messengerFactory,
+            operationsFactory: operationsFactory,
+            tasksFactory: tasksFactory
         });
-        
+
         instance.getFor(view).continueWith(function (instance) {
             regionReturned = instance;
         });
@@ -80,5 +92,17 @@
 
     it("should add the new region as a child to the parent region", function () {
         expect(region.children[0]).toBe(regionReturned);
+    });
+
+    it("should pass along the messenger factory", function () {
+        expect(regionReturned.messengerFactory).toBe(messengerFactory);
+    });
+
+    it("should pass along the operations factory", function () {
+        expect(regionReturned.operationsFactory).toBe(operationsFactory);
+    });
+
+    it("should pass along the tasks factory", function () {
+        expect(regionReturned.tasksFactory).toBe(tasksFactory);
     });
 });

@@ -1,25 +1,32 @@
 ﻿describe("when executing with undefined coming back", function() {
+    var task = {
+        some: "task"
+    };
+    var tasks = {
+        execute: sinon.mock().withArgs(task).returns({
+            continueWith: function (callback) {
+                callback(null);
+            }
+        })
+    };
     var query = {
         name: "Its a query",
         generatedFrom: "Something",
         getParameterValues: function () { return {}; },
-        hasReadModel: function () { return false; }
-    };
-
-    var server = {
-        post: function () {
-            return {
-                continueWith: function (callback) {
-                    callback(undefined);
-                }
-            }
+        hasReadModel: function () { return false; },
+        region: {
+            tasks: tasks
         }
     };
 
     var readModelMapper = {};
-
+    var taskFactory = {
+        createQuery: function (url, payload) {
+            return task;
+        }
+    };
     var instance = Bifrost.read.queryService.createWithoutScope({
-        server: server,
+        taskFactory: taskFactory,
         readModelMapper: readModelMapper
     });
 

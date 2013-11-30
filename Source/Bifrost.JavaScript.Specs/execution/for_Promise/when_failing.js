@@ -1,13 +1,10 @@
 ﻿describe("when failing", function () {
     var error = null;
-    try {
-        var promise = Bifrost.execution.Promise.create();
-        promise.fail("hello");
-    } catch (e) {
-        error = e;
-    }
 
-    it("should throw the error given", function () {
-        expect(error).toBe("hello");
+    var promise = Bifrost.execution.Promise.create();
+    promise.fail("hello");
+
+    it("should set the promise in a failed state", function () {
+        expect(promise.hasFailed).toBe(true);
     });
 });

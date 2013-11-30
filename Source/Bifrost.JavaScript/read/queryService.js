@@ -1,24 +1,13 @@
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function (server, readModelMapper) {
+    queryService: Bifrost.Singleton(function (readModelMapper, taskFactory) {
         var self = this;
-        this.server = server;
-        this.readModelMapper = readModelMapper;
 
         this.execute = function (query, paging) {
             var promise = Bifrost.execution.Promise.create();
+            var region = query.region;
 
-            var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
-            self.server.post(url, {
-                descriptor: {
-                    nameOfQuery: query.name,
-                    generatedFrom: query.generatedFrom,
-                    parameters: query.getParameterValues()
-                },
-                paging: {
-                    size: paging.size,
-                    number: paging.number
-                }
-            }).continueWith(function (result) {
+            var task = taskFactory.createQuery(query, paging);
+            region.tasks.execute(task).continueWith(function (result) {
                 if (typeof result == "undefined" || result == null) {
                     result = {};
                 }
@@ -26,7 +15,7 @@ Bifrost.namespace("Bifrost.read", {
                 if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    result.items = self.readModelMapper.mapDataToReadModel(query.readModel, result.items);
+                    result.items = readModelMapper.mapDataToReadModel(query.readModel, result.items);
                 }
                 promise.signal(result);
             });

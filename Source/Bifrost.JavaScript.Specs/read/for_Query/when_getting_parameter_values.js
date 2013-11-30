@@ -5,7 +5,13 @@
         this.nonObservable = "";
     });
 
-    var instance = queryType.create();
+    var queryableFactory = {};
+    var region = {};
+
+    var instance = queryType.create({
+        queryableFactory: queryableFactory,
+        region: region
+    });
     var parameters = instance.getParameterValues();
 
     it("should include the first observable", function () {
