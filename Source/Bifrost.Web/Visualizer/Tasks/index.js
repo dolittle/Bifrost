@@ -22,7 +22,6 @@
             var zero = firstEntry.begin();
 
             var offset = entry.begin() - zero;
-
             return scale(offset) + "px";
         };
 
