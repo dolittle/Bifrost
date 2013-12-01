@@ -11,7 +11,6 @@
             /// <param name="context" type="Bifrost.interaction.OperationContext">Context in which the operation is being performed in</param>
             /// <param name="operation" type="Bifrost.interaction.Operation">Operation to perform</param>
 
-
             if (operation.canPerform() === true) {
                 var state = operation.perform(context);
                 var entry = operationEntryFactory.create(context, operation, state);

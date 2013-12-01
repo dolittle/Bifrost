@@ -91,6 +91,24 @@
             return isExecuting;
         });
 
+        /// <field name="isComposing" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
+        this.isComposing = ko.computed(function () {
+            var isComposing = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.isComposing() === true) {
+                    isComposing = true;
+                    return;
+                }
+            });
+
+            self.tasks.all().forEach(function (task) {
+                if (task instanceof Bifrost.views.ComposeTask) isComposing = true;
+            });
+
+            return isComposing;
+        });
+
+
         /// <field name="isLoading" type="observable">Indiciates wether or not loading tasks are being performend in this region or any of its child regions</field>
         this.isLoading = ko.computed(function () {
             var isLoading = false;

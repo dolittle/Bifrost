@@ -1,9 +1,12 @@
 ﻿Bifrost.namespace("Bifrost.interaction", {
-    Operation: Bifrost.Type.extend(function () {
+    Operation: Bifrost.Type.extend(function (region) {
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
 
-        /// <field name="canPerform" type="observable">asdad</field>
+        /// <field name="region" type="Bifrost.views.Region">Region that the operation was created in</field>
+        this.region = region;
+
+        /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
         this.canPerform = ko.observable(true);
         
         this.perform = function (context) {

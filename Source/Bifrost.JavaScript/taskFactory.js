@@ -33,6 +33,13 @@
             return task;
         };
 
+        this.createViewModelLoad = function (files) {
+            var task = Bifrost.views.ViewModelLoadTask.create({
+                files: files
+            });
+            return task;
+        };
+
         this.createFileLoad = function (files) {
             var task = Bifrost.tasks.FileLoadTask.create({
                 files: files

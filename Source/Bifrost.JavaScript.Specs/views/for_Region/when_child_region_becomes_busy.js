@@ -27,6 +27,7 @@
         isLoading: ko.observable(false),
         isBusy: ko.observable(false),
         isValid: ko.observable(false),
+        isComposing: ko.observable(false),
         isExecuting: ko.observable(false),
         validationMessages: ko.observableArray()
     };

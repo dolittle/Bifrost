@@ -7,6 +7,7 @@
         someState: 43
     };
 
+
     var operation = {
         canPerform: ko.observable(true),
         perform: sinon.mock().withArgs(context).returns(state)
@@ -23,7 +24,7 @@
     };
 
     var operations = Bifrost.interaction.Operations.create({
-        operationEntryFactory : operationEntryFactory
+        operationEntryFactory: operationEntryFactory
     });
 
     operations.perform(context, operation);

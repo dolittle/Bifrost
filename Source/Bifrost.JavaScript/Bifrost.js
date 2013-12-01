@@ -84,6 +84,10 @@
 @depends interaction/operationEntryFactory.js
 @depends interaction/Operations.js
 @depends interaction/operationsFactory.js
+@depends interaction/CommandOperation.js
+@depends interaction/Action.js
+@depends interaction/Trigger.js
+@depends interaction/EventTrigger.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
@@ -102,6 +106,7 @@
 @depends messaging/observableMessage.js
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
+@depends views/ComposeTask.js
 @depends views/documentService.js
 @depends views/View.js
 @depends views/ViewRenderer.js
@@ -113,6 +118,7 @@
 @depends views/viewManager.js
 @depends views/ViewModel.js
 @depends views/viewModelLoader.js
+@depends views/ViewModelLoadTask.js
 @depends views/viewModelManager.js
 @depends views/PathResolver.js
 @depends views/pathResolvers.js

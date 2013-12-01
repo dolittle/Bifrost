@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewLoadTask: Bifrost.tasks.LoadTask.extend(function (files) {
+    ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
         /// <summary>Represents a task for loading files asynchronously</summary>
 
         this.files = files;

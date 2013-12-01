@@ -6,7 +6,7 @@
             var promise = Bifrost.execution.Promise.create();
             if (!path.startsWith("/")) path = "/" + path;
 
-            var task = taskFactory.createFileLoad([path]);
+            var task = taskFactory.createViewModelLoad([path]);
             Bifrost.views.Region.current.tasks.execute(task).continueWith(function () {
                 self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
                     promise.signal(instance);
