@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <title></title>
@@ -14,6 +14,7 @@
 
     <img src="/img/spinner.gif" data-bind="visible: region.isLoading()" />
     <img src="/img/spinner.gif" data-bind="visible: region.isBusy" />
+    <img src="/img/spinner.gif" data-bind="visible: region.isComposing" />
     <img src="/img/spinner.gif" data-bind="visible: region.isExecuting" />
     <img src="/img/warning.png" data-bind="visible: region.isValid() === false" />
 
@@ -25,7 +26,5 @@
             </div>
         </div>
     </div>
-
-    <div data-view="Employees/taskHistory"></div>
 </body>
 </html>

@@ -12,6 +12,8 @@
     <AssemblyName>Bifrost.Web</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <LessOutputDirectory>css</LessOutputDirectory>
+    <LessImportAllFilesAsLess>true</LessImportAllFilesAsLess>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -77,8 +79,6 @@
     <Compile Include="Security\SecurityRoute.cs" />
     <Compile Include="Security\SecurityRouteHandler.cs" />
     <Compile Include="Security\SecurityRouteHttpHandler.cs" />
-    <Compile Include="Visualizer\Categories.cs" />
-    <Compile Include="Visualizer\Category.cs" />
     <Compile Include="Visualizer\QualityAssurance\AllProblems.cs" />
     <Compile Include="Visualizer\QualityAssurance\Problems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +150,59 @@
       <Link>Scripts\Bifrost.debug.js</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="Visualizer\SegoeUI.ttf" />
+    <DotLess Include="Styles\bifrost.less" />
+    <None Include="Styles\bootstrap\accordion.less" />
+    <None Include="Styles\bootstrap\alerts.less" />
+    <None Include="Styles\bootstrap\bootstrap.less" />
+    <None Include="Styles\bootstrap\breadcrumbs.less" />
+    <None Include="Styles\bootstrap\button-groups.less" />
+    <None Include="Styles\bootstrap\buttons.less" />
+    <None Include="Styles\bootstrap\carousel.less" />
+    <None Include="Styles\bootstrap\close.less" />
+    <None Include="Styles\bootstrap\code.less" />
+    <None Include="Styles\bootstrap\component-animations.less" />
+    <None Include="Styles\bootstrap\dropdowns.less" />
+    <None Include="Styles\bootstrap\forms.less" />
+    <None Include="Styles\bootstrap\grid.less" />
+    <None Include="Styles\bootstrap\hero-unit.less" />
+    <None Include="Styles\bootstrap\labels-badges.less" />
+    <None Include="Styles\bootstrap\layouts.less" />
+    <None Include="Styles\bootstrap\media.less" />
+    <None Include="Styles\bootstrap\mixins.less" />
+    <None Include="Styles\bootstrap\modals.less" />
+    <None Include="Styles\bootstrap\navbar.less" />
+    <None Include="Styles\bootstrap\navs.less" />
+    <None Include="Styles\bootstrap\pager.less" />
+    <None Include="Styles\bootstrap\pagination.less" />
+    <None Include="Styles\bootstrap\popovers.less" />
+    <None Include="Styles\bootstrap\progress-bars.less" />
+    <None Include="Styles\bootstrap\reset.less" />
+    <None Include="Styles\bootstrap\responsive-1200px-min.less" />
+    <None Include="Styles\bootstrap\responsive-767px-max.less" />
+    <None Include="Styles\bootstrap\responsive-768px-979px.less" />
+    <None Include="Styles\bootstrap\responsive-navbar.less" />
+    <None Include="Styles\bootstrap\responsive-utilities.less" />
+    <None Include="Styles\bootstrap\responsive.less" />
+    <None Include="Styles\bootstrap\scaffolding.less" />
+    <None Include="Styles\bootstrap\sprites.less" />
+    <None Include="Styles\bootstrap\tables.less" />
+    <None Include="Styles\bootstrap\thumbnails.less" />
+    <None Include="Styles\bootstrap\tooltip.less" />
+    <None Include="Styles\bootstrap\type.less" />
+    <None Include="Styles\bootstrap\utilities.less" />
+    <None Include="Styles\bootstrap\variables.less" />
+    <None Include="Styles\bootstrap\wells.less" />
+    <None Include="Styles\buttons.less" />
+    <None Include="Styles\color-azure.less" />
+    <None Include="Styles\fixes.less" />
+    <None Include="Styles\forms.less" />
+    <None Include="Styles\layout.less" />
+    <None Include="Styles\looks.less" />
+    <None Include="Styles\madmin-menu.less" />
+    <None Include="Styles\namespace.less" />
+    <None Include="Styles\style.less" />
+    <None Include="Styles\typo.less" />
+    <None Include="Styles\utils.less" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
@@ -227,4 +280,18 @@
     <EmbeddedResource Include="Visualizer\QualityAssurance\warning.png" />
     <EmbeddedResource Include="Visualizer\QualityAssurance\exclamation.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="css\bifrost.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Visualizer\Tasks\index.html" />
+    <EmbeddedResource Include="Visualizer\Tasks\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Visualizer\Tasks\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="img\taskRunning.gif" />
+  </ItemGroup>
+  <Import Project="..\Solutions\packages\LessMsbuildTasks.1.0.5\tools\LessCompiler.targets" Condition="Exists('..\Solutions\packages\LessMsbuildTasks.1.0.5\tools\LessCompiler.targets')" />
 </Project>

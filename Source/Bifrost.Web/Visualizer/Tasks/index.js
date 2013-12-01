@@ -1,5 +1,5 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
-    taskHistory: Bifrost.views.ViewModel.extend(function (commandTypes, readModelTypes, queryTypes, taskHistory) {
+﻿Bifrost.namespace("Bifrost.Visualizer.Tasks", {
+    index: Bifrost.views.ViewModel.extend(function (taskHistory) {
         var self = this;
 
         this.taskHistory = taskHistory;

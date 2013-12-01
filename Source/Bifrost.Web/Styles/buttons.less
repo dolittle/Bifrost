@@ -1,0 +1,74 @@
+/* === BUTTONS ==={ */
+
+
+
+.btn {
+	filter: none;
+	border-radius: 0;
+}
+
+.btn-madmin.btn.btn-primary {
+	background: @color_btn_bg;
+	color: @color_btn_fg;
+	text-transform: uppercase;
+	font-size: 14px;
+	border-color: @color_btn_border;
+	text-shadow: none;
+	&:hover {
+		border-color: @color_btn_hover_bg;
+		background: @color_btn_hover_bg;
+		color: @color_btn_hover_fg;
+	}
+}
+.btn-madmin.btn.btn-primary.btn-large {
+	font-size: 16px;
+}
+.btn-madmin.btn.btn-primary.btn-small {
+	font-size: 12px;
+}
+.btn-madmin.btn.btn-primary.btn-mini {
+	font-size: 10px;
+}
+
+.btn-madmin.btn {
+	background: #DCE0F1;
+	text-shadow: none;
+	border-color: #C1C1E3;
+	&:hover {
+		background: #E3EAF9;
+		border-color: #CECEF4;
+	}
+}
+
+
+/* Tile buttons */
+	.tile-btn {
+		display: inline-block;
+		width: 105px;
+		height: 85px;
+		margin: 5px;
+		background: @color_sidebar_bg;
+		color: @color_sidebar_fg;
+		text-align: center;
+		&:hover {
+			text-decoration: none;
+			background: @color_sidebar_hover_bg;
+			color: @color_sidebar_hover_fg;
+		}
+		i {
+			display: block;
+			font-size: 32px;
+			margin-top: 20px;
+		}
+		span {
+			display: block;
+			margin-top: 10px;
+		}
+	}
+	.tiles-container {
+		text-align: center;
+	}
+
+
+
+/* }=== BUTTONS === */

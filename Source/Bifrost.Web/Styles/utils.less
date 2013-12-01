@@ -1,0 +1,42 @@
+/* === UTILS ==={ */
+
+.border-radius (@r) {
+	-webkit-border-radius: @r;
+	-moz-border-radius: @r;
+	border-radius: @r;
+}
+
+.border-radius-important (@r) {
+	-webkit-border-radius: @r !important;
+	-moz-border-radius: @r !important;
+	border-radius: @r !important;
+}
+
+.arrow (@size, @color_fg, @color_bg) {
+	content: "";
+	display: inline-block;
+	width: 0px;
+	height: 0px;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.arrow-r (@size, @color_fg, @color_bg) {
+	.arrow (@size, @color_fg, @color_bg);
+	border-color: @color_bg @color_bg @color_bg @color_fg;
+}
+
+.arrow-b (@size, @color_fg, @color_bg) {
+	.arrow (@size, @color_fg, @color_bg);
+	border-color: @color_fg @color_bg @color_bg @color_bg;
+	position: relative;
+	top: 1px;
+}
+
+.arrow-t (@size, @color_fg, @color_bg) {
+	.arrow (@size, @color_fg, @color_bg);
+	border-color: @color_bg @color_bg @color_fg @color_bg;
+}
+
+
+/* }=== UTILS === */

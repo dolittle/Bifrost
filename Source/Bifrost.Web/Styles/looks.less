@@ -1,0 +1,270 @@
+/* === LOOKS ==={ */
+
+
+
+body.help-page {
+	background-color: #FDFCE4;
+}
+
+
+.hero-unit,
+input,
+button,
+select,
+textarea {
+	border-radius: 0 !important;
+}
+
+
+/* Top Bar */
+#topbar {
+	background: @color_topbar_bg;
+	color: @color_topbar_fg;
+	h1 {
+		position: relative;
+		top: -6px;
+		font-size: 14px;
+		font-weight: normal;
+		i {
+			position: relative;
+			top: 3px;
+			margin-right: 5px;
+			font-size: 20px;
+			color: @color_topbar_title_icon;
+		}
+		a {
+			color: @color_topbar_fg;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+	> li > a {
+		display: inline-block;
+		padding: 6px 10px 0 10px;
+		font-size: 11px;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: @color_topbar_fg;
+		height: 24px;
+		line-height: 20px;
+		&:hover {
+			text-decoration: none;
+			background: @color_topbar_hover_bg;
+		}
+	}
+	> li.pull-right > a {
+		margin-left: 10px;
+	}
+	> li.parent > a > span:after {
+		.arrow-b(2px, @color_topbar_fg, @color_topbar_bg);
+		position: relative;
+		top: 2px;
+		margin-left: 5px;
+	}
+	> li.parent > a:hover > span:after {
+		.arrow-b(2px, @color_topbar_fg, @color_topbar_hover_bg);
+		position: relative;
+		top: 2px;
+		margin-left: 5px;
+	}
+	.dropdown-menu {
+		top: 98%;
+		right: 0;
+		padding: 0 0 0 0;
+		background: @color_topbar_bg;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		text-align: left;
+		* {
+			color: @color_topbar_fg;
+		}
+		> li > a {
+			height: 24px;
+			&:hover {
+				background: @color_topbar_hover_bg;
+			}
+		}
+		> li.divider {
+			background: none;
+			border-bottom-color: @color_topbar_hover_bg;
+		}
+	}
+}
+
+
+/* Bootstrap drop-downs behavior enhancement */
+ul.on-hover > li.parent:hover > .dropdown-menu {
+	display: block;
+}
+
+
+/* Sidebar Resizer */
+	#sidebar-resizer {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		padding: 10px;
+		width: @sidebar_w - 20px;
+		height: 30px;
+		text-align: center;
+		font-size: 32px;
+		color: @color_sidebar_active_fg;
+		margin: 10px 0 10px 0;
+		&:hover {
+			text-decoration: none;
+		}
+		i.max {
+			display: none;
+		}
+	}
+	.sidebar-min #sidebar-resizer {
+		width: @sidebar_w_min - 20px;
+		i.max {
+			display: inline-block;
+		}
+		i.min {
+			display: none;
+		}
+	}
+
+
+/* Sidebar Mini-Search */
+	.search-mini {
+		position: relative;
+		margin: 10px 0 20px 0;
+		input {
+			border: 0;
+			margin: 0 10px;
+			width: @sidebar_w - 28px;
+			height: 22px;
+			background: @color_topbar_bg;
+			color: @color_topbar_fg;
+		}
+		button {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			padding: 0;
+			border: 0;
+			margin: 0;
+			background: @color_topbar_bg;
+			color: @color_topbar_fg;
+			top: 0;
+			right: 10px;
+			font-size: 18px;
+		}
+	}
+	.sidebar-min .search-mini {
+		input {
+			width: @sidebar_w_min - 28px;
+		}
+		:-webkit-input-placeholder,
+		:-moz-placeholder {
+			display: none;
+		}
+		button {
+			right: 24.5%;
+		}
+		&:hover {
+			input {
+				width: @sidebar_w - 58px;
+			}
+			:-webkit-input-placeholder,
+			:-moz-placeholder {
+				display: auto;
+			}
+			button {
+				left: @sidebar_w - 58px;
+			}
+		}
+	}
+
+
+/* Panels */
+.panel {
+	header {
+		background: @color_topbar_bg;
+		color: @color_topbar_fg;
+	}
+	.content {
+		background: @color_panel_content_bg;
+		color: @color_topbar_bg;
+		border: 1px solid @color_panel_content_border;
+	}
+}
+.panel header *,
+.accordion-heading *,
+.panel header a:hover,
+.accordion-heading a:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+.hero-unit,
+.form-actions {
+	background: @color_panel_content_bg;
+}
+
+
+/* Table of Key Numbers */
+.table-key-numbers {
+	width: 100%;
+	text-align: center;
+	td {
+		font-family: @font_numbers;
+		font-size: 30px;
+		font-weight: bold;
+		line-height: 1.6em;
+		color: @color_sidebar_active_fg;
+	}
+	th {
+		color: #666;
+		font-weight: normal;
+		color: lighten(desaturate(@color_topbar_bg, 10%), 30%);
+	}
+}
+
+
+/* Demo Charts */
+#stats-area-chart,
+#dashboard-dynamic-chart,
+#stats-pie-chart {
+	margin: 10px;
+	height: 200px;
+}
+#stats-pie-chart {
+	margin: 10px auto 10px auto;
+	width: 400px;
+	overflow: hidden;
+}
+
+
+/* Sidebar */
+#sidebar {
+	background: @color_sidebar_bg;
+}
+
+
+/* Tablesorter Plugin */
+	table.tablesorter thead tr .headerSortDown,
+	table.tablesorter thead tr .headerSortUp {
+		background-color: @color_sidebar_submenu_fx;
+	}
+	table.tablesorter thead tr th,
+	table.tablesorter tfoot tr th {
+		background-color: @color_sidebar_bg;
+	}
+	table.tablesorter {
+		background-color: @color_panel_content_bg;
+	}
+
+/* Accordions */
+.accordion-group,
+.accordion-inner {
+	border: 0;
+}
+
+
+
+/* }=== LOOKS === */
