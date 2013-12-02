@@ -74,57 +74,30 @@
             return messages; 
         });
 
-        /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
-        this.isExecuting = ko.computed(function () {
-            var isExecuting = false;
+        function thisOrChildHasTaskType(taskType, propertyName) {
+            var hasTask = false;
             self.children().forEach(function (childRegion) {
-                if (childRegion.isExecuting() === true) {
-                    isExecuting = true;
+                if (childRegion[propertyName]() === true) {
+                    hasTask = true;
                     return;
                 }
             });
 
             self.tasks.all().forEach(function (task) {
-                if (task instanceof Bifrost.tasks.ExecutionTask) isExecuting = true;
+                if (task instanceof taskType) hasTask = true;
             });
 
-            return isExecuting;
-        });
+            return hasTask;
+        }
+
+        /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
+        this.isExecuting = thisOrChildHasTaskType(Bifrost.tasks.ExecutionTask, "isExecuting");
 
         /// <field name="isComposing" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
-        this.isComposing = ko.computed(function () {
-            var isComposing = false;
-            self.children().forEach(function (childRegion) {
-                if (childRegion.isComposing() === true) {
-                    isComposing = true;
-                    return;
-                }
-            });
-
-            self.tasks.all().forEach(function (task) {
-                if (task instanceof Bifrost.views.ComposeTask) isComposing = true;
-            });
-
-            return isComposing;
-        });
-
+        this.isComposing = thisOrChildHasTaskType(Bifrost.views.ComposeTask, "isComposing");
 
         /// <field name="isLoading" type="observable">Indiciates wether or not loading tasks are being performend in this region or any of its child regions</field>
-        this.isLoading = ko.computed(function () {
-            var isLoading = false;
-            self.children().forEach(function (childRegion) {
-                if (childRegion.isLoading() === true) {
-                    isLoading = true;
-                    return;
-                }
-            });
-
-            self.tasks.all().forEach(function (task) {
-                if (task instanceof Bifrost.tasks.LoadTask) isLoading = true;
-            });
-
-            return isLoading;
-        });
+        this.isLoading = thisOrChildHasTaskType(Bifrost.tasks.LoadTask, "isLoading");
 
         /// <field name="isBusy" type="observable">Indicates wether or not tasks are being performed in this region or any of its child regions</field>
         this.isBusy = ko.computed(function () {
