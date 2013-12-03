@@ -3,6 +3,9 @@
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
 
+        /// <field name="identifier" type="Bifrost.Guid">Unique identifier for the operation instance<field>
+        this.identifier = Bifrost.Guid.empty;
+
         /// <field name="region" type="Bifrost.views.Region">Region that the operation was created in</field>
         this.region = region;
 
