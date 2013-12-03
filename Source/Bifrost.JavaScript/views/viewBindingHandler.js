@@ -1,10 +1,6 @@
 Bifrost.namespace("Bifrost.views", {
-    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers, pathResolvers, viewFactory, viewModelManager) {
+    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers, pathResolvers, viewFactory, viewModelManager, documentService) {
         var self = this;
-        this.viewRenderers = viewRenderers;
-        this.pathResolvers = pathResolvers;
-        this.viewFactory = viewFactory;
-        this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
             if (element.hasChildNodes() == true) {
@@ -17,12 +13,17 @@ Bifrost.namespace("Bifrost.views", {
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            if (documentService.hasViewFile(element)) {
+                return;
+            }
+
             var uri = ko.utils.unwrapObservable(valueAccessor());
+            documentService.setViewFileOn(element, uri);
 
             $(element).data("view", uri);
-            if (self.pathResolvers.canResolve(element, uri)) {
-                var actualPath = self.pathResolvers.resolve(element, uri);
-                var view = self.viewFactory.createFrom(actualPath);
+            if (pathResolvers.canResolve(element, uri)) {
+                var actualPath = pathResolvers.resolve(element, uri);
+                var view = viewFactory.createFrom(actualPath);
                 view.element = element;
                 view.content = element.innerHTML;
                 self.render(element);
@@ -34,11 +35,11 @@ Bifrost.namespace("Bifrost.views", {
         this.render = function (element) {
             var promise = Bifrost.execution.Promise.create();
 
-            if (self.viewRenderers.canRender(element)) {
-                self.viewRenderers.render(element).continueWith(function (view) {
+            if (viewRenderers.canRender(element)) {
+                viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
+                    viewModelManager.applyToViewIfAny(view).continueWith(function () {
                         renderChildren(newElement);
                     });
                 });
