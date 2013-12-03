@@ -8,6 +8,14 @@
             return self.getAllElementsWithViewModelFilesFrom(self.DOMRoot);
         };
 
+        this.pageHasViewModel = function (viewModel) {
+            var context = ko.contextFor($("body")[0]);
+            if (Bifrost.isUndefined(context) ) {
+                return false;
+            }
+            return context.$data === viewModel;
+        };
+
         this.getAllElementsWithViewModelFilesFrom = function (root) {
             var elements = [];
             if (typeof $(root).data("viewmodel-file") != "undefined") {
@@ -48,6 +56,16 @@
             if (typeof file == "undefined") file = "";
             return file;
         };
+
+        this.setViewFileOn = function (element, file) {
+            $(element).data("view-file", file);
+            $(element).attr("data-view-file", file);
+        };
+
+        this.hasViewFile = function (element) {
+            return Bifrost.isString($(element).data("view-file"));
+        };
+
 
         this.getViewModelFileFrom = function (element) {
             var file = $(element).data("viewmodel-file");

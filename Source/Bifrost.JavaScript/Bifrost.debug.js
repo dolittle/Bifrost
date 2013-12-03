@@ -3971,6 +3971,14 @@ Bifrost.namespace("Bifrost.views", {
             return self.getAllElementsWithViewModelFilesFrom(self.DOMRoot);
         };
 
+        this.pageHasViewModel = function (viewModel) {
+            var context = ko.contextFor($("body")[0]);
+            if (Bifrost.isUndefined(context) ) {
+                return false;
+            }
+            return context.$data === viewModel;
+        };
+
         this.getAllElementsWithViewModelFilesFrom = function (root) {
             var elements = [];
             if (typeof $(root).data("viewmodel-file") != "undefined") {
@@ -4011,6 +4019,16 @@ Bifrost.namespace("Bifrost.views", {
             if (typeof file == "undefined") file = "";
             return file;
         };
+
+        this.setViewFileOn = function (element, file) {
+            $(element).data("view-file", file);
+            $(element).attr("data-view-file", file);
+        };
+
+        this.hasViewFile = function (element) {
+            return Bifrost.isString($(element).data("view-file"));
+        };
+
 
         this.getViewModelFileFrom = function (element) {
             var file = $(element).data("viewmodel-file");
@@ -4512,8 +4530,6 @@ Bifrost.namespace("Bifrost.views", {
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
-            self.masterViewModel = {};
-
             elements.forEach(function (element) {
                 var viewModelFile = self.documentService.getViewModelFileFrom(element);
                 var viewFile = self.documentService.getViewFileFrom(element);
@@ -4543,7 +4559,10 @@ Bifrost.namespace("Bifrost.views", {
                                 setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
                             });
 
-                            ko.applyBindings(self.masterViewModel);
+
+                            if( !documentService.pageHasViewModel(self.masterViewModel) ) {
+                                ko.applyBindings(self.masterViewModel);
+                            }
                         }
                     });
                 });
@@ -4551,6 +4570,7 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
+            self.masterViewModel = {};
             self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
@@ -4680,12 +4700,8 @@ Bifrost.views.viewModelBindingHandler.initialize = function () {
 };
 
 Bifrost.namespace("Bifrost.views", {
-    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers, pathResolvers, viewFactory, viewModelManager) {
+    viewBindingHandler: Bifrost.Type.extend(function (viewRenderers, pathResolvers, viewFactory, viewModelManager, documentService) {
         var self = this;
-        this.viewRenderers = viewRenderers;
-        this.pathResolvers = pathResolvers;
-        this.viewFactory = viewFactory;
-        this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
             if (element.hasChildNodes() == true) {
@@ -4698,12 +4714,17 @@ Bifrost.namespace("Bifrost.views", {
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            if (documentService.hasViewFile(element)) {
+                return;
+            }
+
             var uri = ko.utils.unwrapObservable(valueAccessor());
+            documentService.setViewFileOn(element, uri);
 
             $(element).data("view", uri);
-            if (self.pathResolvers.canResolve(element, uri)) {
-                var actualPath = self.pathResolvers.resolve(element, uri);
-                var view = self.viewFactory.createFrom(actualPath);
+            if (pathResolvers.canResolve(element, uri)) {
+                var actualPath = pathResolvers.resolve(element, uri);
+                var view = viewFactory.createFrom(actualPath);
                 view.element = element;
                 view.content = element.innerHTML;
                 self.render(element);
@@ -4715,11 +4736,11 @@ Bifrost.namespace("Bifrost.views", {
         this.render = function (element) {
             var promise = Bifrost.execution.Promise.create();
 
-            if (self.viewRenderers.canRender(element)) {
-                self.viewRenderers.render(element).continueWith(function (view) {
+            if (viewRenderers.canRender(element)) {
+                viewRenderers.render(element).continueWith(function (view) {
                     var newElement = view.element;
                     newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
+                    viewModelManager.applyToViewIfAny(view).continueWith(function () {
                         renderChildren(newElement);
                     });
                 });

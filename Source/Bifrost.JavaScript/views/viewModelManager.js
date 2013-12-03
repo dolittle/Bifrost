@@ -126,8 +126,6 @@
             var elements = self.documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
-            self.masterViewModel = {};
-
             elements.forEach(function (element) {
                 var viewModelFile = self.documentService.getViewModelFileFrom(element);
                 var viewFile = self.documentService.getViewFileFrom(element);
@@ -157,7 +155,10 @@
                                 setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
                             });
 
-                            ko.applyBindings(self.masterViewModel);
+
+                            if( !documentService.pageHasViewModel(self.masterViewModel) ) {
+                                ko.applyBindings(self.masterViewModel);
+                            }
                         }
                     });
                 });
@@ -165,6 +166,7 @@
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
+            self.masterViewModel = {};
             self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
