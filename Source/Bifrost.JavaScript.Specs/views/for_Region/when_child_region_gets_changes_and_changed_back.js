@@ -1,4 +1,4 @@
-﻿describe("when child region becomes busy", function () {
+﻿describe("when child region gets changes and changed back", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -22,6 +22,10 @@
         operationsFactory,
         tasksFactory
     );
+    var hasChanges = false;
+    region.hasChanges.subscribe(function (newValue) {
+        hasChanges = newValue;
+    });
 
     var childRegion = {
         isLoading: ko.observable(false),
@@ -38,10 +42,10 @@
     };
 
     region.children.push(childRegion);
+    childRegion.commandsHaveChanges(true);
+    childRegion.commandsHaveChanges(false);
 
-    childRegion.isBusy(true);
-
-    it("should become busy", function () {
-        expect(region.isBusy()).toBe(true);
+    it("should not have changes", function () {
+        expect(hasChanges).toBe(false);
     });
 });

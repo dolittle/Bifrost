@@ -111,6 +111,8 @@
     <Content Include="interaction\for_EventTrigger\when_event_is_triggered.js" />
     <Content Include="interaction\for_EventTrigger\when_initialized_without_event_name_set.js" />
     <Content Include="interaction\for_operationEntryFactory\when_creating.js" />
+    <Content Include="interaction\for_Operations\when_getting_by_identifier_and_it_does_not_exist.js" />
+    <Content Include="interaction\for_Operations\when_getting_by_identifier.js" />
     <Content Include="interaction\for_Operations\when_performing_and_operation_can_not_perform.js" />
     <Content Include="interaction\for_Operations\when_performing.js" />
     <Content Include="interaction\for_Trigger\when_signalling_with_two_actions.js" />
@@ -428,6 +430,14 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_command_in_child_region_can_execute_and_then_not.js" />
+    <Content Include="views\for_Region\when_command_in_child_region_can_execute.js" />
+    <Content Include="views\for_Region\when_command_can_execute_and_then_not.js" />
+    <Content Include="views\for_Region\when_command_can_execute.js" />
+    <Content Include="views\for_Region\when_command_in_child_region_gets_changes_and_changed_back.js" />
+    <Content Include="views\for_Region\when_command_in_child_region_gets_changes.js" />
+    <Content Include="views\for_Region\when_command_gets_changes_and_changed_back.js" />
+    <Content Include="views\for_Region\when_command_gets_changes.js" />
     <Content Include="views\for_Region\when_child_region_becomes_busy.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />

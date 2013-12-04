@@ -6,6 +6,22 @@
         /// <field name="all" type="observableArray">Holds all operations</field>
         this.all = ko.observableArray();
 
+        this.getByIdentifier = function (identifier) {
+            /// <summary>Get an operation by its identifier</identifier>
+            /// <param name="identifier" type="Bifrost.Guid">Identifier of the operation to get<param>
+            /// <returns>An instance of the operation if found, null if not found</returns>
+
+            var found = null;
+            self.all().forEach(function (operation) {
+                if (operation.identifier === identifier) {
+                    found = operation;
+                    return;
+                }
+            });
+
+            return found;
+        };
+
         this.perform = function (context, operation) {
             /// <summary>Perform an operation in a given context</summary>
             /// <param name="context" type="Bifrost.interaction.OperationContext">Context in which the operation is being performed in</param>

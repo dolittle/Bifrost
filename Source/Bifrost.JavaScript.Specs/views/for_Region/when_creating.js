@@ -12,7 +12,8 @@
     };
 
     var operations = {
-        some:"operations"
+        some: "operations",
+        all: ko.observableArray()
     };
     var operationsFactory = {
         create: sinon.stub().returns(operations)

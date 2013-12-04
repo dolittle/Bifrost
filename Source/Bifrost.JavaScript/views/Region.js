@@ -30,23 +30,87 @@
         /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
-        /// <field name="isValid" type="observable">Indiciates wether or not region or any of its child regions are in an invalid state</field>
-        this.isValid = ko.computed(function () {
-            isValid = true;
-
+        /// <field name="aggregatedCommands" type="observableArray">Represents all commands in this region and any child regions</field>
+        this.aggregatedCommands = ko.computed(function () {
+            var commands = self.commands();
             self.children().forEach(function (childRegion) {
-                if (childRegion.isValid() === false) {
-                    isValid = false;
+                childRegion.aggregatedCommands().forEach(function (command) {
+                    commands.push(command);
+                });
+            });
+            return commands;
+        });
+        
+
+        function thisOrChildHasTaskType(taskType, propertyName) {
+            return ko.computed(function () {
+                var hasTask = false;
+                self.children().forEach(function (childRegion) {
+                    if (childRegion[propertyName]() === true) {
+                        hasTask = true;
+                        return;
+                    }
+                });
+
+                self.tasks.all().forEach(function (task) {
+                    if (task instanceof taskType) {
+                        hasTask = true;
+                    }
+                });
+
+                return hasTask;
+            });
+        }
+
+        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName) {
+            return ko.computed(function () {
+                isSet = false;
+
+                if (!regionPropertyName) {
+                    regionPropertyName = commandPropertyName;
+                }
+
+                self.children().forEach(function (childRegion) {
+                    if (childRegion[regionPropertyName]() === true) {
+                        isSet = true;
+                        return;
+                    }
+                });
+
+                self.commands().forEach(function (command) {
+                    if (command[commandPropertyName]() === true) {
+                        isSet = true;
+                    }
+                });
+
+                return isSet;
+            });
+        }
+
+        /// <field name="isValid" type="observable">Indiciates wether or not region or any of its child regions are in an invalid state</field>
+        this.isValid = thisOrChildCommandHasPropertySetToTrue("isValid");
+
+        /// <field name="canCommandsExecute" type="observable">Indicates wether or not region or any of its child regions can execute their commands</field>
+        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute");
+
+        /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands authorized</field>
+        this.areCommandsAuthorized = thisOrChildCommandHasPropertySetToTrue("isAuthorized", "areCommandsAuthorized");
+
+        /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands changed</field>
+        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToTrue("hasChanges", "commandsHaveChanges");
+
+        /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
+        this.hasChanges = ko.computed(function () {
+            var commandsHaveChanges = self.commandsHaveChanges();
+            var childrenHasChanges = false;
+            self.children().forEach(function (childRegion) {
+                if (childRegion.hasChanges() === true) {
+                    childrenHasChanges = true;
                     return;
                 }
             });
 
-            self.commands().forEach(function (command) {
-                if( command.isValid() === false ) isValid = false;
-            });
-
-            // Walk through all operations and find ones with commands and see if we are invalid
-            return isValid;
+            return commandsHaveChanges || (self.operations.all().length > 0) || childrenHasChanges;
         });
 
         /// <field name="validationMessages" type="observableArray">Holds the regions and any of its child regions validation messages</field>
@@ -71,24 +135,9 @@
                 }
             });
 
-            return messages; 
+            return messages;
         });
 
-        function thisOrChildHasTaskType(taskType, propertyName) {
-            var hasTask = false;
-            self.children().forEach(function (childRegion) {
-                if (childRegion[propertyName]() === true) {
-                    hasTask = true;
-                    return;
-                }
-            });
-
-            self.tasks.all().forEach(function (task) {
-                if (task instanceof taskType) hasTask = true;
-            });
-
-            return hasTask;
-        }
 
         /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
         this.isExecuting = thisOrChildHasTaskType(Bifrost.tasks.ExecutionTask, "isExecuting");

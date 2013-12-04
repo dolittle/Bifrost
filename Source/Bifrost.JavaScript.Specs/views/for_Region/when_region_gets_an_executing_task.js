@@ -9,7 +9,11 @@
         global: function () { }
     };
     var operationsFactory = {
-        create: function () { }
+        create: function () {
+            return {
+                all: ko.observableArray()
+            };
+        }
     };
     var tasksFactory = {
         create: function () {

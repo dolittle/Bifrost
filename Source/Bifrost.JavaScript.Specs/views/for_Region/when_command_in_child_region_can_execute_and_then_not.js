@@ -1,4 +1,4 @@
-﻿describe("when child region becomes busy", function () {
+﻿describe("when command in child region can execute and then not", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -22,6 +22,10 @@
         operationsFactory,
         tasksFactory
     );
+    var canExecute = false;
+    region.canCommandsExecute.subscribe(function (newValue) {
+        canExecute = newValue;
+    });
 
     var childRegion = {
         isLoading: ko.observable(false),
@@ -38,10 +42,10 @@
     };
 
     region.children.push(childRegion);
+    childRegion.canCommandsExecute(true);
+    childRegion.canCommandsExecute(false);
 
-    childRegion.isBusy(true);
-
-    it("should become busy", function () {
-        expect(region.isBusy()).toBe(true);
+    it("should be able to execute", function () {
+        expect(canExecute).toBe(false);
     });
 });

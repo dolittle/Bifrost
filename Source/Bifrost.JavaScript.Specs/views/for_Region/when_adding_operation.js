@@ -1,6 +1,10 @@
-﻿describe("when region gets an executing task that gets completed", function () {
+﻿describe("when command can execute", function () {
 
     var tasks = {
+        all: ko.observableArray()
+    };
+
+    var operations = {
         all: ko.observableArray()
     };
 
@@ -9,11 +13,7 @@
         global: function () { }
     };
     var operationsFactory = {
-        create: function () {
-            return {
-                all: ko.observableArray()
-            };
-        }
+        create: function () { return operations; }
     };
     var tasksFactory = {
         create: function () {
@@ -26,12 +26,14 @@
         operationsFactory,
         tasksFactory
     );
+    var hasChanges = false;
+    region.hasChanges.subscribe(function (newValue) {
+        hasChanges = newValue;
+    });
 
-    var task = {};
-    tasks.all.push(task);
-    tasks.all.remove(task);
+    operations.all.push({});
 
-    it("should not be busy", function () {
-        expect(region.isBusy()).toBe(false);
+    it("should have changes", function () {
+        expect(hasChanges).toBe(true);
     });
 });
