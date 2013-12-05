@@ -26,6 +26,20 @@
             return task;
         };
 
+        this.createHandleCommand = function (command) {
+            var task = Bifrost.commands.HandleCommandTask.create({
+                command: command
+            });
+            return task;
+        };
+
+        this.createHandleCommands = function (commands) {
+            var task = Bifrost.commands.HandleCommandsTask.create({
+                commands: commands
+            });
+            return task;
+        };
+
         this.createViewLoad = function (files) {
             var task = Bifrost.views.ViewLoadTask.create({
                 files: files

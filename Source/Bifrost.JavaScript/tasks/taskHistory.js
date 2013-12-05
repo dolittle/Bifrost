@@ -1,33 +1,4 @@
 ﻿Bifrost.namespace("Bifrost.tasks", {
-    TaskHistoryEntry: Bifrost.Type.extend(function () {
-        var self = this;
-
-        this.type = "";
-        this.content = "";
-
-        this.begin = ko.observable();
-        this.end = ko.observable();
-        this.total = ko.computed(function () {
-            if (typeof self.end() !== "undefined" && typeof (self.begin()) !== "undefined") {
-                return self.end() - self.begin();
-            }
-            return 0;
-        });
-        this.result = ko.observable();
-        this.error = ko.observable();
-
-        this.isFinished = ko.computed(function () {
-            return typeof self.end() !== "undefined";
-        });
-        this.hasFailed = ko.computed(function () {
-            return typeof self.error() !== "undefined";
-        });
-
-        this.isSuccess = ko.computed(function () {
-            return self.isFinished() && !self.hasFailed();
-        });
-    }),
-
     taskHistory: Bifrost.Singleton(function (systemClock) {
         /// <summary>Represents the history of tasks that has been executed since the start of the application</summary>
         var self = this;
@@ -39,24 +10,28 @@
 
         this.begin = function (task) {
             var id = Bifrost.Guid.create();
-            var entry = Bifrost.tasks.TaskHistoryEntry.create();
 
-            entry.type = task._type._name;
+            try {
+                var entry = Bifrost.tasks.TaskHistoryEntry.create();
 
-            var content = {};
+                entry.type = task._type._name;
 
-            for (var property in task) {
-                if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
-                    content[property] = task[property];
+                var content = {};
+
+                for (var property in task) {
+                    if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
+                        content[property] = task[property];
+                    }
                 }
+
+                entry.content = JSON.stringify(content);
+
+                entry.begin(systemClock.nowInMilliseconds());
+                entriesById[id] = entry;
+                self.entries.push(entry);
+            } catch (ex) {
+                // Todo: perfect place for logging something
             }
-
-
-            entry.content = JSON.stringify(content);
-
-            entry.begin(systemClock.nowInMilliseconds());
-            entriesById[id] = entry;
-            self.entries.push(entry);
             return id;
         };
 

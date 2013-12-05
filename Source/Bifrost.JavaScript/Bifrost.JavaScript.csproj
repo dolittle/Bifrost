@@ -53,11 +53,14 @@
   <ItemGroup>
     <Content Include="commands\CommandSecurityContext.js" />
     <Content Include="commands\commandSecurityService.js" />
+    <Content Include="commands\HandleCommandsTask.js" />
+    <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
     <Content Include="interaction\CommandOperation.js" />
+    <Content Include="tasks\TaskHistoryEntry.js" />
     <Content Include="views\ComposeTask.js" />
     <Content Include="tasks\ExecutionTask.js" />
     <Content Include="tasks\FileLoadTask.js" />

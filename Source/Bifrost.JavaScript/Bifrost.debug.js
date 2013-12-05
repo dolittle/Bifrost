@@ -1651,8 +1651,9 @@ Bifrost.namespace("Bifrost.tasks", {
         this.isSuccess = ko.computed(function () {
             return self.isFinished() && !self.hasFailed();
         });
-    }),
-
+    })
+});
+Bifrost.namespace("Bifrost.tasks", {
     taskHistory: Bifrost.Singleton(function (systemClock) {
         /// <summary>Represents the history of tasks that has been executed since the start of the application</summary>
         var self = this;
@@ -1664,24 +1665,28 @@ Bifrost.namespace("Bifrost.tasks", {
 
         this.begin = function (task) {
             var id = Bifrost.Guid.create();
-            var entry = Bifrost.tasks.TaskHistoryEntry.create();
 
-            entry.type = task._type._name;
+            try {
+                var entry = Bifrost.tasks.TaskHistoryEntry.create();
 
-            var content = {};
+                entry.type = task._type._name;
 
-            for (var property in task) {
-                if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
-                    content[property] = task[property];
+                var content = {};
+
+                for (var property in task) {
+                    if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
+                        content[property] = task[property];
+                    }
                 }
+
+                entry.content = JSON.stringify(content);
+
+                entry.begin(systemClock.nowInMilliseconds());
+                entriesById[id] = entry;
+                self.entries.push(entry);
+            } catch (ex) {
+                // Todo: perfect place for logging something
             }
-
-
-            entry.content = JSON.stringify(content);
-
-            entry.begin(systemClock.nowInMilliseconds());
-            entriesById[id] = entry;
-            self.entries.push(entry);
             return id;
         };
 
@@ -1820,7 +1825,7 @@ Bifrost.namespace("Bifrost.tasks", {
     ExecutionTask: Bifrost.tasks.Task.extend(function () {
         /// <summary>Represents a base task that represents anything that is executing</summary>
         this.execute = function () {
-        }
+        };
     })
 });
 Bifrost.namespace("Bifrost", {
@@ -1847,6 +1852,20 @@ Bifrost.namespace("Bifrost", {
             var task = Bifrost.read.QueryTask.create({
                 query: query,
                 paging: paging
+            });
+            return task;
+        };
+
+        this.createHandleCommand = function (command) {
+            var task = Bifrost.commands.HandleCommandTask.create({
+                command: command
+            });
+            return task;
+        };
+
+        this.createHandleCommands = function (commands) {
+            var task = Bifrost.commands.HandleCommandsTask.create({
+                commands: commands
             });
             return task;
         };
@@ -2453,57 +2472,42 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.commands", {
-    commandCoordinator: Bifrost.Singleton(function () {
-        var baseUrl = "/Bifrost/CommandCoordinator";
-        function sendToHandler(url, data, completeHandler) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                contentType: 'application/json; charset=utf-8',
-                complete: completeHandler
-            });
-        }
+    HandleCommandTask: Bifrost.tasks.ExecutionTask.extend(function (command, server) {
+        /// <summary>Represents a task that can handle a command</summary>
+        this.name = command.name;
 
-        function handleCommandCompletion(jqXHR, command, commandResult) {
-            if (jqXHR.status === 200) {
-                command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
-                command.hasExecuted = true;
-                if (command.result.success === true) {
-                    command.onSuccess();
-                } else {
-                    command.onError();
-                }
-            } else {
-                command.result.success = false;
-                command.result.exception = {
-                    Message: jqXHR.responseText,
-                    details: jqXHR
-                };
-                command.onError();
-            }
-            command.onComplete();
-        }
-
-
-        this.handle = function (command) {
+        this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
+
             var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
-            var methodParameters = {
-                commandDescriptor: JSON.stringify(commandDescriptor)
+            var parameters = {
+                commandDescriptor: commandDescriptor
             };
 
-            sendToHandler(baseUrl + "/Handle?_cmd=" + command.generatedFrom, JSON.stringify(methodParameters), function (jqXHR) {
-                var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
+            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command.generatedFrom;
+
+            server.post(url, parameters).continueWith(function (result) {
+                var commandResult = Bifrost.commands.CommandResult.createFrom(result);
                 promise.signal(commandResult);
             });
 
             return promise;
         };
+    })
+});
+Bifrost.namespace("Bifrost.commands", {
+    HandleCommandsTask: Bifrost.tasks.ExecutionTask.extend(function (commands, server) {
+        /// <summary>Represents a task that can handle an array of command</summary>
+        var self = this;
 
-        this.handleMany = function (commands) {
+        this.names = [];
+        commands.forEach(function (command) {
+            self.names.push(command.name);
+        });
+
+        this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
+
             var commandDescriptors = [];
 
             commands.forEach(function (command) {
@@ -2512,23 +2516,51 @@ Bifrost.namespace("Bifrost.commands", {
                 commandDescriptors.push(commandDescriptor);
             });
 
+            var parameters = {
+                commandDescriptors: commandDescriptors
+            };
+
+            var url = "/Bifrost/CommandCoordinator/HandleMany";
+
+            server.post(url, parameters).continueWith(function (results) {
+                var commandResults = [];
+
+                results.forEach(function (result) {
+                    var commandResult = Bifrost.commands.CommandResult.createFrom(result);
+                    commandResults.push(commandResult);
+                });
+                promise.signal(commandResults);
+            });
+
+            return promise;
+        }
+    })
+});
+Bifrost.namespace("Bifrost.commands", {
+    commandCoordinator: Bifrost.Singleton(function (taskFactory) {
+        this.handle = function (command) {
+            var promise = Bifrost.execution.Promise.create();
+            var task = taskFactory.createHandleCommand(command);
+
+            command.region.tasks.execute(task).continueWith(function (commandResult) {
+                promise.signal(commandResult);
+            });
+
+            return promise;
+        };
+
+        this.handleMany = function (commands, region) {
+            var promise = Bifrost.execution.Promise.create();
+
             try {
-                var methodParameters = {
-                    commandDescriptors: JSON.stringify(commandDescriptors)
-                };
+                var task = taskFactory.createHandleCommands(commands);
 
-                sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
-                    var results = JSON.parse(jqXHR.responseText);
-
-                    var commandResults = [];
-
-                    results.forEach(function (result) {
-                        var commandResult = Bifrost.commands.CommandResult.createFrom(result);
-                        commandResults.push(commandResult);
-                    });
-
-                    commands.forEach(function(command, index) {
-                        command.handleCommandResult(commandResults[index]);
+                region.tasks.execute(task).continueWith(function (commandResults) {
+                    commands.forEach(function (command, index) {
+                        var commandResult = commandResults[index];
+                        if (commandResult != null && !Bifrost.isUndefined(commandResult)) {
+                            command.handleCommandResult(commandResult);
+                        }
                         command.isBusy(false);
                     });
 
@@ -2542,10 +2574,6 @@ Bifrost.namespace("Bifrost.commands", {
 
             return promise;
         };
-
-        this.handleForSaga = function (saga, commands, options) {
-            throw "not implemented";
-        };
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.commandCoordinator = Bifrost.commands.commandCoordinator;
@@ -2554,12 +2582,19 @@ Bifrost.namespace("Bifrost.commands", {
         var self = this;
 
         function shouldSkipProperty(target, property) {
+            if (target instanceof Bifrost.views.Region) return true;
+            if (target instanceof HTMLElement) return true;
             if (!target.hasOwnProperty(property)) return true;
             if (ko.isObservable(target[property])) return false;
             if (typeof target[property] === "function") return true;
             if (property == "_type") return true;
             if (property == "_namespace") return true;
-            if ((target[property].prototype != null) && (target[property] instanceof Bifrost.Type)) return true;
+            if ((target[property] == null) ) return true;
+            if ((typeof target[property].prototype !== "undefined") &&
+                (target[property].prototype !== null) &&
+                (target[property] instanceof Bifrost.Type)) {
+                return true;
+            }
 
             return false;
         }
@@ -2678,6 +2713,7 @@ Bifrost.namespace("Bifrost.commands", {
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options, region) {
         var self = this;
+        this.region = region;
         this.name = "";
         this.generatedFrom = "";
         this.targetCommand = this;
@@ -2686,6 +2722,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.validationMessages = ko.observableArray();
         this.securityContext = ko.observable(null);
         this.populatedFromExternalSource = ko.observable(false);
+        
 
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {

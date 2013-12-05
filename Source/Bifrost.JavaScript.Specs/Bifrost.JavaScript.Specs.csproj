@@ -430,12 +430,14 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_adding_operation_and_removed.js" />
+    <Content Include="views\for_Region\when_adding_operation.js" />
     <Content Include="views\for_Region\when_command_in_child_region_can_execute_and_then_not.js" />
     <Content Include="views\for_Region\when_command_in_child_region_can_execute.js" />
     <Content Include="views\for_Region\when_command_can_execute_and_then_not.js" />
     <Content Include="views\for_Region\when_command_can_execute.js" />
-    <Content Include="views\for_Region\when_command_in_child_region_gets_changes_and_changed_back.js" />
-    <Content Include="views\for_Region\when_command_in_child_region_gets_changes.js" />
+    <Content Include="views\for_Region\when_child_region_gets_changes_and_changed_back.js" />
+    <Content Include="views\for_Region\when_child_region_gets_changes.js" />
     <Content Include="views\for_Region\when_command_gets_changes_and_changed_back.js" />
     <Content Include="views\for_Region\when_command_gets_changes.js" />
     <Content Include="views\for_Region\when_child_region_becomes_busy.js" />

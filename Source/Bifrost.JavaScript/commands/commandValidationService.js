@@ -3,12 +3,19 @@
         var self = this;
 
         function shouldSkipProperty(target, property) {
+            if (target instanceof Bifrost.views.Region) return true;
+            if (target instanceof HTMLElement) return true;
             if (!target.hasOwnProperty(property)) return true;
             if (ko.isObservable(target[property])) return false;
             if (typeof target[property] === "function") return true;
             if (property == "_type") return true;
             if (property == "_namespace") return true;
-            if ((target[property].prototype != null) && (target[property] instanceof Bifrost.Type)) return true;
+            if ((target[property] == null) ) return true;
+            if ((typeof target[property].prototype !== "undefined") &&
+                (target[property].prototype !== null) &&
+                (target[property] instanceof Bifrost.Type)) {
+                return true;
+            }
 
             return false;
         }

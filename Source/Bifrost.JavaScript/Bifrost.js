@@ -41,6 +41,7 @@
 @depends utils/server.js
 @depends utils/systemClock.js
 @depends tasks/Task.js
+@depends tasks/TaskHistoryEntry.js
 @depends tasks/taskHistory.js
 @depends tasks/Tasks.js
 @depends tasks/tasksFactory.js
@@ -68,6 +69,8 @@
 @depends validation/email.js
 @depends validation/regex.js
 @depends commands/bindingHandlers.js
+@depends commands/HandleCommandTask.js
+@depends commands/HandleCommandsTask.js
 @depends commands/CommandCoordinator.js
 @depends commands/commandValidationService.js
 @depends commands/Command.js

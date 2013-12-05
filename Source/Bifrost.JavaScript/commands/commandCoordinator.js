@@ -1,80 +1,28 @@
 Bifrost.namespace("Bifrost.commands", {
-    commandCoordinator: Bifrost.Singleton(function () {
-        var baseUrl = "/Bifrost/CommandCoordinator";
-        function sendToHandler(url, data, completeHandler) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                contentType: 'application/json; charset=utf-8',
-                complete: completeHandler
-            });
-        }
-
-        function handleCommandCompletion(jqXHR, command, commandResult) {
-            if (jqXHR.status === 200) {
-                command.result = Bifrost.commands.CommandResult.createFrom(commandResult);
-                command.hasExecuted = true;
-                if (command.result.success === true) {
-                    command.onSuccess();
-                } else {
-                    command.onError();
-                }
-            } else {
-                command.result.success = false;
-                command.result.exception = {
-                    Message: jqXHR.responseText,
-                    details: jqXHR
-                };
-                command.onError();
-            }
-            command.onComplete();
-        }
-
-
+    commandCoordinator: Bifrost.Singleton(function (taskFactory) {
         this.handle = function (command) {
             var promise = Bifrost.execution.Promise.create();
-            var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
-            var methodParameters = {
-                commandDescriptor: JSON.stringify(commandDescriptor)
-            };
+            var task = taskFactory.createHandleCommand(command);
 
-            sendToHandler(baseUrl + "/Handle?_cmd=" + command.generatedFrom, JSON.stringify(methodParameters), function (jqXHR) {
-                var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
+            command.region.tasks.execute(task).continueWith(function (commandResult) {
                 promise.signal(commandResult);
             });
 
             return promise;
         };
 
-        this.handleMany = function (commands) {
+        this.handleMany = function (commands, region) {
             var promise = Bifrost.execution.Promise.create();
-            var commandDescriptors = [];
-
-            commands.forEach(function (command) {
-                command.isBusy(true);
-                var commandDescriptor = Bifrost.commands.CommandDescriptor.createFrom(command);
-                commandDescriptors.push(commandDescriptor);
-            });
 
             try {
-                var methodParameters = {
-                    commandDescriptors: JSON.stringify(commandDescriptors)
-                };
+                var task = taskFactory.createHandleCommands(commands);
 
-                sendToHandler(baseUrl + "/HandleMany", JSON.stringify(methodParameters), function (jqXHR) {
-                    var results = JSON.parse(jqXHR.responseText);
-
-                    var commandResults = [];
-
-                    results.forEach(function (result) {
-                        var commandResult = Bifrost.commands.CommandResult.createFrom(result);
-                        commandResults.push(commandResult);
-                    });
-
-                    commands.forEach(function(command, index) {
-                        command.handleCommandResult(commandResults[index]);
+                region.tasks.execute(task).continueWith(function (commandResults) {
+                    commands.forEach(function (command, index) {
+                        var commandResult = commandResults[index];
+                        if (commandResult != null && !Bifrost.isUndefined(commandResult)) {
+                            command.handleCommandResult(commandResult);
+                        }
                         command.isBusy(false);
                     });
 
@@ -87,10 +35,6 @@ Bifrost.namespace("Bifrost.commands", {
             }
 
             return promise;
-        };
-
-        this.handleForSaga = function (saga, commands, options) {
-            throw "not implemented";
         };
     })
 });
