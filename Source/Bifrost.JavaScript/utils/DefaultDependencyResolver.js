@@ -37,7 +37,10 @@
 
         this.loadScriptReference = function (namespace, name, promise) {
             var fileName = self.getFileName(namespace, name);
-            require([fileName], function (system) {
+            var file = Bifrost.io.fileFactory.create().create(fileName, Bifrost.io.fileType.javaScript);
+
+            Bifrost.io.fileManager.create().load([file]).continueWith(function (types) {
+                var system = types[0];
                 if (self.doesNamespaceHave(namespace, name)) {
                     system = namespace[name];
                 }

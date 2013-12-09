@@ -62,6 +62,7 @@
     <Content Include="interaction\CommandOperation.js" />
     <Content Include="io\File.js" />
     <Content Include="io\fileFactory.js" />
+    <Content Include="io\fileManager.js" />
     <Content Include="io\fileType.js" />
     <Content Include="tasks\TaskHistoryEntry.js" />
     <Content Include="utils\isNullOrUndefined.js" />

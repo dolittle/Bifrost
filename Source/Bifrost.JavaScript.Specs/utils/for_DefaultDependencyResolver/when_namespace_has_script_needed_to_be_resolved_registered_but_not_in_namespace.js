@@ -6,21 +6,43 @@
     var requireStub;
     var requireArg;
     var canResolve;
-    var systemResolved;
+    var systemResolved = {
+        someValue: "value"
+    };
+    var fileFactory = null;
+    var fileManager = null;
+
+    var file = {
+        some: "file"
+    };
+    
+    var fileFactoryMock = {
+        create: sinon.mock().withArgs("/Someplace/On/Server/something.js", Bifrost.io.fileType.javaScript).returns(file)
+    };
+    var fileManagerMock = {
+        load: sinon.mock().withArgs([file]).returns({
+            continueWith: function (callback) {
+                callback([systemResolved]);
+            }
+        })
+    };
 
     beforeEach(function () {
-        systemResolved = {
-            someValue: "value"
-        };
         ns = {
             _path: "/Someplace/On/Server",
             _scripts: ["something"]
         };
-        requireStub = sinon.stub(window, "require", function (arg, callback) {
-            requireArg = arg[0];
 
-            callback(systemResolved);
-        });
+        fileFactory = Bifrost.io.fileFactory;
+        fileManager = Bifrost.io.fileManager;
+
+        Bifrost.io.fileFactory = {
+            create: sinon.stub().returns(fileFactoryMock)
+        };
+
+        Bifrost.io.fileManager = {
+            create: sinon.stub().returns(fileManagerMock)
+        }
         
         canResolve = resolver.canResolve(ns, "something");
         resolved = resolver.resolve(ns, "something");
@@ -30,15 +52,16 @@
     });
 
     afterEach(function () {
-        requireStub.restore();
+        Bifrost.io.fileFactory = fileFactory;
+        Bifrost.io.fileManager = fileManager;
     });
 
     it("should be able to resolve", function () {
         expect(canResolve).toBe(true);
     });
 
-    it("should resolve through require", function () {
-        expect(requireArg).toBe("/Someplace/On/Server/something.js");
+    it("should create a file", function () {
+        expect(fileFactoryMock.create.called).toBe(true);
     });
 
     it("should return a promise", function () {

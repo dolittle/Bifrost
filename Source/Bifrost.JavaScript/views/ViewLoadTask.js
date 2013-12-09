@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
+    ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading files asynchronously</summary>
 
         var self = this;
@@ -12,21 +12,8 @@
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
 
-            var filesToLoad = [];
-
-            files.forEach(function (file) {
-                var path = file.path.fullPath;
-                if (file.fileType === Bifrost.io.fileType.html) {
-                    path = "text!" + path + "!strip";
-                    if (!file.path.hasExtension()) {
-                        path = "noext!" + path;
-                    } 
-                }
-
-                filesToLoad.push(path);
-            });
-
-            require(filesToLoad, function (view) {
+            fileManager.load(files).continueWith(function (instances) {
+                var view = instances[0];
                 promise.signal(view);
             });
             return promise;

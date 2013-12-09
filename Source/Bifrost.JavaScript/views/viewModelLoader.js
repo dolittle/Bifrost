@@ -1,10 +1,11 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewModelLoader: Bifrost.Singleton(function (taskFactory) {
+    viewModelLoader: Bifrost.Singleton(function (taskFactory, fileFactory) {
         var self = this;
 
         this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
-            var task = taskFactory.createViewModelLoad([path]);
+            var file = fileFactory.create(path, Bifrost.io.fileType.javaScript);
+            var task = taskFactory.createViewModelLoad([file]);
             Bifrost.views.Region.current.tasks.execute(task).continueWith(function () {
                 self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
                     promise.signal(instance);

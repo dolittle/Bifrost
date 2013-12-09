@@ -1,12 +1,18 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewModelLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
+    ViewModelLoadTask: Bifrost.views.ComposeTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading viewModels</summary>
-        this.files = files;
+        var self = this;
+
+        this.files = [];
+        files.forEach(function (file) {
+            self.files.push(file.path.fullPath);
+        });
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-            require(files, function () {
-                promise.signal();
+
+            fileManager.load(files).continueWith(function (instances) {
+                promise.signal(instances);
             });
             return promise;
         };

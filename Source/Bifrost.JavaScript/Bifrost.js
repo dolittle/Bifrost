@@ -44,6 +44,7 @@
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js
+@depends io/fileManager.js
 @depends tasks/Task.js
 @depends tasks/TaskHistoryEntry.js
 @depends tasks/taskHistory.js

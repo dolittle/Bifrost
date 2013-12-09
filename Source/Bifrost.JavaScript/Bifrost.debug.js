@@ -518,7 +518,10 @@ Bifrost.namespace("Bifrost", {
 
         this.loadScriptReference = function (namespace, name, promise) {
             var fileName = self.getFileName(namespace, name);
-            require([fileName], function (system) {
+            var file = Bifrost.io.fileFactory.create().create(fileName, Bifrost.io.fileType.javaScript);
+
+            Bifrost.io.fileManager.create().load([file]).continueWith(function (types) {
+                var system = types[0];
                 if (self.doesNamespaceHave(namespace, name)) {
                     system = namespace[name];
                 }
@@ -1657,13 +1660,24 @@ Bifrost.namespace("Bifrost.io", {
 });
 Bifrost.namespace("Bifrost.io", {
     File: Bifrost.Type.extend(function (path) {
+        /// <summary>Represents a file</summary>
+
+        /// <field name="type" type="Bifrost.io.fileType">Type of file represented</field>
         this.type = Bifrost.io.fileType.unknown;
+
+        /// <field name="path" type="Bifrost.Path">The path representing the file</field>
         this.path = Bifrost.Path.create({ fullPath: path });
     })
 });
 Bifrost.namespace("Bifrost.io", {
     fileFactory: Bifrost.Singleton(function () {
+        /// <summary>Represents a factory for creating instances of Bifrost.io.File</summary>
         this.create = function (path, fileType) {
+            /// <summary>Creates a new file</summary>
+            /// <param name="path" type="String">Path of file</param>
+            /// <param name="fileType" type="Bifrost.io.fileType" optional="true">Type of file to use</param>
+            /// <returns type="Bifrost.io.File">An instance of a file</returns>
+
             var file = Bifrost.io.File.create({ path: path });
             if (!Bifrost.isNullOrUndefined(fileType)) {
                 file.fileType = fileType;
@@ -1673,6 +1687,39 @@ Bifrost.namespace("Bifrost.io", {
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFactory;
+Bifrost.namespace("Bifrost.io", {
+    fileManager: Bifrost.Singleton(function () {
+        /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
+
+        this.load = function (files) {
+            /// <summary>Load files</summary>
+            /// <param parameterArray="true" elementType="Bifrost.io.File">Files to load</param>
+            /// <returns type="Bifrost.execution.Promise">A promise that can be continued with the actual files coming in as an array</returns>
+            var filesToLoad = [];
+
+            var promise = Bifrost.execution.Promise.create();
+
+            files.forEach(function (file) {
+                var path = file.path.fullPath;
+                if (file.fileType === Bifrost.io.fileType.html) {
+                    path = "text!" + path + "!strip";
+                    if (!file.path.hasExtension()) {
+                        path = "noext!" + path;
+                    }
+                }
+
+                filesToLoad.push(path);
+            });
+
+            require(filesToLoad, function () {
+                promise.signal(arguments);
+            });
+            
+            return promise;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.fileManager = Bifrost.io.fileManager;
 Bifrost.namespace("Bifrost.tasks", {
     Task: Bifrost.Type.extend(function () {
         /// <summary>Represents a task that can be done in the system</summary>
@@ -1881,14 +1928,22 @@ Bifrost.namespace("Bifrost.tasks", {
     })
 });
 Bifrost.namespace("Bifrost.tasks", {
-    FileLoadTask: Bifrost.tasks.LoadTask.extend(function (files) {
+    FileLoadTask: Bifrost.tasks.LoadTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading view related files asynchronously</summary>
         this.files = files;
 
+        var self = this;
+
+        this.files = [];
+        files.forEach(function (file) {
+            self.files.push(file.path.fullPath);
+        });
+
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-            require(files, function () {
-                promise.signal();
+
+            fileManager.load(files).continueWith(function (instances) {
+                promise.signal(instances);
             });
             return promise;
         }
@@ -4362,7 +4417,7 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.viewFactory = Bifrost.views.viewFactory;
 Bifrost.namespace("Bifrost.views", {
-    ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
+    ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading files asynchronously</summary>
 
         var self = this;
@@ -4375,30 +4430,8 @@ Bifrost.namespace("Bifrost.views", {
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
 
-            var filesToLoad = [];
-
-            files.forEach(function (file) {
-                var path = file.path.fullPath;
-                if (file.fileType === Bifrost.io.fileType.html) {
-                    path = "text!" + path + "!strip";
-                    if (!file.path.hasExtension()) {
-                        path = "noext!" + path;
-                    } 
-                }
-
-                filesToLoad.push(path);
-
-                /*
-                var viewFile = "text!" + path + "!strip";
-                if (!Bifrost.Path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
-                files.push(viewFile);
-    
-                */
-
-                
-            });
-
-            require(filesToLoad, function (view) {
+            fileManager.load(files).continueWith(function (instances) {
+                var view = instances[0];
                 promise.signal(view);
             });
             return promise;
@@ -4511,12 +4544,13 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewModelLoader: Bifrost.Singleton(function (taskFactory) {
+    viewModelLoader: Bifrost.Singleton(function (taskFactory, fileFactory) {
         var self = this;
 
         this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
-            var task = taskFactory.createViewModelLoad([path]);
+            var file = fileFactory.create(path, Bifrost.io.fileType.javaScript);
+            var task = taskFactory.createViewModelLoad([file]);
             Bifrost.views.Region.current.tasks.execute(task).continueWith(function () {
                 self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
                     promise.signal(instance);
@@ -4551,14 +4585,20 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    ViewModelLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
+    ViewModelLoadTask: Bifrost.views.ComposeTask.extend(function (files, fileManager) {
         /// <summary>Represents a task for loading viewModels</summary>
-        this.files = files;
+        var self = this;
+
+        this.files = [];
+        files.forEach(function (file) {
+            self.files.push(file.path.fullPath);
+        });
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-            require(files, function () {
-                promise.signal();
+
+            fileManager.load(files).continueWith(function (instances) {
+                promise.signal(instances);
             });
             return promise;
         };
