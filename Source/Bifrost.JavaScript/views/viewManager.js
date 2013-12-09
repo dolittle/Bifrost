@@ -18,7 +18,7 @@
         this.initializeLandingPage = function () {
             var body = $("body")[0];
             if (body !== null) {
-                var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+                var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
                 if (file == "") file = "index";
                 $(body).data("view", file);
 

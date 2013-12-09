@@ -68,7 +68,7 @@
 
         function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
-                var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                var viewModelFile = Bifrost.Path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
                 self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
@@ -79,14 +79,14 @@
         }
 
         this.hasForView = function (viewPath) {
-            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
-            scriptFile = Bifrost.path.makeRelative(scriptFile);
+            var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");
+            scriptFile = Bifrost.Path.makeRelative(scriptFile);
             var hasViewModel = self.assetsManager.hasScript(scriptFile);
             return hasViewModel;
         };
 
         this.getViewModelPathForView = function (viewPath) {
-            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");
             return scriptFile;
         };
 
@@ -100,7 +100,7 @@
                 Bifrost.views.Region.current = region;
 
                 if (self.hasForView(view.path)) {
-                    var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                    var viewModelFile = Bifrost.Path.changeExtension(view.path, "js");
                     self.documentService.setViewModelFileOn(view.element, viewModelFile);
 
                     self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
@@ -120,6 +120,20 @@
             });
 
             return promise;
+        };
+
+        this.isLoaded = function (path) {
+            var localPath = Bifrost.Path.getPathWithoutFilename(path);
+            var filename = Bifrost.Path.getFilenameWithoutExtension(path);
+            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            if (namespacePath != null) {
+                var namespace = Bifrost.namespace(namespacePath);
+
+                if (filename in namespace) {
+                    return true;
+                }
+            }
+            return false;
         };
 
         this.loadAndApplyAllViewModelsWithinElement = function (root) {

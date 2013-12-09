@@ -38,6 +38,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/exceptions.js
         - Bifrost.JavaScript/utils/Uri.js
         - Bifrost.JavaScript/utils/path.js
+        - Bifrost.JavaScript/io/fileType.js
         - Bifrost.JavaScript/validation/exceptions.js
         - Bifrost.JavaScript/validation/Rule.js
         - Bifrost.JavaScript/views/viewRenderer.js

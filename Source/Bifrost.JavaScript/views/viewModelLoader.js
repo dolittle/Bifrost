@@ -4,8 +4,6 @@
 
         this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
-            if (!path.startsWith("/")) path = "/" + path;
-
             var task = taskFactory.createViewModelLoad([path]);
             Bifrost.views.Region.current.tasks.execute(task).continueWith(function () {
                 self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
@@ -16,12 +14,12 @@
         };
 
         this.beginCreateInstanceOfViewModel = function (path) {
-            var localPath = Bifrost.path.getPathWithoutFilename(path);
-            var filename = Bifrost.path.getFilenameWithoutExtension(path);
+            var localPath = Bifrost.Path.getPathWithoutFilename(path);
+            var filename = Bifrost.Path.getFilenameWithoutExtension(path);
 
             var promise = Bifrost.execution.Promise.create();
 
-            namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);
 

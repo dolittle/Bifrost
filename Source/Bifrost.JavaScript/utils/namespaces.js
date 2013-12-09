@@ -17,7 +17,7 @@ Bifrost.namespace("Bifrost", {
             if (typeof scripts === "undefined") return;
 
             scripts.forEach(function (fullPath) {
-                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                var path = Bifrost.Path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
 
                 for (var mapperKey in Bifrost.namespaceMappers) {

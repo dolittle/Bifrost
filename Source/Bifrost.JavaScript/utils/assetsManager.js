@@ -37,7 +37,7 @@
             var paths = [];
 
             Bifrost.assetsManager.scripts.forEach(function (fullPath) {
-                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                var path = Bifrost.Path.getPathWithoutFilename(fullPath);
                 if (paths.indexOf(path) == -1) {
                     paths.push(path);
                 }

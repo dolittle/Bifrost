@@ -8,7 +8,7 @@
             /// <param name="view" type="Bifrost.views.View">View related to the region</param>
             /// <param name="region" type="Bifrost.views.Region">Region that needs to be described</param>
             var promise = Bifrost.execution.Promise.create();
-            var localPath = Bifrost.path.getPathWithoutFilename(view.path);
+            var localPath = Bifrost.Path.getPathWithoutFilename(view.path);
             var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);

@@ -32,9 +32,9 @@
             }
 
             var defaultUriMapper = Bifrost.StringMapper.create();
-            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "{boundedContext}/{module}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "{boundedContext}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{feature}/{view}", "{feature}/{view}.html");
             defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.uriMappers.default = defaultUriMapper;
 

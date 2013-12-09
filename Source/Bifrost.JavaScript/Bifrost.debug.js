@@ -251,14 +251,14 @@ Bifrost.namespace("Bifrost", {
 	}
 });
 Bifrost.namespace("Bifrost", {
-    isNull: function (value) {
-        return value === null;
-    }
-});
-Bifrost.namespace("Bifrost", {
     isString: function (value) {
         return typeof value === "string";
         }
+});
+Bifrost.namespace("Bifrost", {
+    isNull: function (value) {
+        return value === null;
+    }
 });
 Bifrost.namespace("Bifrost", {
     isUndefined: function (value) {
@@ -266,43 +266,13 @@ Bifrost.namespace("Bifrost", {
     }
 });
 Bifrost.namespace("Bifrost", {
-    isFunction: function (value) {
-        return typeof value === "function";
+    isNullOrUndefined: function (value) {
+        return Bifrost.isUndefined(value) || Bifrost.isNull(value);
     }
 });
 Bifrost.namespace("Bifrost", {
-    path: {
-        makeRelative: function (fullPath) {
-            if (fullPath.indexOf("/") == 0) return fullPath.substr(1);
-
-            return fullPath;
-        },
-        getPathWithoutFilename: function (fullPath) {
-            var lastIndex = fullPath.lastIndexOf("/");
-            return fullPath.substr(0, lastIndex);
-        },
-        getFilename: function (fullPath) {
-            var lastIndex = fullPath.lastIndexOf("/");
-            return fullPath.substr(lastIndex+1);
-        },
-        getFilenameWithoutExtension: function (fullPath) {
-            var filename = this.getFilename(fullPath);
-            var lastIndex = filename.lastIndexOf(".");
-            return filename.substr(0,lastIndex);
-        },
-        hasExtension: function (path) {
-            if (path.indexOf("?") > 0) path = path.substr(0, path.indexOf("?"));
-            var lastIndex = path.lastIndexOf(".");
-            return lastIndex > 0;
-        },
-        changeExtension: function (fullPath, newExtension) {
-            if (fullPath.indexOf("?") > 0) fullPath = fullPath.substr(0, fullPath.indexOf("?"));
-            var lastIndex = fullPath.lastIndexOf(".");
-            if (lastIndex > 0) {
-                return fullPath.substr(0, lastIndex) + "." + newExtension;
-            }
-            return fullPath + "." + newExtension;
-        }
+    isFunction: function (value) {
+        return typeof value === "function";
     }
 });
 Bifrost.namespace("Bifrost", {
@@ -365,7 +335,7 @@ Bifrost.namespace("Bifrost", {
             var paths = [];
 
             Bifrost.assetsManager.scripts.forEach(function (fullPath) {
-                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                var path = Bifrost.Path.getPathWithoutFilename(fullPath);
                 if (paths.indexOf(path) == -1) {
                     paths.push(path);
                 }
@@ -729,6 +699,17 @@ Bifrost.namespace("Bifrost", {
         }
     }
 })
+Bifrost.namespace("Bifrost", {
+	Guid : {
+       	create: function() {
+	    	function S4() {
+	        	return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	    	}
+           	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+       	},
+    	empty: "00000000-0000-0000-0000-000000000000"
+	}
+});
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
@@ -1115,6 +1096,83 @@ Bifrost.namespace("Bifrost", {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
     }
 });
+Bifrost.namespace("Bifrost", {
+    Path: Bifrost.Type.extend(function (fullPath) {
+        var self = this;
+
+        // Based on node.js implementation : http://stackoverflow.com/questions/9451100/filename-extension-in-javascript
+        var splitDeviceRe = 
+            /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/][^\\\/]+)?([\\\/])?([\s\S]*?)$/;
+
+        // Regex to split the tail part of the above into [*, dir, basename, ext]
+        var splitTailRe = 
+            /^([\s\S]+[\\\/](?!$)|[\\\/])?((?:\.{1,2}$|[\s\S]+?)?(\.[^.\/\\]*)?)$/;
+
+        function removeUnsupportedParts(filename) {
+            var queryStringStart = filename.indexOf("?");
+            if (queryStringStart > 0) {
+                filename = filename.substr(0, queryStringStart);
+            }
+            return filename;
+        }
+
+        function splitPath(filename) {
+            // Separate device+slash from tail
+            var result = splitDeviceRe.exec(filename),
+                device = (result[1] || '') + (result[2] || ''),
+                tail = result[3] || '';
+            // Split the tail into dir, basename and extension
+            var result2 = splitTailRe.exec(tail),
+                dir = result2[1] || '',
+                basename = result2[2] || '',
+                ext = result2[3] || '';
+            return [device, dir, basename, ext];
+        }
+
+        var fullPath = removeUnsupportedParts(fullPath);
+        var result = splitPath(fullPath);
+        this.device = result[0] || "";
+        this.directory = result[1] || "";
+        this.filename = result[2] || "";
+        this.extension = result[3] || "";
+        this.filenameWithoutExtension = this.filename.replaceAll(this.extension, "");
+        this.fullPath = fullPath;
+
+        this.hasExtension = function () {
+            if (Bifrost.isNullOrUndefined(self.extension)) return false;
+            if (self.extension == "") return false;
+            return true;
+        };
+    }),
+});
+Bifrost.Path.makeRelative = function (fullPath) {
+    if (fullPath.indexOf("/") == 0) return fullPath.substr(1);
+
+    return fullPath;
+};
+Bifrost.Path.getPathWithoutFilename = function (fullPath) {
+    var lastIndex = fullPath.lastIndexOf("/");
+    return fullPath.substr(0, lastIndex);
+};
+Bifrost.Path.getFilename = function (fullPath) {
+    var lastIndex = fullPath.lastIndexOf("/");
+    return fullPath.substr(lastIndex+1);
+};
+Bifrost.Path.getFilenameWithoutExtension = function (fullPath) {
+    var filename = this.getFilename(fullPath);
+    var lastIndex = filename.lastIndexOf(".");
+    return filename.substr(0,lastIndex);
+};
+Bifrost.Path.hasExtension = function (path) {
+    if (path.indexOf("?") > 0) path = path.substr(0, path.indexOf("?"));
+    var lastIndex = path.lastIndexOf(".");
+    return lastIndex > 0;
+};
+Bifrost.Path.changeExtension = function (fullPath, newExtension) {
+    var path = Bifrost.Path.create({ fullPath: fullPath });
+    var newPath = path.directory + path.filenameWithoutExtension + "." + newExtension;
+    return newPath;
+};
 Bifrost.namespace("Bifrost");
 
 Bifrost.DefinitionMustBeFunction = function(message) {
@@ -1193,17 +1251,6 @@ Bifrost.Exception.define("Bifrost.ObjectLiteralNotAllowed", "Object literal is n
 Bifrost.Exception.define("Bifrost.MissingTypeDefinition", "Type definition was not specified");
 Bifrost.Exception.define("Bifrost.AsynchronousDependenciesDetected", "You should consider using Type.beginCreate() or dependencyResolver.beginResolve() for systems that has asynchronous dependencies");
 Bifrost.Exception.define("Bifrost.UnresolvedDependencies", "Some dependencies was not possible to resolve");
-Bifrost.namespace("Bifrost", {
-	Guid : {
-       	create: function() {
-	    	function S4() {
-	        	return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-	    	}
-           	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-       	},
-    	empty: "00000000-0000-0000-0000-000000000000"
-	}
-});
 Bifrost.namespace("Bifrost");
 Bifrost.hashString = (function() {
 	return {
@@ -1324,7 +1371,7 @@ Bifrost.namespace("Bifrost", {
             if (typeof scripts === "undefined") return;
 
             scripts.forEach(function (fullPath) {
-                var path = Bifrost.path.getPathWithoutFilename(fullPath);
+                var path = Bifrost.Path.getPathWithoutFilename(fullPath);
                 path = self.stripPath(path);
 
                 for (var mapperKey in Bifrost.namespaceMappers) {
@@ -1600,6 +1647,32 @@ Bifrost.namespace("Bifrost", {
         };
     })
 });
+Bifrost.namespace("Bifrost.io", {
+    fileType: {
+        unknown: 0,
+        text: 1,
+        javaScript: 2,
+        html: 3
+    }
+});
+Bifrost.namespace("Bifrost.io", {
+    File: Bifrost.Type.extend(function (path) {
+        this.type = Bifrost.io.fileType.unknown;
+        this.path = Bifrost.Path.create({ fullPath: path });
+    })
+});
+Bifrost.namespace("Bifrost.io", {
+    fileFactory: Bifrost.Singleton(function () {
+        this.create = function (path, fileType) {
+            var file = Bifrost.io.File.create({ path: path });
+            if (!Bifrost.isNullOrUndefined(fileType)) {
+                file.fileType = fileType;
+            }
+            return file;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFactory;
 Bifrost.namespace("Bifrost.tasks", {
     Task: Bifrost.Type.extend(function () {
         /// <summary>Represents a task that can be done in the system</summary>
@@ -1927,6 +2000,7 @@ Bifrost.validation.Validator = (function () {
         this.isValid = ko.observable(true);
         this.message = ko.observable("");
         this.rules = [];
+        this.isRequired = false;
         options = options || {};
 
         this.setOptions = function (options) {
@@ -1936,6 +2010,10 @@ Bifrost.validation.Validator = (function () {
                     if (ruleType._name === property) {
                         var rule = ruleType.create({ options: options[property] || {} });
                         self.rules.push(rule);
+                    }
+
+                    if (ruleType._name === "required") {
+                        self.isRequired = true;
                     }
                 });
             }
@@ -1964,6 +2042,7 @@ Bifrost.validation.Validator = (function () {
                 }
             });
         };
+
 
         this.setOptions(options);
     }
@@ -4249,7 +4328,7 @@ Bifrost.namespace("Bifrost.views", {
 		            $(element).append(targetView.content);
 
 		            if (self.viewModelManager.hasForView(actualPath)) {
-		                var viewModelFile = Bifrost.path.changeExtension(actualPath, "js");
+		                var viewModelFile = Bifrost.Path.changeExtension(actualPath, "js");
 		                $(element).attr("data-viewmodel-file", viewModelFile);
 		                $(element).data("viewmodel-file", viewModelFile);
 		            }
@@ -4286,11 +4365,40 @@ Bifrost.namespace("Bifrost.views", {
     ViewLoadTask: Bifrost.views.ComposeTask.extend(function (files) {
         /// <summary>Represents a task for loading files asynchronously</summary>
 
-        this.files = files;
+        var self = this;
+
+        this.files = [];
+        files.forEach(function (file) {
+            self.files.push(file.path.fullPath);
+        });
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
-            require(files, function (view) {
+
+            var filesToLoad = [];
+
+            files.forEach(function (file) {
+                var path = file.path.fullPath;
+                if (file.fileType === Bifrost.io.fileType.html) {
+                    path = "text!" + path + "!strip";
+                    if (!file.path.hasExtension()) {
+                        path = "noext!" + path;
+                    } 
+                }
+
+                filesToLoad.push(path);
+
+                /*
+                var viewFile = "text!" + path + "!strip";
+                if (!Bifrost.Path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
+                files.push(viewFile);
+    
+                */
+
+                
+            });
+
+            require(filesToLoad, function (view) {
                 promise.signal(view);
             });
             return promise;
@@ -4298,25 +4406,25 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewLoader: Bifrost.Singleton(function (viewModelManager, taskFactory) {
+    viewLoader: Bifrost.Singleton(function (viewModelManager, taskFactory, fileFactory, regionManager) {
         this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
-
-            if (!path.startsWith("/")) path = "/" + path;
-
+            
             var files = [];
 
-            var viewFile = "text!" + path + "!strip";
-            if (!Bifrost.path.hasExtension(viewFile)) viewFile = "noext!" + viewFile;
+            var viewFile = fileFactory.create(path, Bifrost.io.fileType.html);
             files.push(viewFile);
 
             if (viewModelManager.hasForView(path)) {
-                var viewModelFile = viewModelManager.getViewModelPathForView(path);
-                files.push(viewModelFile);
+                var viewModelPath = viewModelManager.getViewModelPathForView(path);
+                if (!viewModelManager.isLoaded(viewModelPath)) {
+                    var viewModelFile = fileFactory.create(viewModelPath, Bifrost.io.fileType.javaScript);
+                    files.push(viewModelFile);
+                }
             }
 
             var task = taskFactory.createViewLoad(files);
-            Bifrost.views.Region.current.tasks.execute(task).continueWith(function (view) {
+            regionManager.getCurrent().tasks.execute(task).continueWith(function (view) {
                 promise.signal(view);
             });
 
@@ -4344,7 +4452,7 @@ Bifrost.namespace("Bifrost.views", {
         this.initializeLandingPage = function () {
             var body = $("body")[0];
             if (body !== null) {
-                var file = Bifrost.path.getFilenameWithoutExtension(document.location.toString());
+                var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
                 if (file == "") file = "index";
                 $(body).data("view", file);
 
@@ -4408,8 +4516,6 @@ Bifrost.namespace("Bifrost.views", {
 
         this.load = function (path) {
             var promise = Bifrost.execution.Promise.create();
-            if (!path.startsWith("/")) path = "/" + path;
-
             var task = taskFactory.createViewModelLoad([path]);
             Bifrost.views.Region.current.tasks.execute(task).continueWith(function () {
                 self.beginCreateInstanceOfViewModel(path).continueWith(function (instance) {
@@ -4420,12 +4526,12 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.beginCreateInstanceOfViewModel = function (path) {
-            var localPath = Bifrost.path.getPathWithoutFilename(path);
-            var filename = Bifrost.path.getFilenameWithoutExtension(path);
+            var localPath = Bifrost.Path.getPathWithoutFilename(path);
+            var filename = Bifrost.Path.getFilenameWithoutExtension(path);
 
             var promise = Bifrost.execution.Promise.create();
 
-            namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);
 
@@ -4528,7 +4634,7 @@ Bifrost.namespace("Bifrost.views", {
 
         function applyViewModelByConventionFromPath(path, container) {
             if (self.hasForView(path)) {
-                var viewModelFile = Bifrost.path.changeExtension(path, "js");
+                var viewModelFile = Bifrost.Path.changeExtension(path, "js");
                 self.documentService.setViewModelFileOn(container, viewModelFile);
 
                 self.viewModelLoader.load(viewModelFile).continueWith(function (instance) {
@@ -4539,14 +4645,14 @@ Bifrost.namespace("Bifrost.views", {
         }
 
         this.hasForView = function (viewPath) {
-            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
-            scriptFile = Bifrost.path.makeRelative(scriptFile);
+            var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");
+            scriptFile = Bifrost.Path.makeRelative(scriptFile);
             var hasViewModel = self.assetsManager.hasScript(scriptFile);
             return hasViewModel;
         };
 
         this.getViewModelPathForView = function (viewPath) {
-            var scriptFile = Bifrost.path.changeExtension(viewPath, "js");
+            var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");
             return scriptFile;
         };
 
@@ -4560,7 +4666,7 @@ Bifrost.namespace("Bifrost.views", {
                 Bifrost.views.Region.current = region;
 
                 if (self.hasForView(view.path)) {
-                    var viewModelFile = Bifrost.path.changeExtension(view.path, "js");
+                    var viewModelFile = Bifrost.Path.changeExtension(view.path, "js");
                     self.documentService.setViewModelFileOn(view.element, viewModelFile);
 
                     self.viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
@@ -4580,6 +4686,20 @@ Bifrost.namespace("Bifrost.views", {
             });
 
             return promise;
+        };
+
+        this.isLoaded = function (path) {
+            var localPath = Bifrost.Path.getPathWithoutFilename(path);
+            var filename = Bifrost.Path.getFilenameWithoutExtension(path);
+            var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
+            if (namespacePath != null) {
+                var namespace = Bifrost.namespace(namespacePath);
+
+                if (filename in namespace) {
+                    return true;
+                }
+            }
+            return false;
         };
 
         this.loadAndApplyAllViewModelsWithinElement = function (root) {
@@ -5045,6 +5165,11 @@ Bifrost.namespace("Bifrost.views", {
             return promise;
         };
 
+        this.getCurrent = function () {
+            /// <summary>Gets the current region</summary>
+            return Bifrost.views.Region.current;
+        }
+
         this.evict = function (region) {
             /// <summary>Evict a region from the page</summary>
             /// <param name="region" type="Bifrost.views.Region">Region to evict</param>
@@ -5056,6 +5181,7 @@ Bifrost.namespace("Bifrost.views", {
         };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.regionManager = Bifrost.views.regionManage;
 Bifrost.namespace("Bifrost.views", {
     RegionDescriptor: Bifrost.Type.extend(function () {
         var self = this;
@@ -5074,7 +5200,7 @@ Bifrost.namespace("Bifrost.views", {
             /// <param name="view" type="Bifrost.views.View">View related to the region</param>
             /// <param name="region" type="Bifrost.views.Region">Region that needs to be described</param>
             var promise = Bifrost.execution.Promise.create();
-            var localPath = Bifrost.path.getPathWithoutFilename(view.path);
+            var localPath = Bifrost.Path.getPathWithoutFilename(view.path);
             var namespacePath = Bifrost.namespaceMappers.mapPathToNamespace(localPath);
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);
@@ -5419,9 +5545,9 @@ Bifrost.namespace("Bifrost", {
             }
 
             var defaultUriMapper = Bifrost.StringMapper.create();
-            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "/{boundedContext}/{module}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "/{boundedContext}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{feature}/{view}", "/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "{boundedContext}/{module}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "{boundedContext}/{feature}/{view}.html");
+            defaultUriMapper.addMapping("{feature}/{view}", "{feature}/{view}.html");
             defaultUriMapper.addMapping("{view}", "{view}.html");
             Bifrost.uriMappers.default = defaultUriMapper;
 

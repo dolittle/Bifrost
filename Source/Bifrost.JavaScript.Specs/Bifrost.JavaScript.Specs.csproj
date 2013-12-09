@@ -255,12 +255,14 @@
     <Content Include="Utils\for_namespace\when_declaring_nested_namespaces.js" />
     <Content Include="Utils\for_namespace\when_included.js" />
     <Content Include="Utils\for_namespace\when_declaring_namespace.js" />
-    <Content Include="Utils\for_path\when_getting_filename_without_extension_from_deep_path_containing_filename.js" />
-    <Content Include="Utils\for_path\when_making_path_relative_that_is_already_relative.js" />
-    <Content Include="Utils\for_path\when_getting_filename_from_deep_path_containing_filename.js" />
-    <Content Include="Utils\for_path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
-    <Content Include="Utils\for_path\when_changing_extension.js" />
-    <Content Include="Utils\for_path\when_making_path_starting_with_slash_relative.js" />
+    <Content Include="Utils\for_Path\when_changing_extension_with_path_prefixed_with_dots_and_no_extension_on_original.js" />
+    <Content Include="Utils\for_Path\when_changing_extension_with_path_containing_querystring.js" />
+    <Content Include="Utils\for_Path\when_getting_filename_without_extension_from_deep_path_containing_filename.js" />
+    <Content Include="Utils\for_Path\when_making_path_relative_that_is_already_relative.js" />
+    <Content Include="Utils\for_Path\when_getting_filename_from_deep_path_containing_filename.js" />
+    <Content Include="Utils\for_Path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
+    <Content Include="Utils\for_Path\when_changing_extension.js" />
+    <Content Include="Utils\for_Path\when_making_path_starting_with_slash_relative.js" />
     <Content Include="Utils\for_server\when_getting_data_from_a_url_that_returns_an_array_of_elements.js" />
     <Content Include="Utils\for_server\when_posting_data_to_a_url_that_returns_an_array_of_elements.js" />
     <Content Include="Utils\for_server\when_getting_data_from_a_url.js" />
@@ -393,6 +395,7 @@
     <Content Include="validation\for_required\when_validating_with_null.js" />
     <Content Include="validation\for_Rule\when_creating_without_a_message.js" />
     <Content Include="validation\for_Rule\when_creating_with_message.js" />
+    <Content Include="validation\for_Validator\when_creating_with_required_rule.js" />
     <Content Include="validation\for_Validator\when_applying_to_an_array_of_items.js" />
     <Content Include="validation\for_Validator\when_applying_to_properties.js" />
     <Content Include="validation\for_Validator\when_creating_without_options_and_setting_options_later.js" />
@@ -445,6 +448,9 @@
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
+    <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_already_in_memory.js" />
+    <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_but_not_in_memory.js" />
+    <Content Include="views\for_viewLoader\when_loading_and_view_has_no_viewmodel.js" />
     <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
     <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
     <Content Include="views\for_viewModelManager\when_loading_and_applying_all_viewmodels_with_two_viewmodels.js" />
@@ -460,9 +466,7 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="views\for_viewLoader\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
   </ItemGroup>

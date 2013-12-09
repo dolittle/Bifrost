@@ -1,5 +1,6 @@
 ﻿Bifrost.namespace("Bifrost", {
-    Path: Bifrost.Type.extend(function(fullPath) {
+    Path: Bifrost.Type.extend(function (fullPath) {
+        var self = this;
 
         // Based on node.js implementation : http://stackoverflow.com/questions/9451100/filename-extension-in-javascript
         var splitDeviceRe = 
@@ -36,7 +37,14 @@
         this.directory = result[1] || "";
         this.filename = result[2] || "";
         this.extension = result[3] || "";
+        this.filenameWithoutExtension = this.filename.replaceAll(this.extension, "");
         this.fullPath = fullPath;
+
+        this.hasExtension = function () {
+            if (Bifrost.isNullOrUndefined(self.extension)) return false;
+            if (self.extension == "") return false;
+            return true;
+        };
     }),
 });
 Bifrost.Path.makeRelative = function (fullPath) {
@@ -63,10 +71,7 @@ Bifrost.Path.hasExtension = function (path) {
     return lastIndex > 0;
 };
 Bifrost.Path.changeExtension = function (fullPath, newExtension) {
-    if (fullPath.indexOf("?") > 0) fullPath = fullPath.substr(0, fullPath.indexOf("?"));
-    var lastIndex = fullPath.lastIndexOf(".");
-    if (lastIndex > 0) {
-        return fullPath.substr(0, lastIndex) + "." + newExtension;
-    }
-    return fullPath + "." + newExtension;
+    var path = Bifrost.Path.create({ fullPath: fullPath });
+    var newPath = path.directory + path.filenameWithoutExtension + "." + newExtension;
+    return newPath;
 };

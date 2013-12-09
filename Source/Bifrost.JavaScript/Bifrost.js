@@ -11,11 +11,11 @@
 @depends utils/isObject.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
-@depends utils/isNull.js
 @depends utils/isString.js
+@depends utils/isNull.js
 @depends utils/isUndefined.js
+@depends utils/isNullOrUndefined.js
 @depends utils/isFunction.js
-@depends utils/path.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
 @depends utils/dependencyResolver.js
@@ -25,11 +25,12 @@
 @depends utils/DOMRootDependencyResolver.js
 @depends utils/KnownArtifactTypesDependencyResolver.js
 @depends utils/KnownArtifactInstancesDependencyResolver.js
+@depends utils/guid.js
 @depends utils/Type.js
 @depends utils/Singleton.js
+@depends utils/path.js
 @depends utils/Exception.js
 @depends utils/exceptions.js
-@depends utils/guid.js
 @depends utils/hashString.js
 @depends utils/Uri.js
 @depends utils/namespaces.js
@@ -40,6 +41,9 @@
 @depends utils/uriMappers.js
 @depends utils/server.js
 @depends utils/systemClock.js
+@depends io/fileType.js
+@depends io/File.js
+@depends io/fileFactory.js
 @depends tasks/Task.js
 @depends tasks/TaskHistoryEntry.js
 @depends tasks/taskHistory.js

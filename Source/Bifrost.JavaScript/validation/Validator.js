@@ -5,6 +5,7 @@ Bifrost.validation.Validator = (function () {
         this.isValid = ko.observable(true);
         this.message = ko.observable("");
         this.rules = [];
+        this.isRequired = false;
         options = options || {};
 
         this.setOptions = function (options) {
@@ -14,6 +15,10 @@ Bifrost.validation.Validator = (function () {
                     if (ruleType._name === property) {
                         var rule = ruleType.create({ options: options[property] || {} });
                         self.rules.push(rule);
+                    }
+
+                    if (ruleType._name === "required") {
+                        self.isRequired = true;
                     }
                 });
             }
@@ -42,6 +47,7 @@ Bifrost.validation.Validator = (function () {
                 }
             });
         };
+
 
         this.setOptions(options);
     }
