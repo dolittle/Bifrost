@@ -13,9 +13,9 @@ Bifrost.namespace("Bifrost.views", {
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
-            if (documentService.hasViewFile(element)) {
+            /*if (documentService.hasViewFile(element)) {
                 return;
-            }
+            }*/
 
             var uri = ko.utils.unwrapObservable(valueAccessor());
             documentService.setViewFileOn(element, uri);

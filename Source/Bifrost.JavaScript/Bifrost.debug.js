@@ -1690,6 +1690,23 @@ Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFact
 Bifrost.namespace("Bifrost.io", {
     fileManager: Bifrost.Singleton(function () {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
+        var self = this;
+
+        this.origin = window.location.origin;
+        if (this.origin.lastIndexOf("/") == this.origin.length-1) {
+            this.origin = this.origin.substr(0, this.origin.length - 1);
+        }
+
+        function getActualFilename(filename) {
+            var actualFilename = self.origin;
+
+            if (filename.indexOf("/") != 0) {
+                actualFilename += "/";
+            }
+            actualFilename += filename;
+
+            return actualFilename;
+        }
 
         this.load = function (files) {
             /// <summary>Load files</summary>
@@ -1700,7 +1717,7 @@ Bifrost.namespace("Bifrost.io", {
             var promise = Bifrost.execution.Promise.create();
 
             files.forEach(function (file) {
-                var path = file.path.fullPath;
+                var path = getActualFilename(file.path.fullPath);
                 if (file.fileType === Bifrost.io.fileType.html) {
                     path = "text!" + path + "!strip";
                     if (!file.path.hasExtension()) {
@@ -4930,9 +4947,9 @@ Bifrost.namespace("Bifrost.views", {
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
-            if (documentService.hasViewFile(element)) {
+            /*if (documentService.hasViewFile(element)) {
                 return;
-            }
+            }*/
 
             var uri = ko.utils.unwrapObservable(valueAccessor());
             documentService.setViewFileOn(element, uri);
