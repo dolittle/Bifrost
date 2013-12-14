@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</ProjectGuid>
+    <ProjectGuid>{3E1F0487-DF7D-40A1-9DAF-75A9FD5FCB59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.Ninject</RootNamespace>
