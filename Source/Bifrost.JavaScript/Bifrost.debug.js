@@ -5022,6 +5022,28 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
+        /// <field name="aggregatedCommandsFromOperations">Represents all commands from any operation in this region and any child regions</field>
+        this.aggregatedCommandsFromOperations = ko.computed(function () {
+            var commands = [];
+            self.operations.all().forEach(function (operationEntry) {
+                var state = operationEntry.state;
+                for (var property in state) {
+                    var value = state[property]
+                    if (value instanceof Bifrost.commands.Command) {
+                        commands.push(value);
+                    }
+                }
+            });
+
+            self.children().forEach(function (childRegion) {
+                childRegion.aggregatedCommandsFromOperations().forEach(function (command) {
+                    commands.push(command);
+                });
+            });
+
+            return commands;
+        });
+
         /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
