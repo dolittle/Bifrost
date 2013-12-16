@@ -159,10 +159,6 @@
       <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Web\Bifrost.Mimir.Web.csproj">
-      <Project>{94792675-44a2-4dd8-8cf2-1771787a097c}</Project>
-      <Name>Bifrost.Mimir.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
       <Project>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</Project>
       <Name>Bifrost.Ninject</Name>
@@ -199,6 +195,10 @@
       <Project>{0527B124-4719-4358-9214-83858E0353DB}</Project>
       <Name>Bifrost.Mimir.Read</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Mimir.Web\Bifrost.Mimir.Web.csproj">
+      <Project>{94792675-44A2-4DD8-8CF2-1771787A097C}</Project>
+      <Name>Bifrost.Mimir.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">9.0</VisualStudioVersion>
@@ -209,7 +209,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
-      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
@@ -231,7 +231,6 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
