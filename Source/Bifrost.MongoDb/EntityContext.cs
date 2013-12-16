@@ -18,6 +18,7 @@
 #endregion
 using System.Linq;
 using Bifrost.Entities;
+using Bifrost.Concepts;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
@@ -86,7 +87,11 @@ namespace Bifrost.MongoDB
 
         BsonValue GetObjectId<TProperty>(TProperty id)
         {
-            var idAsValue = BsonValue.Create(id);
+            object idValue = id;
+
+            if (id.IsConcept()) idValue = id.GetConceptValue();
+
+            var idAsValue = BsonValue.Create(idValue);
             return idAsValue;
         }
 
