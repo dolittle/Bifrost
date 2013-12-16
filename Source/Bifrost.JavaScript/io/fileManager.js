@@ -4,7 +4,13 @@
         var self = this;
 
         var uri = Bifrost.Uri.create(window.location.href);
-        this.origin = uri.scheme + "://" + uri.host + (uri.port == 80 ? "" : ":" + uri.port);
+
+        var port = uri.port || 80;
+        if (!Bifrost.isUndefined(port) && port != 80) {
+            port = ":"+port;
+        }
+
+        this.origin = uri.scheme + "://" + uri.host + port;
 
         function getActualFilename(filename) {
             var actualFilename = self.origin;
