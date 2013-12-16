@@ -1692,10 +1692,8 @@ Bifrost.namespace("Bifrost.io", {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
         var self = this;
 
-        this.origin = window.location.origin;
-        if (this.origin.lastIndexOf("/") == this.origin.length-1) {
-            this.origin = this.origin.substr(0, this.origin.length - 1);
-        }
+        var uri = Bifrost.Uri.create(window.location.href);
+        this.origin = uri.scheme + "://" + uri.host + (uri.port == 80 ? "" : ":" + uri.port);
 
         function getActualFilename(filename) {
             var actualFilename = self.origin;
