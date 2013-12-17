@@ -5,8 +5,8 @@
 
         var uri = Bifrost.Uri.create(window.location.href);
 
-        var port = uri.port || 80;
-        if (!Bifrost.isUndefined(port) && port != 80) {
+        var port = uri.port || "";
+        if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
             port = ":"+port;
         }
 
