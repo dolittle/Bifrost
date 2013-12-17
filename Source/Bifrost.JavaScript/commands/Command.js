@@ -39,6 +39,14 @@ Bifrost.namespace("Bifrost.commands", {
             }
             return self.populatedFromExternalSource();
         });
+        this.isReadyToExecute = ko.computed(function () {
+            if (self.isPopulatedExternally() == false) {
+                return true;
+            }
+
+            return self.hasChanges();
+        });
+        
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;

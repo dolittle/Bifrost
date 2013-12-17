@@ -32,6 +32,7 @@
         isAuthorized: ko.observable(false),
         canExecute: ko.observable(false),
         hasChanges: ko.observable(false),
+        isReadyToExecute: ko.observable(false),
         validators: ko.observableArray()
     };
 

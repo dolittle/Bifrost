@@ -1,4 +1,4 @@
-﻿describe("when command gets changes and changed back", function () {
+﻿describe("when command is ready to execute and then not", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -22,9 +22,9 @@
         operationsFactory,
         tasksFactory
     );
-    var hasChanges = false;
-    region.hasChanges.subscribe(function (newValue) {
-        hasChanges = newValue;
+    var isReadyToExecute = false;
+    region.areCommandsReadyToExecute.subscribe(function (newValue) {
+        isReadyToExecute = newValue;
     });
 
     var command = {
@@ -38,10 +38,10 @@
 
     region.commands.push(command);
 
-    command.hasChanges(true);
-    command.hasChanges(false);
+    command.isReadyToExecute(true);
+    command.isReadyToExecute(false);
 
-    it("should not have changes", function () {
-        expect(hasChanges).toBe(false);
+    it("should be ready to execute", function () {
+        expect(isReadyToExecute).toBe(false);
     });
 });

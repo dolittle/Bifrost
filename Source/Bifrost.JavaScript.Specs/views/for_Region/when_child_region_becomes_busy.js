@@ -30,11 +30,11 @@
         isComposing: ko.observable(false),
         isExecuting: ko.observable(false),
         validationMessages: ko.observableArray(),
-        aggregatedCommandsFromOperations: ko.observableArray(),
         aggregatedCommands: ko.observableArray(),
         canCommandsExecute: ko.observable(false),
         areCommandsAuthorized: ko.observable(false),
         commandsHaveChanges: ko.observable(false),
+        areCommandsReadyToExecute: ko.observable(false),
         hasChanges: ko.observable(false)
     };
 

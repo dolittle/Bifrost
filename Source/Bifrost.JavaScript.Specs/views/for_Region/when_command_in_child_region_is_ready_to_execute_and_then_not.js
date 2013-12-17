@@ -1,4 +1,4 @@
-﻿describe("when child region gets changes", function () {
+﻿describe("when command in child region is ready to execute and then not", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -22,10 +22,9 @@
         operationsFactory,
         tasksFactory
     );
-
-    var hasChanges = false;
-    region.hasChanges.subscribe(function (newValue) {
-        hasChanges = newValue;
+    var isReadyToExecute = false;
+    region.areCommandsReadyToExecute.subscribe(function (newValue) {
+        isReadyToExecute = newValue;
     });
 
     var childRegion = {
@@ -44,9 +43,10 @@
     };
 
     region.children.push(childRegion);
-    childRegion.commandsHaveChanges(true);
+    childRegion.areCommandsReadyToExecute(true);
+    childRegion.areCommandsReadyToExecute(false);
 
-    it("should have changes", function () {
-        expect(hasChanges).toBe(true);
+    it("should not be ready to execute", function () {
+        expect(isReadyToExecute).toBe(false);
     });
 });

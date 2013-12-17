@@ -36,6 +36,10 @@
     });
 
     it("should not have changes", function () {
-        //expect(command.hasChanges()).toBe(false);
+        expect(command.hasChanges()).toBe(false);
+    });
+
+    it("should be considered ready to execute", function () {
+        expect(command.isReadyToExecute()).toBe(true);
     });
 });

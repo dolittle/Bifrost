@@ -30,4 +30,8 @@
     it("should not be considered ready", function () {
         expect(command.isReady()).toBe(false);
     });
+
+    it("should not be considered ready to execute", function () {
+        expect(command.isReadyToExecute()).toBe(false);
+    });
 });

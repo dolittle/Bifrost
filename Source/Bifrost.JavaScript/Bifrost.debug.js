@@ -1694,8 +1694,8 @@ Bifrost.namespace("Bifrost.io", {
 
         var uri = Bifrost.Uri.create(window.location.href);
 
-        var port = uri.port || 80;
-        if (!Bifrost.isUndefined(port) && port != 80) {
+        var port = uri.port || "";
+        if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
             port = ":"+port;
         }
 
@@ -2906,6 +2906,14 @@ Bifrost.namespace("Bifrost.commands", {
             }
             return self.populatedFromExternalSource();
         });
+        this.isReadyToExecute = ko.computed(function () {
+            if (self.isPopulatedExternally() == false) {
+                return true;
+            }
+
+            return self.hasChanges();
+        });
+        
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
@@ -5022,28 +5030,6 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="children" type="Bifrost.views.Region[]">Child regions within this region</field>
         this.children = ko.observableArray();
 
-        /// <field name="aggregatedCommandsFromOperations">Represents all commands from any operation in this region and any child regions</field>
-        this.aggregatedCommandsFromOperations = ko.computed(function () {
-            var commands = [];
-            self.operations.all().forEach(function (operationEntry) {
-                var state = operationEntry.state;
-                for (var property in state) {
-                    var value = state[property]
-                    if (value instanceof Bifrost.commands.Command) {
-                        commands.push(value);
-                    }
-                }
-            });
-
-            self.children().forEach(function (childRegion) {
-                childRegion.aggregatedCommandsFromOperations().forEach(function (command) {
-                    commands.push(command);
-                });
-            });
-
-            return commands;
-        });
-
         /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
@@ -5115,6 +5101,9 @@ Bifrost.namespace("Bifrost.views", {
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands changed</field>
         this.commandsHaveChanges = thisOrChildCommandHasPropertySetToTrue("hasChanges", "commandsHaveChanges");
+
+        /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands ready to execute</field>
+        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {
