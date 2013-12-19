@@ -63,21 +63,34 @@ namespace Bifrost.Web.Read
             return null;
         }
 
-
         Expression GetPropertyEqualsExpression(Type type, string propertyName, object value)
         {
             var parameter = Expression.Parameter(type, "o");
             MemberExpression propertyExpression;
+
+            Type targetValueType;
 
             var property = type.GetProperty(propertyName);
             if (property != null && property.PropertyType.IsConcept())
             {
                 var outerMemberAccess = Expression.MakeMemberAccess(parameter, property);
                 propertyExpression = Expression.Property(outerMemberAccess, "Value");
+
+                targetValueType = property.PropertyType.GetConceptValueType();
             }
             else
+            {
                 propertyExpression = Expression.Property(parameter, propertyName);
-            
+                targetValueType = property.PropertyType;
+            }
+
+            if (value.GetType() != targetValueType)
+            {
+                if (targetValueType == typeof(Guid))
+                    value = Guid.Parse(value.ToString());
+                else 
+                    value = Convert.ChangeType(value, targetValueType);
+            }
 
             var body = Expression.Equal(
                             propertyExpression,
