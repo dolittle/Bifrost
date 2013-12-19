@@ -1,4 +1,4 @@
-﻿describe("when command in child region can execute", function () {
+﻿describe("when_first_command_can_execute_and_second_can_not", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -27,23 +27,7 @@
         canExecute = newValue;
     });
 
-    var childRegion = {
-        isLoading: ko.observable(false),
-        isBusy: ko.observable(false),
-        isValid: ko.observable(false),
-        isComposing: ko.observable(false),
-        isExecuting: ko.observable(false),
-        validationMessages: ko.observableArray(),
-        aggregatedCommands: ko.observableArray(),
-        canCommandsExecute: ko.observable(false),
-        areCommandsAuthorized: ko.observable(false),
-        commandsHaveChanges: ko.observable(false),
-        areCommandsReadyToExecute: ko.observable(false),
-        hasChanges: ko.observable(false),
-        commands: ko.observableArray()
-    };
-
-    var command = {
+    var firstCommand = {
         isValid: ko.observable(false),
         isAuthorized: ko.observable(false),
         canExecute: ko.observable(false),
@@ -51,13 +35,21 @@
         isReadyToExecute: ko.observable(false),
         validators: ko.observableArray()
     };
-    childRegion.commands.push(command);
+    region.commands.push(firstCommand);
+    firstCommand.canExecute(true);
 
-    command.canExecute(true);
+    var secondCommand = {
+        isValid: ko.observable(false),
+        isAuthorized: ko.observable(false),
+        canExecute: ko.observable(false),
+        hasChanges: ko.observable(false),
+        isReadyToExecute: ko.observable(false),
+        validators: ko.observableArray()
+    };
+    region.commands.push(secondCommand);
+    secondCommand.canExecute(false);
 
-    region.children.push(childRegion);
-
-    it("should be able to execute", function () {
-        expect(canExecute).toBe(true);
+    it("should be not able to execute", function () {
+        expect(canExecute).toBe(false);
     });
 });

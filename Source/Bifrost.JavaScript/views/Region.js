@@ -62,24 +62,52 @@
             });
         }
 
-        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName) {
+        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName, breakIfThisHasNoCommands) {
             return ko.computed(function () {
-                isSet = false;
+                var isSet = true;
+
+                var commands = self.aggregatedCommands();
+                if (breakIfThisHasNoCommands === true) {
+                    if (commands.length == 0) return false;
+                }
+
+                commands.forEach(function (command) {
+                    if (command[commandPropertyName]() === false) {
+                        isSet = false;
+                        return;
+                    }
+                });
+
+                return isSet;
+            });
+        }
+
+        function thisOrChildCommandHasPropertySetToFalse(commandPropertyName, regionPropertyName) {
+            return ko.computed(function () {
+                var commands = self.commands();
+                var isSet = false;                
 
                 if (!regionPropertyName) {
                     regionPropertyName = commandPropertyName;
                 }
 
-                self.children().forEach(function (childRegion) {
+                var children = self.children();
+                children.forEach(function (childRegion) {
                     if (childRegion[regionPropertyName]() === true) {
                         isSet = true;
+                        
                         return;
                     }
                 });
 
-                self.commands().forEach(function (command) {
+                
+
+                if (children.length > 0) return isSet;
+
+                commands.forEach(function (command) {
                     if (command[commandPropertyName]() === true) {
                         isSet = true;
+                        return;
                     }
                 });
 
@@ -91,16 +119,16 @@
         this.isValid = thisOrChildCommandHasPropertySetToTrue("isValid");
 
         /// <field name="canCommandsExecute" type="observable">Indicates wether or not region or any of its child regions can execute their commands</field>
-        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute");
+        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands authorized</field>
         this.areCommandsAuthorized = thisOrChildCommandHasPropertySetToTrue("isAuthorized", "areCommandsAuthorized");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands changed</field>
-        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToTrue("hasChanges", "commandsHaveChanges");
+        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToFalse("hasChanges", "commandsHaveChanges");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands ready to execute</field>
-        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute");
+        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {

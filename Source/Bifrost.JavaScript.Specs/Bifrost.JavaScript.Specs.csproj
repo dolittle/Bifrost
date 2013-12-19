@@ -433,6 +433,13 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_there_are_no_commands.js" />
+    <Content Include="views\for_Region\when_first_command_is_valid_and_second_is_not.js" />
+    <Content Include="views\for_Region\when_command_is_valid_and_then_not.js" />
+    <Content Include="views\for_Region\when_command_is_valid.js" />
+    <Content Include="views\for_Region\when_first_command_gets_change_and_second_has_not.js" />
+    <Content Include="views\for_Region\when_first_command_is_ready_to_execute_and_second_is_not.js" />
+    <Content Include="views\for_Region\when_first_command_can_execute_and_second_can_not.js" />
     <Content Include="views\for_Region\when_command_in_child_region_is_ready_to_execute_and_then_not.js" />
     <Content Include="views\for_Region\when_command_in_child_region_is_ready_to_execute.js" />
     <Content Include="views\for_Region\when_command_is_ready_to_execute_and_then_not.js" />

@@ -3361,9 +3361,12 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.interaction", {
-    Operation: Bifrost.Type.extend(function (region) {
+    Operation: Bifrost.Type.extend(function (region, context) {
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
+
+        /// <field name="context" type="Bifrost.interaction.Operation">Context in which the operation exists in</field>
+        this.context = context;
 
         /// <field name="identifier" type="Bifrost.Guid">Unique identifier for the operation instance<field>
         this.identifier = Bifrost.Guid.empty;
@@ -3374,16 +3377,14 @@ Bifrost.namespace("Bifrost.interaction", {
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
         this.canPerform = ko.observable(true);
         
-        this.perform = function (context) {
+        this.perform = function () {
             /// <summary>Function that gets called when an operation gets performed</summary>
-            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being performed within</param>
             /// <returns>State change, if any - typically helpful when undoing</returns>
             return {};
         };
 
-        this.undo = function (context, state) {
+        this.undo = function (state) {
             /// <summary>Function that gets called when an operation gets undoed</summary>
-            /// <param name="context" type="Bifrost.interaction.OperationContext">The context the operation is being undoed within</param>
             /// <param name="state" type="object">State generated when the operation was performed</param>
         };
     })
@@ -3396,12 +3397,9 @@ Bifrost.namespace("Bifrost.interaction", {
     })
 });
 Bifrost.namespace("Bifrost.interaction", {
-    OperationEntry: Bifrost.Type.extend(function (context, operation, state) {
+    OperationEntry: Bifrost.Type.extend(function (operation, state) {
         /// <summary>Represents an entry for an operation in a specific context with resulting state</summary>
         var self = this;
-
-        /// <field name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</field>
-        this.context = context;
 
         /// <field name="operation" type="Bifrost.interaction.Operation">Operation that was performed</field>
         this.operation = operation;
@@ -3415,7 +3413,7 @@ Bifrost.namespace("Bifrost.interaction", {
         /// <summary>Represents a factory that can create OperationEntries</summary>
         var self = this;
 
-        this.create = function (context, operation, state) {
+        this.create = function (operation, state) {
             /// <sumary>Create an instance of a OperationEntry</summary>
             /// <param name="context" type="Bifrost.interaction.OperationContext">Context the operation was performed in</param>
             /// <param name="operation" type="Bifrost.interaction.Operation">Operation that was performed</param>
@@ -3423,7 +3421,6 @@ Bifrost.namespace("Bifrost.interaction", {
             /// <returns>An OperationEntry</returns>
             
             var instance = Bifrost.interaction.OperationEntry.create({
-                context: context,
                 operation: operation,
                 state: state
             });
@@ -3455,14 +3452,14 @@ Bifrost.namespace("Bifrost.interaction", {
             return found;
         };
 
-        this.perform = function (context, operation) {
+        this.perform = function (operation) {
             /// <summary>Perform an operation in a given context</summary>
             /// <param name="context" type="Bifrost.interaction.OperationContext">Context in which the operation is being performed in</param>
             /// <param name="operation" type="Bifrost.interaction.Operation">Operation to perform</param>
 
             if (operation.canPerform() === true) {
-                var state = operation.perform(context);
-                var entry = operationEntryFactory.create(context, operation, state);
+                var state = operation.perform();
+                var entry = operationEntryFactory.create(operation, state);
                 self.all.push(entry);
             }
         };
@@ -5065,24 +5062,52 @@ Bifrost.namespace("Bifrost.views", {
             });
         }
 
-        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName) {
+        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName, breakIfThisHasNoCommands) {
             return ko.computed(function () {
-                isSet = false;
+                var isSet = true;
+
+                var commands = self.aggregatedCommands();
+                if (breakIfThisHasNoCommands === true) {
+                    if (commands.length == 0) return false;
+                }
+
+                commands.forEach(function (command) {
+                    if (command[commandPropertyName]() === false) {
+                        isSet = false;
+                        return;
+                    }
+                });
+
+                return isSet;
+            });
+        }
+
+        function thisOrChildCommandHasPropertySetToFalse(commandPropertyName, regionPropertyName) {
+            return ko.computed(function () {
+                var commands = self.commands();
+                var isSet = false;                
 
                 if (!regionPropertyName) {
                     regionPropertyName = commandPropertyName;
                 }
 
-                self.children().forEach(function (childRegion) {
+                var children = self.children();
+                children.forEach(function (childRegion) {
                     if (childRegion[regionPropertyName]() === true) {
                         isSet = true;
+                        
                         return;
                     }
                 });
 
-                self.commands().forEach(function (command) {
+                
+
+                if (children.length > 0) return isSet;
+
+                commands.forEach(function (command) {
                     if (command[commandPropertyName]() === true) {
                         isSet = true;
+                        return;
                     }
                 });
 
@@ -5094,16 +5119,16 @@ Bifrost.namespace("Bifrost.views", {
         this.isValid = thisOrChildCommandHasPropertySetToTrue("isValid");
 
         /// <field name="canCommandsExecute" type="observable">Indicates wether or not region or any of its child regions can execute their commands</field>
-        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute");
+        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands authorized</field>
         this.areCommandsAuthorized = thisOrChildCommandHasPropertySetToTrue("isAuthorized", "areCommandsAuthorized");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands changed</field>
-        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToTrue("hasChanges", "commandsHaveChanges");
+        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToFalse("hasChanges", "commandsHaveChanges");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands ready to execute</field>
-        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute");
+        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {
