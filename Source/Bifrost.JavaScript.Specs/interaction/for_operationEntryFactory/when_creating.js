@@ -5,10 +5,6 @@
         something: 42
     };
 
-    var operationContext = {
-        someContext: 43
-    };
-
     var operation = {
         someOperation: 44
     };
@@ -19,7 +15,6 @@
 
     var operationEntryType = {
         create: sinon.mock().withArgs({
-            context: operationContext,
             operation: operation,
             state: operationState
         }).returns(operationEntry)
@@ -32,7 +27,7 @@
         Bifrost.interaction.OperationEntry = operationEntryType;
 
         var factory = Bifrost.interaction.operationEntryFactory.create();
-        instance = factory.create(operationContext, operation, operationState);
+        instance = factory.create(operation, operationState);
     });
 
     afterEach(function () {

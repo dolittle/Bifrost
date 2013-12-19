@@ -10,7 +10,7 @@
 
     var operation = {
         canPerform: ko.observable(true),
-        perform: sinon.mock().withArgs(context).returns(state)
+        perform: sinon.mock().returns(state)
     };
 
     var entry = {
@@ -20,14 +20,14 @@
     };
 
     var operationEntryFactory = {
-        create: sinon.mock().withArgs(context, operation, state).returns(entry)
+        create: sinon.mock().withArgs(operation, state).returns(entry)
     };
 
     var operations = Bifrost.interaction.Operations.create({
         operationEntryFactory: operationEntryFactory
     });
 
-    operations.perform(context, operation);
+    operations.perform(operation);
 
     it("should perform the operation", function () {
         expect(operation.perform.called).toBe(true);

@@ -8,7 +8,7 @@
         operationEntryFactory: {}
     });
 
-    operations.perform({}, operation);
+    operations.perform(operation);
 
     it("should not perform the operation", function () {
         expect(operation.perform.called).toBe(false);
