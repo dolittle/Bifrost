@@ -46,4 +46,5 @@ Harnesses:
         - Bifrost.JavaScript/tasks/Task.js
         - Bifrost.JavaScript/tasks/LoadTask.js
         - Bifrost.JavaScript/tasks/ExecutionTask.js		
-        - Bifrost.JavaScript/views/ComposeTask.js		
+        - Bifrost.JavaScript/views/ComposeTask.js
+        - Bifrost.JavaScript/interaction/Operation.js
