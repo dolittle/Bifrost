@@ -4,27 +4,32 @@
 
         this.commandSecurityContextFactory = commandSecurityContextFactory;
 
-        function getSecurityContextNameFor(command) {
-            var securityContextName = command._type._name + "SecurityContext";
+        function getTypeNameFor(command) {
+            return command._type._name;
+        }
+
+        function getSecurityContextNameFor(type) {
+            var securityContextName = type + "SecurityContext";
             return securityContextName;
         }
 
 
-        function hasSecurityContextInNamespaceFor(command) {
-            var securityContextName = getSecurityContextNameFor(command);
-            return command._type._namespace.hasOwnProperty(securityContextName);
+        function hasSecurityContextInNamespaceFor(type, namespace) {
+            var securityContextName = getSecurityContextNameFor(type);
+            return namespace.hasOwnProperty(securityContextName);
         }
 
-        function getSecurityContextInNamespaceFor(command) {
-            var securityContextName = getSecurityContextNameFor(command);
-            return command._type._namespace[securityContextName];
+        function getSecurityContextInNamespaceFor(type, namespace) {
+            var securityContextName = getSecurityContextNameFor(type, namespace);
+            return namespace[securityContextName];
         }
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( hasSecurityContextInNamespaceFor(command) ) {
-                var contextType = getSecurityContextInNamespaceFor(command);
+            var type = getTypeNameFor(command);
+            if (hasSecurityContextInNamespaceFor(type, command._type._namespace)) {
+                var contextType = getSecurityContextInNamespaceFor(type, command._type._namespace);
                 var context = contextType.create();
                 promise.signal(context);
             } else {
@@ -42,5 +47,12 @@
 
             return promise;
         };
+
+        this.getContextForType = function (commandType) {
+            var command = commandType.create({ region: { commands: [] } });
+            var context = self.getContextFor(command);
+            return context;
+        };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.commandSecurityService = Bifrost.commands.commandSecurityService;
