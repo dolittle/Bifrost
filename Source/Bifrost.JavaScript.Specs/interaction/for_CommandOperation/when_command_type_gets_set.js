@@ -6,7 +6,11 @@
     };
 
     var commandSecurityService = {
-        getContextForType: sinon.stub().returns(securityContext)
+        getContextForType: sinon.stub().returns({
+            continueWith: function (callback) {
+                callback(securityContext);
+            }
+        })
     };
 
     var region = {};

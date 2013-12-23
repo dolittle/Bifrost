@@ -6,12 +6,13 @@
         /// <field name="commandType" type="Bifrost.Type">Type of command to create</field>
         this.commandType = ko.observable();
 
+        this.canPerform(false);
+
         this.commandType.subscribe(function (type) {
-            var context = commandSecurityService.getContextForType(type);
-            self.canPerform(context.isAuthorized())
-
+            commandSecurityService.getContextForType(type).continueWith(function (context) {
+                if (!Bifrost.isNullOrUndefined(context)) self.canPerform(context.isAuthorized());
+            });
         });
-
 
         this.createCommandOfType = function (commandType) {
             /// <summary>Create an instance of a given command type</summary>
