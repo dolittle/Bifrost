@@ -84,26 +84,9 @@
 
         function thisOrChildCommandHasPropertySetToFalse(commandPropertyName, regionPropertyName) {
             return ko.computed(function () {
-                var commands = self.commands();
-                var isSet = false;                
+                var isSet = false;
 
-                if (!regionPropertyName) {
-                    regionPropertyName = commandPropertyName;
-                }
-
-                var children = self.children();
-                children.forEach(function (childRegion) {
-                    if (childRegion[regionPropertyName]() === true) {
-                        isSet = true;
-                        
-                        return;
-                    }
-                });
-
-                
-
-                if (children.length > 0) return isSet;
-
+                var commands = self.aggregatedCommands();
                 commands.forEach(function (command) {
                     if (command[commandPropertyName]() === true) {
                         isSet = true;
@@ -148,14 +131,7 @@
         this.validationMessages = ko.computed(function () {
             var messages = [];
 
-            self.children().forEach(function (childRegion) {
-                if (childRegion.isValid() === false) {
-                    childRegion.validationMessages().forEach(function (message) {
-                        messages.push(message);
-                    });
-                }
-            });
-
+            var commands = self.aggregatedCommands();
             self.commands().forEach(function (command) {
                 if (command.isValid() === false) {
                     command.validators().forEach(function (validator) {
