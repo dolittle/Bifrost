@@ -37,7 +37,7 @@ Bifrost.Uri = (function(window, undefined) {
 		var self = this;
 		this.setLocation = function(location) {
 			self.fullPath = location;
-			location = location.replace("#","/");
+			location = location.replace("#!","/");
 		
 			var result = parseUri(location);
 		
@@ -53,6 +53,7 @@ Bifrost.Uri = (function(window, undefined) {
 			self.queryString = result.query;
 			self.port = parseInt(result.port);
 			self.parameters = Bifrost.hashString.decode(result.query);
+			self.parameters = Bifrost.extend(Bifrost.hashString.decode(result.anchor), self.parameters);
 			
 			self.isSameAsOrigin = (window.location.protocol == result.protocol+":" &&
 				window.location.hostname == self.host); 
