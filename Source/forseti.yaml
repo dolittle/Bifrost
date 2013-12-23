@@ -27,6 +27,7 @@ Harnesses:
         - Bifrost.JavaScript/utils/isNull.js
         - Bifrost.JavaScript/utils/isString.js
         - Bifrost.JavaScript/utils/isUndefined.js
+        - Bifrost.JavaScript/utils/isNullOrUndefined.js
         - Bifrost.JavaScript/utils/isFunction.js
         - Bifrost.JavaScript/utils/functionParser.js
         - Bifrost.JavaScript/utils/dependencyResolver.js
