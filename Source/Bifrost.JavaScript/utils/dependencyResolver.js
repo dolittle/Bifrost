@@ -70,7 +70,7 @@ Bifrost.namespace("Bifrost", {
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                    console.log("Unable to resolve '" + name + "'");
+                    console.log("Unable to resolve '" + name + "' in '"+namespace+"'");
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
@@ -87,7 +87,7 @@ Bifrost.namespace("Bifrost", {
                 Bifrost.configure.ready(function () {
                     var resolvedSystem = resolveImplementation(namespace, name);
                     if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                        console.log("Unable to resolve '" + name + "'");
+                        console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
                         promise.fail(new Bifrost.UnresolvedDependencies());
                     }
 
