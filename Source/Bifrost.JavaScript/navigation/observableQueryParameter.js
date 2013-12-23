@@ -21,32 +21,38 @@
                         observable(self.getState());
                     }
                 });
+            } else {
+                window.addEventListener("hashchange", function () {
+                    if (observable != null) {
+                        observable(self.getState());
+                    }
+                }, false);
             }
+
 
             observable = ko.observable(self.getState() || defaultValue);
 
-            observable.subscribe(function (newValue) {
-                var state = History.getState();
-                state[parameterName] = newValue;
+            if (historyEnabled) {
+                observable.subscribe(function (newValue) {
+                    var state = History.getState();
+                    state[parameterName] = newValue;
 
-                var parameters = Bifrost.hashString.decode(state.url);
-                parameters[parameterName] = newValue;
+                    var parameters = Bifrost.hashString.decode(state.url);
+                    parameters[parameterName] = newValue;
 
-
-                var url = "?";
-                var parameterIndex = 0;
-                for (var parameter in parameters) {
-                    if (parameterIndex > 0) {
-                        url += "&";
+                    var url = "?";
+                    var parameterIndex = 0;
+                    for (var parameter in parameters) {
+                        if (parameterIndex > 0) {
+                            url += "&";
+                        }
+                        url += parameter + "=" + parameters[parameter];
+                        parameterIndex++;
                     }
-                    url += parameter + "=" + parameters[parameter];
-                    parameterIndex++;
-                }
 
-                if (historyEnabled) {
                     History.pushState(state, state.title, url);
-                }
-            });
+                });
+            }
 
             return observable;
         }
