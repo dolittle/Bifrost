@@ -1651,6 +1651,27 @@ Bifrost.namespace("Bifrost", {
         };
     })
 });
+Bifrost.namespace("Bifrost", {
+    Event: Bifrost.Type.extend(function () {
+        var subscribers = [];
+
+        this.subscribe = function (subscriber) {
+            subscribers.push(subscriber);
+        };
+
+        this.trigger = function (data) {
+            subscribers.forEach(function (subscriber) {
+                subscriber(data);
+            });
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
+    systemEvents: Bifrost.Singleton(function () {
+        this.readModels = Bifrost.read.readModelSystemEvents.create();
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.systemEvents = Bifrost.systemEvents;
 Bifrost.namespace("Bifrost.io", {
     fileType: {
         unknown: 0,
@@ -3581,6 +3602,11 @@ Bifrost.namespace("Bifrost.interaction", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
+    readModelSystemEvents: Bifrost.Singleton(function () {
+        this.noInstance = Bifrost.Event.create();
+    })
+});
+Bifrost.namespace("Bifrost.read", {
 	readModelMapper : Bifrost.Type.extend(function () {
 		"use strict";
 		var self = this;
@@ -3856,7 +3882,7 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
-	ReadModelOf: Bifrost.Type.extend(function(region, readModelMapper, taskFactory) {
+    ReadModelOf: Bifrost.Type.extend(function (region, readModelMapper, taskFactory, readModelSystemEvents) {
 	    var self = this;
 	    this.name = "";
 	    this.generatedFrom = "";
@@ -3880,6 +3906,8 @@ Bifrost.namespace("Bifrost.read", {
 	            if (!Bifrost.isNullOrUndefined(data)) {
 	                var mappedReadModel = readModelMapper.mapDataToReadModel(target.readModelType, data);
 	                self.instance(mappedReadModel);
+	            } else {
+	                readModelSystemEvents.noInstance.trigger(target);
 	            }
 	        });
 	    }

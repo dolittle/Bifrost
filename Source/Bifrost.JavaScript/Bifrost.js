@@ -41,6 +41,8 @@
 @depends utils/uriMappers.js
 @depends utils/server.js
 @depends utils/systemClock.js
+@depends Event.js
+@depends systemEvents.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js
@@ -96,6 +98,7 @@
 @depends interaction/Action.js
 @depends interaction/Trigger.js
 @depends interaction/EventTrigger.js
+@depends read/readModelSystemEvents.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js

@@ -170,8 +170,10 @@
                             });
 
 
-                            if( !documentService.pageHasViewModel(self.masterViewModel) ) {
+                            if (!documentService.pageHasViewModel(self.masterViewModel)) {
                                 ko.applyBindings(self.masterViewModel);
+                            } else {
+                                ko.applyBindings(instance, element);
                             }
                         }
                     });

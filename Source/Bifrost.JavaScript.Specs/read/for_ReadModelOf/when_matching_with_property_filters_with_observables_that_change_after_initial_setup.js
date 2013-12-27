@@ -27,7 +27,8 @@
     var readModelOf = Bifrost.read.ReadModelOf.create({
         readModelMapper: readModelMapper,
         region: region,
-        taskFactory: taskFactory
+        taskFactory: taskFactory,
+        readModelSystemEvents: {}
     });
     readModelOf.instance = sinon.stub();
 

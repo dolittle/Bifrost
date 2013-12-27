@@ -3,7 +3,8 @@
     var readModelOf = Bifrost.read.ReadModelOf.create({
         readModelMapper: {},
         region: {},
-        taskFactory: {}
+        taskFactory: {},
+        readModelSystemEvents: {}
     });
 
     var command = {

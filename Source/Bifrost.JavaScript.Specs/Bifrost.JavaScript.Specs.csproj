@@ -184,6 +184,7 @@
     <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_string_property.js" />
     <Content Include="read\for_readModelMapper\when_mapping_object_with_objectproperty_with_mismatching_type.js" />
     <Content Include="read\for_readModelMapper\when_mapping_property_with_property_with_mismatching_type.js" />
+    <Content Include="read\for_ReadModelOf\when_loading_and_instance_is_null.js" />
     <Content Include="read\for_ReadModelOf\when_matching_with_property_filters_with_observables_that_change_after_initial_setup.js" />
     <Content Include="read\for_ReadModelOf\when_matching_with_property_filters.js" />
     <Content Include="read\for_ReadModelOf\when_instance_changes_and_command_is_linked.js" />
@@ -477,6 +478,7 @@
     <Content Include="views\for_View\when_loading_and_content_has_no_view_model_reference.js" />
     <Content Include="views\for_View\when_loading_and_content_has_view_model_reference.js" />
     <Content Include="views\for_View\when_loading.js" />
+    <Content Include="for_Event\when_triggering_event_with_two_subscribers.js" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
