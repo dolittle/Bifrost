@@ -64,6 +64,7 @@
     <Content Include="io\fileFactory.js" />
     <Content Include="io\fileManager.js" />
     <Content Include="io\fileType.js" />
+    <Content Include="read\ReadModelTask.js" />
     <Content Include="tasks\TaskHistoryEntry.js" />
     <Content Include="utils\isNullOrUndefined.js" />
     <Content Include="views\ComposeTask.js" />

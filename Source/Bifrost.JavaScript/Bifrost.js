@@ -103,6 +103,7 @@
 @depends read/Query.js
 @depends read/ReadModel.js
 @depends read/ReadModelOf.js
+@depends read/ReadModelTask.js
 @depends read/readModelOfDependencyResolver.js
 @depends read/queryDependencyResolver.js
 @depends read/QueryTask.js

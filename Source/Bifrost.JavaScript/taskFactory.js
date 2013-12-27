@@ -26,6 +26,14 @@
             return task;
         };
 
+        this.createReadModel = function (readModelOf, propertyFilters) {
+            var task = Bifrost.read.ReadModelTask.create({
+                readModelOf: readModelOf,
+                propertyFilters: propertyFilters
+            });
+            return task;
+        };
+
         this.createHandleCommand = function (command) {
             var task = Bifrost.commands.HandleCommandTask.create({
                 command: command
