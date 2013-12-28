@@ -104,7 +104,7 @@
 @depends interaction/VisualStateTransition.js
 @depends interaction/VisualStateTransitionAction.js
 @depends read/readModelSystemEvents.js
-@depends read/readModelMapper.js
+x@depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
 @depends read/queryableFactory.js
