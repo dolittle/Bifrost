@@ -1,0 +1,48 @@
+<html>
+
+<head>
+	<script src="Libraries/jquery-1.7.1.min.js"></script>
+	<script src="Libraries/knockout-2.2.1.js"></script>
+	<script src="Libraries/require.js"></script>
+	<script src="Bifrost.debug.js" type="text/javascript"></script>
+	<script>
+	
+		function htmlTree(obj){
+	    	var obj = obj || document.getElementsByTagName('body')[0];
+	    	var str = "<ul><li>" + obj.tagName;
+	    	if (obj.hasChildNodes()) {
+	      		var child = obj.firstChild;
+	      		while (child) {
+	        		if (child.nodeType === 1) {
+	          			str += htmlTree(child)
+	        		}
+	        		child = child.nextSibling;
+	      		}
+	    	}
+	    	str += "</li></ul>";
+	    	return str;
+	  	}
+		
+		$(function() {
+			document.write(htmlTree());	
+		});
+	
+	</script>
+</head>
+
+<body>
+	<div>
+		<VisualStateManager>
+			<VisualStateGroup>
+				<VisualState name="firstState">
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup>
+				<VisualState name="firstState">
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager>
+	</div>
+
+</body>
+</html>
