@@ -63,6 +63,10 @@ Bifrost.namespace("Bifrost.interaction", {
 			/// <parameter name="stateName" type="String">Name of the state to go to</parameter>
 			var state = self.getStateByName(stateName);
 			if( !Bifrost.isNullOrUndefined(state) ) {
+				var currentState = self.currentState();
+				if( !Bifrost.isNullOrUndefined(currentState) ) {
+					currentState.exit(self.defaultDuration);
+				}
 				self.currentState(state);
 				state.enter(self.defaultDuration);
 			}
