@@ -3,6 +3,7 @@ Bifrost.namespace("Bifrost.interaction", {
 		var self = this;
 
 		this.groups = ko.observableArray();
+		this.currentState = ko.observable();
 
 		this.addGroup = function(group) {
 			self.groups.push(group);

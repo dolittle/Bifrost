@@ -100,8 +100,8 @@
 @depends interaction/VisualState.js
 @depends interaction/VisualStateGroup.js
 @depends interaction/VisualStateManager.js
-@depends interaction/VisualTransition.js
 @depends interaction/VisualStateTransition.js
+@depends interaction/VisualStateTransitionAction.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
