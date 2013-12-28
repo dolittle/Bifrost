@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.read", {
-	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
+    ReadModelOf: Bifrost.Type.extend(function (region, readModelMapper, taskFactory, readModelSystemEvents) {
 	    var self = this;
 	    this.name = "";
 	    this.generatedFrom = "";
@@ -7,28 +7,41 @@ Bifrost.namespace("Bifrost.read", {
 	    this.readModelType = Bifrost.Type.extend(function () { });
 	    this.instance = ko.observable();
 	    this.commandToPopulate = null;
+	    this.region = region;
 
-		this.instanceMatching = function (propertyFilters) {
-		    var methodParameters = {
-		        descriptor: JSON.stringify({
-		            readModel: self.target.name,
-                    generatedFrom: self.target.generatedFrom,
-		            propertyFilters: propertyFilters
-		        })
-		    };
+	    function unwrapPropertyFilters(propertyFilters) {
+	        var unwrappedPropertyFilters = {};
+	        for (var property in propertyFilters) {
+	            unwrappedPropertyFilters[property] = ko.utils.unwrapObservable(propertyFilters[property]);
+	        }
+	        return unwrappedPropertyFilters;
+	    }
 
-		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.generatedFrom,
-		        type: 'POST',
-		        dataType: 'json',
-		        data: JSON.stringify(methodParameters),
-		        contentType: 'application/json; charset=utf-8',
-		        complete: function (result) {
-		            var item = $.parseJSON(result.responseText);
-					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
-		            self.instance(mappedReadModel);
-		        }
-		    });
+	    function performLoad(target, propertyFilters) {
+	        var task = taskFactory.createReadModel(target, propertyFilters);
+	        target.region.tasks.execute(task).continueWith(function (data) {
+	            if (!Bifrost.isNullOrUndefined(data)) {
+	                var mappedReadModel = readModelMapper.mapDataToReadModel(target.readModelType, data);
+	                self.instance(mappedReadModel);
+	            } else {
+	                readModelSystemEvents.noInstance.trigger(target);
+	            }
+	        });
+	    }
+
+	    this.instanceMatching = function (propertyFilters) {
+	        var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
+	        performLoad(self.target, unwrappedPropertyFilters);
+
+	        for (var property in propertyFilters) {
+	            var value = propertyFilters[property];
+	            if (ko.isObservable(value)) {
+	                value.subscribe(function () {
+	                    var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
+	                    performLoad(self.target, unwrappedPropertyFilters);
+	                })
+	            }
+	        }
 		};
 
 		this.populateCommandOnChanges = function (command) {

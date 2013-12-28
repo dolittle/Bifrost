@@ -417,7 +417,7 @@ Bifrost.namespace("Bifrost", {
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                    console.log("Unable to resolve '" + name + "'");
+                    console.log("Unable to resolve '" + name + "' in '"+namespace+"'");
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
@@ -434,7 +434,7 @@ Bifrost.namespace("Bifrost", {
                 Bifrost.configure.ready(function () {
                     var resolvedSystem = resolveImplementation(namespace, name);
                     if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                        console.log("Unable to resolve '" + name + "'");
+                        console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
                         promise.fail(new Bifrost.UnresolvedDependencies());
                     }
 
@@ -1317,7 +1317,7 @@ Bifrost.Uri = (function(window, undefined) {
 		var self = this;
 		this.setLocation = function(location) {
 			self.fullPath = location;
-			location = location.replace("#","/");
+			location = location.replace("#!","/");
 		
 			var result = parseUri(location);
 		
@@ -1333,6 +1333,7 @@ Bifrost.Uri = (function(window, undefined) {
 			self.queryString = result.query;
 			self.port = parseInt(result.port);
 			self.parameters = Bifrost.hashString.decode(result.query);
+			self.parameters = Bifrost.extend(Bifrost.hashString.decode(result.anchor), self.parameters);
 			
 			self.isSameAsOrigin = (window.location.protocol == result.protocol+":" &&
 				window.location.hostname == self.host); 
@@ -1650,6 +1651,27 @@ Bifrost.namespace("Bifrost", {
         };
     })
 });
+Bifrost.namespace("Bifrost", {
+    Event: Bifrost.Type.extend(function () {
+        var subscribers = [];
+
+        this.subscribe = function (subscriber) {
+            subscribers.push(subscriber);
+        };
+
+        this.trigger = function (data) {
+            subscribers.forEach(function (subscriber) {
+                subscriber(data);
+            });
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
+    systemEvents: Bifrost.Singleton(function () {
+        this.readModels = Bifrost.read.readModelSystemEvents.create();
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.systemEvents = Bifrost.systemEvents;
 Bifrost.namespace("Bifrost.io", {
     fileType: {
         unknown: 0,
@@ -2001,6 +2023,14 @@ Bifrost.namespace("Bifrost", {
             var task = Bifrost.read.QueryTask.create({
                 query: query,
                 paging: paging
+            });
+            return task;
+        };
+
+        this.createReadModel = function (readModelOf, propertyFilters) {
+            var task = Bifrost.read.ReadModelTask.create({
+                readModelOf: readModelOf,
+                propertyFilters: propertyFilters
             });
             return task;
         };
@@ -3286,27 +3316,32 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.commandSecurityContextFactory = commandSecurityContextFactory;
 
-        function getSecurityContextNameFor(command) {
-            var securityContextName = command._type._name + "SecurityContext";
+        function getTypeNameFor(command) {
+            return command._type._name;
+        }
+
+        function getSecurityContextNameFor(type) {
+            var securityContextName = type + "SecurityContext";
             return securityContextName;
         }
 
 
-        function hasSecurityContextInNamespaceFor(command) {
-            var securityContextName = getSecurityContextNameFor(command);
-            return command._type._namespace.hasOwnProperty(securityContextName);
+        function hasSecurityContextInNamespaceFor(type, namespace) {
+            var securityContextName = getSecurityContextNameFor(type);
+            return namespace.hasOwnProperty(securityContextName);
         }
 
-        function getSecurityContextInNamespaceFor(command) {
-            var securityContextName = getSecurityContextNameFor(command);
-            return command._type._namespace[securityContextName];
+        function getSecurityContextInNamespaceFor(type, namespace) {
+            var securityContextName = getSecurityContextNameFor(type, namespace);
+            return namespace[securityContextName];
         }
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
 
-            if( hasSecurityContextInNamespaceFor(command) ) {
-                var contextType = getSecurityContextInNamespaceFor(command);
+            var type = getTypeNameFor(command);
+            if (hasSecurityContextInNamespaceFor(type, command._type._namespace)) {
+                var contextType = getSecurityContextInNamespaceFor(type, command._type._namespace);
                 var context = contextType.create();
                 promise.signal(context);
             } else {
@@ -3324,8 +3359,15 @@ Bifrost.namespace("Bifrost.commands", {
 
             return promise;
         };
+
+        this.getContextForType = function (commandType) {
+            var command = commandType.create({ region: { commands: [] } });
+            var context = self.getContextFor(command);
+            return context;
+        };
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.commandSecurityService = Bifrost.commands.commandSecurityService;
 if (typeof ko !== 'undefined') {
     ko.extenders.hasChanges = function (target, options) {
         target._initialValueSet = false;
@@ -3481,12 +3523,20 @@ Bifrost.namespace("Bifrost.interaction", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.operationsFactory = Bifrost.interaction.operationsFactory;
 Bifrost.namespace("Bifrost.interaction", {
-    CommandOperation: Bifrost.interaction.Operation.extend(function () {
+    CommandOperation: Bifrost.interaction.Operation.extend(function (commandSecurityService) {
         /// <summary>Represents an operation that result in a command</summary>
         var self = this;
 
         /// <field name="commandType" type="Bifrost.Type">Type of command to create</field>
-        this.commandType = null;
+        this.commandType = ko.observable();
+
+        this.canPerform(false);
+
+        this.commandType.subscribe(function (type) {
+            commandSecurityService.getContextForType(type).continueWith(function (context) {
+                if (!Bifrost.isNullOrUndefined(context)) self.canPerform(context.isAuthorized());
+            });
+        });
 
         this.createCommandOfType = function (commandType) {
             /// <summary>Create an instance of a given command type</summary>
@@ -3549,6 +3599,11 @@ Bifrost.namespace("Bifrost.interaction", {
             }
 
         };
+    })
+});
+Bifrost.namespace("Bifrost.read", {
+    readModelSystemEvents: Bifrost.Singleton(function () {
+        this.noInstance = Bifrost.Event.create();
     })
 });
 Bifrost.namespace("Bifrost.read", {
@@ -3827,7 +3882,7 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
-	ReadModelOf: Bifrost.Type.extend(function(readModelMapper) {
+    ReadModelOf: Bifrost.Type.extend(function (region, readModelMapper, taskFactory, readModelSystemEvents) {
 	    var self = this;
 	    this.name = "";
 	    this.generatedFrom = "";
@@ -3835,28 +3890,41 @@ Bifrost.namespace("Bifrost.read", {
 	    this.readModelType = Bifrost.Type.extend(function () { });
 	    this.instance = ko.observable();
 	    this.commandToPopulate = null;
+	    this.region = region;
 
-		this.instanceMatching = function (propertyFilters) {
-		    var methodParameters = {
-		        descriptor: JSON.stringify({
-		            readModel: self.target.name,
-                    generatedFrom: self.target.generatedFrom,
-		            propertyFilters: propertyFilters
-		        })
-		    };
+	    function unwrapPropertyFilters(propertyFilters) {
+	        var unwrappedPropertyFilters = {};
+	        for (var property in propertyFilters) {
+	            unwrappedPropertyFilters[property] = ko.utils.unwrapObservable(propertyFilters[property]);
+	        }
+	        return unwrappedPropertyFilters;
+	    }
 
-		    $.ajax({
-		        url: "/Bifrost/ReadModel/InstanceMatching?_rm=" + self.target.generatedFrom,
-		        type: 'POST',
-		        dataType: 'json',
-		        data: JSON.stringify(methodParameters),
-		        contentType: 'application/json; charset=utf-8',
-		        complete: function (result) {
-		            var item = $.parseJSON(result.responseText);
-					var mappedReadModel = readModelMapper.mapDataToReadModel(self.target.readModelType, item);
-		            self.instance(mappedReadModel);
-		        }
-		    });
+	    function performLoad(target, propertyFilters) {
+	        var task = taskFactory.createReadModel(target, propertyFilters);
+	        target.region.tasks.execute(task).continueWith(function (data) {
+	            if (!Bifrost.isNullOrUndefined(data)) {
+	                var mappedReadModel = readModelMapper.mapDataToReadModel(target.readModelType, data);
+	                self.instance(mappedReadModel);
+	            } else {
+	                readModelSystemEvents.noInstance.trigger(target);
+	            }
+	        });
+	    }
+
+	    this.instanceMatching = function (propertyFilters) {
+	        var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
+	        performLoad(self.target, unwrappedPropertyFilters);
+
+	        for (var property in propertyFilters) {
+	            var value = propertyFilters[property];
+	            if (ko.isObservable(value)) {
+	                value.subscribe(function () {
+	                    var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
+	                    performLoad(self.target, unwrappedPropertyFilters);
+	                })
+	            }
+	        }
 		};
 
 		this.populateCommandOnChanges = function (command) {
@@ -3875,6 +3943,27 @@ Bifrost.namespace("Bifrost.read", {
 		    self.target = lastDescendant;
 		};
 	})
+});
+Bifrost.namespace("Bifrost.read", {
+    ReadModelTask: Bifrost.tasks.LoadTask.extend(function (readModelOf, propertyFilters, taskFactory) {
+        var url = "/Bifrost/ReadModel/InstanceMatching?_rm=" + readModelOf.generatedFrom;
+        var payload = {
+            descriptor: {
+                readModel: readModelOf.name,
+                generatedFrom: readModelOf.generatedFrom,
+                propertyFilters: propertyFilters
+            }
+        };
+
+        this.readModel = readModelOf.generatedFrom;
+
+        var innerTask = taskFactory.createHttpPost(url, payload);
+
+        this.execute = function () {
+            var promise = innerTask.execute();
+            return promise;
+        };
+    })
 });
 Bifrost.dependencyResolvers.readModelOf = {
     canResolve: function (namespace, name) {
@@ -4802,8 +4891,10 @@ Bifrost.namespace("Bifrost.views", {
                             });
 
 
-                            if( !documentService.pageHasViewModel(self.masterViewModel) ) {
+                            if (!documentService.pageHasViewModel(self.masterViewModel)) {
                                 ko.applyBindings(self.masterViewModel);
+                            } else {
+                                ko.applyBindings(instance, element);
                             }
                         }
                     });
@@ -5084,26 +5175,9 @@ Bifrost.namespace("Bifrost.views", {
 
         function thisOrChildCommandHasPropertySetToFalse(commandPropertyName, regionPropertyName) {
             return ko.computed(function () {
-                var commands = self.commands();
-                var isSet = false;                
+                var isSet = false;
 
-                if (!regionPropertyName) {
-                    regionPropertyName = commandPropertyName;
-                }
-
-                var children = self.children();
-                children.forEach(function (childRegion) {
-                    if (childRegion[regionPropertyName]() === true) {
-                        isSet = true;
-                        
-                        return;
-                    }
-                });
-
-                
-
-                if (children.length > 0) return isSet;
-
+                var commands = self.aggregatedCommands();
                 commands.forEach(function (command) {
                     if (command[commandPropertyName]() === true) {
                         isSet = true;
@@ -5148,14 +5222,7 @@ Bifrost.namespace("Bifrost.views", {
         this.validationMessages = ko.computed(function () {
             var messages = [];
 
-            self.children().forEach(function (childRegion) {
-                if (childRegion.isValid() === false) {
-                    childRegion.validationMessages().forEach(function (message) {
-                        messages.push(message);
-                    });
-                }
-            });
-
+            var commands = self.aggregatedCommands();
             self.commands().forEach(function (command) {
                 if (command.isValid() === false) {
                     command.validators().forEach(function (validator) {
@@ -5577,32 +5644,38 @@ if (typeof ko !== "undefined") {
                         observable(self.getState());
                     }
                 });
+            } else {
+                window.addEventListener("hashchange", function () {
+                    if (observable != null) {
+                        observable(self.getState());
+                    }
+                }, false);
             }
+
 
             observable = ko.observable(self.getState() || defaultValue);
 
-            observable.subscribe(function (newValue) {
-                var state = History.getState();
-                state[parameterName] = newValue;
+            if (historyEnabled) {
+                observable.subscribe(function (newValue) {
+                    var state = History.getState();
+                    state[parameterName] = newValue;
 
-                var parameters = Bifrost.hashString.decode(state.url);
-                parameters[parameterName] = newValue;
+                    var parameters = Bifrost.hashString.decode(state.url);
+                    parameters[parameterName] = newValue;
 
-
-                var url = "?";
-                var parameterIndex = 0;
-                for (var parameter in parameters) {
-                    if (parameterIndex > 0) {
-                        url += "&";
+                    var url = "?";
+                    var parameterIndex = 0;
+                    for (var parameter in parameters) {
+                        if (parameterIndex > 0) {
+                            url += "&";
+                        }
+                        url += parameter + "=" + parameters[parameter];
+                        parameterIndex++;
                     }
-                    url += parameter + "=" + parameters[parameter];
-                    parameterIndex++;
-                }
 
-                if (historyEnabled) {
                     History.pushState(state, state.title, url);
-                }
-            });
+                });
+            }
 
             return observable;
         }

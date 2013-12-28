@@ -1,52 +1,59 @@
 ﻿---
+Dependencies : 
+  - Bifrost.JavaScript/Libraries/jquery-1.7.1.min.js
+  - Bifrost.JavaScript/Libraries/knockout-2.2.1.js
+  - Bifrost.JavaScript/Libraries/sinon-1.3.1.js
+  - Bifrost.JavaScript/Libraries/require.js
+  - Bifrost.JavaScript/extensions/ArrayExtensions.js
+  - Bifrost.JavaScript/extensions/HTMLCollectionExtensions.js
+  - Bifrost.JavaScript/extensions/NodeListExtensions.js
+  - Bifrost.JavaScript/extensions/stringExtensions.js
+  - Bifrost.JavaScript/utils/namespace.js
+  - Bifrost.JavaScript/utils/Exception.js
+  - Bifrost.JavaScript/utils/hashString.js
+  - Bifrost.JavaScript/utils/extend.js
+  - Bifrost.JavaScript/utils/configure.js
+  - Bifrost.JavaScript/execution/Promise.js
+  - Bifrost.JavaScript/utils/guid.js
+  - Bifrost.JavaScript/utils/isObject.js
+  - Bifrost.JavaScript/utils/isNumber.js
+  - Bifrost.JavaScript/utils/isArray.js
+  - Bifrost.JavaScript/utils/isNull.js
+  - Bifrost.JavaScript/utils/isString.js
+  - Bifrost.JavaScript/utils/isUndefined.js
+  - Bifrost.JavaScript/utils/isNullOrUndefined.js
+  - Bifrost.JavaScript/utils/isFunction.js
+  - Bifrost.JavaScript/utils/functionParser.js
+  - Bifrost.JavaScript/utils/dependencyResolver.js
+  - Bifrost.JavaScript/utils/WellKnownTypesDependencyResolver.js
+  - Bifrost.JavaScript/utils/KnownArtifactTypesDependencyResolver.js
+  - Bifrost.JavaScript/utils/KnownArtifactInstancesDependencyResolver.js
+  - Bifrost.JavaScript/utils/Type.js
+  - Bifrost.JavaScript/utils/Singleton.js
+  - Bifrost.JavaScript/utils/exceptions.js
+  - Bifrost.JavaScript/utils/Uri.js
+  - Bifrost.JavaScript/utils/path.js
+  - Bifrost.JavaScript/TimeSpan.js
+  - Bifrost.JavaScript/io/fileType.js
+  - Bifrost.JavaScript/validation/exceptions.js
+  - Bifrost.JavaScript/validation/Rule.js
+  - Bifrost.JavaScript/views/viewRenderer.js
+  - Bifrost.JavaScript/interaction/Trigger.js
+  - Bifrost.JavaScript/tasks/Task.js
+  - Bifrost.JavaScript/tasks/LoadTask.js
+  - Bifrost.JavaScript/tasks/ExecutionTask.js		
+  - Bifrost.JavaScript/views/ComposeTask.js
+  - Bifrost.JavaScript/interaction/Operation.js
+  - Bifrost.JavaScript/Event.js
+
 Harnesses:
   - Harness:
       Framework					: Jasmine
       Name						: JavaScript Jasmine Specifications
       SystemsSearchPath 		: Bifrost.JavaScript/{namespace}/{system}.js
       DescriptionsSearchPath	: Bifrost.JavaScript.Specs/{namespace}/for_{system}/{description}.js
-      Dependencies : 
-        - Bifrost.JavaScript/Libraries/jquery-1.7.1.min.js
-        - Bifrost.JavaScript/Libraries/knockout-2.2.1.js
-        - Bifrost.JavaScript/Libraries/sinon-1.3.1.js
-        - Bifrost.JavaScript/Libraries/require.js
-        - Bifrost.JavaScript/extensions/ArrayExtensions.js
-        - Bifrost.JavaScript/extensions/HTMLCollectionExtensions.js
-        - Bifrost.JavaScript/extensions/NodeListExtensions.js
-        - Bifrost.JavaScript/extensions/stringExtensions.js
-        - Bifrost.JavaScript/utils/namespace.js
-        - Bifrost.JavaScript/utils/Exception.js
-        - Bifrost.JavaScript/utils/hashString.js
-        - Bifrost.JavaScript/utils/extend.js
-        - Bifrost.JavaScript/utils/configure.js
-        - Bifrost.JavaScript/execution/Promise.js
-        - Bifrost.JavaScript/TimeSpan.js        
-        - Bifrost.JavaScript/utils/guid.js
-        - Bifrost.JavaScript/utils/isObject.js
-        - Bifrost.JavaScript/utils/isNumber.js
-        - Bifrost.JavaScript/utils/isArray.js
-        - Bifrost.JavaScript/utils/isNull.js
-        - Bifrost.JavaScript/utils/isString.js
-        - Bifrost.JavaScript/utils/isUndefined.js
-        - Bifrost.JavaScript/utils/isNullOrUndefined.js
-        - Bifrost.JavaScript/utils/isFunction.js
-        - Bifrost.JavaScript/utils/functionParser.js
-        - Bifrost.JavaScript/utils/dependencyResolver.js
-        - Bifrost.JavaScript/utils/WellKnownTypesDependencyResolver.js
-        - Bifrost.JavaScript/utils/KnownArtifactTypesDependencyResolver.js
-        - Bifrost.JavaScript/utils/KnownArtifactInstancesDependencyResolver.js
-        - Bifrost.JavaScript/utils/Type.js
-        - Bifrost.JavaScript/utils/Singleton.js
-        - Bifrost.JavaScript/utils/exceptions.js
-        - Bifrost.JavaScript/utils/Uri.js
-        - Bifrost.JavaScript/utils/path.js
-        - Bifrost.JavaScript/io/fileType.js
-        - Bifrost.JavaScript/validation/exceptions.js
-        - Bifrost.JavaScript/validation/Rule.js
-        - Bifrost.JavaScript/views/viewRenderer.js
-        - Bifrost.JavaScript/interaction/Trigger.js
-        - Bifrost.JavaScript/tasks/Task.js
-        - Bifrost.JavaScript/tasks/LoadTask.js
-        - Bifrost.JavaScript/tasks/ExecutionTask.js		
-        - Bifrost.JavaScript/views/ComposeTask.js
-        - Bifrost.JavaScript/interaction/Operation.js
+  - Harness:
+      Framework					: Jasmine
+      Name						: JavaScript Jasmine Specifications
+      SystemsSearchPath 		: Bifrost.JavaScript/{system}.js
+      DescriptionsSearchPath	: Bifrost.JavaScript.Specs/for_{system}/{description}.js

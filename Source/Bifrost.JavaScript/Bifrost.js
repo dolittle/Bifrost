@@ -8,7 +8,6 @@
 @depends utils/extend.js
 @depends utils/namespace.js
 @depends execution/Promise.js
-@depends TimeSpan.js
 @depends utils/isObject.js
 @depends utils/isNumber.js
 @depends utils/isArray.js
@@ -42,6 +41,8 @@
 @depends utils/uriMappers.js
 @depends utils/server.js
 @depends utils/systemClock.js
+@depends Event.js
+@depends systemEvents.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js
@@ -102,6 +103,7 @@
 @depends interaction/VisualStateManager.js
 @depends interaction/VisualStateTransition.js
 @depends interaction/VisualStateTransitionAction.js
+@depends read/readModelSystemEvents.js
 @depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
@@ -109,6 +111,7 @@
 @depends read/Query.js
 @depends read/ReadModel.js
 @depends read/ReadModelOf.js
+@depends read/ReadModelTask.js
 @depends read/readModelOfDependencyResolver.js
 @depends read/queryDependencyResolver.js
 @depends read/QueryTask.js
@@ -146,9 +149,6 @@
 @depends views/RegionDescriptor.js
 @depends views/regionDescriptorManager.js
 @depends views/RegionDescriptorDependencyResolver.js
-@depends views/NamingRoot.js
-@depends views/UIElement.js
-@depends views/Control.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js

@@ -56,6 +56,7 @@
     <Content Include="commands\HandleCommandsTask.js" />
     <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
+    <Content Include="Event.js" />
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
@@ -64,6 +65,9 @@
     <Content Include="io\fileFactory.js" />
     <Content Include="io\fileManager.js" />
     <Content Include="io\fileType.js" />
+    <Content Include="read\readModelSystemEvents.js" />
+    <Content Include="read\ReadModelTask.js" />
+    <Content Include="systemEvents.js" />
     <Content Include="tasks\TaskHistoryEntry.js" />
     <Content Include="utils\isNullOrUndefined.js" />
     <Content Include="views\ComposeTask.js" />
