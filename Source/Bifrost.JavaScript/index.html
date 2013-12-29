@@ -61,8 +61,17 @@
 		</li>
 	</ul>
 
-	<button onclick='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
-	<button onclick='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</button>
+	<div>
+		Desktop
+		<button onclick='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
+		<button onclick='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</button>
+	</div>
+
+	<div>
+		iOS
+		<button ontouchstart='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
+		<button ontouchstart='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</button>
+	</div>
 
 </body>
 </html>
