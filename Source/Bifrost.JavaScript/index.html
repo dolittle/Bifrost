@@ -6,6 +6,10 @@
 	<script src="Libraries/require.js"></script>
 	<script src="Bifrost.debug.js" type="text/javascript"></script>
 	<script>
+		Bifrost.namespace("Bifrost.views", {
+			
+		});
+	
 	
 		function htmlTree(obj){
 	    	var obj = obj || document.getElementsByTagName('body')[0];
@@ -24,7 +28,7 @@
 	  	}
 		
 		$(function() {
-			document.write(htmlTree());	
+			// document.write(htmlTree());	
 		});
 	
 	</script>
@@ -32,16 +36,16 @@
 
 <body>
 	<div>
-		<VisualStateManager>
-			<VisualStateGroup>
-				<VisualState name="firstState">
-				</VisualState>
-			</VisualStateGroup>
-			<VisualStateGroup>
-				<VisualState name="firstState">
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager>
+		<visualstatemanager>
+			<visualstategroup>
+				<visualstate name="firstState">
+				</visualstate>
+			</visualstategroup>
+			<visualstategroup>
+				<visualstate name="firstState">
+				</visualstate>
+			</visualstategroup>
+		</visualstatemanager>
 	</div>
 
 </body>
