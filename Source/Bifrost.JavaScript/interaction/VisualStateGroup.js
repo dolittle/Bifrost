@@ -70,6 +70,6 @@ Bifrost.namespace("Bifrost.interaction", {
 				self.currentState(state);
 				state.enter(self.defaultDuration);
 			}
-		};x
+		};
 	})
 });
