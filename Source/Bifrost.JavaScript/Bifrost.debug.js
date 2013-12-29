@@ -4088,7 +4088,9 @@ function createCSSSelector(selector, style) {
 			var value = parseFloat(self.value);
 			if( isNaN(value) ) value = 0.0;
 
-			createCSSSelector("."+id, "-webkit-transition: opacity 1s ease-in-out; transition: opacity .15s ease-in-out; opacity:"+value+";");
+			var actualDuration = duration.totalMilliseconds() / 1000;
+
+			createCSSSelector("."+id, "-webkit-transition: opacity "+actualDuration+"s ease-in-out; transition: opacity "+actualDuration+"s ease-in-out; opacity:"+value+";");
 
 			element.classList.add(id);
 
@@ -6054,6 +6056,16 @@ Bifrost.namespace("Bifrost.interaction", {
 						if( child.localName === "visualstategroup" ) {
 							var group = Bifrost.interaction.VisualStateGroup.create();
 							visualStateManager.addGroup(group);
+
+							var duration = child.getAttribute("duration");
+							if( !Bifrost.isNullOrUndefined(duration) ) {
+								duration = parseFloat(duration);
+								if( !isNaN(duration) ) {
+									duration = duration * 1000;
+									timespan = Bifrost.TimeSpan.fromMilliseconds(duration);
+									group.defaultDuration = timespan;
+								}
+							}
 
 							parseStates(namingRoot, child, group);
 						}

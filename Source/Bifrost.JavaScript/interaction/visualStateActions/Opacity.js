@@ -91,7 +91,9 @@ function createCSSSelector(selector, style) {
 			var value = parseFloat(self.value);
 			if( isNaN(value) ) value = 0.0;
 
-			createCSSSelector("."+id, "-webkit-transition: opacity 1s ease-in-out; transition: opacity .15s ease-in-out; opacity:"+value+";");
+			var actualDuration = duration.totalMilliseconds() / 1000;
+
+			createCSSSelector("."+id, "-webkit-transition: opacity "+actualDuration+"s ease-in-out; transition: opacity "+actualDuration+"s ease-in-out; opacity:"+value+";");
 
 			element.classList.add(id);
 

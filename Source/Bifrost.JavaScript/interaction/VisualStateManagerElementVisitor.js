@@ -55,6 +55,16 @@ Bifrost.namespace("Bifrost.interaction", {
 							var group = Bifrost.interaction.VisualStateGroup.create();
 							visualStateManager.addGroup(group);
 
+							var duration = child.getAttribute("duration");
+							if( !Bifrost.isNullOrUndefined(duration) ) {
+								duration = parseFloat(duration);
+								if( !isNaN(duration) ) {
+									duration = duration * 1000;
+									timespan = Bifrost.TimeSpan.fromMilliseconds(duration);
+									group.defaultDuration = timespan;
+								}
+							}
+
 							parseStates(namingRoot, child, group);
 						}
 						child = child.nextSibling;
