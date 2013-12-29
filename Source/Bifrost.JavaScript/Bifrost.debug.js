@@ -3603,7 +3603,7 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.enter = function(duration) {
 			/// <summary>Enter the state with a given duration</summary>
-			/// <parameter name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</parameter>
+			/// <param name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</param>
 
 		};
 
@@ -3631,7 +3631,7 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.addState = function(state) {
 			/// <summary>Add a state to the group</summary>
-			/// <parameter name="state" type="Bifrost.interaction.VisualState">State to add</parameter>
+			/// <param name="state" type="Bifrost.interaction.VisualState">State to add</param>
 			if( self.hasState(state.name) ) {
 				throw "VisualState with name of '"+state.name+"' already exists";
 			}
@@ -3640,13 +3640,13 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.addTransition = function(transition) {
 			/// <summary>Add transition to group</summary>
-			/// <parameter name="transition" type="Bifrost.interaction.VisualStateTransition">Transition to add</parameter>
+			/// <param name="transition" type="Bifrost.interaction.VisualStateTransition">Transition to add</param>
 			self.transitions.push(transition);
 		};
 
 		this.hasState = function(stateName) {
 			/// <summary>Check if group has state by the name of the state</summary>
-			/// <parameter name="stateName" type="String">Name of the state to check for</parameter>
+			/// <param name="stateName" type="String">Name of the state to check for</param>
 			/// <returns type="Boolean">True if the state exists, false if not</returns>
 			var hasState = false;
 			self.states().forEach(function(state) {
@@ -3661,7 +3661,7 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.getStateByName = function(stateName) {
 			/// <summary>Gets a state by its name</summary>
-			/// <parameter name="stateName" type="String">Name of the state to get</parameter>
+			/// <param name="stateName" type="String">Name of the state to get</param>
 			/// <returns type="Bifrost.interaction.VisualState">State found or null if it does not have a state by the given name</returns>
 			var stateFound = null;
 			self.states().forEach(function(state) {
@@ -3675,7 +3675,7 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.goTo = function(stateName) {
 			/// <summary>Go to a specific state by the name of the state</summary>
-			/// <parameter name="stateName" type="String">Name of the state to go to</parameter>
+			/// <param name="stateName" type="String">Name of the state to go to</param>
 			var state = self.getStateByName(stateName);
 			if( !Bifrost.isNullOrUndefined(state) ) {
 				var currentState = self.currentState();
@@ -3698,13 +3698,13 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.addGroup = function(group) {
 			/// <summary>Adds a VisualStateGroup to the manager</summary>
-			/// <parameter name="group" type="Bifrost.interaction.VisualStateGroup">Group to add</parameter>
+			/// <param name="group" type="Bifrost.interaction.VisualStateGroup">Group to add</param>
 			self.groups.push(group);
 		};
 
 		this.goTo = function(stateName) {
 			/// <summary>Go to a specific state by its name</summary>
-			/// <parameter name="stateName" type="String">Name of state to go to</parameter>
+			/// <param name="stateName" type="String">Name of state to go to</param>
 			self.groups().forEach(function(group) {
 				if( group.hasState(stateName) == true ) {
 					group.goTo(stateName);
@@ -4533,6 +4533,26 @@ Bifrost.WellKnownTypesDependencyResolver.types.messengerFactory = Bifrost.messag
             /// <param name="region" type="Bifrost.views.Region">Region to set on element</param>
 
             element.region = region;
+        };
+
+        this.traverseObjects = function(callback, element) {
+            /// <summary>Traverse objects and call back for each element</summary>
+            /// <param name="callback" type="Function">Callback to call for each element found</param>
+            /// <param name="element" type="HTMLElement" optional="true">Optional root element</param>
+            element = element || self.DOMRoot;
+            if( !Bifrost.isNullOrUndefined(element) ) {
+                callback(element);
+
+                if( element.hasChildNodes() ) {
+                    var child = element.firstChild;
+                    while( child ) {
+                        if( child.nodeType === 1 ) {
+                            self.traverseObjects(callback, child);
+                        }
+                        child = child.nextSibling;
+                    }
+                }
+            }
         };
     })
 });
