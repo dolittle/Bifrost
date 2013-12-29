@@ -7,7 +7,7 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.enter = function(duration) {
 			/// <summary>Enter the state with a given duration</summary>
-			/// <parameter name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</parameter>
+			/// <param name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</param>
 
 		};
 

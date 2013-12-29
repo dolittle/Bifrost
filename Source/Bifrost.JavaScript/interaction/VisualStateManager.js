@@ -8,13 +8,13 @@ Bifrost.namespace("Bifrost.interaction", {
 
 		this.addGroup = function(group) {
 			/// <summary>Adds a VisualStateGroup to the manager</summary>
-			/// <parameter name="group" type="Bifrost.interaction.VisualStateGroup">Group to add</parameter>
+			/// <param name="group" type="Bifrost.interaction.VisualStateGroup">Group to add</param>
 			self.groups.push(group);
 		};
 
 		this.goTo = function(stateName) {
 			/// <summary>Go to a specific state by its name</summary>
-			/// <parameter name="stateName" type="String">Name of state to go to</parameter>
+			/// <param name="stateName" type="String">Name of state to go to</param>
 			self.groups().forEach(function(group) {
 				if( group.hasState(stateName) == true ) {
 					group.goTo(stateName);
