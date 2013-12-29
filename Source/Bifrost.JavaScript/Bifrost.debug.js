@@ -1650,6 +1650,235 @@ Bifrost.WellKnownTypesDependencyResolver.types.server = Bifrost.server;
         };
     })
 });
+/*!
+* JavaScript TimeSpan Library
+*
+* Copyright (c) 2010 Michael Stum, http://www.Stum.de/
+* 
+* Permission is hereby granted, free of charge, to any person obtaining
+* a copy of this software and associated documentation files (the
+* "Software"), to deal in the Software without restriction, including
+* without limitation the rights to use, copy, modify, merge, publish,
+* distribute, sublicense, and/or sell copies of the Software, and to
+* permit persons to whom the Software is furnished to do so, subject to
+* the following conditions:
+* 
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+* LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+* OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+* WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+Bifrost.namespace("Bifrost", {
+    // Constructor function, all parameters are optional
+    TimeSpan : function (milliseconds, seconds, minutes, hours, days) {
+        var version = "1.2",
+            // Millisecond-constants
+            msecPerSecond = 1000,
+            msecPerMinute = 60000,
+            msecPerHour = 3600000,
+            msecPerDay = 86400000,
+            // Internally we store the TimeSpan as Milliseconds
+            msecs = 0,
+
+            // Helper functions
+            isNumeric = function (input) {
+                return !isNaN(parseFloat(input)) && isFinite(input);
+            };
+
+        // Constructor Logic
+        if (isNumeric(days)) {
+            msecs += (days * msecPerDay);
+        }
+        if (isNumeric(hours)) {
+            msecs += (hours * msecPerHour);
+        }
+        if (isNumeric(minutes)) {
+            msecs += (minutes * msecPerMinute);
+        }
+        if (isNumeric(seconds)) {
+            msecs += (seconds * msecPerSecond);
+        }
+        if (isNumeric(milliseconds)) {
+            msecs += milliseconds;
+        }
+
+        // Addition Functions
+        this.addMilliseconds = function (milliseconds) {
+            if (!isNumeric(milliseconds)) {
+                return;
+            }
+            msecs += milliseconds;
+        };
+        this.addSeconds = function (seconds) {
+            if (!isNumeric(seconds)) {
+                return;
+            }
+            msecs += (seconds * msecPerSecond);
+        };
+        this.addMinutes = function (minutes) {
+            if (!isNumeric(minutes)) {
+                return;
+            }
+            msecs += (minutes * msecPerMinute);
+        };
+        this.addHours = function (hours) {
+            if (!isNumeric(hours)) {
+                return;
+            }
+            msecs += (hours * msecPerHour);
+        };
+        this.addDays = function (days) {
+            if (!isNumeric(days)) {
+                return;
+            }
+            msecs += (days * msecPerDay);
+        };
+
+        // Subtraction Functions
+        this.subtractMilliseconds = function (milliseconds) {
+            if (!isNumeric(milliseconds)) {
+                return;
+            }
+            msecs -= milliseconds;
+        };
+        this.subtractSeconds = function (seconds) {
+            if (!isNumeric(seconds)) {
+                return;
+            }
+            msecs -= (seconds * msecPerSecond);
+        };
+        this.subtractMinutes = function (minutes) {
+            if (!isNumeric(minutes)) {
+                return;
+            }
+            msecs -= (minutes * msecPerMinute);
+        };
+        this.subtractHours = function (hours) {
+            if (!isNumeric(hours)) {
+                return;
+            }
+            msecs -= (hours * msecPerHour);
+        };
+        this.subtractDays = function (days) {
+            if (!isNumeric(days)) {
+                return;
+            }
+            msecs -= (days * msecPerDay);
+        };
+
+        // Functions to interact with other TimeSpans
+        this.isTimeSpan = true;
+        this.add = function (otherTimeSpan) {
+            if (!otherTimeSpan.isTimeSpan) {
+                return;
+            }
+            msecs += otherTimeSpan.totalMilliseconds();
+        };
+        this.subtract = function (otherTimeSpan) {
+            if (!otherTimeSpan.isTimeSpan) {
+                return;
+            }
+            msecs -= otherTimeSpan.totalMilliseconds();
+        };
+        this.equals = function (otherTimeSpan) {
+            if (!otherTimeSpan.isTimeSpan) {
+                return;
+            }
+            return msecs === otherTimeSpan.totalMilliseconds();
+        };
+
+        // Getters
+        this.totalMilliseconds = function (roundDown) {
+            var result = msecs;
+            if (roundDown === true) {
+                result = Math.floor(result);
+            }
+            return result;
+        };
+        this.totalSeconds = function (roundDown) {
+            var result = msecs / msecPerSecond;
+            if (roundDown === true) {
+                result = Math.floor(result);
+            }
+            return result;
+        };
+        this.totalMinutes = function (roundDown) {
+            var result = msecs / msecPerMinute;
+            if (roundDown === true) {
+                result = Math.floor(result);
+            }
+            return result;
+        };
+        this.totalHours = function (roundDown) {
+            var result = msecs / msecPerHour;
+            if (roundDown === true) {
+                result = Math.floor(result);
+            }
+            return result;
+        };
+        this.totalDays = function (roundDown) {
+            var result = msecs / msecPerDay;
+            if (roundDown === true) {
+                result = Math.floor(result);
+            }
+            return result;
+        };
+        // Return a Fraction of the TimeSpan
+        this.milliseconds = function () {
+            return msecs % 1000;
+        };
+        this.seconds = function () {
+            return Math.floor(msecs / msecPerSecond) % 60;
+        };
+        this.minutes = function () {
+            return Math.floor(msecs / msecPerMinute) % 60;
+        };
+        this.hours = function () {
+            return Math.floor(msecs / msecPerHour) % 24;
+        };
+        this.days = function () {
+            return Math.floor(msecs / msecPerDay);
+        };
+
+        // Misc. Functions
+        this.getVersion = function () {
+            return version;
+        };
+    }
+});
+
+// "Static Constructors"
+Bifrost.TimeSpan.zero = function() {
+    return new Bifrost.TimeSpan(0, 0, 0, 0, 0);
+};
+Bifrost.TimeSpan.fromMilliseconds = function (milliseconds) {
+    return new Bifrost.TimeSpan(milliseconds, 0, 0, 0, 0);
+};
+Bifrost.TimeSpan.fromSeconds = function (seconds) {
+    return new Bifrost.TimeSpan(0, seconds, 0, 0, 0);
+};
+Bifrost.TimeSpan.fromMinutes = function (minutes) {
+    return new Bifrost.TimeSpan(0, 0, minutes, 0, 0);
+};
+Bifrost.TimeSpan.fromHours = function (hours) {
+    return new Bifrost.TimeSpan(0, 0, 0, hours, 0);
+};
+Bifrost.TimeSpan.fromDays = function (days) {
+    return new Bifrost.TimeSpan(0, 0, 0, 0, days);
+};
+Bifrost.TimeSpan.fromDates = function (firstDate, secondDate, forcePositive) {
+    var differenceMsecs = secondDate.valueOf() - firstDate.valueOf();
+    if(forcePositive === true) {
+        differenceMsecs = Math.abs(differenceMsecs);
+    }
+    return new Bifrost.TimeSpan(differenceMsecs, 0, 0, 0, 0);
+};
 ﻿Bifrost.namespace("Bifrost", {
     Event: Bifrost.Type.extend(function () {
         var subscribers = [];
@@ -3597,20 +3826,51 @@ Bifrost.WellKnownTypesDependencyResolver.types.operationsFactory = Bifrost.inter
 Bifrost.namespace("Bifrost.interaction", {
 	VisualState: Bifrost.Type.extend(function() {
 		/// <summary>Represents a visual state of a control or element</summary>
+		var self = this;
+
+		/// <field name="name" type="String">Name of the visual state</field>
+		this.name = "";
 
 		/// <field name="actions" type="Array" elementType="Bifrost.interaction.VisualStateTransitionAction">Transition actions that will execute when transitioning</field>
 		this.actions = ko.observableArray();
 
-		this.enter = function(duration) {
+		this.addAction = function(action) {
+			/// <summary>Add action to the visual state</summary>
+			/// <param name="action" type="Bifrost.interaction.VisualStateAction">
+			self.actions.push(action);
+		};
+
+		this.enter = function(namingRoot, duration) {
 			/// <summary>Enter the state with a given duration</summary>
 			/// <param name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</param>
+			self.actions().forEach(function(action) {
+				action.onEnter(namingRoot, duration);
+			});
+		};
+
+		this.exit = function(namingRoot, duration) {
+			/// <summary>Exit the state with a given duration</summary>
+			/// <param name="duration" type="Bifrost.TimeSpan">Time to spend entering the state</param>
+			self.actions().forEach(function(action) {
+				action.onExit(namingRoot, duration);
+			});
+		};
+	})
+});
+Bifrost.namespace("Bifrost.interaction", {
+	VisualStateAction: Bifrost.Type.extend(function() {
+
+		this.initialize = function(namingRoot) {
 
 		};
 
-		this.exit = function(duration) {
+		this.onEnter = function(namingRoot, duration) {
 
 		};
 
+		this.onExit = function(namingRoot, duration) {
+
+		};
 	})
 });
 Bifrost.namespace("Bifrost.interaction", {
@@ -3621,7 +3881,7 @@ Bifrost.namespace("Bifrost.interaction", {
 		this.defaultDuration = Bifrost.TimeSpan.zero();
 
 		/// <field name="currentState" type="Bifrost.interaction.VisualState">Holds the current state, this is an observable</field>
-		this.currentState = ko.observable();
+		this.currentState = ko.observable({name: "null state", enter: function() {}, exit: function() {}});
 
 		/// <field name="states" type="Array" elementType="Bifrost.interaction.VisualState">Holds an observable array of visual states</field>
 		this.states = ko.observableArray();
@@ -3673,17 +3933,21 @@ Bifrost.namespace("Bifrost.interaction", {
 			return stateFound;
 		};
 
-		this.goTo = function(stateName) {
+		this.goTo = function(namingRoot, stateName) {
 			/// <summary>Go to a specific state by the name of the state</summary>
 			/// <param name="stateName" type="String">Name of the state to go to</param>
+			var currentState = self.currentState();
+			if( !Bifrost.isNullOrUndefined(currentState) && currentState.name === stateName ) {
+				return;
+			}
+
 			var state = self.getStateByName(stateName);
 			if( !Bifrost.isNullOrUndefined(state) ) {
-				var currentState = self.currentState();
 				if( !Bifrost.isNullOrUndefined(currentState) ) {
-					currentState.exit(self.defaultDuration);
+					currentState.exit(namingRoot, self.defaultDuration);
 				}
 				self.currentState(state);
-				state.enter(self.defaultDuration);
+				state.enter(namingRoot, self.defaultDuration);
 			}
 		};
 	})
@@ -3692,6 +3956,9 @@ Bifrost.namespace("Bifrost.interaction", {
 	VisualStateManager: Bifrost.Type.extend(function() {
 		/// <summary>Represents a state manager for dealing with visual states, typically related to a control or other element on a page</summary>
 		var self = this;
+
+		/// <field name="namingRoot" type="Bifrost.views.NamingRoot">A root for named objects</field>
+		this.namingRoot = null;
 
 		/// <field name="groups" type="Array" elementType="Bifrost.interaction.VisualStateGroup">Holds all groups in the state manager</field>
 		this.groups = ko.observableArray();
@@ -3707,7 +3974,7 @@ Bifrost.namespace("Bifrost.interaction", {
 			/// <param name="stateName" type="String">Name of state to go to</param>
 			self.groups().forEach(function(group) {
 				if( group.hasState(stateName) == true ) {
-					group.goTo(stateName);
+					group.goTo(self.namingRoot, stateName);
 				}
 			});
 		};
@@ -3728,18 +3995,115 @@ Bifrost.namespace("Bifrost.interaction", {
 		this.duration = Bifrost.TimeStamp.zero();
 	})
 });
-Bifrost.namespace("Bifrost.interaction", {
-	VisualStateTransitionAction: Bifrost.Type.extend(function() {
+var globalId = 0;
+Bifrost.namespace("Bifrost.interaction.visualStateActions", {
+	Opacity: Bifrost.interaction.VisualStateAction.extend(function() {
+		var self = this;
+		var element = null;
+		var id = "opacity"+globalId;
+		globalId++;
+		//Bifrost.Guid.create().replaceAll("-","");
 
-		this.onEnter = function() {
+		this.target = "";
+		this.value = "";
 
+function createCSSSelector(selector, style) {
+    if(!document.styleSheets) {
+        return;
+    }
+
+    if(document.getElementsByTagName("head").length == 0) {
+        return;
+    }
+
+    var stylesheet;
+    var mediaType;
+    if(document.styleSheets.length > 0) {
+        for( i = 0; i < document.styleSheets.length; i++) {
+            if(document.styleSheets[i].disabled) {
+                continue;
+            }
+            var media = document.styleSheets[i].media;
+            mediaType = typeof media;
+
+            if(mediaType == "string") {
+                if(media == "" || (media.indexOf("screen") != -1)) {
+                    styleSheet = document.styleSheets[i];
+                }
+            } else if(mediaType == "object") {
+                if(media.mediaText == "" || (media.mediaText.indexOf("screen") != -1)) {
+                    styleSheet = document.styleSheets[i];
+                }
+            }
+
+            if( typeof styleSheet != "undefined") {
+                break;
+            }
+        }
+    }
+
+    if( typeof styleSheet == "undefined") {
+        var styleSheetElement = document.createElement("style");
+        styleSheetElement.type = "text/css";
+
+        document.getElementsByTagName("head")[0].appendChild(styleSheetElement);
+
+        for( i = 0; i < document.styleSheets.length; i++) {
+            if(document.styleSheets[i].disabled) {
+                continue;
+            }
+            styleSheet = document.styleSheets[i];
+        }
+
+        var media = styleSheet.media;
+        mediaType = typeof media;
+    }
+
+    if(mediaType == "string") {
+        for( i = 0; i < styleSheet.rules.length; i++) {
+            if(styleSheet.rules[i].selectorText && styleSheet.rules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+                styleSheet.rules[i].style.cssText = style;
+                return;
+            }
+        }
+
+        styleSheet.addRule(selector, style);
+    } else if(mediaType == "object") {
+        for( i = 0; i < styleSheet.cssRules.length; i++) {
+            if(styleSheet.cssRules[i].selectorText && styleSheet.cssRules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+                styleSheet.cssRules[i].style.cssText = style;
+                return;
+            }
+        }
+
+        styleSheet.insertRule(selector + "{" + style + "}", 0);
+    }
+}		
+
+		this.initialize = function(namingRoot) {
+			element = namingRoot.find(self.target);
 		};
 
-		this.onExit = function() {
+		this.onEnter = function(namingRoot, duration) {
+			var value = parseFloat(self.value);
+			if( isNaN(value) ) value = 0.0;
 
+			createCSSSelector("."+id, "-webkit-transition: opacity 1s ease-in-out; transition: opacity .15s ease-in-out; opacity:"+value+";");
+
+			element.classList.add(id);
+
+
+			/*
+			if( element != null ) { 
+				element.style.opacity = value;
+			}*/
+		};
+
+		this.onExit = function(namingRoot, duration) {
+			element.classList.remove(id);
 		};
 	})
-});
+})
 ﻿Bifrost.namespace("Bifrost.read", {
     readModelSystemEvents: Bifrost.Singleton(function () {
         this.noInstance = Bifrost.Event.create();
@@ -4397,13 +4761,6 @@ Bifrost.WellKnownTypesDependencyResolver.types.messengerFactory = Bifrost.messag
     }
 };
 ﻿Bifrost.namespace("Bifrost.views", {
-    ComposeTask: Bifrost.tasks.Task.extend(function (files) {
-        /// <summary>Represents a base task that represents anything that is executing</summary>
-        this.execute = function () {
-        }
-    })
-});
-﻿Bifrost.namespace("Bifrost.views", {
     documentService: Bifrost.Singleton(function (DOMRoot) {
         var self = this;
 
@@ -4554,6 +4911,96 @@ Bifrost.WellKnownTypesDependencyResolver.types.messengerFactory = Bifrost.messag
                 }
             }
         };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
+	ElementVisitor: Bifrost.Type.extend(function() {
+		this.visit = function(element, resultActions) {
+
+		}
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	ElementVisitorResultActions: Bifrost.Type.extend(function() {
+	
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	UIManager: Bifrost.Singleton(function(documentService) {
+		var visitors = [];
+		var visitorTypes = Bifrost.views.ElementVisitor.getExtenders();
+
+		visitorTypes.forEach(function(type) {
+			visitors.push(type.create());
+		})
+
+		this.handle = function(root) {
+			documentService.traverseObjects(function(element) {
+				visitors.forEach(function(visitor) {
+					var actions = Bifrost.views.ElementVisitorResultActions.create();
+					visitor.visit(element, actions);
+				});
+			}, root);
+		};
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	NamingRoot: Bifrost.Type.extend(function() {
+		var self = this;
+		this.target = null;
+
+		this.find = function(name, element) {
+			if( Bifrost.isNullOrUndefined(element) ) {
+				if( Bifrost.isNullOrUndefined(self.target) ) return null;
+				element = self.target;
+			}
+
+
+			if( element.getAttribute("name") === name ) {
+				return element;
+			}
+
+			if( element.hasChildNodes() ) {
+				var child = element.firstChild;
+				while( child ) {
+					if( child.nodeType === 1 ) {
+						var foundElement = self.find(name, child);
+						if( foundElement != null ) { 
+							return foundElement;
+						}
+					}
+					child = child.nextSibling;
+				}
+			}
+
+			return null;
+		}
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	NamingRootElementVisitor: Bifrost.views.ElementVisitor.extend(function() {
+		this.visit = function(element, actions) {
+			var namingRoot = Bifrost.views.NamingRoot.create();
+			namingRoot.target = element;
+			element.namingRoot = namingRoot;
+		};
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	UIElement: Bifrost.views.NamingRoot.extend(function() {
+
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	Control: Bifrost.views.UIElement.extend(function() {
+
+	})
+});
+﻿Bifrost.namespace("Bifrost.views", {
+    ComposeTask: Bifrost.tasks.Task.extend(function (files) {
+        /// <summary>Represents a base task that represents anything that is executing</summary>
+        this.execute = function () {
+        }
     })
 });
 Bifrost.namespace("Bifrost.views", {
@@ -5551,6 +5998,73 @@ Bifrost.WellKnownTypesDependencyResolver.types.regionManager = Bifrost.views.reg
         };
     }
 };
+Bifrost.namespace("Bifrost.interaction", {
+	VisualStateManagerElementVisitor: Bifrost.views.ElementVisitor.extend(function() {
+		var visualStateActionTypes = Bifrost.interaction.VisualStateAction.getExtenders();
+
+		function parseActions(namingRoot, stateElement, state) {
+			if( stateElement.hasChildNodes() ) {
+				var child = stateElement.firstChild;
+				while( child ) {
+					visualStateActionTypes.forEach(function(type) {
+						if( type._name.toLowerCase() == child.localName ) {
+							var action = type.create();
+
+							for( var attributeIndex=0; attributeIndex<child.attributes.length; attributeIndex++ ) {
+								var name = child.attributes[attributeIndex].localName;
+								var value = child.attributes[attributeIndex].value;
+								if( action.hasOwnProperty(name) ) {
+									action[name] = value;
+								}
+							}
+							action.initialize(namingRoot);
+							state.addAction(action);
+						}
+					});
+					child = child.nextSibling;
+				}
+			}
+		}
+
+		function parseStates(namingRoot, groupElement, group) {
+			if( groupElement.hasChildNodes() ) {
+				var child = groupElement.firstChild;
+				while( child ) {
+					if( child.localName === "visualstate" ) {
+						var state = Bifrost.interaction.VisualState.create();
+						state.name = child.getAttribute("name");
+						group.addState(state);
+						parseActions(namingRoot, child, state);
+					}
+					child = child.nextSibling;
+				}
+			}
+		}
+
+
+		this.visit = function(element, actions) {
+			if( element.localName === "visualstatemanager" ) {
+				var visualStateManager = Bifrost.interaction.VisualStateManager.create();
+				var namingRoot = element.parentElement.namingRoot;
+				element.parentElement.visualStateManager = visualStateManager;
+
+				if( element.hasChildNodes() ) {
+					var child = element.firstChild;
+					while( child ) {
+						if( child.localName === "visualstategroup" ) {
+							var group = Bifrost.interaction.VisualStateGroup.create();
+							visualStateManager.addGroup(group);
+
+							parseStates(namingRoot, child, group);
+						}
+						child = child.nextSibling;
+					}
+				}
+			}
+		}
+
+	})
+});
 ﻿Bifrost.namespace("Bifrost.navigation", {
     NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
         var self = this;

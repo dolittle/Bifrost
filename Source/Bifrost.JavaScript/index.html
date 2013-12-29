@@ -1,6 +1,12 @@
 <html>
 
 <head>
+	<style>
+		.someStyle {
+			background-color: blue;
+		}
+	</style>
+
 	<script src="Libraries/jquery-1.7.1.min.js"></script>
 	<script src="Libraries/knockout-2.2.1.js"></script>
 	<script src="Libraries/require.js"></script>
@@ -16,18 +22,13 @@
 		$(function() {
 			var body = document.getElementsByTagName("body")[0];
 
-			var debugString = "";
+			var manager = Bifrost.views.UIManager.create();
+			manager.handle(body);
 
-			var s = Bifrost.views.something.create();
-			var documentService = s.documentService;
-			documentService.traverseObjects(function(element) {
-				debugString = debugString+"\n"+element.tagName;
-			});
 
-			var div = document.createElement("div");
-			div.innerText = debugString;
-			body.appendChild(div);
-
+			var visualStateManager = $("div")[0].visualStateManager;
+			ko.applyBindings(visualStateManager);
+			
 		});
 	
 	</script>
@@ -38,14 +39,30 @@
 		<visualstatemanager>
 			<visualstategroup>
 				<visualstate name="firstState">
+					<opacity target="something" value="0.5"/>
+				</visualstate>
+				<visualstate name="secondState">
+					<opacity target="something" value="1.0"/>
 				</visualstate>
 			</visualstategroup>
 			<visualstategroup>
-				<visualstate name="firstState">
+				<visualstate name="otherState">
 				</visualstate>
 			</visualstategroup>
 		</visualstatemanager>
+
+
+		<span name="something">Hello world</span>
 	</div>
+	<ul data-bind="foreach: groups">
+		<li>
+			Groups CurrentState: 
+			<span data-bind="text: currentState().name"
+		</li>
+	</ul>
+
+	<button onclick='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
+	<button onclick='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</button>
 
 </body>
 </html>

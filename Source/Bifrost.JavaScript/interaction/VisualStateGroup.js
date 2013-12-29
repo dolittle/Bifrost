@@ -6,7 +6,7 @@ Bifrost.namespace("Bifrost.interaction", {
 		this.defaultDuration = Bifrost.TimeSpan.zero();
 
 		/// <field name="currentState" type="Bifrost.interaction.VisualState">Holds the current state, this is an observable</field>
-		this.currentState = ko.observable();
+		this.currentState = ko.observable({name: "null state", enter: function() {}, exit: function() {}});
 
 		/// <field name="states" type="Array" elementType="Bifrost.interaction.VisualState">Holds an observable array of visual states</field>
 		this.states = ko.observableArray();
@@ -58,17 +58,21 @@ Bifrost.namespace("Bifrost.interaction", {
 			return stateFound;
 		};
 
-		this.goTo = function(stateName) {
+		this.goTo = function(namingRoot, stateName) {
 			/// <summary>Go to a specific state by the name of the state</summary>
 			/// <param name="stateName" type="String">Name of the state to go to</param>
+			var currentState = self.currentState();
+			if( !Bifrost.isNullOrUndefined(currentState) && currentState.name === stateName ) {
+				return;
+			}
+
 			var state = self.getStateByName(stateName);
 			if( !Bifrost.isNullOrUndefined(state) ) {
-				var currentState = self.currentState();
 				if( !Bifrost.isNullOrUndefined(currentState) ) {
-					currentState.exit(self.defaultDuration);
+					currentState.exit(namingRoot, self.defaultDuration);
 				}
 				self.currentState(state);
-				state.enter(self.defaultDuration);
+				state.enter(namingRoot, self.defaultDuration);
 			}
 		};
 	})

@@ -2,6 +2,8 @@ describe("when changing state to known state", function() {
 
 	var manager = Bifrost.interaction.VisualStateManager.create();
 
+	manager.namingRoot = { some: "namingRoot" };
+
 	var firstGroup = {
 		hasState : sinon.stub().returns(false)
 	};
@@ -23,6 +25,6 @@ describe("when changing state to known state", function() {
 	manager.goTo("someState");
 
 	it("should enter the state for the group", function() {
-		expect(secondGroup.goTo.calledWith("someState")).toBe(true);
+		expect(secondGroup.goTo.calledWith(manager.namingRoot, "someState")).toBe(true);
 	});
 });
