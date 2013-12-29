@@ -129,5 +129,25 @@
 
             element.region = region;
         };
+
+        this.traverseObjects = function(callback, element) {
+            /// <summary>Traverse objects and call back for each element</summary>
+            /// <param name="callback" type="Function">Callback to call for each element found</param>
+            /// <param name="element" type="HTMLElement" optional="true">Optional root element</param>
+            element = element || self.DOMRoot;
+            if( !Bifrost.isNullOrUndefined(element) ) {
+                callback(element);
+
+                if( element.hasChildNodes() ) {
+                    var child = element.firstChild;
+                    while( child ) {
+                        if( child.nodeType === 1 ) {
+                            self.traverseObjects(callback, child);
+                        }
+                        child = child.nextSibling;
+                    }
+                }
+            }
+        };
     })
 });
