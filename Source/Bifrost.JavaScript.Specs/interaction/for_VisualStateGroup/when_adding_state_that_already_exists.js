@@ -1,7 +1,7 @@
 describe("when adding state that already exists", function() {
 
 	var exception = null;
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: {}});
 	var state = { some: "state" };
 	group.addState(state);
 

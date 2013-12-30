@@ -1,6 +1,6 @@
 describe("when getting state by name and it exists", function() {
 
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: {}});
 	var firstState = {
 		name: "Something else"
 	};

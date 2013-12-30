@@ -1,6 +1,6 @@
 describe("when adding transition", function() {
 
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: {}});
 
 	var transition = { some: "transition" };
 

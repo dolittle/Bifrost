@@ -1,6 +1,17 @@
 describe("when going to a state and there is a current state", function() {
 
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var stateBefore = null;
+	var stateAfter = null;
+
+	var dispatcher = {};
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: dispatcher});
+
+	dispatcher.schedule = function(milliseconds, callback) {
+		stateBefore = group.currentState();
+		callback();
+		stateAfter = group.currentState();
+	};
+
 
 	var firstState = {
 		name: "something Else",
@@ -21,8 +32,11 @@ describe("when going to a state and there is a current state", function() {
 	group.currentState(firstState);
 	group.goTo(namingRoot, "something");
 
-	it("should switch current state", function() {
-		expect(group.currentState()).toBe(secondState);
+	it("should not switch current state before it has transitioned", function() {
+		expect(stateBefore).toBe(firstState);
+	});
+	it("should switch current state when it has transitioned", function() {
+		expect(stateAfter).toBe(secondState);
 	});
 
 	it("should tell the current state to exit", function() {

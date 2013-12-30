@@ -44,6 +44,7 @@
 @depends TimeSpan.js
 @depends Event.js
 @depends systemEvents.js
+@depends dispatcher.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js

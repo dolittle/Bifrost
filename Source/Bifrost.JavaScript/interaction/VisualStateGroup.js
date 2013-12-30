@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.interaction", {
-	VisualStateGroup: Bifrost.Type.extend(function() {
+	VisualStateGroup: Bifrost.Type.extend(function(dispatcher) {
 		/// <summary>Represents a group that holds visual states</summary>
 		var self = this;
 
@@ -68,11 +68,15 @@ Bifrost.namespace("Bifrost.interaction", {
 
 			var state = self.getStateByName(stateName);
 			if( !Bifrost.isNullOrUndefined(state) ) {
+				var duration = self.defaultDuration;
 				if( !Bifrost.isNullOrUndefined(currentState) ) {
-					currentState.exit(namingRoot, self.defaultDuration);
+					currentState.exit(namingRoot, duration);
 				}
-				self.currentState(state);
-				state.enter(namingRoot, self.defaultDuration);
+				state.enter(namingRoot, duration);
+			
+				dispatcher.schedule(duration.totalMilliseconds(), function() {
+					self.currentState(state);
+				});
 			}
 		};
 	})

@@ -1,6 +1,6 @@
 describe("when adding state", function() {
 
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: {}});
 	var state = { some: "state" };
 
 	group.addState(state);

@@ -1,6 +1,6 @@
 describe("when checking if has state and it has", function() {
 
-	var group = Bifrost.interaction.VisualStateGroup.create();
+	var group = Bifrost.interaction.VisualStateGroup.create({dispatcher: {}});
 	group.states.push({
 		name: "Something else"
 	});
