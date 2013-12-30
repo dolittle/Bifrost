@@ -1,6 +1,6 @@
 var globalId = 0;
 Bifrost.namespace("Bifrost.interaction.visualStateActions", {
-	Opacity: Bifrost.interaction.VisualStateAction.extend(function() {
+	Opacity: Bifrost.interaction.VisualStateAction.extend(function(documentService) {
 		var self = this;
 		var element = null;
 		var id = "opacity"+globalId;
@@ -10,78 +10,6 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 		this.target = "";
 		this.value = "";
 
-function createCSSSelector(selector, style) {
-    if(!document.styleSheets) {
-        return;
-    }
-
-    if(document.getElementsByTagName("head").length == 0) {
-        return;
-    }
-
-    var stylesheet;
-    var mediaType;
-    if(document.styleSheets.length > 0) {
-        for( i = 0; i < document.styleSheets.length; i++) {
-            if(document.styleSheets[i].disabled) {
-                continue;
-            }
-            var media = document.styleSheets[i].media;
-            mediaType = typeof media;
-
-            if(mediaType == "string") {
-                if(media == "" || (media.indexOf("screen") != -1)) {
-                    styleSheet = document.styleSheets[i];
-                }
-            } else if(mediaType == "object") {
-                if(media.mediaText == "" || (media.mediaText.indexOf("screen") != -1)) {
-                    styleSheet = document.styleSheets[i];
-                }
-            }
-
-            if( typeof styleSheet != "undefined") {
-                break;
-            }
-        }
-    }
-
-    if( typeof styleSheet == "undefined") {
-        var styleSheetElement = document.createElement("style");
-        styleSheetElement.type = "text/css";
-
-        document.getElementsByTagName("head")[0].appendChild(styleSheetElement);
-
-        for( i = 0; i < document.styleSheets.length; i++) {
-            if(document.styleSheets[i].disabled) {
-                continue;
-            }
-            styleSheet = document.styleSheets[i];
-        }
-
-        var media = styleSheet.media;
-        mediaType = typeof media;
-    }
-
-    if(mediaType == "string") {
-        for( i = 0; i < styleSheet.rules.length; i++) {
-            if(styleSheet.rules[i].selectorText && styleSheet.rules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
-                styleSheet.rules[i].style.cssText = style;
-                return;
-            }
-        }
-
-        styleSheet.addRule(selector, style);
-    } else if(mediaType == "object") {
-        for( i = 0; i < styleSheet.cssRules.length; i++) {
-            if(styleSheet.cssRules[i].selectorText && styleSheet.cssRules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
-                styleSheet.cssRules[i].style.cssText = style;
-                return;
-            }
-        }
-
-        styleSheet.insertRule(selector + "{" + style + "}", 0);
-    }
-}		
 
 		this.initialize = function(namingRoot) {
 			element = namingRoot.find(self.target);
@@ -93,7 +21,11 @@ function createCSSSelector(selector, style) {
 
 			var actualDuration = duration.totalMilliseconds() / 1000;
 
-			createCSSSelector("."+id, "-webkit-transition: opacity "+actualDuration+"s ease-in-out; transition: opacity "+actualDuration+"s ease-in-out; opacity:"+value+";");
+			documentService.addStyle("."+id, {
+				"-webkit-transition": "opacity "+actualDuration+"s ease-in-out",
+				"transition": "opacity "+actualDuration+"s ease-in-out",
+				"opacity":value
+			})
 
 			element.classList.add(id);
 

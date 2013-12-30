@@ -125,7 +125,7 @@
 @depends messaging/observableMessage.js
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
-@depends views/documentService.js
+@depends documentService.js
 @depends views/ElementVisitor.js
 @depends views/ElementVisitorResultActions.js
 @depends views/UIManager.js
