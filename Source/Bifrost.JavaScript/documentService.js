@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.views", {
+﻿Bifrost.namespace("Bifrost", {
     documentService: Bifrost.Singleton(function (DOMRoot) {
         var self = this;
 
@@ -147,6 +147,89 @@
                         child = child.nextSibling;
                     }
                 }
+            }
+        };
+
+
+        this.addStyle = function(selector, style) {
+            /// <summary>Add a style dynamically into the browser</summary>
+            /// <param name="selector" type="String">Selector that represents the class</param>
+            /// <param name="style" type="Object">Key/value pair object for styles</param>
+            if(!document.styleSheets) {
+                return;
+            }
+
+            var styleString = "";
+            for( var property in style ) {
+                styleString = styleString + property +":" + style[property]+";";
+            }
+            style = styleString;
+
+            if(document.getElementsByTagName("head").length == 0) {
+                return;
+            }
+
+            var stylesheet;
+            var mediaType;
+            if(document.styleSheets.length > 0) {
+                for( i = 0; i < document.styleSheets.length; i++) {
+                    if(document.styleSheets[i].disabled) {
+                        continue;
+                    }
+                    var media = document.styleSheets[i].media;
+                    mediaType = typeof media;
+
+                    if(mediaType == "string") {
+                        if(media == "" || (media.indexOf("screen") != -1)) {
+                            styleSheet = document.styleSheets[i];
+                        }
+                    } else if(mediaType == "object") {
+                        if(media.mediaText == "" || (media.mediaText.indexOf("screen") != -1)) {
+                            styleSheet = document.styleSheets[i];
+                        }
+                    }
+
+                    if( typeof styleSheet != "undefined") {
+                        break;
+                    }
+                }
+            }
+
+            if( typeof styleSheet == "undefined") {
+                var styleSheetElement = document.createElement("style");
+                styleSheetElement.type = "text/css";
+
+                document.getElementsByTagName("head")[0].appendChild(styleSheetElement);
+
+                for( i = 0; i < document.styleSheets.length; i++) {
+                    if(document.styleSheets[i].disabled) {
+                        continue;
+                    }
+                    styleSheet = document.styleSheets[i];
+                }
+
+                var media = styleSheet.media;
+                mediaType = typeof media;
+            }
+
+            if(mediaType == "string") {
+                for( i = 0; i < styleSheet.rules.length; i++) {
+                    if(styleSheet.rules[i].selectorText && styleSheet.rules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+                        styleSheet.rules[i].style.cssText = style;
+                        return;
+                    }
+                }
+
+                styleSheet.addRule(selector, style);
+            } else if(mediaType == "object") {
+                for( i = 0; i < styleSheet.cssRules.length; i++) {
+                    if(styleSheet.cssRules[i].selectorText && styleSheet.cssRules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+                        styleSheet.cssRules[i].style.cssText = style;
+                        return;
+                    }
+                }
+
+                styleSheet.insertRule(selector + "{" + style + "}", 0);
             }
         };
     })
