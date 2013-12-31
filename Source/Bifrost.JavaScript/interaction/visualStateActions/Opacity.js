@@ -21,6 +21,9 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 
 			documentService.addStyle("."+id, {
 				"-webkit-transition": "opacity "+actualDuration+"s ease-in-out",
+				"-moz-transition": "opacity "+actualDuration+"s ease-in-out",
+				"-ms-transition": "opacity "+actualDuration+"s ease-in-out",
+				"-o-transition": "opacity "+actualDuration+"s ease-in-out",
 				"transition": "opacity "+actualDuration+"s ease-in-out",
 				"opacity":value
 			})
