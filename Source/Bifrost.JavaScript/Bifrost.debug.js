@@ -4018,9 +4018,7 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 	Opacity: Bifrost.interaction.VisualStateAction.extend(function(documentService) {
 		var self = this;
 		var element = null;
-		var id = "opacity"+globalId;
-		globalId++;
-		//Bifrost.Guid.create().replaceAll("-","");
+		var id = documentService.getUniqueStyleName("opacity");
 
 		this.target = "";
 		this.value = "";
@@ -4866,6 +4864,11 @@ Bifrost.namespace("Bifrost", {
             }
         };
 
+        this.getUniqueStyleName = function(prefix) {
+            var id = Bifrost.Guid.create();
+            var name = prefix+"_"+id;
+            return name;
+        };
 
         this.addStyle = function(selector, style) {
             /// <summary>Add a style dynamically into the browser</summary>

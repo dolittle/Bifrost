@@ -3,9 +3,7 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 	Opacity: Bifrost.interaction.VisualStateAction.extend(function(documentService) {
 		var self = this;
 		var element = null;
-		var id = "opacity"+globalId;
-		globalId++;
-		//Bifrost.Guid.create().replaceAll("-","");
+		var id = documentService.getUniqueStyleName("opacity");
 
 		this.target = "";
 		this.value = "";

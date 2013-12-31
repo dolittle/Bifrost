@@ -150,6 +150,11 @@
             }
         };
 
+        this.getUniqueStyleName = function(prefix) {
+            var id = Bifrost.Guid.create();
+            var name = prefix+"_"+id;
+            return name;
+        };
 
         this.addStyle = function(selector, style) {
             /// <summary>Add a style dynamically into the browser</summary>
