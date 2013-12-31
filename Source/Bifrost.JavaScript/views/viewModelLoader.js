@@ -14,7 +14,7 @@
             return promise;
         };
 
-        this.beginCreateInstanceOfViewModel = function (path) {
+        this.beginCreateInstanceOfViewModel = function (path, instanceHash) {
             var localPath = Bifrost.Path.getPathWithoutFilename(path);
             var filename = Bifrost.Path.getFilenameWithoutExtension(path);
 
@@ -26,7 +26,7 @@
 
                 if (filename in namespace) {
                     namespace[filename]
-                        .beginCreate()
+                        .beginCreate(instanceHash)
                             .continueWith(function (instance) {
                                 promise.signal(instance);
                             }).onFail(function () {
