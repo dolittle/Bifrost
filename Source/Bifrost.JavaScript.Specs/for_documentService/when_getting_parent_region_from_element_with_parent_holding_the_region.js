@@ -1,5 +1,5 @@
 ﻿describe("when getting parent region from element with parent holding the region", function () {
-    var service = Bifrost.views.documentService.createWithoutScope({
+    var service = Bifrost.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

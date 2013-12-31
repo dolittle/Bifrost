@@ -1,5 +1,5 @@
 ﻿describe("when getting viewmodel file from element with viewmodel file", function () {
-    var service = Bifrost.views.documentService.createWithoutScope({
+    var service = Bifrost.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

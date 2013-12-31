@@ -1,5 +1,5 @@
 ﻿describe("when asking if element has own region and it does not", function () {
-    var service = Bifrost.views.documentService.createWithoutScope({
+    var service = Bifrost.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

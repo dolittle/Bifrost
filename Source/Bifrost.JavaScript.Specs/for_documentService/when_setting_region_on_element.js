@@ -1,5 +1,5 @@
 ﻿describe("when setting region on element", function () {
-    var service = Bifrost.views.documentService.createWithoutScope({
+    var service = Bifrost.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

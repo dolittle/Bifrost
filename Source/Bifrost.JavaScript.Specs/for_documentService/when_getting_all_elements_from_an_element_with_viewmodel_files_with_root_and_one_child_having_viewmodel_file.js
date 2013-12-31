@@ -8,7 +8,7 @@
                     .append(thirdElement)
                 )[0];
 
-    var service = Bifrost.views.documentService.createWithoutScope({
+    var service = Bifrost.documentService.createWithoutScope({
         DOMRoot: {}
     });
 

@@ -7,9 +7,8 @@ describe("when traversing without specifying a root element", function() {
 	var deepCustomTag = document.createElement("deepcustom");
 	customTag.appendChild(deepCustomTag);
 
-	var service = Bifrost.views.documentService.create({DOMRoot: DOMRoot});
+	var service = Bifrost.documentService.createWithoutScope({DOMRoot: DOMRoot});
 	var callback = sinon.stub();
-
 	service.traverseObjects(callback);
 
 	it("should call the callback for the body", function() {
