@@ -169,6 +169,7 @@
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back.js" />
     <Content Include="read\for_QueryTask\when_creating.js" />
     <Content Include="read\for_QueryTask\when_executing.js" />
+    <Content Include="read\for_Query\when_getting_parameter_values_with_parameters_holding_observables.js" />
     <Content Include="read\for_Query\when_creating_instance_of_type_with_parameters.js" />
     <Content Include="read\for_Query\when_creating.js" />
     <Content Include="read\for_Query\when_asking_query_type_if_has_read_model_and_it_is_set.js" />

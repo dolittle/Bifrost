@@ -41,7 +41,11 @@
 
             var parameters = self.getParameters();
             for (var property in parameters) {
-                parameterValues[property] = ko.utils.unwrapObservable(parameters[property]);
+                value = parameters[property]();
+                if (ko.isObservable(value)) {
+                    value = value();
+                }
+                parameterValues[property] = value;
             }
 
             return parameterValues;
