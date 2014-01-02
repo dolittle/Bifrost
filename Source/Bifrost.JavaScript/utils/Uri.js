@@ -73,6 +73,6 @@ Bifrost.Uri = (function(window, undefined) {
 		
 			var uri = new Uri(location);
 			return uri;
-		},
+		}
 	};
 })(window);

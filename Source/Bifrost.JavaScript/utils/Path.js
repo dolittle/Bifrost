@@ -45,7 +45,7 @@
             if (self.extension == "") return false;
             return true;
         };
-    }),
+    })
 });
 Bifrost.Path.makeRelative = function (fullPath) {
     if (fullPath.indexOf("/") == 0) return fullPath.substr(1);
