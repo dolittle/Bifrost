@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager, UIManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
@@ -34,6 +34,7 @@
                     regionManager.getFor(view).continueWith(function (region) {
                         Bifrost.views.Region.current = region;
                         renderChildren(body);
+                        UIManager.handle(body);
                     });
                 }
             }
@@ -48,6 +49,7 @@
                     newElement.view = view;
                     self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
                         renderChildren(newElement);
+                        UIManager.handle(newElement);
                     });
                 });
             } else {

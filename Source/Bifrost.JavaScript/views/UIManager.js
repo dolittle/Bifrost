@@ -7,7 +7,7 @@ Bifrost.namespace("Bifrost.views", {
 			visitors.push(type.create());
 		})
 
-		this.handle = function(root) {
+		this.handle = function (root) {
 			documentService.traverseObjects(function(element) {
 				visitors.forEach(function(visitor) {
 					var actions = Bifrost.views.ElementVisitorResultActions.create();

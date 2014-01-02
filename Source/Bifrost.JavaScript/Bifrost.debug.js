@@ -5022,7 +5022,7 @@ Bifrost.namespace("Bifrost.views", {
 			visitors.push(type.create());
 		})
 
-		this.handle = function(root) {
+		this.handle = function (root) {
 			documentService.traverseObjects(function(element) {
 				visitors.forEach(function(visitor) {
 					var actions = Bifrost.views.ElementVisitorResultActions.create();
@@ -5276,7 +5276,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager) {
+    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager, UIManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
@@ -5311,6 +5311,7 @@ Bifrost.namespace("Bifrost.views", {
                     regionManager.getFor(view).continueWith(function (region) {
                         Bifrost.views.Region.current = region;
                         renderChildren(body);
+                        UIManager.handle(body);
                     });
                 }
             }
@@ -5325,6 +5326,7 @@ Bifrost.namespace("Bifrost.views", {
                     newElement.view = view;
                     self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
                         renderChildren(newElement);
+                        UIManager.handle(newElement);
                     });
                 });
             } else {
