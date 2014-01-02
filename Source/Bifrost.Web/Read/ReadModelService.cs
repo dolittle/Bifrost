@@ -84,12 +84,23 @@ namespace Bifrost.Web.Read
                 targetValueType = property.PropertyType;
             }
 
-            if (value.GetType() != targetValueType)
+            if (value == null)
             {
-                if (targetValueType == typeof(Guid))
-                    value = Guid.Parse(value.ToString());
-                else 
-                    value = Convert.ChangeType(value, targetValueType);
+                try
+                {
+                    value = Activator.CreateInstance(targetValueType);
+                }
+                catch { };
+            }
+            else
+            {
+                if (value.GetType() != targetValueType)
+                {
+                    if (targetValueType == typeof(Guid))
+                        value = Guid.Parse(value.ToString());
+                    else
+                        value = Convert.ChangeType(value, targetValueType);
+                }
             }
 
             var body = Expression.Equal(
