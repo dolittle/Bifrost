@@ -12,16 +12,13 @@
 	<script src="Libraries/require.js"></script>
 	<script src="Bifrost.debug.js" type="text/javascript"></script>
 	<script>
-		$(function() {
-			//var body = document.getElementsByTagName("body")[0];
+		Bifrost.assetsManager.initializeFromAssets(["something"]);
 
-			//var manager = Bifrost.views.UIManager.create();
-			//manager.handle(body);
-
+		Bifrost.configure.ready(function() {
 			var visualStateManager = $("div")[0].visualStateManager;
 			ko.applyBindings(visualStateManager);
 		});
-	
+
 	</script>
 </head>
 
@@ -42,9 +39,16 @@
 			</visualstategroup>
 		</visualstatemanager>
 
-
 		<span name="something">Hello world</span>
 	</div>
+
+	<ul data-bind="foreach: groups">
+		<li>
+			Groups CurrentState: 
+			<span data-bind="text: currentState().name"
+		</li>
+	</ul>
+
 	<div>
 		Desktop
 		<button onclick='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
@@ -58,12 +62,6 @@
 		<div ontouchstart='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</div>
 	</div>
 
-	<ul data-bind="foreach: groups">
-		<li>
-			Groups CurrentState: 
-			<span data-bind="text: currentState().name"
-		</li>
-	</ul>
 
 
 </body>
