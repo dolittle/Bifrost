@@ -10,7 +10,7 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 
 
 		this.initialize = function(namingRoot) {
-			element = namingRoot.find(self.target);
+		    element = namingRoot.find(self.target);
 		};
 
 		this.onEnter = function(namingRoot, duration) {
@@ -29,12 +29,6 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 			})
 
 			element.classList.add(id);
-
-
-			/*
-			if( element != null ) { 
-				element.style.opacity = value;
-			}*/
 		};
 
 		this.onExit = function(namingRoot, duration) {

@@ -4,6 +4,7 @@
 @depends extensions/NodeListExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
 @depends extensions/DateExtensions.js
+@depends polyfills/classList.js
 @depends polyfills/ElementPolyfills.js
 @depends utils/extend.js
 @depends utils/namespace.js
