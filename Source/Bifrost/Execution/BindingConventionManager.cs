@@ -61,11 +61,14 @@ namespace Bifrost.Execution
 
         public void Initialize()
         {
-            var existingBindings = _container.GetBoundServices();
+            var boundServices = _container.GetBoundServices();
+            var existingBindings = new Dictionary<Type, Type>();
+
+            foreach (var boundService in boundServices)
+                existingBindings[boundService] = boundService;
+
             var allTypes = _typeDiscoverer.GetAll();
-            var services = new List<Type>();
-            var filtered = allTypes.Where(t => !existingBindings.Contains(t));
-            services.AddRange(filtered);
+            var services = allTypes.Where(t => !existingBindings.ContainsKey(t)).ToList();
 
             var resolvedServices = new List<Type>();
 
