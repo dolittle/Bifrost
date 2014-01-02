@@ -108,6 +108,8 @@
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
+    <Content Include="for_linked\when_changing_main_value_when_it_already_has_an_observable.js" />
+    <Content Include="for_linked\when_setting_value_to_observable_and_it_changes.js" />
     <Content Include="interaction\for_CommandOperation\when_command_type_gets_set.js" />
     <Content Include="interaction\for_EventTrigger\when_event_is_triggered.js" />
     <Content Include="interaction\for_EventTrigger\when_initialized_without_event_name_set.js" />
@@ -144,6 +146,7 @@
     <Content Include="navigation\for_UriMapping\when_matching_a_uri_that_should_not_match.js" />
     <Content Include="navigation\for_UriMapping\when_resolving_a_uri.js" />
     <Content Include="read\for_PagingInfo\when_creating_with_values.js" />
+    <Content Include="read\for_Queryable\when_all_properties_are_set_and_they_already_was.js" />
     <Content Include="read\for_Queryable\when_all_properties_are_set.js" />
     <Content Include="read\for_Queryable\when_executing.js" />
     <Content Include="read\for_Queryable\when_executing_and_we_get_null_back.js" />
@@ -166,6 +169,7 @@
     <Content Include="read\for_queryService\when_executing_with_two_items_coming_back.js" />
     <Content Include="read\for_QueryTask\when_creating.js" />
     <Content Include="read\for_QueryTask\when_executing.js" />
+    <Content Include="read\for_Query\when_creating_instance_of_type_with_parameters.js" />
     <Content Include="read\for_Query\when_creating.js" />
     <Content Include="read\for_Query\when_asking_query_type_if_has_read_model_and_it_is_set.js" />
     <Content Include="read\for_Query\when_asking_query_type_if_has_read_model_and_it_is_not_set.js" />

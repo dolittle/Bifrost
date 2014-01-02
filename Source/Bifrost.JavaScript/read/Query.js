@@ -61,6 +61,12 @@
         this.onCreated = function (query) {
             self.target = query;
 
+            for (var property in self.target) {
+                if (ko.isObservable(self.target[property]) == true) {
+                    self.target[property].extend({ linked: {} });
+                }
+            }
+
             self.areAllParametersSet = ko.computed(function () {
                 var isSet = true;
                 var hasParameters = false;

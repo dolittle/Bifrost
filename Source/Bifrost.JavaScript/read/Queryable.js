@@ -33,8 +33,8 @@
                 }
             }
         }
+        
 
-        observePropertiesFrom(query);
 
         this.completed = function (callback) {
             self.completedCallbacks.push(callback);
@@ -52,6 +52,7 @@
                 // TODO: Diagnostics - warning
                 return self.target;
             }
+            self.query._previousAreAllParametersSet = true;
 
             var paging = Bifrost.read.PagingInfo.create({
                 size: self.pageSize(),
@@ -66,12 +67,6 @@
             return self.target;
         };
 
-        if (typeof self.query.areAllParametersSet.subscribe == "function") {
-            self.query.areAllParametersSet.subscribe(function (isSet) {
-                if (isSet === true) self.execute();
-            });
-        }
-
         this.setPageInfo = function (pageSize, pageNumber) {
             self.canExecute = false;
             self.pageSize(pageSize);
@@ -79,6 +74,23 @@
             self.canExecute = true;
             self.execute();
         };
+
+
+        observePropertiesFrom(query);
+        if (typeof self.query.areAllParametersSet.subscribe == "function") {
+
+            self.query.areAllParametersSet.subscribe(function (isSet) {
+                var shouldConsiderExecuting = true;
+                if (!Bifrost.isNullOrUndefined(self.query._previousAreAllParametersSet)) {
+                    if (self.query._previousAreAllParametersSet == isSet) {
+                        shouldConsiderExecuting = false;
+                    }
+                }
+                if (shouldConsiderExecuting == true) {
+                    if (isSet === true) self.execute();
+                }
+            });
+        }
     })
 });
 Bifrost.read.Queryable.new = function (options, region) {

@@ -45,6 +45,7 @@
 @depends Event.js
 @depends systemEvents.js
 @depends dispatcher.js
+@depends linked.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js

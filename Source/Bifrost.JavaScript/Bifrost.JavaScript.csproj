@@ -65,6 +65,7 @@
     <Content Include="io\fileFactory.js" />
     <Content Include="io\fileManager.js" />
     <Content Include="io\fileType.js" />
+    <Content Include="linked.js" />
     <Content Include="read\readModelSystemEvents.js" />
     <Content Include="read\ReadModelTask.js" />
     <Content Include="systemEvents.js" />
