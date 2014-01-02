@@ -198,12 +198,15 @@ Bifrost.namespace("Bifrost", {
         this.getVersion = function () {
             return version;
         };
-    };
+    }
 });
 
 // "Static Constructors"
 Bifrost.TimeSpan.zero = function() {
     return new Bifrost.TimeSpan(0, 0, 0, 0, 0);
+};
+Bifrost.TimeSpan.fromMilliseconds = function (milliseconds) {
+    return new Bifrost.TimeSpan(milliseconds, 0, 0, 0, 0);
 };
 Bifrost.TimeSpan.fromSeconds = function (seconds) {
     return new Bifrost.TimeSpan(0, seconds, 0, 0, 0);
