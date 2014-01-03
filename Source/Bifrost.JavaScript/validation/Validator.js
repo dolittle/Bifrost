@@ -24,7 +24,8 @@ Bifrost.validation.Validator = (function () {
             }
         };
 
-        this.validate = function(value) {
+        this.validate = function (value) {
+            value = ko.utils.unwrapObservable(value);
             self.rules.some(function(rule) {
                 if (!rule.validate(value)) {
                     self.isValid(false);
