@@ -1,16 +1,132 @@
 <html>
 
 <head>
-	<style>
-		.someStyle {
-			background-color: blue;
+    <link href="Styles/bootstrap.css" rel="stylesheet" />
+    <!--<link href="Styles/mobile.prefix.css" rel="stylesheet" />-->
+
+    <style>
+    	.body {
+			height: 100%;
+			overflow: hidden;
+			width: 100%;
+			position: fixed;    		
+			-webkit-user-select:none;
+		    -webkit-text-size-adjust:none;    		
+    	}
+
+		#header {
+			position:fixed; 
+			z-index:2;
+			top:0; 
+			left:0;
+			width:100%;
+			height:45px;
+			line-height:45px;
+			background-color:#f8f8f8;
+			padding:0;
+			color:#444;
+			font-size:20px;
+			text-align:center;
+			border-bottom: 1px solid #a6a6a6;
 		}
-	</style>
+
+		#wrapper {
+			position:absolute; 
+			z-index:1;
+			top:45px; bottom:45px; left:0;
+			width:100%;
+			background:#fff;
+			overflow:auto;
+		}
+
+    	#content {
+			width:100%;
+			height:100%;
+			overflow-y: scroll; 
+			-webkit-overflow-scrolling: touch;
+			/*-webkit-touch-callout:none;*/
+			-webkit-tap-highlight-color:rgba(0,0,0,0);			
+    	}
+		#content * {
+		    -webkit-transform: translate3d(0,0,0);
+		}    	
+
+		#footer {
+		    position: fixed;
+		    z-index:2;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    height: 45px;
+			line-height:45px;
+		    background-color:#f8f8f8;
+			width:100%;
+			padding:0;
+			border-top: 1px solid #a6a6a6;
+		}    
+    </style>
+
+    <meta name="apple-touch-fullscreen" content="YES" />
+
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
+    <!--<meta name="viewport" content="width=device-width, user-scalable=no" />-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="HandheldFriendly" content="True"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
 	<script src="Libraries/jquery-1.7.1.min.js"></script>
 	<script src="Libraries/knockout-2.2.1.js"></script>
 	<script src="Libraries/require.js"></script>
 	<script src="Bifrost.debug.js" type="text/javascript"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.ontouchmove = function(event){
+			    event.preventDefault();
+			    return false;
+			};
+			var content = document.getElementById("content");
+			var scrolling = false;
+			content.ontouchstart = function(event) {
+			    if (!scrolling) {
+			        scrolling = true;   
+			        if (event.currentTarget.scrollTop === 0) {
+			          event.currentTarget.scrollTop = 1;
+			        } else if (event.currentTarget.scrollHeight === event.currentTarget.scrollTop + event.currentTarget.offsetHeight) {
+			          event.currentTarget.scrollTop -= 1;
+			        }
+			        scrolling = false;
+			    }
+			};
+
+
+
+// Uses body because jquery on events are called off of the element they are
+// added to, so bubbling would not work if we used document instead.
+/*
+$('body').on('touchstart','.scrollable',function(e) {
+
+    // Only execute the below code once at a time
+    if (!scrolling) {
+        scrolling = true;   
+        if (e.currentTarget.scrollTop === 0) {
+          e.currentTarget.scrollTop = 1;
+        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+          e.currentTarget.scrollTop -= 1;
+        }
+        scrolling = false;
+    }
+});
+*/
+
+			content.ontouchmove = function(event) {
+				event.stopPropagation();
+			};
+		}, false);
+	</script>
+
+	<!--
 	<script>
 		Bifrost.assetsManager.initializeFromAssets(["something"]);
 
@@ -19,10 +135,34 @@
 			ko.applyBindings(visualStateManager);
 		});
 
-	</script>
+	</script>-->
 </head>
 
 <body>
+
+	<div id="header">Scroll Thing</div>
+
+	<div id="wrapper">
+		<div id="content">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet cursus quam, eget congue sapien. Proin facilisis metus eget nibh faucibus, sed tincidunt justo pretium. Pellentesque eget ligula luctus, pellentesque elit non, sodales enim. Vivamus in odio vel nulla tempus molestie sed ut velit. Aliquam vulputate bibendum interdum. Nullam tempus et magna et consectetur. Cras rutrum nisi quis tortor auctor, a varius purus elementum. Pellentesque tincidunt nulla et aliquam hendrerit. Vivamus nisi dui, viverra a venenatis et, semper quis nunc. Proin facilisis id dui quis fermentum. Fusce suscipit semper pharetra. Sed eu ligula nec sem ullamcorper vulputate non eu lacus.
+
+Maecenas vehicula luctus lacus. Ut convallis lorem quis odio varius lobortis. Nullam porta orci libero, vitae semper quam mollis eget. Morbi a lacus aliquet mi condimentum convallis nec eu lacus. Donec posuere posuere auctor. Etiam eget accumsan est. Fusce auctor blandit lobortis. Sed lacus turpis, pharetra eu dui id, faucibus tincidunt neque. Aenean volutpat molestie sagittis. Proin iaculis vel nunc ut aliquam. Vivamus interdum orci varius dui vestibulum, id euismod turpis sagittis. Nunc consequat nec dolor nec dignissim. Donec ac cursus sem.
+
+In euismod, diam egestas sollicitudin semper, nisl sapien volutpat libero, ac elementum libero libero nec ante. Etiam mattis urna sem, et porttitor odio vestibulum in. Nam vel purus suscipit, blandit urna quis, volutpat magna. Nam pulvinar pretium metus sed feugiat. Pellentesque at adipiscing turpis, in placerat risus. Sed pharetra elit ac enim cursus, nec suscipit lectus dictum. Curabitur mattis ut lacus egestas gravida. Vivamus sodales vestibulum velit, in sagittis mauris luctus vel. Sed condimentum accumsan laoreet. Praesent ultrices nisi vel gravida porta. Nulla sit amet augue in mauris consectetur gravida eu a ante. Nam sed est non orci faucibus faucibus sed non magna. Aliquam dictum condimentum neque eu tempus. Phasellus mattis, metus ac rutrum accumsan, dui ante congue sem, vestibulum faucibus lectus urna in felis. Ut semper tellus id lorem suscipit pellentesque.
+
+Donec at euismod arcu, nec vestibulum lacus. Ut suscipit lorem sapien, et volutpat urna consequat nec. Morbi quis ligula molestie, commodo diam ut, varius nisi. Sed adipiscing, urna nec eleifend mollis, augue quam dictum enim, a faucibus metus ipsum eu ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus augue mauris, sed consectetur metus aliquet et. Mauris nec ligula risus. Mauris ultricies enim sit amet ipsum vehicula varius. Curabitur dictum sit amet est non eleifend. Donec ac velit et lacus sodales malesuada. Sed euismod est nec urna lacinia, eu scelerisque lorem congue. Nullam rutrum dolor vel placerat cursus. Curabitur ac feugiat leo, non pellentesque lectus. Duis ac rhoncus orci.
+
+Integer convallis placerat elit eget dapibus. In diam lectus, hendrerit at justo quis, venenatis cursus mi. Etiam tempor in ante dapibus dapibus. Nullam sit amet magna eu ante vestibulum tincidunt ac eu sapien. Curabitur auctor, justo vel condimentum hendrerit, mauris tortor eleifend elit, at mollis justo lectus vel quam. Mauris auctor nunc eget ligula molestie faucibus. Aliquam et lectus eget elit porta viverra. Aliquam erat volutpat.
+
+		</div>
+	</div>
+
+	<div id="footer">
+		This is the footer
+
+	</div>
+
+	<!--
 	<div>
 		<visualstatemanager>
 			<visualstategroup duration="0.2">
@@ -61,7 +201,7 @@
 		<div ontouchstart='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</div>
 		<div ontouchstart='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</div>
 	</div>
-
+	-->
 
 
 </body>
