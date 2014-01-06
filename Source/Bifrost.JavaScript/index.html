@@ -126,7 +126,7 @@ $('body').on('touchstart','.scrollable',function(e) {
 		}, false);
 	</script>
 
-	<!--
+	
 	<script>
 		Bifrost.assetsManager.initializeFromAssets(["something"]);
 
@@ -135,10 +135,22 @@ $('body').on('touchstart','.scrollable',function(e) {
 			ko.applyBindings(visualStateManager);
 		});
 
-	</script>-->
+	</script>
 </head>
 
 <body>
+	<bf:something property="{binding}"/>
+
+	<other:something>
+		<other:something.property>
+			<should>
+				<be>
+					<cool>
+					</cool>
+				</be>
+			</should>
+		</other:something.property>
+	</other>
 
 	<div id="header">Scroll Thing</div>
 
