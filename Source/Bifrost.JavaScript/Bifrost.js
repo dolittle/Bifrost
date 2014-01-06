@@ -134,6 +134,15 @@
 @depends views/UIManager.js
 @depends views/NamingRoot.js
 @depends views/NamingRootElementVisitor.js
+@depends views/ObjectModelManager.js
+@depends views/ObjectModelElementVisitor.js
+@depends views/Content.js
+@depends views/Items.js
+@depends views/MarkupExtension.js
+@depends views/markupExtension.js
+@depends views/Binding.js
+@depends views/TypeConverter.js
+@depends views/typeConverters.js
 @depends views/UIElement.js
 @depends views/Control.js
 @depends views/ComposeTask.js

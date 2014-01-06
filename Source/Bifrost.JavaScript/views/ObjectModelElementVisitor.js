@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-	ObjectModelElementVisitor: Bifrost.views.ElementVisitor.extend(function() {
+	ObjectModelElementVisitor: Bifrost.views.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
 		this.visit = function(element, actions) {
 			// Tags : 
 			//  - tag names automatically match type names
@@ -24,9 +24,43 @@ Bifrost.namespace("Bifrost.views", {
 			//  - Children which are not a property reference are only allowed if a content or
 			//    items property exist. There can only be one of the other, two of either or both
 			//    at the same time should yield an exception
-
+			//
 			// Example : 
-			// <
+			// Simple control:
+			// <somecontrol property="42"/>
+			// 
+			// Control in different namespace:
+			// <ns:somecontrol property="42"/>
+			//
+			// Assigning property with tags:
+			// <ns:somecontrol>
+			//    <ns:somecontrol.property>42</ns:somcontrol.property>
+			// </ns:somecontrol>
+			// 
+
+			var namespace;
+			var name = element.localName.toLowerCase();
+
+			var namespaceSplit = name.split(":");
+			if( namespaceSplit.length > 2 ) {
+				throw "Syntax error: tagname '"+name+"' has multiple namespaces";
+			}
+ 			if( namespaceSplit.length == 2 ) {
+				name = namespaceSplit[1];
+				namespace = namespaceSplit[0];
+			}
+
+			var instance = objectModelManager.getObjectFromTagName(name,namespace);
+			for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
+				var name = element.attributes[attributeIndex].localName;
+				var value = element.attributes[attributeIndex].value;
+
+				if( name in instance ) {
+					var convertedValue = typeConverters.convert(typeof instance[name], value);
+					instance[name] = convertedValue;
+				}
+			}
+
 		};
 	})
 });
