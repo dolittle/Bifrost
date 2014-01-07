@@ -51,16 +51,55 @@ Bifrost.namespace("Bifrost.views", {
 			}
 
 			var instance = objectModelManager.getObjectFromTagName(name,namespace);
+			element.__objectModelNode = instance;
+
+			var propertySplit = element.localName.split(".");
+			if( propertySplit.length > 2 ) {
+				throw "Syntax error: tagname '"+name+"' has multiple properties its referring to";
+			}
+
+			if( propertySplit.length == 2 ) {
+				if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
+					var parentName = element.parentElement.localName.toLowerCase();
+
+					if( parentName !== propertySplit[0] ) {
+						throw "Setting property using tag '"+name+"' does not match parent tag of '"+parentName+"'";
+					}
+				}
+			}
+
+			if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
+				var propertySplit = element.parentElement.localName.split(".");
+				if( propertySplit.length == 2 ) {
+					var propertyName = propertySplit[1];
+					if( !Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode) ) {
+						if( ko.isObservable(element.parentElement.__objectModelNode[propertyName]) ) {
+							element.parentElement.__objectModelNode[propertyName](instance);
+						} else {
+							element.parentElement.__objectModelNode[propertyName] = instance;
+						}
+					}
+				}
+			}
+
 			for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
 				var name = element.attributes[attributeIndex].localName;
 				var value = element.attributes[attributeIndex].value;
 
 				if( name in instance ) {
-					var convertedValue = typeConverters.convert(typeof instance[name], value);
-					instance[name] = convertedValue;
+					var targetValue = instance[name];
+					var targetType = typeof targetValue;
+					if( ko.isObservable(targetValue)) {
+						targetType = typeof targetValue();
+					}
+					var convertedValue = typeConverters.convert(targetType, value);
+					if( ko.isObservable(targetValue)) {
+						targetValue(convertedValue);
+					} else {
+						instance[name] = convertedValue;
+					}
 				}
 			}
-
 		};
 	})
 });

@@ -134,7 +134,7 @@
 @depends views/UIManager.js
 @depends views/NamingRoot.js
 @depends views/NamingRootElementVisitor.js
-@depends views/ObjectModelManager.js
+@depends views/objectModelManager.js
 @depends views/ObjectModelElementVisitor.js
 @depends views/Content.js
 @depends views/Items.js
