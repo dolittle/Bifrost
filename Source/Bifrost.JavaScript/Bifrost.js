@@ -17,6 +17,7 @@
 @depends utils/isUndefined.js
 @depends utils/isNullOrUndefined.js
 @depends utils/isFunction.js
+@depends utils/isType.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
 @depends utils/dependencyResolver.js
@@ -139,7 +140,7 @@
 @depends views/Content.js
 @depends views/Items.js
 @depends views/MarkupExtension.js
-@depends views/markupExtension.js
+@depends views/markupExtensions.js
 @depends views/Binding.js
 @depends views/TypeConverter.js
 @depends views/typeConverters.js
