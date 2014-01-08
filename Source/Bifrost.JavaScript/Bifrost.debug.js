@@ -460,6 +460,11 @@ Bifrost.namespace("Bifrost", {
     }
 });
 Bifrost.namespace("Bifrost", {
+	isType : function(o) {
+		return typeof o._typeId != "undefined";
+	}
+});
+Bifrost.namespace("Bifrost", {
 	functionParser: {
 		parse: function(func) {
 			var result = [];
@@ -5255,9 +5260,61 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.namespace("Bifrost.views", {
 	objectModelManager: Bifrost.Singleton(function() {
-		
+		var self = this;
+		this.globalNamespacePrefix = "__global";
+
+		this.prefixNamespaceArrayDictionary = {};
+
+		this.registerNamespace = function(prefix, namespace) {
+			var ns = Bifrost.namespace(namespace);
+			var array;
+
+			if( self.prefixNamespaceArrayDictionary.hasOwnProperty(prefix) ) {
+				array = self.prefixNamespaceArrayDictionary[prefix];
+			} else {
+				array = [];
+				self.prefixNamespaceArrayDictionary[prefix] = array;
+			}
+
+			self.prefixNamespaceDictionary[prefix] = namespace;
+		};
+
+
+		this.getObjectFromTagName =  function(name, namespace) {
+			var hasNamespace = true;
+			if( Bifrost.isNullOrUndefined(namespace) ) {
+				namespace = self.globalNamespacePrefix;
+				hasNamespace = false;
+			}
+			namespace = namespace.toLowerCase();
+			name = name.toLowerCase();
+
+			var foundType = null;
+
+			if( self.prefixNamespaceArrayDictionary.hasOwnProperty(namespace) ) {
+				self.prefixNamespaceArrayDictionary[namespace].forEach(function(ns) {
+					for( var type in ns ) {
+						type = type.toLowerCase();
+						if( type == name ) {
+							foundType = type;
+							return;
+						}
+					}
+				})
+			}
+
+			if( foundType == null ) {
+				var namespaceMessage = "";
+				if( hasNamespace == true ) {
+					namespaceMessage = " in namespace prefixed '"+namespace+"'";
+				}
+				throw "Could not resolve type '"+name+"'"+namespaceMessage;
+			}
+
+			return foundType;
+		};
 	})
-})
+});
 Bifrost.namespace("Bifrost.views", {
 	ObjectModelElementVisitor: Bifrost.views.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
 		this.visit = function(element, actions) {
@@ -5298,6 +5355,8 @@ Bifrost.namespace("Bifrost.views", {
 			// </ns:somecontrol>
 			// 
 
+			if( !(element instanceof HTMLUnknownElement) ) return;
+
 			var namespace;
 			var name = element.localName.toLowerCase();
 
@@ -5311,16 +5370,55 @@ Bifrost.namespace("Bifrost.views", {
 			}
 
 			var instance = objectModelManager.getObjectFromTagName(name,namespace);
+			element.__objectModelNode = instance;
+
+			var propertySplit = element.localName.split(".");
+			if( propertySplit.length > 2 ) {
+				throw "Syntax error: tagname '"+name+"' has multiple properties its referring to";
+			}
+
+			if( propertySplit.length == 2 ) {
+				if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
+					var parentName = element.parentElement.localName.toLowerCase();
+
+					if( parentName !== propertySplit[0] ) {
+						throw "Setting property using tag '"+name+"' does not match parent tag of '"+parentName+"'";
+					}
+				}
+			}
+
+			if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
+				var propertySplit = element.parentElement.localName.split(".");
+				if( propertySplit.length == 2 ) {
+					var propertyName = propertySplit[1];
+					if( !Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode) ) {
+						if( ko.isObservable(element.parentElement.__objectModelNode[propertyName]) ) {
+							element.parentElement.__objectModelNode[propertyName](instance);
+						} else {
+							element.parentElement.__objectModelNode[propertyName] = instance;
+						}
+					}
+				}
+			}
+
 			for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
 				var name = element.attributes[attributeIndex].localName;
 				var value = element.attributes[attributeIndex].value;
 
 				if( name in instance ) {
-					var convertedValue = typeConverters.convert(typeof instance[name], value);
-					instance[name] = convertedValue;
+					var targetValue = instance[name];
+					var targetType = typeof targetValue;
+					if( ko.isObservable(targetValue)) {
+						targetType = typeof targetValue();
+					}
+					var convertedValue = typeConverters.convert(targetType, value);
+					if( ko.isObservable(targetValue)) {
+						targetValue(convertedValue);
+					} else {
+						instance[name] = convertedValue;
+					}
 				}
 			}
-
 		};
 	})
 });
@@ -5340,7 +5438,7 @@ Bifrost.namespace("Bifrost.views", {
 	})
 })
 Bifrost.namespace("Bifrost.views", {
-	MarkupExtension: Bifrost.Type.extend(function() {
+	markupExtensions: Bifrost.Type.extend(function() {
 		
 	})
 })

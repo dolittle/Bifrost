@@ -1,0 +1,27 @@
+describe("when visiting a plain tag and parent is a property set tag", function() {
+	var instance = { some: "instance"};
+	var objectModelManager = {
+		getObjectFromTagName: sinon.stub().returns(instance)
+	};
+
+	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+		objectModelManager: objectModelManager,
+		markupExtensions: {},
+		typeConverters: {}	
+	});
+
+	var parentObjectModelNode = {
+	};
+
+	var parentElement = { localName: "something.property", __objectModelNode: parentObjectModelNode };
+	var element = { localName: "somethingelse", attributes: [], parentElement: parentElement };
+	visitor.visit(element);
+
+	it("should ask for an object by tag name", function() {
+		expect(objectModelManager.getObjectFromTagName.calledWith("somethingelse")).toBe(true);
+	});
+
+	it("should set the object instance to the parent elements object model node", function() {
+		expect(parentObjectModelNode.property).toBe(instance);
+	});
+});
