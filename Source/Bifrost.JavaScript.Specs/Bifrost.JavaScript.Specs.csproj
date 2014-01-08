@@ -108,6 +108,30 @@
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
+    <Content Include="for_documentService\when_asking_if_element_has_own_region_and_it_does_not.js" />
+    <Content Include="for_documentService\when_asking_if_element_has_own_region_and_it_has.js" />
+    <Content Include="for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_root_and_one_child_having_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_all_elements_from_an_element_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_all_elements_with_viewmodel_files_sorted_from_an_element_with_two_deep_hierarchies.js" />
+    <Content Include="for_documentService\when_getting_all_elements_with_viewmodel_files_sorted_with_two_deep_hierarchies.js" />
+    <Content Include="for_documentService\when_getting_all_elements_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_all_elements_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_a_unique_style_name_for_same_prefix_twice.js" />
+    <Content Include="for_documentService\when_getting_parent_region_from_element_without_any_parent_having_region.js" />
+    <Content Include="for_documentService\when_getting_parent_region_from_element_with_parent_holding_the_region.js" />
+    <Content Include="for_documentService\when_getting_region_from_deep_nested_element_with_some_parent_holding_the_region.js" />
+    <Content Include="for_documentService\when_getting_region_from_element_and_there_is_no_region_to_find.js" />
+    <Content Include="for_documentService\when_getting_region_from_element_that_has_its_own_region.js" />
+    <Content Include="for_documentService\when_getting_region_from_element_with_parent_holding_the_region.js" />
+    <Content Include="for_documentService\when_getting_viewmodel_file_from_element_without_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_viewmodel_file_from_element_with_viewmodel_file.js" />
+    <Content Include="for_documentService\when_getting_viewmodel_from_element.js" />
+    <Content Include="for_documentService\when_setting_region_on_element.js" />
+    <Content Include="for_documentService\when_setting_viewmodel_file_on_element.js" />
+    <Content Include="for_documentService\when_setting_viewmodel_on_element.js" />
+    <Content Include="for_documentService\when_traversing_without_specifying_a_root_element.js" />
+    <Content Include="for_documentService\when_traversing_with_specifying_a_root_element.js" />
     <Content Include="for_linked\when_changing_main_value_when_it_already_has_an_observable.js" />
     <Content Include="for_linked\when_setting_value_to_observable_and_it_changes.js" />
     <Content Include="interaction\for_CommandOperation\when_command_type_gets_set.js" />
@@ -254,6 +278,10 @@
     <Content Include="Utils\for_isArray\when_checking_an_array.js" />
     <Content Include="Utils\for_isArray\when_checking_an_object.js" />
     <Content Include="Utils\for_isArray\when_checking_a_function.js" />
+    <Content Include="Utils\for_isNumber\when_asking_for_a_string_holding_a_number_with_leading_zeros.js" />
+    <Content Include="Utils\for_isNumber\when_asking_for_a_string_not_holding_a_number.js" />
+    <Content Include="Utils\for_isNumber\when_asking_for_a_string_holding_a_float.js" />
+    <Content Include="Utils\for_isNumber\when_asking_for_a_string_holding_an_integer.js" />
     <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type_that_has_multiple_same_named_extenders.js" />
     <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_resolving_for_supported_type.js" />
     <Content Include="Utils\for_KnownArtifactTypesDependencyResolver\when_asking_if_it_can_resolve_for_unsupported_type.js" />
@@ -438,6 +466,11 @@
     <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_viewmodel_file_from_element_with_viewmodel_file.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_a_property.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_uppercase_name.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_tag_with_namespace.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_tag_with_two_namespaces.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_region_descriptor_exists.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
@@ -467,6 +500,7 @@
     <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
+    <Content Include="views\for_UIManager\when_handling_with_one_element.js" />
     <Content Include="views\for_viewFactory\when_creating_from_path.js" />
     <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_already_in_memory.js" />
     <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_but_not_in_memory.js" />
@@ -488,7 +522,9 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="features\for_FeatureState\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
   </ItemGroup>
