@@ -198,7 +198,10 @@
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Read\ICanFilterReadModels.cs" />
+    <Compile Include="Read\IReadModelFilters.cs" />
     <Compile Include="Read\QueryableExtensions.cs" />
+    <Compile Include="Read\ReadModelFilters.cs" />
     <Compile Include="Read\UnknownQueryTypeException.cs" />
     <Compile Include="Read\IQuery.cs" />
     <Compile Include="Read\PagingInfo.cs" />
