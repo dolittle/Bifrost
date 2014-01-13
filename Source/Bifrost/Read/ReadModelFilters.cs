@@ -27,9 +27,8 @@ namespace Bifrost.Read
     /// </summary>
     public class ReadModelFilters : IReadModelFilters
     {
-        ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
-
+        Type[] _filterTypes;
 
         /// <summary>
         /// Initializes an instance of <see cref="ReadModelFilters"/>
@@ -38,14 +37,23 @@ namespace Bifrost.Read
         /// <param name="container"><see cref="IContainer"/> for instantiating filters</param>
         public ReadModelFilters(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
-            _typeDiscoverer = typeDiscoverer;
             _container = container;
+
+            _filterTypes = typeDiscoverer.FindMultiple<ICanFilterReadModels>();
         }
 
 #pragma warning disable 1591
         public IEnumerable<IReadModel> Filter(IEnumerable<IReadModel> readModels)
         {
-            throw new NotImplementedException();
+            if (_filterTypes.Length == 0) return readModels;
+
+            foreach (var filterType in _filterTypes)
+            {
+                var filter = _container.Get(filterType) as ICanFilterReadModels;
+                readModels = filter.Filter(readModels);
+            }
+
+            return readModels;
         }
 #pragma warning restore 1591
     }
