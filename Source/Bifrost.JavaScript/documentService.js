@@ -51,6 +51,22 @@
             return elements;
         };
 
+        this.getViewUriFrom = function (element) {
+            var uri = $(element).data("view");
+            if (typeof uri == "undefined") uri = "";
+            return uri;
+        };
+
+        this.setViewUriOn = function (element, uri) {
+            $(element).data("view", uri);
+            $(element).attr("data-view", uri);
+        };
+
+        this.hasViewUri = function (element) {
+            return Bifrost.isString($(element).data("view"));
+        };
+
+
         this.getViewFileFrom = function (element) {
             var file = $(element).data("view-file");
             if (typeof file == "undefined") file = "";
