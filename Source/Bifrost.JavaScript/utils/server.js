@@ -2,6 +2,8 @@
     server: Bifrost.Singleton(function () {
         var self = this;
 
+        this.target = "";
+
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
                 var items = [];
@@ -30,6 +32,10 @@
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
 
+            if (!Bifrost.Uri.isAbsolute(url)) {
+                url = self.target + url;
+            }
+
             var actualParameters = {};
 
             for (var property in parameters) {
@@ -57,6 +63,10 @@
 
         this.get = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
+
+            if (!Bifrost.Uri.isAbsolute(url)) {
+                url = self.target + url;
+            }
 
             $.ajax({
                 url: url,
