@@ -1,5 +1,5 @@
 describe("when creating from an internet address", function() {
-	var location = "http://www.vg.no:8081/some/route#some/anchor?firstParameter=5&secondParameter=horse";
+	var location = "http://www.vg.no:8081/some/route#!some/anchor?firstParameter=5&secondParameter=horse";
 	var uri = Bifrost.Uri.create(location);
 	
 	it("should have scheme set", function() {
