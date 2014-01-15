@@ -29,8 +29,9 @@
                         .beginCreate(instanceHash)
                             .continueWith(function (instance) {
                                 promise.signal(instance);
-                            }).onFail(function () {
-                                promise.signal({});
+                            }).onFail(function (error) {
+                                console.log("ViewModel '"+filename+"' failed instantiation");
+                                throw error;
                             });
                 }
             }
