@@ -300,6 +300,10 @@
     <Content Include="Utils\for_Path\when_getting_path_without_filename_from_deep_path_containing_filename.js" />
     <Content Include="Utils\for_Path\when_changing_extension.js" />
     <Content Include="Utils\for_Path\when_making_path_starting_with_slash_relative.js" />
+    <Content Include="Utils\for_server\when_posting_data_to_an_absolute_url_with_target_set.js" />
+    <Content Include="Utils\for_server\when_getting_data_from_an_absolute_url_with_target_set.js" />
+    <Content Include="Utils\for_server\when_posting_data_to_a_relative_url_with_target_set.js" />
+    <Content Include="Utils\for_server\when_getting_data_from_a_relative_url_with_target_set.js" />
     <Content Include="Utils\for_server\when_getting_data_from_a_url_that_returns_an_array_of_elements.js" />
     <Content Include="Utils\for_server\when_posting_data_to_a_url_that_returns_an_array_of_elements.js" />
     <Content Include="Utils\for_server\when_getting_data_from_a_url.js" />
@@ -358,6 +362,11 @@
     <Content Include="Utils\for_Type\when_extending_without_a_parameter.js" />
     <Content Include="Utils\for_Type\when_extending_with_null_parameter.js" />
     <Content Include="Utils\for_Type\when_extending_with_object_literal.js" />
+    <Content Include="Utils\for_Uri\when_asking_if_url_is_absolute_and_it_is_relative.js" />
+    <Content Include="Utils\for_Uri\when_asking_if_url_is_absolute_and_it_is_relative_prefixed_with_slash.js" />
+    <Content Include="Utils\for_Uri\when_asking_if_url_is_absolute_and_it_is_absolute_https.js" />
+    <Content Include="Utils\for_Uri\when_asking_if_url_is_absolute_and_it_is_absolute_file.js" />
+    <Content Include="Utils\for_Uri\when_asking_if_url_is_absolute_and_it_is_absolute_http.js" />
     <Content Include="Utils\for_Uri\when_creating.js" />
     <Content Include="Utils\for_Uri\when_creating_from_an_internet_address.js" />
     <Content Include="Utils\for_Uri\when_creating_without_location.js" />
