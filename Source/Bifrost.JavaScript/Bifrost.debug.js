@@ -363,6 +363,8 @@ Bifrost.namespace("Bifrost.execution", {
     Promise: function () {
         var self = this;
 
+        this.id = Bifrost.Guid.create();
+
         this.signalled = false;
         this.callback = null;
         this.error = null;
@@ -391,6 +393,7 @@ Bifrost.namespace("Bifrost.execution", {
             } else {
                 self.failedCallback = callback;
             }
+            return self;
         };
 
 
@@ -401,10 +404,9 @@ Bifrost.namespace("Bifrost.execution", {
         };
 
         this.continueWith = function (callback) {
-            var nextPromise = Bifrost.execution.Promise.create();
             this.callback = callback;
             if (self.signalled === true) onSignal();
-            return nextPromise;
+            return self;
         };
     }
 });
@@ -1542,6 +1544,12 @@ Bifrost.Uri = (function(window, undefined) {
 		
 			var uri = new Uri(location);
 			return uri;
+		},
+
+		isAbsolute: function (url) {
+		    // Based on http://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
+		    var expression = new RegExp('^(?:[a-z]+:)?//', 'i');
+		    return expression.test(url);
 		}
 	};
 })(window);
@@ -1733,9 +1741,11 @@ Bifrost.namespace("Bifrost", {
 
         this.resolve = function (input) {
             try {
-                if( input === null || typeof input === "undefined" || input == "" ) return "";
+                if( input === null || typeof input === "undefined" ) return "";
                 
                 var mapping = self.getMappingFor(input);
+                if (Bifrost.isNullOrUndefined(mapping)) return "";
+
                 return mapping.resolve(input);
             } catch (e) {
                 return "";
@@ -1755,6 +1765,8 @@ Bifrost.namespace("Bifrost", {
 Bifrost.namespace("Bifrost", {
     server: Bifrost.Singleton(function () {
         var self = this;
+
+        this.target = "";
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
@@ -1784,6 +1796,10 @@ Bifrost.namespace("Bifrost", {
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
 
+            if (!Bifrost.Uri.isAbsolute(url)) {
+                url = self.target + url;
+            }
+
             var actualParameters = {};
 
             for (var property in parameters) {
@@ -1811,6 +1827,10 @@ Bifrost.namespace("Bifrost", {
 
         this.get = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
+
+            if (!Bifrost.Uri.isAbsolute(url)) {
+                url = self.target + url;
+            }
 
             $.ajax({
                 url: url,
@@ -2163,13 +2183,21 @@ Bifrost.namespace("Bifrost.io", {
         var self = this;
 
         var uri = Bifrost.Uri.create(window.location.href);
+        if (window.location.protocol === "file:") {
+            this.origin = window.location.href;
+            this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
 
-        var port = uri.port || "";
-        if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
-            port = ":"+port;
+            if (this.origin.lastIndexOf("/") == this.origin.length - 1) {
+                this.origin = this.origin.substr(0, this.origin.length - 1);
+            }
+        } else {
+            var port = uri.port || "";
+            if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
+                port = ":" + port;
+            }
+
+            this.origin = uri.scheme + "://" + uri.host + port;
         }
-
-        this.origin = uri.scheme + "://" + uri.host + port;
 
         function getActualFilename(filename) {
             var actualFilename = self.origin;
@@ -5788,8 +5816,9 @@ Bifrost.namespace("Bifrost.views", {
                         .beginCreate(instanceHash)
                             .continueWith(function (instance) {
                                 promise.signal(instance);
-                            }).onFail(function () {
-                                promise.signal({});
+                            }).onFail(function (error) {
+                                console.log("ViewModel '"+filename+"' failed instantiation");
+                                throw error;
                             });
                 }
             }
