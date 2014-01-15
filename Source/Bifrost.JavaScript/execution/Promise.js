@@ -2,6 +2,8 @@ Bifrost.namespace("Bifrost.execution", {
     Promise: function () {
         var self = this;
 
+        this.id = Bifrost.Guid.create();
+
         this.signalled = false;
         this.callback = null;
         this.error = null;
@@ -30,6 +32,7 @@ Bifrost.namespace("Bifrost.execution", {
             } else {
                 self.failedCallback = callback;
             }
+            return self;
         };
 
 
@@ -40,10 +43,9 @@ Bifrost.namespace("Bifrost.execution", {
         };
 
         this.continueWith = function (callback) {
-            var nextPromise = Bifrost.execution.Promise.create();
             this.callback = callback;
             if (self.signalled === true) onSignal();
-            return nextPromise;
+            return self;
         };
     }
 });
