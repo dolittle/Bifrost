@@ -4,13 +4,21 @@
         var self = this;
 
         var uri = Bifrost.Uri.create(window.location.href);
+        if (window.location.protocol === "file:") {
+            this.origin = window.location.href;
+            this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
 
-        var port = uri.port || "";
-        if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
-            port = ":"+port;
+            if (this.origin.lastIndexOf("/") == this.origin.length - 1) {
+                this.origin = this.origin.substr(0, this.origin.length - 1);
+            }
+        } else {
+            var port = uri.port || "";
+            if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
+                port = ":" + port;
+            }
+
+            this.origin = uri.scheme + "://" + uri.host + port;
         }
-
-        this.origin = uri.scheme + "://" + uri.host + port;
 
         function getActualFilename(filename) {
             var actualFilename = self.origin;
