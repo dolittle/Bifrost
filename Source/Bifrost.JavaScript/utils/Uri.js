@@ -73,6 +73,12 @@ Bifrost.Uri = (function(window, undefined) {
 		
 			var uri = new Uri(location);
 			return uri;
+		},
+
+		isAbsolute: function (url) {
+		    // Based on http://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
+		    var expression = new RegExp('^(?:[a-z]+:)?//', 'i');
+		    return expression.test(url);
 		}
 	};
 })(window);
