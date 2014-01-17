@@ -302,10 +302,7 @@ Bifrost.namespace("Bifrost", {
             instance = new actualType();    
         }
 
-        instance._type = {
-            _name: this._name,
-            _namespace: this._namespace
-        };
+        instance._type = actualType;
 
         if( isSuper !== true ) {
             handleOnCreate(actualType, instance, instance);

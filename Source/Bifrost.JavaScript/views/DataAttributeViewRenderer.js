@@ -17,6 +17,7 @@ Bifrost.namespace("Bifrost.views", {
 		    if (self.pathResolvers.canResolve(element, path)) {
 		        var actualPath = self.pathResolvers.resolve(element, path);
 		        var view = self.viewFactory.createFrom(actualPath);
+		        element.view = view;
 
 		        view.element = element;
 		        view.load().continueWith(function (targetView) {

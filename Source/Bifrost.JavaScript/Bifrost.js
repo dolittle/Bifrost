@@ -154,10 +154,13 @@
 @depends views/viewFactory.js
 @depends views/ViewLoadTask.js
 @depends views/viewLoader.js
+@depends views/ViewRenderTask.js
 @depends views/viewManager.js
 @depends views/ViewModel.js
 @depends views/viewModelLoader.js
 @depends views/ViewModelLoadTask.js
+@depends views/ViewModelApplierTask.js
+@depends views/ViewModelsApplierTask.js
 @depends views/viewModelManager.js
 @depends views/PathResolver.js
 @depends views/pathResolvers.js

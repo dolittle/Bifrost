@@ -53,7 +53,7 @@
                 });
 
                 self.tasks.all().forEach(function (task) {
-                    if (task instanceof taskType) {
+                    if (task._type.typeOf(taskType) == true ) {
                         hasTask = true;
                     }
                 });
@@ -66,9 +66,29 @@
             return ko.computed(function () {
                 var isSet = true;
 
+                if (Bifrost.isNullOrUndefined(regionPropertyName)) {
+                    regionPropertyName = commandPropertyName;
+                }
+
+                self.children().forEach(function (childRegion) {
+                    if (childRegion.hasOwnProperty(regionPropertyName)) {
+                        if (childRegion[regionPropertyName]() === false) {
+                            isSet = false;
+                            return;
+                        }
+                    }
+                });
+
+                if (isSet == false) return false;
+                
+                
+
+
                 var commands = self.aggregatedCommands();
-                if (breakIfThisHasNoCommands === true) {
-                    if (commands.length == 0) return false;
+                if (self.children().length == 0 && isSet == true) {
+                    if (breakIfThisHasNoCommands === true) {
+                        if (commands.length == 0) return false;
+                    }
                 }
 
                 commands.forEach(function (command) {

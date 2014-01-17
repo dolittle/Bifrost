@@ -1,11 +1,12 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewRenderers, viewFactory, pathResolvers, viewModelManager, regionManager, UIManager) {
+    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers,regionManager, UIManager, taskFactory, viewRenderers, viewModelManager) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
+        this.viewModelManager = viewModelManager;
+
         this.viewFactory = viewFactory;
         this.pathResolvers = pathResolvers;
-        this.viewModelManager = viewModelManager;
 
         function renderChildren(element) {
             if(element.hasChildNodes() == true) {
@@ -27,6 +28,7 @@
                     var view = self.viewFactory.createFrom(actualPath);
                     view.element = body;
                     view.content = body.innerHTML;
+                    body.view = view;
 
                     // Todo: this one destroys the bubbling of click event to the body tag..  Weird.. Need to investigate more (see GitHub issue 233 : https://github.com/dolittle/Bifrost/issues/233)
                     //self.viewModelManager.applyToViewIfAny(view);
@@ -43,19 +45,13 @@
         this.render = function (element) {
             var promise = Bifrost.execution.Promise.create();
 
-            if (self.viewRenderers.canRender(element)) {
-                self.viewRenderers.render(element).continueWith(function (view) {
-                    var newElement = view.element;
-                    newElement.view = view;
-                    self.viewModelManager.applyToViewIfAny(view).continueWith(function () {
-                        renderChildren(newElement);
-                        UIManager.handle(newElement);
-                    });
+            if (viewRenderers.canRender(element)) {
+                var task = taskFactory.createViewRender(element);
+                regionManager.getCurrent().tasks.execute(task).continueWith(function () {
+                    promise.signal();
                 });
-            } else {
-                renderChildren(element);
             }
-
+            
             return promise;
         };
     })

@@ -44,7 +44,7 @@
     };
 
     region.children.push(childRegion);
-    childRegion.commandsHaveChanges(true);
+    childRegion.hasChanges(true);
 
     it("should have changes", function () {
         expect(hasChanges).toBe(true);

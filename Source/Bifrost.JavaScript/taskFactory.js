@@ -62,6 +62,30 @@
             return task;
         };
 
+        this.createViewModelApplier = function (view, masterViewModel) {
+            var task = Bifrost.views.ViewModelApplierTask.create({
+                view: view,
+                masterViewModel: masterViewModel
+            });
+            return task;
+        };
+
+
+        this.createViewModelsApplier = function (root, masterViewModel) {
+            var task = Bifrost.views.ViewModelsApplierTask.create({
+                root: root,
+                masterViewModel: masterViewModel
+            });
+            return task;
+        };
+
+        this.createViewRender = function (element) {
+            var task = Bifrost.views.ViewRenderTask.create({
+                element: element
+            });
+            return task;
+        };
+
         this.createFileLoad = function (files) {
             var task = Bifrost.tasks.FileLoadTask.create({
                 files: files

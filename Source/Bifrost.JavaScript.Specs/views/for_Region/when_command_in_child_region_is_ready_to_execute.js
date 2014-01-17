@@ -43,6 +43,7 @@
     };
 
     region.children.push(childRegion);
+
     childRegion.areCommandsReadyToExecute(true);
 
     it("should be ready to execute", function () {

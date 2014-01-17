@@ -11,7 +11,9 @@ Bifrost.namespace("Bifrost.views", {
                 var existingUri = documentService.getViewUriFrom(element);
                 if (existingUri !== uri) {
                     documentService.setViewUriOn(element, uri);
-                    viewManager.render(element);
+                    viewManager.render(element).continueWith(function () {
+                    });
+                    
                 }
             }
         };

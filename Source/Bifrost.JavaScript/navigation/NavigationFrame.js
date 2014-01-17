@@ -62,8 +62,8 @@
 
             if (path !== null && typeof path !== "undefined") {
                 $(self.container).data("view", path);
-                self.viewManager.render(self.container).continueWith(function (view) {
-                    promise.signal(view);
+                self.viewManager.render(self.container).continueWith(function () {
+                    //promise.signal();
                 });
             }
             return promise;

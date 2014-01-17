@@ -27,7 +27,7 @@
         tasksFactory
     );
 
-    var task = {};
+    var task = { _type: { typeOf: sinon.stub().returns(false) } };
     tasks.all.push(task);
     tasks.all.remove(task);
 

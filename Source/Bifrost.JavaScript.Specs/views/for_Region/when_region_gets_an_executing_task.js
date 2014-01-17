@@ -27,7 +27,7 @@
         tasksFactory
     );
 
-    tasks.all.push({});
+    tasks.all.push({ _type : { typeOf : sinon.stub().returns(false)} });
 
     it("should become busy", function () {
         expect(region.isBusy()).toBe(true);
