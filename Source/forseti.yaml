@@ -25,9 +25,11 @@ Dependencies :
   - Bifrost.JavaScript/utils/isFunction.js
   - Bifrost.JavaScript/utils/functionParser.js
   - Bifrost.JavaScript/utils/dependencyResolver.js
+  - Bifrost.JavaScript/utils/DefaultDependencyResolver.js
   - Bifrost.JavaScript/utils/WellKnownTypesDependencyResolver.js
   - Bifrost.JavaScript/utils/KnownArtifactTypesDependencyResolver.js
   - Bifrost.JavaScript/utils/KnownArtifactInstancesDependencyResolver.js
+  - Bifrost.JavaScript/utils/dependencyResolvers.js
   - Bifrost.JavaScript/utils/Type.js
   - Bifrost.JavaScript/utils/Singleton.js
   - Bifrost.JavaScript/utils/exceptions.js

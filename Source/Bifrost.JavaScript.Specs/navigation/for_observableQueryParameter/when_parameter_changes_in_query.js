@@ -2,6 +2,7 @@
     var observable;
     var callbackToCall;
 
+
     beforeEach(function () {
         sinon.stub(History.Adapter, "bind", function (scope, event, callback) {
             callbackToCall = callback;

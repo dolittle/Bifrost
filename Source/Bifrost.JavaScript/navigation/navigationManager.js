@@ -13,6 +13,11 @@ Bifrost.namespace("Bifrost.navigation", {
         }
     },
     navigationManager: {
+        getCurrentLocation: function() {
+            var uri = Bifrost.Uri.create(window.location.toString());
+            return uri;
+        },
+
         hookup: function () {
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 $("body").click(function (e) {

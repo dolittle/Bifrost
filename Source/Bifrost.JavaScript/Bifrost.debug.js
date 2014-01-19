@@ -1503,7 +1503,7 @@ Bifrost.Uri = (function(window, undefined) {
 	
 	function Uri(location) {
 		var self = this;
-		this.setLocation = function(location) {
+		this.setLocation = function (location) {
 			self.fullPath = location;
 			location = location.replace("#!","/");
 		
@@ -2366,8 +2366,6 @@ Bifrost.namespace("Bifrost.tasks", {
             /// <returns>A promise to work with for chaining further events</returns>
 
             var promise = Bifrost.execution.Promise.create();
-
-            console.log("Execute task : " + task._type._name);
 
             self.all.push(task);
 
@@ -5936,8 +5934,6 @@ Bifrost.namespace("Bifrost.views", {
             var viewModelFile = documentService.getViewModelFileFrom(target);
             documentService.setViewModelOn(target, instance);
 
-            console.log("Applying '" + viewModelFile + "'");
-
             ko.applyBindingsToNode(target, {
                 'viewModel': instance
             });
@@ -5987,7 +5983,6 @@ Bifrost.namespace("Bifrost.views", {
                     promise.signal(instance);
                 });
             } else {
-                console.log("ViewModel for '" + path + "' does not exist");
                 promise.signal(null);
             }
             
@@ -6010,7 +6005,6 @@ Bifrost.namespace("Bifrost.views", {
                     documentService.setViewModelFileOn(view.element, viewModelFile);
 
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        console.log("Applying by file for : '" + view.path + "'");
                         applyViewModel(instance, view.element);
                         region.viewModel = instance;
                         promise.signal(instance);
@@ -6018,12 +6012,10 @@ Bifrost.namespace("Bifrost.views", {
                 } else {
                     viewModelApplied = applyViewModelsByAttribute(view.path, view.element, promise);
                     if (viewModelApplied == false) {
-                        console.log("Applying by convention for : '" + view.path + "'");
                         applyViewModelByConventionFromPath(view.path, view.element, region).continueWith(function (instance) {
                             promise.signal(instance);
                         });
                     } else if( Bifrost.isNullOrUndefined(viewModelApplied) ) {
-                        console.log("Viewmodel already loaded for : '" + view.path + "'");
                         promise.signal(viewModelApplied);
                     }
                 }
@@ -6134,7 +6126,10 @@ Bifrost.namespace("Bifrost.views", {
         this.applyToViewIfAny = function (view) {
             var promise = Bifrost.execution.Promise.create();
             var task = taskFactory.createViewModelApplier(view, self.masterViewModel);
-            regionManager.getCurrent().tasks.execute(task).continueWith(function (instance) {
+
+            //var region = documentService.getRegionFor(view.element);
+            var region = regionManager.getCurrent(); 
+            region.tasks.execute(task).continueWith(function (instance) {
                 promise.signal(instance);
             });
 
@@ -6856,6 +6851,11 @@ Bifrost.namespace("Bifrost.navigation", {
         }
     },
     navigationManager: {
+        getCurrentLocation: function() {
+            var uri = Bifrost.Uri.create(window.location.toString());
+            return uri;
+        },
+
         hookup: function () {
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 $("body").click(function (e) {
@@ -6946,16 +6946,16 @@ Bifrost.namespace("Bifrost.navigation", {
 if (typeof Bifrost.views.viewRenderers != "undefined") {
     Bifrost.views.viewRenderers.NavigationFrameViewRenderer = Bifrost.navigation.NavigationFrameViewRenderer;
 }
-if (typeof ko !== "undefined") {
-    (function () {
+Bifrost.namespace("Bifrost.navigation", {
+    observableQueryParameterFactory: Bifrost.Singleton(function () {
+        var self = this;
+
         var historyEnabled = typeof History !== "undefined" && typeof History.Adapter !== "undefined";
 
-        ko.observableQueryParameter = function (parameterName, defaultValue) {
-            var self = this;
-            var observable = null;
-
-            this.getState = function () {
-                var uri = Bifrost.Uri.create(location.toString());
+        this.create = function (parameterName, defaultValue, navigationManager) {
+            
+            function getState() {
+                var uri = navigationManager.getCurrentLocation();
                 if (uri.parameters.hasOwnProperty(parameterName)) {
                     return uri.parameters[parameterName];
                 }
@@ -6963,22 +6963,27 @@ if (typeof ko !== "undefined") {
                 return null;
             }
 
+            var observable = null;
+
             if (historyEnabled) {
                 History.Adapter.bind(window, "statechange", function () {
                     if (observable != null) {
-                        observable(self.getState());
+                        observable(getState());
                     }
                 });
             } else {
                 window.addEventListener("hashchange", function () {
                     if (observable != null) {
-                        observable(self.getState());
+                        var state = getState();
+                        if (observable() != state) {
+                            observable(state);
+                        }
                     }
                 }, false);
             }
 
-
-            observable = ko.observable(self.getState() || defaultValue);
+            var state = getState();
+            observable = ko.observable(state || defaultValue);
 
             if (historyEnabled) {
                 observable.subscribe(function (newValue) {
@@ -7003,9 +7008,18 @@ if (typeof ko !== "undefined") {
             }
 
             return observable;
-        }
-    })();
-}
+            
+        };
+
+
+    })
+});
+
+ko.observableQueryParameter = function (parameterName, defaultValue) {
+    var navigationManager = Bifrost.navigation.navigationManager;
+    var observable = Bifrost.navigation.observableQueryParameterFactory.create().create(parameterName, defaultValue, navigationManager);
+    return observable;
+};
 Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
