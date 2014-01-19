@@ -21,8 +21,6 @@
 
             var promise = Bifrost.execution.Promise.create();
 
-            console.log("Execute task : " + task._type._name);
-
             self.all.push(task);
 
             var taskHistoryId = taskHistory.begin(task);

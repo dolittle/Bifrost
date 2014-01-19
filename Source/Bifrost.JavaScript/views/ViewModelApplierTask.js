@@ -7,8 +7,6 @@
             var viewModelFile = documentService.getViewModelFileFrom(target);
             documentService.setViewModelOn(target, instance);
 
-            console.log("Applying '" + viewModelFile + "'");
-
             ko.applyBindingsToNode(target, {
                 'viewModel': instance
             });
@@ -58,7 +56,6 @@
                     promise.signal(instance);
                 });
             } else {
-                console.log("ViewModel for '" + path + "' does not exist");
                 promise.signal(null);
             }
             
@@ -81,7 +78,6 @@
                     documentService.setViewModelFileOn(view.element, viewModelFile);
 
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        console.log("Applying by file for : '" + view.path + "'");
                         applyViewModel(instance, view.element);
                         region.viewModel = instance;
                         promise.signal(instance);
@@ -89,12 +85,10 @@
                 } else {
                     viewModelApplied = applyViewModelsByAttribute(view.path, view.element, promise);
                     if (viewModelApplied == false) {
-                        console.log("Applying by convention for : '" + view.path + "'");
                         applyViewModelByConventionFromPath(view.path, view.element, region).continueWith(function (instance) {
                             promise.signal(instance);
                         });
                     } else if( Bifrost.isNullOrUndefined(viewModelApplied) ) {
-                        console.log("Viewmodel already loaded for : '" + view.path + "'");
                         promise.signal(viewModelApplied);
                     }
                 }
