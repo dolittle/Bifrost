@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -27,13 +28,15 @@ namespace Bifrost.Web.Read
 {
     public class ReadModelService
     {
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly IContainer _container;
+        ITypeDiscoverer _typeDiscoverer;
+        IContainer _container;
+        IReadModelFilters _readModelFilters;
 
-        public ReadModelService(ITypeDiscoverer typeDiscoverer, IContainer container)
+        public ReadModelService(ITypeDiscoverer typeDiscoverer, IContainer container, IReadModelFilters readModelFilters)
         {
             _typeDiscoverer = typeDiscoverer;
             _container = container;
+            _readModelFilters = readModelFilters;
         }
 
 
@@ -58,7 +61,8 @@ namespace Bifrost.Web.Read
                 }
 
                 var result = instanceMatchingMethod.Invoke(readModelOf, new[] { expressions });
-                return result;
+                var filtered = _readModelFilters.Filter(new[] { result as IReadModel });
+                if (filtered.Count() == 1) return filtered.First();
             }
             return null;
         }

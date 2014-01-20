@@ -16,24 +16,20 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents the result of issuing a query for a provider
+    /// Defines the filtering system for <see cref="IReadModel">ReadModels</see>
     /// </summary>
-    public class QueryProviderResult
+    public interface IReadModelFilters
     {
         /// <summary>
-        /// Gets or sets the count of total items from a query
+        /// Filters an incoming <see cref="IEnumerable{IReadModel}"/>
         /// </summary>
-        public int TotalItems { get; set; }
-
-        /// <summary>
-        /// Gets or sets the items as the result of a query
-        /// </summary>
-        public IEnumerable Items { get; set; }
+        /// <param name="readModels"><see cref="IEnumerable{IReadModel}">ReadModels</see> to filter</param>
+        /// <returns>Filtered <see cref="IEnumerable{IReadModel}">ReadModels</see></returns>
+        IEnumerable<IReadModel> Filter(IEnumerable<IReadModel> readModels);
     }
 }

@@ -348,6 +348,7 @@
     <Compile Include="Read\for_PagingInfo\when_page_size_is_more_than_zero.cs" />
     <Compile Include="Read\for_PagingInfo\when_page_size_is_zero.cs" />
     <Compile Include="Read\for_QueryableProvider\when_paging_is_set_two_show_second_page.cs" />
+    <Compile Include="Read\for_QueryCoordinator\ReadModelWithString.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_unknown_provider.cs" />
     <Compile Include="Read\for_QueryCoordinator\GenericKnownType.cs" />
     <Compile Include="Read\for_QueryCoordinator\given\a_query_coordinator_with_non_generic_known_provider.cs" />
@@ -369,6 +370,18 @@
     <Compile Include="Read\for_QueryResult\when_exception_is_set_and_it_has_items.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_items_is_null.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_has_items.cs" />
+    <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters_and_one_that_does_not.cs" />
+    <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters.cs" />
+    <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters.cs" />
+    <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_does_not_filter.cs" />
+    <Compile Include="Read\for_ReadModelFilters\FilterThatDoesNotFilter.cs" />
+    <Compile Include="Read\for_ReadModelFilters\FilterThatFilters.cs" />
+    <Compile Include="Read\for_ReadModelFilters\given\all_dependencies.cs" />
+    <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_does_not_filter.cs" />
+    <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_without_any_filters.cs" />
+    <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters_and_one_that_does_not.cs" />
+    <Compile Include="Read\for_ReadModelFilters\ReadModelWithString.cs" />
+    <Compile Include="Read\for_ReadModelFilters\when_filtering_without_any_filters_discovered.cs" />
     <Compile Include="Rules\given\coloured_shapes.cs" />
     <Compile Include="Rules\given\rules_and_coloured_shapes.cs" />
     <Compile Include="Rules\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />

@@ -34,15 +34,18 @@ namespace Bifrost.Read
 
         Dictionary<Type, Type> _queryProviderTypesPerTargetType;
         IContainer _container;
+        IReadModelFilters _filters;
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryCoordinator"/>
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IQueryProviderFor{T}"/> implementations</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances of <see cref="IQueryProviderFor{T}">query providers</see></param>
-        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container)
+        /// <param name="filters"><see cref="IReadModelFilters">Filters</see> used to filter any of the read models coming back after a query</param>
+        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IReadModelFilters filters)
         {
             _container = container;
+            _filters = filters;
             var queryTypes = typeDiscoverer.FindMultiple(typeof(IQueryProviderFor<>));
 
             _queryProviderTypesPerTargetType = queryTypes.Select(t => new { 
@@ -65,7 +68,8 @@ namespace Bifrost.Read
                 var actualQuery = property.GetValue(query, null);
                 var providerResult = ExecuteOnProvider(provider, actualQuery, paging);
                 result.TotalItems = providerResult.TotalItems;
-                result.Items = providerResult.Items;
+                var readModels = providerResult.Items as IEnumerable<IReadModel>;
+                result.Items = _filters.Filter(readModels);
             }
             catch (TargetInvocationException ex)
             {

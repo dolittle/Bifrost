@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator.given
 
         Establish context = () =>
         {
-            coordinator = new QueryCoordinator(type_discoverer_mock.Object, container_mock.Object);
+            coordinator = new QueryCoordinator(type_discoverer_mock.Object, container_mock.Object, read_model_filters_mock.Object);
         };
     }
 }
