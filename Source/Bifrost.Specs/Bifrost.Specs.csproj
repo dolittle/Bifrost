@@ -344,10 +344,17 @@
     <Compile Include="Extensions\for_TypeExtensions\when_getting_default_constructor_from_type_with_default_constructor.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly_multitple_times.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_query.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_read_model_of.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\given\a_fetching_security_manager.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\SomeQueryFor.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\SomeReadModel.cs" />
+    <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_query_for.cs" />
     <Compile Include="Read\for_PagingInfo\when_page_size_is_less_than_zero.cs" />
     <Compile Include="Read\for_PagingInfo\when_page_size_is_more_than_zero.cs" />
     <Compile Include="Read\for_PagingInfo\when_page_size_is_zero.cs" />
     <Compile Include="Read\for_QueryableProvider\when_paging_is_set_two_show_second_page.cs" />
+    <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_that_does_not_pass_authorization.cs" />
     <Compile Include="Read\for_QueryCoordinator\ReadModelWithString.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_unknown_provider.cs" />
     <Compile Include="Read\for_QueryCoordinator\GenericKnownType.cs" />

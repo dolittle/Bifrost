@@ -1,5 +1,6 @@
 ﻿using System;
 using Bifrost.Read;
+using Bifrost.Security;
 using Machine.Specifications;
 using Moq;
 
@@ -19,7 +20,9 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator.given
             type_discoverer_mock.Setup(t => t.FindMultiple(typeof(IQueryProviderFor<>))).Returns(new[] { provider_type });
             container_mock.Setup(c => c.Get(provider_type)).Returns(query_provider_mock.Object);
 
-            coordinator = new QueryCoordinator(type_discoverer_mock.Object, container_mock.Object, read_model_filters_mock.Object);
+            fetching_security_manager_mock.Setup(f => f.Authorize(Moq.It.IsAny<IQuery>())).Returns(new AuthorizationResult());
+
+            coordinator = new QueryCoordinator(type_discoverer_mock.Object, container_mock.Object, fetching_security_manager_mock.Object, read_model_filters_mock.Object);
         };
     }
 }

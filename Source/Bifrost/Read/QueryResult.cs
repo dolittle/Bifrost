@@ -18,6 +18,9 @@
 #endregion
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Bifrost.Read
 {
     /// <summary>
@@ -25,6 +28,19 @@ namespace Bifrost.Read
     /// </summary>
     public class QueryResult
     {
+        /// <summary>
+        /// Initializes an instance of <see cref="QueryResult"/>
+        /// </summary>
+        public QueryResult()
+        {
+            SecurityMessages = new string[0];
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the query
+        /// </summary>
+        public string QueryName { get; set; }
+
         /// <summary>
         /// Gets or sets the count of total items from a query
         /// </summary>
@@ -41,14 +57,41 @@ namespace Bifrost.Read
         public Exception Exception { get; set; }
 
         /// <summary>
+        /// Gets the messages that are related to broken security rules
+        /// </summary>
+        public IEnumerable<string> SecurityMessages { get; set; }
+
+        /// <summary>
+        /// Gets or sets wether or not command passed security
+        /// </summary>
+        public bool PassedSecurity
+        {
+            get { return SecurityMessages != null && !SecurityMessages.Any(); }
+        }
+
+        /// <summary>
         /// Get wether or not the query was successful or not
         /// </summary>
         public bool Success
         {
             get
             {
-                return Exception == null && Items != null;
+                return Exception == null && Items != null && PassedSecurity;
             }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="QueryResult"/> for a given <see cref="IQuery"/>
+        /// </summary>
+        /// <param name="query"><see cref="IQuery"/> to create for</param>
+        /// <returns><see cref="QueryResult"/> for the given <see cref="IQuery"/></returns>
+        public static QueryResult For(IQuery query)
+        {
+            var result = new QueryResult
+            {
+                QueryName = query.GetType().Name
+            };
+            return result;
         }
     }
 }

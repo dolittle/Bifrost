@@ -1503,7 +1503,7 @@ Bifrost.Uri = (function(window, undefined) {
 	
 	function Uri(location) {
 		var self = this;
-		this.setLocation = function (location) {
+		this.setLocation = function(location) {
 			self.fullPath = location;
 			location = location.replace("#!","/");
 		

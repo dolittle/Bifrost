@@ -35,17 +35,20 @@ namespace Bifrost.Read
         Dictionary<Type, Type> _queryProviderTypesPerTargetType;
         IContainer _container;
         IReadModelFilters _filters;
+        IFetchingSecurityManager _fetchingSecurityManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryCoordinator"/>
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IQueryProviderFor{T}"/> implementations</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances of <see cref="IQueryProviderFor{T}">query providers</see></param>
+        /// <param name="fetchingSecurityManager"><see cref="IFetchingSecurityManager"/> to use for securing <see cref="IQuery">queries</see></param>
         /// <param name="filters"><see cref="IReadModelFilters">Filters</see> used to filter any of the read models coming back after a query</param>
-        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IReadModelFilters filters)
+        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IFetchingSecurityManager fetchingSecurityManager, IReadModelFilters filters)
         {
             _container = container;
             _filters = filters;
+            _fetchingSecurityManager = fetchingSecurityManager;
             var queryTypes = typeDiscoverer.FindMultiple(typeof(IQueryProviderFor<>));
 
             _queryProviderTypesPerTargetType = queryTypes.Select(t => new { 
@@ -58,7 +61,14 @@ namespace Bifrost.Read
         {
             ThrowIfNoQueryPropertyOnQuery(query);
 
-            var result = new QueryResult();
+            var result = QueryResult.For(query);
+            var authorizationResult = _fetchingSecurityManager.Authorize(query);
+            if (!authorizationResult.IsAuthorized)
+            {
+                result.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
+                return result;
+            }
+
             try
             {
                 var property = GetQueryPropertyFromQuery(query);

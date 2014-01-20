@@ -23,6 +23,8 @@ using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Read;
 using Bifrost.Concepts;
+using System.Reflection;
+using Bifrost.Security;
 
 namespace Bifrost.Web.Read
 {
@@ -31,12 +33,20 @@ namespace Bifrost.Web.Read
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
         IReadModelFilters _readModelFilters;
+        IFetchingSecurityManager _fetchingSecurityManager;
+        MethodInfo _authorizeMethod;
 
-        public ReadModelService(ITypeDiscoverer typeDiscoverer, IContainer container, IReadModelFilters readModelFilters)
+        public ReadModelService(ITypeDiscoverer typeDiscoverer, IContainer container, IFetchingSecurityManager fetchingSecurityManager, IReadModelFilters readModelFilters)
         {
             _typeDiscoverer = typeDiscoverer;
             _container = container;
+            _fetchingSecurityManager = fetchingSecurityManager;
             _readModelFilters = readModelFilters;
+
+            _authorizeMethod = fetchingSecurityManager.GetType().GetMethods()
+                .Where(m =>
+                    m.Name == "Authorize" &&
+                    m.GetParameters()[0].ParameterType.Name.StartsWith("IReadModelOf")).Single();
         }
 
 
@@ -48,6 +58,10 @@ namespace Bifrost.Web.Read
                 var readModelOfType = typeof(IReadModelOf<>).MakeGenericType(readModelType);
                 var readModelOf = _container.Get(readModelOfType);
                 var instanceMatchingMethod = readModelOfType.GetMethod("InstanceMatching");
+
+                var genericAuthorizeMethod = _authorizeMethod.MakeGenericMethod(readModelType);
+                var authorizationResult = genericAuthorizeMethod.Invoke(_fetchingSecurityManager, new[] { readModelOf }) as AuthorizationResult;
+                if (!authorizationResult.IsAuthorized) return null;
 
                 var funcType = typeof(Func<,>).MakeGenericType(readModelType, typeof(bool));
                 var expressionType = typeof(Expression<>).MakeGenericType(funcType);

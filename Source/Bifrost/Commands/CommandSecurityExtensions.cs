@@ -27,7 +27,7 @@ namespace Bifrost.Commands
     public static class CommandSecurityExtensions
     {
         /// <summary>
-        /// Add a <see cref="HandleCommandSecurityAction"/> to describe the handling of <see cref="ICommand">commands</see>
+        /// Add an <see cref="HandleCommand">action</see> to describe the handling of <see cref="ICommand">commands</see>
         /// </summary>
         /// <param name="descriptorBuilder"><see cref="ISecurityDescriptorBuilder"/> to extend</param>
         /// <returns><see cref="HandleCommandSecurityAction"/> for describing the action</returns>
@@ -39,9 +39,10 @@ namespace Bifrost.Commands
         }
 
         /// <summary>
-        /// Add a <see cref="CommandSecurable"/> to the <see cref="HandleCommandSecurityAction"/>
+        /// Add a <see cref="CommandSecurityTarget"/> to the <see cref="HandleCommand">action</see>
         /// </summary>
-        /// <returns><see cref="CommandSecurable"/></returns>
+        /// <param name="action"><see cref="HandleCommand">Action</see> to add to</param>
+        /// <returns><see cref="CommandSecurityTarget"/></returns>
         public static CommandSecurityTarget Commands(this HandleCommand action)
         {
             var target = new CommandSecurityTarget();

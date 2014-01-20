@@ -18,18 +18,18 @@
 #endregion
 using Bifrost.Security;
 
-namespace Bifrost.Commands
+namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a manager for dealing with security for <see cref="ICommand">commands</see>
+    /// Represents a <see cref="ISecurityAction"/> for fetching <see cref="IReadModel">read models</see> 
     /// </summary>
-    public interface ICommandSecurityManager
+    public class Fetching : SecurityAction
     {
-        /// <summary>
-        /// Authorizes a <see cref="ICommand"/> 
-        /// </summary>
-        /// <param name="command"><see cref="ICommand"/> to ask for</param>
-        /// <returns><see cref="AuthorizationResult"/> that details how the <see cref="ICommand"/> was authorized</returns>
-        AuthorizationResult Authorize(ICommand command);
+#pragma warning disable 1591 // Xml Comments
+        public override string ActionType
+        {
+            get { return "Fetching"; }
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

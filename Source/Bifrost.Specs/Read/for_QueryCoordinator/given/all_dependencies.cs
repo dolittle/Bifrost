@@ -9,12 +9,14 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator.given
     {
         protected static Mock<ITypeDiscoverer> type_discoverer_mock;
         protected static Mock<IContainer> container_mock;
+        protected static Mock<IFetchingSecurityManager> fetching_security_manager_mock;
         protected static Mock<IReadModelFilters> read_model_filters_mock;
 
         Establish context = () =>
         {
             type_discoverer_mock = new Mock<ITypeDiscoverer>();
             container_mock = new Mock<IContainer>();
+            fetching_security_manager_mock = new Mock<IFetchingSecurityManager>();
             read_model_filters_mock = new Mock<IReadModelFilters>();
         };
     }

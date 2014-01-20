@@ -18,18 +18,18 @@
 #endregion
 using Bifrost.Security;
 
-namespace Bifrost.Commands
+namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a manager for dealing with security for <see cref="ICommand">commands</see>
+    /// Represents a <see cref="ISecurityTarget">security target</see> for <see cref="Fetching"/>
     /// </summary>
-    public interface ICommandSecurityManager
+    public class FetchingSecurityTarget : SecurityTarget
     {
+        const string Fetching = "Fetching";
+
         /// <summary>
-        /// Authorizes a <see cref="ICommand"/> 
+        /// Initializes an instance of <see cref="FetchingSecurityTarget"/>
         /// </summary>
-        /// <param name="command"><see cref="ICommand"/> to ask for</param>
-        /// <returns><see cref="AuthorizationResult"/> that details how the <see cref="ICommand"/> was authorized</returns>
-        AuthorizationResult Authorize(ICommand command);
+        public FetchingSecurityTarget() : base(Fetching) { }
     }
 }
