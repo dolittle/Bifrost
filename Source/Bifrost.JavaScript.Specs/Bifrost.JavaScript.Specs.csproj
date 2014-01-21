@@ -484,6 +484,8 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_command_in_child_region_can_not_execute_and_then_can.js" />
+    <Content Include="views\for_Region\when_command_can_not_execute_and_then_can.js" />
     <Content Include="views\for_Region\when_there_are_no_commands.js" />
     <Content Include="views\for_Region\when_first_command_is_valid_and_second_is_not.js" />
     <Content Include="views\for_Region\when_command_is_valid_and_then_not.js" />

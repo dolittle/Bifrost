@@ -27,24 +27,25 @@
         isReadyToExecute = newValue;
     });
 
-    var childRegion = {
-        isLoading: ko.observable(false),
-        isBusy: ko.observable(false),
+    var childRegion = new Bifrost.views.Region(
+        messengerFactory,
+        operationsFactory,
+        tasksFactory
+    );
+    region.children.push(childRegion);
+
+    var command = {
         isValid: ko.observable(false),
-        isComposing: ko.observable(false),
-        isExecuting: ko.observable(false),
-        validationMessages: ko.observableArray(),
-        aggregatedCommands: ko.observableArray(),
-        canCommandsExecute: ko.observable(false),
-        areCommandsAuthorized: ko.observable(false),
-        commandsHaveChanges: ko.observable(false),
-        areCommandsReadyToExecute: ko.observable(false),
-        hasChanges: ko.observable(false)
+        isAuthorized: ko.observable(false),
+        canExecute: ko.observable(true),
+        hasChanges: ko.observable(false),
+        isReadyToExecute: ko.observable(true),
+        validators: ko.observableArray()
     };
 
-    region.children.push(childRegion);
-    childRegion.areCommandsReadyToExecute(true);
-    childRegion.areCommandsReadyToExecute(false);
+    region.commands.push(command);
+
+    command.isReadyToExecute(false);
 
     it("should not be ready to execute", function () {
         expect(isReadyToExecute).toBe(false);

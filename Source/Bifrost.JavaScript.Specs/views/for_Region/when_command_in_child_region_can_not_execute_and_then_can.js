@@ -1,5 +1,4 @@
-﻿describe("when command in child region is ready to execute", function () {
-
+﻿describe("when command in child region can not execute and then can", function () {
     var tasks = {
         all: ko.observableArray()
     };
@@ -22,12 +21,13 @@
         operationsFactory,
         tasksFactory
     );
-    var isReadyToExecute = false;
-    region.areCommandsReadyToExecute.subscribe(function (newValue) {
-        isReadyToExecute = newValue;
+    var canExecute = null;
+    region.canCommandsExecute.subscribe(function (newValue) {
+        canExecute = newValue;
     });
 
-    var childRegion = new Bifrost.views.Region( 
+
+    var childRegion = new Bifrost.views.Region(
         messengerFactory,
         operationsFactory,
         tasksFactory
@@ -39,13 +39,15 @@
         isAuthorized: ko.observable(false),
         canExecute: ko.observable(false),
         hasChanges: ko.observable(false),
-        isReadyToExecute: ko.observable(true),
+        isReadyToExecute: ko.observable(false),
         validators: ko.observableArray()
     };
 
-    childRegion.commands.push(command);
+    region.commands.push(command);
 
-    it("should be ready to execute", function () {
-        expect(isReadyToExecute).toBe(true);
+    command.canExecute(true);
+
+    it("should be able to execute", function () {
+        expect(canExecute).toBe(true);
     });
 });
