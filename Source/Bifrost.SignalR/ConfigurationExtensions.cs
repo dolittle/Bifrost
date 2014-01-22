@@ -21,8 +21,8 @@ using Bifrost.JSON.Serialization;
 using Bifrost.SignalR;
 using Bifrost.SignalR.Events;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Json;
 using Newtonsoft.Json;
+using Owin;
 
 namespace Bifrost.Configuration
 {
@@ -30,18 +30,25 @@ namespace Bifrost.Configuration
     {
         public static IConfigure UsingSignalR(this IConfigure configure)
         {
-            GlobalHost.DependencyResolver = new BifrostDependencyResolver(Configure.Instance.Container);
-            RouteTable.Routes.MapHubs();
+            var existingRoute = RouteTable.Routes["signalr.hubs"];
+            if (existingRoute != null)
+                RouteTable.Routes.Remove(existingRoute);
+
+            var hubConfiguration = new HubConfiguration
+            {
+                Resolver = new BifrostDependencyResolver(configure.Container)
+            };
+            RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
 
             var serializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new FilteredCamelCasePropertyNamesContractResolver(),
                 Converters = { new ConceptConverter(), new ConceptDictionaryConverter() }
             };
-            var jsonNetSerializer = new JsonNetSerializer(serializerSettings);
-            GlobalHost.DependencyResolver.Register(typeof(IJsonSerializer), () => jsonNetSerializer); 
+            var jsonSerializer = JsonSerializer.Create(serializerSettings);
+            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => jsonSerializer); 
 
-            return Configure.Instance;
+            return configure;
         }
 
         public static IConfigure UsingSignalR(this IEventsConfiguration configuration)

@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 

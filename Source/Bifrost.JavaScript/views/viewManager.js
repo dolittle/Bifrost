@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers,regionManager, UIManager, taskFactory, viewRenderers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers,regionManager, UIManager, taskFactory, viewRenderers, viewModelManager, documentService) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
@@ -8,13 +8,14 @@
         this.viewFactory = viewFactory;
         this.pathResolvers = pathResolvers;
 
+        /*
         function renderChildren(element) {
             if(element.hasChildNodes() == true) {
                 for (var child = element.firstChild; child; child = child.nextSibling) {
                     self.render(child);
                 }
             }
-        }
+        }*/
 
         this.initializeLandingPage = function () {
             var body = $("body")[0];
@@ -35,7 +36,11 @@
 
                     regionManager.getFor(view).continueWith(function (region) {
                         Bifrost.views.Region.current = region;
-                        renderChildren(body);
+                        documentService.traverseObjects(function (element) {
+                            self.render(element);
+                        });
+
+                        //renderChildren(body);
                         UIManager.handle(body);
                     });
                 }

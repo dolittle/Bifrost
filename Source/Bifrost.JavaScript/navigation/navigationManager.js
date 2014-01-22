@@ -29,8 +29,8 @@ Bifrost.namespace("Bifrost.navigation", {
                         }
                         href = closestAnchor.href;
                     }
-                    if (href.indexOf("#") > 0) {
-                        href = href.substr(0, href.indexOf("#"));
+                    if (href.indexOf("#!") > 0) {
+                        href = href.substr(0, href.indexOf("#!"));
                     }
 
                     if (href.length == 0) {

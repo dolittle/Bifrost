@@ -5788,7 +5788,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers,regionManager, UIManager, taskFactory, viewRenderers, viewModelManager) {
+    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers,regionManager, UIManager, taskFactory, viewRenderers, viewModelManager, documentService) {
         var self = this;
         
         this.viewRenderers = viewRenderers;
@@ -5797,13 +5797,14 @@ Bifrost.namespace("Bifrost.views", {
         this.viewFactory = viewFactory;
         this.pathResolvers = pathResolvers;
 
+        /*
         function renderChildren(element) {
             if(element.hasChildNodes() == true) {
                 for (var child = element.firstChild; child; child = child.nextSibling) {
                     self.render(child);
                 }
             }
-        }
+        }*/
 
         this.initializeLandingPage = function () {
             var body = $("body")[0];
@@ -5824,7 +5825,11 @@ Bifrost.namespace("Bifrost.views", {
 
                     regionManager.getFor(view).continueWith(function (region) {
                         Bifrost.views.Region.current = region;
-                        renderChildren(body);
+                        documentService.traverseObjects(function (element) {
+                            self.render(element);
+                        });
+
+                        //renderChildren(body);
                         UIManager.handle(body);
                     });
                 }
@@ -6846,8 +6851,8 @@ Bifrost.namespace("Bifrost.navigation", {
                         }
                         href = closestAnchor.href;
                     }
-                    if (href.indexOf("#") > 0) {
-                        href = href.substr(0, href.indexOf("#"));
+                    if (href.indexOf("#!") > 0) {
+                        href = href.substr(0, href.indexOf("#!"));
                     }
 
                     if (href.length == 0) {
