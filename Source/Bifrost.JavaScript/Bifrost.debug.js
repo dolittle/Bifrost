@@ -5797,15 +5797,6 @@ Bifrost.namespace("Bifrost.views", {
         this.viewFactory = viewFactory;
         this.pathResolvers = pathResolvers;
 
-        /*
-        function renderChildren(element) {
-            if(element.hasChildNodes() == true) {
-                for (var child = element.firstChild; child; child = child.nextSibling) {
-                    self.render(child);
-                }
-            }
-        }*/
-
         this.initializeLandingPage = function () {
             var body = $("body")[0];
             if (body !== null) {
@@ -5826,10 +5817,11 @@ Bifrost.namespace("Bifrost.views", {
                     regionManager.getFor(view).continueWith(function (region) {
                         Bifrost.views.Region.current = region;
                         documentService.traverseObjects(function (element) {
-                            self.render(element);
+                            if (element !== body) {
+                                self.render(element);
+                            }
                         });
 
-                        //renderChildren(body);
                         UIManager.handle(body);
                     });
                 }
