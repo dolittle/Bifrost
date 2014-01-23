@@ -207,6 +207,23 @@ namespace Bifrost.CodeGeneration.JavaScript
             assignment.Value = new Boolean(value);
             return assignment;
         }
+
+        /// <summary>
+        /// Assign the default value of a given enum type
+        /// </summary>
+        /// <param name="assignment"><see cref="Assignment"/> to assign to</param>
+        /// <param name="enumType">The type of enum which to create a default for</param>
+        /// <returns>The <see cref="Assignment"/> to build on</returns>
+        public static Assignment WithDefaultEnumValue(this Assignment assignment, Type enumType)
+        {
+            if (enumType == null)
+                throw new ArgumentException("Type cannot be null");
+
+            var defaultValue = Activator.CreateInstance(enumType);
+            assignment.WithLiteral((int)defaultValue);
+
+            return assignment;
+        }
         
         /// <summary>
         /// Assign the default value of a given Type

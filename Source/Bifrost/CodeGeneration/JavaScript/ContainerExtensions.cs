@@ -100,6 +100,8 @@ namespace Bifrost.CodeGeneration.JavaScript
                     assignment.WithDate();
                 else if (property.IsBoolean())
                     assignment.WithBoolean();
+                else if (property.IsEnum())
+                    assignment.WithDefaultEnumValue(property.PropertyType);
                 else if (property.PropertyType.IsNumericType())
                     assignment.WithDefaultNumericValue(property.PropertyType);
                 else if (property.HasPrimitiveDefaultValue())
@@ -148,6 +150,12 @@ namespace Bifrost.CodeGeneration.JavaScript
                 parent.AddChild(assignment);
 
             }
+        }
+
+
+        static bool IsEnum(this PropertyInfo property)
+        {
+            return property.PropertyType.IsEnum;
         }
 
         static bool IsEnumerable(this PropertyInfo property)
