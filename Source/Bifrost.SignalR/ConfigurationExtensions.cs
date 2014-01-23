@@ -34,11 +34,8 @@ namespace Bifrost.Configuration
             if (existingRoute != null)
                 RouteTable.Routes.Remove(existingRoute);
 
-            var hubConfiguration = new HubConfiguration
-            {
-                Resolver = new BifrostDependencyResolver(configure.Container)
-            };
-            RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
+            var resolver = new BifrostDependencyResolver(configure.Container);
+            var hubConfiguration = new HubConfiguration { Resolver = resolver };
 
             var serializerSettings = new JsonSerializerSettings
             {
@@ -46,7 +43,9 @@ namespace Bifrost.Configuration
                 Converters = { new ConceptConverter(), new ConceptDictionaryConverter() }
             };
             var jsonSerializer = JsonSerializer.Create(serializerSettings);
-            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => jsonSerializer); 
+            resolver.Register(typeof(JsonSerializer), () => jsonSerializer); 
+
+            RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
 
             return configure;
         }
