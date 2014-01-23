@@ -16,7 +16,7 @@
             }
         }
 
-        function applyViewModelsByAttribute(path, container, promise) {
+        function applyViewModelsByAttribute(path, container, region, promise) {
             var viewModelApplied = false;
 
             var elements = documentService.getAllElementsWithViewModelFilesFrom(container);
@@ -25,7 +25,7 @@
                 function loadAndApply(target) {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
-                    viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                    viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                         applyViewModel(instance, target, viewModelFile);
                         instance.region.viewModel = instance;
                         promise.signal(instance);
@@ -70,20 +70,17 @@
             var viewModelApplied = false;
 
             regionManager.getFor(view).continueWith(function (region) {
-                var previousRegion = Bifrost.views.Region.current;
-                Bifrost.views.Region.current = region;
-
                 if (viewModelManager.hasForView(view.path)) {
                     var viewModelFile = Bifrost.Path.changeExtension(view.path, "js");
                     documentService.setViewModelFileOn(view.element, viewModelFile);
-
+                    
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
                         applyViewModel(instance, view.element);
                         region.viewModel = instance;
                         promise.signal(instance);
                     });
                 } else {
-                    viewModelApplied = applyViewModelsByAttribute(view.path, view.element, promise);
+                    viewModelApplied = applyViewModelsByAttribute(view.path, view.element, region, promise);
                     if (viewModelApplied == false) {
                         applyViewModelByConventionFromPath(view.path, view.element, region).continueWith(function (instance) {
                             promise.signal(instance);
@@ -92,8 +89,6 @@
                         promise.signal(viewModelApplied);
                     }
                 }
-
-                Bifrost.views.Region.current = previousRegion;
             });
 
             return promise;

@@ -7,13 +7,13 @@ Bifrost.namespace("Bifrost.views", {
             var uri = ko.utils.unwrapObservable(valueAccessor());
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
                 element.innerHTML = "";
+                documentService.setViewUriOn(element, null);
             } else {
                 var existingUri = documentService.getViewUriFrom(element);
                 if (existingUri !== uri) {
                     documentService.setViewUriOn(element, uri);
                     viewManager.render(element).continueWith(function () {
                     });
-                    
                 }
             }
         };

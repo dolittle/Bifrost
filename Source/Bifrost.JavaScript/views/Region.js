@@ -32,7 +32,12 @@
 
         /// <field name="aggregatedCommands" type="observableArray">Represents all commands in this region and any child regions</field>
         this.aggregatedCommands = ko.computed(function () {
-            var commands = self.commands();
+            var commands = [];
+
+            self.commands().forEach(function (command) {
+                commands.push(command);
+            });
+
             self.children().forEach(function (childRegion) {
                 childRegion.aggregatedCommands().forEach(function (command) {
                     commands.push(command);
@@ -62,7 +67,8 @@
             });
         }
 
-        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, regionPropertyName, breakIfThisHasNoCommands) {
+
+        function thisOrChildCommandHasPropertySetToTrue(commandPropertyName, breakIfThisHasNoCommands) {
             return ko.computed(function () {
                 var isSet = true;
 
@@ -81,7 +87,7 @@
             });
         }
 
-        function thisOrChildCommandHasPropertySetToFalse(commandPropertyName, regionPropertyName) {
+        function thisOrChildCommandHasPropertySetToFalse(commandPropertyName) {
             return ko.computed(function () {
                 var isSet = false;
 
@@ -101,16 +107,16 @@
         this.isValid = thisOrChildCommandHasPropertySetToTrue("isValid");
 
         /// <field name="canCommandsExecute" type="observable">Indicates wether or not region or any of its child regions can execute their commands</field>
-        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", "canCommandsExecute", true);
+        this.canCommandsExecute = thisOrChildCommandHasPropertySetToTrue("canExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands authorized</field>
-        this.areCommandsAuthorized = thisOrChildCommandHasPropertySetToTrue("isAuthorized", "areCommandsAuthorized");
+        this.areCommandsAuthorized = thisOrChildCommandHasPropertySetToTrue("isAuthorized");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands changed</field>
-        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToFalse("hasChanges", "commandsHaveChanges");
+        this.commandsHaveChanges = thisOrChildCommandHasPropertySetToFalse("hasChanges");
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have their commands ready to execute</field>
-        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", "areCommandsReadyToExecute", true);
+        this.areCommandsReadyToExecute = thisOrChildCommandHasPropertySetToTrue("isReadyToExecute", true);
 
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {

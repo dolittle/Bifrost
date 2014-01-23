@@ -8,9 +8,9 @@ Bifrost.namespace("Bifrost.views", {
         this.element = null;
 
 
-        this.load = function () {
+        this.load = function (region) {
             var promise = Bifrost.execution.Promise.create();
-            self.viewLoader.load(self.path).continueWith(function (html) {
+            self.viewLoader.load(self.path, region).continueWith(function (html) {
                 self.content = html;
                 promise.signal(self);
             });

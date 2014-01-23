@@ -1,6 +1,6 @@
 ﻿Bifrost.namespace("Bifrost.views", {
     viewLoader: Bifrost.Singleton(function (viewModelManager, taskFactory, fileFactory, regionManager) {
-        this.load = function (path) {
+        this.load = function (path,region) {
             var promise = Bifrost.execution.Promise.create();
 
             var files = [];
@@ -20,7 +20,7 @@
             }
 
             var task = taskFactory.createViewLoad(files);
-            regionManager.getCurrent().tasks.execute(task).continueWith(function (view) {
+            region.tasks.execute(task).continueWith(function (view) {
                 promise.signal(view);
             });
 

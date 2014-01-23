@@ -26,7 +26,6 @@
                     //self.viewModelManager.applyToViewIfAny(view);
 
                     regionManager.getFor(view).continueWith(function (region) {
-                        Bifrost.views.Region.current = region;
                         documentService.traverseObjects(function (element) {
                             if (element !== body) {
                                 self.render(element);
@@ -44,7 +43,8 @@
 
             if (viewRenderers.canRender(element)) {
                 var task = taskFactory.createViewRender(element);
-                regionManager.getCurrent().tasks.execute(task).continueWith(function () {
+                var region = documentService.getRegionFor(element);
+                region.tasks.execute(task).continueWith(function () {
                     promise.signal();
                 });
             }

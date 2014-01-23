@@ -23,8 +23,7 @@
             var promise = Bifrost.execution.Promise.create();
             var task = taskFactory.createViewModelApplier(view, self.masterViewModel);
 
-            //var region = documentService.getRegionFor(view.element);
-            var region = regionManager.getCurrent(); 
+            var region = documentService.getRegionFor(view.element);
             region.tasks.execute(task).continueWith(function (instance) {
                 promise.signal(instance);
             });
@@ -48,8 +47,7 @@
 
         this.loadAndApplyAllViewModelsWithinElement = function (root) {
             var task = taskFactory.createViewModelsApplier(root, self.masterViewModel);
-            regionManager.getCurrent().tasks.execute(task).continueWith(function () {
-                
+            documentService.getRegionFor(root).tasks.execute(task).continueWith(function () {
             });
         };
 

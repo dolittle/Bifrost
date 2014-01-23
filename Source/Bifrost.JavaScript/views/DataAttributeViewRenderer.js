@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager, regionManager) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
@@ -20,17 +20,19 @@ Bifrost.namespace("Bifrost.views", {
 		        element.view = view;
 
 		        view.element = element;
-		        view.load().continueWith(function (targetView) {
-		            $(element).empty();
-		            $(element).append(targetView.content);
+		        regionManager.getFor(view).continueWith(function (region) {
+		            view.load(region).continueWith(function (targetView) {
+		                $(element).empty();
+		                $(element).append(targetView.content);
 
-		            if (self.viewModelManager.hasForView(actualPath)) {
-		                var viewModelFile = Bifrost.Path.changeExtension(actualPath, "js");
-		                $(element).attr("data-viewmodel-file", viewModelFile);
-		                $(element).data("viewmodel-file", viewModelFile);
-		            }
+		                if (self.viewModelManager.hasForView(actualPath)) {
+		                    var viewModelFile = Bifrost.Path.changeExtension(actualPath, "js");
+		                    $(element).attr("data-viewmodel-file", viewModelFile);
+		                    $(element).data("viewmodel-file", viewModelFile);
+		                }
 
-		            promise.signal(targetView);
+		                promise.signal(targetView);
+		            });
 		        });
 		    } else {
                 // Todo: throw an exception at this point! - Or something like 404.. 
