@@ -37,33 +37,42 @@
             var state = getState();
             observable = ko.observable(state || defaultValue);
 
-            if (historyEnabled) {
-                observable.subscribe(function (newValue) {
-                    var state = History.getState();
-                    state[parameterName] = newValue;
+            function getQueryStringParametersWithValueForParameter(url, parameterValue) {
+                var parameters = Bifrost.hashString.decode(url);
+                parameters[parameterName] = parameterValue;
 
-                    var parameters = Bifrost.hashString.decode(state.url);
-                    parameters[parameterName] = newValue;
-
-                    var url = "?";
-                    var parameterIndex = 0;
-                    for (var parameter in parameters) {
-                        if (parameterIndex > 0) {
-                            url += "&";
-                        }
-                        url += parameter + "=" + parameters[parameter];
-                        parameterIndex++;
+                var queryString = "";
+                var parameterIndex = 0;
+                for (var parameter in parameters) {
+                    if (parameterIndex > 0) {
+                        queryString += "&";
                     }
+                    queryString += parameter + "=" + parameters[parameter];
+                    parameterIndex++;
+                }
 
-                    History.pushState(state, state.title, url);
-                });
+                return queryString;
             }
 
+            function cleanQueryString(queryString) {
+                if (queryString.indexOf("#") == 0 || queryString.indexOf("?") == 0) queryString = queryString.substr(1);
+                return queryString;
+            }
+
+            observable.subscribe(function (newValue) {
+                if (historyEnabled) {
+                    var state = History.getState();
+                    state[parameterName] = newValue;
+                    var queryString = "?" + getQueryStringParametersWithValueForParameter(cleanQueryString(state.url), newValue);
+                    History.pushState(state, state.title, queryString);
+                } else {
+                    var queryString = "#" + getQueryStringParametersWithValueForParameter(cleanQueryString(document.location.hash), newValue);
+                    document.location.hash = queryString;
+                }
+            });
+
             return observable;
-            
         };
-
-
     })
 });
 

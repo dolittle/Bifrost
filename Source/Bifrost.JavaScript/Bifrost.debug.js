@@ -1218,6 +1218,8 @@ Bifrost.namespace("Bifrost", {
             this.instancesPerScope[scope] = instance;
         }
 
+        instance._dependencies = instanceHash;
+
         return instance;
     };
 
@@ -5616,7 +5618,7 @@ Bifrost.namespace("Bifrost.views", {
 	})
 });
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager, regionManager) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager, regionManager, documentService) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
@@ -5624,12 +5626,12 @@ Bifrost.namespace("Bifrost.views", {
 	    this.viewModelManager = viewModelManager;
 
 		this.canRender = function(element) {
-		    return typeof $(element).data("view") !== "undefined";
+		    return documentService.hasViewUri(element);
 		};
 
 		this.render = function (element) {
 		    var promise = Bifrost.execution.Promise.create();
-		    var path = $(element).data("view");
+		    var path = documentService.getViewUriFrom(element);
 
 		    if (self.pathResolvers.canResolve(element, path)) {
 		        var actualPath = self.pathResolvers.resolve(element, path);
@@ -5644,8 +5646,7 @@ Bifrost.namespace("Bifrost.views", {
 
 		                if (self.viewModelManager.hasForView(actualPath)) {
 		                    var viewModelFile = Bifrost.Path.changeExtension(actualPath, "js");
-		                    $(element).attr("data-viewmodel-file", viewModelFile);
-		                    $(element).data("viewmodel-file", viewModelFile);
+		                    documentService.setViewModelFileOn(element, viewModelFile);
 		                }
 
 		                promise.signal(targetView);
@@ -6289,6 +6290,7 @@ Bifrost.namespace("Bifrost.views", {
     viewBindingHandler: Bifrost.Type.extend(function (viewManager, viewRenderers, pathResolvers, viewFactory, viewModelManager, documentService) {
         var self = this;
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            return { controlsDescendantBindings: true };
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var uri = ko.utils.unwrapObservable(valueAccessor());
@@ -6968,33 +6970,42 @@ Bifrost.namespace("Bifrost.navigation", {
             var state = getState();
             observable = ko.observable(state || defaultValue);
 
-            if (historyEnabled) {
-                observable.subscribe(function (newValue) {
-                    var state = History.getState();
-                    state[parameterName] = newValue;
+            function getQueryStringParametersWithValueForParameter(url, parameterValue) {
+                var parameters = Bifrost.hashString.decode(url);
+                parameters[parameterName] = parameterValue;
 
-                    var parameters = Bifrost.hashString.decode(state.url);
-                    parameters[parameterName] = newValue;
-
-                    var url = "?";
-                    var parameterIndex = 0;
-                    for (var parameter in parameters) {
-                        if (parameterIndex > 0) {
-                            url += "&";
-                        }
-                        url += parameter + "=" + parameters[parameter];
-                        parameterIndex++;
+                var queryString = "";
+                var parameterIndex = 0;
+                for (var parameter in parameters) {
+                    if (parameterIndex > 0) {
+                        queryString += "&";
                     }
+                    queryString += parameter + "=" + parameters[parameter];
+                    parameterIndex++;
+                }
 
-                    History.pushState(state, state.title, url);
-                });
+                return queryString;
             }
 
+            function cleanQueryString(queryString) {
+                if (queryString.indexOf("#") == 0 || queryString.indexOf("?") == 0) queryString = queryString.substr(1);
+                return queryString;
+            }
+
+            observable.subscribe(function (newValue) {
+                if (historyEnabled) {
+                    var state = History.getState();
+                    state[parameterName] = newValue;
+                    var queryString = "?" + getQueryStringParametersWithValueForParameter(cleanQueryString(state.url), newValue);
+                    History.pushState(state, state.title, queryString);
+                } else {
+                    var queryString = "#" + getQueryStringParametersWithValueForParameter(cleanQueryString(document.location.hash), newValue);
+                    document.location.hash = queryString;
+                }
+            });
+
             return observable;
-            
         };
-
-
     })
 });
 
