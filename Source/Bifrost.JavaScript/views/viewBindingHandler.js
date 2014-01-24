@@ -2,6 +2,7 @@ Bifrost.namespace("Bifrost.views", {
     viewBindingHandler: Bifrost.Type.extend(function (viewManager, viewRenderers, pathResolvers, viewFactory, viewModelManager, documentService) {
         var self = this;
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            return { controlsDescendantBindings: true };
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var uri = ko.utils.unwrapObservable(valueAccessor());
