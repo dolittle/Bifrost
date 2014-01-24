@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager, regionManager) {
+	DataAttributeViewRenderer : Bifrost.views.ViewRenderer.extend(function(viewFactory, pathResolvers, viewModelManager, regionManager, documentService) {
 	    var self = this;
 
 	    this.viewFactory = viewFactory;
@@ -7,12 +7,12 @@ Bifrost.namespace("Bifrost.views", {
 	    this.viewModelManager = viewModelManager;
 
 		this.canRender = function(element) {
-		    return typeof $(element).data("view") !== "undefined";
+		    return documentService.hasViewUri(element);
 		};
 
 		this.render = function (element) {
 		    var promise = Bifrost.execution.Promise.create();
-		    var path = $(element).data("view");
+		    var path = documentService.getViewUriFrom(element);
 
 		    if (self.pathResolvers.canResolve(element, path)) {
 		        var actualPath = self.pathResolvers.resolve(element, path);
@@ -27,8 +27,7 @@ Bifrost.namespace("Bifrost.views", {
 
 		                if (self.viewModelManager.hasForView(actualPath)) {
 		                    var viewModelFile = Bifrost.Path.changeExtension(actualPath, "js");
-		                    $(element).attr("data-viewmodel-file", viewModelFile);
-		                    $(element).data("viewmodel-file", viewModelFile);
+		                    documentService.setViewModelFileOn(element, viewModelFile);
 		                }
 
 		                promise.signal(targetView);
