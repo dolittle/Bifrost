@@ -6,11 +6,14 @@
         /// <field name="commandType" type="Bifrost.Type">Type of command to create</field>
         this.commandType = ko.observable();
 
-        this.canPerform(false);
+        // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
+        this.isAuthorized = ko.observable(false);
+        
+        this.canPerform.when(this.isAuthorized);
 
         this.commandType.subscribe(function (type) {
             commandSecurityService.getContextForType(type).continueWith(function (context) {
-                if (!Bifrost.isNullOrUndefined(context)) self.canPerform(context.isAuthorized());
+                if (!Bifrost.isNullOrUndefined(context)) self.isAuthorized(context.isAuthorized());
             });
         });
 
