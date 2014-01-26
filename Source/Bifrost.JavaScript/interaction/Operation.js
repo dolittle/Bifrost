@@ -2,6 +2,7 @@
     Operation: Bifrost.Type.extend(function (region, context) {
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
+        var canPerformObservables = ko.observableArray();
 
         /// <field name="context" type="Bifrost.interaction.Operation">Context in which the operation exists in</field>
         this.context = context;
@@ -13,8 +14,28 @@
         this.region = region;
 
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
-        this.canPerform = ko.observable(true);
-        
+        this.canPerform = ko.computed(function() {
+            if( canPerformObservables().length == 0 ) return true;
+
+            var canPerform = true;
+            canPerformObservables().forEach(function(observable) {
+                if( observable() == false ) {
+                    canPerform = false;
+                    return;
+                }
+            })
+
+            return canPerform;
+        });
+
+        this.canPerform.when = function(observable) {
+            /// <summary>Chainable clauses</summary>
+            /// <param name="observable" type="observable">The observable to use for deciding wether or not the operation can perform</param>
+            /// <returns>The canPerform that can be further chained</returns>
+            canPerformObservables.push(observable);
+            return self.canPerform;
+        };
+
         this.perform = function () {
             /// <summary>Function that gets called when an operation gets performed</summary>
             /// <returns>State change, if any - typically helpful when undoing</returns>
@@ -25,5 +46,8 @@
             /// <summary>Function that gets called when an operation gets undoed</summary>
             /// <param name="state" type="object">State generated when the operation was performed</param>
         };
+
+        this.onCreated = function(lastDescendant) {
+        };
     })
-});
+})
