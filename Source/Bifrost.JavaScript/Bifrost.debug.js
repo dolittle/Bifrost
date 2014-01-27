@@ -1218,8 +1218,6 @@ Bifrost.namespace("Bifrost", {
             this.instancesPerScope[scope] = instance;
         }
 
-        instance._dependencies = instanceHash;
-
         return instance;
     };
 
@@ -3906,6 +3904,8 @@ Bifrost.namespace("Bifrost.interaction", {
     Operation: Bifrost.Type.extend(function (region, context) {
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
+        var canPerformObservables = ko.observableArray();
+        var internalCanPerform = ko.observable(true);
 
         /// <field name="context" type="Bifrost.interaction.Operation">Context in which the operation exists in</field>
         this.context = context;
@@ -3917,8 +3917,35 @@ Bifrost.namespace("Bifrost.interaction", {
         this.region = region;
 
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
-        this.canPerform = ko.observable(true);
-        
+        this.canPerform = ko.computed({
+            read: function () {
+                if (canPerformObservables().length == 0) return true;
+
+                var canPerform = true;
+                canPerformObservables().forEach(function (observable) {
+                    if (observable() == false) {
+                        canPerform = false;
+                        return;
+                    }
+                })
+
+                return canPerform;
+            },
+            write: function (value) {
+                internalCanPerform(value);
+            }
+        });
+
+        this.canPerform.when = function(observable) {
+            /// <summary>Chainable clauses</summary>
+            /// <param name="observable" type="observable">The observable to use for deciding wether or not the operation can perform</param>
+            /// <returns>The canPerform that can be further chained</returns>
+            canPerformObservables.push(observable);
+            return self.canPerform;
+        };
+
+        this.canPerform.when(internalCanPerform);
+
         this.perform = function () {
             /// <summary>Function that gets called when an operation gets performed</summary>
             /// <returns>State change, if any - typically helpful when undoing</returns>
@@ -3929,8 +3956,11 @@ Bifrost.namespace("Bifrost.interaction", {
             /// <summary>Function that gets called when an operation gets undoed</summary>
             /// <param name="state" type="object">State generated when the operation was performed</param>
         };
+
+        this.onCreated = function(lastDescendant) {
+        };
     })
-});
+})
 Bifrost.namespace("Bifrost.interaction", {
     OperationContext: Bifrost.Type.extend(function () {
         /// <summary>Defines the context in which an operation is being performed or undoed within</summary>
@@ -4030,11 +4060,14 @@ Bifrost.namespace("Bifrost.interaction", {
         /// <field name="commandType" type="Bifrost.Type">Type of command to create</field>
         this.commandType = ko.observable();
 
-        this.canPerform(false);
+        // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
+        this.isAuthorized = ko.observable(false);
+        
+        this.canPerform.when(this.isAuthorized);
 
         this.commandType.subscribe(function (type) {
             commandSecurityService.getContextForType(type).continueWith(function (context) {
-                if (!Bifrost.isNullOrUndefined(context)) self.canPerform(context.isAuthorized());
+                if (!Bifrost.isNullOrUndefined(context)) self.isAuthorized(context.isAuthorized());
             });
         });
 

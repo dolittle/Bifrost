@@ -3,6 +3,7 @@
         /// <summary>Defines an operation that be performed</summary>
         var self = this;
         var canPerformObservables = ko.observableArray();
+        var internalCanPerform = ko.observable(true);
 
         /// <field name="context" type="Bifrost.interaction.Operation">Context in which the operation exists in</field>
         this.context = context;
@@ -14,18 +15,23 @@
         this.region = region;
 
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
-        this.canPerform = ko.computed(function() {
-            if( canPerformObservables().length == 0 ) return true;
+        this.canPerform = ko.computed({
+            read: function () {
+                if (canPerformObservables().length == 0) return true;
 
-            var canPerform = true;
-            canPerformObservables().forEach(function(observable) {
-                if( observable() == false ) {
-                    canPerform = false;
-                    return;
-                }
-            })
+                var canPerform = true;
+                canPerformObservables().forEach(function (observable) {
+                    if (observable() == false) {
+                        canPerform = false;
+                        return;
+                    }
+                })
 
-            return canPerform;
+                return canPerform;
+            },
+            write: function (value) {
+                internalCanPerform(value);
+            }
         });
 
         this.canPerform.when = function(observable) {
@@ -36,6 +42,8 @@
             return self.canPerform;
         };
 
+        this.canPerform.when(internalCanPerform);
+
         this.perform = function () {
             /// <summary>Function that gets called when an operation gets performed</summary>
             /// <returns>State change, if any - typically helpful when undoing</returns>
@@ -45,9 +53,6 @@
         this.undo = function (state) {
             /// <summary>Function that gets called when an operation gets undoed</summary>
             /// <param name="state" type="object">State generated when the operation was performed</param>
-        };
-
-        this.onCreated = function(lastDescendant) {
         };
     })
 })
