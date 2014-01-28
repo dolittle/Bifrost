@@ -3956,9 +3956,6 @@ Bifrost.namespace("Bifrost.interaction", {
             /// <summary>Function that gets called when an operation gets undoed</summary>
             /// <param name="state" type="object">State generated when the operation was performed</param>
         };
-
-        this.onCreated = function(lastDescendant) {
-        };
     })
 })
 Bifrost.namespace("Bifrost.interaction", {

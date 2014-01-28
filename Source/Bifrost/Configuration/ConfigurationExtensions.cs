@@ -41,6 +41,19 @@ namespace Bifrost.Configuration
             return configure;
         }
 
+        /// <summary>
+        /// Configures events to be persisted synchronously
+        /// </summary>
+        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
+        /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
+        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
+        public static IConfigure Synchronous(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
+        {
+            configuration.UncommittedEventStreamCoordinatorType = typeof(UncommittedEventStreamCoordinator);
+            if (configurationAction != null)
+                configurationAction(configuration);
+            return Configure.Instance;
+        }
 
         /// <summary>
         /// Configures events to be persisted asynchronously
