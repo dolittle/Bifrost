@@ -57,7 +57,6 @@
                                 setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
                             });
 
-
                             if (!documentService.pageHasViewModel(masterViewModel)) {
                                 ko.applyBindings(masterViewModel);
                             } else {

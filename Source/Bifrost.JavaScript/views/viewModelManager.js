@@ -1,11 +1,11 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory, MasterViewModel) {
         var self = this;
         this.assetsManager = assetsManager;
         this.viewModelLoader = viewModelLoader;
         this.documentService = documentService;
 
-        this.masterViewModel = {};
+        this.masterViewModel = MasterViewModel;
 
         this.hasForView = function (viewPath) {
             var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");

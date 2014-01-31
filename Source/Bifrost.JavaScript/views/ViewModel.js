@@ -10,6 +10,12 @@
             }
         };
 
+        this.deactivated = function () {
+            if (typeof self.targetViewModel.onDeactivated === "function") {
+                self.targetViewModel.onDeactivated();
+            }
+        };
+
         this.onCreated = function (lastDescendant) {
             self.targetViewModel = lastDescendant;
         };
