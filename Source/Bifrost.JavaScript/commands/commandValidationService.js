@@ -3,7 +3,7 @@
         var self = this;
 
         function shouldSkipProperty(target, property) {
-            if (target instanceof Bifrost.views.Region) return true;
+            if (property == "region") return true;
             if (target instanceof HTMLElement) return true;
             if (!target.hasOwnProperty(property)) return true;
             if (ko.isObservable(target[property])) return false;
