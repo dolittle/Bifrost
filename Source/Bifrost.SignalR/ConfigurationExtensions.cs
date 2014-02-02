@@ -30,12 +30,7 @@ namespace Bifrost.Configuration
     {
         public static IConfigure UsingSignalR(this IConfigure configure)
         {
-            var existingRoute = RouteTable.Routes["signalr.hubs"];
-            if (existingRoute != null)
-                RouteTable.Routes.Remove(existingRoute);
-
             var resolver = new BifrostDependencyResolver(configure.Container);
-            var hubConfiguration = new HubConfiguration { Resolver = resolver };
 
             var serializerSettings = new JsonSerializerSettings
             {
@@ -43,8 +38,10 @@ namespace Bifrost.Configuration
                 Converters = { new ConceptConverter(), new ConceptDictionaryConverter() }
             };
             var jsonSerializer = JsonSerializer.Create(serializerSettings);
-            resolver.Register(typeof(JsonSerializer), () => jsonSerializer); 
+            resolver.Register(typeof(JsonSerializer), () => jsonSerializer);
 
+            GlobalHost.DependencyResolver = resolver;
+            var hubConfiguration = new HubConfiguration { Resolver = resolver };
             RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
 
             return configure;

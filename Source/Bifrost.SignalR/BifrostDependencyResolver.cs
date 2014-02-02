@@ -35,13 +35,19 @@ namespace Bifrost.SignalR
 
         public override object GetService(Type serviceType)
         {
-            if( _container.HasBindingFor(serviceType) )
+            var service = base.GetService(serviceType);
+            if (service == null)
+                try { service = _container.Get(serviceType); }
+                catch { }
+
+            return service;
+
+            /*
+            if (!IsSignalRInternalType(serviceType))
+            //if( _container.HasBindingFor(serviceType) )
                 return _container.Get(serviceType);
 
-            //if (!IsSignalRInternalType(serviceType) )
-                
-
-            return base.GetService(serviceType);
+            return base.GetService(serviceType);*/
         }
 
         public override IEnumerable<object> GetServices(Type serviceType)
@@ -53,11 +59,11 @@ namespace Bifrost.SignalR
             return base.GetServices(serviceType);
         }
 
-        /*
+        
         bool IsSignalRInternalType(Type serviceType)
         {
             return serviceType.Namespace.StartsWith("Microsoft") || serviceType.Namespace.StartsWith("System") || serviceType.Namespace.StartsWith("Owin");
-        }*/
+        }
 
     }
 }
