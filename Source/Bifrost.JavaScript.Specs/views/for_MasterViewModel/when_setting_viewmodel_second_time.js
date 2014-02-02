@@ -21,7 +21,7 @@
         activated: sinon.stub()
     };
 
-    var masterViewModel = Bifrost.views.MasterViewModel.create();
+    var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: {} });
     masterViewModel.set(firstViewModel);
     var firstObservable = masterViewModel["myNamespace.myType"];
 

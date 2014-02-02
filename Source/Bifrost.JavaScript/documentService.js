@@ -103,6 +103,10 @@
             return element.viewModel;
         };
 
+        this.setViewModelBindingExpression = function (element, bindingExpression) {
+            $(target).attr("data-bind", "viewModel: "+bindingExpression);
+        };
+
 
         this.hasOwnRegion = function (element) {
             /// <summary>Check if element has its own region</summary>

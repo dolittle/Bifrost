@@ -3,25 +3,6 @@
         /// <summary>Represents a task for applying view models</summary>
         var self = this;
 
-        function setViewModelBindingExpression(instance, target) {
-            var viewModelFile = documentService.getViewModelFileFrom(target);
-            documentService.setViewModelOn(target, instance);
-
-            if (viewModelFile.indexOf(".") > 0) {
-                viewModelFile = viewModelFile.substr(0, viewModelFile.indexOf("."));
-            }
-
-            var propertyName = viewModelFile.replaceAll("/", "");
-            masterViewModel[propertyName] = ko.observable(instance);
-
-            $(target).attr("data-bind", "viewModel: $data." + propertyName);
-
-            if (typeof instance.activated == "function") {
-                instance.activated();
-            }
-        }
-
-
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
 
@@ -54,14 +35,16 @@
                         if (loadedViewModels == elements.length) {
                             elements.forEach(function (elementToApplyBindingsTo) {
                                 var viewModel = documentService.getViewModelFrom(elementToApplyBindingsTo);
-                                setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
+                                if (documentService.pageHasViewModel(masterViewModel)) {
+                                    masterViewModel.applyBindingsForViewModel(elementToApplyBindingsTo, viewModel);
+                                } else {
+                                    masterViewModel.applyBindingExpressionForViewModel(elementToApplyBindingsTo, viewModel);
+                                }
                             });
 
                             if (!documentService.pageHasViewModel(masterViewModel)) {
                                 ko.applyBindings(masterViewModel);
-                            } else {
-                                ko.applyBindings(instance, element);
-                            }
+                            } 
                             promise.signal();
                         }
                     });

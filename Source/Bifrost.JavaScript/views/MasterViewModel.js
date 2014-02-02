@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    MasterViewModel: Bifrost.Type.extend(function () {
+    MasterViewModel: Bifrost.Type.extend(function (documentService) {
         var self = this;
 
         function getNameFrom(viewModel) {
@@ -19,7 +19,6 @@
                 }
 
                 self[name](viewModel);
-
             } else {
                 self[name] = ko.observable(viewModel);
             }
@@ -27,6 +26,22 @@
             if (Bifrost.isFunction(viewModel.activated)) {
                 viewModel.activated();
             }
-        }
+        };
+
+        this.applyBindingExpressionForViewModel = function (element, viewModel) {
+            var name = getNameFrom(viewModel);
+            self.set(viewModel);
+            documentService.setViewModelOn(element, viewModel);
+            documentService.setViewModelBindingExpression(element, "$data['" + propertyName + "']");
+        };
+
+        this.applyBindingForViewModel = function (element, viewModel) {
+            self.set(viewModel);
+            documentService.setViewModelOn(element, viewModel);
+            ko.applyBindingsToNode(element, {
+                'viewModel': viewModel
+            });
+            
+        };
     })
 });

@@ -139,6 +139,7 @@
     <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\Content.js" />
     <Content Include="views\Control.js" />
+    <Content Include="views\MasterViewModel.js" />
     <Content Include="views\ViewModelApplierTask.js" />
     <Content Include="views\ViewModelsApplierTask.js" />
     <Content Include="views\ElementVisitor.js" />

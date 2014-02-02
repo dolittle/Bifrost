@@ -3,19 +3,6 @@
         /// <summary>Represents a task for applying a single viewModel</summary>
         var self = this;
 
-        function applyViewModel(instance, target) {
-            var viewModelFile = documentService.getViewModelFileFrom(target);
-            documentService.setViewModelOn(target, instance);
-
-            ko.applyBindingsToNode(target, {
-                'viewModel': instance
-            });
-
-            if (typeof instance.activated == "function") {
-                instance.activated();
-            }
-        }
-
         function applyViewModelsByAttribute(path, container, region, promise) {
             var viewModelApplied = false;
 
@@ -26,7 +13,7 @@
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        applyViewModel(instance, target, viewModelFile);
+                        masterViewModel.applyBindingForViewModel(view.element, instance);
                         instance.region.viewModel = instance;
                         promise.signal(instance);
                     });
@@ -51,7 +38,7 @@
                 documentService.setViewModelFileOn(container, viewModelFile);
 
                 viewModelLoader.load(viewModelFile).continueWith(function (instance) {
-                    applyViewModel(instance, target, viewModelFile);
+                    masterViewModel.applyBindingForViewModel(target, instance);
                     instance.region.viewModel = instance;
                     promise.signal(instance);
                 });
@@ -75,7 +62,8 @@
                     documentService.setViewModelFileOn(view.element, viewModelFile);
                     
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        applyViewModel(instance, view.element);
+                        masterViewModel.applyBindingForViewModel(view.element, instance);
+                        
                         region.viewModel = instance;
                         promise.signal(instance);
                     });

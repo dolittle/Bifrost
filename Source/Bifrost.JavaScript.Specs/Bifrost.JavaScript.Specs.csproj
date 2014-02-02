@@ -475,6 +475,8 @@
     <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_with_three_elements_only_two_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_all_elements_with_viewmodel_files_with_one_element_with_viewmodel_file.js" />
     <Content Include="views\for_documentService\when_getting_viewmodel_file_from_element_with_viewmodel_file.js" />
+    <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
+    <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_a_property.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_uppercase_name.js" />

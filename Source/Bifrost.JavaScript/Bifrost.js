@@ -156,6 +156,7 @@
 @depends views/viewLoader.js
 @depends views/ViewRenderTask.js
 @depends views/viewManager.js
+@depends views/MasterViewModel.js
 @depends views/ViewModel.js
 @depends views/viewModelLoader.js
 @depends views/ViewModelLoadTask.js

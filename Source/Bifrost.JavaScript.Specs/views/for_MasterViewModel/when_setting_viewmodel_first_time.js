@@ -9,7 +9,7 @@
         },
         activated: sinon.stub()
     };
-    var masterViewModel = Bifrost.views.MasterViewModel.create();
+    var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: {} });
     masterViewModel.set(viewModel);
 
     it("should have a new observable for the viewmodel", function () {

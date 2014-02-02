@@ -5130,6 +5130,10 @@ Bifrost.namespace("Bifrost", {
             return element.viewModel;
         };
 
+        this.setViewModelBindingExpression = function (element, bindingExpression) {
+            $(target).attr("data-bind", "viewModel: "+bindingExpression);
+        };
+
 
         this.hasOwnRegion = function (element) {
             /// <summary>Check if element has its own region</summary>
@@ -5877,6 +5881,53 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.viewManager = Bifrost.views.viewManager;
 Bifrost.namespace("Bifrost.views", {
+    MasterViewModel: Bifrost.Type.extend(function (documentService) {
+        var self = this;
+
+        function getNameFrom(viewModel) {
+            var fullName = viewModel._type._namespace.name + "." + viewModel._type._name;
+            return fullName;
+        }
+
+
+        this.set = function (viewModel) {
+            var name = getNameFrom(viewModel);
+            if (self.hasOwnProperty(name)) {
+                var existingViewModel = self[name]();
+                if (!Bifrost.isNullOrUndefined(existingViewModel)) {
+                    if (Bifrost.isFunction(existingViewModel.deactivated)) {
+                        existingViewModel.deactivated();
+                    }
+                }
+
+                self[name](viewModel);
+            } else {
+                self[name] = ko.observable(viewModel);
+            }
+
+            if (Bifrost.isFunction(viewModel.activated)) {
+                viewModel.activated();
+            }
+        };
+
+        this.applyBindingExpressionForViewModel = function (element, viewModel) {
+            var name = getNameFrom(viewModel);
+            self.set(viewModel);
+            documentService.setViewModelOn(element, viewModel);
+            documentService.setViewModelBindingExpression(element, "$data['" + propertyName + "']");
+        };
+
+        this.applyBindingForViewModel = function (element, viewModel) {
+            self.set(viewModel);
+            documentService.setViewModelOn(element, viewModel);
+            ko.applyBindingsToNode(element, {
+                'viewModel': viewModel
+            });
+            
+        };
+    })
+});
+Bifrost.namespace("Bifrost.views", {
     ViewModel: Bifrost.Type.extend(function (region) {
         var self = this;
         this.targetViewModel = this;
@@ -5885,6 +5936,12 @@ Bifrost.namespace("Bifrost.views", {
         this.activated = function () {
             if (typeof self.targetViewModel.onActivated === "function") {
                 self.targetViewModel.onActivated();
+            }
+        };
+
+        this.deactivated = function () {
+            if (typeof self.targetViewModel.onDeactivated === "function") {
+                self.targetViewModel.onDeactivated();
             }
         };
 
@@ -5966,19 +6023,6 @@ Bifrost.namespace("Bifrost.views", {
         /// <summary>Represents a task for applying a single viewModel</summary>
         var self = this;
 
-        function applyViewModel(instance, target) {
-            var viewModelFile = documentService.getViewModelFileFrom(target);
-            documentService.setViewModelOn(target, instance);
-
-            ko.applyBindingsToNode(target, {
-                'viewModel': instance
-            });
-
-            if (typeof instance.activated == "function") {
-                instance.activated();
-            }
-        }
-
         function applyViewModelsByAttribute(path, container, region, promise) {
             var viewModelApplied = false;
 
@@ -5989,7 +6033,7 @@ Bifrost.namespace("Bifrost.views", {
                     viewModelApplied = true;
                     var viewModelFile = $(target).data("viewmodel-file");
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        applyViewModel(instance, target, viewModelFile);
+                        masterViewModel.applyBindingForViewModel(view.element, instance);
                         instance.region.viewModel = instance;
                         promise.signal(instance);
                     });
@@ -6014,7 +6058,7 @@ Bifrost.namespace("Bifrost.views", {
                 documentService.setViewModelFileOn(container, viewModelFile);
 
                 viewModelLoader.load(viewModelFile).continueWith(function (instance) {
-                    applyViewModel(instance, target, viewModelFile);
+                    masterViewModel.applyBindingForViewModel(target, instance);
                     instance.region.viewModel = instance;
                     promise.signal(instance);
                 });
@@ -6038,7 +6082,8 @@ Bifrost.namespace("Bifrost.views", {
                     documentService.setViewModelFileOn(view.element, viewModelFile);
                     
                     viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
-                        applyViewModel(instance, view.element);
+                        masterViewModel.applyBindingForViewModel(view.element, instance);
+                        
                         region.viewModel = instance;
                         promise.signal(instance);
                     });
@@ -6062,25 +6107,6 @@ Bifrost.namespace("Bifrost.views", {
     ViewModelsApplierTask: Bifrost.views.ComposeTask.extend(function (root, masterViewModel, viewModelLoader, documentService, regionManager) {
         /// <summary>Represents a task for applying view models</summary>
         var self = this;
-
-        function setViewModelBindingExpression(instance, target) {
-            var viewModelFile = documentService.getViewModelFileFrom(target);
-            documentService.setViewModelOn(target, instance);
-
-            if (viewModelFile.indexOf(".") > 0) {
-                viewModelFile = viewModelFile.substr(0, viewModelFile.indexOf("."));
-            }
-
-            var propertyName = viewModelFile.replaceAll("/", "");
-            masterViewModel[propertyName] = ko.observable(instance);
-
-            $(target).attr("data-bind", "viewModel: $data." + propertyName);
-
-            if (typeof instance.activated == "function") {
-                instance.activated();
-            }
-        }
-
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
@@ -6114,15 +6140,16 @@ Bifrost.namespace("Bifrost.views", {
                         if (loadedViewModels == elements.length) {
                             elements.forEach(function (elementToApplyBindingsTo) {
                                 var viewModel = documentService.getViewModelFrom(elementToApplyBindingsTo);
-                                setViewModelBindingExpression(viewModel, elementToApplyBindingsTo);
+                                if (documentService.pageHasViewModel(masterViewModel)) {
+                                    masterViewModel.applyBindingsForViewModel(elementToApplyBindingsTo, viewModel);
+                                } else {
+                                    masterViewModel.applyBindingExpressionForViewModel(elementToApplyBindingsTo, viewModel);
+                                }
                             });
-
 
                             if (!documentService.pageHasViewModel(masterViewModel)) {
                                 ko.applyBindings(masterViewModel);
-                            } else {
-                                ko.applyBindings(instance, element);
-                            }
+                            } 
                             promise.signal();
                         }
                     });
@@ -6134,13 +6161,13 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory, MasterViewModel) {
         var self = this;
         this.assetsManager = assetsManager;
         this.viewModelLoader = viewModelLoader;
         this.documentService = documentService;
 
-        this.masterViewModel = {};
+        this.masterViewModel = MasterViewModel;
 
         this.hasForView = function (viewPath) {
             var scriptFile = Bifrost.Path.changeExtension(viewPath, "js");
