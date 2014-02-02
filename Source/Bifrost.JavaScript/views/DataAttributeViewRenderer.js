@@ -22,6 +22,7 @@ Bifrost.namespace("Bifrost.views", {
 		        view.element = element;
 		        regionManager.getFor(view).continueWith(function (region) {
 		            view.load(region).continueWith(function (targetView) {
+		                documentService.cleanChildrenOf(element);
 		                $(element).empty();
 		                $(element).append(targetView.content);
 

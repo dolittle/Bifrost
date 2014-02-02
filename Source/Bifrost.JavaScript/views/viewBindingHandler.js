@@ -7,6 +7,7 @@ Bifrost.namespace("Bifrost.views", {
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var uri = ko.utils.unwrapObservable(valueAccessor());
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
+                documentService.cleanChildrenOf(element);
                 element.innerHTML = "";
                 documentService.setViewUriOn(element, null);
             } else {

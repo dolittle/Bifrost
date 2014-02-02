@@ -107,6 +107,12 @@
             $(target).attr("data-bind", "viewModel: "+bindingExpression);
         };
 
+        this.cleanChildrenOf = function (element) {
+            element.children.forEach(function (child) {
+                ko.cleanNode(child);
+            });
+        };
+
 
         this.hasOwnRegion = function (element) {
             /// <summary>Check if element has its own region</summary>

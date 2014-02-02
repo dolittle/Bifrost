@@ -5134,6 +5134,12 @@ Bifrost.namespace("Bifrost", {
             $(target).attr("data-bind", "viewModel: "+bindingExpression);
         };
 
+        this.cleanChildrenOf = function (element) {
+            element.children.forEach(function (child) {
+                ko.cleanNode(child);
+            });
+        };
+
 
         this.hasOwnRegion = function (element) {
             /// <summary>Check if element has its own region</summary>
@@ -5675,6 +5681,7 @@ Bifrost.namespace("Bifrost.views", {
 		        view.element = element;
 		        regionManager.getFor(view).continueWith(function (region) {
 		            view.load(region).continueWith(function (targetView) {
+		                documentService.cleanChildrenOf(element);
 		                $(element).empty();
 		                $(element).append(targetView.content);
 
@@ -6352,6 +6359,7 @@ Bifrost.namespace("Bifrost.views", {
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
             var uri = ko.utils.unwrapObservable(valueAccessor());
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
+                documentService.cleanChildrenOf(element);
                 element.innerHTML = "";
                 documentService.setViewUriOn(element, null);
             } else {
