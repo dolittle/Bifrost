@@ -44,10 +44,13 @@
                 var queryString = "";
                 var parameterIndex = 0;
                 for (var parameter in parameters) {
-                    if (parameterIndex > 0) {
-                        queryString += "&";
+                    var value = parameters[parameter];
+                    if (!Bifrost.isNullOrUndefined(value)) {
+                        if (parameterIndex > 0) {
+                            queryString += "&";
+                        }
+                        queryString += parameter + "=" + value;
                     }
-                    queryString += parameter + "=" + parameters[parameter];
                     parameterIndex++;
                 }
 
