@@ -2,19 +2,19 @@
     viewModelLoader: Bifrost.Singleton(function (taskFactory, fileFactory) {
         var self = this;
 
-        this.load = function (path, region) {
+        this.load = function (path, region, viewModelParameters) {
             var promise = Bifrost.execution.Promise.create();
             var file = fileFactory.create(path, Bifrost.io.fileType.javaScript);
             var task = taskFactory.createViewModelLoad([file]);
             region.tasks.execute(task).continueWith(function () {
-                self.beginCreateInstanceOfViewModel(path, region).continueWith(function (instance) {
+                self.beginCreateInstanceOfViewModel(path, region, viewModelParameters).continueWith(function (instance) {
                     promise.signal(instance);
                 });
             });
             return promise;
         };
 
-        this.beginCreateInstanceOfViewModel = function (path, region, instanceHash) {
+        this.beginCreateInstanceOfViewModel = function (path, region, viewModelParameters) {
             var localPath = Bifrost.Path.getPathWithoutFilename(path);
             var filename = Bifrost.Path.getFilenameWithoutExtension(path);
 
@@ -28,11 +28,11 @@
                     var previousRegion = Bifrost.views.Region.current;
                     Bifrost.views.Region.current = region;
 
-                    instanceHash = instanceHash || {};
-                    instanceHash.region = region;
+                    viewModelParameters = viewModelParameters || {};
+                    viewModelParameters.region = region;
 
                     namespace[filename]
-                        .beginCreate(instanceHash)
+                        .beginCreate(viewModelParameters)
                             .continueWith(function (instance) {
                                 promise.signal(instance);
                             }).onFail(function (error) {

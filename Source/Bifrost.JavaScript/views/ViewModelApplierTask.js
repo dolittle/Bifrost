@@ -1,7 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewModelApplierTask: Bifrost.views.ComposeTask.extend(function (view, masterViewModel, viewModelLoader, documentService, regionManager, viewModelManager) {
+    ViewModelApplierTask: Bifrost.views.ComposeTask.extend(function (view, viewModelLoader, viewModelManager, documentService, regionManager) {
         /// <summary>Represents a task for applying a single viewModel</summary>
         var self = this;
+
+        var masterViewModel = viewModelManager.masterViewModel;
 
         function applyViewModelsByAttribute(path, container, region, promise) {
             var viewModelApplied = false;
@@ -11,8 +13,9 @@
 
                 function loadAndApply(target) {
                     viewModelApplied = true;
-                    var viewModelFile = $(target).data("viewmodel-file");
-                    viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                    var viewModelFile = documentService.getViewModelFileFrom(target);
+                    var viewModelParameters = documentService.getViewModelParametersFrom(target);
+                    viewModelLoader.load(viewModelFile, region, viewModelParameters).continueWith(function (instance) {
                         masterViewModel.applyBindingForViewModel(view.element, instance);
                         instance.region.viewModel = instance;
                         promise.signal(instance);
@@ -31,13 +34,14 @@
             return viewModelApplied;
         }
 
-        function applyViewModelByConventionFromPath(path, container) {
+        function applyViewModelByConventionFromPath(path, container, region) {
             var promise = Bifrost.execution.Promise.create();
             if (viewModelManager.hasForView(path)) {
                 var viewModelFile = Bifrost.Path.changeExtension(path, "js");
                 documentService.setViewModelFileOn(container, viewModelFile);
+                var viewModelParameters = documentService.getViewModelParametersFrom(target);
 
-                viewModelLoader.load(viewModelFile).continueWith(function (instance) {
+                viewModelLoader.load(viewModelFile, region, viewModelParameters).continueWith(function (instance) {
                     masterViewModel.applyBindingForViewModel(target, instance);
                     instance.region.viewModel = instance;
                     promise.signal(instance);
@@ -61,7 +65,8 @@
                     var viewModelFile = Bifrost.Path.changeExtension(view.path, "js");
                     documentService.setViewModelFileOn(view.element, viewModelFile);
                     
-                    viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                    var viewModelParameters = documentService.getViewModelParametersFrom(view.element);
+                    viewModelLoader.load(viewModelFile, region, viewModelParameters).continueWith(function (instance) {
                         masterViewModel.applyBindingForViewModel(view.element, instance);
                         
                         region.viewModel = instance;

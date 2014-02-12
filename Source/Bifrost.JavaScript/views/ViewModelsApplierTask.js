@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewModelsApplierTask: Bifrost.views.ComposeTask.extend(function (root, masterViewModel, viewModelLoader, documentService, regionManager) {
+    ViewModelsApplierTask: Bifrost.views.ComposeTask.extend(function (root, viewModelLoader, viewModelManager, documentService, regionManager) {
         /// <summary>Represents a task for applying view models</summary>
         var self = this;
 
@@ -10,8 +10,10 @@
             var loadedViewModels = 0;
 
             elements.forEach(function (element) {
+                var masterViewModel = viewModelManager.masterViewModel;
                 var viewModelFile = documentService.getViewModelFileFrom(element);
                 var viewFile = documentService.getViewFileFrom(element);
+                
 
                 var view = Bifrost.views.View.create({
                     viewLoader: {
@@ -26,8 +28,9 @@
                 view.element = element;
                 view.content = element.innerHTML;
 
+                var viewModelParameters = documentService.getViewModelParametersFrom(element);
                 regionManager.getFor(view).continueWith(function (region) {
-                    viewModelLoader.load(viewModelFile, region).continueWith(function (instance) {
+                    viewModelLoader.load(viewModelFile, region, viewModelParameters).continueWith(function (instance) {
                         documentService.setViewModelOn(element, instance);
 
                         loadedViewModels++;

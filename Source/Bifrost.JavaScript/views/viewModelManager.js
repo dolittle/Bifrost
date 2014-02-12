@@ -52,7 +52,7 @@
         };
 
         this.loadAndApplyAllViewModelsInDocument = function () {
-            self.masterViewModel = {};
+            self.masterViewModel = Bifrost.views.MasterViewModel.create();
             self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })

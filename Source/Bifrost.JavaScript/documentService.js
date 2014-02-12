@@ -104,7 +104,19 @@
         };
 
         this.setViewModelBindingExpression = function (element, bindingExpression) {
-            $(target).attr("data-bind", "viewModel: "+bindingExpression);
+            $(element).attr("data-bind", "viewModel: "+bindingExpression);
+        };
+
+        this.setViewModelParametersOn = function (element, parameters) {
+            element.viewModelParameters = parameters;
+        };
+
+        this.getViewModelParametersFrom = function (element) {
+            return element.viewModelParameters;
+        };
+
+        this.hasViewModelParameters = function (element) {
+            return !Bifrost.isNullOrUndefined(element.viewModelParameters);
         };
 
         this.cleanChildrenOf = function (element) {
