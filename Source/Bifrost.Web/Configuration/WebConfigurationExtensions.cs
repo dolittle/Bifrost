@@ -34,6 +34,12 @@ namespace Bifrost.Configuration
             return Configure.Instance;
         }
 
+        public static WebConfiguration CacheApplicationRoute(this WebConfiguration configuration)
+        {
+            configuration.ApplicationRouteCached = true;
+            return configuration;
+        }
+
 		public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
 		{
 			HttpModule.AddPipe(new SinglePageApplication());

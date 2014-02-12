@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Text;
 using System.Web;
 using Bifrost.Configuration;
@@ -31,7 +32,50 @@ namespace Bifrost.Web.Configuration
 
         public bool IsReusable { get { return true; } }
 
+        WebConfiguration _webConfiguration;
+
+        public ConfigurationRouteHttpHandler() : this(Configure.Instance.Container.Get<WebConfiguration>())
+        {
+        }
+
+        public ConfigurationRouteHttpHandler(WebConfiguration webConfiguration)
+        {
+            _webConfiguration = webConfiguration;
+        }
+
         public void ProcessRequest(HttpContext context)
+        {
+            if (_webConfiguration.ApplicationRouteCached)
+            {
+                if (string.IsNullOrEmpty(context.Request.Headers["If-Modified-Since"]))
+                {
+                    context.Response.Cache.SetAllowResponseInBrowserHistory(true);
+                    context.Response.Cache.SetExpires(DateTime.Now.AddYears(10));
+                    context.Response.Cache.SetCacheability(HttpCacheability.Private);
+
+                    context.Response.Cache.VaryByHeaders["If-Modified-Since"] = true;
+                    context.Response.Cache.VaryByHeaders["If-None-Match"] = true;
+                    context.Response.Cache.SetETag(DateTime.Now.ToString());
+
+                    context.Response.Cache.SetValidUntilExpires(true);
+
+                    context.Response.Cache.SetNoServerCaching();
+                    context.Response.Cache.SetLastModified(DateTime.MinValue);
+                    OutputContent(context);
+                }
+                else
+                {
+                    context.Response.StatusCode = 304;
+                    context.Response.StatusDescription = "Not Modified";
+                }
+            }
+            else
+            {
+                OutputContent(context);
+            }
+        }
+
+        void OutputContent(HttpContext context)
         {
             InitializeIfNotInitialized();
             context.Response.ContentType = "text/javascript";
@@ -53,25 +97,25 @@ namespace Bifrost.Web.Configuration
             if (!string.IsNullOrEmpty(_configurationAsString)) return;
 
             var proxies = Configure.Instance.Container.Get<GeneratedProxies>();
-            var configuration = Configure.Instance.Container.Get<WebConfiguration>();
+            
             var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
 
 
             var builder = new StringBuilder();
 
-            if (configuration.ScriptsToInclude.JQuery)
+            if (_webConfiguration.ScriptsToInclude.JQuery)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.9.1.min.js"));
 
-            if (configuration.ScriptsToInclude.Knockout)
+            if (_webConfiguration.ScriptsToInclude.Knockout)
                 builder.Append(GetResource("Bifrost.Web.Scripts.knockout-2.2.1.debug.js"));
 
-            if (configuration.ScriptsToInclude.KnockoutMapping)
+            if (_webConfiguration.ScriptsToInclude.KnockoutMapping)
                 builder.Append(GetResource("Bifrost.Web.Scripts.knockout.mapping-latest.js"));
 
-            if (configuration.ScriptsToInclude.JQueryHistory)
+            if (_webConfiguration.ScriptsToInclude.JQueryHistory)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));
 
-            if (configuration.ScriptsToInclude.Require)
+            if (_webConfiguration.ScriptsToInclude.Require)
             {
                 builder.Append(GetResource("Bifrost.Web.Scripts.require.js"));
                 builder.Append(GetResource("Bifrost.Web.Scripts.order.js"));
@@ -80,7 +124,7 @@ namespace Bifrost.Web.Configuration
                 builder.Append(GetResource("Bifrost.Web.Scripts.noext.js"));
             }
 
-            if (configuration.ScriptsToInclude.Bifrost)
+            if (_webConfiguration.ScriptsToInclude.Bifrost)
                 builder.Append(GetResource("Bifrost.Web.Scripts.Bifrost.debug.js"));
 
             builder.Append(proxies.All);

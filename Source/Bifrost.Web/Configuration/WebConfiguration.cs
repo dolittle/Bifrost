@@ -35,6 +35,8 @@ namespace Bifrost.Web.Configuration
         public PathToNamespaceMappers PathsToNamespaces { get; set; }
         public NamespaceMapper NamespaceMapper { get; set; }
 
+        public bool ApplicationRouteCached { get; set; }
+
         public void Initialize(IContainer container)
         {
         }
