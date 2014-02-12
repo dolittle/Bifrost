@@ -32,7 +32,7 @@
             var name = getNameFrom(viewModel);
             self.set(viewModel);
             documentService.setViewModelOn(element, viewModel);
-            documentService.setViewModelBindingExpression(element, "$data['" + propertyName + "']");
+            documentService.setViewModelBindingExpression(element, "$data['" + name + "']");
         };
 
         this.applyBindingForViewModel = function (element, viewModel) {
