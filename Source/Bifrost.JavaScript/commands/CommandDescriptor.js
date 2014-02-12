@@ -4,7 +4,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
 
     var builtInCommand = {};
     if (typeof Bifrost.commands.Command !== "undefined") {
-        builtInCommand = Bifrost.commands.Command.create();
+        builtInCommand = Bifrost.commands.Command.create({ region: { commands: [] } });
     }
 
     function shouldSkipProperty(target, property) {
