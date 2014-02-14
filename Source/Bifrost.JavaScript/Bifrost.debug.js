@@ -3672,7 +3672,6 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.onCreated = function (lastDescendant) {
-            region.commands.push(lastDescendant);
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
@@ -5605,6 +5604,7 @@ Bifrost.namespace("Bifrost.views", {
         this.path = path;
         this.content = "[CONTENT NOT LOADED]";
         this.element = null;
+
 
         this.load = function (region) {
             var promise = Bifrost.execution.Promise.create();

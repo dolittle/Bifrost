@@ -51,8 +51,4 @@
     it("should set the security context on the command", function () {
         expect(command.securityContext()).toBe(securityContext);
     });
-
-    it("should add itself to the commands in the region", function () {
-        expect(parameters.region.commands[0]).toBe(command);
-    });
 });

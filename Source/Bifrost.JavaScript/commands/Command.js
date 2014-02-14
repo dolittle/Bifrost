@@ -1,12 +1,13 @@
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options, region) {
         var self = this;
+        var hasChangesObservables = ko.observableArray();
+
         this.region = region;
         this.name = "";
         this.generatedFrom = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
-        this.hasChangesObservables = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.securityContext = ko.observable(null);
         this.populatedFromExternalSource = ko.observable(false);
@@ -276,7 +277,6 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.onCreated = function (lastDescendant) {
-            region.commands.push(lastDescendant);
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
                 this.setOptions(options);
