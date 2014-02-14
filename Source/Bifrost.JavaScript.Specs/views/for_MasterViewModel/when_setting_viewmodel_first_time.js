@@ -9,15 +9,17 @@
         },
         activated: sinon.stub()
     };
+
+    var viewModelName = "myNamespace.myType";
     var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: {} });
-    masterViewModel.set(viewModel);
+    masterViewModel.set(viewModel, viewModelName);
 
     it("should have a new observable for the viewmodel", function () {
-        expect(ko.isObservable(masterViewModel["myNamespace.myType"])).toBe(true);
+        expect(ko.isObservable(masterViewModel[viewModelName])).toBe(true);
     });
 
     it("should initialize the new observable with the viewmodel", function () {
-        expect(masterViewModel["myNamespace.myType"]()).toBe(viewModel);
+        expect(masterViewModel[viewModelName]()).toBe(viewModel);
     });
 
     it("should call the activated function", function () {

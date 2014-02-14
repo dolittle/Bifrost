@@ -6,14 +6,21 @@
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
 
+            var masterViewModel = viewModelManager.masterViewModel;
             var elements = documentService.getAllElementsWithViewModelFilesFrom(root);
             var loadedViewModels = 0;
 
+            if (elements.length === 0) {
+                if (!documentService.pageHasViewModel(masterViewModel)) {
+                    ko.applyBindings(masterViewModel);
+                }
+                promise.signal();
+                return promise;
+            }
+
             elements.forEach(function (element) {
-                var masterViewModel = viewModelManager.masterViewModel;
                 var viewModelFile = documentService.getViewModelFileFrom(element);
                 var viewFile = documentService.getViewFileFrom(element);
-                
 
                 var view = Bifrost.views.View.create({
                     viewLoader: {

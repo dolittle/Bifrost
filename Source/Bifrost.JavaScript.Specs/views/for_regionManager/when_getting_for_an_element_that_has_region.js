@@ -1,6 +1,9 @@
 ﻿describe("when getting for an element that has region", function () {
+
+    var originalView = {};
     var region = {
-        existing: "region"
+        existing: "region",
+        view: ko.observable(originalView)
     };
 
     var element = {
@@ -39,5 +42,9 @@
 
     it("should get the region from the element", function () {
         expect(regionReturned).toBe(region);
+    });
+
+    it("should change the view", function () {
+        expect(region.view()).toBe(view);
     });
 });

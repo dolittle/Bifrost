@@ -21,18 +21,18 @@
         activated: sinon.stub()
     };
 
+    var viewModelName = "myNamespace.myType";
     var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: {} });
-    masterViewModel.set(firstViewModel);
-    var firstObservable = masterViewModel["myNamespace.myType"];
-
-    masterViewModel.set(secondViewModel);
+    masterViewModel.set(firstViewModel, viewModelName);
+    var firstObservable = masterViewModel[viewModelName];
+    masterViewModel.set(secondViewModel, viewModelName);
 
     it("should reuse the same observable for the second viewmodel", function () {
-        expect(masterViewModel["myNamespace.myType"]).toBe(firstObservable);
+        expect(masterViewModel[viewModelName]).toBe(firstObservable);
     });
 
     it("should initialize the new observable with the viewmodel", function () {
-        expect(masterViewModel["myNamespace.myType"]()).toBe(secondViewModel);
+        expect(masterViewModel[viewModelName]()).toBe(secondViewModel);
     });
 
     it("should call the deactivated function on the first instance", function () {

@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory, MasterViewModel) {
+    viewModelManager: Bifrost.Singleton(function(assetsManager, documentService, viewModelLoader, regionManager, taskFactory, viewFactory, MasterViewModel) {
         var self = this;
         this.assetsManager = assetsManager;
         this.viewModelLoader = viewModelLoader;
@@ -53,7 +53,14 @@
 
         this.loadAndApplyAllViewModelsInDocument = function () {
             self.masterViewModel = Bifrost.views.MasterViewModel.create();
-            self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
+            var view = viewFactory.createFrom(document.location.href);
+            view.element = document.body;
+            regionManager.getFor(view).continueWith(function(region) {
+                var task = taskFactory.createViewModelsApplier(view.element, self.masterViewModel);
+                region.tasks.execute(task).continueWith(function () {
+                });
+            });
+            //self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
 });

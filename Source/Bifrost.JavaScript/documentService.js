@@ -120,9 +120,12 @@
         };
 
         this.cleanChildrenOf = function (element) {
-            element.children.forEach(function (child) {
-                ko.cleanNode(child);
-            });
+            self.traverseObjects(function (child) {
+                if (child !== element) {
+                    $(child).unbind();
+                    ko.cleanNode(child);
+                }
+            }, element);
         };
 
 

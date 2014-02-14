@@ -8,8 +8,7 @@
         }
 
 
-        this.set = function (viewModel) {
-            var name = getNameFrom(viewModel);
+        this.set = function (viewModel, name) {
             if (self.hasOwnProperty(name)) {
                 var existingViewModel = self[name]();
                 if (!Bifrost.isNullOrUndefined(existingViewModel)) {
@@ -18,8 +17,10 @@
                     }
                 }
 
+                console.log("Set viewModel second time");
                 self[name](viewModel);
             } else {
+                console.log("Set viewModel first time");
                 self[name] = ko.observable(viewModel);
             }
 
@@ -28,20 +29,60 @@
             }
         };
 
+        this.clearFor = function (element) {
+            if (!Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
+                var name = element.__bifrost_vm__;
+                self[name](null);
+            }
+        }
+
+        this.apply = function () {
+
+        }
+
+
         this.applyBindingExpressionForViewModel = function (element, viewModel) {
-            var name = getNameFrom(viewModel);
-            self.set(viewModel);
+            var name = "";
+            var alreadySet = false;
+            if (Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
+                name = Bifrost.Guid.create();
+                element.__bifrost_vm__ = name;
+            } else {
+                name = element.__bifrost_vm__;
+                alreadySet = true;
+            }
+
+            self.set(viewModel, name);
             documentService.setViewModelOn(element, viewModel);
-            documentService.setViewModelBindingExpression(element, "$data['" + name + "']");
+
+            if (!alreadySet) {
+                console.log("Set viewModel binding Expression - "+name);
+                documentService.setViewModelBindingExpression(element, "$data['" + name + "']");
+            }
         };
 
         this.applyBindingForViewModel = function (element, viewModel) {
-            self.set(viewModel);
+            var name = "";
+            var alreadySet = false;
+            if (Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
+                name = Bifrost.Guid.create();
+                element.__bifrost_vm__ = name;
+            } else {
+                name = element.__bifrost_vm__;
+                alreadySet = true;
+            }
+
+            //var name = getNameFrom(viewModel);
+            self.set(viewModel, name);
             documentService.setViewModelOn(element, viewModel);
-            ko.applyBindingsToNode(element, {
-                'viewModel': viewModel
-            });
-            
+
+            if (!alreadySet) {
+                console.log("Apply viewModel binding for - " + name);
+                /*
+                ko.applyBindingsToNode(element, {
+                    'viewModel': self[name] //viewModel
+                });*/
+            }
         };
     })
 });

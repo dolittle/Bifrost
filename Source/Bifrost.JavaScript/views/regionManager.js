@@ -21,10 +21,9 @@
             return parentRegion;
         }
 
-        function manageHierarchy(parentRegion, view) {
+        function manageHierarchy(parentRegion) {
             var region = createRegionInstance();
             region.parent = parentRegion;
-            region.view = view;
             if (parentRegion) {
                 parentRegion.children.push(region);
             }
@@ -40,12 +39,16 @@
             var element = view.element;
 
             if (documentService.hasOwnRegion(element)) {
-                promise.signal(documentService.getRegionFor(element));
+                var region = documentService.getRegionFor(element);
+                region.view(view);
+                promise.signal(region);
+                
                 return promise;
             }
 
             var parentRegion = manageInheritance(element);
-            var region = manageHierarchy(parentRegion, view);
+            var region = manageHierarchy(parentRegion);
+            region.view(view);
 
             regionDescriptorManager.describe(view, region).continueWith(function () {
                 documentService.setRegionOn(element, region);

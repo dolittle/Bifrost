@@ -3,8 +3,8 @@
         /// <summary>Represents a region in the visual composition on a page</summary>
         var self = this;
 
-        /// <field name="view" type="Bifrost.views.View">View for the composing</field>
-        this.view = null;
+        /// <field name="view" type="observable of Bifrost.views.View">Observable holding View for the composition</field>
+        this.view = ko.observable();
 
         /// <field name="viewModel" type="Bifrost.views.ViewModel">The ViewModel associated with the view</field>
         this.viewModel = null;
@@ -149,7 +149,6 @@
 
             return messages;
         });
-
 
         /// <field name="isExecuting" type="observable">Indiciates wether or not execution tasks are being performend in this region or any of its child regions</field>
         this.isExecuting = thisOrChildHasTaskType(Bifrost.tasks.ExecutionTask, "isExecuting");
