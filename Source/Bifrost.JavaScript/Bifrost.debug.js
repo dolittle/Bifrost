@@ -3397,12 +3397,13 @@ Bifrost.namespace("Bifrost.commands", {
 Bifrost.namespace("Bifrost.commands", {
     Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, options, region) {
         var self = this;
+        var hasChangesObservables = ko.observableArray();
+
         this.region = region;
         this.name = "";
         this.generatedFrom = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
-        this.hasChangesObservables = ko.observableArray();
         this.validationMessages = ko.observableArray();
         this.securityContext = ko.observable(null);
         this.populatedFromExternalSource = ko.observable(false);
@@ -3446,7 +3447,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
-            self.hasChangesObservables().some(function (item) {
+            hasChangesObservables().some(function (item) {
                 if (item() === true) {
                     hasChange = true;
                     return true;
@@ -3542,7 +3543,7 @@ Bifrost.namespace("Bifrost.commands", {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
                     propertyValue.extend({ hasChanges: {} })
-                    self.hasChangesObservables.push(propertyValue.hasChanges);
+                    hasChangesObservables.push(propertyValue.hasChanges);
                 }
             });
         };
