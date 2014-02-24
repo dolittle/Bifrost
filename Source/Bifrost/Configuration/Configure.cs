@@ -181,24 +181,25 @@ namespace Bifrost.Configuration
             ConfigureFromCanConfigurables();
             InitializeCulture();
             
-            var initializationList = new List<Action>();
-            initializationList.Add(() => Serialization.Initialize(Container));
-            initializationList.Add(() => Commands.Initialize(Container));
-            initializationList.Add(() => Events.Initialize(Container));
-            initializationList.Add(() => Tasks.Initialize(Container));
-            initializationList.Add(() => Views.Initialize(Container));
-            initializationList.Add(() => Sagas.Initialize(Container));
-            initializationList.Add(() => Frontend.Initialize(Container));
-            initializationList.Add(() => CallContext.Initialize(Container));
-            initializationList.Add(() => ExecutionContext.Initialize(Container));
-            initializationList.Add(() => Security.Initialize(Container));
-            initializationList.Add(() => DefaultStorage.Initialize(Container));
+            var initializers = new Action[] {
+                () => Serialization.Initialize(Container),
+                () => Commands.Initialize(Container),
+                () => Events.Initialize(Container),
+                () => Tasks.Initialize(Container),
+                () => Views.Initialize(Container),
+                () => Sagas.Initialize(Container),
+                () => Frontend.Initialize(Container),
+                () => CallContext.Initialize(Container),
+                () => ExecutionContext.Initialize(Container),
+                () => Security.Initialize(Container),
+                () => DefaultStorage.Initialize(Container)
+            };
 
-            #if(SILVERLIGHT)
-            initializationList.ForEach(initializator => initializator());
-            #else
-            Parallel.ForEach(initializationList, initializator => initializator());
-            #endif
+#if(SILVERLIGHT)
+            initializers.ForEach(initializer => initializer());
+#else
+            Parallel.ForEach(initializers, initializator => initializator());
+#endif
             
         }
 #pragma warning restore 1591 // Xml Comments
