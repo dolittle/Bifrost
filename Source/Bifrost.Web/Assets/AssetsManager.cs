@@ -67,7 +67,7 @@ namespace Bifrost.Web.Assets
 
         void Initialize()
         {
-            var root = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath; //HttpContext.Current.Server.MapPath("/");
+            var root = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
