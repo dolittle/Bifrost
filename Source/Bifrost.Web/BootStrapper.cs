@@ -36,10 +36,10 @@ namespace Bifrost.Web
 {
 	public class BootStrapper
 	{
-        private static volatile object _lockObject = new object();
-	    private static bool _isInitialized;
+        static volatile object _lockObject = new object();
+	    static bool _isInitialized;
 
-		private static void PreApplicationStart()
+		static void PreApplicationStart()
 		{
 			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
             RouteTable.Routes.Add(new ProxyRoute());
@@ -58,13 +58,9 @@ namespace Bifrost.Web
         {
             lock (_lockObject)
             {
-                if (_isInitialized)
-                {
-                    return;
-                }
+                if (_isInitialized) return;
                 
                 Configure.DiscoverAndConfigure();
-
                 AddAllAssetsForThisAssembly();
 
                 _isInitialized = true;
