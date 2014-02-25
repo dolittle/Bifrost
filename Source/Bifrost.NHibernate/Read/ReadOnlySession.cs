@@ -46,8 +46,11 @@ namespace Bifrost.NHibernate.Read
 
         public void Dispose()
         {
-            if(_session != null)
+            if (_session != null)
+            {
                 _session.Dispose();
+                _session = null;
+            }
         }
     }
 }
