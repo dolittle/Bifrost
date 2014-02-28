@@ -4,6 +4,9 @@
 
         var self = this;
         function render(element) {
+
+            
+
             var promise = Bifrost.execution.Promise.create();
             if (viewRenderers.canRender(element)) {
                 viewRenderers.render(element).continueWith(function () {
@@ -48,6 +51,8 @@
         
 
         this.execute = function () {
+
+            console.log("VewRenderTask.execute");
             var promise = Bifrost.execution.Promise.create();
 
             render(element).continueWith(function () {

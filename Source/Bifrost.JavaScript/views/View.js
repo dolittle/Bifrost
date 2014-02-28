@@ -6,12 +6,13 @@ Bifrost.namespace("Bifrost.views", {
         this.path = path;
         this.content = "[CONTENT NOT LOADED]";
         this.element = null;
-
+        this.viewModel = null;
 
         this.load = function (region) {
             var promise = Bifrost.execution.Promise.create();
             self.viewLoader.load(self.path, region).continueWith(function (html) {
                 self.content = html;
+                self.viewModel = region.viewModel;
                 promise.signal(self);
             });
 

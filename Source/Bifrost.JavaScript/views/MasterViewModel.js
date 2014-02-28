@@ -7,22 +7,41 @@
             return fullName;
         }
 
-
-        this.set = function (viewModel, name) {
-            if (self.hasOwnProperty(name)) {
-                var existingViewModel = self[name]();
-                if (!Bifrost.isNullOrUndefined(existingViewModel)) {
-                    if (Bifrost.isFunction(existingViewModel.deactivated)) {
-                        existingViewModel.deactivated();
-                    }
-                }
-
-                console.log("Set viewModel second time");
-                self[name](viewModel);
+        this.getViewModelObservableFor = function (element) {
+            var name = "";
+            var alreadySet = false;
+            if (Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
+                name = Bifrost.Guid.create();
+                element.__bifrost_vm__ = name;
             } else {
-                console.log("Set viewModel first time");
-                self[name] = ko.observable(viewModel);
+                name = element.__bifrost_vm__;
+                alreadySet = true;
             }
+
+            var observable = null;
+
+            if (self.hasOwnProperty(name)) {
+                observable = self[name]
+            } else {
+                observable = ko.observable();
+                observable.__bifrost_vm__ = name;
+                self[name] = observable;
+            }
+            return observable;
+        };
+
+
+        this.setFor = function (element, viewModel) {
+
+            var viewModelObservable = self.getViewModelObservableFor(element);
+            var existingViewModel = viewModelObservable();
+            if (!Bifrost.isNullOrUndefined(existingViewModel)) {
+                if (Bifrost.isFunction(existingViewModel.deactivated)) {
+                    existingViewModel.deactivated();
+                }
+            }
+
+            viewModelObservable(viewModel);
 
             if (Bifrost.isFunction(viewModel.activated)) {
                 viewModel.activated();
@@ -33,55 +52,6 @@
             if (!Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
                 var name = element.__bifrost_vm__;
                 self[name](null);
-            }
-        }
-
-        this.apply = function () {
-
-        }
-
-
-        this.applyBindingExpressionForViewModel = function (element, viewModel) {
-            var name = "";
-            var alreadySet = false;
-            if (Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
-                name = Bifrost.Guid.create();
-                element.__bifrost_vm__ = name;
-            } else {
-                name = element.__bifrost_vm__;
-                alreadySet = true;
-            }
-
-            self.set(viewModel, name);
-            documentService.setViewModelOn(element, viewModel);
-
-            if (!alreadySet) {
-                console.log("Set viewModel binding Expression - "+name);
-                documentService.setViewModelBindingExpression(element, "$data['" + name + "']");
-            }
-        };
-
-        this.applyBindingForViewModel = function (element, viewModel) {
-            var name = "";
-            var alreadySet = false;
-            if (Bifrost.isNullOrUndefined(element.__bifrost_vm__)) {
-                name = Bifrost.Guid.create();
-                element.__bifrost_vm__ = name;
-            } else {
-                name = element.__bifrost_vm__;
-                alreadySet = true;
-            }
-
-            //var name = getNameFrom(viewModel);
-            self.set(viewModel, name);
-            documentService.setViewModelOn(element, viewModel);
-
-            if (!alreadySet) {
-                console.log("Apply viewModel binding for - " + name);
-                /*
-                ko.applyBindingsToNode(element, {
-                    'viewModel': self[name] //viewModel
-                });*/
             }
         };
     })

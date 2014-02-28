@@ -20,6 +20,7 @@
         };
 
         this.applyToViewIfAny = function (view) {
+            console.log("viewModelManager.applyToViewIfAny");
             var promise = Bifrost.execution.Promise.create();
             var task = taskFactory.createViewModelApplier(view, self.masterViewModel);
 

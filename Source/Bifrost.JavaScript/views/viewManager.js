@@ -9,6 +9,7 @@
         this.pathResolvers = pathResolvers;
 
         this.initializeLandingPage = function () {
+            return;
             var body = $("body")[0];
             if (body !== null) {
                 var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());

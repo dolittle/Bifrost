@@ -169,12 +169,16 @@
 @depends views/RelativePathResolver.js
 @depends views/viewModelBindingHandler.js
 @depends views/viewBindingHandler.js
+@depends views/viewBindingHandlerTemplateSource.js
+@depends views/viewBindingHandlerTemplateEngine.js
 @depends views/Region.js
 @depends views/RegionDependencyResolver.js
 @depends views/regionManager.js
 @depends views/RegionDescriptor.js
 @depends views/regionDescriptorManager.js
 @depends views/RegionDescriptorDependencyResolver.js
+@depends views/DataViewAttributeElementVisitor.js
+@depends views/DataNavigationFrameAttributeElementVisitor.js
 @depends interaction/VisualStateManagerElementVisitor.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js

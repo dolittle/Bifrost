@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewLoader: Bifrost.Singleton(function (viewModelManager, taskFactory, fileFactory, regionManager) {
+    viewLoader: Bifrost.Singleton(function (viewModelManager, viewModelLoader, taskFactory, fileFactory, regionManager) {
         this.load = function (path,region) {
             var promise = Bifrost.execution.Promise.create();
 
@@ -11,8 +11,9 @@
             }
             files.push(viewFile);
 
+            var viewModelPath = null;
             if (viewModelManager.hasForView(path)) {
-                var viewModelPath = viewModelManager.getViewModelPathForView(path);
+                viewModelPath = viewModelManager.getViewModelPathForView(path);
                 if (!viewModelManager.isLoaded(viewModelPath)) {
                     var viewModelFile = fileFactory.create(viewModelPath, Bifrost.io.fileType.javaScript);
                     files.push(viewModelFile);
@@ -21,7 +22,18 @@
 
             var task = taskFactory.createViewLoad(files);
             region.tasks.execute(task).continueWith(function (view) {
-                promise.signal(view);
+                if (viewModelPath != null) {
+                    var viewModelParameters = {};
+                    if (!Bifrost.isNullOrUndefined(view.element)) {
+                        viewModelParameters = documentService.getViewModelParametersFrom(element);
+                    }
+                    viewModelLoader.beginCreateInstanceOfViewModel(viewModelPath, region, viewModelParameters).continueWith(function (viewModelInstance) {
+                        region.viewModel = viewModelInstance;
+                        promise.signal(view);
+                    });
+                } else {
+                    promise.signal(view);
+                }
             });
 
             return promise;

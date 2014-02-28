@@ -15,7 +15,6 @@
         };
 
         this.beginCreateInstanceOfViewModel = function (path, region, viewModelParameters) {
-            console.log("Begin create instance of viewModel : " + path);
             var localPath = Bifrost.Path.getPathWithoutFilename(path);
             var filename = Bifrost.Path.getFilenameWithoutExtension(path);
 

@@ -140,6 +140,8 @@
     <Content Include="views\Content.js" />
     <Content Include="views\Control.js" />
     <Content Include="views\MasterViewModel.js" />
+    <Content Include="views\DataNavigationFrameAttributeElementVisitor.js" />
+    <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ViewModelApplierTask.js" />
     <Content Include="views\ViewModelsApplierTask.js" />
     <Content Include="views\ElementVisitor.js" />
@@ -268,6 +270,8 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </Target>
   -->
   <ItemGroup>
+    <Content Include="views\ViewBindingHandlerTemplateEngine.js" />
+    <Content Include="views\DataViewAttributeElementVisitor.js" />
     <Content Include="extensions\ArrayExtensions.js" />
     <Content Include="commands\commandValidationService.js" />
     <Content Include="commands\commandSecurityContextFactory.js" />
