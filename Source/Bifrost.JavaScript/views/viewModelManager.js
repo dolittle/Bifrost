@@ -19,19 +19,6 @@
             return scriptFile;
         };
 
-        this.applyToViewIfAny = function (view) {
-            console.log("viewModelManager.applyToViewIfAny");
-            var promise = Bifrost.execution.Promise.create();
-            var task = taskFactory.createViewModelApplier(view, self.masterViewModel);
-
-            var region = documentService.getRegionFor(view.element);
-            region.tasks.execute(task).continueWith(function (instance) {
-                promise.signal(instance);
-            });
-
-            return promise;
-        };
-
         this.isLoaded = function (path) {
             var localPath = Bifrost.Path.getPathWithoutFilename(path);
             var filename = Bifrost.Path.getFilenameWithoutExtension(path);
@@ -44,24 +31,6 @@
                 }
             }
             return false;
-        };
-
-        this.loadAndApplyAllViewModelsWithinElement = function (root) {
-            var task = taskFactory.createViewModelsApplier(root, self.masterViewModel);
-            documentService.getRegionFor(root).tasks.execute(task).continueWith(function () {
-            });
-        };
-
-        this.loadAndApplyAllViewModelsInDocument = function () {
-            self.masterViewModel = Bifrost.views.MasterViewModel.create();
-            var view = viewFactory.createFrom(document.location.href);
-            view.element = document.body;
-            regionManager.getFor(view).continueWith(function(region) {
-                var task = taskFactory.createViewModelsApplier(view.element, self.masterViewModel);
-                region.tasks.execute(task).continueWith(function () {
-                });
-            });
-            //self.loadAndApplyAllViewModelsWithinElement(self.documentService.DOMRoot);
         };
     })
 });

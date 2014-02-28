@@ -102,7 +102,6 @@
     <Content Include="Libraries\knockout.mapping-latest.debug.js" />
     <Content Include="Libraries\knockout.mapping-latest.js" />
     <Content Include="messaging\messengerFactory.js" />
-    <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
     <Content Include="read\queryableFactory.js" />
     <Content Include="read\PagingInfo.js" />
@@ -140,7 +139,8 @@
     <Content Include="views\Content.js" />
     <Content Include="views\Control.js" />
     <Content Include="views\MasterViewModel.js" />
-    <Content Include="views\DataNavigationFrameAttributeElementVisitor.js" />
+    <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
+    <Content Include="navigation\navigationBindingHandler.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ViewModelApplierTask.js" />
     <Content Include="views\ViewModelsApplierTask.js" />
@@ -166,15 +166,11 @@
     <Content Include="views\regionDescriptorManager.js" />
     <Content Include="views\regionManager.js" />
     <Content Include="views\viewBindingHandler.js" />
-    <Content Include="views\DataAttributeViewRenderer.js" />
     <Content Include="views\RelativePathResolver.js" />
     <Content Include="views\UriMapperPathResolver.js" />
     <Content Include="views\PathResolver.js" />
     <Content Include="views\pathResolvers.js" />
     <Content Include="views\viewModelLoader.js" />
-    <Content Include="views\ViewRenderer.js" />
-    <Content Include="views\viewRenderers.js" />
-    <Content Include="views\ViewRenderTask.js" />
     <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />

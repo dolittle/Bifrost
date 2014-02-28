@@ -66,6 +66,15 @@
             return Bifrost.isString($(element).data("view"));
         };
 
+        this.getViewModelNameFor = function (element) {
+            var dataViewModelName = element.attributes.getNamedItem("data-viewmodel-name");
+            if (Bifrost.isNullOrUndefined(dataViewModelName)) {
+                dataViewModelName = document.createAttribute("data-viewmodel-name");
+                dataViewModelName.value = Bifrost.Guid.create();
+            }
+            element.attributes.setNamedItem(dataViewModelName);
+            return dataViewModelName.value;
+        }
 
         this.getViewFileFrom = function (element) {
             var file = $(element).data("view-file");

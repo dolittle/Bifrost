@@ -26,7 +26,8 @@
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();
-            Bifrost.views.viewModelManager.create().loadAndApplyAllViewModelsInDocument();
+            Bifrost.navigation.navigationBindingHandler.initialize();
+            Bifrost.views.viewModelManager.create().masterViewModel.apply();
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;

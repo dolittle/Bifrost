@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function(UIManager, viewModelManager, documentService, pathResolvers, viewFactory, viewLoader, element, viewUri, allBindingsAccessor) {
+    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function(UIManager, viewModelManager, documentService, pathResolvers, viewFactory, viewLoader, element, viewUri, regionManager, allBindingsAccessor) {
         var self = this;
         var loaded = false;
         var view = ko.observable("<span></span>");
@@ -30,19 +30,22 @@
                         var actualPath = pathResolvers.resolve(element, viewUri);
                         var actualView = viewFactory.createFrom(actualPath);
                         actualView.element = element;
-                        var region = documentService.getRegionFor(element);
+                        //var region = documentService.getRegionFor(element);
 
-                        actualView.load(region).continueWith(function (loadedView) {
-                            viewModelManager.masterViewModel.setFor(element, loadedView.viewModel);
+                        regionManager.getFor(actualView).continueWith(function (region) {
 
-                            var wrapper = document.createElement("div");
-                            wrapper.innerHTML = loadedView.content;
+                            actualView.load(region).continueWith(function (loadedView) {
+                                viewModelManager.masterViewModel.setFor(element, loadedView.viewModel);
 
-                            UIManager.handle(wrapper);
+                                var wrapper = document.createElement("div");
+                                wrapper.innerHTML = loadedView.content;
 
-                            loadedView.content = wrapper.innerHTML;
+                                UIManager.handle(wrapper);
 
-                            view(loadedView.content);
+                                loadedView.content = wrapper.innerHTML;
+
+                                view(loadedView.content);
+                            });
                         });
                     }
                 }

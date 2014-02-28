@@ -40,5 +40,3 @@ Bifrost.views.viewBindingHandler.initialize = function () {
     ko.jsonExpressionRewriting.bindingRewriteValidators.view = false; // Can't rewrite control flow bindings
     ko.virtualElements.allowedBindings.view = true;
 };
-
-

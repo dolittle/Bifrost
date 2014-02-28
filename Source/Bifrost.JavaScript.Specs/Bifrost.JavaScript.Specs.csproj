@@ -452,8 +452,6 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
-    <Content Include="views\for_DataAttributeViewRenderer\when_asking_to_resolve_element_without_data_view_attribute_on_it.js" />
-    <Content Include="views\for_DataAttributeViewRenderer\when_asking_to_resolve_element_with_data_view_attribute_on_it.js" />
     <Content Include="views\for_documentService\when_getting_parent_region_from_element_without_any_parent_having_region.js" />
     <Content Include="views\for_documentService\when_getting_parent_region_from_element_with_parent_holding_the_region.js" />
     <Content Include="views\for_documentService\when_asking_if_element_has_own_region_and_it_does_not.js" />
@@ -521,12 +519,6 @@
     <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
     <Content Include="views\for_viewManager\when_rendering_for_an_element_with_two_views_deeply_nested_in_it.js" />
     <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
-    <Content Include="views\for_viewModelManager\when_loading_and_applying_all_viewmodels_with_two_viewmodels.js" />
-    <Content Include="views\for_viewRenderers\when_asking_if_can_render_and_there_are_no_renderers.js" />
-    <Content Include="views\for_viewRenderers\when_asking_if_can_render_and_there_are_two_renderers_and_first_renderer_can_not_renderer.js" />
-    <Content Include="views\for_viewRenderers\when_asking_if_can_render_and_there_are_two_renderers_and_first_renderer_can_resolve.js" />
-    <Content Include="views\for_viewRenderers\when_asking_if_can_render_and_there_is_one_renderer.js" />
-    <Content Include="views\for_viewRenderers\when_rendering_and_there_are_two_renderers_and_first_renderer_can_not_render.js" />
     <Content Include="views\for_View\when_loading_and_content_has_no_view_model_reference.js" />
     <Content Include="views\for_View\when_loading_and_content_has_view_model_reference.js" />
     <Content Include="views\for_View\when_loading.js" />
