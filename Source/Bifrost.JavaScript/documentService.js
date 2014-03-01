@@ -4,27 +4,12 @@
 
         this.DOMRoot = DOMRoot;
 
-        this.getAllElementsWithViewModelFiles = function () {
-            return self.getAllElementsWithViewModelFilesFrom(self.DOMRoot);
-        };
-
         this.pageHasViewModel = function (viewModel) {
             var context = ko.contextFor($("body")[0]);
             if (Bifrost.isUndefined(context) ) {
                 return false;
             }
             return context.$data === viewModel;
-        };
-
-        this.getAllElementsWithViewModelFilesFrom = function (root) {
-            var elements = [];
-            if (typeof $(root).data("viewmodel-file") != "undefined") {
-                elements.push(root);
-            }
-            $("[data-viewmodel-file]",root).each(function () {
-                elements.push(this);
-            });
-            return elements;
         };
 
         function collectViewModelFilesFrom(parent, elements) {
@@ -41,31 +26,6 @@
             }
         }
 
-        this.getAllElementsWithViewModelFilesSorted = function () {
-            return self.getAllElementsWithViewModelFilesSortedFrom(self.DOMRoot);
-        };
-
-        this.getAllElementsWithViewModelFilesSortedFrom = function (root) {
-            var elements = [];
-            collectViewModelFilesFrom(root, elements);
-            return elements;
-        };
-
-        this.getViewUriFrom = function (element) {
-            var uri = $(element).data("view");
-            if (typeof uri == "undefined") uri = "";
-            return uri;
-        };
-
-        this.setViewUriOn = function (element, uri) {
-            $(element).data("view", uri);
-            $(element).attr("data-view", uri);
-        };
-
-        this.hasViewUri = function (element) {
-            return Bifrost.isString($(element).data("view"));
-        };
-
         this.getViewModelNameFor = function (element) {
             var dataViewModelName = element.attributes.getNamedItem("data-viewmodel-name");
             if (Bifrost.isNullOrUndefined(dataViewModelName)) {
@@ -75,46 +35,6 @@
             element.attributes.setNamedItem(dataViewModelName);
             return dataViewModelName.value;
         }
-
-        this.getViewFileFrom = function (element) {
-            var file = $(element).data("view-file");
-            if (typeof file == "undefined") file = "";
-            return file;
-        };
-
-        this.setViewFileOn = function (element, file) {
-            $(element).data("view-file", file);
-            $(element).attr("data-view-file", file);
-        };
-
-        this.hasViewFile = function (element) {
-            return Bifrost.isString($(element).data("view-file"));
-        };
-
-
-        this.getViewModelFileFrom = function (element) {
-            var file = $(element).data("viewmodel-file");
-            if (typeof file == "undefined") file = "";
-            return file;
-        };
-
-        this.setViewModelFileOn = function (element, file) {
-            $(element).data("viewmodel-file", file);
-            $(element).attr("data-viewmodel-file", file);
-        };
-
-        this.setViewModelOn = function (element, viewModel) {
-            element.viewModel = viewModel;
-            $(element).data("viewmodel", viewModel);
-        };
-
-        this.getViewModelFrom = function (element) {
-            return element.viewModel;
-        };
-
-        this.setViewModelBindingExpression = function (element, bindingExpression) {
-            $(element).attr("data-bind", "viewModel: "+bindingExpression);
-        };
 
         this.setViewModelParametersOn = function (element, parameters) {
             element.viewModelParameters = parameters;

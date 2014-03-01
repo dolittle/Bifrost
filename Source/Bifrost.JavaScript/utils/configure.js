@@ -27,7 +27,7 @@
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();
             Bifrost.navigation.navigationBindingHandler.initialize();
-            Bifrost.views.viewModelManager.create().masterViewModel.apply();
+            
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
@@ -49,6 +49,7 @@
             promise.continueWith(function () {
                 Bifrost.views.viewManager.create().initializeLandingPage();
                 Bifrost.navigation.navigationManager.hookup();
+                Bifrost.views.viewModelManager.create().masterViewModel.apply();
                 self.onReady();
             });
         }

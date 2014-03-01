@@ -35,7 +35,8 @@
             });
         }
 
-        this.setContainer = function (container) {
+        
+        this.configureFor = function (container) {
             if (self.locationAware === true) {
                 self.setCurrentUriFromCurrentLocation();
             }
@@ -50,7 +51,6 @@
                 }
             }
             if (self.uriMapper == null) self.uriMapper = Bifrost.uriMappers.default;
-            return self.render();
         };
 
         this.navigate = function (uri) {

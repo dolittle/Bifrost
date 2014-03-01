@@ -142,8 +142,6 @@
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
-    <Content Include="views\ViewModelApplierTask.js" />
-    <Content Include="views\ViewModelsApplierTask.js" />
     <Content Include="views\ElementVisitor.js" />
     <Content Include="views\ElementVisitorResultActions.js" />
     <Content Include="views\Items.js" />

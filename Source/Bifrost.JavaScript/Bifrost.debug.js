@@ -5009,27 +5009,12 @@ Bifrost.namespace("Bifrost", {
 
         this.DOMRoot = DOMRoot;
 
-        this.getAllElementsWithViewModelFiles = function () {
-            return self.getAllElementsWithViewModelFilesFrom(self.DOMRoot);
-        };
-
         this.pageHasViewModel = function (viewModel) {
             var context = ko.contextFor($("body")[0]);
             if (Bifrost.isUndefined(context) ) {
                 return false;
             }
             return context.$data === viewModel;
-        };
-
-        this.getAllElementsWithViewModelFilesFrom = function (root) {
-            var elements = [];
-            if (typeof $(root).data("viewmodel-file") != "undefined") {
-                elements.push(root);
-            }
-            $("[data-viewmodel-file]",root).each(function () {
-                elements.push(this);
-            });
-            return elements;
         };
 
         function collectViewModelFilesFrom(parent, elements) {
@@ -5046,31 +5031,6 @@ Bifrost.namespace("Bifrost", {
             }
         }
 
-        this.getAllElementsWithViewModelFilesSorted = function () {
-            return self.getAllElementsWithViewModelFilesSortedFrom(self.DOMRoot);
-        };
-
-        this.getAllElementsWithViewModelFilesSortedFrom = function (root) {
-            var elements = [];
-            collectViewModelFilesFrom(root, elements);
-            return elements;
-        };
-
-        this.getViewUriFrom = function (element) {
-            var uri = $(element).data("view");
-            if (typeof uri == "undefined") uri = "";
-            return uri;
-        };
-
-        this.setViewUriOn = function (element, uri) {
-            $(element).data("view", uri);
-            $(element).attr("data-view", uri);
-        };
-
-        this.hasViewUri = function (element) {
-            return Bifrost.isString($(element).data("view"));
-        };
-
         this.getViewModelNameFor = function (element) {
             var dataViewModelName = element.attributes.getNamedItem("data-viewmodel-name");
             if (Bifrost.isNullOrUndefined(dataViewModelName)) {
@@ -5080,46 +5040,6 @@ Bifrost.namespace("Bifrost", {
             element.attributes.setNamedItem(dataViewModelName);
             return dataViewModelName.value;
         }
-
-        this.getViewFileFrom = function (element) {
-            var file = $(element).data("view-file");
-            if (typeof file == "undefined") file = "";
-            return file;
-        };
-
-        this.setViewFileOn = function (element, file) {
-            $(element).data("view-file", file);
-            $(element).attr("data-view-file", file);
-        };
-
-        this.hasViewFile = function (element) {
-            return Bifrost.isString($(element).data("view-file"));
-        };
-
-
-        this.getViewModelFileFrom = function (element) {
-            var file = $(element).data("viewmodel-file");
-            if (typeof file == "undefined") file = "";
-            return file;
-        };
-
-        this.setViewModelFileOn = function (element, file) {
-            $(element).data("viewmodel-file", file);
-            $(element).attr("data-viewmodel-file", file);
-        };
-
-        this.setViewModelOn = function (element, viewModel) {
-            element.viewModel = viewModel;
-            $(element).data("viewmodel", viewModel);
-        };
-
-        this.getViewModelFrom = function (element) {
-            return element.viewModel;
-        };
-
-        this.setViewModelBindingExpression = function (element, bindingExpression) {
-            $(element).attr("data-bind", "viewModel: "+bindingExpression);
-        };
 
         this.setViewModelParametersOn = function (element, parameters) {
             element.viewModelParameters = parameters;
@@ -5875,7 +5795,7 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor));
+            return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor), allBindingsAccessor, viewModel, bindingContext);
         };
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             return ko.bindingHandlers.template.update(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor), allBindingsAccessor, viewModel, bindingContext);
@@ -5893,11 +5813,14 @@ Bifrost.namespace("Bifrost.views", {
         var loaded = false;
         var view = ko.observable("<span></span>");
 
+        this.setRootOnBindingContext = null;
+
         this.data = function (key, value) {
-            return {};
+            return { };
         };
 
         this.text = function (value) {
+            
             if (loaded == false) {
                 loaded = true;
                 var uri = ko.utils.unwrapObservable(viewUri);
@@ -5905,38 +5828,36 @@ Bifrost.namespace("Bifrost.views", {
                     viewModelManager.masterViewModel.clearFor(element);
                     documentService.cleanChildrenOf(element);
                     view("<span></span>");
-                    documentService.setViewUriOn(element, null);
                 } else {
-                    var existingUri = documentService.getViewUriFrom(element);
-                    if (existingUri !== uri) {
-                        viewModelManager.masterViewModel.clearFor(element);
-                        documentService.cleanChildrenOf(element);
-                        documentService.setViewUriOn(element, uri);
+                    viewModelManager.masterViewModel.clearFor(element);
+                    documentService.cleanChildrenOf(element);
 
-                        var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
-                        documentService.setViewModelParametersOn(element, viewModelParameters);
+                    var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
+                    documentService.setViewModelParametersOn(element, viewModelParameters);
 
-                        var actualPath = pathResolvers.resolve(element, viewUri);
-                        var actualView = viewFactory.createFrom(actualPath);
-                        actualView.element = element;
-                        //var region = documentService.getRegionFor(element);
+                    var actualPath = pathResolvers.resolve(element, viewUri);
+                    var actualView = viewFactory.createFrom(actualPath);
+                    actualView.element = element;
+                    //var region = documentService.getRegionFor(element);
 
-                        regionManager.getFor(actualView).continueWith(function (region) {
+                    regionManager.getFor(actualView).continueWith(function (region) {
 
-                            actualView.load(region).continueWith(function (loadedView) {
-                                viewModelManager.masterViewModel.setFor(element, loadedView.viewModel);
+                        actualView.load(region).continueWith(function (loadedView) {
+                            if (self.setRootOnBindingContext != null && !Bifrost.isNullOrUndefined(loadedView.viewModel)) {
+                                self.setRootOnBindingContext(loadedView.viewModel);
+                            }
+                            viewModelManager.masterViewModel.setFor(element, loadedView.viewModel);
 
-                                var wrapper = document.createElement("div");
-                                wrapper.innerHTML = loadedView.content;
+                            var wrapper = document.createElement("div");
+                            wrapper.innerHTML = loadedView.content;
 
-                                UIManager.handle(wrapper);
+                            UIManager.handle(wrapper);
 
-                                loadedView.content = wrapper.innerHTML;
+                            loadedView.content = wrapper.innerHTML;
 
-                                view(loadedView.content);
-                            });
+                            view(loadedView.content);
                         });
-                    }
+                    });
                 }
             }
 
@@ -5950,10 +5871,23 @@ Bifrost.namespace("Bifrost.views", {
         var templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
             element: element,
             viewUri: viewUri,
-            allBindingsAccessor : allBindingsAccessor,
+            allBindingsAccessor: allBindingsAccessor
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
+            templateSource.bindingContext = bindingContext;
+
+            /*
+            templateSource.setRootOnBindingContext = function (viewModel) {
+                bindingContext.$root = "ASADS";
+            };*/
+
+            /*
+            setTimeout(function () {
+                bindingContext.$root = "ASADS";
+                console.log("SET");
+            }, 5000);*/
+            
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
             return renderedTemplateSource;
         }
@@ -6605,7 +6539,8 @@ Bifrost.namespace("Bifrost.navigation", {
             });
         }
 
-        this.setContainer = function (container) {
+        
+        this.configureFor = function (container) {
             if (self.locationAware === true) {
                 self.setCurrentUriFromCurrentLocation();
             }
@@ -6620,7 +6555,6 @@ Bifrost.namespace("Bifrost.navigation", {
                 }
             }
             if (self.uriMapper == null) self.uriMapper = Bifrost.uriMappers.default;
-            return self.render();
         };
 
         this.navigate = function (uri) {
@@ -6845,41 +6779,52 @@ Bifrost.namespace("Bifrost.navigation", {
 });
     
 Bifrost.namespace("Bifrost.navigation", {
-    navigationBindingHandler: Bifrost.Type.extend(function() {
+    navigationBindingHandler: Bifrost.Type.extend(function () {
+        function getNavigationFrameFor(valueAccessor) {
+            var configurationString = ko.utils.unwrapObservable(valueAccessor());
+            var configurationItems = ko.expressionRewriting.parseObjectLiteral(configurationString);
+            var configuration = {};
+
+            for (var index = 0; index < configurationItems.length; index++) {
+                var item = configurationItems[index];
+                configuration[item.key.trim()] = item.value.trim();
+            }
+
+            if (typeof configuration.uriMapper !== "undefined") {
+                var mapper = Bifrost.uriMappers[configuration.uriMapper];
+                var frame = Bifrost.navigation.NavigationFrame.create({
+                    locationAware: false,
+                    uriMapper: mapper,
+                    home: configuration.home || ''
+                });
+
+                return frame;
+            }
+        }
+
+        function makeValueAccessor(navigationFrame) {
+            return function() {
+                return navigationFrame.currentUri();
+            }
+        }
+
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            //return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor));
+            var navigationFrame = getNavigationFrameFor(valueAccessor);
+            navigationFrame.configureFor(element);
+            return ko.bindingHandlers.view.init(element, makeValueAccessor(navigationFrame), allBindingsAccessor, viewModel, bindingContext);
         };
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            //return ko.bindingHandlers.template.update(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor), allBindingsAccessor, viewModel, bindingContext);
+            var navigationFrame = getNavigationFrameFor(valueAccessor);
+            navigationFrame.configureFor(element);
+            return ko.bindingHandlers.view.update(element, makeValueAccessor(navigationFrame), allBindingsAccessor, viewModel, bindingContext);
         };
     })
 });
 Bifrost.navigation.navigationBindingHandler.initialize = function () {
     ko.bindingHandlers.navigation = Bifrost.navigation.navigationBindingHandler.create();
-    ko.jsonExpressionRewriting.bindingRewriteValidators.view = false; // Can't rewrite control flow bindings
-    ko.virtualElements.allowedBindings.view = true;
+    ko.jsonExpressionRewriting.bindingRewriteValidators.navigation = false; // Can't rewrite control flow bindings
+    ko.virtualElements.allowedBindings.navigation = true;
 };
-
-/*
-var configurationItems = ko.expressionRewriting.parseObjectLiteral(configurationString);
-var configuration = {};
-
-for (var index = 0; index < configurationItems.length; index++) {
-    var item = configurationItems[index];
-    configuration[item.key.trim()] = item.value.trim();
-}
-
-if (typeof configuration.uriMapper !== "undefined") {
-    var mapper = Bifrost.uriMappers[configuration.uriMapper];
-    var frame = Bifrost.navigation.NavigationFrame.create({
-        stringMapper: mapper,
-        home: configuration.home || ''
-    });
-    frame.setContainer(element);
-
-    element.navigationFrame = frame;
-}
-*/
 Bifrost.namespace("Bifrost", {
     configure: (function () {
         var self = this;
@@ -6909,7 +6854,7 @@ Bifrost.namespace("Bifrost", {
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();
             Bifrost.navigation.navigationBindingHandler.initialize();
-            Bifrost.views.viewModelManager.create().masterViewModel.apply();
+            
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
@@ -6931,6 +6876,7 @@ Bifrost.namespace("Bifrost", {
             promise.continueWith(function () {
                 Bifrost.views.viewManager.create().initializeLandingPage();
                 Bifrost.navigation.navigationManager.hookup();
+                Bifrost.views.viewModelManager.create().masterViewModel.apply();
                 self.onReady();
             });
         }
