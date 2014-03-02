@@ -2,6 +2,24 @@
     MasterViewModel: Bifrost.Type.extend(function (documentService) {
         var self = this;
 
+        function deactivateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel)) {
+                console.log("Deactivate - if any function"); 
+                if (Bifrost.isFunction(viewModel.deactivated)) {
+                    viewModel.deactivated();
+                }
+                console.log("  Delete viewModel");
+                delete viewModel;
+            }
+        }
+
+
+        function activateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel) && Bifrost.isFunction(viewModel.activated)) {
+                viewModel.activated();
+            }
+        }
+
         this.getViewModelObservableFor = function (element) {
             var name = documentService.getViewModelNameFor(element);
 
@@ -18,24 +36,19 @@
 
         this.setFor = function (element, viewModel) {
             var viewModelObservable = self.getViewModelObservableFor(element);
-            var existingViewModel = viewModelObservable();
-            if (!Bifrost.isNullOrUndefined(existingViewModel)) {
-                if (Bifrost.isFunction(existingViewModel.deactivated)) {
-                    existingViewModel.deactivated();
-                }
-            }
+            deactivateViewModel(viewModelObservable());
 
             viewModelObservable(viewModel);
 
-            if (Bifrost.isFunction(viewModel.activated)) {
-                viewModel.activated();
-            }
+            activateViewModel(viewModel);
         };
 
         this.clearFor = function (element) {
             var name = documentService.getViewModelNameFor(element);
             if (!self.hasOwnProperty(name)) {
-                self[name](null);
+                var viewModelObservable = self[name];
+                deactivateViewModel(viewModelObservable());
+                viewModelObservable(null);
             }
         };
 

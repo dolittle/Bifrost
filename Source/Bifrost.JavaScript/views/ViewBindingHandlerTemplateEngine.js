@@ -15,6 +15,7 @@
             if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
                 bindingContext.$root = bindingContext.$data;
             }
+            viewModelManager.masterViewModel.setFor(element, bindingContext.$data);
 
             return renderedTemplateSource;
         }

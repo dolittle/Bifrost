@@ -5,6 +5,7 @@
         var nullView = viewFactory.createFrom("");
         nullView.content = "<span></span>";
         var view = ko.observable(nullView);
+        var firstTime = true;
 
         function load() {
             loaded = true;
@@ -50,7 +51,13 @@
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext) {
+            if (firstTime == true) {
+                firstTime = false;
+                return;
+            }
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
+
+                console.log("Create and set viewModel");
 
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = view().region;

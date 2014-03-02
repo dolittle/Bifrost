@@ -5822,6 +5822,7 @@ Bifrost.namespace("Bifrost.views", {
         var nullView = viewFactory.createFrom("");
         nullView.content = "<span></span>";
         var view = ko.observable(nullView);
+        var firstTime = true;
 
         function load() {
             loaded = true;
@@ -5867,7 +5868,13 @@ Bifrost.namespace("Bifrost.views", {
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext) {
+            if (firstTime == true) {
+                firstTime = false;
+                return;
+            }
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
+
+                console.log("Create and set viewModel");
 
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = view().region;
@@ -5911,6 +5918,7 @@ Bifrost.namespace("Bifrost.views", {
             if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
                 bindingContext.$root = bindingContext.$data;
             }
+            viewModelManager.masterViewModel.setFor(element, bindingContext.$data);
 
             return renderedTemplateSource;
         }
@@ -5932,6 +5940,24 @@ Bifrost.namespace("Bifrost.views", {
     MasterViewModel: Bifrost.Type.extend(function (documentService) {
         var self = this;
 
+        function deactivateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel)) {
+                console.log("Deactivate - if any function"); 
+                if (Bifrost.isFunction(viewModel.deactivated)) {
+                    viewModel.deactivated();
+                }
+                console.log("  Delete viewModel");
+                delete viewModel;
+            }
+        }
+
+
+        function activateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel) && Bifrost.isFunction(viewModel.activated)) {
+                viewModel.activated();
+            }
+        }
+
         this.getViewModelObservableFor = function (element) {
             var name = documentService.getViewModelNameFor(element);
 
@@ -5948,24 +5974,19 @@ Bifrost.namespace("Bifrost.views", {
 
         this.setFor = function (element, viewModel) {
             var viewModelObservable = self.getViewModelObservableFor(element);
-            var existingViewModel = viewModelObservable();
-            if (!Bifrost.isNullOrUndefined(existingViewModel)) {
-                if (Bifrost.isFunction(existingViewModel.deactivated)) {
-                    existingViewModel.deactivated();
-                }
-            }
+            deactivateViewModel(viewModelObservable());
 
             viewModelObservable(viewModel);
 
-            if (Bifrost.isFunction(viewModel.activated)) {
-                viewModel.activated();
-            }
+            activateViewModel(viewModel);
         };
 
         this.clearFor = function (element) {
             var name = documentService.getViewModelNameFor(element);
             if (!self.hasOwnProperty(name)) {
-                self[name](null);
+                var viewModelObservable = self[name];
+                deactivateViewModel(viewModelObservable());
+                viewModelObservable(null);
             }
         };
 
