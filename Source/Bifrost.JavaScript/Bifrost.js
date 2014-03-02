@@ -173,6 +173,7 @@
 @depends views/regionDescriptorManager.js
 @depends views/RegionDescriptorDependencyResolver.js
 @depends views/DataViewAttributeElementVisitor.js
+@depends views/DataViewModelFileAttributeElementVisitor.js
 @depends interaction/VisualStateManagerElementVisitor.js
 @depends navigation/NavigationFrame.js
 @depends navigation/navigationFrames.js

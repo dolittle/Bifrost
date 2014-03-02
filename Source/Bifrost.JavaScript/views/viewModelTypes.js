@@ -25,6 +25,7 @@
                 var typename = getTypeNameFrom(path);
                 return typename in namespace;
             }
+            return false;
         };
 
         this.getViewModelTypeForPath = function (path) {

@@ -6045,6 +6045,7 @@ Bifrost.namespace("Bifrost.views", {
                 var typename = getTypeNameFrom(path);
                 return typename in namespace;
             }
+            return false;
         };
 
         this.getViewModelTypeForPath = function (path) {
@@ -6103,9 +6104,6 @@ Bifrost.namespace("Bifrost.views", {
             });
             return promise;
         };
-
-
-
     })
 });
 Bifrost.namespace("Bifrost.views", {
@@ -6165,10 +6163,31 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    viewModelBindingHandler: Bifrost.Type.extend(function(viewManager, documentService) {
+    viewModelBindingHandler: Bifrost.Type.extend(function(viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
         this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            return { controlsDescendantBindings: true };
         };
         this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+            var view = viewFactory.createFrom("/");
+            view.content = element.innerHTML;
+            var path = ko.utils.unwrapObservable(valueAccessor());
+
+            regionManager.getFor(view).continueWith(function () {
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                viewModelParameters.region = region;
+
+                if (viewModelTypes.isLoaded(path)) {
+                    viewModelType = viewModelTypes.getViewModelTypeForPath(path);
+                    var viewModel = viewModelType.create(viewModelParameters);
+                    var childBindingContext = bindingContext.createChildContext(viewModel);
+                    ko.applyBindingsToDescendants(childBindingContext, element);
+                } else {
+                    viewModelLoader.load(path, region, viewModelParameters).continueWith(function (viewModel) {
+                        var childBindingContext = bindingContext.createChildContext(viewModel);
+                        ko.applyBindingsToDescendants(childBindingContext, element);
+                    });
+                }
+            });
         };
     })
 });
@@ -6507,6 +6526,26 @@ Bifrost.namespace("Bifrost.views", {
                 dataBind.value = dataBindString + "view: '" + dataView.value + "'";
                 element.attributes.setNamedItem(dataBind);
                 element.attributes.removeNamedItem("data-view");
+            }
+        }
+    })
+})
+Bifrost.namespace("Bifrost.views", {
+    DataViewModelFileAttributeElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+        this.visit = function (element, actions) {
+
+            var dataView = element.attributes.getNamedItem("data-viewmodel-file");
+            if (!Bifrost.isNullOrUndefined(dataView)) {
+                var dataBindString = "";
+                var dataBind = element.attributes.getNamedItem("data-bind");
+                if (!Bifrost.isNullOrUndefined(dataBind)) {
+                    dataBindString = dataBind.value + ", ";
+                } else {
+                    dataBind = document.createAttribute("data-bind");
+                }
+                dataBind.value = dataBindString + "viewModel: '" + dataView.value + "'";
+                element.attributes.setNamedItem(dataBind);
+                element.attributes.removeNamedItem("data-viewmodel-file");
             }
         }
     })

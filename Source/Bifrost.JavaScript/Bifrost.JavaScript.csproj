@@ -138,6 +138,7 @@
     <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\Content.js" />
     <Content Include="views\Control.js" />
+    <Content Include="views\DataViewModelFileAttributeElementVisitor.js" />
     <Content Include="views\MasterViewModel.js" />
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
