@@ -169,6 +169,7 @@
     <Content Include="views\PathResolver.js" />
     <Content Include="views\pathResolvers.js" />
     <Content Include="views\viewModelLoader.js" />
+    <Content Include="views\viewModelTypes.js" />
     <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />

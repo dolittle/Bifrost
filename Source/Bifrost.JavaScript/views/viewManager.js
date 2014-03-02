@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers, regionManager, UIManager, viewModelManager, viewModelLoader, documentService) {
+    viewManager: Bifrost.Singleton(function (viewFactory, pathResolvers, regionManager, UIManager, viewModelManager, viewModelLoader, viewModelTypes, documentService) {
         var self = this;
 
 
@@ -38,11 +38,15 @@
                             viewModelPath = viewModelManager.getViewModelPathForView(actualPath);
                             if (!viewModelManager.isLoaded(viewModelPath)) {
                                 viewModelLoader.load(viewModelPath, region).continueWith(function (viewModel) {
-                                    setViewModelForElement(body, viewModel);
+                                    if (!Bifrost.isNullOrUndefined(viewModel)) {
+                                        setViewModelForElement(body, viewModel);
+                                    }
                                 });
                             } else {
-                                viewModelLoader.beginCreateInstanceOfViewModel(viewModelPath, region).continueWith(function (viewModel) {
-                                    setViewModelForElement(body, viewModel);
+                                viewModelTypes.beginCreateInstanceOfViewModel(viewModelPath, region).continueWith(function (viewModel) {
+                                    if (!Bifrost.isNullOrUndefined(viewModel)) {
+                                        setViewModelForElement(body, viewModel);
+                                    }
                                 });
                             }
                         }

@@ -161,6 +161,7 @@
 @depends views/viewBindingHandlerTemplateEngine.js
 @depends views/MasterViewModel.js
 @depends views/ViewModel.js
+@depends views/viewModelTypes.js
 @depends views/viewModelLoader.js
 @depends views/ViewModelLoadTask.js
 @depends views/viewModelManager.js

@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function(engine, element, viewUri, allBindingsAccessor) {
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function(engine, viewModelManager, element, viewUri, allBindingsAccessor) {
         var templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
             element: element,
             viewUri: viewUri,
@@ -7,20 +7,15 @@
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            templateSource.bindingContext = bindingContext;
+            console.log("RenderTemplate");
+            templateSource.createAndSetViewModelFor(bindingContext);
 
-            /*
-            templateSource.setRootOnBindingContext = function (viewModel) {
-                bindingContext.$root = "ASADS";
-            };*/
-
-            /*
-            setTimeout(function () {
-                bindingContext.$root = "ASADS";
-                console.log("SET");
-            }, 5000);*/
-            
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
+            
+            if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
+                bindingContext.$root = bindingContext.$data;
+            }
+
             return renderedTemplateSource;
         }
     }),

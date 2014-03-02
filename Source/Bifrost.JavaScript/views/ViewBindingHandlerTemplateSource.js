@@ -1,59 +1,79 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function(UIManager, viewModelManager, documentService, pathResolvers, viewFactory, viewLoader, element, viewUri, regionManager, allBindingsAccessor) {
+    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (UIManager, viewModelManager, viewModelTypes, documentService, pathResolvers, viewFactory, regionManager, element, viewUri, allBindingsAccessor) {
         var self = this;
         var loaded = false;
-        var view = ko.observable("<span></span>");
+        var nullView = viewFactory.createFrom("");
+        nullView.content = "<span></span>";
+        var view = ko.observable(nullView);
 
-        this.setRootOnBindingContext = null;
+        function load() {
+            loaded = true;
+            var uri = ko.utils.unwrapObservable(viewUri);
 
-        this.data = function (key, value) {
-            return { };
+            var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
+            var actualPath = pathResolvers.resolve(element, uri);
+            var actualView = viewFactory.createFrom(actualPath);
+            actualView.element = element;
+
+            console.log("Load view");
+
+            regionManager.getFor(actualView).continueWith(function (region) {
+
+                actualView.load(region).continueWith(function (loadedView) {
+                    viewModelTypes.beginCreateInstanceOfViewModel(loadedView.viewModelPath, region, viewModelParameters).continueWith(function (viewModel) {
+                        if (!Bifrost.isNullOrUndefined(viewModel)) {
+                            region.viewModel = viewModel;
+                            viewModelManager.masterViewModel.setFor(element, viewModel);
+                        }
+
+                        console.log("View loaded");
+                        var wrapper = document.createElement("div");
+                        wrapper.innerHTML = loadedView.content;
+
+                        UIManager.handle(wrapper);
+
+                        loadedView.content = wrapper.innerHTML;
+
+                        view(loadedView);
+                    });
+                });
+            });
+        }
+
+        function clear() {
+            viewModelManager.masterViewModel.clearFor(element);
+            documentService.cleanChildrenOf(element);
+            view(nullView);
+        }
+
+
+        this.data = function (key, value) { };
+
+        this.createAndSetViewModelFor = function (bindingContext) {
+            if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
+
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                viewModelParameters.region = view().region;
+
+                var viewModel = view().viewModelType.create(viewModelParameters);
+                bindingContext.$data = viewModel;
+            }
         };
 
         this.text = function (value) {
-            
-            if (loaded == false) {
-                loaded = true;
-                var uri = ko.utils.unwrapObservable(viewUri);
-                if (Bifrost.isNullOrUndefined(uri) || uri === "") {
-                    viewModelManager.masterViewModel.clearFor(element);
-                    documentService.cleanChildrenOf(element);
-                    view("<span></span>");
-                } else {
-                    viewModelManager.masterViewModel.clearFor(element);
-                    documentService.cleanChildrenOf(element);
 
-                    var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
-                    documentService.setViewModelParametersOn(element, viewModelParameters);
-
-                    var actualPath = pathResolvers.resolve(element, viewUri);
-                    var actualView = viewFactory.createFrom(actualPath);
-                    actualView.element = element;
-                    //var region = documentService.getRegionFor(element);
-
-                    regionManager.getFor(actualView).continueWith(function (region) {
-
-                        actualView.load(region).continueWith(function (loadedView) {
-                            if (self.setRootOnBindingContext != null && !Bifrost.isNullOrUndefined(loadedView.viewModel)) {
-                                self.setRootOnBindingContext(loadedView.viewModel);
-                            }
-                            viewModelManager.masterViewModel.setFor(element, loadedView.viewModel);
-
-                            var wrapper = document.createElement("div");
-                            wrapper.innerHTML = loadedView.content;
-
-                            UIManager.handle(wrapper);
-
-                            loadedView.content = wrapper.innerHTML;
-
-                            view(loadedView.content);
-                        });
-                    });
-                }
+            var uri = ko.utils.unwrapObservable(viewUri);
+            if (Bifrost.isNullOrUndefined(uri) || uri === "") {
+                clear();
+                loaded = false;
+            } else {
+                if (!loaded) {
+                    console.log("load : " + uri);
+                    load();
+                } 
             }
-
-            var viewInstance = view();
-            return viewInstance;
+            console.log("Return view");
+            return view().content;
         };
     })
-})
+});
