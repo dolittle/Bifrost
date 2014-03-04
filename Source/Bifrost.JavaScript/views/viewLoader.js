@@ -11,8 +11,9 @@
             }
             files.push(viewFile);
 
+            var viewModelPath = null;
             if (viewModelManager.hasForView(path)) {
-                var viewModelPath = viewModelManager.getViewModelPathForView(path);
+                viewModelPath = viewModelManager.getViewModelPathForView(path);
                 if (!viewModelManager.isLoaded(viewModelPath)) {
                     var viewModelFile = fileFactory.create(viewModelPath, Bifrost.io.fileType.javaScript);
                     files.push(viewModelFile);

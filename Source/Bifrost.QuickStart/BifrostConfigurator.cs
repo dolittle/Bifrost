@@ -29,6 +29,8 @@ namespace Bifrost.QuickStart
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
 
+                        
+
                         w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");

@@ -2,46 +2,71 @@
     MasterViewModel: Bifrost.Type.extend(function (documentService) {
         var self = this;
 
-        function getNameFrom(viewModel) {
-            var fullName = viewModel._type._namespace.name + "." + viewModel._type._name;
-            return fullName;
+        function deactivateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel)) {
+                if (Bifrost.isFunction(viewModel.deactivated)) {
+                    viewModel.deactivated();
+                }
+                delete viewModel;
+            }
         }
 
 
-        this.set = function (viewModel) {
-            var name = getNameFrom(viewModel);
-            if (self.hasOwnProperty(name)) {
-                var existingViewModel = self[name]();
-                if (!Bifrost.isNullOrUndefined(existingViewModel)) {
-                    if (Bifrost.isFunction(existingViewModel.deactivated)) {
-                        existingViewModel.deactivated();
-                    }
-                }
-
-                self[name](viewModel);
-            } else {
-                self[name] = ko.observable(viewModel);
-            }
-
-            if (Bifrost.isFunction(viewModel.activated)) {
+        function activateViewModel(viewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModel) && Bifrost.isFunction(viewModel.activated)) {
                 viewModel.activated();
             }
+        }
+
+        this.getViewModelObservableFor = function (element) {
+            var name = documentService.getViewModelNameFor(element);
+
+            var observable = null;
+            if (self.hasOwnProperty(name)) {
+                observable = self[name]
+            } else {
+                observable = ko.observable();
+                observable.__bifrost_vm__ = name;
+                self[name] = observable;
+            }
+            return observable;
         };
 
-        this.applyBindingExpressionForViewModel = function (element, viewModel) {
-            var name = getNameFrom(viewModel);
-            self.set(viewModel);
-            documentService.setViewModelOn(element, viewModel);
-            documentService.setViewModelBindingExpression(element, "$data['" + name + "']");
+        this.setFor = function (element, viewModel) {
+            var existingViewModel = self.getFor(element);
+            if (existingViewModel !== viewModel) {
+                deactivateViewModel(existingViewModel);
+            }
+
+            var name = documentService.getViewModelNameFor(element);
+            self[name] = viewModel;
+
+            activateViewModel(viewModel);
         };
 
-        this.applyBindingForViewModel = function (element, viewModel) {
-            self.set(viewModel);
-            documentService.setViewModelOn(element, viewModel);
-            ko.applyBindingsToNode(element, {
-                'viewModel': viewModel
-            });
-            
+        this.getFor = function (element) {
+            var name = documentService.getViewModelNameFor(element);
+            if (self.hasOwnProperty(name)) {
+                return self[name];
+            }
+            return null;
+        }
+
+
+        this.clearFor = function (element) {
+            var name = documentService.getViewModelNameFor(element);
+            if (!self.hasOwnProperty(name)) {
+                deactivateViewModel(self[name]);
+                self[name] = null;
+            }
+        };
+
+        this.apply = function () {
+            ko.applyBindings(self);
+        };
+
+        this.applyTo = function (element) {
+            ko.applyBindings(self, element);
         };
     })
 });

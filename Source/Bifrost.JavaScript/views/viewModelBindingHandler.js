@@ -1,17 +1,52 @@
 Bifrost.namespace("Bifrost.views", {
-    viewModelBindingHandler: Bifrost.Type.extend(function(viewManager, documentService) {
-        var self = this;
-        this.viewManager = viewManager;
-        this.documentService = documentService;
-
-        this.init = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
-            var viewModel = self.documentService.getViewModelFrom(element);
-            var childBindingContext = bindingContext.createChildContext(viewModel);
-            childBindingContext.$root = viewModel;
-            ko.applyBindingsToDescendants(childBindingContext, element);
+    viewModelBindingHandler: Bifrost.Type.extend(function(viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
+        this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
             return { controlsDescendantBindings: true };
         };
-        this.update = function (element, valueAccessor, allBindingAccessor, parentViewModel, bindingContext) {
+        this.update = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
+            var path = ko.utils.unwrapObservable(valueAccessor());
+            if (element._isLoading === true || (element._viewModelPath === path && !Bifrost.isNullOrUndefined(element._viewModel))) return;
+
+            element._isLoading = true;
+            element._viewModelPath = path;
+
+            var view = viewFactory.createFrom("/");
+            view.content = element.innerHTML;
+            view.element = element;
+
+
+            regionManager.getFor(view).continueWith(function (region) {
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                viewModelParameters.region = region;
+
+                if (viewModelTypes.isLoaded(path)) {
+                    viewModelType = viewModelTypes.getViewModelTypeForPath(path);
+
+                    var lastRegion = Bifrost.views.Region.current;
+                    Bifrost.views.Region.current = region;
+
+                    viewModelType.beginCreate(viewModelParameters).continueWith(function (viewModel) {
+                        var childBindingContext = bindingContext.createChildContext(viewModel);
+                        childBindingContext.$root = viewModel;
+                        element._viewModel = viewModel;
+
+                        ko.applyBindingsToDescendants(childBindingContext, element);
+                        Bifrost.views.Region.current = lastRegion;
+
+                        element._isLoading = false;
+                    });
+                } else {
+                    viewModelLoader.load(path, region, viewModelParameters).continueWith(function (viewModel) {
+                        var childBindingContext = bindingContext.createChildContext(viewModel);
+                        childBindingContext.$root = viewModel;
+                        element._viewModel = viewModel;
+                        ko.applyBindingsToDescendants(childBindingContext, element);
+
+                        element._isLoading = false;
+                    });
+                }
+            });
+            return { controlsDescendantBindings: true };
         };
     })
 });

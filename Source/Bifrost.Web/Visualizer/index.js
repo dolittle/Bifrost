@@ -14,3 +14,36 @@
         };
     })
 });
+
+$(function () {
+    $("body").mouseover(function (e) {
+        if ($(e.target).closest("table.bifrostSidebarIcons").length != 1) {
+            $("#icons").removeClass("bifrostSidebarWithContent");
+            $("#icons").removeClass("bifrostSidebarFullSize");
+        }
+
+    });
+
+    $("#sidebar").mouseover(function () {
+        $("#icons").addClass("bifrostSidebarIconsVisible");
+    });
+
+    $("#sidebar").mouseout(function (e) {
+        $("#icons").removeClass("bifrostSidebarIconsVisible");
+
+    });
+
+    $("#icons").mouseover(function () {
+        //$("#sidebar").addClass("bifrostSidebarFullSize");
+    });
+
+    $("#icons").mouseout(function (e) {
+        $("#icons").addClass("bifrostSidebarFullSize");
+    });
+
+
+    $("#icons").click(function () {
+        $("#icons").addClass("bifrostSidebarWithContent");
+    });
+
+});

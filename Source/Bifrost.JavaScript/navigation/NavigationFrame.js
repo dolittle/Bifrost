@@ -35,7 +35,8 @@
             });
         }
 
-        this.setContainer = function (container) {
+        
+        this.configureFor = function (container) {
             if (self.locationAware === true) {
                 self.setCurrentUriFromCurrentLocation();
             }
@@ -50,23 +51,6 @@
                 }
             }
             if (self.uriMapper == null) self.uriMapper = Bifrost.uriMappers.default;
-            return self.render();
-        };
-
-        this.render = function () {
-            var promise = Bifrost.execution.Promise.create();
-            var path = self.currentUri();
-            if (self.container == null) return;
-            if (path == self.currentRenderedPath) return;
-            self.currentRenderedPath = path;
-
-            if (path !== null && typeof path !== "undefined") {
-                $(self.container).data("view", path);
-                self.viewManager.render(self.container).continueWith(function () {
-                    //promise.signal();
-                });
-            }
-            return promise;
         };
 
         this.navigate = function (uri) {

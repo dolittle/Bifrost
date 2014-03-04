@@ -1,4 +1,4 @@
-﻿describe("when setting viewmodel first time", function () {
+﻿describe("when setting same viewmodel twice", function () {
 
     var viewModel = {
         _type: {
@@ -7,10 +7,10 @@
             },
             _name: "myType"
         },
-        activated: sinon.stub()
+        activated: sinon.stub(),
+        deactivated: sinon.stub()
     };
-    var element = {
-    };
+    var element = {};
 
     var viewModelName = "someViewModel";
     var documentService = {
@@ -18,6 +18,7 @@
     };
 
     var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: documentService });
+    masterViewModel.setFor(element, viewModel);
     masterViewModel.setFor(element, viewModel);
 
     it("should have a new observable for the viewmodel", function () {
@@ -30,5 +31,9 @@
 
     it("should call the activated function", function () {
         expect(viewModel.activated.called).toBe(true);
+    });
+
+    it("should not call the deactivated function the first time", function () {
+        expect(viewModel.deactivated.called).toBe(false);
     });
 });

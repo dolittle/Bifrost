@@ -5,6 +5,9 @@
         this.ready = false;
         this.readyCallbacks = [];
 
+        this.initializeLandingPage = true;
+        this.applyMasterViewModel = true;
+
         function ready(callback) {
             if (self.ready == true) {
                 callback();
@@ -21,11 +24,10 @@
         }
 
         function onStartup() {
-            var self = this;
-
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();
+            Bifrost.navigation.navigationBindingHandler.initialize();
 
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
@@ -45,9 +47,15 @@
 
             var promise = Bifrost.assetsManager.initialize();
             promise.continueWith(function () {
-                Bifrost.views.viewManager.create().initializeLandingPage();
+                if (self.initializeLandingPage === true) {
+                    Bifrost.views.viewManager.create().initializeLandingPage();
+                }
                 Bifrost.navigation.navigationManager.hookup();
-                self.onReady();
+
+                if (self.applyMasterViewModel === true) {
+                    Bifrost.views.viewModelManager.create().masterViewModel.apply();
+                }
+                onReady();
             });
         }
 

@@ -102,7 +102,6 @@
     <Content Include="Libraries\knockout.mapping-latest.debug.js" />
     <Content Include="Libraries\knockout.mapping-latest.js" />
     <Content Include="messaging\messengerFactory.js" />
-    <Content Include="navigation\NavigationFrameViewRenderer.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
     <Content Include="read\queryableFactory.js" />
     <Content Include="read\PagingInfo.js" />
@@ -139,9 +138,11 @@
     <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\Content.js" />
     <Content Include="views\Control.js" />
+    <Content Include="views\DataViewModelFileAttributeElementVisitor.js" />
     <Content Include="views\MasterViewModel.js" />
-    <Content Include="views\ViewModelApplierTask.js" />
-    <Content Include="views\ViewModelsApplierTask.js" />
+    <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
+    <Content Include="navigation\navigationBindingHandler.js" />
+    <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ElementVisitor.js" />
     <Content Include="views\ElementVisitorResultActions.js" />
     <Content Include="views\Items.js" />
@@ -164,15 +165,12 @@
     <Content Include="views\regionDescriptorManager.js" />
     <Content Include="views\regionManager.js" />
     <Content Include="views\viewBindingHandler.js" />
-    <Content Include="views\DataAttributeViewRenderer.js" />
     <Content Include="views\RelativePathResolver.js" />
     <Content Include="views\UriMapperPathResolver.js" />
     <Content Include="views\PathResolver.js" />
     <Content Include="views\pathResolvers.js" />
     <Content Include="views\viewModelLoader.js" />
-    <Content Include="views\ViewRenderer.js" />
-    <Content Include="views\viewRenderers.js" />
-    <Content Include="views\ViewRenderTask.js" />
+    <Content Include="views\viewModelTypes.js" />
     <EmbeddedResource Include="Bifrost.debug.js" />
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
@@ -182,7 +180,6 @@
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
     <Content Include="navigation\NavigationFrame.js" />
-    <Content Include="navigation\navigationFrames.js" />
     <Content Include="read\Query.js" />
     <Content Include="read\queryDependencyResolver.js" />
     <Content Include="read\queryService.js" />
@@ -268,6 +265,8 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </Target>
   -->
   <ItemGroup>
+    <Content Include="views\ViewBindingHandlerTemplateEngine.js" />
+    <Content Include="views\DataViewAttributeElementVisitor.js" />
     <Content Include="extensions\ArrayExtensions.js" />
     <Content Include="commands\commandValidationService.js" />
     <Content Include="commands\commandSecurityContextFactory.js" />

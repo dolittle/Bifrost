@@ -52,6 +52,7 @@
             this.messengerFactory = messengerFactory;
             this.operationsFactory = operationsFactory;
             this.tasksFactory = tasksFactory;
+            this.view = ko.observable();
         };
         namespaceMappersType = Bifrost.namespaceMappers;
         Bifrost.namespaceMappers = {
@@ -101,5 +102,9 @@
 
     it("should pass along the tasks factory", function () {
         expect(regionReturned.tasksFactory).toBe(tasksFactory);
+    });
+
+    it("should set the view on the region", function () {
+        expect(regionReturned.view()).toBe(view);
     });
 });

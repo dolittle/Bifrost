@@ -58,6 +58,7 @@
             this.messengerFactory = messengerFactory;
             this.operationsFactory = operationsFactory;
             this.tasksFactory = tasksFactory;
+            this.view = ko.observable();
         };
 
         var instance = Bifrost.views.regionManager.createWithoutScope({
@@ -103,5 +104,9 @@
 
     it("should pass along the tasks factory", function () {
         expect(regionReturned.tasksFactory).toBe(tasksFactory);
+    });
+
+    it("should set the view on the region", function () {
+        expect(regionReturned.view()).toBe(view);
     });
 });
