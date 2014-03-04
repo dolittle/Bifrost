@@ -440,6 +440,7 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
+    <Content Include="views\for_MasterViewModel\when_setting_same_viewmodel_twice.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
@@ -479,16 +480,6 @@
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
     <Content Include="views\for_UIManager\when_handling_with_one_element.js" />
-    <Content Include="views\for_viewFactory\when_creating_from_path.js" />
-    <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_already_in_memory.js" />
-    <Content Include="views\for_viewLoader\when_loading_and_view_has_viewmodel_but_not_in_memory.js" />
-    <Content Include="views\for_viewLoader\when_loading_and_view_has_no_viewmodel.js" />
-    <Content Include="views\for_viewManager\when_initializing_landing_page.js" />
-    <Content Include="views\for_viewManager\when_rendering_for_an_element_with_two_views_deeply_nested_in_it.js" />
-    <Content Include="views\for_viewModelManager\when_asking_for_view_model_for_view.js" />
-    <Content Include="views\for_View\when_loading_and_content_has_no_view_model_reference.js" />
-    <Content Include="views\for_View\when_loading_and_content_has_view_model_reference.js" />
-    <Content Include="views\for_View\when_loading.js" />
     <Content Include="for_Event\when_triggering_event_with_two_subscribers.js" />
   </ItemGroup>
   <ItemGroup>

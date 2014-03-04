@@ -16,18 +16,14 @@
             var actualView = viewFactory.createFrom(actualPath);
             actualView.element = element;
 
-            console.log("Load view");
-
             regionManager.getFor(actualView).continueWith(function (region) {
 
                 actualView.load(region).continueWith(function (loadedView) {
                     viewModelTypes.beginCreateInstanceOfViewModel(loadedView.viewModelPath, region, viewModelParameters).continueWith(function (viewModel) {
                         if (!Bifrost.isNullOrUndefined(viewModel)) {
                             region.viewModel = viewModel;
-                            viewModelManager.masterViewModel.setFor(element, viewModel);
                         }
 
-                        console.log("View loaded");
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
 
@@ -56,14 +52,15 @@
                 return;
             }
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
-
-                console.log("Create and set viewModel");
-
+                var region = view().region;
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
-                viewModelParameters.region = view().region;
+                viewModelParameters.region = region;
 
+                var lastRegion = Bifrost.views.Region.current;
+                Bifrost.views.Region.current = region;
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
+                Bifrost.views.Region.current = lastRegion;
             }
         };
 
@@ -75,11 +72,9 @@
                 loaded = false;
             } else {
                 if (!loaded) {
-                    console.log("load : " + uri);
                     load();
                 } 
             }
-            console.log("Return view");
             return view().content;
         };
     })

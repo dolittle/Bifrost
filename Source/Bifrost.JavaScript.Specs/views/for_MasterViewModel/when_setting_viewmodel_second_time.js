@@ -21,11 +21,20 @@
         activated: sinon.stub()
     };
 
+    var element = {
+    };
+    
+
     var viewModelName = "myNamespace.myType";
-    var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: {} });
-    masterViewModel.set(firstViewModel, viewModelName);
+
+    var documentService = {
+        getViewModelNameFor: sinon.stub().returns(viewModelName)
+    };
+
+    var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: documentService });
+    masterViewModel.setFor(element, firstViewModel);
     var firstObservable = masterViewModel[viewModelName];
-    masterViewModel.set(secondViewModel, viewModelName);
+    masterViewModel.setFor(element, secondViewModel);
 
     it("should reuse the same observable for the second viewmodel", function () {
         expect(masterViewModel[viewModelName]).toBe(firstObservable);

@@ -7,7 +7,6 @@
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            console.log("RenderTemplate");
             templateSource.createAndSetViewModelFor(bindingContext);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
@@ -15,6 +14,7 @@
             if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
                 bindingContext.$root = bindingContext.$data;
             }
+            
             viewModelManager.masterViewModel.setFor(element, bindingContext.$data);
 
             return renderedTemplateSource;

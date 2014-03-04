@@ -4,11 +4,9 @@
 
         function deactivateViewModel(viewModel) {
             if (!Bifrost.isNullOrUndefined(viewModel)) {
-                console.log("Deactivate - if any function"); 
                 if (Bifrost.isFunction(viewModel.deactivated)) {
                     viewModel.deactivated();
                 }
-                console.log("  Delete viewModel");
                 delete viewModel;
             }
         }
@@ -35,20 +33,31 @@
         };
 
         this.setFor = function (element, viewModel) {
-            var viewModelObservable = self.getViewModelObservableFor(element);
-            deactivateViewModel(viewModelObservable());
+            var existingViewModel = self.getFor(element);
+            if (existingViewModel !== viewModel) {
+                deactivateViewModel(existingViewModel);
+            }
 
-            viewModelObservable(viewModel);
+            var name = documentService.getViewModelNameFor(element);
+            self[name] = viewModel;
 
             activateViewModel(viewModel);
         };
 
+        this.getFor = function (element) {
+            var name = documentService.getViewModelNameFor(element);
+            if (self.hasOwnProperty(name)) {
+                return self[name];
+            }
+            return null;
+        }
+
+
         this.clearFor = function (element) {
             var name = documentService.getViewModelNameFor(element);
             if (!self.hasOwnProperty(name)) {
-                var viewModelObservable = self[name];
-                deactivateViewModel(viewModelObservable());
-                viewModelObservable(null);
+                deactivateViewModel(self[name]);
+                self[name] = null;
             }
         };
 

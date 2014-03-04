@@ -180,7 +180,6 @@
     <Content Include="commands\CommandDescriptor.js" />
     <Content Include="commands\CommandResult.js" />
     <Content Include="navigation\NavigationFrame.js" />
-    <Content Include="navigation\navigationFrames.js" />
     <Content Include="read\Query.js" />
     <Content Include="read\queryDependencyResolver.js" />
     <Content Include="read\queryService.js" />

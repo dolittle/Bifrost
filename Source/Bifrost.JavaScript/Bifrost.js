@@ -176,7 +176,6 @@
 @depends views/DataViewModelFileAttributeElementVisitor.js
 @depends interaction/VisualStateManagerElementVisitor.js
 @depends navigation/NavigationFrame.js
-@depends navigation/navigationFrames.js
 @depends navigation/navigateTo.js
 @depends navigation/navigationManager.js
 @depends navigation/observableQueryParameter.js

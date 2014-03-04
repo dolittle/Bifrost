@@ -12,20 +12,6 @@
             return context.$data === viewModel;
         };
 
-        function collectViewModelFilesFrom(parent, elements) {
-
-            if (typeof parent.childNodes != "undefined") {
-                parent.childNodes.forEach(function (child) {
-                    collectViewModelFilesFrom(child, elements);
-                });
-            }
-
-            var viewModelFile = $(parent).data("viewmodel-file");
-            if (typeof viewModelFile != "undefined") {
-                elements.push(parent);
-            }
-        }
-
         this.getViewModelNameFor = function (element) {
             var dataViewModelName = element.attributes.getNamedItem("data-viewmodel-name");
             if (Bifrost.isNullOrUndefined(dataViewModelName)) {

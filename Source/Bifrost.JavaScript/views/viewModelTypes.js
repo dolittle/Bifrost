@@ -19,7 +19,7 @@
         }
 
 
-        this.isLoaded = function () {
+        this.isLoaded = function (path) {
             var namespace = getNamespaceFrom(path);
             if (namespace != null) {
                 var typename = getTypeNameFrom(path);

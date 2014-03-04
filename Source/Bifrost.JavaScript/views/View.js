@@ -7,8 +7,10 @@ Bifrost.namespace("Bifrost.views", {
         this.element = null;
         this.viewModelType = null;
         this.viewModelPath = null;
+        this.region = null;
 
         this.load = function (region) {
+            self.region = region;
             var promise = Bifrost.execution.Promise.create();
             self.viewModelPath = viewModelManager.getViewModelPathForView(path);
             viewLoader.load(self.path, region).continueWith(function (html) {
