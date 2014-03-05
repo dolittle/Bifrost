@@ -6,6 +6,10 @@
         nullView.content = "<span></span>";
         var view = ko.observable(nullView);
         var firstTime = true;
+        var retainViewModel = allBindingsAccessor().retainViewModel || false;
+        var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
+
+        var previousViewModel = null;
 
         function load() {
             loaded = true;
@@ -16,6 +20,8 @@
             var actualView = viewFactory.createFrom(actualPath);
             actualView.element = element;
 
+            isBusyObservable(true);
+
             regionManager.getFor(actualView).continueWith(function (region) {
 
                 actualView.load(region).continueWith(function (loadedView) {
@@ -24,14 +30,19 @@
                             region.viewModel = viewModel;
                         }
 
+                        if (retainViewModel === true) {
+                            previousViewModel = viewModel;
+                        }
+
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
-
                         UIManager.handle(wrapper);
 
                         loadedView.content = wrapper.innerHTML;
 
                         view(loadedView);
+
+                        isBusyObservable(false);
                     });
                 });
             });
@@ -43,7 +54,6 @@
             view(nullView);
         }
 
-
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext) {
@@ -51,6 +61,12 @@
                 firstTime = false;
                 return;
             }
+
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
+                bindingContext.$data = previousViewModel;
+                return;
+            }
+
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
@@ -61,11 +77,14 @@
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
+
+                if (retainViewModel === true) {
+                    previousViewModel = viewModel;
+                }
             }
         };
 
         this.text = function (value) {
-
             var uri = ko.utils.unwrapObservable(viewUri);
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
                 clear();
