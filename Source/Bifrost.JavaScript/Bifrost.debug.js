@@ -5231,6 +5231,7 @@ Bifrost.namespace("Bifrost.views", {
 		};
 	})
 });
+Bifrost.WellKnownTypesDependencyResolver.types.UIManager = Bifrost.views.UIManager;
 Bifrost.namespace("Bifrost.views", {
 	NamingRoot: Bifrost.Type.extend(function() {
 		var self = this;
@@ -5803,6 +5804,10 @@ Bifrost.namespace("Bifrost.views", {
         nullView.content = "<span></span>";
         var view = ko.observable(nullView);
         var firstTime = true;
+        var retainViewModel = allBindingsAccessor().retainViewModel || false;
+        var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
+
+        var previousViewModel = null;
 
         function load() {
             loaded = true;
@@ -5813,6 +5818,8 @@ Bifrost.namespace("Bifrost.views", {
             var actualView = viewFactory.createFrom(actualPath);
             actualView.element = element;
 
+            isBusyObservable(true);
+
             regionManager.getFor(actualView).continueWith(function (region) {
 
                 actualView.load(region).continueWith(function (loadedView) {
@@ -5821,14 +5828,19 @@ Bifrost.namespace("Bifrost.views", {
                             region.viewModel = viewModel;
                         }
 
+                        if (retainViewModel === true) {
+                            previousViewModel = viewModel;
+                        }
+
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
-
                         UIManager.handle(wrapper);
 
                         loadedView.content = wrapper.innerHTML;
 
                         view(loadedView);
+
+                        isBusyObservable(false);
                     });
                 });
             });
@@ -5840,7 +5852,6 @@ Bifrost.namespace("Bifrost.views", {
             view(nullView);
         }
 
-
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext) {
@@ -5848,6 +5859,12 @@ Bifrost.namespace("Bifrost.views", {
                 firstTime = false;
                 return;
             }
+
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
+                bindingContext.$data = previousViewModel;
+                return;
+            }
+
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
@@ -5858,11 +5875,14 @@ Bifrost.namespace("Bifrost.views", {
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
+
+                if (retainViewModel === true) {
+                    previousViewModel = viewModel;
+                }
             }
         };
 
         this.text = function (value) {
-
             var uri = ko.utils.unwrapObservable(viewUri);
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
                 clear();
@@ -6077,6 +6097,7 @@ Bifrost.namespace("Bifrost.views", {
 
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewModelTypes = Bifrost.views.viewModelTypes;
 Bifrost.namespace("Bifrost.views", {
     viewModelLoader: Bifrost.Singleton(function (taskFactory, fileFactory, viewModelTypes) {
         var self = this;
