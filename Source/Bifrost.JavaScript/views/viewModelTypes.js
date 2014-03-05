@@ -69,3 +69,4 @@
 
     })
 });
+Bifrost.WellKnownTypesDependencyResolver.types.viewModelTypes = Bifrost.views.viewModelTypes;
