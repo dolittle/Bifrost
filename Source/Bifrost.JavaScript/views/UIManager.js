@@ -17,3 +17,4 @@ Bifrost.namespace("Bifrost.views", {
 		};
 	})
 });
+Bifrost.WellKnownTypesDependencyResolver.types.UIManager = Bifrost.views.UIManager;
