@@ -43,6 +43,19 @@
             }, element);
         };
 
+        this.hasViewFile = function (element) {
+            var attribute = element.attributes["data-view-file"];
+            return !Bifrost.isNullOrUndefined(attribute);
+        }
+
+        this.getViewFileFrom = function (element) {
+            if (self.hasViewFile(element)) {
+                var attribute = element.attributes["data-view-file"];
+                return attribute.value;
+            }
+            return null;
+        };
+
 
         this.hasOwnRegion = function (element) {
             /// <summary>Check if element has its own region</summary>
