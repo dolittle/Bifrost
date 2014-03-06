@@ -10,7 +10,7 @@
             templateSource.createAndSetViewModelFor(bindingContext);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
-            
+
             if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
                 bindingContext.$root = bindingContext.$data;
             }

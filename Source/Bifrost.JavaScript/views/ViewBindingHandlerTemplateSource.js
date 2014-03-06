@@ -3,13 +3,13 @@
         var self = this;
         var loaded = false;
         var nullView = viewFactory.createFrom("");
-        nullView.content = "<span></span>";
+        nullView.content = "<notLoaded></notLoaded>";
         var view = ko.observable(nullView);
-        var firstTime = true;
         var retainViewModel = allBindingsAccessor().retainViewModel || false;
         var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
 
         var previousViewModel = null;
+        var currentViewModel = null;
 
         function load() {
             loaded = true;
@@ -33,6 +33,7 @@
                         if (retainViewModel === true) {
                             previousViewModel = viewModel;
                         }
+                        currentViewModel = viewModel;
 
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
@@ -57,8 +58,9 @@
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext) {
-            if (firstTime == true) {
-                firstTime = false;
+            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
+                bindingContext.$data = currentViewModel;
+                currentViewModel = null;
                 return;
             }
 
@@ -77,6 +79,7 @@
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
+                currentViewModel = viewModel;
 
                 if (retainViewModel === true) {
                     previousViewModel = viewModel;
