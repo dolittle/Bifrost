@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-    viewModelBindingHandler: Bifrost.Type.extend(function(viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
+    viewModelBindingHandler: Bifrost.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
         this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
             return { controlsDescendantBindings: true };
         };
@@ -10,7 +10,13 @@ Bifrost.namespace("Bifrost.views", {
             element._isLoading = true;
             element._viewModelPath = path;
 
-            var view = viewFactory.createFrom("/");
+            var viewPath = "/";
+
+            if( documentService.hasViewFile(element) ) {
+                viewPath = documentService.getViewFileFrom(element);
+            }
+
+            var view = viewFactory.createFrom(viewPath);
             view.content = element.innerHTML;
             view.element = element;
 
@@ -34,6 +40,8 @@ Bifrost.namespace("Bifrost.views", {
                         Bifrost.views.Region.current = lastRegion;
 
                         element._isLoading = false;
+                    }).onFail(function(e) {
+                        console.log("Could not create an instance of '" + viewModelType._namespace.name + "." + viewModelType._name+" - Reason : "+e);
                     });
                 } else {
                     viewModelLoader.load(path, region, viewModelParameters).continueWith(function (viewModel) {
