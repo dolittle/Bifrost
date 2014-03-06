@@ -28,16 +28,30 @@
             return false;
         };
 
-        this.getViewModelTypeForPath = function (path) {
+        function getViewModelTypeForPathImplementation(path) {
             var namespace = getNamespaceFrom(path);
             if (namespace != null) {
                 var typename = getTypeNameFrom(path);
-                if (typename in namespace) {
+                if (Bifrost.isType(namespace[typename])) {
                     return namespace[typename];
                 }
             }
 
             return null;
+        }
+
+        this.getViewModelTypeForPath = function (path) {
+            var type = getViewModelTypeForPathImplementation(path);
+            if (Bifrost.isNullOrUndefined(type)) {
+                var deepPath = path.replace(".js", "/index.js");
+                type = getViewModelTypeForPathImplementation(deepPath);
+                if (Bifrost.isNullOrUndefined(type)) {
+                    deepPath = path.replace(".js", "/Index.js");
+                    getViewModelTypeForPathImplementation(deepPath);
+                }
+            }
+
+            return type;
         };
 
 
