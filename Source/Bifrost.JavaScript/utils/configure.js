@@ -1,23 +1,15 @@
 ﻿Bifrost.namespace("Bifrost", {
-    configure: (function () {
+    configureType: Bifrost.Singleton(function(assetsManager) {
         var self = this;
 
-        this.ready = false;
+        this.isReady = false;
         this.readyCallbacks = [];
 
         this.initializeLandingPage = true;
         this.applyMasterViewModel = true;
 
-        function ready(callback) {
-            if (self.ready == true) {
-                callback();
-            } else {
-                readyCallbacks.push(callback);
-            }
-        }
-
         function onReady() {
-            self.ready = true;
+            self.isReady = true;
             for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
                 self.readyCallbacks[callbackIndex]();
             }
@@ -45,8 +37,7 @@
             bifrostVisualizerUriMapper.addMapping("Visualizer/{view}", "/Bifrost/Visualizer/{view}.html");
             Bifrost.uriMappers.bifrostVisualizer = bifrostVisualizerUriMapper;
 
-            var promise = Bifrost.assetsManager.initialize();
-            promise.continueWith(function () {
+            assetsManager.initialize().continueWith(function () {
                 if (self.initializeLandingPage === true) {
                     Bifrost.views.viewManager.create().initializeLandingPage();
                 }
@@ -60,25 +51,21 @@
         }
 
         function reset() {
-            self.ready = false;
+            self.isReady = false;
             self.readyCallbacks = [];
         }
 
-        return {
-            ready: ready,
-            onReady: onReady,
-            onStartup: onStartup,
-            reset: reset,
-            isReady: function () {
-                return self.ready;
+        this.ready = function(callback) {
+            if (self.isReady == true) {
+                callback();
+            } else {
+                self.readyCallbacks.push(callback);
             }
-        }
-    })()
+        };
+
+        $(function () {
+            onStartup();
+        });
+    })
 });
-(function ($) {
-    $(function () {
-        if( typeof Bifrost.assetsManager !== "undefined" ) {
-            Bifrost.configure.onStartup();
-        }
-    });
-})(jQuery);
+Bifrost.configure = Bifrost.configureType.create();
