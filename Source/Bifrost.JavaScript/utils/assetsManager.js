@@ -46,4 +46,3 @@
         }
     }
 });
-//Bifrost.WellKnownTypesDependencyResolver.types.assetsManager = Bifrost.commands.commandCoordinator;
