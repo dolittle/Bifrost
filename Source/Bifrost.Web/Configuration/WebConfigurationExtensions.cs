@@ -64,12 +64,6 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-        public static WebConfiguration WithoutKnockoutMapping(this WebConfiguration configuration)
-        {
-            configuration.ScriptsToInclude.KnockoutMapping = false;
-            return configuration;
-        }
-
         public static WebConfiguration WithoutRequire(this WebConfiguration configuration)
         {
             configuration.ScriptsToInclude.Require = false;

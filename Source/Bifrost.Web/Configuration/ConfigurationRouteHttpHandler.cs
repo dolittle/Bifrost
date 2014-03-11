@@ -107,10 +107,7 @@ namespace Bifrost.Web.Configuration
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.9.1.min.js"));
 
             if (_webConfiguration.ScriptsToInclude.Knockout)
-                builder.Append(GetResource("Bifrost.Web.Scripts.knockout-2.2.1.debug.js"));
-
-            if (_webConfiguration.ScriptsToInclude.KnockoutMapping)
-                builder.Append(GetResource("Bifrost.Web.Scripts.knockout.mapping-latest.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.knockout-3.1.0.debug.js"));
 
             if (_webConfiguration.ScriptsToInclude.JQueryHistory)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));

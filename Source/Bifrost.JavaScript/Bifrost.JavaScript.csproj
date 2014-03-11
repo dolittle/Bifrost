@@ -75,6 +75,8 @@
     <Content Include="io\fileFactory.js" />
     <Content Include="io\fileManager.js" />
     <Content Include="io\fileType.js" />
+    <Content Include="Libraries\knockout-3.1.0.debug.js" />
+    <Content Include="Libraries\knockout-3.1.0.js" />
     <Content Include="linked.js" />
     <Content Include="polyfills\classList.js" />
     <Content Include="read\readModelSystemEvents.js" />
@@ -97,10 +99,6 @@
     <Content Include="interaction\operationEntryFactory.js" />
     <Content Include="interaction\Operations.js" />
     <Content Include="interaction\Trigger.js" />
-    <Content Include="Libraries\knockout-2.2.1.debug.js" />
-    <Content Include="Libraries\knockout-2.2.1.js" />
-    <Content Include="Libraries\knockout.mapping-latest.debug.js" />
-    <Content Include="Libraries\knockout.mapping-latest.js" />
     <Content Include="messaging\messengerFactory.js" />
     <Content Include="polyfills\ElementPolyfills.js" />
     <Content Include="read\queryableFactory.js" />

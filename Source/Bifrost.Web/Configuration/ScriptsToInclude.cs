@@ -23,7 +23,6 @@ namespace Bifrost.Web.Configuration
     {
         public bool JQuery { get; set; }
         public bool Knockout { get; set; }
-        public bool KnockoutMapping { get; set; }
         public bool JQueryHistory { get; set; }
         public bool Require { get; set; }
         public bool Bifrost { get; set; }
@@ -33,7 +32,6 @@ namespace Bifrost.Web.Configuration
             JQuery = true;
             JQueryHistory = true;
             Knockout = true;
-            KnockoutMapping = true;
             Require = true;
             Bifrost = true;
         }
@@ -43,7 +41,6 @@ namespace Bifrost.Web.Configuration
             JQuery = false;
             JQueryHistory = false;
             Knockout = false;
-            KnockoutMapping = false;
             Require = false;
             Bifrost = false;
         }
