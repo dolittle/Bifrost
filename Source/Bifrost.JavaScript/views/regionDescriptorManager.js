@@ -13,6 +13,7 @@
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);
 
+                Bifrost.views.Region.current = region;
                 Bifrost.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
                     descriptor.describe(region);
                     promise.signal();
