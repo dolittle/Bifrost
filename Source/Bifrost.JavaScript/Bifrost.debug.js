@@ -2599,6 +2599,8 @@ Bifrost.validation.Validator = (function () {
         };
 
         this.validate = function (value) {
+            self.isValid(true);
+            self.message("");
             value = ko.utils.unwrapObservable(value);
             self.rules.some(function(rule) {
                 if (!rule.validate(value)) {
@@ -5528,6 +5530,7 @@ Bifrost.namespace("Bifrost.views", {
         }
         
         this.initializeLandingPage = function () {
+            var promise = Bifrost.execution.Promise.create();
             var body = document.body;
             if (body !== null) {
                 var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
@@ -5559,9 +5562,11 @@ Bifrost.namespace("Bifrost.views", {
                         }
                     
                         UIManager.handle(body);
+                        promise.signal();
                     });
                 }
             }
+            return promise;
         };
 
         this.attach = function (element) {
@@ -6552,6 +6557,7 @@ Bifrost.namespace("Bifrost.views", {
             if (namespacePath != null) {
                 var namespace = Bifrost.namespace(namespacePath);
 
+                Bifrost.views.Region.current = region;
                 Bifrost.dependencyResolver.beginResolve(namespace, "RegionDescriptor").continueWith(function (descriptor) {
                     descriptor.describe(region);
                     promise.signal();
@@ -7007,6 +7013,14 @@ Bifrost.namespace("Bifrost", {
             }
         }
 
+        function hookUpNavigaionAndApplyViewModel() {
+            Bifrost.navigation.navigationManager.hookup();
+
+            if (self.applyMasterViewModel === true) {
+                Bifrost.views.viewModelManager.create().masterViewModel.apply();
+            }
+        }
+
         function onStartup() {
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
@@ -7031,12 +7045,9 @@ Bifrost.namespace("Bifrost", {
 
             assetsManager.initialize().continueWith(function () {
                 if (self.initializeLandingPage === true) {
-                    Bifrost.views.viewManager.create().initializeLandingPage();
-                }
-                Bifrost.navigation.navigationManager.hookup();
-
-                if (self.applyMasterViewModel === true) {
-                    Bifrost.views.viewModelManager.create().masterViewModel.apply();
+                    Bifrost.views.viewManager.create().initializeLandingPage().continueWith(hookUpNavigaionAndApplyViewModel);
+                } else {
+                    hookUpNavigaionAndApplyViewModel();
                 }
                 onReady();
             });

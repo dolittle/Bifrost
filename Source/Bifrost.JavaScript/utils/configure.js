@@ -15,6 +15,14 @@
             }
         }
 
+        function hookUpNavigaionAndApplyViewModel() {
+            Bifrost.navigation.navigationManager.hookup();
+
+            if (self.applyMasterViewModel === true) {
+                Bifrost.views.viewModelManager.create().masterViewModel.apply();
+            }
+        }
+
         function onStartup() {
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
@@ -39,12 +47,9 @@
 
             assetsManager.initialize().continueWith(function () {
                 if (self.initializeLandingPage === true) {
-                    Bifrost.views.viewManager.create().initializeLandingPage();
-                }
-                Bifrost.navigation.navigationManager.hookup();
-
-                if (self.applyMasterViewModel === true) {
-                    Bifrost.views.viewModelManager.create().masterViewModel.apply();
+                    Bifrost.views.viewManager.create().initializeLandingPage().continueWith(hookUpNavigaionAndApplyViewModel);
+                } else {
+                    hookUpNavigaionAndApplyViewModel();
                 }
                 onReady();
             });

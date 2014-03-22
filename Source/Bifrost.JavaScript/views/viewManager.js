@@ -20,6 +20,7 @@
         }
         
         this.initializeLandingPage = function () {
+            var promise = Bifrost.execution.Promise.create();
             var body = document.body;
             if (body !== null) {
                 var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
@@ -51,9 +52,11 @@
                         }
                     
                         UIManager.handle(body);
+                        promise.signal();
                     });
                 }
             }
+            return promise;
         };
 
         this.attach = function (element) {
