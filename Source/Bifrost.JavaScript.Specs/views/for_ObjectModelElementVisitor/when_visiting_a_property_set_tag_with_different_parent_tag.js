@@ -11,8 +11,10 @@ describe("when visiting a property set tag with different parent tag", function(
 	});
 
 	var exception = null;
-	var parentElement = { localName: "somethingelse" };
-	var element = { localName: "something.property", attributes: [], parentElement: parentElement };
+	var parentElement = document.createElement("something.property");
+	var element = document.createElement("somethingelse");
+	parentElement.appendChild(element);
+
 	try {
 		visitor.visit(element);
 	} catch( e ) {

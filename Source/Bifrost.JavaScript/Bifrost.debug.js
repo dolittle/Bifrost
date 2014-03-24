@@ -5306,8 +5306,7 @@ Bifrost.namespace("Bifrost.views", {
 				array = [];
 				self.prefixNamespaceArrayDictionary[prefix] = array;
 			}
-
-			self.prefixNamespaceDictionary[prefix] = namespace;
+			self.prefixNamespaceArrayDictionary[prefix].push(namespace);
 		};
 
 
@@ -5323,26 +5322,33 @@ Bifrost.namespace("Bifrost.views", {
 			var foundType = null;
 
 			if( self.prefixNamespaceArrayDictionary.hasOwnProperty(namespace) ) {
-				self.prefixNamespaceArrayDictionary[namespace].forEach(function(ns) {
-					for( var type in ns ) {
-						type = type.toLowerCase();
-						if( type == name ) {
-							foundType = type;
-							return;
-						}
-					}
+			    self.prefixNamespaceArrayDictionary[namespace].forEach(function (ns) {
+			        var namespace = Bifrost.namespace(ns);
+			        for (var type in namespace) {
+			            type = type.toLowerCase();
+			            if (type == name) {
+			                foundType = type;
+			                return;
+			            }
+			        }
 				})
 			}
 
+			if (foundType !== null) {
+			    var instance = foundType.create();
+			    return instance;
+			}
+
+            /*
 			if( foundType == null ) {
 				var namespaceMessage = "";
 				if( hasNamespace == true ) {
 					namespaceMessage = " in namespace prefixed '"+namespace+"'";
 				}
 				throw "Could not resolve type '"+name+"'"+namespaceMessage;
-			}
+			}*/
 
-			return foundType;
+			return null;
 		};
 	})
 });
@@ -5400,7 +5406,10 @@ Bifrost.namespace("Bifrost.views", {
 				namespace = namespaceSplit[0];
 			}
 
-			var instance = objectModelManager.getObjectFromTagName(name,namespace);
+ 			var instance = objectModelManager.getObjectFromTagName(name, namespace);
+ 			if (Bifrost.isNullOrUndefined(instance)) {
+ 			    return;
+ 			}
 			element.__objectModelNode = instance;
 
 			var propertySplit = element.localName.split(".");
@@ -6704,23 +6713,17 @@ Bifrost.namespace("Bifrost.interaction", {
 	})
 });
 Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history, viewManager) {
         var self = this;
 
         this.home = home;
-        this.locationAware = locationAware || false;
         this.history = history;
         this.viewManager = viewManager;
 
         this.container = null;
         this.currentUri = ko.observable(home);
-        this.currentRenderedPath = null;
         this.uriMapper = uriMapper || null;
 
-        this.currentUri.subscribe(function () {
-            self.render();
-        });
-        
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
             if (path == null || path.length == 0) path = self.home;
@@ -6734,18 +6737,12 @@ Bifrost.namespace("Bifrost.navigation", {
             self.setCurrentUri(uri.path);
         }
 
-        if (locationAware === true) {
-            history.Adapter.bind(window, "statechange", function () {
-                self.setCurrentUriFromCurrentLocation();
-            });
-        }
-
+        history.Adapter.bind(window, "statechange", function () {
+            self.setCurrentUriFromCurrentLocation();
+        });
         
         this.configureFor = function (container) {
-            if (self.locationAware === true) {
-                self.setCurrentUriFromCurrentLocation();
-            }
-
+            self.setCurrentUriFromCurrentLocation();
             self.container = container;
 
             var uriMapper = $(container).closest("[data-urimapper]");
@@ -6961,16 +6958,19 @@ Bifrost.namespace("Bifrost.navigation", {
                 configuration[item.key.trim()] = item.value.trim();
             }
 
-            if (typeof configuration.uriMapper !== "undefined") {
-                var mapper = Bifrost.uriMappers[configuration.uriMapper];
-                var frame = Bifrost.navigation.NavigationFrame.create({
-                    locationAware: false,
-                    uriMapper: mapper,
-                    home: configuration.home || ''
-                });
-
-                return frame;
+            var uriMapperName = configuration.uriMapper;
+            if (Bifrost.isNullOrUndefined(uriMapperName)) {
+                uriMapperName = "default";
             }
+
+            var mapper = Bifrost.uriMappers[uriMapperName];
+            var frame = Bifrost.navigation.NavigationFrame.create({
+                locationAware: false,
+                uriMapper: mapper,
+                home: configuration.home || ''
+            });
+
+            return frame;
         }
 
         function makeValueAccessor(navigationFrame) {

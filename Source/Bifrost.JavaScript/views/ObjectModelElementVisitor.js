@@ -52,7 +52,10 @@ Bifrost.namespace("Bifrost.views", {
 				namespace = namespaceSplit[0];
 			}
 
-			var instance = objectModelManager.getObjectFromTagName(name,namespace);
+ 			var instance = objectModelManager.getObjectFromTagName(name, namespace);
+ 			if (Bifrost.isNullOrUndefined(instance)) {
+ 			    return;
+ 			}
 			element.__objectModelNode = instance;
 
 			var propertySplit = element.localName.split(".");

@@ -11,7 +11,7 @@ describe("when visiting a property set tag with multiple properties", function()
 	});
 
 	var exception = null;
-	var element = { localName: "something.property.otherProperty", attributes: [] };
+	var element = document.createElement("something.property.otherProperty");
 	try {
 		visitor.visit(element);
 	} catch( e ) {

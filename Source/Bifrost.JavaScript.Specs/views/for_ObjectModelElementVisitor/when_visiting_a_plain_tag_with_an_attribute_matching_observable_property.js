@@ -16,12 +16,10 @@ describe("when visiting a plain tag with an attribute matching observable proper
 		typeConverters: typeConverters
 	});
 
-	var element = { 
-		localName: "something",
-		attributes: [
-			{localName:"someProperty", value:"42"}
-		]
-	};
+	var element = document.createElement("something");
+	element.attributes = [
+			{ localName: "someProperty", value: "42" }
+	];
 	visitor.visit(element);
 
 	it("should ask the type converters for a conversion", function() {

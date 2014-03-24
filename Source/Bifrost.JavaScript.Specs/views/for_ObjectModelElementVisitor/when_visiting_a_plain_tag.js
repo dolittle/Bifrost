@@ -10,7 +10,7 @@ describe("when visiting a plain tag", function() {
 		typeConverters: {}	
 	});
 
-	var element = { localName: "something", attributes: [] };
+	var element = document.createElement("something");
 	visitor.visit(element);
 
 	it("should ask for an object by tag name", function() {

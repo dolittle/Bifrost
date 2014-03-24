@@ -11,10 +11,10 @@ describe("when visiting a tag with two namespaces", function() {
 	});
 
 	var exception = null;
-	try {
-		var element = { localName: "ns:ns2:something", attributes: [] };
+    try {
+	    var element = document.createElement("ns:ns2:something");
 		visitor.visit(element);
-	} catch( e ) {
+	} catch (e) {
 		exception = e;
 	}
 
