@@ -1,21 +1,15 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, locationAware, uriMapper, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history, viewManager) {
         var self = this;
 
         this.home = home;
-        this.locationAware = locationAware || false;
         this.history = history;
         this.viewManager = viewManager;
 
         this.container = null;
         this.currentUri = ko.observable(home);
-        this.currentRenderedPath = null;
         this.uriMapper = uriMapper || null;
 
-        this.currentUri.subscribe(function () {
-            self.render();
-        });
-        
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
             if (path == null || path.length == 0) path = self.home;
@@ -29,18 +23,12 @@
             self.setCurrentUri(uri.path);
         }
 
-        if (locationAware === true) {
-            history.Adapter.bind(window, "statechange", function () {
-                self.setCurrentUriFromCurrentLocation();
-            });
-        }
-
+        history.Adapter.bind(window, "statechange", function () {
+            self.setCurrentUriFromCurrentLocation();
+        });
         
         this.configureFor = function (container) {
-            if (self.locationAware === true) {
-                self.setCurrentUriFromCurrentLocation();
-            }
-
+            self.setCurrentUriFromCurrentLocation();
             self.container = container;
 
             var uriMapper = $(container).closest("[data-urimapper]");
