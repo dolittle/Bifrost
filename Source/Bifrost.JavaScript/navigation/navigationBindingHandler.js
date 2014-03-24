@@ -10,16 +10,19 @@
                 configuration[item.key.trim()] = item.value.trim();
             }
 
-            if (typeof configuration.uriMapper !== "undefined") {
-                var mapper = Bifrost.uriMappers[configuration.uriMapper];
-                var frame = Bifrost.navigation.NavigationFrame.create({
-                    locationAware: false,
-                    uriMapper: mapper,
-                    home: configuration.home || ''
-                });
-
-                return frame;
+            var uriMapperName = configuration.uriMapper;
+            if (Bifrost.isNullOrUndefined(uriMapperName)) {
+                uriMapperName = "default";
             }
+
+            var mapper = Bifrost.uriMappers[uriMapperName];
+            var frame = Bifrost.navigation.NavigationFrame.create({
+                locationAware: false,
+                uriMapper: mapper,
+                home: configuration.home || ''
+            });
+
+            return frame;
         }
 
         function makeValueAccessor(navigationFrame) {
