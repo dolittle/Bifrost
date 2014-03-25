@@ -49,9 +49,20 @@
         };
 
         this.getContextForType = function (commandType) {
-            var command = commandType.create({ region: { commands: [] } });
-            var context = self.getContextFor(command);
-            return context;
+
+            var promise = Bifrost.execution.Promise.create();
+
+            if (hasSecurityContextInNamespaceFor(commandType._name, commandType._namespace)) {
+                var contextType = getSecurityContextInNamespaceFor(commandType._name, commandType._namespace);
+                var context = contextType.create();
+                promise.signal(context);
+            } else {
+                var context = Bifrost.commands.CommandSecurityContext.create();
+                context.isAuthorized(true);
+                promsie.signal(securityContext);
+            }
+
+            return promise;
         };
     })
 });
