@@ -46,7 +46,7 @@ namespace Bifrost.Concepts
                 val = value == null ? Guid.Empty : Guid.Parse(value.ToString());
             }
 
-            if (valueProperty.PropertyType.IsPrimitive)
+            if (IsPrimitive(valueProperty.PropertyType))
             {
                 val = value ?? Activator.CreateInstance(valueProperty.PropertyType);
             }
@@ -72,6 +72,11 @@ namespace Bifrost.Concepts
         static Type GetPrimitiveTypeConceptIsBasedOn(Type conceptType)
         {
             return ConceptMap.GetConceptValueType(conceptType);
+        }
+
+        static bool IsPrimitive(Type type)
+        {
+            return type.IsPrimitive || type == typeof (decimal);
         }
     }
 }
