@@ -13,10 +13,9 @@
             return securityContextName;
         }
 
-
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return namespace.hasOwnProperty(securityContextName);
+            return securityContextName != null && namespace != null && namespace.hasOwnProperty(securityContextName);
         }
 
         function getSecurityContextInNamespaceFor(type, namespace) {
@@ -59,7 +58,7 @@
             } else {
                 var context = Bifrost.commands.CommandSecurityContext.create();
                 context.isAuthorized(true);
-                promsie.signal(securityContext);
+                promise.signal(context);
             }
 
             return promise;
