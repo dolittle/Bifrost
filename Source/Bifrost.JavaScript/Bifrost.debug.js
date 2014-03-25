@@ -69,6 +69,13 @@ String.prototype.toPascalCase = function () {
 
 NodeList.prototype.forEach = Array.prototype.forEach;
 NodeList.prototype.length = Array.prototype.length;
+HTMLElement.prototype.getChildElements = function () {
+    var children = [];
+    this.childNodes.forEach(function (node) {
+        if (node.nodeType == 1) children.push(node);
+    });
+    return children;
+};
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 HTMLCollection.prototype.length = Array.prototype.length;
 // From the following thread : http://stackoverflow.com/questions/1056728/formatting-a-date-in-javascript

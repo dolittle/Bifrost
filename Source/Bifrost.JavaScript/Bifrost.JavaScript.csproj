@@ -59,6 +59,7 @@
     <Content Include="dispatcher.js" />
     <Content Include="documentService.js" />
     <Content Include="Event.js" />
+    <Content Include="extensions\HTMLElementExtensions.js" />
     <Content Include="extensions\DateExtensions.js" />
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />

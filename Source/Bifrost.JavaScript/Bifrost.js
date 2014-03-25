@@ -2,6 +2,7 @@
 @depends extensions/ArrayExtensions.js
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
+@depends extensions/HTMLElementExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
 @depends extensions/DateExtensions.js
 @depends polyfills/classList.js
