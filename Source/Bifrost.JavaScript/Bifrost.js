@@ -94,6 +94,7 @@
 @depends commands/commandSecurityContextFactory.js
 @depends commands/commandSecurityService.js
 @depends commands/hasChanges.js
+@depends commands/commandEvents.js
 @depends interaction/Operation.js
 @depends interaction/OperationContext.js
 @depends interaction/OperationEntry.js

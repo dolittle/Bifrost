@@ -54,7 +54,7 @@
                     promise.signal(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    promise.fail(textStatus);
+                    promise.fail(jqXHR);
                 }
             });
 
@@ -80,7 +80,7 @@
                     promise.signal(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    promise.fail(textStatus);
+                    promise.fail(jqXHR);
                 }
             });
 

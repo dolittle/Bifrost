@@ -6,16 +6,22 @@ Bifrost.commands.CommandResult = (function () {
             return self.commandId === Bifrost.Guid.empty;
         };
 
+        this.commandName = "";
+        this.commandId = Bifrost.Guid.empty;
+        this.validationResults = [];
+        this.success = true;
+        this.invalid = false;
+        this.passedSecurity = true;
+        this.exception = undefined;
+        this.exceptionMessage = "";
+        this.commandValidationMessages = [];
+        this.securityMessages = [];
+        this.allValidationMessages = [];
+        this.details = "";
+
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
-        } else {
-            this.commandName = "";
-            this.commandId = Bifrost.Guid.empty;
-            this.validationResults = [];
-            this.success = true;
-            this.invalid = false;
-            this.exception = undefined;
-        }
+        } 
     }
 
     return {

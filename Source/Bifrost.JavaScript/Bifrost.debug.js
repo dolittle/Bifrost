@@ -1822,7 +1822,7 @@ Bifrost.namespace("Bifrost", {
                     promise.signal(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    promise.fail(textStatus);
+                    promise.fail(jqXHR);
                 }
             });
 
@@ -1848,7 +1848,7 @@ Bifrost.namespace("Bifrost", {
                     promise.signal(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    promise.fail(textStatus);
+                    promise.fail(jqXHR);
                 }
             });
 
@@ -2111,6 +2111,7 @@ Bifrost.namespace("Bifrost", {
 Bifrost.namespace("Bifrost", {
     systemEvents: Bifrost.Singleton(function () {
         this.readModels = Bifrost.read.readModelSystemEvents.create();
+        this.commands = Bifrost.commands.commandEvents.create();
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.systemEvents = Bifrost.systemEvents;
@@ -3141,7 +3142,7 @@ if (typeof ko !== 'undefined') {
     };
 }
 Bifrost.namespace("Bifrost.commands", {
-    HandleCommandTask: Bifrost.tasks.ExecutionTask.extend(function (command, server) {
+    HandleCommandTask: Bifrost.tasks.ExecutionTask.extend(function (command, server, systemEvents) {
         /// <summary>Represents a task that can handle a command</summary>
         this.name = command.name;
 
@@ -3157,6 +3158,20 @@ Bifrost.namespace("Bifrost.commands", {
 
             server.post(url, parameters).continueWith(function (result) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(result);
+
+                if (commandResult.success === true) {
+                    systemEvents.commands.succeeded.trigger(result);
+                } else {
+                    systemEvents.commands.failed.trigger(result);
+                }
+
+                promise.signal(commandResult);
+            }).onFail(function (response) {
+                var commandResult = Bifrost.commands.CommandResult.create();
+                commandResult.exception = "HTTP 500";
+                commandResult.exceptionMessage = response.statusText;
+                commandResult.details = response.responseText;
+                systemEvents.commands.failed.trigger(commandResult);
                 promise.signal(commandResult);
             });
 
@@ -3741,16 +3756,22 @@ Bifrost.commands.CommandResult = (function () {
             return self.commandId === Bifrost.Guid.empty;
         };
 
+        this.commandName = "";
+        this.commandId = Bifrost.Guid.empty;
+        this.validationResults = [];
+        this.success = true;
+        this.invalid = false;
+        this.passedSecurity = true;
+        this.exception = undefined;
+        this.exceptionMessage = "";
+        this.commandValidationMessages = [];
+        this.securityMessages = [];
+        this.allValidationMessages = [];
+        this.details = "";
+
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
-        } else {
-            this.commandName = "";
-            this.commandId = Bifrost.Guid.empty;
-            this.validationResults = [];
-            this.success = true;
-            this.invalid = false;
-            this.exception = undefined;
-        }
+        } 
     }
 
     return {
@@ -3887,6 +3908,12 @@ if (typeof ko !== 'undefined') {
         };
     };
 }
+Bifrost.namespace("Bifrost.commands", {
+    commandEvents: Bifrost.Singleton(function () {
+        this.succeeded = Bifrost.Event.create();
+        this.failed = Bifrost.Event.create();
+    })
+});
 Bifrost.namespace("Bifrost.interaction", {
     Operation: Bifrost.Type.extend(function (region, context) {
         /// <summary>Defines an operation that be performed</summary>
@@ -5809,10 +5836,12 @@ Bifrost.namespace("Bifrost.views", {
             return function () {
                 var viewUri = valueAccessor();
                 var viewModel = viewModelManager.masterViewModel.getFor(element);
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 return {
                     if: true,
                     data: viewModel,
-                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor)
+                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor),
+                    viewModelParameters : viewModelParameters
                 }
             };
         };
@@ -5889,7 +5918,7 @@ Bifrost.namespace("Bifrost.views", {
 
         this.data = function (key, value) { };
 
-        this.createAndSetViewModelFor = function (bindingContext) {
+        this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
             if (!Bifrost.isNullOrUndefined(currentViewModel)) {
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
@@ -5903,7 +5932,7 @@ Bifrost.namespace("Bifrost.views", {
 
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
-                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                //var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 
                 var lastRegion = Bifrost.views.Region.current;
@@ -5942,7 +5971,7 @@ Bifrost.namespace("Bifrost.views", {
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            templateSource.createAndSetViewModelFor(bindingContext);
+            templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
 
