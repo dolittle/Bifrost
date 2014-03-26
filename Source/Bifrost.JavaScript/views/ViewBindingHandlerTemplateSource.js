@@ -57,7 +57,7 @@
 
         this.data = function (key, value) { };
 
-        this.createAndSetViewModelFor = function (bindingContext) {
+        this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
             if (!Bifrost.isNullOrUndefined(currentViewModel)) {
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
@@ -71,7 +71,7 @@
 
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
-                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                //var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 
                 var lastRegion = Bifrost.views.Region.current;

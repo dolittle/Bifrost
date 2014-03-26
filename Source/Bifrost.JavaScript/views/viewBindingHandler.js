@@ -21,10 +21,12 @@ Bifrost.namespace("Bifrost.views", {
             return function () {
                 var viewUri = valueAccessor();
                 var viewModel = viewModelManager.masterViewModel.getFor(element);
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 return {
                     if: true,
                     data: viewModel,
-                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor)
+                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor),
+                    viewModelParameters : viewModelParameters
                 }
             };
         };
