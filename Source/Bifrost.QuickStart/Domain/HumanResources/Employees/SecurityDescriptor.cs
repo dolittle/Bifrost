@@ -1,5 +1,4 @@
-﻿using Bifrost.Commands;
-using Bifrost.Security;
+﻿using Bifrost.Security;
 
 namespace Bifrost.QuickStart.Domain.HumanResources.Employees
 {

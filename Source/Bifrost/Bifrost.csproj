@@ -285,6 +285,9 @@
     <Compile Include="Sagas\SagaHolder.cs" />
     <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Services\InvokeService.cs" />
+    <Compile Include="Services\ServiceSecurityExtensions.cs" />
+    <Compile Include="Services\ServiceSecurityTarget.cs" />
     <Compile Include="Tasks\ITaskScheduler.cs" />
     <Compile Include="Tasks\ITaskManager.cs" />
     <Compile Include="Tasks\ITaskRepository.cs" />

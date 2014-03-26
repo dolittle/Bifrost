@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Web;
+﻿using System.Web;
+using System.Web.Routing;
 using Bifrost.Configuration;
-using Bifrost.Execution;
-using Bifrost.QuickStart.Concepts.Persons;
-using Bifrost.QuickStart.Domain.HumanResources.Employees;
-using Bifrost.Validation;
+using Bifrost.QuickStart.Domain.HumanResources.Foos;
+using Bifrost.Web.Services;
 
 namespace Bifrost.QuickStart
 {
@@ -56,6 +54,8 @@ namespace Bifrost.QuickStart
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Read.HumanResources.**.", "Bifrost.QuickStart.Features.**.");
 					})
                 .WithMimir();
+
+            RouteTable.Routes.AddService<SecuredService>();
         }
     }
 }
