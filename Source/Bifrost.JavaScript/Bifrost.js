@@ -43,6 +43,8 @@
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js
 @depends utils/server.js
+@depends utils/areEqual.js
+@depends utils/deepClone.js
 @depends utils/systemClock.js
 @depends TimeSpan.js
 @depends Event.js

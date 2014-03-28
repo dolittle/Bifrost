@@ -86,6 +86,8 @@
     <Content Include="systemEvents.js" />
     <Content Include="tasks\TaskHistoryEntry.js" />
     <Content Include="TimeSpan.js" />
+    <Content Include="utils\areEqual.js" />
+    <Content Include="utils\deepClone.js" />
     <Content Include="utils\isNullOrUndefined.js" />
     <Content Include="utils\isType.js" />
     <Content Include="views\Binding.js" />

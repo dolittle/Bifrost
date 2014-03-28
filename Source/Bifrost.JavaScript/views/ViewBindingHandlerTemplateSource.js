@@ -10,6 +10,7 @@
 
         var previousViewModel = null;
         var currentViewModel = null;
+        var currentViewModelParameters = null;
 
         function load() {
             loaded = true;
@@ -21,6 +22,8 @@
             actualView.element = element;
 
             isBusyObservable(true);
+
+            currentViewModelParameters = viewModelParameters;
 
             regionManager.getFor(actualView).continueWith(function (region) {
 
@@ -58,20 +61,26 @@
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
+            var areViewModelParametersEqual = true;
+            if (Bifrost.isNullOrUndefined(currentViewModelParameters)) {
+                areViewModelParametersEqual = false;
+            } else {
+                areViewModelParametersEqual = Bifrost.areEqual(viewModelParameters, currentViewModelParameters);
+            }
+
+            if (!Bifrost.isNullOrUndefined(currentViewModel) && areViewModelParametersEqual ) { 
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
                 return;
             }
 
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel) && areViewModelParametersEqual) { 
                 bindingContext.$data = previousViewModel;
                 return;
             }
 
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
-                //var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 
                 var lastRegion = Bifrost.views.Region.current;
@@ -80,6 +89,7 @@
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
                 currentViewModel = viewModel;
+                currentViewModelParameters = viewModelParameters;
 
                 if (retainViewModel === true) {
                     previousViewModel = viewModel;

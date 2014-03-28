@@ -1858,6 +1858,104 @@ Bifrost.namespace("Bifrost", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.server = Bifrost.server;
 Bifrost.namespace("Bifrost", {
+    areEqual: function (source, target) {
+        function isReservedMemberName(member) {
+            return member.indexOf("_") >= 0 || member == "model" || member == "commons" || member == "targetViewModel" || member == "region";
+        }
+
+        if (ko.isObservable(source)) source = source();
+        if (ko.isObservable(target)) target = target();
+
+        if (Bifrost.isArray(source) && Bifrost.isArray(target)) {
+            if (source.length != target.length) {
+                return false;
+            }
+
+            for (var index = 0; index < source.length; index++) {
+                if (Bifrost.areEqual(source[index], target[index]) == false) {
+                    return false;
+                }
+            }
+        } else {
+            for (var member in source) {
+                if (isReservedMemberName(member)) continue;
+                if (target.hasOwnProperty(member)) {
+                    var sourceValue = source[member];
+                    var targetValue = target[member];
+
+                    if (Bifrost.isObject(sourceValue) ||
+                        Bifrost.isArray(sourceValue) ||
+                        ko.isObservable(sourceValue)) {
+
+                        if (!Bifrost.areEqual(sourceValue, targetValue)) {
+                            return false;
+                        }
+                    } else {
+                        if (sourceValue != targetValue) {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+});
+Bifrost.namespace("Bifrost", {
+    deepClone: function (source, target) {
+        function isReservedMemberName(member) {
+            return member.indexOf("_") >= 0 || member == "model" || member == "commons" || member == "targetViewModel" || member == "region";
+        }
+
+        if (ko.isObservable(source)) source = source();
+
+        if (target == null) {
+            if (Bifrost.isArray(source)) {
+                target = []
+            } else {
+                target = {};
+            }
+        }
+
+        if (Bifrost.isArray(source)) {
+            for (var index = 0; index < source.length; index++) {
+                var sourceValue = source[index];
+                var clonedValue = Bifrost.deepClone(sourceValue);
+                target.push(clonedValue);
+            }
+        } else {
+            for (var member in source) {
+                if (isReservedMemberName(member)) continue;
+
+                var sourceValue = source[member];
+
+                if (ko.isObservable(sourceValue)) sourceValue = sourceValue();
+
+                if (Bifrost.isFunction(sourceValue)) continue;
+
+                var targetValue = null;
+                if (Bifrost.isObject(sourceValue)) {
+                    targetValue = {};
+                } else if (Bifrost.isArray(sourceValue)) {
+                    targetValue = [];
+                } else {
+                    target[member] = sourceValue;
+                }
+
+                if (targetValue != null) {
+                    target[member] = targetValue;
+                    Bifrost.deepClone(sourceValue, targetValue);
+                }
+            }
+        }
+
+        return target;
+    }
+})
+Bifrost.namespace("Bifrost", {
     systemClock: Bifrost.Singleton(function () {
         this.nowInMilliseconds = function () {
             return window.performance.now();
@@ -5871,6 +5969,7 @@ Bifrost.namespace("Bifrost.views", {
 
         var previousViewModel = null;
         var currentViewModel = null;
+        var currentViewModelParameters = null;
 
         function load() {
             loaded = true;
@@ -5882,6 +5981,8 @@ Bifrost.namespace("Bifrost.views", {
             actualView.element = element;
 
             isBusyObservable(true);
+
+            currentViewModelParameters = viewModelParameters;
 
             regionManager.getFor(actualView).continueWith(function (region) {
 
@@ -5919,20 +6020,26 @@ Bifrost.namespace("Bifrost.views", {
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
+            var areViewModelParametersEqual = true;
+            if (Bifrost.isNullOrUndefined(currentViewModelParameters)) {
+                areViewModelParametersEqual = false;
+            } else {
+                areViewModelParametersEqual = Bifrost.areEqual(viewModelParameters, currentViewModelParameters);
+            }
+
+            if (!Bifrost.isNullOrUndefined(currentViewModel) && areViewModelParametersEqual ) { 
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
                 return;
             }
 
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel) && areViewModelParametersEqual) { 
                 bindingContext.$data = previousViewModel;
                 return;
             }
 
             if (!Bifrost.isNullOrUndefined(view()) && !Bifrost.isNullOrUndefined(view().viewModelType)) {
                 var region = view().region;
-                //var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 
                 var lastRegion = Bifrost.views.Region.current;
@@ -5941,6 +6048,7 @@ Bifrost.namespace("Bifrost.views", {
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
                 currentViewModel = viewModel;
+                currentViewModelParameters = viewModelParameters;
 
                 if (retainViewModel === true) {
                     previousViewModel = viewModel;
