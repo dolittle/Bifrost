@@ -8,6 +8,8 @@
         var retainViewModel = allBindingsAccessor().retainViewModel || false;
         var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
 
+        var viewPath;
+
         var previousViewModel = null;
         var currentViewModel = null;
         var currentViewModelParameters = null;
@@ -15,15 +17,20 @@
         function load() {
             loaded = true;
             var uri = ko.utils.unwrapObservable(viewUri);
+            viewPath = uri;
 
             var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
+            
             var actualPath = pathResolvers.resolve(element, uri);
             var actualView = viewFactory.createFrom(actualPath);
             actualView.element = element;
 
             isBusyObservable(true);
 
-            currentViewModelParameters = viewModelParameters;
+            if (documentService.hasOwnRegion(element)) {
+                regionManager.evict(element.region);
+                documentService.clearRegionOn(element);
+            }
 
             regionManager.getFor(actualView).continueWith(function (region) {
 
@@ -37,6 +44,7 @@
                             previousViewModel = viewModel;
                         }
                         currentViewModel = viewModel;
+                        currentViewModelParameters = viewModelParameters;
 
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
@@ -61,20 +69,13 @@
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            var areViewModelParametersEqual = true;
-            if (Bifrost.isNullOrUndefined(currentViewModelParameters)) {
-                areViewModelParametersEqual = false;
-            } else {
-                areViewModelParametersEqual = Bifrost.areEqual(viewModelParameters, currentViewModelParameters);
-            }
-
-            if (!Bifrost.isNullOrUndefined(currentViewModel) && areViewModelParametersEqual ) { 
+            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
                 return;
             }
 
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel) && areViewModelParametersEqual) { 
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
                 bindingContext.$data = previousViewModel;
                 return;
             }
@@ -85,6 +86,7 @@
 
                 var lastRegion = Bifrost.views.Region.current;
                 Bifrost.views.Region.current = region;
+
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;

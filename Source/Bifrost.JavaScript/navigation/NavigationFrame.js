@@ -12,6 +12,7 @@
 
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
+            if (path.lastIndexOf("/") == path.length - 1) path = path.substr(0, path.length - 1);
             if (path == null || path.length == 0) path = self.home;
             if (self.uriMapper != null && !self.uriMapper.hasMappingFor(path)) path = self.home;
             self.currentUri(path);
@@ -19,6 +20,17 @@
 
         this.setCurrentUriFromCurrentLocation = function () {
             var state = self.history.getState();
+
+            /*
+            if (state.url.indexOf("/?") > 0) {
+                if (state.url.indexOf("/?") == state.url.length - 2) {
+                    state.url = state.url.replace("/?", "");
+                } else {
+                    state.url = state.url.replace("/?", "?");
+                }
+                History.pushState(state.data, state.title, state.url);
+            }*/
+
             var uri = Bifrost.Uri.create(state.url);
             self.setCurrentUri(uri.path);
         }

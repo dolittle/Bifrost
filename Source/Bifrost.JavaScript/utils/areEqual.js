@@ -7,6 +7,11 @@
         if (ko.isObservable(source)) source = source();
         if (ko.isObservable(target)) target = target();
 
+        if (Bifrost.isNullOrUndefined(source) && Bifrost.isNullOrUndefined(target)) return true;
+
+        if (Bifrost.isNullOrUndefined(source)) return false;
+        if (Bifrost.isNullOrUndefined(target)) return false;
+
         if (Bifrost.isArray(source) && Bifrost.isArray(target)) {
             if (source.length != target.length) {
                 return false;

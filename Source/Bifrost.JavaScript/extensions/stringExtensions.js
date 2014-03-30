@@ -27,3 +27,13 @@ String.prototype.toPascalCase = function () {
     return result;
 };
 
+String.prototype.hashCode = function () {
+    var charCode, hash = 0;
+    if (this.length == 0) return hash;
+    for (var i = 0; i < this.length; i++) {
+        charCode = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + charCode;
+        hash = hash & hash;
+    }
+    return hash;
+};

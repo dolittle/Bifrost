@@ -99,6 +99,12 @@
             element.region = region;
         };
 
+        this.clearRegionOn = function (element) {
+            /// <summary>Clear region on a specific element</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to set on</param>
+            element.region = null;
+        };
+
         this.traverseObjects = function(callback, element) {
             /// <summary>Traverse objects and call back for each element</summary>
             /// <param name="callback" type="Function">Callback to call for each element found</param>

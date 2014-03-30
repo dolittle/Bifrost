@@ -67,6 +67,16 @@ String.prototype.toPascalCase = function () {
     return result;
 };
 
+String.prototype.hashCode = function () {
+    var charCode, hash = 0;
+    if (this.length == 0) return hash;
+    for (var i = 0; i < this.length; i++) {
+        charCode = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + charCode;
+        hash = hash & hash;
+    }
+    return hash;
+};
 NodeList.prototype.forEach = Array.prototype.forEach;
 NodeList.prototype.length = Array.prototype.length;
 HTMLElement.prototype.getChildElements = function () {
@@ -1865,6 +1875,11 @@ Bifrost.namespace("Bifrost", {
 
         if (ko.isObservable(source)) source = source();
         if (ko.isObservable(target)) target = target();
+
+        if (Bifrost.isNullOrUndefined(source) && Bifrost.isNullOrUndefined(target)) return true;
+
+        if (Bifrost.isNullOrUndefined(source)) return false;
+        if (Bifrost.isNullOrUndefined(target)) return false;
 
         if (Bifrost.isArray(source) && Bifrost.isArray(target)) {
             if (source.length != target.length) {
@@ -3929,10 +3944,9 @@ Bifrost.namespace("Bifrost.commands", {
             return securityContextName;
         }
 
-
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return namespace.hasOwnProperty(securityContextName);
+            return securityContextName != null && namespace != null && namespace.hasOwnProperty(securityContextName);
         }
 
         function getSecurityContextInNamespaceFor(type, namespace) {
@@ -3965,9 +3979,20 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.getContextForType = function (commandType) {
-            var command = commandType.create({ region: { commands: [] } });
-            var context = self.getContextFor(command);
-            return context;
+
+            var promise = Bifrost.execution.Promise.create();
+
+            if (hasSecurityContextInNamespaceFor(commandType._name, commandType._namespace)) {
+                var contextType = getSecurityContextInNamespaceFor(commandType._name, commandType._namespace);
+                var context = contextType.create();
+                promise.signal(context);
+            } else {
+                var context = Bifrost.commands.CommandSecurityContext.create();
+                context.isAuthorized(true);
+                promise.signal(context);
+            }
+
+            return promise;
         };
     })
 });
@@ -5238,6 +5263,12 @@ Bifrost.namespace("Bifrost", {
             element.region = region;
         };
 
+        this.clearRegionOn = function (element) {
+            /// <summary>Clear region on a specific element</summary>
+            /// <param name="element" type="HTMLElement">HTML Element to set on</param>
+            element.region = null;
+        };
+
         this.traverseObjects = function(callback, element) {
             /// <summary>Traverse objects and call back for each element</summary>
             /// <param name="callback" type="Function">Callback to call for each element found</param>
@@ -5920,12 +5951,13 @@ Bifrost.namespace("Bifrost.views", {
 
         function getTemplateEngineFor(viewUri, element, allBindingsAccessor) {
             var uri = ko.utils.unwrapObservable(viewUri);
+            var key = uri;
 
-            if (templateEnginesByUri.hasOwnProperty(uri)) {
-                return templateEnginesByUri[uri];
+            if (templateEnginesByUri.hasOwnProperty(key)) {
+                return templateEnginesByUri[key];
             } else {
                 var engine = Bifrost.views.viewBindingHandlerTemplateEngine.create(element, viewUri, allBindingsAccessor);
-                templateEnginesByUri[uri] = engine;
+                templateEnginesByUri[key] = engine;
                 return engine;
             }
         }
@@ -5967,6 +5999,8 @@ Bifrost.namespace("Bifrost.views", {
         var retainViewModel = allBindingsAccessor().retainViewModel || false;
         var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
 
+        var viewPath;
+
         var previousViewModel = null;
         var currentViewModel = null;
         var currentViewModelParameters = null;
@@ -5974,15 +6008,20 @@ Bifrost.namespace("Bifrost.views", {
         function load() {
             loaded = true;
             var uri = ko.utils.unwrapObservable(viewUri);
+            viewPath = uri;
 
             var viewModelParameters = allBindingsAccessor().viewModelParameters || null;
+            
             var actualPath = pathResolvers.resolve(element, uri);
             var actualView = viewFactory.createFrom(actualPath);
             actualView.element = element;
 
             isBusyObservable(true);
 
-            currentViewModelParameters = viewModelParameters;
+            if (documentService.hasOwnRegion(element)) {
+                regionManager.evict(element.region);
+                documentService.clearRegionOn(element);
+            }
 
             regionManager.getFor(actualView).continueWith(function (region) {
 
@@ -5996,6 +6035,7 @@ Bifrost.namespace("Bifrost.views", {
                             previousViewModel = viewModel;
                         }
                         currentViewModel = viewModel;
+                        currentViewModelParameters = viewModelParameters;
 
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
@@ -6020,20 +6060,13 @@ Bifrost.namespace("Bifrost.views", {
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            var areViewModelParametersEqual = true;
-            if (Bifrost.isNullOrUndefined(currentViewModelParameters)) {
-                areViewModelParametersEqual = false;
-            } else {
-                areViewModelParametersEqual = Bifrost.areEqual(viewModelParameters, currentViewModelParameters);
-            }
-
-            if (!Bifrost.isNullOrUndefined(currentViewModel) && areViewModelParametersEqual ) { 
+            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
                 bindingContext.$data = currentViewModel;
                 currentViewModel = null;
                 return;
             }
 
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel) && areViewModelParametersEqual) { 
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
                 bindingContext.$data = previousViewModel;
                 return;
             }
@@ -6044,6 +6077,7 @@ Bifrost.namespace("Bifrost.views", {
 
                 var lastRegion = Bifrost.views.Region.current;
                 Bifrost.views.Region.current = region;
+
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
@@ -6870,6 +6904,7 @@ Bifrost.namespace("Bifrost.navigation", {
 
         this.setCurrentUri = function (path) {
             if (path.indexOf("/") == 0) path = path.substr(1);
+            if (path.lastIndexOf("/") == path.length - 1) path = path.substr(0, path.length - 1);
             if (path == null || path.length == 0) path = self.home;
             if (self.uriMapper != null && !self.uriMapper.hasMappingFor(path)) path = self.home;
             self.currentUri(path);
@@ -6877,6 +6912,17 @@ Bifrost.namespace("Bifrost.navigation", {
 
         this.setCurrentUriFromCurrentLocation = function () {
             var state = self.history.getState();
+
+            /*
+            if (state.url.indexOf("/?") > 0) {
+                if (state.url.indexOf("/?") == state.url.length - 2) {
+                    state.url = state.url.replace("/?", "");
+                } else {
+                    state.url = state.url.replace("/?", "?");
+                }
+                History.pushState(state.data, state.title, state.url);
+            }*/
+
             var uri = Bifrost.Uri.create(state.url);
             self.setCurrentUri(uri.path);
         }
