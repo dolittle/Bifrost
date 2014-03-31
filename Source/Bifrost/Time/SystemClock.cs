@@ -30,7 +30,7 @@ namespace Bifrost.Time
         /// <summary>
         /// Gets the minimum time supported by the <see cref="SystemClock"/>
         /// </summary>
-        public static readonly DateTime MinimumTime = new DateTime(1900, 1, 1);
+        public static readonly DateTime MinimumTime = new DateTime(1900, 1, 1,0, 0, 0, DateTimeKind.Utc);
 
          static Stack<DateTime?> _explicitNows = new Stack<DateTime?>();
 
@@ -42,7 +42,19 @@ namespace Bifrost.Time
         {
             if (_explicitNows.Count == 0)
                 return DateTime.Now;
-            return _explicitNows.Peek().GetValueOrDefault(DateTime.Now);
+            var utcTime = _explicitNows.Peek().GetValueOrDefault(DateTime.UtcNow);
+            return utcTime.Kind != DateTimeKind.Utc ? utcTime : utcTime.ToLocalTime();
+        }
+
+        /// <summary>
+        /// Retrieves the current system date and time
+        /// </summary>
+        /// <returns>The current system date and time</returns>
+        public static DateTime GetCurrentUtcTime()
+        {
+            if (_explicitNows.Count == 0)
+                return DateTime.UtcNow;
+            return _explicitNows.Peek().GetValueOrDefault(DateTime.UtcNow);
         }
 
         /// <summary>
@@ -53,7 +65,7 @@ namespace Bifrost.Time
         /// <returns>A new instance of the SystemClock class which will return the explicitly set current time when queried.</returns>
         public static IDisposable SetNowTo(DateTime dateTime)
         {
-            _explicitNows.Push(dateTime);
+            _explicitNows.Push(dateTime.ToUniversalTime());
             return new SystemClock();
         }
 

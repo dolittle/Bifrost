@@ -50,9 +50,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="commands\for_CommandCoordinator\when_handling_commands_for_a_saga.js" />
-    <Content Include="commands\for_CommandCoordinator\when_handling_a_single_command.js" />
-    <Content Include="commands\for_CommandCoordinator\when_handling_results_for_a_single_command.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_a_list_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_a_nested_object_of_parameters.js" />
     <Content Include="commands\for_CommandDescriptor\when_creating_from_command.js" />

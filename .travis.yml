@@ -1,0 +1,8 @@
+language: c
+ 
+install:
+  - sudo apt-get install mono-devel mono-gmcs monodevelop
+  - mozroots --import --sync
+ 
+script:
+  - xbuild ./Source/Solutions/Bifrost_Mono.sln

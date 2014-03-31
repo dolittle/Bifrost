@@ -16,10 +16,14 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using System.Data;
 using System.Reflection;
+using Bifrost.Concepts;
 using NHibernate;
 using NHibernate.Engine;
+using NHibernate.Type;
 
 namespace Bifrost.NHibernate.UserTypes
 {
@@ -31,14 +35,20 @@ namespace Bifrost.NHibernate.UserTypes
 #pragma warning disable 1591
         public override object Get(PropertyInfo property, IDataReader dr, string propertyName, ISessionImplementor session, object owner)
         {
-            return NHibernateUtil.GuessType(property.PropertyType).NullSafeGet(dr, propertyName, session, owner); ;
+            return GuessType(property.PropertyType).NullSafeGet(dr, propertyName, session, owner); ;
         }
 
         public override void Set(PropertyInfo property, object value, IDbCommand cmd, int index, ISessionImplementor session)
         {
             var propValue = property.GetValue(value, null);
-            NHibernateUtil.GuessType(property.PropertyType).NullSafeSet(cmd, propValue, index, session);
+            GuessType(property.PropertyType).NullSafeSet(cmd, propValue, index, session);
         }
 #pragma warning restore 1591
+
+        static IType GuessType(Type type)
+        {
+            var t = type.IsConcept() ? type.GetConceptValueType() : type;
+            return NHibernateUtil.GuessType(t);
+        }
     }
 }

@@ -34,25 +34,37 @@ namespace Bifrost.Concepts
         public static object CreateConceptInstance(Type type, object value)
         {
             var instance = Activator.CreateInstance(type);
+            var val = new object();
 #if(NETFX_CORE)
 
 #else
             var valueProperty = type.GetProperty("Value");
 
             var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
-            if (genericArgumentType == typeof(Guid))
-                value = Guid.Parse(value.ToString());
+            if (genericArgumentType == typeof (Guid))
+            {
+                val = value == null ? Guid.Empty : Guid.Parse(value.ToString());
+            }
 
-            if (valueProperty.PropertyType.IsPrimitive && value == null)
-                value = Activator.CreateInstance(valueProperty.PropertyType);
+            if (IsPrimitive(valueProperty.PropertyType))
+            {
+                val = value ?? Activator.CreateInstance(valueProperty.PropertyType);
+            }
 
-            if (valueProperty.PropertyType == typeof(string) && value == null)
-                value = string.Empty;
+            if (valueProperty.PropertyType == typeof (string))
+            {
+                val = value ?? string.Empty;
+            }
 
-            if (value.GetType() != genericArgumentType)
-                value = Convert.ChangeType(value, genericArgumentType, null);
+            if (valueProperty.PropertyType == typeof (DateTime))
+            {
+                val = value ?? default(DateTime);
+            }
 
-            valueProperty.SetValue(instance, value, null);
+            if (val.GetType() != genericArgumentType)
+                val = Convert.ChangeType(val, genericArgumentType, null);
+
+            valueProperty.SetValue(instance, val, null);
 #endif
             return instance;
         }
@@ -60,6 +72,11 @@ namespace Bifrost.Concepts
         static Type GetPrimitiveTypeConceptIsBasedOn(Type conceptType)
         {
             return ConceptMap.GetConceptValueType(conceptType);
+        }
+
+        static bool IsPrimitive(Type type)
+        {
+            return type.IsPrimitive || type == typeof (decimal);
         }
     }
 }

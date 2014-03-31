@@ -7,12 +7,13 @@ Bifrost.namespace("Bifrost.views", {
 
         function getTemplateEngineFor(viewUri, element, allBindingsAccessor) {
             var uri = ko.utils.unwrapObservable(viewUri);
+            var key = uri;
 
-            if (templateEnginesByUri.hasOwnProperty(uri)) {
-                return templateEnginesByUri[uri];
+            if (templateEnginesByUri.hasOwnProperty(key)) {
+                return templateEnginesByUri[key];
             } else {
                 var engine = Bifrost.views.viewBindingHandlerTemplateEngine.create(element, viewUri, allBindingsAccessor);
-                templateEnginesByUri[uri] = engine;
+                templateEnginesByUri[key] = engine;
                 return engine;
             }
         }
@@ -21,10 +22,12 @@ Bifrost.namespace("Bifrost.views", {
             return function () {
                 var viewUri = valueAccessor();
                 var viewModel = viewModelManager.masterViewModel.getFor(element);
+                var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 return {
                     if: true,
                     data: viewModel,
-                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor)
+                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor),
+                    viewModelParameters : viewModelParameters
                 }
             };
         };

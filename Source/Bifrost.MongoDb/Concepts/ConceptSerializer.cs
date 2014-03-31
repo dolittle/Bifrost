@@ -72,7 +72,7 @@ namespace Bifrost.MongoDB.Concepts
         public void Serialize(BsonWriter bsonWriter, Type nominalType, object value, IBsonSerializationOptions options)
         {
             var underlyingValue = value.GetType().GetProperty("Value").GetValue(value, null);
-            var underlyingValueType = underlyingValue.GetType();
+            var underlyingValueType = nominalType.GetConceptValueType();
 			if (underlyingValueType == typeof(Guid)) {
 				var guid = (Guid)underlyingValue;
 				var guidAsBytes = guid.ToByteArray ();
@@ -88,7 +88,7 @@ namespace Bifrost.MongoDB.Concepts
 			else if (underlyingValueType == typeof(bool))
 				bsonWriter.WriteBoolean ((bool)underlyingValue);
 			else if (underlyingValueType == typeof(string))
-				bsonWriter.WriteString ((string)underlyingValue);
+				bsonWriter.WriteString ((string)(underlyingValue ?? string.Empty));
 			else if (underlyingValueType == typeof(decimal))
 				bsonWriter.WriteString (underlyingValue.ToString());
         }

@@ -2,6 +2,7 @@
 @depends extensions/ArrayExtensions.js
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
+@depends extensions/HTMLElementExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
 @depends extensions/HTMLElementExtensions.js
 @depends extensions/DateExtensions.js
@@ -43,6 +44,8 @@
 @depends utils/StringMapper.js
 @depends utils/uriMappers.js
 @depends utils/server.js
+@depends utils/areEqual.js
+@depends utils/deepClone.js
 @depends utils/systemClock.js
 @depends TimeSpan.js
 @depends Event.js
@@ -94,6 +97,7 @@
 @depends commands/commandSecurityContextFactory.js
 @depends commands/commandSecurityService.js
 @depends commands/hasChanges.js
+@depends commands/commandEvents.js
 @depends interaction/Operation.js
 @depends interaction/OperationContext.js
 @depends interaction/OperationEntry.js

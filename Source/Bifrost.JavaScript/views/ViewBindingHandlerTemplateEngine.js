@@ -7,7 +7,7 @@
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            templateSource.createAndSetViewModelFor(bindingContext);
+            templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
 
