@@ -141,7 +141,6 @@
     <Content Include="img\spinner.gif" />
     <Content Include="index.html" />
     <None Include="Web.config.transform" />
-    <Content Include="index.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -6,13 +6,13 @@ Dependencies :
   - Bifrost.JavaScript/Libraries/require.js
   - Bifrost.JavaScript/extensions/ArrayExtensions.js
   - Bifrost.JavaScript/extensions/HTMLCollectionExtensions.js
+  - Bifrost.JavaScript/extensions/HTMLElementExtensions.js
   - Bifrost.JavaScript/extensions/NodeListExtensions.js
   - Bifrost.JavaScript/extensions/stringExtensions.js
   - Bifrost.JavaScript/utils/namespace.js
   - Bifrost.JavaScript/utils/Exception.js
   - Bifrost.JavaScript/utils/hashString.js
   - Bifrost.JavaScript/utils/extend.js
-  - Bifrost.JavaScript/utils/configure.js
   - Bifrost.JavaScript/execution/Promise.js
   - Bifrost.JavaScript/utils/guid.js
   - Bifrost.JavaScript/utils/isObject.js
@@ -48,6 +48,7 @@ Dependencies :
   - Bifrost.JavaScript/views/ComposeTask.js
   - Bifrost.JavaScript/interaction/Operation.js
   - Bifrost.JavaScript/Event.js
+  - Bifrost.JavaScript/utils/configure.js
 
 
 Harnesses:

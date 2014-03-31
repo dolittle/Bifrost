@@ -38,7 +38,7 @@ Bifrost.namespace("Bifrost.views", {
 			// </ns:somecontrol>
 			// 
 
-			if( !(element instanceof HTMLUnknownElement) ) return;
+			if( element.isKnownType() ) return;
 
 			var namespace;
 			var name = element.localName.toLowerCase();

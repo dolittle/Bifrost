@@ -10,7 +10,7 @@ describe("when visiting a plain tag", function() {
 		typeConverters: {}	
 	});
 
-	var element = { localName: "something", attributes: [] };
+	var element = { localName: "something", attributes: [], isKnownType: sinon.stub().returns(false) };
 	visitor.visit(element);
 
 	it("should ask for an object by tag name", function() {

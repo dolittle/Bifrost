@@ -9,7 +9,7 @@ describe("when visiting a tag with namespace", function() {
 		typeConverters: {}
 	});
 
-	var element = { localName: "ns:something", attributes: [] };
+	var element = { localName: "ns:something", attributes: [], isKnownType: sinon.stub().returns(false) };
 	visitor.visit(element);
 
 	it("should ask for an object by tag name and namespace", function() {

@@ -20,7 +20,8 @@ describe("when visiting a plain tag with an attribute matching observable proper
 		localName: "something",
 		attributes: [
 			{localName:"someProperty", value:"42"}
-		]
+		],
+		isKnownType: sinon.stub().returns(false)
 	};
 	visitor.visit(element);
 

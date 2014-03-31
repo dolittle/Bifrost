@@ -3,6 +3,7 @@
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
 @depends extensions/HTMLCollectionExtensions.js
+@depends extensions/HTMLElementExtensions.js
 @depends extensions/DateExtensions.js
 @depends polyfills/classList.js
 @depends polyfills/ElementPolyfills.js

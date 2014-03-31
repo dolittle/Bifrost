@@ -108,6 +108,7 @@
     <Content Include="execution\for_Promise\when_signalling_and_callback_gets_defined_after_singalling.js" />
     <Content Include="execution\for_Promise\when_signalling_with_callback_for_continue_with.js" />
     <Content Include="execution\for_Promise\when_signalling_with_parameter.js" />
+    <Content Include="extensions\for_HTMLElementExtensions\when_asking_known_element_if_its_known.js" />
     <Content Include="for_documentService\when_asking_if_element_has_own_region_and_it_does_not.js" />
     <Content Include="for_documentService\when_asking_if_element_has_own_region_and_it_has.js" />
     <Content Include="for_documentService\when_getting_a_unique_style_name_for_same_prefix_twice.js" />
@@ -444,8 +445,13 @@
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag_with_an_observable_on_target.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_a_property.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_observable_property.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_uppercase_name.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_different_parent_tag.js" />
+    <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_multiple_properties.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_tag_with_namespace.js" />
     <Content Include="views\for_ObjectModelElementVisitor\when_visiting_a_tag_with_two_namespaces.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_region_descriptor_exists.js" />

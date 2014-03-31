@@ -12,7 +12,7 @@ describe("when visiting a tag with two namespaces", function() {
 
 	var exception = null;
 	try {
-		var element = { localName: "ns:ns2:something", attributes: [] };
+	    var element = { localName: "ns:ns2:something", attributes: [], isKnownType: sinon.stub().returns(false) };
 		visitor.visit(element);
 	} catch( e ) {
 		exception = e;

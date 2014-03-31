@@ -20,7 +20,8 @@ describe("when visiting a plain tag with an attribute matching a property", func
 		localName: "something",
 		attributes: [
 			{localName:"someProperty", value:"42"}
-		]
+		],
+		isKnownType: sinon.stub().returns(false)
 	};
 	visitor.visit(element);
 

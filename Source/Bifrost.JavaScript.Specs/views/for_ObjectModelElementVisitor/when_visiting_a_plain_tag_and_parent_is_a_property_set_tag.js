@@ -13,8 +13,8 @@ describe("when visiting a plain tag and parent is a property set tag", function(
 	var parentObjectModelNode = {
 	};
 
-	var parentElement = { localName: "something.property", __objectModelNode: parentObjectModelNode };
-	var element = { localName: "somethingelse", attributes: [], parentElement: parentElement };
+	var parentElement = { localName: "something.property", __objectModelNode: parentObjectModelNode, isKnownType: sinon.stub().returns(false) };
+	var element = { localName: "somethingelse", attributes: [], parentElement: parentElement, isKnownType: sinon.stub().returns(false) };
 	visitor.visit(element);
 
 	it("should ask for an object by tag name", function() {

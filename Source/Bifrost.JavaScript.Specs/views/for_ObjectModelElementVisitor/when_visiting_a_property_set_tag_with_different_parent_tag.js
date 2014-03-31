@@ -12,7 +12,7 @@ describe("when visiting a property set tag with different parent tag", function(
 
 	var exception = null;
 	var parentElement = { localName: "somethingelse" };
-	var element = { localName: "something.property", attributes: [], parentElement: parentElement };
+	var element = { localName: "something.property", attributes: [], parentElement: parentElement, isKnownType: sinon.stub().returns(false) };
 	try {
 		visitor.visit(element);
 	} catch( e ) {
