@@ -29,6 +29,7 @@
             }
         }
 
+
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
 
@@ -66,6 +67,14 @@
 
             if (!Bifrost.Uri.isAbsolute(url)) {
                 url = self.target + url;
+            }
+
+            if (Bifrost.isObject(parameters)) {
+                for (var parameterName in parameters) {
+                    if (Bifrost.isArray(parameters[parameterName])) {
+                        parameters[parameterName] = JSON.stringify(parameters[parameterName]);
+                    }
+                }
             }
 
             $.ajax({
