@@ -153,6 +153,7 @@
     <Compile Include="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" />
     <Compile Include="Domain\HumanResources\Employees\SecurityDescriptor.cs" />
     <Compile Include="Events\HumanResources\Employees\EmployeeRegistered.cs" />
+    <Compile Include="Infrastructure\DummyValueFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />

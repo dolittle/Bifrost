@@ -79,6 +79,10 @@
     <Compile Include="Security\SecurityRoute.cs" />
     <Compile Include="Security\SecurityRouteHandler.cs" />
     <Compile Include="Security\SecurityRouteHttpHandler.cs" />
+    <Compile Include="Services\IInputValueFilter.cs" />
+    <Compile Include="Services\IOutputValueFilter.cs" />
+    <Compile Include="Services\IValueFilterInvoker.cs" />
+    <Compile Include="Services\ValueFilterInvoker.cs" />
     <Compile Include="Visualizer\QualityAssurance\AllProblems.cs" />
     <Compile Include="Visualizer\QualityAssurance\Problems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
