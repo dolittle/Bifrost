@@ -36,7 +36,5 @@ namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
 
         It should_call_method_on_service_instance = () => service_instance.NoInputComplexOutputCalled.ShouldBeTrue();
         It should_return_serialized_result = () => result.ShouldEqual(json);
-        It should_not_filter_input_values = () => value_filter_invoker_mock.Verify(m => m.FilterInputValue(Moq.It.IsAny<string>()), Moq.Times.Never());
-        It should_filter_json_output_value = () => value_filter_invoker_mock.Verify(m => m.FilterOutputValue(json), Moq.Times.Once());
     }
 }

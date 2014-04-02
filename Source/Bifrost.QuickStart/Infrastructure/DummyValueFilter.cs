@@ -2,15 +2,10 @@
 
 namespace Bifrost.QuickStart.Infrastructure
 {
-    public class DummyValueFilter : IInputValueFilter 
+    public class DummyValueFilter : ICanInterceptValue<string> 
     {
-        public string Filter(string value)
+        public string Intercept(string value)
         {
-            if (value == null)
-            {
-                return value;
-            }
-
             return value.Replace("Foo", "Bar");
         }
     }

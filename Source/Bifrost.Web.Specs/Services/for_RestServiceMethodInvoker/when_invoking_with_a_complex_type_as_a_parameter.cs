@@ -28,7 +28,5 @@ namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
 
         It should_invoke_the_method_on_the_service_instance = () => service_instance.ComplexInputNoOutputCalled.ShouldBeTrue();
         It should_pass_the_correct_parameter = () => service_instance.ComplexInputNoOutputResult.ShouldEqual(expected_parameter);
-        It should_filter_input_value = () => value_filter_invoker_mock.Verify(m => m.FilterInputValue(json), Moq.Times.Once());
-        It should_filter_empty_output_result = () => value_filter_invoker_mock.Verify(m => m.FilterOutputValue(null), Moq.Times.Once());
     }
 }
