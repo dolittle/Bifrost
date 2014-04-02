@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
+
 using Bifrost.Configuration;
 using Bifrost.Execution;
 
@@ -34,7 +34,6 @@ namespace Bifrost.Web.Configuration
         public ScriptsToInclude ScriptsToInclude { get; set; }
         public PathToNamespaceMappers PathsToNamespaces { get; set; }
         public NamespaceMapper NamespaceMapper { get; set; }
-
         public bool ApplicationRouteCached { get; set; }
 
         public void Initialize(IContainer container)

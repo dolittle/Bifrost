@@ -20,6 +20,7 @@ using System;
 using Bifrost.Web;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Pipeline;
+using Bifrost.Web.Services;
 
 namespace Bifrost.Configuration
 {
