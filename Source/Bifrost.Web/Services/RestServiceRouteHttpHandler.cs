@@ -19,11 +19,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Security;
 using System.Web;
 using System.Web.SessionState;
 using Bifrost.Configuration;
 using Bifrost.Execution;
+using Bifrost.Security;
 using Bifrost.Serialization;
+using Bifrost.Services;
 
 namespace Bifrost.Web.Services
 {
@@ -35,6 +38,7 @@ namespace Bifrost.Web.Services
         IRequestParamsFactory _factory;
         IRestServiceMethodInvoker _invoker;
         IContainer _container;
+        private readonly ISecurityManager _securityManager;
 
         public RestServiceRouteHttpHandler(Type type, string url) 
             : this(
@@ -42,16 +46,18 @@ namespace Bifrost.Web.Services
                 url,
                 Configure.Instance.Container.Get<IRequestParamsFactory>(),
                 Configure.Instance.Container.Get<IRestServiceMethodInvoker>(),
-                Configure.Instance.Container)
+                Configure.Instance.Container,
+                Configure.Instance.Container.Get<ISecurityManager>())
         {}
 
-        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker, IContainer container)
+        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker, IContainer container, ISecurityManager securityManager)
         {
             _type = type;
             _url = url;
             _factory = factory;
             _invoker = invoker;
             _container = container;
+            _securityManager = securityManager;
         }
 
         public bool IsReusable { get { return true; } }
@@ -62,6 +68,14 @@ namespace Bifrost.Web.Services
             {
                 var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
                 var serviceInstance = _container.Get(_type);
+
+                var authorizationResult = _securityManager.Authorize<InvokeService>(serviceInstance);
+
+                if (!authorizationResult.IsAuthorized)
+                {
+                    throw new HttpStatus.HttpStatusException(404, "Forbidden");
+                }
+
                 var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
                 context.Response.Write(result);
             }
