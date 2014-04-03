@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_RequiredGenerator
             generator = new RequiredGenerator();
         };
 
-        Because of = () => result = generator.GeneratorFrom(validator) as Required;
+        Because of = () => result = generator.GeneratorFrom("someProperty",validator) as Required;
 
         It should_create_a_rule = () => result.ShouldNotBeNull();
     }

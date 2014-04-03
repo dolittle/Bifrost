@@ -30,11 +30,11 @@ namespace Bifrost.Validation.MetaData
 #pragma warning disable 1591 // Xml Comments
         public Type[] From { get { return new[] { typeof(IEmailValidator) }; } }
 
-        public Rule GeneratorFrom(IPropertyValidator propertyValidator)
+        public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {
             var emailRule = new Email
             {
-                Message = propertyValidator.ErrorMessageSource.GetString()
+                Message = propertyValidator.GetErrorMessageFor(propertyName)
             };
             return emailRule;
         }

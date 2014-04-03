@@ -30,12 +30,12 @@ namespace Bifrost.Validation.MetaData
 #pragma warning disable 1591 // Xml Comments
         public Type[] From { get { return new[] { typeof(GreaterThanOrEqualValidator) }; } }
 
-        public Rule GeneratorFrom(IPropertyValidator propertyValidator)
+        public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {
             return new GreaterThanOrEqual
             {
                 Value = ((GreaterThanOrEqualValidator)propertyValidator).ValueToCompare,
-                Message = propertyValidator.ErrorMessageSource.GetString()
+                Message = propertyValidator.GetErrorMessageFor(propertyName)
             };
         }
 #pragma warning restore 1591 // Xml Comments

@@ -34,8 +34,9 @@ namespace Bifrost.Validation.MetaData
         /// <summary>
         /// Generate from a specific <see cref="IPropertyValidator"/>
         /// </summary>
+        /// <param name="propertyName">Name of the property</param>
         /// <param name="propertyValidator"><see cref="IProperty"/></param>
         /// <returns></returns>
-        Rule GeneratorFrom(IPropertyValidator propertyValidator);
+        Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator);
     }
 }

@@ -17,28 +17,30 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using FluentValidation.Internal;
 using FluentValidation.Validators;
 
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Represents the generater that can generate a <see cref="Required"/> rule from
-    /// a <see cref="RequiredValidator"/>
+    /// Provides extensions for formatting messages from property validator
     /// </summary>
-    public class RequiredGenerator : ICanGenerateRule
+    public static class PropertyValidatorMessageFormattingExtensions
     {
-#pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(INotEmptyValidator), typeof(INotNullValidator) }; } }
-
-        public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
+        /// <summary>
+        /// Get a error message for a property
+        /// </summary>
+        /// <param name="propertyValidator">PropertyValidator to get for</param>
+        /// <param name="propertyName">Name of propery</param>
+        /// <returns>Formatted string</returns>
+        public static string GetErrorMessageFor(this IPropertyValidator propertyValidator, string propertyName)
         {
-            return new Required
-            {
-                Message = propertyValidator.GetErrorMessageFor(propertyName)
-            };
+            var formatter = new MessageFormatter().AppendPropertyName(propertyName);
+            var errorMessage = formatter.BuildMessage(propertyValidator.ErrorMessageSource.GetString());
+            return errorMessage;
         }
-#pragma warning restore 1591 // Xml Comments
-
     }
 }

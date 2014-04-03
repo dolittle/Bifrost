@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_EmailGenerator
             generator = new EmailGenerator();
         };
 
-        Because of = () => result = generator.GeneratorFrom(validator) as Email;
+        Because of = () => result = generator.GeneratorFrom("someProperty", validator) as Email;
 
         It should_create_a_rule = () => result.ShouldNotBeNull();
     }

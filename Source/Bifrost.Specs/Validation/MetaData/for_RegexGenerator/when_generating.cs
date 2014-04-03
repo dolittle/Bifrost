@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_RegexGenerator
             generator = new RegexGenerator();
         };
 
-        Because of = () => result = generator.GeneratorFrom(validator) as Regex;
+        Because of = () => result = generator.GeneratorFrom("someProperty", validator) as Regex;
 
         It should_create_a_rule = () => result.ShouldNotBeNull();
         It should_pass_expression_along = () => result.Expression.ShouldEqual(expression);

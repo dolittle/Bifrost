@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_GreaterThanGenerator
             generator = new GreaterThanGenerator();
         };
 
-        Because of = () => result = generator.GeneratorFrom(validator) as GreaterThan;
+        Because of = () => result = generator.GeneratorFrom("someProperty", validator) as GreaterThan;
 
         It should_create_a_rule = () => result.ShouldNotBeNull();
         It should_pass_along_the_value = () => result.Value.ShouldEqual(validator.ValueToCompare);

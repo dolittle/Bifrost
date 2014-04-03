@@ -373,6 +373,7 @@
     <Compile Include="Validation\MetaData\GreaterThanOrEqualGenerator.cs" />
     <Compile Include="Validation\IValidateBusinessRules.cs" />
     <Compile Include="Validation\IValidateInput.cs" />
+    <Compile Include="Validation\MetaData\PropertyValidatorMessageFormattingExtensions.cs" />
     <Compile Include="Validation\MetaData\Regex.cs" />
     <Compile Include="Validation\MetaData\RegexGenerator.cs" />
     <Compile Include="Validation\MetaData\RequiredGenerator.cs" />

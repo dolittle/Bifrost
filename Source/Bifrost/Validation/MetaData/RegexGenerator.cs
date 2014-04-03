@@ -29,11 +29,11 @@ namespace Bifrost.Validation.MetaData
 #pragma warning disable 1591 // Xml Comments
         public Type[] From { get { return new[] { typeof(IRegularExpressionValidator) }; } }
 
-        public Rule GeneratorFrom(IPropertyValidator propertyValidator)
+        public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {
             var rule = new Regex
             {
-                Message = propertyValidator.ErrorMessageSource.GetString(),
+                Message = propertyValidator.GetErrorMessageFor(propertyName),
                 Expression = ((IRegularExpressionValidator)propertyValidator).Expression
             };
             return rule;

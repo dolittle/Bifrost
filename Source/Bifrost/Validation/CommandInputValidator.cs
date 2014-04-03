@@ -37,8 +37,16 @@ namespace Bifrost.Validation
         public virtual IEnumerable<ValidationResult> ValidateFor(T command)
         {
             var result = Validate(command as T);
-            return from error in result.Errors
-                   select new ValidationResult(error.ErrorMessage, new[] {error.PropertyName});
+
+            return result.Errors.Select(error =>
+            {
+                // TODO: Due to a problem with property names being wrong when a concepts input validator is involved, we need to do this. See #494 for more details on what needs to be done!
+                var propertyName = error.PropertyName;
+                if (propertyName.EndsWith(".")) propertyName = propertyName.Substring(0, propertyName.Length - 1);
+
+                var validationResult = new ValidationResult(error.ErrorMessage, new[] { propertyName });
+                return validationResult;
+            });
         }
 
         IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
