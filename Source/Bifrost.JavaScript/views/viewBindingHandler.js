@@ -7,8 +7,9 @@ Bifrost.namespace("Bifrost.views", {
 
         function getTemplateEngineFor(viewUri, element, allBindingsAccessor) {
             var uri = ko.utils.unwrapObservable(viewUri);
-            var key = uri;
+            if (Bifrost.isNullOrUndefined(uri)) return null;
 
+            var key = uri;
             if (templateEnginesByUri.hasOwnProperty(key)) {
                 return templateEnginesByUri[key];
             } else {
