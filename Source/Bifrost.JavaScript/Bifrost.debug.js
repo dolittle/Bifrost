@@ -233,6 +233,14 @@ HTMLElement.prototype.isKnownType = function () {
     }
     return isKnown;
 };
+HTMLElement.prototype.getChildElements = function () {
+    var children = [];
+    this.childNodes.forEach(function (node) {
+        if (node.nodeType == 1)
+            children.push(node);
+    });
+    return children;
+};
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 HTMLCollection.prototype.length = Array.prototype.length;
 HTMLElement.prototype.knownElementTypes = [
@@ -388,6 +396,14 @@ HTMLElement.prototype.isKnownType = function () {
         });
     }
     return isKnown;
+};
+HTMLElement.prototype.getChildElements = function () {
+    var children = [];
+    this.childNodes.forEach(function (node) {
+        if (node.nodeType == 1)
+            children.push(node);
+    });
+    return children;
 };
 // From the following thread : http://stackoverflow.com/questions/1056728/formatting-a-date-in-javascript
 Date.prototype.format = function (format) //author: meizz
@@ -5974,13 +5990,18 @@ Bifrost.namespace("Bifrost.views", {
 	})
 })
 Bifrost.namespace("Bifrost.views", {
-	TypeConverter: Bifrost.Type.extend(function() {
-		this.supportedType = null;
-		this.convert = function(value) {
-			return value;
-		};
-	})
-})
+    TypeConverter: Bifrost.Type.extend(function () {
+        this.supportedType = null;
+
+        this.convertFrom = function (value) {
+            return value;
+        };
+
+        this.convertTo = function (value) {
+            return value;
+        };
+    })
+});
 Bifrost.namespace("Bifrost.views", {
 	typeConverters: Bifrost.Type.extend(function() {
 		
