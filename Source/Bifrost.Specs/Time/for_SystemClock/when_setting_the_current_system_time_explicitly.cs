@@ -24,10 +24,8 @@ namespace Bifrost.Specs.Time.for_SystemClock
                              using (SystemClock.SetNowTo(explicitly_set_datetime))
                              {
                                  current_time = SystemClock.GetCurrentTime();
-                                 current_utc_time = SystemClock.GetCurrentUtcTime();
                                  Thread.Sleep(10);
                                  current_time_after_wait = SystemClock.GetCurrentTime();
-                                 current_utc_time_after_wait = SystemClock.GetCurrentUtcTime();
                              }
 
                              current_time_after_explicit_set_removed = SystemClock.GetCurrentTime();
@@ -40,11 +38,5 @@ namespace Bifrost.Specs.Time.for_SystemClock
                                                                             current_time_after_wait.ShouldEqual(explicitly_set_datetime);
                                                                         };
         It should_revert_to_the_actual_system_date_outside_using_block = () => current_time_after_explicit_set_removed.ShouldBeGreaterThan(explicitly_set_datetime);
-        It should_set_the_date_for_both_now_and_utc_now = () =>
-                                                                {
-                                                                    current_time.ToUniversalTime().ShouldEqual(current_utc_time);
-                                                                    current_utc_time.ToLocalTime().ShouldEqual(current_time);
-                                                                };
-
     }
 }
