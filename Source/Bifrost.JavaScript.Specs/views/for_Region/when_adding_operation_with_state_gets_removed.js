@@ -1,7 +1,12 @@
-﻿describe("when command gets changes and changed back", function () {
+﻿describe("when command can execute", function () {
 
     var tasks = {
         all: ko.observableArray()
+    };
+
+    var operations = {
+        all: ko.observableArray(),
+        stateful: ko.observableArray()
     };
 
     var messengerFactory = {
@@ -9,12 +14,7 @@
         global: function () { }
     };
     var operationsFactory = {
-        create: function () {
-            return {
-                all: ko.observableArray(),
-                stateful: ko.observableArray()
-            }
-        }
+        create: function () { return operations; }
     };
     var tasksFactory = {
         create: function () {
@@ -32,19 +32,9 @@
         hasChanges = newValue;
     });
 
-    var command = {
-        isValid: ko.observable(false),
-        isAuthorized: ko.observable(false),
-        canExecute: ko.observable(false),
-        hasChanges: ko.observable(false),
-        isReadyToExecute: ko.observable(false),
-        validators: ko.observableArray()
-    };
-
-    region.commands.push(command);
-
-    command.hasChanges(true);
-    command.hasChanges(false);
+    var operation = { some: "operation" };
+    operations.stateful.push(operation);
+    operations.stateful.remove(operation)
 
     it("should not have changes", function () {
         expect(hasChanges).toBe(false);

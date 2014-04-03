@@ -129,7 +129,7 @@
                 }
             });
 
-            return commandsHaveChanges || (self.operations.all().length > 0) || childrenHasChanges;
+            return commandsHaveChanges || (self.operations.stateful().length > 0) || childrenHasChanges;
         });
 
         /// <field name="validationMessages" type="observableArray">Holds the regions and any of its child regions validation messages</field>

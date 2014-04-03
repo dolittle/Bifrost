@@ -11,7 +11,8 @@
     var operationsFactory = {
         create: function () {
             return {
-                all: ko.observableArray()
+                all: ko.observableArray(),
+                stateful: ko.observableArray()
             };
         }
     };

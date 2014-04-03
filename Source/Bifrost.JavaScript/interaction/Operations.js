@@ -6,6 +6,19 @@
         /// <field name="all" type="observableArray">Holds all operations</field>
         this.all = ko.observableArray();
 
+        /// <field name="stateful" type="observableArray">Holds all operations that are stateful - meaning that they produce state from being performed</field>
+        this.stateful = ko.computed(function () {
+            var entries = [];
+
+            self.all().forEach(function (entry) {
+                if (!Bifrost.areEqual(entry.state, {})) {
+                    entries.push(entry);
+                }
+            });
+
+            return entries;
+        });
+
         this.getByIdentifier = function (identifier) {
             /// <summary>Get an operation by its identifier</identifier>
             /// <param name="identifier" type="Bifrost.Guid">Identifier of the operation to get<param>

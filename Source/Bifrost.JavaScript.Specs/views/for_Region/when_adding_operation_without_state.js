@@ -1,11 +1,12 @@
-﻿describe("when command can execute", function () {
+﻿describe("when adding operation without state", function () {
 
     var tasks = {
         all: ko.observableArray()
     };
 
     var operations = {
-        all: ko.observableArray()
+        all: ko.observableArray(),
+        stateful: ko.observableArray()
     };
 
     var messengerFactory = {
@@ -33,7 +34,7 @@
 
     operations.all.push({});
 
-    it("should have changes", function () {
-        expect(hasChanges).toBe(true);
+    it("should not have changes", function () {
+        expect(hasChanges).toBe(false);
     });
 });

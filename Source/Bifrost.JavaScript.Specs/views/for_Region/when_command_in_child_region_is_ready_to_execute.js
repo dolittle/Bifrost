@@ -9,7 +9,12 @@
         global: function () { }
     };
     var operationsFactory = {
-        create: function () { return { all: ko.observableArray() }}
+        create: function () {
+            return {
+                all: ko.observableArray(),
+                stateful: ko.observableArray()
+            }
+        }
     };
     var tasksFactory = {
         create: function () {

@@ -13,7 +13,8 @@
 
     var operations = {
         some: "operations",
-        all: ko.observableArray()
+        all: ko.observableArray(),
+        stateful: ko.observableArray()
     };
     var operationsFactory = {
         create: sinon.stub().returns(operations)
