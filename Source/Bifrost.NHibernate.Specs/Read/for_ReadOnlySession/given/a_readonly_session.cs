@@ -21,7 +21,7 @@ namespace Bifrost.NHibernate.Specs.Read.for_ReadOnlySession.given
                 session = new Mock<ISession>();
 
                 connection.Setup(c => c.SessionFactory).Returns(session_factory.Object);
-                session_factory.Setup(c => c.OpenSession()).Returns(session.Object);
+                session_factory.Setup(c => c.OpenSession(Moq.It.IsAny<IInterceptor>())).Returns(session.Object);
 
                 read_only_session = new ReadOnlySession(connection.Object);
             };
