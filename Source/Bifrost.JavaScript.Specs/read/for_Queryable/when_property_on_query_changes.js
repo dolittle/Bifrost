@@ -1,12 +1,8 @@
 ﻿describe("when property on query changes", function () {
 
     var query = {
-        someProperty: ko.observable(),
-
-        areAllParametersSet: function () {
-            return true;
-        }
-
+        someProperty: ko.observable(41),
+        areAllParametersSet: ko.observable(false)
     };
     var paging = {
         size : 0,
@@ -38,6 +34,7 @@
             targetObservable: {}
         });
 
+        query.areAllParametersSet(true);
         query.someProperty(42);
     });
 

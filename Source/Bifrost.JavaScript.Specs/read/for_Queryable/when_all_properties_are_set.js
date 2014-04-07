@@ -1,6 +1,7 @@
 ﻿describe("when all properties are set", function () {
     var query = {
-        areAllParametersSet: ko.observable(false)
+        foo: ko.observable(),
+        areAllParametersSet: function () { return false; }
     };
     var paging = {
         size : 0,
@@ -24,15 +25,15 @@
             }
         };
 
-
         var instance = Bifrost.read.Queryable.create({
             query: query,
             region: region,
             queryService: queryService,
             targetObservable: {}
         });
-        
-        query.areAllParametersSet(true);
+
+        query.areAllParametersSet = function () {return true};
+        query.foo(42);
     });
 
     afterEach(function () {
@@ -40,6 +41,6 @@
     });
     
     it("should execute the query on the query service", function () {
-        expect(queryService.execute.called).toBe(true);
+        expect(queryService.execute.once().verify()).toBe(true);
     });
 });
