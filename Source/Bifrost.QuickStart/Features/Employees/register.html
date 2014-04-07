@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+﻿<html>
 <head>
     <title></title>
 </head>
@@ -21,7 +20,12 @@
         <span data-bind="validationMessageFor: register.socialSecurityNumber"></span>
         <br />
 
-        <button class="btn btn-primary"  data-bind="command: register, attr: { disabled: !register.canExecute() }">Register</button>
+        <strong>Employment Date</strong>
+        <input type="date" data-bind="value: register.employedFrom" data-typeconverter="date" />
+        <span data-bind="validationMessageFor: register.employedFrom"></span>
+        <br />
+
+        <button class="btn btn-primary" data-bind="command: register, attr: { disabled: !register.canExecute() }">Register</button>
     </fieldset>
 </body>
 </html>

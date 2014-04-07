@@ -503,6 +503,12 @@
     <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
+    <Content Include="views\for_typeConverterExtender\when_extended_observable_value_changes.js" />
+    <Content Include="views\for_typeConverters\when_converting_to_without_supporting_converter_for_type.js" />
+    <Content Include="views\for_typeConverters\when_converting_to_and_supporting_converter_for_type.js" />
+    <Content Include="views\for_typeConverters\when_converting_from_with_type_without_supporting_converter_for_type.js" />
+    <Content Include="views\for_typeConverters\when_converting_from_with_type_and_supporting_converter_for_type.js" />
+    <Content Include="views\for_typeConverters\when_converting_from_with_type_as_string_and_supporting_converter_for_type.js" />
     <Content Include="views\for_UIManager\when_handling_with_one_element.js" />
     <Content Include="for_Event\when_triggering_event_with_two_subscribers.js" />
   </ItemGroup>

@@ -149,6 +149,8 @@
 @depends views/Binding.js
 @depends views/TypeConverter.js
 @depends views/typeConverters.js
+@depends views/typeConverterExtender.js
+@depends views/TypeConverterElementVisitor.js
 @depends views/UIElement.js
 @depends views/Control.js
 @depends views/ComposeTask.js
