@@ -4913,16 +4913,15 @@ Bifrost.namespace("Bifrost.read", {
         });
 
         function observePropertiesFrom(query) {
-            for (var property in query) {
-                if (ko.isObservable(query[property]) == true && query.hasOwnProperty(property) && property != "areAllParametersSet" ) {
-                    query[property].subscribe(function () {
+            for (var propertyName in query) {
+                var property = query[propertyName];
+                if (ko.isObservable(property) == true && query.hasOwnProperty(propertyName) && propertyName != "areAllParametersSet") {
+                    property.subscribe(function () {
                         self.execute();
                     });
                 }
             }
         }
-        
-
 
         this.completed = function (callback) {
             self.completedCallbacks.push(callback);
@@ -4956,29 +4955,24 @@ Bifrost.namespace("Bifrost.read", {
         };
 
         this.setPageInfo = function (pageSize, pageNumber) {
+            
+            if (pageSize === self.pageSize() && pageNumber === self.pageNumber()) {
+                return;
+            }
+            
             self.canExecute = false;
             self.pageSize(pageSize);
             self.pageNumber(pageNumber);
             self.canExecute = true;
             self.execute();
         };
+        
+        observePropertiesFrom(self.query);
 
-
-        observePropertiesFrom(query);
-        if (typeof self.query.areAllParametersSet.subscribe == "function") {
-
-            self.query.areAllParametersSet.subscribe(function (isSet) {
-                var shouldConsiderExecuting = true;
-                if (!Bifrost.isNullOrUndefined(self.query._previousAreAllParametersSet)) {
-                    if (self.query._previousAreAllParametersSet == isSet) {
-                        shouldConsiderExecuting = false;
-                    }
-                }
-                if (shouldConsiderExecuting == true) {
-                    if (isSet === true) self.execute();
-                }
-            });
+        if (self.query.areAllParametersSet()) {
+            self.execute();
         }
+      
     })
 });
 Bifrost.read.Queryable.new = function (options, region) {
@@ -5075,7 +5069,7 @@ Bifrost.namespace("Bifrost.read", {
                     self.target[property].extend({ linked: {} });
                 }
             }
-
+            
             self.areAllParametersSet = ko.computed(function () {
                 var isSet = true;
                 var hasParameters = false;
