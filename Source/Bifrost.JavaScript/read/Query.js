@@ -70,7 +70,7 @@
                     self.target[property].extend({ linked: {} });
                 }
             }
-
+            
             self.areAllParametersSet = ko.computed(function () {
                 var isSet = true;
                 var hasParameters = false;

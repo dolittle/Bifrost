@@ -1,6 +1,7 @@
 ﻿describe("when all properties are set and they already was", function () {
     var query = {
-        areAllParametersSet: ko.observable(false)
+        foo: ko.observable(1),
+        areAllParametersSet: ko.observable(true)
     };
     var paging = {
         size : 0,
@@ -22,15 +23,13 @@
             }
         };
 
-        var instance = Bifrost.read.Queryable.create({
+        Bifrost.read.Queryable.create({
             query: query,
             region: region,
             queryService: queryService,
             targetObservable: {}
         });
-        
-        query.areAllParametersSet(true);
-        query.areAllParametersSet(true);
+
     });
 
     afterEach(function () {
