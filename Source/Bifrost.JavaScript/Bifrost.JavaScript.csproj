@@ -145,6 +145,7 @@
     <Content Include="views\MasterViewModel.js" />
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
+    <Content Include="views\typeDiscovererExtender.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ElementVisitor.js" />
     <Content Include="views\ElementVisitorResultActions.js" />
