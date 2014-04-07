@@ -26,7 +26,7 @@ namespace Bifrost.NHibernate.Specs.Read.for_ReadOnlySession
             };
 
         It should_only_call_open_session_on_the_session_factory_one_time =
-            () => session_factory.Verify(f => f.OpenSession(), Moq.Times.Once());
+            () => session_factory.Verify(f => f.OpenSession(Moq.It.IsAny<IInterceptor>()), Moq.Times.Once());
 
     }
 }
