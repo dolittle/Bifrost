@@ -3,6 +3,11 @@ using System.Web.Routing;
 using Bifrost.Configuration;
 using Bifrost.QuickStart.Domain.HumanResources.Foos;
 using Bifrost.Web.Services;
+using Bifrost.Execution;
+using Bifrost.QuickStart.Concepts.Persons;
+using Bifrost.QuickStart.Domain.HumanResources.Employees;
+using Bifrost.QuickStart.Infrastructure;
+using Bifrost.Validation;
 
 namespace Bifrost.QuickStart
 {
@@ -15,20 +20,17 @@ namespace Bifrost.QuickStart
                 .Serialization
                     .UsingJson()
                 .Events
-                    .UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
+                    //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
+                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
                 .Events
                     .Asynchronous(e=>e.UsingSignalR())
                 .DefaultStorage
-                    .UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                    //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
+                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
                     .Web(w=> {
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
-
-                        
-
                         w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");

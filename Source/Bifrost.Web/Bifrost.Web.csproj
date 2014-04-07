@@ -79,6 +79,9 @@
     <Compile Include="Security\SecurityRoute.cs" />
     <Compile Include="Security\SecurityRouteHandler.cs" />
     <Compile Include="Security\SecurityRouteHttpHandler.cs" />
+    <Compile Include="Services\ICanInterceptValue.cs" />
+    <Compile Include="Services\IJsonInterceptor.cs" />
+    <Compile Include="Services\JsonInterceptor.cs" />
     <Compile Include="Visualizer\QualityAssurance\AllProblems.cs" />
     <Compile Include="Visualizer\QualityAssurance\Problems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -30,11 +30,13 @@ namespace Bifrost.Web.Services
 {
     public class RestServiceMethodInvoker : IRestServiceMethodInvoker
     {
-        ISerializer _serializer;
+        private readonly ISerializer _serializer;
+        private readonly IJsonInterceptor _jsonInterceptor;
 
-        public RestServiceMethodInvoker(ISerializer serializer)
+        public RestServiceMethodInvoker(ISerializer serializer, IJsonInterceptor jsonInterceptor)
         {
             _serializer = serializer;
+            _jsonInterceptor = jsonInterceptor;
         }
 
         public string Invoke(string baseUrl, object instance, Uri uri, NameValueCollection inputParameters)
@@ -54,6 +56,9 @@ namespace Bifrost.Web.Services
             var result = method.Invoke(instance, values);
 
             var serializedResult = _serializer.ToJson(result, new SerializationOptions { UseCamelCase = true });
+
+            serializedResult = _jsonInterceptor.Intercept(serializedResult);
+
             return serializedResult;
         }
 
@@ -79,7 +84,7 @@ namespace Bifrost.Web.Services
 
 
         object HandleValue(ParameterInfo parameter, string input)
-        {
+        {            
             if (parameter.ParameterType == typeof(string))
                 return input;
 
@@ -93,6 +98,7 @@ namespace Bifrost.Web.Services
                 return ConceptFactory.CreateConceptInstance(parameter.ParameterType, value);
             }
 
+            input = _jsonInterceptor.Intercept(input);
             return _serializer.FromJson(parameter.ParameterType, input);
         }
 
