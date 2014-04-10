@@ -1,24 +1,24 @@
-﻿describe("when converting to and supporting converter for type", function () {
+﻿describe("when converting specifying type and supporting converter for type", function () {
 
-    var convertedValue = "42";
+    var convertedValue = 42;
     var typeConverter = {
         supportedType: Number,
-        convertTo: sinon.stub().returns(convertedValue)
+        convertFrom: sinon.stub().returns(convertedValue)
     };
     var typeConverterType = { create: function () { return typeConverter; } }
     var typeConverterBefore = null;
     var converted = null;
     beforeEach(function () {
        
-        typeConverterBefore = Bifrost.componentModel.TypeConverter;
-        Bifrost.componentModel.TypeConverter = {
+        typeConverterBefore = Bifrost.values.TypeConverter;
+        Bifrost.values.TypeConverter = {
             getExtenders: function () {
                 return [typeConverterType]
             }
         };
 
-        var typeConverters = Bifrost.componentModel.typeConverters.createWithoutScope();
-        converted = typeConverters.convertTo(42);
+        var typeConverters = Bifrost.values.typeConverters.createWithoutScope();
+        converted = typeConverters.convertFrom("42", Number);
     });
 
     afterEach(function () {

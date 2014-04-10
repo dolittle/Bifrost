@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.componentModel", {
+﻿Bifrost.namespace("Bifrost.values", {
     valuePipeline: Bifrost.Singleton(function (typeConverters) {
 
         this.getValueForView = function (element, value) {
@@ -27,9 +27,9 @@
 });
 
 (function () {
-    var valuePipeline = Bifrost.componentModel.valuePipeline.create();
+    var valuePipeline = Bifrost.values.valuePipeline.create();
 
-    Bifrost.componentModel.valuePipeline.getValueForView = function (element, value) {
+    Bifrost.values.valuePipeline.getValueForView = function (element, value) {
         var result = valuePipeline.getValueForView(element, value);
         return result;
     }
@@ -60,7 +60,7 @@
         if (!isComplexExpression(expression)) {
             var rewrittenExpression = bindingsStringOrKeyValueArray;
             var bindingHandler = bindingsStringOrKeyValueArray.substr(0, expressionIndex + 1);
-            rewrittenExpression = "Bifrost.componentModel.valuePipeline.getValueForView($element, " + expression + ")";
+            rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, " + expression + ")";
             bindingString = bindingHandler + rewrittenExpression;
         }
 

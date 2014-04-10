@@ -10,14 +10,14 @@
     var converted = null;
     beforeEach(function () {
        
-        typeConverterBefore = Bifrost.componentModel.TypeConverter;
-        Bifrost.componentModel.TypeConverter = {
+        typeConverterBefore = Bifrost.values.TypeConverter;
+        Bifrost.values.TypeConverter = {
             getExtenders: function () {
                 return [typeConverterType]
             }
         };
 
-        var typeConverters = Bifrost.componentModel.typeConverters.createWithoutScope();
+        var typeConverters = Bifrost.values.typeConverters.createWithoutScope();
         converted = typeConverters.convertFrom("42", "Number");
     });
 

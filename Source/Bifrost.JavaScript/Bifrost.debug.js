@@ -7528,7 +7528,7 @@ Bifrost.navigation.navigationBindingHandler.initialize = function () {
     ko.jsonExpressionRewriting.bindingRewriteValidators.navigation = false; // Can't rewrite control flow bindings
     ko.virtualElements.allowedBindings.navigation = true;
 };
-Bifrost.namespace("Bifrost.componentModel", {
+Bifrost.namespace("Bifrost.values", {
     TypeConverter: Bifrost.Type.extend(function () {
         this.supportedType = null;
 
@@ -7541,8 +7541,8 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.namespace("Bifrost.componentModel", {
-    NumberTypeConverter: Bifrost.componentModel.TypeConverter.extend(function () {
+Bifrost.namespace("Bifrost.values", {
+    NumberTypeConverter: Bifrost.values.TypeConverter.extend(function () {
         this.supportedType = Number;
 
         this.convertFrom = function (value) {
@@ -7553,8 +7553,8 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.namespace("Bifrost.componentModel", {
-    DateTypeConverter: Bifrost.componentModel.TypeConverter.extend(function() {
+Bifrost.namespace("Bifrost.values", {
+    DateTypeConverter: Bifrost.values.TypeConverter.extend(function() {
         this.supportedType = Date;
 
         this.convertFrom = function (value) {
@@ -7567,11 +7567,11 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.namespace("Bifrost.componentModel", {
+Bifrost.namespace("Bifrost.values", {
     typeConverters: Bifrost.Singleton(function () {
         var convertersByType = {};
 
-        var typeConverterTypes = Bifrost.componentModel.TypeConverter.getExtenders();
+        var typeConverterTypes = Bifrost.values.TypeConverter.getExtenders();
         typeConverterTypes.forEach(function (type) {
             var converter = type.create();
             convertersByType[converter.supportedType] = converter;
@@ -7602,16 +7602,16 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.componentModel.typeConverters;
-Bifrost.namespace("Bifrost.componentModel", {
+Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.values.typeConverters;
+Bifrost.namespace("Bifrost.values", {
     typeConverterExtender: Bifrost.Singleton(function () {
         this.extend = function (target, typeAsString) {
             target._typeAsString = typeAsString;
         };
     })
 });
-ko.extenders.typeConverter = Bifrost.componentModel.typeConverterExtender.create().extend;
-Bifrost.namespace("Bifrost.componentModel", {
+ko.extenders.typeConverter = Bifrost.values.typeConverterExtender.create().extend;
+Bifrost.namespace("Bifrost.values", {
     TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
         this.visit = function (element, resultActions) {
             return;
@@ -7635,7 +7635,7 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.namespace("Bifrost.componentModel", {
+Bifrost.namespace("Bifrost.values", {
     valuePipeline: Bifrost.Singleton(function (typeConverters) {
 
         this.getValueForView = function (element, value) {
@@ -7664,9 +7664,9 @@ Bifrost.namespace("Bifrost.componentModel", {
 });
 
 (function () {
-    var valuePipeline = Bifrost.componentModel.valuePipeline.create();
+    var valuePipeline = Bifrost.values.valuePipeline.create();
 
-    Bifrost.componentModel.valuePipeline.getValueForView = function (element, value) {
+    Bifrost.values.valuePipeline.getValueForView = function (element, value) {
         var result = valuePipeline.getValueForView(element, value);
         return result;
     }
@@ -7697,7 +7697,7 @@ Bifrost.namespace("Bifrost.componentModel", {
         if (!isComplexExpression(expression)) {
             var rewrittenExpression = bindingsStringOrKeyValueArray;
             var bindingHandler = bindingsStringOrKeyValueArray.substr(0, expressionIndex + 1);
-            rewrittenExpression = "Bifrost.componentModel.valuePipeline.getValueForView($element, " + expression + ")";
+            rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, " + expression + ")";
             bindingString = bindingHandler + rewrittenExpression;
         }
 

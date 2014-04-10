@@ -1,6 +1,6 @@
 ﻿describe("when converting from a valid date string", function () {
 
-    var converter = Bifrost.componentModel.DateTypeConverter.create();
+    var converter = Bifrost.values.DateTypeConverter.create();
     var result = converter.convertFrom("2014/2/27");
 
     it("should return a result", function () {

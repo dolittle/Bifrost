@@ -57,9 +57,9 @@
     <Content Include="commands\HandleCommandsTask.js" />
     <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
-    <Content Include="componentModel\DateTypeConverter.js" />
-    <Content Include="componentModel\NumberTypeConverter.js" />
-    <Content Include="componentModel\valuePipeline.js" />
+    <Content Include="values\DateTypeConverter.js" />
+    <Content Include="values\NumberTypeConverter.js" />
+    <Content Include="values\valuePipeline.js" />
     <Content Include="dispatcher.js" />
     <Content Include="documentService.js" />
     <Content Include="Event.js" />
@@ -149,8 +149,8 @@
     <Content Include="views\MasterViewModel.js" />
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
-    <Content Include="componentModel\TypeConverterElementVisitor.js" />
-    <Content Include="componentModel\typeConverterExtender.js" />
+    <Content Include="values\TypeConverterElementVisitor.js" />
+    <Content Include="values\typeConverterExtender.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ElementVisitor.js" />
     <Content Include="views\ElementVisitorResultActions.js" />
@@ -161,8 +161,8 @@
     <Content Include="views\NamingRootElementVisitor.js" />
     <Content Include="views\ObjectModelElementVisitor.js" />
     <Content Include="views\objectModelManager.js" />
-    <Content Include="componentModel\TypeConverter.js" />
-    <Content Include="componentModel\typeConverters.js" />
+    <Content Include="values\TypeConverter.js" />
+    <Content Include="values\typeConverters.js" />
     <Content Include="views\UIElement.js" />
     <Content Include="views\UIManager.js" />
     <Content Include="views\ViewModelLoadTask.js" />

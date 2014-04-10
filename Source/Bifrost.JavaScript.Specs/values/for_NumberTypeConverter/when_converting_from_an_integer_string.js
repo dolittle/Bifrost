@@ -1,6 +1,6 @@
 ﻿describe("when converting from an integer string", function () {
 
-    var converter = Bifrost.componentModel.NumberTypeConverter.create();
+    var converter = Bifrost.values.NumberTypeConverter.create();
 
     var result = converter.convertFrom("42");
 

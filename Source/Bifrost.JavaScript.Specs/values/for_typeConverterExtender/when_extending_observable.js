@@ -1,5 +1,5 @@
 ﻿describe("when extended observable value changes", function () {
-    var extender = Bifrost.componentModel.typeConverterExtender.createWithoutScope();
+    var extender = Bifrost.values.typeConverterExtender.createWithoutScope();
 
     var observable = ko.observable();
     var typeAsString = "type";

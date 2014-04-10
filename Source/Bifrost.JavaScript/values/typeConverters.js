@@ -1,8 +1,8 @@
-Bifrost.namespace("Bifrost.componentModel", {
+Bifrost.namespace("Bifrost.values", {
     typeConverters: Bifrost.Singleton(function () {
         var convertersByType = {};
 
-        var typeConverterTypes = Bifrost.componentModel.TypeConverter.getExtenders();
+        var typeConverterTypes = Bifrost.values.TypeConverter.getExtenders();
         typeConverterTypes.forEach(function (type) {
             var converter = type.create();
             convertersByType[converter.supportedType] = converter;
@@ -33,4 +33,4 @@ Bifrost.namespace("Bifrost.componentModel", {
         };
     })
 });
-Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.componentModel.typeConverters;
+Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.values.typeConverters;

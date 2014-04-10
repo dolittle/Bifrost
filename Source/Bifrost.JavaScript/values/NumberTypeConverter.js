@@ -1,5 +1,5 @@
-﻿Bifrost.namespace("Bifrost.componentModel", {
-    NumberTypeConverter: Bifrost.componentModel.TypeConverter.extend(function () {
+﻿Bifrost.namespace("Bifrost.values", {
+    NumberTypeConverter: Bifrost.values.TypeConverter.extend(function () {
         this.supportedType = Number;
 
         this.convertFrom = function (value) {

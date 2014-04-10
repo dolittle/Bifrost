@@ -185,12 +185,12 @@
 @depends navigation/observableQueryParameter.js
 @depends navigation/DataNavigationFrameAttributeElementVisitor.js
 @depends navigation/navigationBindingHandler.js
-@depends componentModel/TypeConverter.js
-@depends componentModel/NumberTypeConverter.js
-@depends componentModel/DateTypeConverter.js
-@depends componentModel/typeConverters.js
-@depends componentModel/typeConverterExtender.js
-@depends componentModel/TypeConverterElementVisitor.js
-@depends componentModel/valuePipeline.js
+@depends values/TypeConverter.js
+@depends values/NumberTypeConverter.js
+@depends values/DateTypeConverter.js
+@depends values/typeConverters.js
+@depends values/typeConverterExtender.js
+@depends values/TypeConverterElementVisitor.js
+@depends values/valuePipeline.js
 @depends utils/configure.js
 */
