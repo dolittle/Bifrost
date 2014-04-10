@@ -1,11 +1,14 @@
 ﻿describe("when getting value from non observable for view twice without value having changed", function () {
     var typeConverters = {
         convertTo: sinon.stub()
-
+    };
+    var stringFormatter = {
+        hasFormat: sinon.stub().returns(false)
     };
 
     var pipeline = Bifrost.values.valuePipeline.createWithoutScope({
-        typeConverters: typeConverters
+        typeConverters: typeConverters,
+        stringFormatter: stringFormatter
     });
 
     var element = {};

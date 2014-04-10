@@ -3,9 +3,13 @@
         convertFrom: sinon.stub()
 
     };
+    var stringFormatter = {
+        hasFormat: sinon.stub().returns(false)
+    };
 
     var pipeline = Bifrost.values.valuePipeline.createWithoutScope({
-        typeConverters: typeConverters
+        typeConverters: typeConverters,
+        stringFormatter: stringFormatter
     });
 
     var value = ko.observable(42);

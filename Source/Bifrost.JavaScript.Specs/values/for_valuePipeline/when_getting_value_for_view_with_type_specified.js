@@ -2,9 +2,13 @@
     var typeConverters = {
         convertTo: sinon.stub().returns("5")
     };
+    var stringFormatter = {
+        hasFormat: sinon.stub().returns(false)
+    };
 
     var pipeline = Bifrost.values.valuePipeline.createWithoutScope({
-        typeConverters: typeConverters
+        typeConverters: typeConverters,
+        stringFormatter: stringFormatter
     });
 
     var element = {};
