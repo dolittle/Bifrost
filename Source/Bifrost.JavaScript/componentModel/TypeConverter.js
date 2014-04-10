@@ -1,4 +1,4 @@
-Bifrost.namespace("Bifrost.views", {
+Bifrost.namespace("Bifrost.componentModel", {
     TypeConverter: Bifrost.Type.extend(function () {
         this.supportedType = null;
 

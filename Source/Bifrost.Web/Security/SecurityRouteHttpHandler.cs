@@ -18,6 +18,7 @@
 #endregion
 using System.Web;
 using Bifrost.Configuration;
+using Bifrost.Web.Commands;
 
 namespace Bifrost.Web.Security
 {

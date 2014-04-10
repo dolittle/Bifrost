@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.views", {
+﻿Bifrost.namespace("Bifrost.componentModel", {
     TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
         this.visit = function (element, resultActions) {
             return;

@@ -1,23 +1,26 @@
-Bifrost.namespace("Bifrost.views", {
+Bifrost.namespace("Bifrost.componentModel", {
     typeConverters: Bifrost.Singleton(function () {
         var convertersByType = {};
 
-        var typeConverterTypes = Bifrost.views.TypeConverter.getExtenders();
+        var typeConverterTypes = Bifrost.componentModel.TypeConverter.getExtenders();
         typeConverterTypes.forEach(function (type) {
             var converter = type.create();
             convertersByType[converter.supportedType] = converter;
         });
-		
+
         this.convertFrom = function (value, type) {
+            var actualType = null;
             if (Bifrost.isString(type)) {
-                type = eval(type);
+                actualType = eval(type);
+            } else {
+                actualType = type;
             }
-            if (convertersByType.hasOwnProperty(type)) {
-                return convertersByType[type].convertFrom(value);
+            if (convertersByType.hasOwnProperty(actualType)) {
+                return convertersByType[actualType].convertFrom(value);
             }
 
-	        return value;
-	    };
+            return value;
+        };
 
         this.convertTo = function (value) {
             for (var converter in convertersByType) {
@@ -26,7 +29,8 @@ Bifrost.namespace("Bifrost.views", {
                 }
             }
 
-	        return value;
-	    };
-	})
-})
+            return value;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.componentModel.typeConverters;

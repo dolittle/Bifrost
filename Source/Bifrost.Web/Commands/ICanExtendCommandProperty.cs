@@ -19,7 +19,7 @@
 using System;
 using Bifrost.CodeGeneration.JavaScript;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Commands
 {
     /// <summary>
     /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands

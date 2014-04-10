@@ -137,6 +137,7 @@
 @depends documentService.js
 @depends views/ElementVisitor.js
 @depends views/ElementVisitorResultActions.js
+@depends views/PostBindingVisitor.js
 @depends views/UIManager.js
 @depends views/NamingRoot.js
 @depends views/NamingRootElementVisitor.js
@@ -147,10 +148,6 @@
 @depends views/MarkupExtension.js
 @depends views/markupExtensions.js
 @depends views/Binding.js
-@depends views/TypeConverter.js
-@depends views/typeConverters.js
-@depends views/typeConverterExtender.js
-@depends views/TypeConverterElementVisitor.js
 @depends views/UIElement.js
 @depends views/Control.js
 @depends views/ComposeTask.js
@@ -188,5 +185,12 @@
 @depends navigation/observableQueryParameter.js
 @depends navigation/DataNavigationFrameAttributeElementVisitor.js
 @depends navigation/navigationBindingHandler.js
+@depends componentModel/TypeConverter.js
+@depends componentModel/NumberTypeConverter.js
+@depends componentModel/DateTypeConverter.js
+@depends componentModel/typeConverters.js
+@depends componentModel/typeConverterExtender.js
+@depends componentModel/TypeConverterElementVisitor.js
+@depends componentModel/valuePipeline.js
 @depends utils/configure.js
 */

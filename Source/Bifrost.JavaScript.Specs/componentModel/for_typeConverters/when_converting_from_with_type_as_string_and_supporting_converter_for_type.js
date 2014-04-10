@@ -1,4 +1,4 @@
-﻿describe("when converting specifying type and supporting converter for type", function () {
+﻿describe("when converting from with type as string and supporting converter for type", function () {
 
     var convertedValue = 42;
     var typeConverter = {
@@ -10,15 +10,15 @@
     var converted = null;
     beforeEach(function () {
        
-        typeConverterBefore = Bifrost.views.TypeConverter;
-        Bifrost.views.TypeConverter = {
+        typeConverterBefore = Bifrost.componentModel.TypeConverter;
+        Bifrost.componentModel.TypeConverter = {
             getExtenders: function () {
                 return [typeConverterType]
             }
         };
 
-        var typeConverters = Bifrost.views.typeConverters.createWithoutScope();
-        converted = typeConverters.convertFrom("42", Number);
+        var typeConverters = Bifrost.componentModel.typeConverters.createWithoutScope();
+        converted = typeConverters.convertFrom("42", "Number");
     });
 
     afterEach(function () {

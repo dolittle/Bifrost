@@ -1,4 +1,4 @@
-﻿namespace Bifrost.Web.Proxies
+﻿namespace Bifrost.Web.Configuration
 {
     public class Namespaces
     {

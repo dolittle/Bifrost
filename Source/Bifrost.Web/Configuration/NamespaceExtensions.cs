@@ -19,7 +19,7 @@
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Web.Configuration;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Configuration
 {
     public static class NamespaceExtensions
     {

@@ -36,6 +36,7 @@ Dependencies :
   - Bifrost.JavaScript/utils/exceptions.js
   - Bifrost.JavaScript/utils/Uri.js
   - Bifrost.JavaScript/utils/path.js
+  - Bifrost.JavaScript/componentModel/TypeConverter.js
   - Bifrost.JavaScript/TimeSpan.js
   - Bifrost.JavaScript/io/fileType.js
   - Bifrost.JavaScript/validation/exceptions.js
@@ -46,6 +47,7 @@ Dependencies :
   - Bifrost.JavaScript/tasks/ExecutionTask.js	
   - Bifrost.JavaScript/views/ElementVisitor.js  
   - Bifrost.JavaScript/views/ElementVisitorResultActions.js  
+  - Bifrost.JavaScript/views/PostBindingVisitor.js  
   - Bifrost.JavaScript/views/ComposeTask.js
   - Bifrost.JavaScript/interaction/Operation.js
   - Bifrost.JavaScript/Event.js

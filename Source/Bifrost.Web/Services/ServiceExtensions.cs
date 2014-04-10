@@ -17,14 +17,14 @@
 //
 #endregion
 using System;
-using System.Linq;
-using Bifrost.Extensions;
-using Bifrost.CodeGeneration.JavaScript;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Bifrost.CodeGeneration.JavaScript;
+using Bifrost.Extensions;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Services
 {
     public static class ServiceExtensions
     {

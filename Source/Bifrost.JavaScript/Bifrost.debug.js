@@ -5724,21 +5724,42 @@ Bifrost.namespace("Bifrost.views", {
 	})
 });
 Bifrost.namespace("Bifrost.views", {
-	UIManager: Bifrost.Singleton(function(documentService) {
-		var visitors = [];
-		var visitorTypes = Bifrost.views.ElementVisitor.getExtenders();
+	PostBindingVisitor: Bifrost.Type.extend(function() {
+	    this.visit = function (element) {
 
-		visitorTypes.forEach(function(type) {
-			visitors.push(type.create());
-		})
+	    };
+	})
+});
+Bifrost.namespace("Bifrost.views", {
+	UIManager: Bifrost.Singleton(function(documentService) {
+		var elementVisitorTypes = Bifrost.views.ElementVisitor.getExtenders();
+		var elementVisitors = [];
+		var postBindingVisitorTypes = Bifrost.views.PostBindingVisitor.getExtenders();
+		var postBindingVisitors = [];
+
+		elementVisitorTypes.forEach(function (type) {
+		    elementVisitors.push(type.create());
+		});
+
+		postBindingVisitorTypes.forEach(function (type) {
+		    postBindingVisitors.push(type.create());
+		});
 
 		this.handle = function (root) {
 			documentService.traverseObjects(function(element) {
-				visitors.forEach(function(visitor) {
+				elementVisitors.forEach(function(visitor) {
 					var actions = Bifrost.views.ElementVisitorResultActions.create();
 					visitor.visit(element, actions);
 				});
 			}, root);
+		};
+
+		this.handlePostBinding = function (root) {
+		    documentService.traverseObjects(function (element) {
+		        postBindingVisitors.forEach(function (visitor) {
+		            visitor.visit(element);
+		        });
+		    }, root);
 		};
 	})
 });
@@ -5983,88 +6004,6 @@ Bifrost.namespace("Bifrost.views", {
 		
 	})
 })
-Bifrost.namespace("Bifrost.views", {
-    TypeConverter: Bifrost.Type.extend(function () {
-        this.supportedType = null;
-
-        this.convertFrom = function (value) {
-            return value;
-        };
-
-        this.convertTo = function (value) {
-            return value;
-        };
-    })
-});
-Bifrost.namespace("Bifrost.views", {
-    typeConverters: Bifrost.Singleton(function () {
-        var convertersByType = {};
-
-        var typeConverterTypes = Bifrost.views.TypeConverter.getExtenders();
-        typeConverterTypes.forEach(function (type) {
-            var converter = type.create();
-            convertersByType[converter.supportedType] = converter;
-        });
-		
-        this.convertFrom = function (value, type) {
-            if (Bifrost.isString(type)) {
-                type = eval(type);
-            }
-            if (convertersByType.hasOwnProperty(type)) {
-                return convertersByType[type].convertFrom(value);
-            }
-
-	        return value;
-	    };
-
-        this.convertTo = function (value) {
-            for (var converter in convertersByType) {
-                if (value.constructor == converter) {
-                    return convertersByType[converter].convertTo(value);
-                }
-            }
-
-	        return value;
-	    };
-	})
-})
-Bifrost.namespace("Bifrost.views", {
-    typeConverterExtender: Bifrost.Singleton(function (typeConverters) {
-        this.extend = function (target, typeAsString) {
-            if (ko.isObservable(target)) {
-                target.subscribe(function (newValue) {
-                    var converted = typeConverters.convertFrom(newValue, typeAsString);
-                    target(converted);
-                });
-            }
-        };
-    })
-});
-ko.extenders.typeConverter = Bifrost.views.typeConverterExtender.create().extend;
-Bifrost.namespace("Bifrost.views", {
-    TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
-        this.visit = function (element, resultActions) {
-            return;
-            var typeConverterAttribute = element.getAttribute("data-typeconverter");
-            if( Bifrost.isNullOrUndefined(typeConverterAttribute) ) return;
-
-            var bindingExpression = element.getAttribute("data-bind");
-            if (!Bifrost.isNullOrUndefined(bindingExpression)) {
-                var bindingString = bindingExpression.toString();
-                var context = ko.contextFor(element);
-
-                var bindings = ko.bindingProvider.instance.parseBindingsString(bindingString, context, element);
-                for (var property in bindings) {
-                    if (property.indexOf("_") == 0) continue;
-                    var value = bindings[property];
-                    if (ko.isObservable(value)) {
-                        value.extend({ typeConverter: typeConverterAttribute.toString() })
-                    }
-                }
-            }
-        };
-    })
-});
 Bifrost.namespace("Bifrost.views", {
 	UIElement: Bifrost.views.NamingRoot.extend(function() {
 
@@ -7589,6 +7528,183 @@ Bifrost.navigation.navigationBindingHandler.initialize = function () {
     ko.jsonExpressionRewriting.bindingRewriteValidators.navigation = false; // Can't rewrite control flow bindings
     ko.virtualElements.allowedBindings.navigation = true;
 };
+Bifrost.namespace("Bifrost.componentModel", {
+    TypeConverter: Bifrost.Type.extend(function () {
+        this.supportedType = null;
+
+        this.convertFrom = function (value) {
+            return value;
+        };
+
+        this.convertTo = function (value) {
+            return value;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.componentModel", {
+    NumberTypeConverter: Bifrost.componentModel.TypeConverter.extend(function () {
+        this.supportedType = Number;
+
+        this.convertFrom = function (value) {
+            var result = 0;
+            if (value.indexOf(".") >= 0 ) result = parseFloat(value);
+            else result = parseInt(value);
+            return result;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.componentModel", {
+    DateTypeConverter: Bifrost.componentModel.TypeConverter.extend(function() {
+        this.supportedType = Date;
+
+        this.convertFrom = function (value) {
+            var date = new Date(value);
+            return date;
+        };
+
+        this.convertTo = function (value) {
+            return value.format("yyyy-MM-dd");
+        };
+    })
+});
+Bifrost.namespace("Bifrost.componentModel", {
+    typeConverters: Bifrost.Singleton(function () {
+        var convertersByType = {};
+
+        var typeConverterTypes = Bifrost.componentModel.TypeConverter.getExtenders();
+        typeConverterTypes.forEach(function (type) {
+            var converter = type.create();
+            convertersByType[converter.supportedType] = converter;
+        });
+
+        this.convertFrom = function (value, type) {
+            var actualType = null;
+            if (Bifrost.isString(type)) {
+                actualType = eval(type);
+            } else {
+                actualType = type;
+            }
+            if (convertersByType.hasOwnProperty(actualType)) {
+                return convertersByType[actualType].convertFrom(value);
+            }
+
+            return value;
+        };
+
+        this.convertTo = function (value) {
+            for (var converter in convertersByType) {
+                if (value.constructor == converter) {
+                    return convertersByType[converter].convertTo(value);
+                }
+            }
+
+            return value;
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.componentModel.typeConverters;
+Bifrost.namespace("Bifrost.componentModel", {
+    typeConverterExtender: Bifrost.Singleton(function () {
+        this.extend = function (target, typeAsString) {
+            target._typeAsString = typeAsString;
+        };
+    })
+});
+ko.extenders.typeConverter = Bifrost.componentModel.typeConverterExtender.create().extend;
+Bifrost.namespace("Bifrost.componentModel", {
+    TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+        this.visit = function (element, resultActions) {
+            return;
+            var typeConverterAttribute = element.getAttribute("data-typeconverter");
+            if( Bifrost.isNullOrUndefined(typeConverterAttribute) ) return;
+
+            var bindingExpression = element.getAttribute("data-bind");
+            if (!Bifrost.isNullOrUndefined(bindingExpression)) {
+                var bindingString = bindingExpression.toString();
+                var context = ko.contextFor(element);
+
+                var bindings = ko.bindingProvider.instance.parseBindingsString(bindingString, context, element);
+                for (var property in bindings) {
+                    if (property.indexOf("_") == 0) continue;
+                    var value = bindings[property];
+                    if (ko.isObservable(value)) {
+                        value.extend({ typeConverter: typeConverterAttribute.toString() })
+                    }
+                }
+            }
+        };
+    })
+});
+Bifrost.namespace("Bifrost.componentModel", {
+    valuePipeline: Bifrost.Singleton(function (typeConverters) {
+
+        this.getValueForView = function (value) {
+            if (ko.isObservable(value)) {
+
+                if (value() !== value._previousValue) {
+                    value._previousValue = value();
+
+                    if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
+                        value = typeConverters.convertTo(value());
+                    }
+                }
+            }
+
+            return value;
+        };
+
+        this.getValueForProperty = function (property, value) {
+            if (!Bifrost.isNullOrUndefined(property._typeAsString)) {
+                value = typeConverters.convertFrom(value, property._typeAsString);
+            }
+
+            return value;
+        };
+    })
+});
+
+(function () {
+    var valuePipeline = Bifrost.componentModel.valuePipeline.create();
+
+    Bifrost.componentModel.valuePipeline.getValueForView = function (value) {
+        var result = valuePipeline.getValueForView(value);
+        return result;
+    }
+
+    var complexExpressionCharacters = [";", "+", "-", "(", ")", "'"];
+    function isComplexExpression(expression) {
+        for (var charIndex = 0; charIndex < expression.length; charIndex++) {
+            for (var complexCharIndex = 0; complexCharIndex < complexExpressionCharacters.length; complexCharIndex++) {
+                if (expression[charIndex] == complexExpressionCharacters[complexCharIndex]) return true;
+            }
+        }
+        
+        return false;
+    }
+
+    var oldWriteValueToProperty = ko.expressionRewriting.writeValueToProperty;
+    ko.expressionRewriting.writeValueToProperty = function (property, allBindings, key, value, checkIfDifferent) {
+        value = valuePipeline.getValueForProperty(property, value);
+        return oldWriteValueToProperty(property, allBindings, key, value, checkIfDifferent);
+    };
+
+    var oldPreProcessBindings = ko.expressionRewriting.preProcessBindings;
+    ko.expressionRewriting.preProcessBindings = function (bindingsStringOrKeyValueArray, bindingOptions) {
+
+        var expressionIndex = bindingsStringOrKeyValueArray.indexOf(":");
+        var expression = bindingsStringOrKeyValueArray.substr(expressionIndex + 1).trim();
+        var bindingString = bindingsStringOrKeyValueArray;
+        if (!isComplexExpression(expression)) {
+            var rewrittenExpression = bindingsStringOrKeyValueArray;
+            var bindingHandler = bindingsStringOrKeyValueArray.substr(0, expressionIndex + 1);
+            rewrittenExpression = "Bifrost.componentModel.valuePipeline.getValueForView(" + expression + ")";
+            bindingString = bindingHandler + rewrittenExpression;
+        }
+
+        var result = oldPreProcessBindings(bindingString, bindingOptions);
+        return result;
+    };
+})();
 Bifrost.namespace("Bifrost", {
     configureType: Bifrost.Singleton(function(assetsManager) {
         var self = this;

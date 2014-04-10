@@ -25,8 +25,9 @@ using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Web.Configuration;
+using Bifrost.Web.Proxies;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Commands
 {
     public class CommandProxies : IProxyGenerator
     {

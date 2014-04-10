@@ -20,8 +20,9 @@ using System.Reflection;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Web.Configuration;
+using Bifrost.Web.Proxies;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Configuration
 {
     public class NamespaceConfigurationProxies : IProxyGenerator
     {

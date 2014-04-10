@@ -19,9 +19,9 @@
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Extensions;
-using Bifrost.Web.Services;
+using Bifrost.Web.Proxies;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Services
 {
     public class ServiceProxies : IProxyGenerator
     {

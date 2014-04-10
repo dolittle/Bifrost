@@ -22,7 +22,7 @@ using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Extensions;
 using Bifrost.Read;
 
-namespace Bifrost.Web.Proxies
+namespace Bifrost.Web.Read
 {
     public static class ReadModelProxyExtensions
     {
