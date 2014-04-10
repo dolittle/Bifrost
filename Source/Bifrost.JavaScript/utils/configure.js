@@ -2,6 +2,18 @@
     configureType: Bifrost.Singleton(function(assetsManager) {
         var self = this;
 
+        var defaultUriMapper = Bifrost.StringMapper.create();
+        defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "{boundedContext}/{module}/{feature}/{view}.html");
+        defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "{boundedContext}/{feature}/{view}.html");
+        defaultUriMapper.addMapping("{feature}/{view}", "{feature}/{view}.html");
+        defaultUriMapper.addMapping("{view}", "{view}.html");
+        Bifrost.uriMappers.default = defaultUriMapper;
+
+        var bifrostVisualizerUriMapper = Bifrost.StringMapper.create();
+        bifrostVisualizerUriMapper.addMapping("Visualizer/{module}/{view}", "/Bifrost/Visualizer/{module}/{view}.html");
+        bifrostVisualizerUriMapper.addMapping("Visualizer/{view}", "/Bifrost/Visualizer/{view}.html");
+        Bifrost.uriMappers.bifrostVisualizer = bifrostVisualizerUriMapper;
+
         this.isReady = false;
         this.readyCallbacks = [];
 
@@ -32,18 +44,6 @@
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 Bifrost.WellKnownTypesDependencyResolver.types.history = History;
             }
-
-            var defaultUriMapper = Bifrost.StringMapper.create();
-            defaultUriMapper.addMapping("{boundedContext}/{module}/{feature}/{view}", "{boundedContext}/{module}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{boundedContext}/{feature}/{view}", "{boundedContext}/{feature}/{view}.html");
-            defaultUriMapper.addMapping("{feature}/{view}", "{feature}/{view}.html");
-            defaultUriMapper.addMapping("{view}", "{view}.html");
-            Bifrost.uriMappers.default = defaultUriMapper;
-
-            var bifrostVisualizerUriMapper = Bifrost.StringMapper.create();
-            bifrostVisualizerUriMapper.addMapping("Visualizer/{module}/{view}", "/Bifrost/Visualizer/{module}/{view}.html");
-            bifrostVisualizerUriMapper.addMapping("Visualizer/{view}", "/Bifrost/Visualizer/{view}.html");
-            Bifrost.uriMappers.bifrostVisualizer = bifrostVisualizerUriMapper;
 
             assetsManager.initialize().continueWith(function () {
                 if (self.initializeLandingPage === true) {

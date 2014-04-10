@@ -461,6 +461,12 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_for_property_with_type_specified.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_for_property_without_type_specified.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_for_view_with_type_specified.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_from_non_observable_for_view_twice_without_value_having_changed.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_from_observable_for_view_twice_without_value_having_changed.js" />
+    <Content Include="values\for_valuePipeline\when_getting_value_for_view_without_any_typeconverters.js" />
     <Content Include="views\for_MasterViewModel\when_setting_same_viewmodel_twice.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
@@ -521,7 +527,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="features\for_FeatureState\" />
-    <Folder Include="values\for_valuePipeline\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
