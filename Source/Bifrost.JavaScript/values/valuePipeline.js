@@ -2,14 +2,13 @@
     valuePipeline: Bifrost.Singleton(function (typeConverters) {
 
         this.getValueForView = function (element, value) {
-            if (ko.isObservable(value)) {
+            var actualValue = ko.utils.unwrapObservable(value);
 
-                if (value() !== value._previousValue) {
-                    value._previousValue = value();
+            if (actualValue !== value._previousValue) {
+                value._previousValue = actualValue;
 
-                    if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
-                        value = typeConverters.convertTo(value());
-                    }
+                if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
+                    value = typeConverters.convertTo(actualValue);
                 }
             }
 

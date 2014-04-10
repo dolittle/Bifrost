@@ -1,0 +1,28 @@
+﻿describe("when getting value from observable for view twice without value having changed", function () {
+    var typeConverters = {
+        convertTo: sinon.stub()
+
+    };
+
+    var pipeline = Bifrost.values.valuePipeline.createWithoutScope({
+        typeConverters: typeConverters
+    });
+
+    var element = {};
+    var value = ko.observable(5);
+
+    var result = pipeline.getValueForView(element, value);
+    var secondResult = pipeline.getValueForView(element, value);
+
+    it("should not try to convert it", function () {
+        expect(typeConverters.convertTo.called).toBe(false);
+    });
+
+    it("should return the same observable as given", function () {
+        expect(result).toBe(value);
+    });
+
+    it("should return the same observable second time as given", function () {
+        expect(secondResult).toBe(value);
+    });
+});
