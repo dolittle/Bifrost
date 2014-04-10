@@ -21,9 +21,11 @@
         <br />
 
         <strong>Employment Date</strong>
-        <input id="dateInput" type="date" data-bind="value: register.employedFrom" data-typeconverter="date" />
+        <input id="dateInput" type="date" data-bind="value: register.employedFrom" />
         <span data-bind="validationMessageFor: register.employedFrom"></span>
         <br />
+
+        <div data-bind="text: register.employedFrom" data-stringformat="The date is {dd/MM-yyyy}"></div>
 
         <button class="btn btn-primary" data-bind="command: register, attr: { disabled: !register.canExecute() }">Register</button>
     </fieldset>

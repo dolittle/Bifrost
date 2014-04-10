@@ -7636,16 +7636,79 @@ Bifrost.namespace("Bifrost.values", {
     })
 });
 Bifrost.namespace("Bifrost.values", {
-    valuePipeline: Bifrost.Singleton(function (typeConverters) {
+    Formatter: Bifrost.Type.extend(function () {
+        this.supportedType = null;
+
+        this.format = function (value, format) {
+            return value;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.values", {
+    DateFormatter: Bifrost.values.Formatter.extend(function () {
+        this.supportedType = Date;
+
+        this.format = function (value, format) {
+            return value.format(format);
+        }
+    })
+});
+Bifrost.namespace("Bifrost.values", {
+    stringFormatter: Bifrost.Singleton(function () {
+        var formatterTypes = Bifrost.values.Formatter.getExtenders();
+        var formattersByType = {};
+
+        formatterTypes.forEach(function (type) {
+            var formatter = type.create();
+            formattersByType[formatter.supportedType] = formatter;
+        });
+
+        function getFormat(element) {
+            var stringFormatAttribute = element.attributes.getNamedItem("data-stringformat");
+            if (!Bifrost.isNullOrUndefined(stringFormatAttribute)) {
+                return stringFormatAttribute.value;
+            }
+
+            return null;
+        }
+
+        this.hasFormat = function (element) {
+            var format = getFormat(element);
+            return format !== null;
+        };
+
+        this.format = function (element, value) {
+            var format = getFormat(element);
+
+            if (formattersByType.hasOwnProperty(value.constructor)) {
+                var formatter = formattersByType[value.constructor];
+                var regex = new RegExp("{(.[^{}])*}", "g");
+                var result = format.replace(regex, function (formatExpression) {
+                    var expression = formatExpression.substr(1, formatExpression.length - 2);
+                    return formatter.format(value, expression);
+                });
+                return result;
+            }
+
+            return format;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.values", {
+    valuePipeline: Bifrost.Singleton(function (typeConverters, stringFormatter) {
 
         this.getValueForView = function (element, value) {
             var actualValue = ko.utils.unwrapObservable(value);
 
-            if (actualValue !== value._previousValue) {
-                value._previousValue = actualValue;
+            if (actualValue !== element._previousValue) {
+                element._previousValue = actualValue;
 
-                if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
-                    value = typeConverters.convertTo(actualValue);
+                if (stringFormatter.hasFormat(element)) {
+                    value = stringFormatter.format(element, actualValue)
+                } else {
+                    if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
+                        value = typeConverters.convertTo(actualValue);
+                    }
                 }
             }
 

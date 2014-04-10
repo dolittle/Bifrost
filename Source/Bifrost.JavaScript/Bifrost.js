@@ -191,6 +191,9 @@
 @depends values/typeConverters.js
 @depends values/typeConverterExtender.js
 @depends values/TypeConverterElementVisitor.js
+@depends values/Formatter.js
+@depends values/DateFormatter.js
+@depends values/stringFormatter.js
 @depends values/valuePipeline.js
 @depends utils/configure.js
 */

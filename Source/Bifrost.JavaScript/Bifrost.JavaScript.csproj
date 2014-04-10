@@ -57,8 +57,11 @@
     <Content Include="commands\HandleCommandsTask.js" />
     <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
+    <Content Include="values\DateFormatter.js" />
     <Content Include="values\DateTypeConverter.js" />
+    <Content Include="values\Formatter.js" />
     <Content Include="values\NumberTypeConverter.js" />
+    <Content Include="values\stringFormatter.js" />
     <Content Include="values\valuePipeline.js" />
     <Content Include="dispatcher.js" />
     <Content Include="documentService.js" />

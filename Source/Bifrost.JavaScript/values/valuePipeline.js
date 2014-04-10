@@ -1,14 +1,18 @@
 ﻿Bifrost.namespace("Bifrost.values", {
-    valuePipeline: Bifrost.Singleton(function (typeConverters) {
+    valuePipeline: Bifrost.Singleton(function (typeConverters, stringFormatter) {
 
         this.getValueForView = function (element, value) {
             var actualValue = ko.utils.unwrapObservable(value);
 
-            if (actualValue !== value._previousValue) {
-                value._previousValue = actualValue;
+            if (actualValue !== element._previousValue) {
+                element._previousValue = actualValue;
 
-                if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
-                    value = typeConverters.convertTo(actualValue);
+                if (stringFormatter.hasFormat(element)) {
+                    value = stringFormatter.format(element, actualValue)
+                } else {
+                    if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
+                        value = typeConverters.convertTo(actualValue);
+                    }
                 }
             }
 
