@@ -7638,7 +7638,7 @@ Bifrost.namespace("Bifrost.componentModel", {
 Bifrost.namespace("Bifrost.componentModel", {
     valuePipeline: Bifrost.Singleton(function (typeConverters) {
 
-        this.getValueForView = function (value) {
+        this.getValueForView = function (element, value) {
             if (ko.isObservable(value)) {
 
                 if (value() !== value._previousValue) {
@@ -7666,8 +7666,8 @@ Bifrost.namespace("Bifrost.componentModel", {
 (function () {
     var valuePipeline = Bifrost.componentModel.valuePipeline.create();
 
-    Bifrost.componentModel.valuePipeline.getValueForView = function (value) {
-        var result = valuePipeline.getValueForView(value);
+    Bifrost.componentModel.valuePipeline.getValueForView = function (element, value) {
+        var result = valuePipeline.getValueForView(element, value);
         return result;
     }
 
@@ -7697,7 +7697,7 @@ Bifrost.namespace("Bifrost.componentModel", {
         if (!isComplexExpression(expression)) {
             var rewrittenExpression = bindingsStringOrKeyValueArray;
             var bindingHandler = bindingsStringOrKeyValueArray.substr(0, expressionIndex + 1);
-            rewrittenExpression = "Bifrost.componentModel.valuePipeline.getValueForView(" + expression + ")";
+            rewrittenExpression = "Bifrost.componentModel.valuePipeline.getValueForView($element, " + expression + ")";
             bindingString = bindingHandler + rewrittenExpression;
         }
 
