@@ -7,6 +7,7 @@
 
     beforeEach(function () {
         var element = {
+            nodeType: 1,
             attributes: {
                 getNamedItem: sinon.stub().returns(format)
             }

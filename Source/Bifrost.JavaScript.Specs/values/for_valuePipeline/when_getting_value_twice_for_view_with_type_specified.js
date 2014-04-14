@@ -1,4 +1,4 @@
-﻿describe("when getting value for view with type specified", function () {
+﻿describe("when getting value twice for view with string format", function () {
     var typeConverters = {
         convertTo: sinon.stub().returns("5")
     };
@@ -15,17 +15,22 @@
     var value = ko.observable(5);
     value._typeAsString = "SometType";
 
-    var result = pipeline.getValueForView(element, value);
+    var firstResult = pipeline.getValueForView(element, value);
+    var secondResult = pipeline.getValueForView(element, value);
 
     it("should try to convert it", function () {
         expect(typeConverters.convertTo.calledWith(5)).toBe(true);
     });
 
-    it("should not return an observable", function () {
-        expect(ko.isObservable(result)).toBe(false);
+    it("should return same observable", function () {
+        expect(firstResult).toBe(secondResult);
     });
 
-    it("should return the converted value", function () {
-        expect(result).toBe("5");
+    it("should return the converted value for the first result", function () {
+        expect(firstResult).toBe("5");
+    });
+
+    it("should return the converted value for the second result", function () {
+        expect(secondResult).toBe("5");
     });
 });

@@ -1,4 +1,4 @@
-﻿describe("when getting value for view with string format", function () {
+﻿describe("when getting value for view with non writeable observable", function () {
     var typeConverters = {
         convertTo: sinon.stub()
     };
@@ -15,8 +15,7 @@
     });
 
     var element = {};
-    var value = ko.observable(5);
-    value._typeAsString = "SometType";
+    var value = ko.computed(function () { return 42; });
 
     var result = pipeline.getValueForView(element, value);
 
@@ -25,14 +24,10 @@
     });
 
     it("should format the value", function () {
-        expect(stringFormatter.format.calledWith(element, 5)).toBe(true);
+        expect(stringFormatter.format.called).toBe(true);
     });
 
-    it("should not return an observable", function () {
-        expect(ko.isObservable(result)).toBe(false);
-    });
-
-    it("should return the formatted  value", function () {
+    it("should return the formatted value", function () {
         expect(result).toBe(formattedValue);
     });
 });

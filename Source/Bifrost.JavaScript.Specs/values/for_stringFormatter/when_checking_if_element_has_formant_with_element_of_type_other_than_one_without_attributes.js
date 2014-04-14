@@ -1,14 +1,13 @@
-﻿describe("when checking element without format if element has format", function () {
+﻿describe("when checking if element has formant with element of type other than one without attributes", function () {
+
+    var format = "something";
     var formatter = null;
     var formatterBefore = null;
     var result;
 
     beforeEach(function () {
         var element = {
-            nodeType: 1,
-            attributes: {
-                getNamedItem: sinon.stub().returns(null)
-            }
+            nodeType: 8
         }
 
         formatterBefore = Bifrost.values.Formatter;
@@ -18,16 +17,13 @@
 
         formatter = Bifrost.values.stringFormatter.createWithoutScope();
         result = formatter.hasFormat(element);
-
-
     });
 
     afterEach(function () {
         Bifrost.values.Formatter = formatterBefore;
     });
 
-    
-    it("should not considered to have format", function () {
+    it("should not be considered to have format", function () {
         expect(result).toBe(false);
     });
 });

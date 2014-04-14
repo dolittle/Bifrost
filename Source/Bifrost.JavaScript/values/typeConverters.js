@@ -23,6 +23,7 @@ Bifrost.namespace("Bifrost.values", {
         };
 
         this.convertTo = function (value) {
+            if (Bifrost.isNullOrUndefined(value)) return value;
             for (var converter in convertersByType) {
                 if (value.constructor == converter) {
                     return convertersByType[converter].convertTo(value);

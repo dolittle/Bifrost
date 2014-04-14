@@ -1,4 +1,4 @@
-﻿describe("when getting value for view with string format", function () {
+﻿describe("when getting value twice for view with type specified", function () {
     var typeConverters = {
         convertTo: sinon.stub()
     };
@@ -18,7 +18,8 @@
     var value = ko.observable(5);
     value._typeAsString = "SometType";
 
-    var result = pipeline.getValueForView(element, value);
+    var firstResult = pipeline.getValueForView(element, value);
+    var secondResult = pipeline.getValueForView(element, value);
 
     it("should not try to convert it", function () {
         expect(typeConverters.convertTo.called).toBe(false);
@@ -28,11 +29,15 @@
         expect(stringFormatter.format.calledWith(element, 5)).toBe(true);
     });
 
-    it("should not return an observable", function () {
-        expect(ko.isObservable(result)).toBe(false);
+    it("should return same observable", function () {
+        expect(firstResult).toBe(secondResult);
     });
 
-    it("should return the formatted  value", function () {
-        expect(result).toBe(formattedValue);
+    it("should return the formatted value for first result", function () {
+        expect(firstResult).toBe(formattedValue);
+    });
+
+    it("should return the formatted value for second result", function () {
+        expect(secondResult).toBe(formattedValue);
     });
 });

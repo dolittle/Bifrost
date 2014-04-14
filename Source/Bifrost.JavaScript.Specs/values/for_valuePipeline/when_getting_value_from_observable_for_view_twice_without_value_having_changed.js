@@ -21,11 +21,7 @@
         expect(typeConverters.convertTo.called).toBe(false);
     });
 
-    it("should return the same observable as given", function () {
-        expect(result).toBe(value);
-    });
-
-    it("should return the same observable second time as given", function () {
-        expect(secondResult).toBe(value);
+    it("should return the same value second time", function () {
+        expect(secondResult).toBe(result);
     });
 });

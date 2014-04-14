@@ -1,9 +1,12 @@
-﻿describe("when getting value from non observable for view twice without value having changed", function () {
+﻿describe("when getting value for view with unset observable", function () {
     var typeConverters = {
         convertTo: sinon.stub()
     };
+    var formattedValue = "5 -5";
+
     var stringFormatter = {
-        hasFormat: sinon.stub().returns(false)
+        hasFormat: sinon.stub().returns(true),
+        format: sinon.stub().returns(formattedValue)
     };
 
     var pipeline = Bifrost.values.valuePipeline.createWithoutScope({
@@ -12,16 +15,19 @@
     });
 
     var element = {};
-    var value = 5;
+    var value = ko.observable();
 
     var result = pipeline.getValueForView(element, value);
-    var secondResult = pipeline.getValueForView(element, value);
 
     it("should not try to convert it", function () {
         expect(typeConverters.convertTo.called).toBe(false);
     });
 
-    it("should return the same value second time", function () {
-        expect(secondResult).toBe(result);
+    it("should not format the value", function () {
+        expect(stringFormatter.format.called).toBe(false);
+    });
+
+    it("should return the input value", function () {
+        expect(result).toBe(value);
     });
 });

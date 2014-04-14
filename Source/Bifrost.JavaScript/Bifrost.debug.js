@@ -7592,6 +7592,7 @@ Bifrost.namespace("Bifrost.values", {
         };
 
         this.convertTo = function (value) {
+            if (Bifrost.isNullOrUndefined(value)) return value;
             for (var converter in convertersByType) {
                 if (value.constructor == converter) {
                     return convertersByType[converter].convertTo(value);
@@ -7664,6 +7665,7 @@ Bifrost.namespace("Bifrost.values", {
         });
 
         function getFormat(element) {
+            if (element.nodeType !== 1 || Bifrost.isNullOrUndefined(element.attributes)) return null;
             var stringFormatAttribute = element.attributes.getNamedItem("data-stringformat");
             if (!Bifrost.isNullOrUndefined(stringFormatAttribute)) {
                 return stringFormatAttribute.value;
@@ -7696,23 +7698,21 @@ Bifrost.namespace("Bifrost.values", {
 });
 Bifrost.namespace("Bifrost.values", {
     valuePipeline: Bifrost.Singleton(function (typeConverters, stringFormatter) {
-
         this.getValueForView = function (element, value) {
+            if (Bifrost.isNullOrUndefined(value)) return value;
             var actualValue = ko.utils.unwrapObservable(value);
+            if (Bifrost.isNullOrUndefined(actualValue)) return value;
 
-            if (actualValue !== element._previousValue) {
-                element._previousValue = actualValue;
+            var returnValue = actualValue;
 
-                if (stringFormatter.hasFormat(element)) {
-                    value = stringFormatter.format(element, actualValue)
-                } else {
-                    if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
-                        value = typeConverters.convertTo(actualValue);
-                    }
+            if (stringFormatter.hasFormat(element)) {
+                returnValue = stringFormatter.format(element, actualValue)
+            } else {
+                if (!Bifrost.isNullOrUndefined(value._typeAsString)) {
+                    returnValue = typeConverters.convertTo(actualValue);
                 }
             }
-
-            return value;
+            return returnValue;
         };
 
         this.getValueForProperty = function (property, value) {
@@ -7728,8 +7728,38 @@ Bifrost.namespace("Bifrost.values", {
 (function () {
     var valuePipeline = Bifrost.values.valuePipeline.create();
 
-    Bifrost.values.valuePipeline.getValueForView = function (element, value) {
-        var result = valuePipeline.getValueForView(element, value);
+    var oldReadValue = ko.selectExtensions.readValue;
+    ko.selectExtensions.readValue = function (element) {
+        var value = oldReadValue(element);
+
+        var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
+        var result = valuePipeline.getValueForProperty(bindings.value, value);
+        return result;
+    };
+
+    var oldWriteValue = ko.selectExtensions.writeValue;
+    ko.selectExtensions.writeValue = function (element, value, allowUnset) {
+        var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
+        var result = ko.utils.unwrapObservable(valuePipeline.getValueForView(element, bindings.value));
+
+        oldWriteValue(element, result, allowUnset);
+    };
+
+    var oldSetTextContent = ko.utils.setTextContent;
+    ko.utils.setTextContent = function (element, value) {
+        result = valuePipeline.getValueForView(element, value);
+        oldSetTextContent(element, result);
+    };
+
+    var oldSetHtml = ko.utils.setHtml;
+    ko.utils.setHtml = function (element, value) {
+        result = valuePipeline.getValueForView(element, value);
+        oldSetHtml(element, result);
+    };
+
+    /*
+    Bifrost.values.valuePipeline.getValueForView = function (element, bindingHandlerName, value) {
+        var result = valuePipeline.getValueForView(element, bindingHandlerName, value);
         return result;
     }
 
@@ -7752,20 +7782,22 @@ Bifrost.namespace("Bifrost.values", {
 
     var oldPreProcessBindings = ko.expressionRewriting.preProcessBindings;
     ko.expressionRewriting.preProcessBindings = function (bindingsStringOrKeyValueArray, bindingOptions) {
-
-        var expressionIndex = bindingsStringOrKeyValueArray.indexOf(":");
-        var expression = bindingsStringOrKeyValueArray.substr(expressionIndex + 1).trim();
-        var bindingString = bindingsStringOrKeyValueArray;
-        if (!isComplexExpression(expression)) {
-            var rewrittenExpression = bindingsStringOrKeyValueArray;
-            var bindingHandler = bindingsStringOrKeyValueArray.substr(0, expressionIndex + 1);
-            rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, " + expression + ")";
-            bindingString = bindingHandler + rewrittenExpression;
-        }
+        var bindings = ko.expressionRewriting.parseObjectLiteral(bindingsStringOrKeyValueArray);
+        var bindingString = "";
+        bindings.forEach(function (binding) {
+            var bindingHandler = binding.key;
+            var expression = binding.value;
+            var rewrittenExpression = expression;
+            if (!isComplexExpression(expression) && expression[0] != '{') {
+                rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, '"+bindingHandler+"', " + expression + ")";
+            }
+            if( bindingString !== "" ) bindingString = bindingString +", ";
+            bindingString = bindingString + bindingHandler + ":" + rewrittenExpression;
+        });
 
         var result = oldPreProcessBindings(bindingString, bindingOptions);
         return result;
-    };
+    };*/
 })();
 Bifrost.namespace("Bifrost", {
     configureType: Bifrost.Singleton(function(assetsManager) {
