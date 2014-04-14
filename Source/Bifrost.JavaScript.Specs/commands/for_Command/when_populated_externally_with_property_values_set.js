@@ -5,7 +5,8 @@
         commandValidationService: {
             applyRulesTo: function (command) {
             },
-            validateSilently: sinon.stub()
+            validateSilently: sinon.stub(),
+            clearValidationMessagesFor: sinon.stub()
         },
         commandSecurityService: {
             getContextFor: function () {
@@ -45,5 +46,9 @@
 
     it("should not be considered ready to execute", function () {
         expect(command.isReadyToExecute()).toBe(false);
+    });
+
+    it("should clear any validation messages", function () {
+        expect(parameters.commandValidationService.clearValidationMessagesFor.calledWith(command)).toBe(true);
     });
 });

@@ -40,10 +40,11 @@
                 if (shouldSkipProperty(target, property)) continue;
 
                 if (typeof target[property].validator !== "undefined") {
+                    var valueToValidate = ko.utils.unwrapObservable(target[property]());
                     if (silent === true) {
-                        target[property].validator.validateSilently(target[property]());
+                        target[property].validator.validateSilently(valueToValidate);
                     } else {
-                        target[property].validator.validate(target[property]());
+                        target[property].validator.validate(valueToValidate);
                     }
 
                     if (target[property].validator.isValid() == false) {
@@ -78,7 +79,6 @@
                         member.validator.message(message);
                     }
                 }
-
             }
         }
 
@@ -104,6 +104,16 @@
             var result = { valid: true };
             validatePropertiesFor(command, result, true);
             return result;
+        };
+
+        this.clearValidationMessagesFor = function (target) {
+            for (var property in target) {
+                if (shouldSkipProperty(target, property)) continue;
+
+                if (!Bifrost.isNullOrUndefined(target[property].validator)) {
+                    target[property].validator.message("");
+                }
+            }
         };
 
         this.extendPropertiesWithoutValidation = function (command) {

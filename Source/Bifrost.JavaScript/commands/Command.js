@@ -243,6 +243,7 @@ Bifrost.namespace("Bifrost.commands", {
             self.isPopulatedExternally(true);
             self.setPropertyValuesFrom(values);
             self.populatedFromExternalSource(true);
+            commandValidationService.clearValidationMessagesFor(self.targetCommand);
         };
 
         function setValueOnObservable(observable, value) {
