@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A project for getting started with Bifrost quickly</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2008 - 2013</copyright>
+    <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="Bifrost" version="$version$"/>

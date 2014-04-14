@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Support for RavenDB Embedded for Bifrost</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2008 - 2013</copyright>
+    <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="RavenDB.Client" version="[2.0.2330]" />
