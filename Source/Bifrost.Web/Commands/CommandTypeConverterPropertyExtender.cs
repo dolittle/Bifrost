@@ -41,7 +41,10 @@ namespace Bifrost.Web.Commands
                     type == typeof(Int64) ||
                     type == typeof(UInt16) ||
                     type == typeof(UInt32) ||
-                    type == typeof(UInt64))
+                    type == typeof(UInt64) ||
+                    type == typeof(float) ||
+                    type == typeof(double) ||
+                    type == typeof(decimal) )
                 {
                     clientType = "Number";
                 }
