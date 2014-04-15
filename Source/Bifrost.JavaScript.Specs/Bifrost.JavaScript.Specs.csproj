@@ -96,6 +96,8 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
+    <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_after_command_created_callback.js" />
+    <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />

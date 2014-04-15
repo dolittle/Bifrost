@@ -2,7 +2,7 @@
     var commandType = { some: "commandType" };
 
     var securityContext = {
-        isAuthorized: ko.observable("very much so")
+        isAuthorized: ko.observable(false)
     };
 
     var commandSecurityService = {

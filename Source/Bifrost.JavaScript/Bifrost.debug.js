@@ -4547,6 +4547,9 @@ Bifrost.namespace("Bifrost.interaction", {
         // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
         this.isAuthorized = ko.observable(false);
         
+        // <field name="afterCommandCreated" type="callback">Callback that gets called</field>
+        this.afterCommandCreated = null;
+
         this.canPerform.when(this.isAuthorized);
 
         this.commandType.subscribe(function (type) {
@@ -4560,6 +4563,11 @@ Bifrost.namespace("Bifrost.interaction", {
             var instance = commandType.create({
                 region: self.region
             });
+
+            if (Bifrost.isFunction(self.afterCommandCreated)) {
+                self.afterCommandCreated(instance);
+            }
+
             return instance;
         };
     })
@@ -7727,6 +7735,8 @@ Bifrost.namespace("Bifrost.values", {
         };
 
         this.getValueForProperty = function (property, value) {
+            if (Bifrost.isNullOrUndefined(property)) return value;
+            if (Bifrost.isNullOrUndefined(value)) return value;
             if (!Bifrost.isNullOrUndefined(property._typeAsString)) {
                 value = typeConverters.convertFrom(value, property._typeAsString);
             }
@@ -7744,15 +7754,18 @@ Bifrost.namespace("Bifrost.values", {
         var value = oldReadValue(element);
 
         var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
+        if (Bifrost.isNullOrUndefined(bindings)) return value;
         var result = valuePipeline.getValueForProperty(bindings.value, value);
         return result;
     };
 
     var oldWriteValue = ko.selectExtensions.writeValue;
     ko.selectExtensions.writeValue = function (element, value, allowUnset) {
+        var result = value;
         var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
-        var result = ko.utils.unwrapObservable(valuePipeline.getValueForView(element, bindings.value));
-
+        if (!Bifrost.isNullOrUndefined(bindings)) {
+            result = ko.utils.unwrapObservable(valuePipeline.getValueForView(element, bindings.value));
+        }
         oldWriteValue(element, result, allowUnset);
     };
 

@@ -9,6 +9,9 @@
         // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
         this.isAuthorized = ko.observable(false);
         
+        // <field name="afterCommandCreated" type="callback">Callback that gets called</field>
+        this.afterCommandCreated = null;
+
         this.canPerform.when(this.isAuthorized);
 
         this.commandType.subscribe(function (type) {
@@ -22,6 +25,11 @@
             var instance = commandType.create({
                 region: self.region
             });
+
+            if (Bifrost.isFunction(self.afterCommandCreated)) {
+                self.afterCommandCreated(instance);
+            }
+
             return instance;
         };
     })
