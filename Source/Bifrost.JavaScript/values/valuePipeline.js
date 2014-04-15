@@ -18,6 +18,8 @@
         };
 
         this.getValueForProperty = function (property, value) {
+            if (Bifrost.isNullOrUndefined(property)) return value;
+            if (Bifrost.isNullOrUndefined(value)) return value;
             if (!Bifrost.isNullOrUndefined(property._typeAsString)) {
                 value = typeConverters.convertFrom(value, property._typeAsString);
             }
@@ -35,15 +37,18 @@
         var value = oldReadValue(element);
 
         var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
+        if (Bifrost.isNullOrUndefined(bindings)) return value;
         var result = valuePipeline.getValueForProperty(bindings.value, value);
         return result;
     };
 
     var oldWriteValue = ko.selectExtensions.writeValue;
     ko.selectExtensions.writeValue = function (element, value, allowUnset) {
+        var result = value;
         var bindings = ko.bindingProvider.instance.getBindings(element, ko.contextFor(element));
-        var result = ko.utils.unwrapObservable(valuePipeline.getValueForView(element, bindings.value));
-
+        if (!Bifrost.isNullOrUndefined(bindings)) {
+            result = ko.utils.unwrapObservable(valuePipeline.getValueForView(element, bindings.value));
+        }
         oldWriteValue(element, result, allowUnset);
     };
 
