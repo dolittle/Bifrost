@@ -4547,8 +4547,8 @@ Bifrost.namespace("Bifrost.interaction", {
         // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
         this.isAuthorized = ko.observable(false);
         
-        // <field name="afterCommandCreated" type="callback">Callback that gets called</field>
-        this.afterCommandCreated = null;
+        // <field name="commandCreated" type="Bifrost.Event">Event that gets triggered when command is created</field>
+        this.commandCreated = Bifrost.Event.create();
 
         this.canPerform.when(this.isAuthorized);
 
@@ -4564,9 +4564,7 @@ Bifrost.namespace("Bifrost.interaction", {
                 region: self.region
             });
 
-            if (Bifrost.isFunction(self.afterCommandCreated)) {
-                self.afterCommandCreated(instance);
-            }
+            self.commandCreated.trigger(instance);
 
             return instance;
         };

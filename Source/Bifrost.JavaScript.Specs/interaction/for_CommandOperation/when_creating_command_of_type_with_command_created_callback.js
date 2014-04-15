@@ -1,4 +1,4 @@
-﻿describe("when creating command of type with after command created callback", function () {
+﻿describe("when creating command of type with command created callback", function () {
     var commandInstance = {myCommand:42};
     var commandType = {
         create: sinon.stub().returns(commandInstance),
@@ -17,11 +17,13 @@
         context: context
     });
 
-    instance.afterCommandCreated = sinon.stub();
+    var commandCreated = sinon.stub();
+
+    instance.commandCreated.subscribe(commandCreated);
 
     result = instance.createCommandOfType(commandType)
 
     it("should call the callback", function () {
-        expect(instance.afterCommandCreated.calledWith(commandInstance)).toBe(true);
+        expect(commandCreated.calledWith(commandInstance)).toBe(true);
     });
 });
