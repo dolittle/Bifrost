@@ -36,6 +36,13 @@
         }
 
         function onStartup() {
+            var configurators = Bifrost.configurator.getExtenders();
+            configurators.forEach(function (configuratorType) {
+                var configurator = configuratorType.create()
+                configurator.config(self);
+            });
+
+
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();

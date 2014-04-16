@@ -195,5 +195,6 @@
 @depends values/DateFormatter.js
 @depends values/stringFormatter.js
 @depends values/valuePipeline.js
+@depends utils/configurator.js
 @depends utils/configure.js
 */

@@ -54,6 +54,7 @@ Dependencies :
   - Bifrost.JavaScript/views/ComposeTask.js
   - Bifrost.JavaScript/interaction/Operation.js
   - Bifrost.JavaScript/Event.js
+  - Bifrost.JavaScript/utils/configurator.js
   - Bifrost.JavaScript/utils/configure.js
 
 

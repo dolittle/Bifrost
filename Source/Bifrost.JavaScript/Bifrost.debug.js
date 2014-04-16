@@ -7822,6 +7822,13 @@ Bifrost.namespace("Bifrost.values", {
     };*/
 })();
 Bifrost.namespace("Bifrost", {
+    configurator: Bifrost.Type.extend(function () {
+        this.configure = function (configure) {
+
+        };
+    })
+});
+Bifrost.namespace("Bifrost", {
     configureType: Bifrost.Singleton(function(assetsManager) {
         var self = this;
 
@@ -7859,6 +7866,13 @@ Bifrost.namespace("Bifrost", {
         }
 
         function onStartup() {
+            var configurators = Bifrost.configurator.getExtenders();
+            configurators.forEach(function (configuratorType) {
+                var configurator = configuratorType.create()
+                configurator.config(self);
+            });
+
+
             Bifrost.dependencyResolvers.DOMRootDependencyResolver.documentIsReady();
             Bifrost.views.viewModelBindingHandler.initialize();
             Bifrost.views.viewBindingHandler.initialize();
