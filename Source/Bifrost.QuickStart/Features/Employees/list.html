@@ -22,6 +22,8 @@
                 </th>
                 <th>Last Name
                 </th>
+                <th>Employed From
+                </th>
             </tr>
         </thead>
         <tbody data-bind="foreach: employees">
@@ -29,6 +31,7 @@
                 <td data-bind="text: socialSecurityNumber"></td>
                 <td data-bind="text: firstName"></td>
                 <td data-bind="text: lastName"></td>
+                <td data-bind="text: employedFrom" data-stringformat="{dd/MM-yyyy}"></td>
             </tr>
         </tbody>
     </table>

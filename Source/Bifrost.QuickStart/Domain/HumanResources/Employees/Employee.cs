@@ -12,13 +12,14 @@ namespace Bifrost.QuickStart.Domain.HumanResources.Employees
         {
         }
 
-        public void Register(SocialSecurityNumber socialSecurityNumber, string firstName, string lastName)
+        public void Register(SocialSecurityNumber socialSecurityNumber, string firstName, string lastName, DateTime employedFrom)
         {
             Apply(new EmployeeRegistered(Id)
             {
                 SocialSecurityNumber = socialSecurityNumber,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,
+                EmployedFrom = employedFrom
             });
         }
 

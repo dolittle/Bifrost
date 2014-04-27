@@ -10,5 +10,6 @@ namespace Bifrost.QuickStart.Events.HumanResources.Employees
         public string SocialSecurityNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime EmployedFrom { get; set; }
     }
 }

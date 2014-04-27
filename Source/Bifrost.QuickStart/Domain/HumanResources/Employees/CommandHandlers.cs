@@ -16,7 +16,12 @@ namespace Bifrost.QuickStart.Domain.HumanResources.Employees
         public void Handle(RegisterEmployee command)
         {
             var employee = _repository.Get(Guid.NewGuid());
-            employee.Register(command.SocialSecurityNumber, command.FirstName, command.LastName);
+            employee.Register(
+                command.SocialSecurityNumber, 
+                command.FirstName, 
+                command.LastName,
+                command.EmployedFrom
+            );
         }
     }
 }

@@ -20,7 +20,8 @@ namespace Bifrost.QuickStart.Read.HumanResources.Employees
                 Id = @event.EventSourceId,
                 SocialSecurityNumber = @event.SocialSecurityNumber,
                 FirstName = @event.FirstName,
-                LastName = @event.LastName
+                LastName = @event.LastName,
+                EmployedFrom = @event.EmployedFrom
             });
         }
     }
