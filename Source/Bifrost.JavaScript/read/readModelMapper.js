@@ -8,8 +8,13 @@ Bifrost.namespace("Bifrost.read", {
 			    if (typeof to[property] !== "undefined") {
 			        if (Bifrost.isObject(to[property])) {
 			            copyProperties(from[property], to[property]);
-					} else {
-			            to[property] = from[property];
+			        } else {
+			            var value = from[property];
+			            if (!Bifrost.isNullOrUndefined(to[property]) &&
+                            to[property].constructor === Date) {
+			                value = new Date(value);
+			            }
+			            to[property] = value;
 					}
 				}
 			}
