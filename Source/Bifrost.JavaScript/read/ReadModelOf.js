@@ -58,6 +58,8 @@ Bifrost.namespace("Bifrost.read", {
 
 		this.onCreated = function (lastDescendant) {
 		    self.target = lastDescendant;
+		    var readModelInstance = lastDescendant.readModelType.create();
+		    self.instance(readModelInstance);
 		};
 	})
 });
