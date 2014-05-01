@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using Bifrost.Extensions;
 
 namespace Bifrost.Concepts
 {
@@ -76,7 +77,7 @@ namespace Bifrost.Concepts
 
         static bool IsPrimitive(Type type)
         {
-            return type.IsPrimitive || type == typeof (decimal);
+            return type.IsAPrimitiveType();
         }
     }
 }

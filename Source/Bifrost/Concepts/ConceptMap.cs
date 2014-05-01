@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Reflection;
 using Bifrost.Extensions;
 
 namespace Bifrost.Concepts
@@ -24,8 +25,14 @@ namespace Bifrost.Concepts
         static Type GetPrimitiveType(Type type)
         {
             var conceptType = FindConceptAsType(type);
+#if(NETFX_CORE)
+            var typeInfo = conceptType.GetTypeInfo();
+            if (conceptType == null || !typeInfo.IsGenericType) return null;
+            var genericArgumentType = typeInfo.GenericTypeArguments[0];
+#else
             if (conceptType == null || !conceptType.IsGenericType) return null;
             var genericArgumentType = conceptType.GetGenericArguments()[0];
+#endif
             return genericArgumentType.HasInterface(typeof(IEquatable<>)) ? genericArgumentType : null;
         }
 
@@ -35,12 +42,21 @@ namespace Bifrost.Concepts
             var typeToCheck = type;
             while (typeToCheck != null && typeToCheck != typeof(object))
             {
+#if(NETFX_CORE)
+                var currentType = typeToCheck.GetTypeInfo().IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
+#else
                 var currentType = typeToCheck.IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
+#endif
                 if (openGenericType == currentType)
                 {
                     return typeToCheck;
                 }
+
+#if(NETFX_CORE)
+                typeToCheck = typeToCheck.GetTypeInfo().BaseType;
+#else
                 typeToCheck = typeToCheck.BaseType;
+#endif
             }
             return null;
         }

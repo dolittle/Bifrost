@@ -207,12 +207,20 @@ namespace Bifrost.Extensions
             var typeToCheck = type;
             while (typeToCheck != null && typeToCheck != typeof(object))
             {
+#if(NETFX_CORE)
+                var currentType = typeToCheck.GetTypeInfo().IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
+#else
                 var currentType = typeToCheck.IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
+#endif
                 if (openGenericType == currentType)
                 {
                     return true;
                 }
+#if(NETFX_CORE)
+                typeToCheck = typeToCheck.GetTypeInfo().BaseType;
+#else
                 typeToCheck = typeToCheck.BaseType;
+#endif
             }
             return false;
         }
@@ -225,7 +233,12 @@ namespace Bifrost.Extensions
         /// <returns>True if a "primitive"</returns>
         public static bool IsAPrimitiveType(this Type type)
         {
-            return type.IsPrimitive || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type);
+#if(NETFX_CORE)
+            return type.GetTypeInfo().IsPrimitive 
+#else
+            return type.IsPrimitive 
+#endif
+                    || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type) || type == typeof(decimal);
         }
 	}
 }
