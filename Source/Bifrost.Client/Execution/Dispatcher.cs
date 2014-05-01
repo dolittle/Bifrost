@@ -22,7 +22,7 @@ namespace Bifrost.Execution
 {
 
     /// <summary>
-    /// Represents a <see cref="IDispathcer"/>
+    /// Represents a <see cref="IDispatcher"/>
     /// </summary>
 	public class Dispatcher : IDispatcher
 	{

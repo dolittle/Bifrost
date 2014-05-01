@@ -20,6 +20,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,6 +88,11 @@
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
+    <Compile Include="Interaction\IOperations.cs" />
+    <Compile Include="Interaction\Operation.cs" />
+    <Compile Include="Interaction\OperationContext.cs" />
+    <Compile Include="Interaction\Operations.cs" />
+    <Compile Include="Interaction\OperationState.cs" />
     <Compile Include="Values\BindableExpandoObject.cs" />
     <Compile Include="Values\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Values\BindableExpandoType.cs" />

@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client", "..\Bifrost.Client\Bifrost.Client.csproj", "{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client.Specs", "..\Bifrost.Client.Specs\Bifrost.Client.Specs.csproj", "{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JavaScript", "..\Bifrost.JavaScript\Bifrost.JavaScript.csproj", "{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JavaScript.Specs", "..\Bifrost.JavaScript.Specs\Bifrost.JavaScript.Specs.csproj", "{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E029DC-EBEB-492F-9CA0-D26DB9F82064}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
