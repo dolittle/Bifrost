@@ -17,6 +17,9 @@
 //
 #endregion
 using System;
+#if(NETFX_CORE)
+using System.Reflection;
+#endif
 using Bifrost.Extensions;
 
 namespace Bifrost.Concepts
@@ -74,10 +77,13 @@ namespace Bifrost.Concepts
         {
             return ConceptMap.GetConceptValueType(conceptType);
         }
-
         static bool IsPrimitive(Type type)
         {
-            return type.IsAPrimitiveType();
+#if(NETFX_CORE)
+            return type.GetTypeInfo().IsPrimitive || type == typeof(decimal);
+#else
+            return type.IsPrimitive || type == typeof(decimal);
+#endif
         }
     }
 }
