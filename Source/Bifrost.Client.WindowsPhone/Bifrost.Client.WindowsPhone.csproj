@@ -89,6 +89,24 @@
     <Compile Include="..\Bifrost.Client\Execution\IDispatcher.cs">
       <Link>Execution\IDispatcher.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\DelegateCommand.cs">
+      <Link>Interaction\DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\IOperations.cs">
+      <Link>Interaction\IOperations.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\Operation.cs">
+      <Link>Interaction\Operation.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\OperationContext.cs">
+      <Link>Interaction\OperationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\Operations.cs">
+      <Link>Interaction\Operations.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Interaction\OperationState.cs">
+      <Link>Interaction\OperationState.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.Client\Values\DependencyProperty.cs">
       <Link>Values\DependencyProperty.cs</Link>
     </Compile>

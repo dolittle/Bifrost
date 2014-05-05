@@ -64,22 +64,6 @@ namespace Bifrost.Interaction
 			}
 		}
 
-		public override string ExecuteTargetName
-		{
-			get
-			{
-				return ExecuteEventHandler.Method.Name;
-			}
-		}
-
-		public override string CanExecuteTargetName
-		{
-			get
-			{
-				return CanExecuteEventHandler.Method.Name;
-			}
-		}
-
 		public override Type ExecuteTargetType
 		{
 			get
@@ -179,22 +163,6 @@ namespace Bifrost.Interaction
 			return new DelegateCommand<T>(execute, canExecute);
 		}
 
-
-		public virtual string ExecuteTargetName
-		{
-			get
-			{
-				return ExecuteWithoutParameterEventHandler.Method.Name;
-			}
-		}
-
-		public virtual string CanExecuteTargetName
-		{
-			get
-			{
-				return CanExecuteWithoutParameterEventHandler.Method.Name;
-			}
-		}
 
 		public virtual Type ExecuteTargetType
 		{
