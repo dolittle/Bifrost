@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Reflection;
+using Bifrost.Diagnostics;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
 using Bifrost.Sagas;
@@ -35,28 +36,32 @@ namespace Bifrost.Commands
 	    readonly ICommandValidationService _commandValidationService;
         readonly ICommandSecurityManager _commandSecurityManager;
 		readonly ILocalizer _localizer;
+	    private readonly IExceptionPublisher _exceptionPublisher;
 
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CommandCoordinator">CommandCoordinator</see>
-		/// </summary>
-		/// <param name="commandHandlerManager">A <see cref="ICommandHandlerManager"/> for handling commands</param>
-		/// <param name="commandContextManager">A <see cref="ICommandContextManager"/> for establishing a <see cref="CommandContext"/></param>
-        /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
-		/// <param name="commandValidationService">A <see cref="ICommandValidationService"/> for validating a <see cref="ICommand"/> before handling</param>
-		/// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
-		public CommandCoordinator(
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="CommandCoordinator">CommandCoordinator</see>
+	    /// </summary>
+	    /// <param name="commandHandlerManager">A <see cref="ICommandHandlerManager"/> for handling commands</param>
+	    /// <param name="commandContextManager">A <see cref="ICommandContextManager"/> for establishing a <see cref="CommandContext"/></param>
+	    /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
+	    /// <param name="commandValidationService">A <see cref="ICommandValidationService"/> for validating a <see cref="ICommand"/> before handling</param>
+	    /// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
+	    /// <param name="exceptionPublisher"></param>
+	    public CommandCoordinator(
 			ICommandHandlerManager commandHandlerManager,
 			ICommandContextManager commandContextManager,
             ICommandSecurityManager commandSecurityManager,
             ICommandValidationService commandValidationService,
-			ILocalizer localizer)
+			ILocalizer localizer,
+            IExceptionPublisher exceptionPublisher)
 		{
 			_commandHandlerManager = commandHandlerManager;
 			_commandContextManager = commandContextManager;
             _commandSecurityManager = commandSecurityManager;
 		    _commandValidationService = commandValidationService;
 	    	_localizer = localizer;
+	        _exceptionPublisher = exceptionPublisher;
 		}
 
 #pragma warning disable 1591 // Xml Comments
@@ -97,25 +102,29 @@ namespace Bifrost.Commands
                             _commandHandlerManager.Handle(command);
                             transaction.Commit();
                         }
-                        catch (TargetInvocationException ex)
+                        catch (TargetInvocationException tiex)
                         {
-                            commandResult.Exception = ex.InnerException;
+                            _exceptionPublisher.Publish(tiex);
+                            commandResult.Exception = tiex.InnerException;
                             transaction.Rollback();
                         }
-                        catch (Exception exception)
+                        catch (Exception ex)
                         {
-                            commandResult.Exception = exception;
+                            _exceptionPublisher.Publish(ex);
+                            commandResult.Exception = ex;
                             transaction.Rollback();
                         }
                     }
                 }
             }
-            catch (TargetInvocationException ex)
+            catch (TargetInvocationException tiex)
             {
-                commandResult.Exception = ex.InnerException;
+                _exceptionPublisher.Publish(tiex);
+                commandResult.Exception = tiex.InnerException;
             }
             catch (Exception ex)
             {
+                _exceptionPublisher.Publish(ex);
                 commandResult.Exception = ex;
             }
 

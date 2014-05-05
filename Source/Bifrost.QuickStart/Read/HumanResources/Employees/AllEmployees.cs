@@ -11,6 +11,12 @@ namespace Bifrost.QuickStart.Read.HumanResources.Employees
             _repository = repository;
         }
 
-        public IQueryable<Employee> Query { get { return _repository.Query; } }
+        public IQueryable<Employee> Query
+        {
+            get
+            {
+                return _repository.Query;
+            }
+        }
     }
 }

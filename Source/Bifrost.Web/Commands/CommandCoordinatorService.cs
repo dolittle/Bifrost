@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using Bifrost.Commands;
+using Bifrost.Diagnostics;
 using Bifrost.Execution;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
@@ -31,17 +32,20 @@ namespace Bifrost.Web.Commands
         readonly ISerializer _serializer;
         readonly ITypeDiscoverer _typeDiscoverer;
         readonly ISagaLibrarian _sagaLibrarian;
+        private readonly IExceptionPublisher _exceptionPublisher;
 
         public CommandCoordinatorService(
             ICommandCoordinator commandCoordinator, 
             ISerializer serializer,
             ITypeDiscoverer typeDiscoverer,
-            ISagaLibrarian sagaLibrarian)
+            ISagaLibrarian sagaLibrarian,
+            IExceptionPublisher exceptionPublisher)
         {
             _commandCoordinator = commandCoordinator;
             _serializer = serializer;
             _typeDiscoverer = typeDiscoverer;
             _sagaLibrarian = sagaLibrarian;
+            _exceptionPublisher = exceptionPublisher;
         }
 
         public CommandResult Handle(CommandDescriptor commandDescriptor)
@@ -70,6 +74,7 @@ namespace Bifrost.Web.Commands
                 }
                 catch (Exception ex)
                 {
+                    _exceptionPublisher.Publish(ex);
                     var commandResult = CommandResult.ForCommand(commandInstance);
                     commandResult.Exception = ex;
                     return new[] { commandResult };
@@ -96,6 +101,7 @@ namespace Bifrost.Web.Commands
                 }
                 catch (Exception ex)
                 {
+                    _exceptionPublisher.Publish(ex);
                     var commandResult = CommandResult.ForCommand(commandInstance);
                     commandResult.Exception = ex;
                     return new[] { commandResult };

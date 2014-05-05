@@ -17,15 +17,12 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Security;
 using System.Web;
 using System.Web.SessionState;
 using Bifrost.Configuration;
+using Bifrost.Diagnostics;
 using Bifrost.Execution;
 using Bifrost.Security;
-using Bifrost.Serialization;
 using Bifrost.Services;
 
 namespace Bifrost.Web.Services
@@ -39,6 +36,7 @@ namespace Bifrost.Web.Services
         IRestServiceMethodInvoker _invoker;
         IContainer _container;
         private readonly ISecurityManager _securityManager;
+        private readonly IExceptionPublisher _exceptionPublisher;
 
         public RestServiceRouteHttpHandler(Type type, string url) 
             : this(
@@ -47,10 +45,11 @@ namespace Bifrost.Web.Services
                 Configure.Instance.Container.Get<IRequestParamsFactory>(),
                 Configure.Instance.Container.Get<IRestServiceMethodInvoker>(),
                 Configure.Instance.Container,
-                Configure.Instance.Container.Get<ISecurityManager>())
+                Configure.Instance.Container.Get<ISecurityManager>(),
+                Configure.Instance.Container.Get<IExceptionPublisher>())
         {}
 
-        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker, IContainer container, ISecurityManager securityManager)
+        public RestServiceRouteHttpHandler(Type type, string url, IRequestParamsFactory factory, IRestServiceMethodInvoker invoker, IContainer container, ISecurityManager securityManager, IExceptionPublisher exceptionPublisher)
         {
             _type = type;
             _url = url;
@@ -58,6 +57,7 @@ namespace Bifrost.Web.Services
             _invoker = invoker;
             _container = container;
             _securityManager = securityManager;
+            _exceptionPublisher = exceptionPublisher;
         }
 
         public bool IsReusable { get { return true; } }
@@ -79,9 +79,11 @@ namespace Bifrost.Web.Services
                 var result = _invoker.Invoke(_url, serviceInstance, context.Request.Url, form);
                 context.Response.Write(result);
             }
-            catch( Exception e)
+            catch(Exception e)
             {
-                if (e.InnerException != null && e.InnerException is HttpStatus.HttpStatusException)
+                _exceptionPublisher.Publish(e);
+
+                if (e.InnerException is HttpStatus.HttpStatusException)
                 {
                     var ex = e.InnerException as HttpStatus.HttpStatusException;
                     context.Response.StatusCode = ex.Code;

@@ -20,6 +20,7 @@
 using System;
 using System.Security.Principal;
 using Bifrost.Commands;
+using Bifrost.Diagnostics;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Execution;
@@ -43,6 +44,8 @@ namespace Bifrost.Testing
         ICommandValidationService command_validation_service;
         ICommandCoordinator command_coordinator;
         Mock<ILocalizer> localizer;
+        Mock<IExceptionPublisher> exception_publisher_mock;
+
         ICommandContextFactory command_context_factory;
         ICommandContextManager command_context_manager;
         Mock<ICommandHandlerManager> command_handler_manager;
@@ -95,7 +98,8 @@ namespace Bifrost.Testing
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
                                         command_validation_service,
-                                        localizer.Object);
+                                        localizer.Object,
+                                        exception_publisher_mock.Object);
 
             input_validator = null_validator;
             business_validator = null_validator;

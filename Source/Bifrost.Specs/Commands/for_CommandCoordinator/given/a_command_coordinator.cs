@@ -1,4 +1,5 @@
 ﻿using Bifrost.Commands;
+using Bifrost.Diagnostics;
 using Bifrost.Security;
 using Bifrost.Validation;
 using Machine.Specifications;
@@ -14,6 +15,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
         protected static Mock<ICommandSecurityManager> command_security_manager_mock;
         protected static Mock<ICommandValidationService> command_validation_service_mock;
         protected static Mock<ICommand> command_mock;
+        protected static Mock<IExceptionPublisher> exception_publisher_mock;
 
         Establish context = () =>
                                 {
@@ -29,12 +31,15 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                         s => s.Authorize(Moq.It.IsAny<ICommand>()))
                                                                  .Returns(new AuthorizationResult());
 
+                                    exception_publisher_mock = new Mock<IExceptionPublisher>();
+
                                     coordinator = new CommandCoordinator(
                                         command_handler_manager_mock.Object,
                                         command_context_manager_mock.Object,
                                         command_security_manager_mock.Object,
                                         command_validation_service_mock.Object,
-										localizer_mock.Object
+										localizer_mock.Object,
+                                        exception_publisher_mock.Object
                                         );
                                 };
     }

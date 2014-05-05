@@ -139,6 +139,9 @@
     <Compile Include="Configuration\IConfigure.cs" />
     <Compile Include="Configuration\ISagasConfiguration.cs" />
     <Compile Include="Configuration\SagasConfiguration.cs" />
+    <Compile Include="Diagnostics\ExceptionPublisher.cs" />
+    <Compile Include="Diagnostics\IExceptionPublisher.cs" />
+    <Compile Include="Diagnostics\IExceptionSubscriber.cs" />
     <Compile Include="Dynamic\DynamicExtensions.cs" />
     <Compile Include="Diagnostics\IProblems.cs" />
     <Compile Include="Diagnostics\IProblemsFactory.cs" />

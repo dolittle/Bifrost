@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Diagnostics;
 using Bifrost.Execution;
 
 namespace Bifrost.Read
@@ -35,6 +36,7 @@ namespace Bifrost.Read
         Dictionary<Type, Type> _queryProviderTypesPerTargetType;
         IContainer _container;
         IReadModelFilters _filters;
+        private readonly IExceptionPublisher _exceptionPublisher;
         IFetchingSecurityManager _fetchingSecurityManager;
 
         /// <summary>
@@ -44,10 +46,12 @@ namespace Bifrost.Read
         /// <param name="container"><see cref="IContainer"/> for getting instances of <see cref="IQueryProviderFor{T}">query providers</see></param>
         /// <param name="fetchingSecurityManager"><see cref="IFetchingSecurityManager"/> to use for securing <see cref="IQuery">queries</see></param>
         /// <param name="filters"><see cref="IReadModelFilters">Filters</see> used to filter any of the read models coming back after a query</param>
-        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IFetchingSecurityManager fetchingSecurityManager, IReadModelFilters filters)
+        /// <param name="exceptionPublisher"></param>
+        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IFetchingSecurityManager fetchingSecurityManager, IReadModelFilters filters, IExceptionPublisher exceptionPublisher)
         {
             _container = container;
             _filters = filters;
+            _exceptionPublisher = exceptionPublisher;
             _fetchingSecurityManager = fetchingSecurityManager;
             var queryTypes = typeDiscoverer.FindMultiple(typeof(IQueryProviderFor<>));
 
@@ -81,12 +85,14 @@ namespace Bifrost.Read
                 var readModels = providerResult.Items as IEnumerable<IReadModel>;
                 result.Items = _filters.Filter(readModels);
             }
-            catch (TargetInvocationException ex)
+            catch (TargetInvocationException tiex)
             {
-                result.Exception = ex.InnerException;
+                _exceptionPublisher.Publish(tiex);
+                result.Exception = tiex.InnerException;
             }
             catch (Exception ex)
             {
+                _exceptionPublisher.Publish(ex);
                 result.Exception = ex;
             }
 

@@ -56,6 +56,12 @@ namespace Bifrost.Web.Read
         void AddClientTypeInformation(QueryResult result)
         {
             var items = new List<object>();
+
+            if (result.Items == null)
+            {
+                return;
+            }
+
             foreach (var item in result.Items)
             {
                 var dynamicItem = item.AsExpandoObject();
