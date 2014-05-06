@@ -107,6 +107,12 @@
     <Compile Include="..\Bifrost.Client\Interaction\OperationState.cs">
       <Link>Interaction\OperationState.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\Messaging\IMessenger.cs">
+      <Link>Messaging\IMessenger.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Messaging\Messenger.cs">
+      <Link>Messaging\Messenger.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.Client\Values\DependencyProperty.cs">
       <Link>Values\DependencyProperty.cs</Link>
     </Compile>
@@ -173,6 +179,7 @@
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
+    <Compile Include="Execution\Dispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

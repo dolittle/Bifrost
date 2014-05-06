@@ -94,6 +94,8 @@
     <Compile Include="Interaction\OperationContext.cs" />
     <Compile Include="Interaction\Operations.cs" />
     <Compile Include="Interaction\OperationState.cs" />
+    <Compile Include="Messaging\IMessenger.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="Values\BindableExpandoObject.cs" />
     <Compile Include="Values\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Values\BindableExpandoType.cs" />
