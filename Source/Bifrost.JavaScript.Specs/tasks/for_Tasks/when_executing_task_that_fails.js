@@ -1,6 +1,7 @@
 ﻿describe("when executing task that fails", function () {
     var error = "Some error";
     var task = {
+        isExecuting: ko.observable(false),
         execute: sinon.stub().returns({
             continueWith: function (callback) {
                 return this;

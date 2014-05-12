@@ -1,6 +1,7 @@
 ﻿describe("when executing task that successfully finishes", function () {
     var result = { some: "result" };
     var task = {
+        isExecuting: ko.observable(false),
         execute: sinon.stub().returns({
             continueWith: function (callback) {
                 callback(result);

@@ -4,7 +4,7 @@
         var self = this;
         var currentInstance = ko.observable();
         
-        /// <field>
+        /// <field name="evaluator">
         /// Holds the evaluator to be used to evaluate wether or not the rule is satisfied
         /// </field>
         /// <remarks>
@@ -14,7 +14,7 @@
         /// </remarks>
         this.evaluator = null;
 
-        /// <field>Observable that holds the result of any evaluations being done</field>
+        /// <field name="isSatisfied">Observable that holds the result of any evaluations being done</field>
         /// <remarks>
         /// Due to its nature of being an observable, it will re-evaluate if the evaluator
         /// is an observable and its state changes.
