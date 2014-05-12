@@ -58,6 +58,7 @@
     <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
     <Content Include="utils\configurator.js" />
+    <Content Include="validation\length.js" />
     <Content Include="values\DateFormatter.js" />
     <Content Include="values\DateTypeConverter.js" />
     <Content Include="values\Formatter.js" />

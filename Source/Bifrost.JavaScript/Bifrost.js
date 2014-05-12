@@ -75,6 +75,7 @@
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
 @depends validation/required.js
+@depends validation/length.js
 @depends validation/minLength.js
 @depends validation/maxLength.js
 @depends validation/range.js
