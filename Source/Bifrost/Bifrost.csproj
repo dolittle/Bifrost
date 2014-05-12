@@ -367,6 +367,8 @@
     <Compile Include="Validation\ICommandValidatorProvider.cs" />
     <Compile Include="Validation\InputValidator.cs" />
     <Compile Include="Validation\InvalidValidatorTypeException.cs" />
+    <Compile Include="Validation\MetaData\Length.cs" />
+    <Compile Include="Validation\MetaData\LengthGenerator.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqual.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqualGenerator.cs" />
     <Compile Include="Validation\MetaData\GreaterThanOrEqual.cs" />
