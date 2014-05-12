@@ -56,6 +56,9 @@ Dependencies :
   - Bifrost.JavaScript/Event.js
   - Bifrost.JavaScript/utils/configurator.js
   - Bifrost.JavaScript/utils/configure.js
+  - Bifrost.JavaScript/rules/Rule.js
+  - Bifrost.JavaScript/rules/And.js
+  - Bifrost.JavaScript/rules/Or.js
 
 
 Harnesses:

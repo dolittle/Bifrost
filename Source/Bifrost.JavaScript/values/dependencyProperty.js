@@ -3,8 +3,6 @@
         this.initialize = function (UIElement) { };
         this.dispose = function (UIElement) {};
 
-        thi
-
         this.set = function (UIElement, value) {
             UIElement[propertyName] = value;
         };
@@ -27,13 +25,13 @@ Bifrost.namespace("Bifrost.DOM", {
             }
         }
 
-        this.initialize = function(element, changed) {
-            element._changed = changed;
-            element.addEventListener("change", inputChanged);
+        this.initialize = function (UIElement, changed) {
+            UIElement._changed = changed;
+            UIElement.addEventListener("change", inputChanged);
         };
 
-        this.dispose = function(element) {
-            element.removeEventListener("change", inputChanged);
+        this.dispose = function (UIElement) {
+            UIElement.removeEventListener("change", inputChanged);
         };
     })
 });
