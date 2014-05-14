@@ -55,7 +55,7 @@
 
         this.all.subscribe(function (changedTasks) {
             changedTasks.forEach(function (task) {
-                //executeTaskIfNotExecuting(task);
+                executeTaskIfNotExecuting(task);
             });
         });
 

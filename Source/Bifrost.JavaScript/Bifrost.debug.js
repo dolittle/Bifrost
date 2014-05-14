@@ -2683,6 +2683,128 @@ Bifrost.namespace("Bifrost.io", {
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.fileManager = Bifrost.io.fileManager;
+Bifrost.namespace("Bifrost.rules", {
+    Rule: Bifrost.Type.extend(function () {
+        /// <summary>Represents a rule based on the specification pattern</summary>
+        var self = this;
+        var currentInstance = ko.observable();
+        
+        /// <field name="evaluator">
+        /// Holds the evaluator to be used to evaluate wether or not the rule is satisfied
+        /// </field>
+        /// <remarks>
+        /// The evaluator can either be a function that gets called with the instance
+        /// or an observable. The observable not being a regular function will obviously
+        /// not have the instance passed 
+        /// </remarks>
+        this.evaluator = null;
+
+        /// <field name="isSatisfied">Observable that holds the result of any evaluations being done</field>
+        /// <remarks>
+        /// Due to its nature of being an observable, it will re-evaluate if the evaluator
+        /// is an observable and its state changes.
+        /// </remarks>
+        this.isSatisfied = ko.computed(function () {
+            
+            if (ko.isObservable(self.evaluator)) {
+                return self.evaluator();
+            }
+            var instance = currentInstance();
+
+            if (!Bifrost.isNullOrUndefined(instance)) {
+                return self.evaluator(instance);
+            }
+            return false;
+        });
+
+        this.evaluate = function (instance) {
+            /// <summary>Evaluates the rule</summary>
+            /// <param name="instance">Object instance used during evaluation</param>
+            /// <returns>True if satisfied, false if not</returns>
+            currentInstance(instance);
+
+            return self.isSatisfied();
+        };
+
+        this.and = function (rule) {
+            /// <summary>Takes this rule and "ands" it together with another rule</summary>
+            /// <param name="rule">
+            /// This can either be the instance of another specific rule, 
+            /// or an evaluator that can be used directly by the default rule implementation
+            /// </param>
+            /// <returns>A new composed rule</returns>
+
+            if (Bifrost.isFunction(rule)) {
+                var oldRule = rule;
+                rule = Bifrost.rules.Rule.create();
+                rule.evaluator = oldRule;
+            }
+
+            var and = Bifrost.rules.And.create(this, rule);
+            return and;
+        };
+
+        this.or = function (rule) {
+            /// <summary>Takes this rule and "ors" it together with another rule</summary>
+            /// <param name="rule">
+            /// This can either be the instance of another specific rule, 
+            /// or an evaluator that can be used directly by the default rule implementation
+            /// </param>
+            /// <returns>A new composed rule</returns>
+
+            if (Bifrost.isFunction(rule)) {
+                var oldRule = rule;
+                rule = Bifrost.rules.Rule.create();
+                rule.evaluator = oldRule;
+            }
+
+            var or = Bifrost.Rules.Or.create(this, rule);
+            return or;
+        };
+    })
+});
+Bifrost.rules.Rule.when = function (evaluator) {
+    /// <summary>Starts a rule chain</summary>
+    /// <param name="evaluator">
+    /// The evaluator can either be a function that gets called with the instance
+    /// or an observable. The observable not being a regular function will obviously
+    /// not have the instance passed 
+    /// </param>
+    /// <returns>A new composed rule</returns>
+    var rule = Bifrost.rules.Rule.create();
+    rule.evaluator = evaluator;
+    return rule;
+};
+Bifrost.namespace("Bifrost.rules", {
+    And: Bifrost.rules.Rule.extend(function (leftHandSide, rightHandSide) {
+        /// <summary>Represents the "and" composite rule based on the specification pattern</summary>
+
+        this.isSatisfied = ko.computed(function () {
+            return leftHandSide.isSatisfied() &&
+                rightHandSide.isSatisfied();
+        });
+
+        this.evaluate = function (instance) {
+            leftHandSide.evaluate(instance);
+            rightHandSide.evaluate(instance);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.rules", {
+    Or: Bifrost.rules.Rule.extend(function (leftHandSide, rightHandSide) {
+        /// <summary>Represents the "or" composite rule based on the specification pattern</summary>
+
+        this.isSatisfied = ko.computed(function () {
+            return leftHandSide.isSatisfied() ||
+                rightHandSide.isSatisfied();
+        });
+
+        this.evaluate = function (instance) {
+            leftHandSide.evaluate(instance);
+            rightHandSide.evaluate(instance);
+        };
+    })
+});
 Bifrost.namespace("Bifrost.tasks", {
     Task: Bifrost.Type.extend(function () {
         /// <summary>Represents a task that can be done in the system</summary>
@@ -2690,6 +2812,9 @@ Bifrost.namespace("Bifrost.tasks", {
 
         /// <field name="errors" type="observableArray">Observable array of errors</field>
         this.errors = ko.observableArray();
+
+        /// <field name="isExceuting" type="boolean">True / false for telling wether or not the task is executing or not</field>
+        this.isExecuting = ko.observable(false); 
 
         this.execute = function () {
             /// <summary>Executes the task</summary>
@@ -2796,8 +2921,32 @@ Bifrost.namespace("Bifrost.tasks", {
         /// <summary>Represents an aggregation of tasks</summary>
         var self = this;
 
+        var tasks = ko.observableArray();
+
+        /// <field name="executeWhen" type="Bifrost.rules.Rule">Gets or sets the rule for execution</field>
+        /// <remarks>
+        /// If a task gets executed that does not get satisfied by the rule, it will just queue it up
+        /// </remarks>
+        this.canExecuteWhen = ko.observable();
+
         /// <field name="all" type="Bifrost.tasks.Task">All tasks being executed</field>
-        this.all = ko.observableArray();
+        this.all = ko.computed(function () {
+            var all = tasks();
+            var rule = self.canExecuteWhen();
+
+            if (!Bifrost.isNullOrUndefined(rule)) {
+                var filtered = [];
+
+                all.forEach(function (task) {
+                    rule.evaluate(task);
+                    if (rule.isSatisfied() == true) {
+                        filtered.push(task);
+                    }
+                });
+            }
+
+            return all;
+        });
 
         /// <field name="errors" type="observableArrayOfString">All errors that occured during execution of the task</field>
         this.errors = ko.observableArray();
@@ -2807,28 +2956,40 @@ Bifrost.namespace("Bifrost.tasks", {
             return self.all().length > 0;
         });
 
+        function executeTaskIfNotExecuting(task) {
+            if (task.isExecuting() === true) return;
+            task.isExecuting(true);
+            var taskHistoryId = taskHistory.begin(task);
+            task.execute().continueWith(function (result) {
+                tasks.remove(task);
+                taskHistory.end(taskHistoryId, result);
+                task.promise.signal(result);
+            }).onFail(function (error) {
+                tasks.remove(task);
+                taskHistory.failed(taskHistoryId, error);
+                task.promise.fail(error);
+            });
+        }
+
+        this.all.subscribe(function (changedTasks) {
+            changedTasks.forEach(function (task) {
+                executeTaskIfNotExecuting(task);
+            });
+        });
+
         this.execute = function (task) {
             /// <summary>Adds a task and starts executing it right away</summary>
             /// <param name="task" type="Bifrost.tasks.Task">Task to add</summary>
             /// <returns>A promise to work with for chaining further events</returns>
 
-            var promise = Bifrost.execution.Promise.create();
-
-            self.all.push(task);
-
-            var taskHistoryId = taskHistory.begin(task);
-
-            task.execute().continueWith(function (result) {
-                self.all.remove(task);
-                taskHistory.end(taskHistoryId, result);
-                promise.signal(result);
-            }).onFail(function (error) {
-                self.all.remove(task);
-                taskHistory.failed(taskHistoryId, error);
-                promise.fail(error);
-            });
-
-            return promise;
+            task.promise = Bifrost.execution.Promise.create();
+            
+            tasks.push(task);
+            executeTaskIfNotExecuting(task);
+            var rule = self.canExecuteWhen();
+            
+            
+            return task.promise;
         };
     })
 });
