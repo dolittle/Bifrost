@@ -3,7 +3,8 @@
         /// <summary>Represents an aggregation of tasks</summary>
         var self = this;
 
-        var tasks = ko.observableArray();
+        /// <field name="unfiltered" type="Bifrost.tasks.Task[]">All tasks completely unfiltered</field>
+        this.unfiltered = ko.observableArray();
 
         /// <field name="executeWhen" type="Bifrost.rules.Rule">Gets or sets the rule for execution</field>
         /// <remarks>
@@ -11,9 +12,9 @@
         /// </remarks>
         this.canExecuteWhen = ko.observable();
 
-        /// <field name="all" type="Bifrost.tasks.Task">All tasks being executed</field>
+        /// <field name="all" type="Bifrost.tasks.Task[]">All tasks being executed</field>
         this.all = ko.computed(function () {
-            var all = tasks();
+            var all = self.unfiltered();
             var rule = self.canExecuteWhen();
 
             if (!Bifrost.isNullOrUndefined(rule)) {
@@ -25,6 +26,7 @@
                         filtered.push(task);
                     }
                 });
+                return filtered;
             }
 
             return all;
@@ -42,12 +44,13 @@
             if (task.isExecuting() === true) return;
             task.isExecuting(true);
             var taskHistoryId = taskHistory.begin(task);
+
             task.execute().continueWith(function (result) {
-                tasks.remove(task);
+                self.unfiltered.remove(task);
                 taskHistory.end(taskHistoryId, result);
                 task.promise.signal(result);
             }).onFail(function (error) {
-                tasks.remove(task);
+                self.unfiltered.remove(task);
                 taskHistory.failed(taskHistoryId, error);
                 task.promise.fail(error);
             });
@@ -65,11 +68,17 @@
             /// <returns>A promise to work with for chaining further events</returns>
 
             task.promise = Bifrost.execution.Promise.create();
+            self.unfiltered.push(task);
             
-            tasks.push(task);
-            executeTaskIfNotExecuting(task);
             var rule = self.canExecuteWhen();
+            var canExecute = true;
+            if (!Bifrost.isNullOrUndefined(rule)) {
+                canExecute = rule.evaluate(task);
+            }
             
+            if (canExecute === true) {
+                executeTaskIfNotExecuting(task);
+            }
             
             return task.promise;
         };
