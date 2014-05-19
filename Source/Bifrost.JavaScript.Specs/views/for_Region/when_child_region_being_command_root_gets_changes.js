@@ -1,4 +1,4 @@
-﻿describe("when child region gets changes and changed back", function () {
+﻿describe("when child region being command root gets changes", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -27,6 +27,7 @@
         operationsFactory,
         tasksFactory
     );
+
     var hasChanges = false;
     region.hasChanges.subscribe(function (newValue) {
         hasChanges = newValue;
@@ -38,7 +39,7 @@
         isValid: ko.observable(false),
         isComposing: ko.observable(false),
         isExecuting: ko.observable(false),
-        isCommandRoot: ko.observable(false),
+        isCommandRoot: ko.observable(true),
         validationMessages: ko.observableArray(),
         aggregatedCommands: ko.observableArray(),
         canCommandsExecute: ko.observable(false),
@@ -49,8 +50,7 @@
     };
 
     region.children.push(childRegion);
-    childRegion.commandsHaveChanges(true);
-    childRegion.commandsHaveChanges(false);
+    childRegion.hasChanges(true);
 
     it("should not have changes", function () {
         expect(hasChanges).toBe(false);

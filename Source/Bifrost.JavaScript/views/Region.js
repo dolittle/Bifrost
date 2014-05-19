@@ -30,6 +30,10 @@
         /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
+        /// <field name="isCommandRoot" type="observable">Whether this region is a command root.
+        /// (i.e does not bubble its commands upwards)</field>
+        this.isCommandRoot = ko.observable(false);
+
         /// <field name="aggregatedCommands" type="observableArray">Represents all commands in this region and any child regions</field>
         this.aggregatedCommands = ko.computed(function () {
             var commands = [];
@@ -39,9 +43,11 @@
             });
 
             self.children().forEach(function (childRegion) {
-                childRegion.aggregatedCommands().forEach(function (command) {
-                    commands.push(command);
-                });
+                if (!childRegion.isCommandRoot()) {
+                    childRegion.aggregatedCommands().forEach(function (command) {
+                        commands.push(command);
+                    });
+                }
             });
             return commands;
         });
@@ -123,9 +129,11 @@
             var commandsHaveChanges = self.commandsHaveChanges();
             var childrenHasChanges = false;
             self.children().forEach(function (childRegion) {
-                if (childRegion.hasChanges() === true) {
-                    childrenHasChanges = true;
-                    return;
+                if (!childRegion.isCommandRoot()) {
+                    if (childRegion.hasChanges() === true) {
+                        childrenHasChanges = true;
+                        return;
+                    }
                 }
             });
 

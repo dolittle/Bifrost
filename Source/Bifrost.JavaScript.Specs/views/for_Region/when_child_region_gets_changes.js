@@ -39,6 +39,7 @@
         isValid: ko.observable(false),
         isComposing: ko.observable(false),
         isExecuting: ko.observable(false),
+        isCommandRoot: ko.observable(false),
         validationMessages: ko.observableArray(),
         aggregatedCommands: ko.observableArray(),
         canCommandsExecute: ko.observable(false),

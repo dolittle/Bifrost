@@ -1,4 +1,4 @@
-﻿describe("when child region gets changes and changed back", function () {
+﻿describe("when aggreating commands and child region being command root", function () {
 
     var tasks = {
         all: ko.observableArray()
@@ -27,6 +27,7 @@
         operationsFactory,
         tasksFactory
     );
+
     var hasChanges = false;
     region.hasChanges.subscribe(function (newValue) {
         hasChanges = newValue;
@@ -49,10 +50,16 @@
     };
 
     region.children.push(childRegion);
-    childRegion.commandsHaveChanges(true);
-    childRegion.commandsHaveChanges(false);
 
-    it("should not have changes", function () {
-        expect(hasChanges).toBe(false);
+    childRegion.aggregatedCommands.push({
+        isValid: ko.observable(true),
+        canExecute: ko.observable(true),
+        isAuthorized: ko.observable(true),
+        hasChanges: ko.observable(false),
+        isReadyToExecute: ko.observable(true)
+    });
+
+    it("should not have any aggregates", function () {
+        expect(region.aggregatedCommands().length).toBe(1);
     });
 });
