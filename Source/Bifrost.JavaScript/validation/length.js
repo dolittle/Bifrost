@@ -38,7 +38,9 @@
             if (notSet(value)) {
                 return false;
             }
-            throwIfValueIsNotAString(value);
+            if (!Bifrost.isString(value)) {
+                value = value.toString();
+            }
             return self.options.min <= value.length && value.length <= self.options.max;
         };
     })
