@@ -11,8 +11,8 @@
         var viewPath;
 
         var previousViewModel = null;
-        var currentViewModel = null;
-        var currentViewModelParameters = null;
+
+        this.currentElement = element;
 
         function load() {
             loaded = true;
@@ -43,8 +43,7 @@
                         if (retainViewModel === true) {
                             previousViewModel = viewModel;
                         }
-                        currentViewModel = viewModel;
-                        currentViewModelParameters = viewModelParameters;
+                        self.currentElement.loadedViewModel = viewModel;
 
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
@@ -69,11 +68,17 @@
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
-                bindingContext.$data = currentViewModel;
-                currentViewModel = null;
+            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
+                bindingContext.$data = self.currentElement.loadedViewModel;
+                self.currentElement.loadedViewModel = null;
                 return;
             }
+
+            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
+                bindingContext.$data = self.currentElement.currentViewModel;
+                return;
+            }
+
 
             if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
                 bindingContext.$data = previousViewModel;
@@ -90,8 +95,7 @@
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
-                currentViewModel = viewModel;
-                currentViewModelParameters = viewModelParameters;
+                self.currentElement.currentViewModel = viewModel;
 
                 if (retainViewModel === true) {
                     previousViewModel = viewModel;

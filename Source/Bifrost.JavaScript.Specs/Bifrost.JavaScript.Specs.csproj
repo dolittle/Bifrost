@@ -512,6 +512,9 @@
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_that_has_region.js" />
+    <Content Include="views\for_Region\when_aggreating_commands_and_child_region_has_one_command.js" />
+    <Content Include="views\for_Region\when_aggreating_commands_and_child_region_has_one_command_but_is_command_root.js" />
+    <Content Include="views\for_Region\when_child_region_being_command_root_gets_changes.js" />
     <Content Include="views\for_Region\when_adding_operation_without_state.js" />
     <Content Include="views\for_Region\when_command_in_child_region_can_not_execute_and_then_can.js" />
     <Content Include="views\for_Region\when_command_can_not_execute_and_then_can.js" />
