@@ -7,10 +7,12 @@
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
+            console.log("Render template for: " + template.attributes["data-bind"].value);
             templateSource.currentElement = template;
             templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
+            console.log("Rendered template: " + renderedTemplateSource);
 
             if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
                 bindingContext.$root = bindingContext.$data;

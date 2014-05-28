@@ -323,6 +323,43 @@ Bifrost.namespace("Bifrost", {
         return instance;
     };
 
+    Bifrost.Type.ensure = function () {
+        var promise = Bifrost.execution.Promise.create();
+
+        // this._dependencies holds all dependencies
+        //    loop through all dependencies and ask dependencyResolver if they can be resolved. If it can we need to make sure it gets - beginResolve()
+        //    signal promise when all dependencies are resolved - remember, unresolvables does not count! Ignore these!
+
+        var loadedDependencies = 0;
+        var dependenciesToResolve = this._dependencies.length;
+        var namespace = this._namespace;
+        var resolver = Bifrost.dependencyResolver;
+        if (dependenciesToResolve > 0) {
+            this._dependencies.forEach(function (dependency) {
+
+                if (resolver.canResolve(namespace, dependency)) {
+                    resolver.beginResolve(namespace, dependency).continueWith(function (resolvedSystem) {
+                        loadedDependencies++;
+                        if (loadedDependencies === dependenciesToResolve) {
+                            promise.signal();
+                        }
+                    });
+                } else {
+                    dependenciesToResolve--;
+                    if (loadedDependencies === dependenciesToResolve) {
+                        promise.signal();
+                    }
+                }
+            });
+        } else {
+            promise.signal();
+        }
+
+
+
+        return promise;
+    };
+
     Bifrost.Type.beginCreate = function(instanceHash) {
         var self = this;
 

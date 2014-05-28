@@ -67,6 +67,20 @@ Bifrost.namespace("Bifrost", {
                 return dependencies;
             },
 
+            canResolve: function (namespace, name) {
+                // Loop through resolvers and check if anyone can resolve it, if so return true - if not false
+                var resolvers = Bifrost.dependencyResolvers.getAll();
+                var canResolve = false;
+
+                resolvers.forEach(function (resolver) {
+                    if (canResolve === true) return;
+                    
+                    canResolve = resolver.canResolve(namespace, name);
+                });
+
+                return canResolve;
+            },
+
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
