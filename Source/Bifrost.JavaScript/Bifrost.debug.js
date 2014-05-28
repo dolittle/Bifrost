@@ -6636,6 +6636,7 @@ Bifrost.namespace("Bifrost.views", {
         function clear() {
             viewModelManager.masterViewModel.clearFor(element);
             documentService.cleanChildrenOf(element);
+            self.currentElement.currentViewModel = undefined;
             view(nullView);
         }
 
