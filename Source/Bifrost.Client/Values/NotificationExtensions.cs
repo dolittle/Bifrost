@@ -20,6 +20,7 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
+using Bifrost.Execution;
 
 namespace Bifrost.Values
 {
@@ -29,10 +30,7 @@ namespace Bifrost.Values
 	{
 		public static void Notify(this PropertyChangedEventHandler eventHandler, Expression<Func<object>> expression)
 		{
-			if (null == eventHandler)
-			{
-				return;
-			}
+            if (eventHandler == null || !DispatcherManager.HasBeenSet ) return;
 			var lambda = expression as LambdaExpression;
 			MemberExpression memberExpression;
 			if (lambda.Body is UnaryExpression)
@@ -46,6 +44,7 @@ namespace Bifrost.Values
 			}
 			var constantExpression = memberExpression.Expression as ConstantExpression;
 			var propertyInfo = memberExpression.Member as PropertyInfo;
+
 
             Bifrost.Execution.DispatcherManager.Current.BeginInvoke(
                 () =>
