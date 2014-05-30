@@ -25,7 +25,13 @@ namespace Bifrost.Execution
     /// </summary>
 	public class DispatcherManager
 	{
-		private static IDispatcher _current;
+		static IDispatcher _current;
+
+        /// <summary>
+        /// Gets wether or not the dispatcher has been set
+        /// </summary>
+        public static bool HasBeenSet { get { return _current != null;  } }
+
 
         /// <summary>
         /// Gets or sets the current <see cref="IDispatcher"/>
