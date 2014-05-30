@@ -3416,9 +3416,11 @@ Bifrost.namespace("Bifrost.validation", {
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {
-                return false;
+                value = "";
             }
-            throwIfValueIsNotAString(value);
+            if (!Bifrost.isString(value)) {
+                value = value.toString();
+            }
             return self.options.min <= value.length && value.length <= self.options.max;
         };
     })
@@ -3457,7 +3459,7 @@ Bifrost.namespace("Bifrost.validation", {
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {
-                return false;
+                value = "";
             }
             throwIfValueIsNotAString(value);
             return value.length >= self.options.length;
@@ -3499,7 +3501,7 @@ Bifrost.namespace("Bifrost.validation", {
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {
-                return false;
+                value = "";
             }
             throwIfValueIsNotAString(value);
             return value.length <= self.options.length;
@@ -6583,8 +6585,8 @@ Bifrost.namespace("Bifrost.views", {
         var viewPath;
 
         var previousViewModel = null;
-        var currentViewModel = null;
-        var currentViewModelParameters = null;
+
+        this.currentElement = element;
 
         function load() {
             loaded = true;
@@ -6615,8 +6617,7 @@ Bifrost.namespace("Bifrost.views", {
                         if (retainViewModel === true) {
                             previousViewModel = viewModel;
                         }
-                        currentViewModel = viewModel;
-                        currentViewModelParameters = viewModelParameters;
+                        self.currentElement.loadedViewModel = viewModel;
 
                         var wrapper = document.createElement("div");
                         wrapper.innerHTML = loadedView.content;
@@ -6635,17 +6636,24 @@ Bifrost.namespace("Bifrost.views", {
         function clear() {
             viewModelManager.masterViewModel.clearFor(element);
             documentService.cleanChildrenOf(element);
+            self.currentElement.currentViewModel = undefined;
             view(nullView);
         }
 
         this.data = function (key, value) { };
 
         this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            if (!Bifrost.isNullOrUndefined(currentViewModel)) {
-                bindingContext.$data = currentViewModel;
-                currentViewModel = null;
+            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
+                bindingContext.$data = self.currentElement.loadedViewModel;
+                self.currentElement.loadedViewModel = null;
                 return;
             }
+
+            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
+                bindingContext.$data = self.currentElement.currentViewModel;
+                return;
+            }
+
 
             if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
                 bindingContext.$data = previousViewModel;
@@ -6662,8 +6670,7 @@ Bifrost.namespace("Bifrost.views", {
                 var viewModel = view().viewModelType.create(viewModelParameters);
                 bindingContext.$data = viewModel;
                 Bifrost.views.Region.current = lastRegion;
-                currentViewModel = viewModel;
-                currentViewModelParameters = viewModelParameters;
+                self.currentElement.currentViewModel = viewModel;
 
                 if (retainViewModel === true) {
                     previousViewModel = viewModel;
@@ -6694,6 +6701,7 @@ Bifrost.namespace("Bifrost.views", {
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
+            templateSource.currentElement = template;
             templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
 
             var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
@@ -7070,6 +7078,10 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="commands" type="observableArray">Array of commands inside the region</field>
         this.commands = ko.observableArray();
 
+        /// <field name="isCommandRoot" type="observable">Whether this region is a command root.
+        /// (i.e does not bubble its commands upwards)</field>
+        this.isCommandRoot = ko.observable(false);
+
         /// <field name="aggregatedCommands" type="observableArray">Represents all commands in this region and any child regions</field>
         this.aggregatedCommands = ko.computed(function () {
             var commands = [];
@@ -7079,9 +7091,11 @@ Bifrost.namespace("Bifrost.views", {
             });
 
             self.children().forEach(function (childRegion) {
-                childRegion.aggregatedCommands().forEach(function (command) {
-                    commands.push(command);
-                });
+                if (!childRegion.isCommandRoot()) {
+                    childRegion.aggregatedCommands().forEach(function (command) {
+                        commands.push(command);
+                    });
+                }
             });
             return commands;
         });
@@ -7161,11 +7175,15 @@ Bifrost.namespace("Bifrost.views", {
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {
             var commandsHaveChanges = self.commandsHaveChanges();
+
+            
             var childrenHasChanges = false;
             self.children().forEach(function (childRegion) {
-                if (childRegion.hasChanges() === true) {
-                    childrenHasChanges = true;
-                    return;
+                if (!childRegion.isCommandRoot()) {
+                    if (childRegion.hasChanges() === true) {
+                        childrenHasChanges = true;
+                        return;
+                    }
                 }
             });
 
@@ -7177,7 +7195,7 @@ Bifrost.namespace("Bifrost.views", {
             var messages = [];
 
             var commands = self.aggregatedCommands();
-            self.commands().forEach(function (command) {
+            commands.forEach(function (command) {
                 if (command.isValid() === false) {
                     command.validators().forEach(function (validator) {
                         if (validator.isValid() === false) {

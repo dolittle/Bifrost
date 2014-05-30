@@ -32,7 +32,7 @@ Bifrost.namespace("Bifrost.validation", {
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {
-                return false;
+                value = "";
             }
             throwIfValueIsNotAString(value);
             return value.length <= self.options.length;

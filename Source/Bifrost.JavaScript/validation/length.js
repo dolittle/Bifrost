@@ -36,7 +36,7 @@
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {
-                return false;
+                value = "";
             }
             if (!Bifrost.isString(value)) {
                 value = value.toString();

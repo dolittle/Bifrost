@@ -127,6 +127,8 @@
         /// <field name="areCommandsAuthorized" type="observable">Indicates wether or not region or any of its child regions have changes in their commands or has any operations</field>
         this.hasChanges = ko.computed(function () {
             var commandsHaveChanges = self.commandsHaveChanges();
+
+            
             var childrenHasChanges = false;
             self.children().forEach(function (childRegion) {
                 if (!childRegion.isCommandRoot()) {
@@ -145,7 +147,7 @@
             var messages = [];
 
             var commands = self.aggregatedCommands();
-            self.commands().forEach(function (command) {
+            commands.forEach(function (command) {
                 if (command.isValid() === false) {
                     command.validators().forEach(function (validator) {
                         if (validator.isValid() === false) {
