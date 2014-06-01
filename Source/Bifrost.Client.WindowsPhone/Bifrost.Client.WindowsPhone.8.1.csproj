@@ -89,6 +89,9 @@
     <Compile Include="..\Bifrost.Client\Execution\IDispatcher.cs">
       <Link>Execution\IDispatcher.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\Execution\Promise.cs">
+      <Link>Execution\Promise.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.Client\Interaction\DelegateCommand.cs">
       <Link>Interaction\DelegateCommand.cs</Link>
     </Compile>
@@ -112,6 +115,21 @@
     </Compile>
     <Compile Include="..\Bifrost.Client\Messaging\Messenger.cs">
       <Link>Messaging\Messenger.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\ITask.cs">
+      <Link>Tasks\ITask.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\ITasks.cs">
+      <Link>Tasks\ITasks.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskContext.cs">
+      <Link>Tasks\TaskContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskResult.cs">
+      <Link>Tasks\TaskResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\Tasks.cs">
+      <Link>Tasks\Tasks.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.Client\Values\DependencyProperty.cs">
       <Link>Values\DependencyProperty.cs</Link>
