@@ -5,18 +5,17 @@
         var nullView = viewFactory.createFrom("");
         nullView.content = "<notLoaded></notLoaded>";
         var view = ko.observable(nullView);
-        var isLoaded = ko.computed(function () {
+        
+        function isLoaded() {
             var loadedView = view();
             return !Bifrost.isNullOrUndefined(loadedView) && loadedView !== nullView;
-        });
-        var retainViewModel = allBindingsAccessor().retainViewModel || false;
+        };
+
         var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
 
         var viewPath;
 
         var previousViewModel = null;
-
-        this.currentElement = element;
 
         function load() {
             loaded = true;
@@ -30,16 +29,10 @@
             actualView.element = element;
 
             isBusyObservable(true);
-
             
             regionManager.getFor(actualView).continueWith(function (region) {
 
                 actualView.load(region).continueWith(function (loadedView) {
-
-                    // Make sure all dependencies for viewModel type is loaded! (Type.ensure())
-
-                    // When ensured (continueWith) - view is loaded ( view(loadedView) ) - 
-                    // add ko.computed() called isLoaded which checks view observable for null or undefined
                     var wrapper = document.createElement("div");
                     wrapper.innerHTML = loadedView.content;
                     UIManager.handle(wrapper);
@@ -47,36 +40,20 @@
 
                     var viewModelType = loadedView.viewModelType;
                     if (!Bifrost.isNullOrUndefined(viewModelType)) {
+                        var lastRegion = Bifrost.views.Region.current;
+                        Bifrost.views.Region.current = region;
+
                         viewModelType.ensure().continueWith(function () {
-                            console.log("Ensured viewmodel for: " + loadedView.path);
+                            Bifrost.views.Region.current = lastRegion;
+                            self.viewLoaded.trigger(loadedView);
                             view(loadedView);
+                            isBusyObservable(false);
                         });
                     } else {
-                        console.log("Ensured view for: " + loadedView.path);
+                        self.viewLoaded.trigger(loadedView);
                         view(loadedView);
+                        isBusyObservable(false);
                     }
-
-
-                    //viewModelTypes.beginCreateInstanceOfViewModel(loadedView.viewModelPath, region, viewModelParameters).continueWith(function (viewModel) {
-                    //    if (!Bifrost.isNullOrUndefined(viewModel)) {
-                    //        region.viewModel = viewModel;
-                    //    }
-
-                    //    if (retainViewModel === true) {
-                    //        previousViewModel = viewModel;
-                    //    }
-                    //    self.currentElement.loadedViewModel = viewModel;
-
-                    //    var wrapper = document.createElement("div");
-                    //    wrapper.innerHTML = loadedView.content;
-                    //    UIManager.handle(wrapper);
-
-                    //    loadedView.content = wrapper.innerHTML;
-
-                    //    view(loadedView);
-
-                    //    isBusyObservable(false);
-                    //});
                 });
             });
         }
@@ -84,100 +61,20 @@
         function clear() {
             viewModelManager.masterViewModel.clearFor(element);
             documentService.cleanChildrenOf(element);
-            self.currentElement.currentViewModel = undefined;
             view(nullView);
         }
 
+        this.viewLoaded = Bifrost.Event.create();
+
         this.data = function (key, value) { };
-
-        this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            // if !isLoaded() - return
-
-            // If isLoaded() - region stuff (see before) - create instance of ViewModel - unless it is being retained and an instance exists!
-
-
-            /*
-            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
-                bindingContext.$data = self.currentElement.loadedViewModel;
-                self.currentElement.loadedViewModel = null;
-                return;
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
-                bindingContext.$data = self.currentElement.currentViewModel;
-                return;
-            }
-            */
-
-            if (isLoaded() === false) return;
-
-            // All region stuff should be in createAndSetViewModel... 
-            if (documentService.hasOwnRegion(element)) {
-                regionManager.evict(element.region);
-                documentService.clearRegionOn(element);
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
-                bindingContext.$data = self.currentElement.loadedViewModel;
-                self.currentElement.loadedViewModel = null;
-                return;
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
-                bindingContext.$data = self.currentElement.currentViewModel;
-                return;
-            }
-
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
-                bindingContext.$data = previousViewModel;
-                return;
-            }
-
-            
-            var region = view().region;
-            
-            viewModelParameters.region = region;
-
-            var lastRegion = Bifrost.views.Region.current;
-            Bifrost.views.Region.current = region;
-
-            var viewModel = null;
-            var viewModelType = view().viewModelType;
-            if (!Bifrost.isNullOrUndefined(viewModelType)) {
-                viewModel = view().viewModelType.create(viewModelParameters);
-            }
-            var loadedView = view();
-
-            if (!Bifrost.isNullOrUndefined(viewModel)) {
-                region.viewModel = viewModel;
-            }
-
-            if (retainViewModel === true) {
-                previousViewModel = viewModel;
-            }
-
-            self.currentElement.loadedViewModel = viewModel;
-
-            bindingContext.$data = viewModel;
-            Bifrost.views.Region.current = lastRegion;
-            self.currentElement.currentViewModel = viewModel;
-
-            if (retainViewModel === true) {
-                previousViewModel = viewModel;
-            }
-            isBusyObservable(false);
-
-        };
 
         this.text = function (value) {
             var uri = ko.utils.unwrapObservable(viewUri);
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
-                console.log("Clear for current");
                 clear();
                 loaded = false;
             } else {
                 if (!loaded) {
-                    console.log("Loading for: " + uri);
                     load();
                 } 
             }

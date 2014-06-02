@@ -1580,10 +1580,6 @@ Bifrost.namespace("Bifrost", {
     Bifrost.Type.ensure = function () {
         var promise = Bifrost.execution.Promise.create();
 
-        // this._dependencies holds all dependencies
-        //    loop through all dependencies and ask dependencyResolver if they can be resolved. If it can we need to make sure it gets - beginResolve()
-        //    signal promise when all dependencies are resolved - remember, unresolvables does not count! Ignore these!
-
         var loadedDependencies = 0;
         var dependenciesToResolve = this._dependencies.length;
         var namespace = this._namespace;
@@ -6577,7 +6573,7 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.namespace("Bifrost.views", {
 
-    viewBindingHandler: Bifrost.Type.extend(function (UIManager, viewManager, viewModelManager, documentService) {
+    viewBindingHandler: Bifrost.Type.extend(function (UIManager, viewManager, viewModelManager, documentService, regionManager) {
         var self = this;
 
         var templateEnginesByUri = {};
@@ -6596,25 +6592,77 @@ Bifrost.namespace("Bifrost.views", {
             }
         }
 
-        function makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor) {
+        function createViewModel(element, view, viewModelParameters, retainViewModel) {
+            if (!Bifrost.isNullOrUndefined(viewModelManager.masterViewModel.getFor(element)) &&
+                documentService.hasOwnRegion(element)) {
+                regionManager.evict(element.region);
+                documentService.clearRegionOn(element);
+            }
+
+            if (retainViewModel === true && !Bifrost.isNullOrUndefined(element.previousViewModel)) {
+                return element.previousViewModel;
+            }
+
+            var region = view.region;
+
+            viewModelParameters.region = region;
+
+            var lastRegion = Bifrost.views.Region.current;
+            Bifrost.views.Region.current = region;
+
+            var viewModel = null;
+            var viewModelType = view.viewModelType;
+            if (!Bifrost.isNullOrUndefined(viewModelType)) {
+                viewModel = view.viewModelType.create(viewModelParameters);
+            }
+            var loadedView = view;
+
+            if (!Bifrost.isNullOrUndefined(viewModel)) {
+                region.viewModel = viewModel;
+            }
+
+            if (retainViewModel === true) {
+                element.previousViewModel = viewModel;
+            }
+            Bifrost.views.Region.current = lastRegion;            
+
+            return viewModel;
+        };
+
+
+        function makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext) {
             return function () {
                 var viewUri = valueAccessor();
-                var viewModel = viewModelManager.masterViewModel.getFor(element);
+                var viewModel = ko.observable();
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
+                var retainViewModel = allBindingsAccessor().retainViewModel || false;
+
+                var templateEngine = getTemplateEngineFor(viewUri, element, allBindingsAccessor);
+
+                if (!Bifrost.isNullOrUndefined(templateEngine)) {
+                    templateEngine.templateSource.viewLoaded.subscribe(function (view) {
+                        var vm = createViewModel(element, view, viewModelParameters, retainViewModel);
+                        bindingContext.$viewModel = vm;
+                        viewModel(vm);
+                        viewModelManager.masterViewModel.setFor(element, vm)
+                    });
+                }
+
                 return {
                     if: true,
                     data: viewModel,
-                    templateEngine: getTemplateEngineFor(viewUri, element, allBindingsAccessor),
+                    templateEngine: templateEngine,
                     viewModelParameters : viewModelParameters
                 }
             };
         };
-
+        
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor), allBindingsAccessor, viewModel, bindingContext);
+            //return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };
+
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            return ko.bindingHandlers.template.update(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor), allBindingsAccessor, viewModel, bindingContext);
+            return ko.bindingHandlers.template.update(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };
     })
 });
@@ -6630,18 +6678,17 @@ Bifrost.namespace("Bifrost.views", {
         var nullView = viewFactory.createFrom("");
         nullView.content = "<notLoaded></notLoaded>";
         var view = ko.observable(nullView);
-        var isLoaded = ko.computed(function () {
+        
+        function isLoaded() {
             var loadedView = view();
             return !Bifrost.isNullOrUndefined(loadedView) && loadedView !== nullView;
-        });
-        var retainViewModel = allBindingsAccessor().retainViewModel || false;
+        };
+
         var isBusyObservable = allBindingsAccessor().isBusyObservable || ko.observable(false);
 
         var viewPath;
 
         var previousViewModel = null;
-
-        this.currentElement = element;
 
         function load() {
             loaded = true;
@@ -6655,16 +6702,10 @@ Bifrost.namespace("Bifrost.views", {
             actualView.element = element;
 
             isBusyObservable(true);
-
             
             regionManager.getFor(actualView).continueWith(function (region) {
 
                 actualView.load(region).continueWith(function (loadedView) {
-
-                    // Make sure all dependencies for viewModel type is loaded! (Type.ensure())
-
-                    // When ensured (continueWith) - view is loaded ( view(loadedView) ) - 
-                    // add ko.computed() called isLoaded which checks view observable for null or undefined
                     var wrapper = document.createElement("div");
                     wrapper.innerHTML = loadedView.content;
                     UIManager.handle(wrapper);
@@ -6672,36 +6713,20 @@ Bifrost.namespace("Bifrost.views", {
 
                     var viewModelType = loadedView.viewModelType;
                     if (!Bifrost.isNullOrUndefined(viewModelType)) {
+                        var lastRegion = Bifrost.views.Region.current;
+                        Bifrost.views.Region.current = region;
+
                         viewModelType.ensure().continueWith(function () {
-                            console.log("Ensured viewmodel for: " + loadedView.path);
+                            Bifrost.views.Region.current = lastRegion;
+                            self.viewLoaded.trigger(loadedView);
                             view(loadedView);
+                            isBusyObservable(false);
                         });
                     } else {
-                        console.log("Ensured view for: " + loadedView.path);
+                        self.viewLoaded.trigger(loadedView);
                         view(loadedView);
+                        isBusyObservable(false);
                     }
-
-
-                    //viewModelTypes.beginCreateInstanceOfViewModel(loadedView.viewModelPath, region, viewModelParameters).continueWith(function (viewModel) {
-                    //    if (!Bifrost.isNullOrUndefined(viewModel)) {
-                    //        region.viewModel = viewModel;
-                    //    }
-
-                    //    if (retainViewModel === true) {
-                    //        previousViewModel = viewModel;
-                    //    }
-                    //    self.currentElement.loadedViewModel = viewModel;
-
-                    //    var wrapper = document.createElement("div");
-                    //    wrapper.innerHTML = loadedView.content;
-                    //    UIManager.handle(wrapper);
-
-                    //    loadedView.content = wrapper.innerHTML;
-
-                    //    view(loadedView);
-
-                    //    isBusyObservable(false);
-                    //});
                 });
             });
         }
@@ -6709,100 +6734,20 @@ Bifrost.namespace("Bifrost.views", {
         function clear() {
             viewModelManager.masterViewModel.clearFor(element);
             documentService.cleanChildrenOf(element);
-            self.currentElement.currentViewModel = undefined;
             view(nullView);
         }
 
+        this.viewLoaded = Bifrost.Event.create();
+
         this.data = function (key, value) { };
-
-        this.createAndSetViewModelFor = function (bindingContext, viewModelParameters) {
-            // if !isLoaded() - return
-
-            // If isLoaded() - region stuff (see before) - create instance of ViewModel - unless it is being retained and an instance exists!
-
-
-            /*
-            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
-                bindingContext.$data = self.currentElement.loadedViewModel;
-                self.currentElement.loadedViewModel = null;
-                return;
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
-                bindingContext.$data = self.currentElement.currentViewModel;
-                return;
-            }
-            */
-
-            if (isLoaded() === false) return;
-
-            // All region stuff should be in createAndSetViewModel... 
-            if (documentService.hasOwnRegion(element)) {
-                regionManager.evict(element.region);
-                documentService.clearRegionOn(element);
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.loadedViewModel)) {
-                bindingContext.$data = self.currentElement.loadedViewModel;
-                self.currentElement.loadedViewModel = null;
-                return;
-            }
-
-            if (!Bifrost.isNullOrUndefined(self.currentElement.currentViewModel)) {
-                bindingContext.$data = self.currentElement.currentViewModel;
-                return;
-            }
-
-            if (retainViewModel === true && !Bifrost.isNullOrUndefined(previousViewModel)) {
-                bindingContext.$data = previousViewModel;
-                return;
-            }
-
-            
-            var region = view().region;
-            
-            viewModelParameters.region = region;
-
-            var lastRegion = Bifrost.views.Region.current;
-            Bifrost.views.Region.current = region;
-
-            var viewModel = null;
-            var viewModelType = view().viewModelType;
-            if (!Bifrost.isNullOrUndefined(viewModelType)) {
-                viewModel = view().viewModelType.create(viewModelParameters);
-            }
-            var loadedView = view();
-
-            if (!Bifrost.isNullOrUndefined(viewModel)) {
-                region.viewModel = viewModel;
-            }
-
-            if (retainViewModel === true) {
-                previousViewModel = viewModel;
-            }
-
-            self.currentElement.loadedViewModel = viewModel;
-
-            bindingContext.$data = viewModel;
-            Bifrost.views.Region.current = lastRegion;
-            self.currentElement.currentViewModel = viewModel;
-
-            if (retainViewModel === true) {
-                previousViewModel = viewModel;
-            }
-            isBusyObservable(false);
-
-        };
 
         this.text = function (value) {
             var uri = ko.utils.unwrapObservable(viewUri);
             if (Bifrost.isNullOrUndefined(uri) || uri === "") {
-                console.log("Clear for current");
                 clear();
                 loaded = false;
             } else {
                 if (!loaded) {
-                    console.log("Loading for: " + uri);
                     load();
                 } 
             }
@@ -6811,27 +6756,22 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function(engine, viewModelManager, element, viewUri, allBindingsAccessor) {
-        var templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (engine, viewModelManager, element, viewUri, allBindingsAccessor) {
+        engine.templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
             element: element,
             viewUri: viewUri,
             allBindingsAccessor: allBindingsAccessor
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            console.log("Render template for: " + template.attributes["data-bind"].value);
-            templateSource.currentElement = template;
-            templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
-
-            var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
-            console.log("Rendered template: " + renderedTemplateSource);
-
-            if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
-                bindingContext.$root = bindingContext.$data;
-            }
+            engine.templateSource.currentElement = template;
             
-            viewModelManager.masterViewModel.setFor(element, bindingContext.$data);
+            if (!Bifrost.isNullOrUndefined(bindingContext.$viewModel)) {
+                bindingContext.$data = bindingContext.$viewModel;
+                bindingContext.$root = bindingContext.$viewModel;
+            }
 
+            var renderedTemplateSource = engine.renderTemplateSource(engine.templateSource, bindingContext, options);
             return renderedTemplateSource;
         }
     }),

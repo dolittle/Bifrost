@@ -1,25 +1,20 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function(engine, viewModelManager, element, viewUri, allBindingsAccessor) {
-        var templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (engine, viewModelManager, element, viewUri, allBindingsAccessor) {
+        engine.templateSource = Bifrost.views.ViewBindingHandlerTemplateSource.create({
             element: element,
             viewUri: viewUri,
             allBindingsAccessor: allBindingsAccessor
         });
 
         engine.renderTemplate = function (template, bindingContext, options) {
-            console.log("Render template for: " + template.attributes["data-bind"].value);
-            templateSource.currentElement = template;
-            templateSource.createAndSetViewModelFor(bindingContext, options.viewModelParameters);
-
-            var renderedTemplateSource = engine.renderTemplateSource(templateSource, bindingContext, options);
-            console.log("Rendered template: " + renderedTemplateSource);
-
-            if (!Bifrost.isNullOrUndefined(bindingContext.$data)) {
-                bindingContext.$root = bindingContext.$data;
-            }
+            engine.templateSource.currentElement = template;
             
-            viewModelManager.masterViewModel.setFor(element, bindingContext.$data);
+            if (!Bifrost.isNullOrUndefined(bindingContext.$viewModel)) {
+                bindingContext.$data = bindingContext.$viewModel;
+                bindingContext.$root = bindingContext.$viewModel;
+            }
 
+            var renderedTemplateSource = engine.renderTemplateSource(engine.templateSource, bindingContext, options);
             return renderedTemplateSource;
         }
     }),
