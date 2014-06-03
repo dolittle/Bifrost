@@ -28,14 +28,25 @@ namespace Bifrost.Tasks
     {
 #pragma warning disable 1591 // Xml Comments
         public event PropertyChangedEventHandler PropertyChanged = (s,e) => {};
+#pragma warning restore 1591 // Xml Comments
 
-        public TaskContext()
+        public TaskContext(object associatedData)
         {
             Result = new TaskResult();
+            AssociatedData = associatedData;
+
             _progress = 0;
         }
 
+        /// <summary>
+        /// Gets the result of the task
+        /// </summary>
         public TaskResult Result { get; private set; }
+
+        /// <summary>
+        /// Gets the associated data
+        /// </summary>
+        public object AssociatedData { get; private set; }
 
         double _progress;
         public double Progress
@@ -47,6 +58,6 @@ namespace Bifrost.Tasks
                 PropertyChanged.Notify(() => Progress);
             }
         }
-#pragma warning restore 1591 // Xml Comments
+
     }
 }

@@ -40,6 +40,6 @@ namespace Bifrost.Tasks
         /// </summary>
         /// <param name="task">Task to execute</param>
         /// <returns><see cref="TaskContext"/> for the task</returns>
-        TaskContext Execute(ITask task);
+        TaskContext Execute(ITask task, object associatedData = null);
     }
 }
