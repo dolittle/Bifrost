@@ -120,6 +120,13 @@
     <EmbeddedResource Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="css\dolittle.css" />
+    <Content Include="Features\Dialog\ElementVisitor.js" />
+    <Content Include="Features\Dialog\Index.html" />
+    <Content Include="Features\Dialog\Index.js" />
+    <Content Include="Features\Employees\composition.html" />
+    <Content Include="Features\Employees\composition.js" />
+    <Content Include="Features\Employees\popup.html" />
+    <Content Include="Features\Employees\popup.js" />
     <Content Include="Features\Employees\index.html" />
     <Content Include="Features\Employees\index.js" />
     <Content Include="Features\Employees\list.html" />
@@ -137,10 +144,13 @@
     <EmbeddedResource Include="img\glyphicons-halflings.png" />
     <EmbeddedResource Include="img\pattern_40.gif" />
     <EmbeddedResource Include="img\yggdrasil-icon.png" />
+    <Content Include="Features\Employees\test.html" />
+    <Content Include="Features\Employees\test.js" />
     <Content Include="img\warning.png" />
     <Content Include="img\spinner.gif" />
     <Content Include="index.html" />
     <None Include="Web.config.transform" />
+    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +236,7 @@
       <Name>Bifrost.Mimir.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">9.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
