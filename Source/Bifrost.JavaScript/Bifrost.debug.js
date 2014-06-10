@@ -6982,19 +6982,7 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.namespace("Bifrost.views", {
     viewModelBindingHandler: Bifrost.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
-        function makeValueAccessor(viewModel) {
-            return function () {
-                return {
-                    if: true,
-                    data: viewModel
-                };
-            };
-        }
-
         this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
-/*            return { controlsDescendantBindings: true };
-        };
-        this.update = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {*/
             var path = ko.utils.unwrapObservable(valueAccessor());
             if (element._isLoading === true || (element._viewModelPath === path && !Bifrost.isNullOrUndefined(element._viewModel))) return;
 
@@ -7030,7 +7018,6 @@ Bifrost.namespace("Bifrost.views", {
                         element._viewModel = viewModel;
 
                         viewModelInstance(viewModel);
-                        //ko.applyBindingsToDescendants(childBindingContext, element);
                         Bifrost.views.Region.current = lastRegion;
 
                         element._isLoading = false;
@@ -7044,7 +7031,6 @@ Bifrost.namespace("Bifrost.views", {
                         element._viewModel = viewModel;
 
                         viewModelInstance(viewModel);
-                        //ko.applyBindingsToDescendants(childBindingContext, element);
 
                         element._isLoading = false;
                     });
@@ -7052,7 +7038,6 @@ Bifrost.namespace("Bifrost.views", {
             });
 
             return ko.bindingHandlers.with.init(element, viewModelInstance, allBindingsAccessor, parentViewModel, bindingContext);
-            //return { controlsDescendantBindings: true };
         };
     })
 });
