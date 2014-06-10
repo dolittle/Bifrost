@@ -6621,7 +6621,7 @@ Bifrost.namespace("Bifrost.views", {
         };
         
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            return { controlsDescendantBindings: true };
+            return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };
 
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -6690,14 +6690,20 @@ Bifrost.namespace("Bifrost.views", {
                 templateSource.loadFor(options.element, options.view, options.region).continueWith(function (view) {
                     options.element.view = view;
                     regionManager.describe(options.view, options.region).continueWith(function () {
-                        if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
-                            var viewModelParameters = options.viewModelParameters;
-                            viewModelParameters.region = options.region;
-                            var instance = view.viewModelType.create(viewModelParameters);
-                            options.element.viewModel = instance;
-                            options.data(instance);
+                        try {
+                            ko.dependencyDetection.begin();
 
-                            bindingContext.$data = instance; // = bindingContext.createChildContext(instance);
+                            if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
+                                var viewModelParameters = options.viewModelParameters;
+                                viewModelParameters.region = options.region;
+                                var instance = view.viewModelType.create(viewModelParameters);
+                                options.element.viewModel = instance;
+                                options.data(instance);
+
+                                bindingContext.$data = instance;
+                            }
+                        } finally {
+                            ko.dependencyDetection.end();
                         }
                     });
                 });
@@ -7287,16 +7293,17 @@ Bifrost.namespace("Bifrost.views", {
             var parentRegion = manageInheritance(element);
             var region = manageHierarchy(parentRegion);
             region.view(view);
+            documentService.setRegionOn(element, region);
 
             return region;
         };
 
         this.describe = function (view, region) {
+            /// <summary>Describes a region for a view</summary>
             var promise = Bifrost.execution.Promise.create();
             var element = view.element;
 
             regionDescriptorManager.describe(view, region).continueWith(function () {
-                documentService.setRegionOn(element, region);
                 promise.signal();
             });
             return promise;

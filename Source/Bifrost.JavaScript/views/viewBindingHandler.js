@@ -46,7 +46,7 @@ Bifrost.namespace("Bifrost.views", {
         };
         
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            return { controlsDescendantBindings: true };
+            return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };
 
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

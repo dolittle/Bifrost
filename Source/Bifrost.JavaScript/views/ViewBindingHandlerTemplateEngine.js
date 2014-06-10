@@ -17,14 +17,22 @@
                 templateSource.loadFor(options.element, options.view, options.region).continueWith(function (view) {
                     options.element.view = view;
                     regionManager.describe(options.view, options.region).continueWith(function () {
-                        if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
-                            var viewModelParameters = options.viewModelParameters;
-                            viewModelParameters.region = options.region;
-                            var instance = view.viewModelType.create(viewModelParameters);
-                            options.element.viewModel = instance;
-                            options.data(instance);
+                        try {
+                            // This is a bit dodgy, but can't find any way around it
+                            // Put an empty object for dependency detection - we don't want Knockout to be observing any observables on our viewModel
+                            ko.dependencyDetection.begin();
 
-                            bindingContext.$data = instance;
+                            if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
+                                var viewModelParameters = options.viewModelParameters;
+                                viewModelParameters.region = options.region;
+                                var instance = view.viewModelType.create(viewModelParameters);
+                                options.element.viewModel = instance;
+                                options.data(instance);
+
+                                bindingContext.$data = instance;
+                            }
+                        } finally {
+                            ko.dependencyDetection.end();
                         }
                     });
                 });
