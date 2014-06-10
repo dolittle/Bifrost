@@ -21,6 +21,7 @@
         this.applyMasterViewModel = true;
 
         function onReady() {
+            Bifrost.views.Region.current = document.body.region;
             self.isReady = true;
             for (var callbackIndex = 0; callbackIndex < self.readyCallbacks.length; callbackIndex++) {
                 self.readyCallbacks[callbackIndex]();
