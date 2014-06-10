@@ -3,6 +3,5 @@
         var self = this;
 
         this.identifier = Bifrost.Guid.create();
-        console.log("\n\n*** Popup viewModel created ***\n\n");
     })
 });

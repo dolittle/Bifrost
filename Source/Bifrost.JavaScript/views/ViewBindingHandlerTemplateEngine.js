@@ -14,7 +14,6 @@
             }
 
             if (Bifrost.isNullOrUndefined(options.element.view)) {
-                console.log("Load : "+options.viewUri);
                 templateSource.loadFor(options.element, options.view, options.region).continueWith(function (view) {
                     options.element.view = view;
                     regionManager.describe(options.view, options.region).continueWith(function () {
@@ -22,7 +21,6 @@
                             var viewModelParameters = options.viewModelParameters;
                             viewModelParameters.region = options.region;
                             var instance = view.viewModelType.create(viewModelParameters);
-                            console.log("Set viewModel");
                             options.element.viewModel = instance;
                             options.data(instance);
 
@@ -31,8 +29,6 @@
                     });
                 });
             }
-
-            console.log("Do the actual rendering");
 
             bindingContext.$root = bindingContext.$data;
             var renderedTemplateSource = self.renderTemplateSource(templateSource, bindingContext, options);

@@ -55,9 +55,7 @@
             bindingAttribute.value = "view: 'Dialog/Index', viewModelParameters: { configuration: "+JSON.stringify(configuration)+"}";
             container.attributes.setNamedItem(bindingAttribute);
 
-            console.log("Add dialog control");
             element.parentElement.replaceChild(container, element);
-            console.log("Dialog control added");
         }
     })
 });

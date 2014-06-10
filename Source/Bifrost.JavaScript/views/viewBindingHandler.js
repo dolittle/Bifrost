@@ -7,7 +7,6 @@ Bifrost.namespace("Bifrost.views", {
                 var viewUri = ko.utils.unwrapObservable(valueAccessor());
 
                 if (element.viewUri !== viewUri) {
-                    console.log("View Uri has changed - clear things");
                     element.viewModel = null;
                     element.view = null;
                     element.templateSource = null;
@@ -31,7 +30,6 @@ Bifrost.namespace("Bifrost.views", {
                 var actualPath = pathResolvers.resolve(element, viewUri);
                 var view = viewFactory.createFrom(actualPath)
                 view.element = element;
-                //var region = documentService.getRegionFor(element);
                 var region = regionManager.getFor(view);
 
                 return {
@@ -52,7 +50,6 @@ Bifrost.namespace("Bifrost.views", {
         };
 
         this.update = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-            console.log("Update");
             return ko.bindingHandlers.template.update(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };
     })
