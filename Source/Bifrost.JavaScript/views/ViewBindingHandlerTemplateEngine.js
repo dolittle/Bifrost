@@ -24,7 +24,7 @@
                             options.element.viewModel = instance;
                             options.data(instance);
 
-                            bindingContext.$data = instance; // = bindingContext.createChildContext(instance);
+                            bindingContext.$data = instance;
                         }
                     });
                 });
