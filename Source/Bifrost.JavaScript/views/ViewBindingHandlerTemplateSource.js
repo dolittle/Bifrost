@@ -1,18 +1,15 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory, pathResolvers, UIManager, viewUri, region) {
+    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory, UIManager) {
         var self = this;
 
         var content = "<div>Not Loaded</div>";
 
 
-        this.loadFor = function (element) {
+        this.loadFor = function (element, view, region) {
             var promise = Bifrost.execution.Promise.create();
 
-            var actualPath = pathResolvers.resolve(element, viewUri);
-            var view = viewFactory.createFrom(actualPath)
-
             view.load(region).continueWith(function (loadedView) {
-                console.log("Loaded : " + viewUri);
+                console.log("Loaded : " + view.path);
 
                 var wrapper = document.createElement("div");
                 wrapper.innerHTML = loadedView.content;
@@ -23,6 +20,7 @@
                 if (Bifrost.isNullOrUndefined(loadedView.viewModelType)) {
                     promise.signal(loadedView);
                 } else {
+                    Bifrost.views.Region.current = region;
                     view.viewModelType.ensure().continueWith(function () {
                         promise.signal(loadedView);
                     });

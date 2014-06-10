@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager) {
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager, regionManager) {
         var self = this;
         this.renderTemplate = function (template, bindingContext, options) {
             var templateSource;
@@ -15,18 +15,24 @@
 
             if (Bifrost.isNullOrUndefined(options.element.view)) {
                 console.log("Load : "+options.viewUri);
-                templateSource.loadFor(options.element).continueWith(function (view) {
+                templateSource.loadFor(options.element, options.view, options.region).continueWith(function (view) {
                     options.element.view = view;
-                    if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
-                        var viewModelParameters = options.viewModelParameters;
-                        viewModelParameters.region = options.region;
-                        var instance = view.viewModelType.create(viewModelParameters);
-                        console.log("Set viewModel");
-                        options.element.viewModel = instance;
-                        options.data(instance);
-                    }
+                    regionManager.describe(options.view, options.region).continueWith(function () {
+                        if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
+                            var viewModelParameters = options.viewModelParameters;
+                            viewModelParameters.region = options.region;
+                            var instance = view.viewModelType.create(viewModelParameters);
+                            console.log("Set viewModel");
+                            options.element.viewModel = instance;
+                            options.data(instance);
+
+                            bindingContext.$data = instance; // = bindingContext.createChildContext(instance);
+                        }
+                    });
                 });
             }
+
+            console.log("Do the actual rendering");
 
             bindingContext.$root = bindingContext.$data;
             var renderedTemplateSource = self.renderTemplateSource(templateSource, bindingContext, options);

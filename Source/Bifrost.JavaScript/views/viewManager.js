@@ -33,7 +33,8 @@
                     view.content = body.innerHTML;
                     body.view = view;
 
-                    regionManager.getFor(view).continueWith(function (region) {
+                    var region = regionManager.getFor(view);
+                    regionManager.describe(view, region).continueWith(function () {
                         if (viewModelManager.hasForView(actualPath)) {
                             viewModelPath = viewModelManager.getViewModelPathForView(actualPath);
                             if (!viewModelManager.isLoaded(viewModelPath)) {

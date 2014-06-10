@@ -21,7 +21,8 @@ Bifrost.namespace("Bifrost.views", {
             view.element = element;
 
 
-            regionManager.getFor(view).continueWith(function (region) {
+            var region = regionManager.getFor(view);
+            regionManager.describe(view,region).continueWith(function (region) {
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 

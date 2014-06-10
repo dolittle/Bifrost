@@ -1,14 +1,25 @@
 Bifrost.namespace("Bifrost.views", {
-    viewBindingHandler: Bifrost.Type.extend(function (ViewBindingHandlerTemplateEngine, UIManager, viewManager, viewModelManager, documentService, regionManager) {
+    viewBindingHandler: Bifrost.Type.extend(function (ViewBindingHandlerTemplateEngine, UIManager, viewFactory, viewManager, viewModelManager, documentService, regionManager, pathResolvers) {
         var self = this;
 
         function makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext) {
             return function () {
-                var viewUri = valueAccessor();
+                var viewUri = ko.utils.unwrapObservable(valueAccessor());
+
+                if (element.viewUri !== viewUri) {
+                    console.log("View Uri has changed - clear things");
+                    element.viewModel = null;
+                    element.view = null;
+                    element.templateSource = null;
+                    element.innerHTML = "";
+                }
+
+                element.viewUri = viewUri;
+
                 var viewModel = ko.observable(element.viewModel);
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 var retainViewModel = allBindingsAccessor().retainViewModel || false;
-                var region = documentService.getRegionFor(element);
+                
                 var templateEngine = null;
 
                 if (Bifrost.isNullOrUndefined(viewUri) || viewUri == "") {
@@ -17,6 +28,12 @@ Bifrost.namespace("Bifrost.views", {
                     templateEngine = ViewBindingHandlerTemplateEngine;
                 }
 
+                var actualPath = pathResolvers.resolve(element, viewUri);
+                var view = viewFactory.createFrom(actualPath)
+                view.element = element;
+                //var region = documentService.getRegionFor(element);
+                var region = regionManager.getFor(view);
+
                 return {
                     if: true,
                     data: viewModel,
@@ -24,6 +41,7 @@ Bifrost.namespace("Bifrost.views", {
                     templateEngine: templateEngine,
                     viewUri: viewUri,
                     viewModelParameters: viewModelParameters,
+                    view: view,
                     region: region
                 }
             };

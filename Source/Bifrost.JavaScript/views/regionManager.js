@@ -31,30 +31,31 @@
         }
 
         this.getFor = function (view) {
-            /// <summary>Gets the region for the given element and creates one if none exist</summary>
-            /// <param name="element" type="HTMLElement">Element to get a region for</param>
+            /// <summary>Gets the region for the given view and creates one if none exist</summary>
+            /// <param name="view" type="HTMLElement">View to get a region for</param>
             /// <returns>The region for the element</returns>
-            var promise = Bifrost.execution.Promise.create();
-
             var element = view.element;
-
             if (documentService.hasOwnRegion(element)) {
                 var region = documentService.getRegionFor(element);
                 region.view(view);
-                promise.signal(region);
-                
-                return promise;
+                return region;
             }
 
             var parentRegion = manageInheritance(element);
             var region = manageHierarchy(parentRegion);
             region.view(view);
 
+            return region;
+        };
+
+        this.describe = function (view, region) {
+            var promise = Bifrost.execution.Promise.create();
+            var element = view.element;
+
             regionDescriptorManager.describe(view, region).continueWith(function () {
                 documentService.setRegionOn(element, region);
-                promise.signal(region);
+                promise.signal();
             });
-
             return promise;
         };
 
