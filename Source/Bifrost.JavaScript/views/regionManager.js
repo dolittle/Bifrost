@@ -44,6 +44,7 @@
             var parentRegion = manageInheritance(element);
             var region = manageHierarchy(parentRegion);
             region.view(view);
+            documentService.setRegionOn(element, region);
 
             return region;
         };
@@ -53,7 +54,6 @@
             var element = view.element;
 
             regionDescriptorManager.describe(view, region).continueWith(function () {
-                documentService.setRegionOn(element, region);
                 promise.signal();
             });
             return promise;

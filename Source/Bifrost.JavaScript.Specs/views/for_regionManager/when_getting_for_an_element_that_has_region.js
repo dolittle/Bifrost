@@ -35,10 +35,7 @@
         tasksFactory: tasksFactory
     });
 
-    var regionReturned = null;
-    instance.getFor(view).continueWith(function(instance) {
-        regionReturned = instance;
-    });
+    var regionReturned = instance.getFor(view);
 
     it("should get the region from the element", function () {
         expect(regionReturned).toBe(region);

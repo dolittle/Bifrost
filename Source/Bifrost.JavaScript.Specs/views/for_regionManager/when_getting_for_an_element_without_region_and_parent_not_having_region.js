@@ -67,9 +67,7 @@
             tasksFactory: tasksFactory
         });
         
-        instance.getFor(view).continueWith(function (instance) {
-            regionReturned = instance;
-        });
+        regionReturned = instance.getFor(view);
     });
     
     afterEach(function () {
