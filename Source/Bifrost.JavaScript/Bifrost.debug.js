@@ -6592,7 +6592,6 @@ Bifrost.namespace("Bifrost.views", {
 
                 var viewModel = ko.observable(element.viewModel);
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
-                var retainViewModel = allBindingsAccessor().retainViewModel || false;
                 
                 var templateEngine = null;
                 var view = null;
