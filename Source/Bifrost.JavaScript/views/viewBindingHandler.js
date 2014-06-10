@@ -20,17 +20,18 @@ Bifrost.namespace("Bifrost.views", {
                 var retainViewModel = allBindingsAccessor().retainViewModel || false;
                 
                 var templateEngine = null;
+                var view = null;
+                var region = null;
 
                 if (Bifrost.isNullOrUndefined(viewUri) || viewUri == "") {
                     templateEngine = new ko.nativeTemplateEngine();
                 } else {
                     templateEngine = ViewBindingHandlerTemplateEngine;
+                    var actualPath = pathResolvers.resolve(element, viewUri);
+                    var view = viewFactory.createFrom(actualPath)
+                    view.element = element;
+                    var region = regionManager.getFor(view);
                 }
-
-                var actualPath = pathResolvers.resolve(element, viewUri);
-                var view = viewFactory.createFrom(actualPath)
-                view.element = element;
-                var region = regionManager.getFor(view);
 
                 return {
                     if: true,
