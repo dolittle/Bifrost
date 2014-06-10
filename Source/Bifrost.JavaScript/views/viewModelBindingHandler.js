@@ -1,9 +1,6 @@
 Bifrost.namespace("Bifrost.views", {
     viewModelBindingHandler: Bifrost.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
         this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
-            return { controlsDescendantBindings: true };
-        };
-        this.update = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
             var path = ko.utils.unwrapObservable(valueAccessor());
             if (element._isLoading === true || (element._viewModelPath === path && !Bifrost.isNullOrUndefined(element._viewModel))) return;
 
@@ -20,9 +17,10 @@ Bifrost.namespace("Bifrost.views", {
             view.content = element.innerHTML;
             view.element = element;
 
+            var viewModelInstance = ko.observable();
 
             var region = regionManager.getFor(view);
-            regionManager.describe(view,region).continueWith(function (region) {
+            regionManager.describe(view,region).continueWith(function () {
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
                 viewModelParameters.region = region;
 
@@ -37,7 +35,7 @@ Bifrost.namespace("Bifrost.views", {
                         childBindingContext.$root = viewModel;
                         element._viewModel = viewModel;
 
-                        ko.applyBindingsToDescendants(childBindingContext, element);
+                        viewModelInstance(viewModel);
                         Bifrost.views.Region.current = lastRegion;
 
                         element._isLoading = false;
@@ -49,13 +47,15 @@ Bifrost.namespace("Bifrost.views", {
                         var childBindingContext = bindingContext.createChildContext(viewModel);
                         childBindingContext.$root = viewModel;
                         element._viewModel = viewModel;
-                        ko.applyBindingsToDescendants(childBindingContext, element);
+
+                        viewModelInstance(viewModel);
 
                         element._isLoading = false;
                     });
                 }
             });
-            return { controlsDescendantBindings: true };
+
+            return ko.bindingHandlers.with.init(element, viewModelInstance, allBindingsAccessor, parentViewModel, bindingContext);
         };
     })
 });
