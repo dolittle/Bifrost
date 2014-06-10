@@ -32,7 +32,7 @@
 
         this.getFor = function (view) {
             /// <summary>Gets the region for the given view and creates one if none exist</summary>
-            /// <param name="view" type="HTMLElement">View to get a region for</param>
+            /// <param name="view" type="View">View to get a region for</param>
             /// <returns>The region for the element</returns>
             var element = view.element;
             if (documentService.hasOwnRegion(element)) {
@@ -50,6 +50,10 @@
         };
 
         this.describe = function (view, region) {
+            /// <summary>Describes a region for a view</summary>
+            /// <param name="view" type="View">View to describe region for</param>
+            /// <param name="region" type="Region">Region to describe for</param>
+            /// <returns>A promise that can be continued for when the description is done</returns>
             var promise = Bifrost.execution.Promise.create();
             var element = view.element;
 
