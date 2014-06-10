@@ -323,6 +323,39 @@ Bifrost.namespace("Bifrost", {
         return instance;
     };
 
+    Bifrost.Type.ensure = function () {
+        var promise = Bifrost.execution.Promise.create();
+
+        var loadedDependencies = 0;
+        var dependenciesToResolve = this._dependencies.length;
+        var namespace = this._namespace;
+        var resolver = Bifrost.dependencyResolver;
+        if (dependenciesToResolve > 0) {
+            this._dependencies.forEach(function (dependency) {
+
+                if (resolver.canResolve(namespace, dependency)) {
+                    resolver.beginResolve(namespace, dependency).continueWith(function (resolvedSystem) {
+                        loadedDependencies++;
+                        if (loadedDependencies === dependenciesToResolve) {
+                            promise.signal();
+                        }
+                    });
+                } else {
+                    dependenciesToResolve--;
+                    if (loadedDependencies === dependenciesToResolve) {
+                        promise.signal();
+                    }
+                }
+            });
+        } else {
+            promise.signal();
+        }
+
+
+
+        return promise;
+    };
+
     Bifrost.Type.beginCreate = function(instanceHash) {
         var self = this;
 

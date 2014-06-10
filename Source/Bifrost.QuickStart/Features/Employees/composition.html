@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    
+    Good day
+
+    <div id="first" data-bind="view: 'Employees/test'"></div>
+    <div id="second" data-bind="view: 'Employees/test'"></div>
+
+    <dialog width="300" height="300" title="Popup" view="Employees/popup" openmessage="openPopup" closemessage="closePopup"></dialog>
+    <dialog width="300" height="300" title="Popup" view="Employees/popup" openmessage="openSecondPopup" closemessage="closeSecondPopup"></dialog>
+    <dialog width="300" height="300" title="Popup" view="Employees/popup" openmessage="openThirdPopup" closemessage="closeThirdPopup"></dialog>
+
+    <!--
+    <div data-bind="view: 'Employees/test'"></div>-->
+
+    <button data-bind="click: showPopup">Show Popup</button>
+    <button data-bind="click: showSecondPopup">Show Second Popup</button>
+    <button data-bind="click: showThirdPopup">Show Third Popup</button>
+</body>
+</html>
