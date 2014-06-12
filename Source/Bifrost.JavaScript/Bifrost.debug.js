@@ -6691,15 +6691,22 @@ Bifrost.namespace("Bifrost.views", {
                     options.element.view = view;
                     regionManager.describe(options.view, options.region).continueWith(function () {
                         try {
+                            // This is a bit dodgy, but can't find any way around it
+                            // Put an empty object for dependency detection - we don't want Knockout to be observing any observables on our viewModel
                             ko.dependencyDetection.begin();
 
                             if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
                                 var viewModelParameters = options.viewModelParameters;
                                 viewModelParameters.region = options.region;
+
                                 var instance = view.viewModelType.create(viewModelParameters);
                                 options.element.viewModel = instance;
                                 options.data(instance);
 
+                                bindingContext.$data = instance;
+                            } else {
+                                var instance = {};
+                                options.data(instance);
                                 bindingContext.$data = instance;
                             }
                         } finally {
@@ -7281,7 +7288,7 @@ Bifrost.namespace("Bifrost.views", {
 
         this.getFor = function (view) {
             /// <summary>Gets the region for the given view and creates one if none exist</summary>
-            /// <param name="view" type="HTMLElement">View to get a region for</param>
+            /// <param name="view" type="View">View to get a region for</param>
             /// <returns>The region for the element</returns>
             var element = view.element;
             if (documentService.hasOwnRegion(element)) {
@@ -7300,6 +7307,9 @@ Bifrost.namespace("Bifrost.views", {
 
         this.describe = function (view, region) {
             /// <summary>Describes a region for a view</summary>
+            /// <param name="view" type="View">View to describe region for</param>
+            /// <param name="region" type="Region">Region to describe for</param>
+            /// <returns>A promise that can be continued for when the description is done</returns>
             var promise = Bifrost.execution.Promise.create();
             var element = view.element;
 

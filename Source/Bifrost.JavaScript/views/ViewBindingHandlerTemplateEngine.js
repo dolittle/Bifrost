@@ -25,10 +25,15 @@
                             if (!Bifrost.isNullOrUndefined(view.viewModelType)) {
                                 var viewModelParameters = options.viewModelParameters;
                                 viewModelParameters.region = options.region;
+
                                 var instance = view.viewModelType.create(viewModelParameters);
                                 options.element.viewModel = instance;
                                 options.data(instance);
 
+                                bindingContext.$data = instance;
+                            } else {
+                                var instance = {};
+                                options.data(instance);
                                 bindingContext.$data = instance;
                             }
                         } finally {
