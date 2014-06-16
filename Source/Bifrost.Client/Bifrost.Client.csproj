@@ -100,6 +100,11 @@
     <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\ITasks.cs" />
+    <Compile Include="Tasks\TaskCancelled.cs" />
+    <Compile Include="Tasks\TaskFailed.cs" />
+    <Compile Include="Tasks\TaskStatus.cs" />
+    <Compile Include="Tasks\TaskSucceeded.cs" />
+    <Compile Include="Tasks\TaskCompleted.cs" />
     <Compile Include="Tasks\TaskContext.cs" />
     <Compile Include="Tasks\TaskResult.cs" />
     <Compile Include="Tasks\Tasks.cs" />

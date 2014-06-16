@@ -30,13 +30,33 @@ namespace Bifrost.Tasks
         public event PropertyChangedEventHandler PropertyChanged = (s,e) => {};
 #pragma warning restore 1591 // Xml Comments
 
-        public TaskContext(object associatedData)
+        event TaskCompleted _completed = (c) => { };
+        event TaskSucceeded _succeeded = (c) => { };
+        event TaskFailed _failed = (c) => { };
+        event TaskCancelled _cancelled = (c) => { };
+
+        /// <summary>
+        /// Initializes the <see cref="TaskContext"/>
+        /// </summary>
+        /// <param name="associatedData"></param>
+        public TaskContext(ITask task, object associatedData)
         {
+            Task = task;
             Result = new TaskResult();
             AssociatedData = associatedData;
 
             _progress = 0;
         }
+
+        /// <summary>
+        /// The <see cref="ITask"/> that is related to the context
+        /// </summary>
+        public ITask Task { get; private set; }
+
+        /// <summary>
+        /// <see cref="TaskStatus"/> of the context
+        /// </summary>
+        public TaskStatus Status { get; private set; }
 
         /// <summary>
         /// Gets the result of the task
@@ -49,6 +69,10 @@ namespace Bifrost.Tasks
         public object AssociatedData { get; private set; }
 
         double _progress;
+
+        /// <summary>
+        /// Gets or sets the progress of the task
+        /// </summary>
         public double Progress
         {
             get { return _progress; }
@@ -56,6 +80,144 @@ namespace Bifrost.Tasks
             {
                 _progress = value;
                 PropertyChanged.Notify(() => Progress);
+            }
+        }
+
+        /// <summary>
+        /// Fail the context
+        /// </summary>
+        /// <remarks>
+        /// It will also complete the context afterwards
+        /// </remarks>
+        public void Fail()
+        {
+            Status = TaskStatus.Failed;
+            _failed(this);
+            _completed(this);
+        }
+
+        /// <summary>
+        /// Succeed the context
+        /// </summary>
+        /// <remarks>
+        /// It will also complete the context afterwards
+        /// </remarks>
+        public void Succeed()
+        {
+            Status = TaskStatus.Succeeded;
+            _succeeded(this);
+            _completed(this);
+        }
+
+        /// <summary>
+        /// Cancel the context
+        /// </summary>
+        /// <remarks>
+        /// It will also complete the context afterwards
+        /// </remarks>
+        public void Cancel()
+        {
+            Status = TaskStatus.Cancelled;
+            _cancelled(this);
+            _completed(this);
+        }
+
+
+        /// <summary>
+        /// Add a <see cref="TaskCompleted"/> callback
+        /// </summary>
+        /// <param name="callback"><see cref="TaskCompleted"/> callback to add</param>
+        /// <returns>The <see cref="TaskContext"/></returns>
+        public TaskContext Completed(TaskCompleted callback)
+        {
+            if (IsComplete) callback(this);
+
+            _completed += callback;
+            return this;
+        }
+
+        /// <summary>
+        /// Add a <see cref="TaskSucceeded"/> callback
+        /// </summary>
+        /// <param name="callback"><see cref="TaskSucceeded"/> callback to add</param>
+        /// <returns>The <see cref="TaskContext"/></returns>
+        public TaskContext Succeeded(TaskSucceeded callback)
+        {
+            if (HasSucceeded) callback(this);
+
+            _succeeded += callback;
+            return this;
+        }
+
+        /// <summary>
+        /// Add a <see cref="TaskFailed"/> callback
+        /// </summary>
+        /// <param name="callback"><see cref="TaskFailed"/> callback to add</param>
+        /// <returns>The <see cref="TaskContext"/></returns>
+        public TaskContext Failed(TaskFailed callback)
+        {
+            if (HasFailed) callback(this);
+
+            _failed += callback;
+            return this;
+        }
+
+        /// <summary>
+        /// Add a <see cref="TaskCancelled"/> callback
+        /// </summary>
+        /// <param name="callback"><see cref="TaskCancelled"/> callback to add</param>
+        /// <returns>The <see cref="TaskContext"/></returns>
+        public TaskContext Cancelled(TaskCancelled callback)
+        {
+            if (IsCancelled) callback(this);
+
+            _cancelled += callback;
+            return this;
+        }
+
+        /// <summary>
+        /// Gets wether or not the context was cancelled
+        /// </summary>
+        public bool IsCancelled
+        {
+            get
+            {
+                return Status == TaskStatus.Cancelled;
+            }
+        }
+
+        /// <summary>
+        /// Gets wether or not the context is complete
+        /// </summary>
+        public bool IsComplete
+        {
+            get
+            {
+                return Status == TaskStatus.Cancelled ||
+                       Status == TaskStatus.Failed ||
+                       Status == TaskStatus.Succeeded;
+            }
+        }
+
+        /// <summary>
+        /// Gets wether or not the context has succeeded
+        /// </summary>
+        public bool HasSucceeded
+        {
+            get
+            {
+                return Status == TaskStatus.Succeeded;
+            }
+        }
+
+        /// <summary>
+        /// Gets wether or not the context is failed
+        /// </summary>
+        public bool HasFailed
+        {
+            get
+            {
+                return Status == TaskStatus.Failed;
             }
         }
 

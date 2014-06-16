@@ -122,14 +122,29 @@
     <Compile Include="..\Bifrost.Client\Tasks\ITasks.cs">
       <Link>Tasks\ITasks.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskCancelled.cs">
+      <Link>Tasks\TaskCancelled.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskCompleted.cs">
+      <Link>Tasks\TaskCompleted.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.Client\Tasks\TaskContext.cs">
       <Link>Tasks\TaskContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskFailed.cs">
+      <Link>Tasks\TaskFailed.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.Client\Tasks\TaskResult.cs">
       <Link>Tasks\TaskResult.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.Client\Tasks\Tasks.cs">
       <Link>Tasks\Tasks.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskStatus.cs">
+      <Link>Tasks\TaskStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.Client\Tasks\TaskSucceeded.cs">
+      <Link>Tasks\TaskSucceeded.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.Client\Values\DependencyProperty.cs">
       <Link>Values\DependencyProperty.cs</Link>

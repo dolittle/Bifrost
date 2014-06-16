@@ -47,7 +47,7 @@ namespace Bifrost.Tasks
 
         public TaskContext Execute(ITask task, object associatedData = null)
         {
-            var context = new TaskContext(associatedData);
+            var context = new TaskContext(task, associatedData);
 
             _all.Add(task);
             UpdateBusy();

@@ -54,6 +54,13 @@
     <Compile Include="Execution\for_Promise\when_failing_with_error_ballback.cs" />
     <Compile Include="Execution\for_Promise\when_signalling_with_continuation_ballback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\for_TaskContext\given\a_task_context_with_a_task_and_associated_data.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_before_cancelled_and_completed_callback_registered.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_after_cancelled_and_completed_callback_registered.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_failing_a_task_before_failed_and_completed_callback_registered.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_succeeding_a_task_before_succeeded_and_completed_callback_registered.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_succeeding_a_task_after_succeeded_and_completed_callback_registered.cs" />
+    <Compile Include="Tasks\for_TaskContext\when_failing_a_task_after_failed_and_completed_callback_registered.cs" />
     <Compile Include="Tasks\for_Tasks\when_executing_task_that_finishes.cs" />
     <Compile Include="Tasks\for_Tasks\when_executing_task.cs" />
   </ItemGroup>
