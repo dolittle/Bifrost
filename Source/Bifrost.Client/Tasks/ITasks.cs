@@ -36,6 +36,11 @@ namespace Bifrost.Tasks
         IEnumerable<ITask> All { get; }
 
         /// <summary>
+        /// Gets all the contexts for running tasks in this system
+        /// </summary>
+        IEnumerable<TaskContext> Contexts { get; }
+
+        /// <summary>
         /// Execute a task
         /// </summary>
         /// <param name="task">Task to execute</param>

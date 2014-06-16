@@ -25,6 +25,7 @@ namespace Bifrost.Client.Specs.Tasks.for_Tasks
         Because of = () => result = tasks.Execute(task_mock.Object);
 
         It should_not_hold_the_task = () => tasks.All.ShouldNotContain(task_mock.Object);
+        It should_not_hold_the_task_context = () => tasks.Contexts.ShouldNotContain(result);
         It should_not_be_busy = () => tasks.IsBusy.ShouldEqual(false);
     }
 }
