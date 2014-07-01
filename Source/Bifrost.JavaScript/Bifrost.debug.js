@@ -6582,6 +6582,8 @@ Bifrost.namespace("Bifrost.views", {
                 var viewUri = ko.utils.unwrapObservable(valueAccessor());
 
                 if (element.viewUri !== viewUri) {
+                    element.children.forEach(ko.removeNode);
+
                     element.viewModel = null;
                     element.view = null;
                     element.templateSource = null;
