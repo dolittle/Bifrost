@@ -37,10 +37,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Machine.Specifications.0.8.2\lib\net40\Machine.Specifications.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications.Clr4">
+    <Reference Include="Machine.Specifications.Clr4, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Machine.Specifications.0.8.2\lib\net40\Machine.Specifications.Clr4.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications.Should">
+    <Reference Include="Machine.Specifications.Should, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Machine.Specifications.Should.0.7.2\lib\net40\Machine.Specifications.Should.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
