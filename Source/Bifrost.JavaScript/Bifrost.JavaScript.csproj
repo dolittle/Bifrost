@@ -60,6 +60,8 @@
     <Content Include="rules\And.js" />
     <Content Include="rules\Or.js" />
     <Content Include="rules\Rule.js" />
+    <Content Include="types\PropertyInfo.js" />
+    <Content Include="types\TypeInfo.js" />
     <Content Include="utils\configurator.js" />
     <Content Include="validation\length.js" />
     <Content Include="values\DateFormatter.js" />

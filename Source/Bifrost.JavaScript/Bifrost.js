@@ -30,6 +30,8 @@
 @depends utils/KnownArtifactTypesDependencyResolver.js
 @depends utils/KnownArtifactInstancesDependencyResolver.js
 @depends utils/guid.js
+@depends types/TypeInfo.js
+@depends types/PropertyInfo.js
 @depends utils/Type.js
 @depends utils/Singleton.js
 @depends utils/path.js
