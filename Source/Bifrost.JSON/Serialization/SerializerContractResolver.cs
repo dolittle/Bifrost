@@ -42,9 +42,8 @@ namespace Bifrost.JSON.Serialization
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> to use for creating instances of types</param>
         /// <param name="options"><see cref="SerializationOptions"/> to use during resolving</param>
-		public SerializerContractResolver(IContainer container, SerializationOptions options)
+		public SerializerContractResolver(IContainer container, SerializationOptions options) : base(true)
 		{
-            
 			_container = container;
 			_options = options;
 		}
