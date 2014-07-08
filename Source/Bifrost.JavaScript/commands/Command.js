@@ -247,8 +247,8 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         function setValueOnObservable(observable, value) {
-            if (!Bifrost.isNullOrUndefined(observable._typeAsString)) {
-                value = typeConverters.convertFrom(value, observable._typeAsString);
+            if (!Bifrost.isNullOrUndefined(observable._typeAsString) && !Bifrost.isNullOrUndefined(value)) {
+                value = typeConverters.convertFrom(value.toString(), observable._typeAsString);
             }
             observable(value);
 
