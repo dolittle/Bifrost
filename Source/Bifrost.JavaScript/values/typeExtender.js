@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.values", {
-    typeConverterExtender: Bifrost.Singleton(function () {
+    typeExtender: Bifrost.Singleton(function () {
         this.extend = function (target, typeAsString) {
             target._typeAsString = typeAsString;
         };

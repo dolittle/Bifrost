@@ -64,6 +64,7 @@
     <Content Include="types\TypeInfo.js" />
     <Content Include="utils\configurator.js" />
     <Content Include="validation\length.js" />
+    <Content Include="values\StringTypeConverter.js" />
     <Content Include="values\DateFormatter.js" />
     <Content Include="values\DateTypeConverter.js" />
     <Content Include="values\Formatter.js" />
@@ -160,7 +161,7 @@
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
     <Content Include="values\TypeConverterElementVisitor.js" />
-    <Content Include="values\typeConverterExtender.js" />
+    <Content Include="values\typeExtender.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="views\ElementVisitor.js" />
     <Content Include="views\ElementVisitorResultActions.js" />

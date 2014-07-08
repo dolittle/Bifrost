@@ -23,6 +23,7 @@ Dependencies :
   - Bifrost.JavaScript/utils/isUndefined.js
   - Bifrost.JavaScript/utils/isNullOrUndefined.js
   - Bifrost.JavaScript/utils/isFunction.js
+  - Bifrost.JavaScript/utils/isType.js
   - Bifrost.JavaScript/utils/areEqual.js
   - Bifrost.JavaScript/utils/functionParser.js
   - Bifrost.JavaScript/utils/dependencyResolver.js
@@ -32,6 +33,8 @@ Dependencies :
   - Bifrost.JavaScript/utils/KnownArtifactInstancesDependencyResolver.js
   - Bifrost.JavaScript/utils/dependencyResolvers.js
   - Bifrost.JavaScript/utils/Type.js
+  - Bifrost.JavaScript/Types/PropertyInfo.js
+  - Bifrost.JavaScript/Types/TypeInfo.js
   - Bifrost.JavaScript/utils/Singleton.js
   - Bifrost.JavaScript/utils/exceptions.js
   - Bifrost.JavaScript/utils/Uri.js

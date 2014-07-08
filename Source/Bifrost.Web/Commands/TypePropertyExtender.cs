@@ -23,7 +23,7 @@ using Bifrost.Extensions;
 
 namespace Bifrost.Web.Commands
 {
-    public class CommandTypeConverterPropertyExtender : ICanExtendCommandProperty
+    public class TypePropertyExtender : ICanExtendCommandProperty
     {
         public void Extend(Type commandType, string propertyName, Observable observable)
         {
@@ -52,8 +52,12 @@ namespace Bifrost.Web.Commands
                 {
                     clientType = "Date";
                 }
+                else if (type == typeof(string))
+                {
+                    clientType = "String";
+                }
 
-                if (!string.IsNullOrEmpty(clientType)) observable.ExtendWith("typeConverter", string.Format("\"{0}\"",clientType));
+                if (!string.IsNullOrEmpty(clientType)) observable.ExtendWith("type", string.Format("\"{0}\"",clientType));
             }
         }
     }

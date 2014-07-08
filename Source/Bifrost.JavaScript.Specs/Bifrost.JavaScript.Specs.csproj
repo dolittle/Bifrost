@@ -114,6 +114,8 @@
     <Content Include="rules\for_Rule\when_rule_with_observable_evaluator_gets_changed.js" />
     <Content Include="rules\for_Rule\when_rule_has_not_been_evaluated_against_an_instance.js" />
     <Content Include="rules\for_Rule\when_rule_is_evaluated_against_an_instance.js" />
+    <Content Include="types\for_TypeInfo\when_creating_from_instance_with_no_properties.js" />
+    <Content Include="types\for_TypeInfo\when_creating_from_instance_with_properties_of_different_types.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />
@@ -484,6 +486,7 @@
     <Content Include="values\for_stringFormatter\when_formatting_string_with_one_chunk_in_format_with_known_formatter.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_with_format_if_element_has_format.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_without_format_if_element_has_format.js" />
+    <Content Include="values\for_StringTypeConverter\when_convertering_from_a_number.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_string_format.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_type_specified.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_for_view_with_unset_observable.js" />
@@ -543,7 +546,7 @@
     <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
-    <Content Include="values\for_typeConverterExtender\when_extending_observable.js" />
+    <Content Include="values\for_typeExtender\when_extending_observable.js" />
     <Content Include="values\for_typeConverters\when_converting_to_without_supporting_converter_for_type.js" />
     <Content Include="values\for_typeConverters\when_converting_to_and_supporting_converter_for_type.js" />
     <Content Include="values\for_typeConverters\when_converting_from_with_type_without_supporting_converter_for_type.js" />

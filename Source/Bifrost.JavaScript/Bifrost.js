@@ -194,8 +194,9 @@
 @depends values/TypeConverter.js
 @depends values/NumberTypeConverter.js
 @depends values/DateTypeConverter.js
+@depends values/StringTypeConverter.js
 @depends values/typeConverters.js
-@depends values/typeConverterExtender.js
+@depends values/typeExtender.js
 @depends values/TypeConverterElementVisitor.js
 @depends values/Formatter.js
 @depends values/DateFormatter.js
