@@ -68,7 +68,7 @@
     <Compile Include="Commands\CommandCoordinatorService.cs" />
     <Compile Include="Commands\CommandDescriptor.cs" />
     <Compile Include="Commands\CommandSecurityService.cs" />
-    <Compile Include="Commands\CommandTypeConverterPropertyExtender.cs" />
+    <Compile Include="Commands\TypePropertyExtender.cs" />
     <Compile Include="Configuration\ConfigurationRoute.cs" />
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />
     <Compile Include="Configuration\ConfigurationRouteHttpHandler.cs" />

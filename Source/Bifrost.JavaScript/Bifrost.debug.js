@@ -1252,6 +1252,38 @@ Bifrost.namespace("Bifrost", {
     	empty: "00000000-0000-0000-0000-000000000000"
 	}
 });
+Bifrost.namespace("Bifrost.types", {
+    TypeInfo: Bifrost.Type.extend(function () {
+        this.properties = [];
+    })
+});
+Bifrost.types.TypeInfo.createFrom = function (instance) {
+    var typeInfo = Bifrost.types.TypeInfo.create();
+    for (var property in instance) {
+        var value = instance[property];
+        if (!Bifrost.isNullOrUndefined(value)) {
+
+            var type = value.constructor;
+
+            if (!Bifrost.isNullOrUndefined(instance[property]._type)) {
+                type = instance[property]._type;
+            }
+
+            var propertyInfo = Bifrost.types.PropertyInfo.create({
+                name: property,
+                type: type
+            });
+        }
+        typeInfo.properties.push(propertyInfo);
+    }
+    return typeInfo;
+};
+Bifrost.namespace("Bifrost.types", {
+    PropertyInfo: Bifrost.Type.extend(function (name, type) {
+        this.name = name;
+        this.type = type;
+    })
+});
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
@@ -2980,6 +3012,7 @@ Bifrost.namespace("Bifrost.tasks", {
         /// <field name="all" type="Bifrost.tasks.Task[]">All tasks being executed</field>
         this.all = ko.computed(function () {
             var all = self.unfiltered();
+
             var rule = self.canExecuteWhen();
 
             if (!Bifrost.isNullOrUndefined(rule)) {
@@ -3016,6 +3049,7 @@ Bifrost.namespace("Bifrost.tasks", {
                 task.promise.signal(result);
             }).onFail(function (error) {
                 self.unfiltered.remove(task);
+                self.errors.push(task);
                 taskHistory.failed(taskHistoryId, error);
                 task.promise.fail(error);
             });
@@ -5130,8 +5164,6 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		function mapSingleInstance(readModel, data) {
-		    var instance = readModel.create();
-
 		    if (data) {
 		        if (typeof data._readModelType != "undefined") {
 
@@ -5140,7 +5172,11 @@ Bifrost.namespace("Bifrost.read", {
 		                readModel = readModelType;
 		            }
 		        }
+		    }
 
+		    var instance = readModel.create();
+
+		    if (data) {
 		        copyProperties(data, instance);
 		    }
 		    return instance;
@@ -5451,7 +5487,7 @@ Bifrost.namespace("Bifrost.read", {
 
 		this.populateCommandOnChanges = function (command) {
 		    command.populatedExternally();
-
+		    
 		    if (typeof self.instance() != "undefined" && self.instance() != null) {
 		        command.populateFromExternalSource(self.instance());
 		    }
@@ -7843,6 +7879,15 @@ Bifrost.namespace("Bifrost.values", {
     })
 });
 Bifrost.namespace("Bifrost.values", {
+    StringTypeConverter: Bifrost.values.TypeConverter.extend(function () {
+        this.supportedType = String;
+
+        this.convertFrom = function (value) {
+            return value.toString();
+        };
+    })
+});
+Bifrost.namespace("Bifrost.values", {
     typeConverters: Bifrost.Singleton(function () {
         var convertersByType = {};
 
@@ -7880,7 +7925,7 @@ Bifrost.namespace("Bifrost.values", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.typeConverters = Bifrost.values.typeConverters;
 Bifrost.namespace("Bifrost.values", {
-    typeConverterExtender: Bifrost.Singleton(function () {
+    typeExtender: Bifrost.Singleton(function () {
         this.extend = function (target, typeAsString) {
             target._typeAsString = typeAsString;
         };
