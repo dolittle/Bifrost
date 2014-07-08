@@ -1252,38 +1252,6 @@ Bifrost.namespace("Bifrost", {
     	empty: "00000000-0000-0000-0000-000000000000"
 	}
 });
-Bifrost.namespace("Bifrost.types", {
-    TypeInfo: Bifrost.Type.extend(function () {
-        this.properties = [];
-    })
-});
-Bifrost.types.TypeInfo.createFrom = function (instance) {
-    var typeInfo = Bifrost.types.TypeInfo.create();
-    for (var property in instance) {
-        var value = instance[property];
-        if (!Bifrost.isNullOrUndefined(value)) {
-
-            var type = value.constructor;
-
-            if (!Bifrost.isNullOrUndefined(instance[property]._type)) {
-                type = instance[property]._type;
-            }
-
-            var propertyInfo = Bifrost.types.PropertyInfo.create({
-                name: property,
-                type: type
-            });
-        }
-        typeInfo.properties.push(propertyInfo);
-    }
-    return typeInfo;
-};
-Bifrost.namespace("Bifrost.types", {
-    PropertyInfo: Bifrost.Type.extend(function (name, type) {
-        this.name = name;
-        this.type = type;
-    })
-});
 Bifrost.namespace("Bifrost", {
     Type: function () {
         var self = this;
@@ -1699,6 +1667,38 @@ Bifrost.namespace("Bifrost", {
     Singleton: function (typeDefinition) {
         return Bifrost.Type.extend(typeDefinition).scopeTo(window);
     }
+});
+Bifrost.namespace("Bifrost.types", {
+    TypeInfo: Bifrost.Type.extend(function () {
+        this.properties = [];
+    })
+});
+Bifrost.types.TypeInfo.createFrom = function (instance) {
+    var typeInfo = Bifrost.types.TypeInfo.create();
+    for (var property in instance) {
+        var value = instance[property];
+        if (!Bifrost.isNullOrUndefined(value)) {
+
+            var type = value.constructor;
+
+            if (!Bifrost.isNullOrUndefined(instance[property]._type)) {
+                type = instance[property]._type;
+            }
+
+            var propertyInfo = Bifrost.types.PropertyInfo.create({
+                name: property,
+                type: type
+            });
+        }
+        typeInfo.properties.push(propertyInfo);
+    }
+    return typeInfo;
+};
+Bifrost.namespace("Bifrost.types", {
+    PropertyInfo: Bifrost.Type.extend(function (name, type) {
+        this.name = name;
+        this.type = type;
+    })
 });
 Bifrost.namespace("Bifrost", {
     Path: Bifrost.Type.extend(function (fullPath) {
