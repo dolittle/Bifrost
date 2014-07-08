@@ -26,7 +26,8 @@
         },
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     }
     var command = null;
 

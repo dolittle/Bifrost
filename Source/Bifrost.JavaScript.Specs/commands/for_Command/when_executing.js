@@ -49,7 +49,8 @@
         },
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     }
     command = Bifrost.commands.Command.create(parameters);
     command.execute();

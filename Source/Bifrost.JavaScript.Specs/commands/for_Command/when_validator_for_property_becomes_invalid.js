@@ -29,7 +29,8 @@
         },
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     };
 
     beforeEach(function () {

@@ -1,4 +1,4 @@
-﻿describe("when one value is reporting change after initialization", function () {
+﻿describe("when populated externally with property values set with well known target types", function () {
     var parameters = {
         commandCoordinator: {
         },
@@ -20,30 +20,32 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        typeConverters: {
+            convertFrom: sinon.stub().returns(43)
+        }
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {
-        this.someValue = ko.observable(43);
-        this.someArray = ko.observableArray();
+        this.someValue = ko.observable(42);
+
+        this.someValue._typeAsString = "Number";
     });
 
-    var newValues = {
-        someValue: 43,
-        someArray: [1, 2, 3]
-    };
+    
 
-    ko.extenders.hasChanges = function (target, options) {
-        target.hasChanges = ko.observable(false);
-        target.setInitialValue = function () { }
+    var newValues = {
+        someValue: "43",
     };
 
     var command = commandType.create(parameters);
+    command.populatedExternally();
     command.populateFromExternalSource(newValues);
 
-    command.someValue.hasChanges(true);
+    it("should call the type converter with the string value and the target type", function () {
+        expect(parameters.typeConverters.convertFrom.calledWith("43", "Number")).toBe(true);
+    });
 
-    it("should have changes", function () {
-        expect(command.hasChanges()).toBe(true);
+    it("should set the converted value", function () {
+        expect(command.someValue()).toBe(43);
     });
 });

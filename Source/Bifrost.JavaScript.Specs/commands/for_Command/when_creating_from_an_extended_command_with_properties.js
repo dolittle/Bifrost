@@ -22,7 +22,8 @@
         },
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {

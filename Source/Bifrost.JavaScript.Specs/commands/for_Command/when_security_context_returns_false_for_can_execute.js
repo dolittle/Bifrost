@@ -23,7 +23,8 @@
         },
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     }
 
     var command = Bifrost.commands.Command.create(parameters);

@@ -22,7 +22,8 @@
         options: {},
         region: {
             commands: []
-        }
+        },
+        typeConverters: {}
     });
 
     command.populatedExternally();
