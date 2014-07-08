@@ -15,6 +15,7 @@
         /// <field name="all" type="Bifrost.tasks.Task[]">All tasks being executed</field>
         this.all = ko.computed(function () {
             var all = self.unfiltered();
+
             var rule = self.canExecuteWhen();
 
             if (!Bifrost.isNullOrUndefined(rule)) {
@@ -51,6 +52,7 @@
                 task.promise.signal(result);
             }).onFail(function (error) {
                 self.unfiltered.remove(task);
+                self.errors.push(task);
                 taskHistory.failed(taskHistoryId, error);
                 task.promise.fail(error);
             });

@@ -4,15 +4,23 @@
     };
     var exception;
 
+    var configure = null;
+
     beforeEach(function () {
+        configure = Bifrost.configure;
+
+        Bifrost.configure = {
+            ready: function (callback) {
+                callback();
+            }
+        };
+
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [resolver];
             }
         };
 
-        Bifrost.configure.reset();
-        Bifrost.configure.onReady();
         try {
             Bifrost.dependencyResolver.beginResolve("Something").onFail(function (e) {
                 exception = e;
@@ -23,7 +31,7 @@
     });
 
     afterEach(function () {
-        Bifrost.configure.reset();
+        Bifrost.configure = configure;
     });
 
 

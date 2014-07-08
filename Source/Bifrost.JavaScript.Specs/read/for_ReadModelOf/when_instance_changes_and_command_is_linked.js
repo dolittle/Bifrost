@@ -10,13 +10,13 @@
 
     var command = {
         populatedExternally: function () { },
-        populateFromExternalSource: sinon.mock().withArgs(newInstance)
+        populateFromExternalSource: sinon.stub()
     };
 
     readModelOf.populateCommandOnChanges(command);
     readModelOf.instance(newInstance);
 
     it("should initialize command with the instance", function () {
-        expect(command.populateFromExternalSource.called).toBe(true);
+        expect(command.populateFromExternalSource.calledWith(newInstance)).toBe(true);
     });
 });

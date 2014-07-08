@@ -21,8 +21,6 @@ Bifrost.namespace("Bifrost.read", {
 		}
 
 		function mapSingleInstance(readModel, data) {
-		    var instance = readModel.create();
-
 		    if (data) {
 		        if (typeof data._readModelType != "undefined") {
 
@@ -31,7 +29,11 @@ Bifrost.namespace("Bifrost.read", {
 		                readModel = readModelType;
 		            }
 		        }
+		    }
 
+		    var instance = readModel.create();
+
+		    if (data) {
 		        copyProperties(data, instance);
 		    }
 		    return instance;
