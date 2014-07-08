@@ -3,7 +3,18 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 	var innerPromise = Bifrost.execution.Promise.create();
 	var result = null;
 
+	var configure = null;
+
 	beforeEach(function () {
+	    configure = Bifrost.configure;
+
+	    Bifrost.configure = {
+	        ready: function (callback) {
+	            callback();
+	        }
+	    };
+
+
 	    Bifrost.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
@@ -17,9 +28,6 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 	        }
 	    };
 
-	    Bifrost.configure.reset();
-	    Bifrost.configure.onReady();
-
 	    
 	    Bifrost.dependencyResolver
             .beginResolve(ns, "something")
@@ -28,6 +36,10 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 
             });
 	    innerPromise.signal("Hello");
+	});
+
+	afterEach(function () {
+	    Bifrost.configure = configure;
 	});
 
 

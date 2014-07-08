@@ -8,7 +8,7 @@
         element: element
     };
 
-    var stringMapper = {
+    var uriMapper = {
         resolve: function (input) {
             if (input == "Something") return "ThePath";
         }
@@ -24,7 +24,7 @@
             }
         }
     };
-    var viewFactory = {
+    var viewManager = {
         createFrom: function (path) {
             createFromPath = path;
             return {
@@ -36,10 +36,10 @@
     };
 
     var frame = Bifrost.navigation.NavigationFrame.create({
-        stringMapper: stringMapper,
         home: home,
+        uriMapper: uriMapper,
         history: history,
-        viewFactory: viewFactory
+        viewManager: viewManager
     });
 
     frame.setContainer(container);

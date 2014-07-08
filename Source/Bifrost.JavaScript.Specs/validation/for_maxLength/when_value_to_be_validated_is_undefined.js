@@ -3,6 +3,6 @@
     var result = validator.validate(undefined)
 
     it("should be invalid", function () {
-        expect(result).toBe(false);
+        expect(result).toBe(true);
     });
 });

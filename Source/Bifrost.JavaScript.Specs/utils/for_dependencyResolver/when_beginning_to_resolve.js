@@ -2,7 +2,16 @@ describe("when beginning to resolve", function () {
     var ns = {};
     var result;
 
-	beforeEach(function () {
+    var configure = null;
+
+    beforeEach(function () {
+
+        configure = Bifrost.configure;
+
+        Bifrost.configure = {
+            ready : sinon.stub()
+        };
+
 	    Bifrost.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
@@ -16,6 +25,10 @@ describe("when beginning to resolve", function () {
 	        }
 	    };
 	    result = Bifrost.dependencyResolver.beginResolve(ns, "something");
+	});
+
+    afterEach(function () {
+        Bifrost.configure = configure;
 	});
 
 	it("should return a promise", function() {

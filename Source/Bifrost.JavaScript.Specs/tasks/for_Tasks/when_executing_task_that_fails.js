@@ -1,4 +1,5 @@
-﻿describe("when executing task that fails", function () {
+﻿
+describe("when executing task that fails", function () {
     var error = "Some error";
     var task = {
         isExecuting: ko.observable(false),
@@ -23,23 +24,20 @@
     var tasks = Bifrost.tasks.Tasks.create({ taskHistory: taskHistory });
 
     var isBusyTimeline = [];
-    var taskWasAdded = false;
-    
-    tasks.all.subscribe(function (newValue) {
-        if (newValue[0] == task) taskWasAdded = true;
-    });
 
     tasks.isBusy.subscribe(function (newValue) {
         isBusyTimeline.push(newValue);
     });
 
     var onFailMock = sinon.mock().withArgs(error);
-
     tasks.execute(task).onFail(onFailMock);
 
+    it("should not hold the task unfiltered", function () {
+        expect(tasks.unfiltered().length).toBe(0);
+    });
 
-    it("should add the task to all", function () {
-        expect(taskWasAdded).toBe(true);
+    it("should add the task to errors", function () {
+        expect(tasks.errors()[0]).toBe(task);
     });
 
     it("should remove the task when failed", function () {

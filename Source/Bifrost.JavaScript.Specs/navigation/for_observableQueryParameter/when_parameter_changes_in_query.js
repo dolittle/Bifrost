@@ -2,23 +2,28 @@
     var observable;
     var callbackToCall;
 
+    var adapter = null;
 
     beforeEach(function () {
-        sinon.stub(History.Adapter, "bind", function (scope, event, callback) {
-            callbackToCall = callback;
-        });
-        sinon.stub(History, "getState", function () {
-            return {
+        History = History || {};
+
+        adapter = History.Adapter;
+
+        History.Adapter = {
+            bind: function(callback) {
+                callback();
+            },
+            getState: sinon.stub().returns({
                 url: "http://www.somewhere.com/#?something=hello"
-            }
-        });
+            })
+
+        };
         observable = ko.observableQueryParameter("something");
         callbackToCall();
     });
 
     afterEach(function () {
-        History.Adapter.bind.restore();
-        History.getState.restore();
+        History.Adapter = adapter;
     });
 
 
