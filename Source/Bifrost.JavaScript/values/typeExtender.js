@@ -5,4 +5,4 @@
         };
     })
 });
-ko.extenders.typeConverter = Bifrost.values.typeConverterExtender.create().extend;
+ko.extenders.type = Bifrost.values.typeExtender.create().extend;

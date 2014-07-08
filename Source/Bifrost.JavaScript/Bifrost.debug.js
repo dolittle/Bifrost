@@ -7934,7 +7934,7 @@ Bifrost.namespace("Bifrost.values", {
         };
     })
 });
-ko.extenders.typeConverter = Bifrost.values.typeConverterExtender.create().extend;
+ko.extenders.type = Bifrost.values.typeExtender.create().extend;
 Bifrost.namespace("Bifrost.values", {
     TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
         this.visit = function (element, resultActions) {
