@@ -1,17 +1,16 @@
-describe("when visiting a plain tag and parent is a property set tag with an observable on target", function() {
+describe("when visiting a plain tag and parent is a property set tag", function() {
 	var instance = { some: "instance"};
 	var objectModelManager = {
 		getObjectFromTagName: sinon.stub().returns(instance)
 	};
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: {}	
 	});
 
 	var parentObjectModelNode = {
-		property: ko.observable()
 	};
 
 	var parentElement = { localName: "something.property", __objectModelNode: parentObjectModelNode, isKnownType: sinon.stub().returns(false) };
@@ -23,6 +22,6 @@ describe("when visiting a plain tag and parent is a property set tag with an obs
 	});
 
 	it("should set the object instance to the parent elements object model node", function() {
-		expect(parentObjectModelNode.property()).toBe(instance);
+		expect(parentObjectModelNode.property).toBe(instance);
 	});
 });

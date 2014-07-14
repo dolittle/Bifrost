@@ -90,6 +90,9 @@
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
+    <Compile Include="Dynamic\BindableExpandoObject.cs" />
+    <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
+    <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Execution\Promise.cs" />
     <Compile Include="Interaction\IOperations.cs" />
     <Compile Include="Interaction\Operation.cs" />

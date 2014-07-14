@@ -76,11 +76,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
 	<script src="Libraries/jquery-1.7.1.min.js"></script>
-	<script src="Libraries/knockout-2.2.1.js"></script>
+	<script src="Libraries/knockout-3.1.0.js"></script>
 	<script src="Libraries/require.js"></script>
 	<script src="Bifrost.debug.js" type="text/javascript"></script>
 
 	<script>
+        /*
 		document.addEventListener('DOMContentLoaded', function() {
 			document.ontouchmove = function(event){
 			    event.preventDefault();
@@ -98,7 +99,7 @@
 			        }
 			        scrolling = false;
 			    }
-			};
+			};*/
 
 
 
@@ -120,10 +121,11 @@ $('body').on('touchstart','.scrollable',function(e) {
 });
 */
 
+        /*
 			content.ontouchmove = function(event) {
 				event.stopPropagation();
 			};
-		}, false);
+		}, false);*/
 	</script>
 
 	
@@ -131,16 +133,14 @@ $('body').on('touchstart','.scrollable',function(e) {
 		Bifrost.assetsManager.initializeFromAssets(["something"]);
 
 		Bifrost.configure.ready(function() {
-			var visualStateManager = $("div")[0].visualStateManager;
-			ko.applyBindings(visualStateManager);
+			//var visualStateManager = $("div")[0].visualStateManager;
+			//ko.applyBindings(visualStateManager);
 		});
 
 	</script>
 </head>
 
 <body>
-
-	<!--
 	<namespace prefix="bf" target="Bifrost.views"/>
 
 	<bf:something property="{binding}"/>
@@ -154,36 +154,14 @@ $('body').on('touchstart','.scrollable',function(e) {
 				</be>
 			</should>
 		</other:something.property>
-	</other>-->
+	</other>
 
-	<div id="header">Scroll Thing</div>
-
-	<div id="wrapper">
-		<div id="content">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet cursus quam, eget congue sapien. Proin facilisis metus eget nibh faucibus, sed tincidunt justo pretium. Pellentesque eget ligula luctus, pellentesque elit non, sodales enim. Vivamus in odio vel nulla tempus molestie sed ut velit. Aliquam vulputate bibendum interdum. Nullam tempus et magna et consectetur. Cras rutrum nisi quis tortor auctor, a varius purus elementum. Pellentesque tincidunt nulla et aliquam hendrerit. Vivamus nisi dui, viverra a venenatis et, semper quis nunc. Proin facilisis id dui quis fermentum. Fusce suscipit semper pharetra. Sed eu ligula nec sem ullamcorper vulputate non eu lacus.
-
-Maecenas vehicula luctus lacus. Ut convallis lorem quis odio varius lobortis. Nullam porta orci libero, vitae semper quam mollis eget. Morbi a lacus aliquet mi condimentum convallis nec eu lacus. Donec posuere posuere auctor. Etiam eget accumsan est. Fusce auctor blandit lobortis. Sed lacus turpis, pharetra eu dui id, faucibus tincidunt neque. Aenean volutpat molestie sagittis. Proin iaculis vel nunc ut aliquam. Vivamus interdum orci varius dui vestibulum, id euismod turpis sagittis. Nunc consequat nec dolor nec dignissim. Donec ac cursus sem.
-
-In euismod, diam egestas sollicitudin semper, nisl sapien volutpat libero, ac elementum libero libero nec ante. Etiam mattis urna sem, et porttitor odio vestibulum in. Nam vel purus suscipit, blandit urna quis, volutpat magna. Nam pulvinar pretium metus sed feugiat. Pellentesque at adipiscing turpis, in placerat risus. Sed pharetra elit ac enim cursus, nec suscipit lectus dictum. Curabitur mattis ut lacus egestas gravida. Vivamus sodales vestibulum velit, in sagittis mauris luctus vel. Sed condimentum accumsan laoreet. Praesent ultrices nisi vel gravida porta. Nulla sit amet augue in mauris consectetur gravida eu a ante. Nam sed est non orci faucibus faucibus sed non magna. Aliquam dictum condimentum neque eu tempus. Phasellus mattis, metus ac rutrum accumsan, dui ante congue sem, vestibulum faucibus lectus urna in felis. Ut semper tellus id lorem suscipit pellentesque.
-
-Donec at euismod arcu, nec vestibulum lacus. Ut suscipit lorem sapien, et volutpat urna consequat nec. Morbi quis ligula molestie, commodo diam ut, varius nisi. Sed adipiscing, urna nec eleifend mollis, augue quam dictum enim, a faucibus metus ipsum eu ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus augue mauris, sed consectetur metus aliquet et. Mauris nec ligula risus. Mauris ultricies enim sit amet ipsum vehicula varius. Curabitur dictum sit amet est non eleifend. Donec ac velit et lacus sodales malesuada. Sed euismod est nec urna lacinia, eu scelerisque lorem congue. Nullam rutrum dolor vel placerat cursus. Curabitur ac feugiat leo, non pellentesque lectus. Duis ac rhoncus orci.
-
-Integer convallis placerat elit eget dapibus. In diam lectus, hendrerit at justo quis, venenatis cursus mi. Etiam tempor in ante dapibus dapibus. Nullam sit amet magna eu ante vestibulum tincidunt ac eu sapien. Curabitur auctor, justo vel condimentum hendrerit, mauris tortor eleifend elit, at mollis justo lectus vel quam. Mauris auctor nunc eget ligula molestie faucibus. Aliquam et lectus eget elit porta viverra. Aliquam erat volutpat.
-
-		</div>
-	</div>
-
-	<div id="footer">
-		This is the footer
-
-	</div>
-
-	<!--
+    <!--
 	<div>
 		<visualstatemanager>
-			<visualstategroup duration="0.2">
+			<visualstategroup duration="1">
 				<visualstate name="firstState">
-					<opacity target="something" value="0.5"/>
+					<opacity target="something" value="0"/>
 				</visualstate>
 				<visualstate name="secondState">
 					<opacity target="something" value="1.0"/>
@@ -197,28 +175,21 @@ Integer convallis placerat elit eget dapibus. In diam lectus, hendrerit at justo
 
 		<span name="something">Hello world</span>
 	</div>
-
+        -->
+    <!--
 	<ul data-bind="foreach: groups">
 		<li>
 			Groups CurrentState: 
 			<span data-bind="text: currentState().name"
 		</li>
 	</ul>
-
+        
 	<div>
 		Desktop
 		<button onclick='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</button>
 		<button onclick='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</button>
 	</div>
-
-	<div>
-		iOS
-		<br>
-		<div ontouchstart='$("div")[0].visualStateManager.goTo("firstState")'>Go to first state</div>
-		<div ontouchstart='$("div")[0].visualStateManager.goTo("secondState")'>Go to second state</div>
-	</div>
-	-->
-
+        -->
 
 </body>
 </html>

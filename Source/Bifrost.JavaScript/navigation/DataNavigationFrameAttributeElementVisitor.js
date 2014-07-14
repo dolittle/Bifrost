@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    DataNavigationFrameAttributeElementVisitor: Bifrost.views.ElementVisitor.extend(function (documentService) {
+    DataNavigationFrameAttributeElementVisitor: Bifrost.markup.ElementVisitor.extend(function (documentService) {
         this.visit = function (element, actions) {
             var dataNavigationFrame = element.attributes.getNamedItem("data-navigation-frame");
             if (!Bifrost.isNullOrUndefined(dataNavigationFrame)) {

@@ -3,7 +3,7 @@ describe("when visiting a tag with namespace", function() {
 		getObjectFromTagName: sinon.stub()
 	};
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: {}

@@ -4,7 +4,7 @@ describe("when visiting a plain tag", function() {
 		getObjectFromTagName: sinon.stub().returns(instance)
 	};
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: {}	

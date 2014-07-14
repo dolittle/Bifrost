@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.values", {
-    TypeConverterElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+    TypeConverterElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, resultActions) {
             return;
             var typeConverterAttribute = element.getAttribute("data-typeconverter");

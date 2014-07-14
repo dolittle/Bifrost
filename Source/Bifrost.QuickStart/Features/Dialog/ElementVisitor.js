@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.QuickStart.Features.Dialog", {
-    ElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+    ElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, actions) {
             if (element.localName != "dialog") {
                 return;

@@ -4,7 +4,7 @@ describe("when visiting a plain tag with uppercase name", function() {
 
 	};
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: {}

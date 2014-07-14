@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Bifrost.Execution;
 using Bifrost.Values;
 
 namespace Bifrost.Tasks
@@ -31,8 +32,16 @@ namespace Bifrost.Tasks
         ObservableCollection<ITask> _all = new ObservableCollection<ITask>();
         ObservableCollection<TaskContext> _contexts = new ObservableCollection<TaskContext>();
         bool _isBusy;
+        IDispatcher _dispatcher;
 
 #pragma warning disable 1591 // Xml Comments
+
+        public Tasks(IDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
        
         public IEnumerable<ITask> All { get { return _all; } }
@@ -53,14 +62,25 @@ namespace Bifrost.Tasks
         {
             var context = new TaskContext(task, associatedData);
 
-            _all.Add(task);
-            _contexts.Add(context);
-            UpdateBusy();
-
-            task.Execute(context).ContinueWith((p,d) => {
-                _all.Remove(task);
-                _contexts.Remove(context);
+            _dispatcher.BeginInvoke(() =>
+            {
+                _all.Add(task);
+                _contexts.Add(context);
                 UpdateBusy();
+            });
+
+
+            task.Execute(context).ContinueWith((p, d) =>
+            {
+                _dispatcher.BeginInvoke(() =>
+                {
+                    _all.Remove(task);
+                    _contexts.Remove(context);
+                    UpdateBusy();
+                });
+            }).Failed((p, d) =>
+            {
+
             });
 
             return context;

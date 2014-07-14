@@ -4,6 +4,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 using System.Linq;
+using System;
 
 namespace Bifrost.Client.Specs.Tasks.for_Tasks
 {
@@ -14,11 +15,16 @@ namespace Bifrost.Client.Specs.Tasks.for_Tasks
         static TaskContext result;
         static Promise promise;
         static string associated_data = "Some data associated with the task";
+        static Mock<IDispatcher> dispatcher_mock;
+
 
         Establish context = () =>
         {
             promise = new Promise();
-            tasks = new Bifrost.Tasks.Tasks();
+            dispatcher_mock = new Mock<IDispatcher>();
+            dispatcher_mock.Setup(d => d.BeginInvoke(Moq.It.IsAny<Action>())).Callback<Action>(a => a());
+
+            tasks = new Bifrost.Tasks.Tasks(dispatcher_mock.Object);
             task_mock = new Mock<ITask>();
             task_mock.Setup(t => t.Execute(Moq.It.IsAny<TaskContext>())).Returns(promise);
         };

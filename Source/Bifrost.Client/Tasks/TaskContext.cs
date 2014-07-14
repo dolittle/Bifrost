@@ -68,6 +68,11 @@ namespace Bifrost.Tasks
         /// </summary>
         public object AssociatedData { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the returned data
+        /// </summary>
+        public object ReturnedData { get; set; }
+
         double _progress;
 
         /// <summary>

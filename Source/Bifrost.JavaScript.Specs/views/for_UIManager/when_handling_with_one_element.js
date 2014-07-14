@@ -10,16 +10,16 @@ describe("when handling with one element", function() {
 
 	var visitStub = sinon.stub();
 
-	var visitorType = Bifrost.views.ElementVisitor.extend(function() {
+	var visitorType = Bifrost.markup.ElementVisitor.extend(function() {
 		this.visit = visitStub;
 	});
 	var actions = { some: "actions" };
 
 	beforeEach(function() {
-		sinon.stub(Bifrost.views.ElementVisitor,"getExtenders").returns([visitorType]);
-		sinon.stub(Bifrost.views.ElementVisitorResultActions,"create").returns(actions);
+	    sinon.stub(Bifrost.markup.ElementVisitor, "getExtenders").returns([visitorType]);
+	    sinon.stub(Bifrost.markup.ElementVisitorResultActions, "create").returns(actions);
 
-		var instance = Bifrost.views.UIManager.createWithoutScope({
+	    var instance = Bifrost.views.UIManager.createWithoutScope({
 			documentService: documentService
 		})
 
@@ -27,8 +27,8 @@ describe("when handling with one element", function() {
 	});
 
 	afterEach(function() {
-		Bifrost.views.ElementVisitor.getExtenders.restore();
-		Bifrost.views.ElementVisitorResultActions.create.restore();
+	    Bifrost.markup.ElementVisitor.getExtenders.restore();
+	    Bifrost.markup.ElementVisitorResultActions.create.restore();
 	});
 
 	it("should call the visit function of the visitor", function() {

@@ -4,7 +4,7 @@ describe("when visiting a tag with two namespaces", function() {
 
 	};
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: {}

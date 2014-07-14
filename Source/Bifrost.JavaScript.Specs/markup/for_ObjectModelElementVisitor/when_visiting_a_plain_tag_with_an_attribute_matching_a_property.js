@@ -10,7 +10,7 @@ describe("when visiting a plain tag with an attribute matching a property", func
 		convert: sinon.stub().returns(42)
 	}
 
-	var visitor = Bifrost.views.ObjectModelElementVisitor.create({
+	var visitor = Bifrost.markup.ObjectModelElementVisitor.create({
 		objectModelManager: objectModelManager,
 		markupExtensions: {},
 		typeConverters: typeConverters
