@@ -1,0 +1,1 @@
+..\Tools\Forseti\Forseti.TRX.exe "..\Source\Forseti.yaml" ..\TestResults\forseti.testresults.trx APPVEYOR
