@@ -40,11 +40,20 @@
         };
     });
 
-    ko.extenders.hasChanges = function (target, options) {
-        target.hasChanges = ko.observable(true);
-    };
+    var hasChangesExtender = null;
+    beforeEach(function () {
+        hasChangesExtender = ko.extenders.hasChanges;
+        ko.extenders.hasChanges = function (target, options) {
+            target.hasChanges = ko.observable(true);
+        };
+    
+        command = commandType.create(parameters);
+    });
 
-    command = commandType.create(parameters);
+    afterEach(function () {
+        ko.extenders.hasChanges = hasChangesExtender;
+    });
+    
 
     it("should make the integer property as an observable", function () {
         expect(ko.isObservable(command.integer)).toBe(true);

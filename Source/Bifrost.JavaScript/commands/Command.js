@@ -146,8 +146,10 @@ Bifrost.namespace("Bifrost.commands", {
             properties.forEach(function(property) {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
-                    propertyValue.extend({ hasChanges: {} })
-                    hasChangesObservables.push(propertyValue.hasChanges);
+                    propertyValue.extend({ hasChanges: {} });
+                    if (!Bifrost.isNullOrUndefined(propertyValue.hasChanges)) {
+                        hasChangesObservables.push(propertyValue.hasChanges);
+                    }
                 }
             });
         };

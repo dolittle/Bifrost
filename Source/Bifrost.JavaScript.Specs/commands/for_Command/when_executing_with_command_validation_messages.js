@@ -50,12 +50,18 @@
         }
     }
 
-    Bifrost.commands.CommandResult = {
-        create: function () {
-            return {
-            }
-        }
-    };
+    var commandResult = null;
+    beforeEach(function () {
+        commandResult = Bifrost.commands.CommandResult;
+        Bifrost.commands.CommandResult = {
+            create: sinon.stub()
+        };
+    });
+
+    afterEach(function () {
+        Bifrost.commands.CommandResult = commandResult;
+    });
+
     var command = Bifrost.commands.Command.create(parameters);
     command.execute();
 

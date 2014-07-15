@@ -31,6 +31,8 @@
         someArray: ko.observableArray([1, 2, 3])
     };
 
+    var hasChangesExtender = ko.extenders.hasChanges;
+
     ko.extenders.hasChanges = function (target, options) {
         target.hasChanges = ko.observable();
         target.setInitialValue = sinon.stub()
@@ -38,6 +40,8 @@
     
     var command = commandType.create(parameters);
     command.setPropertyValuesFrom(newValues);
+
+    ko.extenders.hasChanges = hasChangesExtender;
 
     it("should update the observable", function () {
         expect(command.someValue()).toBe(newValues.someValue());

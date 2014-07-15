@@ -1,10 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history) {
         var self = this;
 
         this.home = home;
         this.history = history;
-        this.viewManager = viewManager;
 
         this.container = null;
         this.currentUri = ko.observable(home);

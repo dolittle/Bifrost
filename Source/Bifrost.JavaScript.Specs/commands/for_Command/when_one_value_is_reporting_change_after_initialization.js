@@ -32,6 +32,7 @@
         someArray: [1, 2, 3]
     };
 
+    var hasChangesExtender = ko.extenders.hasChanges;
     ko.extenders.hasChanges = function (target, options) {
         target.hasChanges = ko.observable(false);
         target.setInitialValue = function () { }
@@ -41,6 +42,8 @@
     command.populateFromExternalSource(newValues);
 
     command.someValue.hasChanges(true);
+
+    ko.extenders.hasChanges = hasChangesExtender;
 
     it("should have changes", function () {
         expect(command.hasChanges()).toBe(true);

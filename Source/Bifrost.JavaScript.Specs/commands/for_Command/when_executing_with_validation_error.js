@@ -29,14 +29,18 @@
         }
     }
 
+    var commandResult = null;
+    commandResult = Bifrost.commands.CommandResult;
     Bifrost.commands.CommandResult = {
         create: function () {
             return {
-            }
+
+            };
         }
     };
     var command = Bifrost.commands.Command.create(parameters);
     command.execute();
+    Bifrost.commands.CommandResult = commandResult;
 
 
     it("should call error", function () {

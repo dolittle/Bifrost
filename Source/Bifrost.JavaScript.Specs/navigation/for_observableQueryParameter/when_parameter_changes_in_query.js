@@ -1,26 +1,32 @@
 ﻿describe("when parameter changes in query", function () {
     var observable;
-    var callbackToCall;
-
+    var callbackToCall = null;
+    var historyAdapter = null;
+    var historyGetState = null;
 
     beforeEach(function () {
-        sinon.stub(History.Adapter, "bind", function (scope, event, callback) {
-            callbackToCall = callback;
-        });
-        sinon.stub(History, "getState", function () {
+        historyAdapter = History.Adapter;
+        
+        History.Adapter = {
+            bind: function (scope, event, callback) {
+                callbackToCall = callback;
+            }
+        };
+        historyGetState = History.getState;
+        History.getState = function () {
             return {
                 url: "http://www.somewhere.com/#?something=hello"
             }
-        });
+        };
+        
         observable = ko.observableQueryParameter("something");
         callbackToCall();
     });
 
     afterEach(function () {
-        History.Adapter.bind.restore();
-        History.getState.restore();
+        History.Adapter = historyAdapter;
+        History.getState = historyGetState;
     });
-
 
     it("should hold the value from the query parameter", function () {
         expect(observable()).toBe("hello");

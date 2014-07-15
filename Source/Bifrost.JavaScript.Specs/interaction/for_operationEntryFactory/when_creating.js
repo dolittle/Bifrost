@@ -13,17 +13,20 @@
         someState: 45
     };
 
-    var operationEntryType = {
-        create: sinon.mock().withArgs({
-            operation: operation,
-            state: operationState
-        }).returns(operationEntry)
-    };
-
     var instance = null;
+
+    var operationEntryType = null;
 
     beforeEach(function () {
         existingOperationEntryType = Bifrost.interaction.OperationEntry;
+
+        operationEntryType = {
+            create: sinon.mock().withArgs({
+                operation: operation,
+                state: operationState
+            }).returns(operationEntry)
+        };
+
         Bifrost.interaction.OperationEntry = operationEntryType;
 
         var factory = Bifrost.interaction.operationEntryFactory.create();
