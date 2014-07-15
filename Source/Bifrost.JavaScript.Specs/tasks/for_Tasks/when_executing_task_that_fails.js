@@ -1,5 +1,8 @@
 ﻿describe("when executing task that fails", function () {
     var error = "Some error";
+
+    var failedCallback = null;
+
     var task = {
         isExecuting: ko.observable(false),
         execute: sinon.stub().returns({
@@ -7,7 +10,7 @@
                 return this;
             },
             onFail: function (callback) {
-                callback(error);
+                failedCallback = callback;
                 return this;
             }
 
@@ -37,6 +40,7 @@
 
     tasks.execute(task).onFail(onFailMock);
 
+    failedCallback(error);
 
     it("should add the task to all", function () {
         expect(taskWasAdded).toBe(true);
