@@ -96,5 +96,3 @@ Bifrost.read.Queryable.new = function (options, region) {
     observable.isQueryable = true;
     return observable;
 };
-
-

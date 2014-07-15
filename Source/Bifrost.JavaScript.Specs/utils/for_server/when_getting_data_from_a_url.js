@@ -5,10 +5,11 @@
     var requestUrl;
     var response;
 
+    $.support.cors = true;
+
     fakeServer.respondWith("GET", /\w/, function (xhr) {
         requestUrl = xhr.url;
-        
-        xhr.respond(200, { "Content-Type":"application/json" }, '{"somethingElse":"43"}');
+        xhr.respond(200, { "Content-Type": "application/json" }, '{"somethingElse":"43"}');
     });
 
     var server = Bifrost.server.create();

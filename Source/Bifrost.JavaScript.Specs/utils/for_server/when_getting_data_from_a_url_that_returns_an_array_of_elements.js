@@ -4,6 +4,8 @@
     var data = { something: 42 };
     var response;
 
+    $.support.cors = true;
+
     fakeServer.respondWith("GET", /\w/, function (xhr) {
         xhr.respond(200, { "Content-Type":"application/json" }, '[{"somethingElse":"43"},{"someStuff":"d44"}]');
     });

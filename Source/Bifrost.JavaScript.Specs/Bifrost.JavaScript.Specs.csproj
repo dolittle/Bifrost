@@ -98,6 +98,7 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
+    <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
     <Content Include="rules\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="rules\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />
     <Content Include="rules\for_Or\when_both_sides_are_not_satisfied_but_right_becomes_satisfied.js" />
@@ -260,10 +261,6 @@
     <Content Include="Utils\for_assetsManager\when_getting_scripts.js" />
     <Content Include="Utils\for_assetsManager\when_getting_script_paths_and_multiple_scripts_are_in_same_path.js" />
     <Content Include="Utils\for_assetsManager\when_initializing.js" />
-    <Content Include="Utils\for_configure\when_asking_if_configure_is_ready_and_it_is_not.js" />
-    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_gets_ready_afterwards.js" />
-    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_is_ready.js" />
-    <Content Include="Utils\for_configure\when_asking_if_configure_is_ready_and_it_is.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_contains_system_for_resolving.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_has_script_needed_to_be_resolved_registered_but_not_in_namespace.js" />
     <Content Include="Utils\for_DefaultDependencyResolver\when_namespace_only_has_file_matching_system_needed_to_be_resolved_registered_in_it.js" />
@@ -558,12 +555,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="features\for_FeatureState\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Utils\for_configure\when_adding_ready_callback_and_it_never_gets_ready.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Utils\for_configure\when_assets_manager_is_initialized.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_Singleton\when_creating_instance_of_two_definitions.js" />

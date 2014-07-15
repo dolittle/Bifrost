@@ -1,5 +1,10 @@
 ﻿describe("when getting all with one resolver registered", function () {
 
+    var wellKnownTypesDependencyResolver = Bifrost.WellKnownTypesDependencyResolver;
+    var defaultDependencyResolver = Bifrost.DefaultDependencyResolver;
+    var knownArtifactTypesDependencyResolver = Bifrost.KnownArtifactTypesDependencyResolver;
+    var knownArtifactInstancesDependencyResolver = Bifrost.KnownArtifactInstancesDependencyResolver;
+
     Bifrost.WellKnownTypesDependencyResolver = function () {
         this.isWellKnown = true;
     };
@@ -16,6 +21,11 @@
     };
 
     var resolvers = Bifrost.dependencyResolvers.getAll();
+
+    Bifrost.WellKnownTypesDependencyResolver = wellKnownTypesDependencyResolver;
+    Bifrost.DefaultDependencyResolver = defaultDependencyResolver;
+    Bifrost.KnownArtifactTypesDependencyResolver = knownArtifactTypesDependencyResolver;
+    Bifrost.KnownArtifactInstancesDependencyResolver = knownArtifactInstancesDependencyResolver;
 
     it("should not get any functions resolvers", function () {
         var hasFunction = false;

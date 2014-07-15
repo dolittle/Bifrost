@@ -5,6 +5,8 @@
     var requestBody;
     var response;
 
+    $.support.cors = true;
+
     fakeServer.respondWith("POST", /\w/, function (xhr) {
         requestBody = xhr.requestBody;
         xhr.respond(200, { "Content-Type":"application/json" }, '{"somethingElse":"43"}');

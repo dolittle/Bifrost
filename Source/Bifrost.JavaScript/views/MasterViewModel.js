@@ -18,19 +18,6 @@
             }
         }
 
-        this.getViewModelObservableFor = function (element) {
-            var name = documentService.getViewModelNameFor(element);
-
-            var observable = null;
-            if (self.hasOwnProperty(name)) {
-                observable = self[name]
-            } else {
-                observable = ko.observable();
-                observable.__bifrost_vm__ = name;
-                self[name] = observable;
-            }
-            return observable;
-        };
 
         this.setFor = function (element, viewModel) {
             var existingViewModel = self.getFor(element);

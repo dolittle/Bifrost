@@ -3,9 +3,19 @@ describe("when resolving asynchronously and system is type", function () {
         this.something = "Hello";
         this.dependency = dependency;
     });
-    var ns = {};
-
+    var ns = {
+        something: type
+    };
+    var readyCallback;
+    var configure = null;
     beforeEach(function () {
+        configure = Bifrost.configure;
+        Bifrost.configure = {
+            ready: function (callback) {
+                readyCallback = callback;
+            }
+        };
+
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [{
@@ -25,16 +35,19 @@ describe("when resolving asynchronously and system is type", function () {
             }
         };
 
-        Bifrost.configure.onReady();
+        
+        
         Bifrost.dependencyResolver
 				.beginResolve(ns, "something")
 				.continueWith(function (param, next) {
 				    result = param;
 				});
+
+        readyCallback();
     });
 
     afterEach(function () {
-        Bifrost.configure.reset();
+        Bifrost.configure = configure;
     });
 
 

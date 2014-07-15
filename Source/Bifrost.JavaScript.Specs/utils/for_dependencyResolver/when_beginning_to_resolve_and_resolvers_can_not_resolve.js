@@ -3,27 +3,35 @@
         canResolve: sinon.stub().returns(false)
     };
     var exception;
+    var readyCallback;
 
+    var configure = null;
     beforeEach(function () {
+        configure = Bifrost.configure;
+        Bifrost.configure = {
+            ready: function (callback) {
+                readyCallback = callback;
+            }
+        };
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [resolver];
             }
         };
 
-        Bifrost.configure.reset();
-        Bifrost.configure.onReady();
         try {
             Bifrost.dependencyResolver.beginResolve("Something").onFail(function (e) {
                 exception = e;
             });
+
+            readyCallback();
         } catch (e) {
             exception = e;
         }
     });
 
     afterEach(function () {
-        Bifrost.configure.reset();
+        Bifrost.configure = configure;
     });
 
 

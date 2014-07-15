@@ -8,7 +8,8 @@
     });
 
     var command = {
-        populatedExternally: sinon.stub()
+        populatedExternally: sinon.stub(),
+        populateFromExternalSource: sinon.stub()
     };
 
     readModelOf.populateCommandOnChanges(command);

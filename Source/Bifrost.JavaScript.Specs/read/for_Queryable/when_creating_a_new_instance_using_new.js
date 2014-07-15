@@ -22,6 +22,7 @@
 
     it("should extend with queryable properties", function () {
         for (var property in queryable) {
+            if (property == "target") continue;
             expect(instance.hasOwnProperty(property)).toBe(true);
         }
     });

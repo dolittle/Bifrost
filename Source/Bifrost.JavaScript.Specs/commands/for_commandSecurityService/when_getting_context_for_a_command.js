@@ -14,6 +14,8 @@
         }
     };
 
+    $.support.cors = true;
+
     var server = sinon.fakeServer.create();
 
     server.respondWith("GET", "/Bifrost/CommandSecurity/GetForCommand?commandName=SomeCommand",

@@ -83,7 +83,7 @@
                 dataType: 'json',
                 data: parameters,
                 contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
+                complete: function (result, textStatus) {
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);

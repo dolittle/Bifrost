@@ -9,9 +9,10 @@ describe("when mapping object with read model type specified", function () {
 	};
 	var returnedInstance = {};
 	
-	var readModelType = Bifrost.Type.extend(function () {
-	    var self = this;
-	});
+	var readModelType = {
+	    create: sinon.stub().returns({
+	    })
+	}
 
     globalReadModelType.create = sinon.stub().returns(returnedInstance);
 
@@ -20,7 +21,11 @@ describe("when mapping object with read model type specified", function () {
 		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
 	})();
 
-	it("should create an instance of the global readModelType", function () {
-	    expect(globalReadModelType.create.called).toBe(true);
+	it("should create an instance of the specified readModelType on the data", function () {
+	    expect(globalReadModelType.create.called).toBe(false);
+	});
+
+	it("should not create an instance of the readModelType passed in", function () {
+	    expect(readModelType.create.called).toBe(true);
 	});
 });
