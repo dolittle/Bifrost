@@ -1,11 +1,11 @@
-﻿describe("when setting container and url matches mapper", function () {
+﻿describe("when setting container and no mapping for url", function () {
     var container = $("<div/>")[0];
     var uriMapper = {
         resolve: function (input) {
             if (input == "Something") return "ThePath";
         },
         hasMappingFor: function () {
-            return true;
+            return false;
         }
     };
     var home = "The Home";
@@ -28,7 +28,7 @@
 
     frame.configureFor(container);
 
-    it("should current uri to the path given", function () {
-        expect(frame.currentUri()).toBe("Something");
+    it("should set the current uri to home", function () {
+        expect(frame.currentUri()).toBe(home);
     });
 });

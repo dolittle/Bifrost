@@ -3,7 +3,11 @@
     var systemReceived = null;
     var system = { blah: "something" };
 
+    var dependencyResolvers;
+
     beforeEach(function () {
+        dependencyResolvers = Bifrost.dependencyResolvers;
+
         Bifrost.dependencyResolvers = {
 
             getAll: function () {
@@ -20,7 +24,7 @@
     });
 
     afterEach(function () {
-        Bifrost.dependencyResolvers = {};
+        Bifrost.dependencyResolvers = dependencyResolvers;
     });
 
     it("should call resolve", function () {

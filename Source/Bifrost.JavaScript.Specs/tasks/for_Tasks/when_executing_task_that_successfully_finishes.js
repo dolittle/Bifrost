@@ -1,10 +1,11 @@
 ﻿describe("when executing task that successfully finishes", function () {
     var result = { some: "result" };
+    var successfulCallback = null;
     var task = {
         isExecuting: ko.observable(false),
         execute: sinon.stub().returns({
             continueWith: function (callback) {
-                callback(result);
+                successfulCallback = callback;
                 return this;
             },
             onFail: function () {
@@ -35,6 +36,8 @@
 
     var continueWithMock = sinon.mock().withArgs(result);
     var promise = tasks.execute(task).continueWith(continueWithMock);
+
+    successfulCallback(result);
 
     it("should add the task to all", function () {
         expect(taskWasAdded).toBe(true);

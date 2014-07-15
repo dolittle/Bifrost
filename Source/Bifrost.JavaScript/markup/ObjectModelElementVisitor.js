@@ -1,5 +1,5 @@
-Bifrost.namespace("Bifrost.views", {
-	ObjectModelElementVisitor: Bifrost.views.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
+Bifrost.namespace("Bifrost.markup", {
+	ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
 		this.visit = function(element, actions) {
 			// Tags : 
 			//  - tag names automatically match type names

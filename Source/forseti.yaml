@@ -51,8 +51,8 @@ Dependencies :
   - Bifrost.JavaScript/commands/Command.js
   - Bifrost.JavaScript/read/ReadModelOf.js
   - Bifrost.JavaScript/read/Query.js
-  - Bifrost.JavaScript/views/ElementVisitor.js  
-  - Bifrost.JavaScript/views/ElementVisitorResultActions.js  
+  - Bifrost.JavaScript/markup/ElementVisitor.js  
+  - Bifrost.JavaScript/markup/ElementVisitorResultActions.js  
   - Bifrost.JavaScript/views/PostBindingVisitor.js  
   - Bifrost.JavaScript/views/ComposeTask.js
   - Bifrost.JavaScript/interaction/Operation.js

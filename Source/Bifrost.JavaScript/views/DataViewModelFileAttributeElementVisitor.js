@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    DataViewModelFileAttributeElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+    DataViewModelFileAttributeElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, actions) {
 
             var dataView = element.attributes.getNamedItem("data-viewmodel-file");

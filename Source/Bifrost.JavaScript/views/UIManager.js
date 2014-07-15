@@ -1,6 +1,6 @@
 Bifrost.namespace("Bifrost.views", {
 	UIManager: Bifrost.Singleton(function(documentService) {
-		var elementVisitorTypes = Bifrost.views.ElementVisitor.getExtenders();
+	    var elementVisitorTypes = Bifrost.markup.ElementVisitor.getExtenders();
 		var elementVisitors = [];
 		var postBindingVisitorTypes = Bifrost.views.PostBindingVisitor.getExtenders();
 		var postBindingVisitors = [];
@@ -16,7 +16,7 @@ Bifrost.namespace("Bifrost.views", {
 		this.handle = function (root) {
 			documentService.traverseObjects(function(element) {
 				elementVisitors.forEach(function(visitor) {
-					var actions = Bifrost.views.ElementVisitorResultActions.create();
+				    var actions = Bifrost.markup.ElementVisitorResultActions.create();
 					visitor.visit(element, actions);
 				});
 			}, root);

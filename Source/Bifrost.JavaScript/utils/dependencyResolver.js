@@ -47,7 +47,9 @@ Bifrost.namespace("Bifrost", {
                 typeof system._super !== "undefined" &&
                 system._super === Bifrost.Type) {
 
+                print("Begin create : "+system);
                 system.beginCreate().continueWith(function (result, next) {
+                    print("Created");
                     promise.signal(result);
                 });
             } else {
@@ -107,9 +109,10 @@ Bifrost.namespace("Bifrost", {
 
                     if (resolvedSystem instanceof Bifrost.execution.Promise) {
                         resolvedSystem.continueWith(function (system, innerPromise) {
-
+                            print("Handle system instance");
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
+                                
                                 promise.signal(handleSystemInstance(actualSystem));
                             }).onFail(function(e) { promise.fail(e); });
                         });

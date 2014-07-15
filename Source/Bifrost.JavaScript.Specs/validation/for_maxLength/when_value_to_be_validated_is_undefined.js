@@ -2,7 +2,7 @@
     var validator = Bifrost.validation.maxLength.create({ options: { length: 3 } })
     var result = validator.validate(undefined)
 
-    it("should be invalid", function () {
+    it("should be valid", function () {
         expect(result).toBe(true);
     });
 });

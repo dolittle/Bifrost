@@ -1,4 +1,4 @@
-﻿describe("when an error occurs while executing a command", function () {
+﻿describe("when creating a command result", function () {
     var jsObject = {
 		newProperty: "something"
 	}

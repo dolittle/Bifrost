@@ -30,7 +30,7 @@ Bifrost.commands.CommandResult = (function () {
             return commandResult;
         },
         createFrom: function (result) {
-            var existing = typeof result === "string" ? $.parseJSON(result) : result;
+            var existing = typeof result === "string" ? JSON.parse(result) : result;
             var commandResult = new CommandResult(existing);
             return commandResult;
         }

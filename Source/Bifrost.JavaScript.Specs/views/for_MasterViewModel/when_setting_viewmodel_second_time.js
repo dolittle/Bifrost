@@ -1,4 +1,4 @@
-﻿describe("when setting viewmodel first time", function () {
+﻿describe("when setting viewmodel second time", function () {
 
     var firstViewModel = {
         _type: {
@@ -33,15 +33,10 @@
 
     var masterViewModel = Bifrost.views.MasterViewModel.create({ documentService: documentService });
     masterViewModel.setFor(element, firstViewModel);
-    var firstObservable = masterViewModel[viewModelName];
     masterViewModel.setFor(element, secondViewModel);
 
-    it("should reuse the same observable for the second viewmodel", function () {
-        expect(masterViewModel[viewModelName]).toBe(firstObservable);
-    });
-
-    it("should initialize the new observable with the viewmodel", function () {
-        expect(masterViewModel[viewModelName]()).toBe(secondViewModel);
+    it("should set the second viewmodel as property", function () {
+        expect(masterViewModel[viewModelName]).toBe(secondViewModel);
     });
 
     it("should call the deactivated function on the first instance", function () {

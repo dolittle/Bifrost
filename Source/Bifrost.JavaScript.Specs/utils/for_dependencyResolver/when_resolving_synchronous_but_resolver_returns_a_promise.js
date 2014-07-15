@@ -4,7 +4,10 @@ describe("when resolving synchronous but resolver returns a promise", function()
 
 	}
 
+	var dependencyResolvers;
+
 	beforeEach(function () {
+	    dependencyResolvers = Bifrost.dependencyResolvers;
 	    Bifrost.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
@@ -25,6 +28,11 @@ describe("when resolving synchronous but resolver returns a promise", function()
 	        exception = e;
 	    }
 	});
+
+	afterEach(function () {
+	    Bifrost.dependencyResolvers = dependencyResolvers;
+	});
+    
 
 	it("should throw an exception", function() {
 		expect(exception instanceof Bifrost.AsynchronousDependenciesDetected).toBe(true);

@@ -1,4 +1,7 @@
 ﻿describe("when declaring nested namespaces", function () {
+
+    if (window.First) delete window.First;
+
     Bifrost.namespace("First", {
         something: "Hello"
     });

@@ -1,4 +1,4 @@
-Bifrost.namespace("Bifrost.views", {
+Bifrost.namespace("Bifrost.markup", {
 	ElementVisitorResultActions: Bifrost.Type.extend(function() {
 	
 	})

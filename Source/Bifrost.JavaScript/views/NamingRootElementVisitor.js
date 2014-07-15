@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-	NamingRootElementVisitor: Bifrost.views.ElementVisitor.extend(function() {
+    NamingRootElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
 		this.visit = function(element, actions) {
 			var namingRoot = Bifrost.views.NamingRoot.create();
 			namingRoot.target = element;

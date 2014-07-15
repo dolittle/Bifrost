@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    DataViewAttributeElementVisitor: Bifrost.views.ElementVisitor.extend(function () {
+    DataViewAttributeElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, actions) {
 
             var dataView = element.attributes.getNamedItem("data-view");

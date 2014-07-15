@@ -1,4 +1,5 @@
-﻿using Bifrost.Execution;
+﻿using System;
+using Bifrost.Execution;
 using Bifrost.Tasks;
 using Machine.Specifications;
 using Moq;
@@ -12,11 +13,16 @@ namespace Bifrost.Client.Specs.Tasks.for_Tasks
         static Mock<ITask> task_mock;
         static TaskContext result;
         static Promise promise;
+        static Mock<IDispatcher> dispatcher_mock;
 
         Establish context = () =>
         {
             promise = new Promise();
-            tasks = new Bifrost.Tasks.Tasks();
+
+            dispatcher_mock = new Mock<IDispatcher>();
+            dispatcher_mock.Setup(d => d.BeginInvoke(Moq.It.IsAny<Action>())).Callback<Action>(a => a());
+
+            tasks = new Bifrost.Tasks.Tasks(dispatcher_mock.Object);
             task_mock = new Mock<ITask>();
             task_mock.Setup(t => t.Execute(Moq.It.IsAny<TaskContext>())).Returns(promise);
             promise.Signal();

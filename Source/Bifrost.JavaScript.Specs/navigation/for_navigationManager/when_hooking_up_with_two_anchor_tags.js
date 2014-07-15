@@ -58,12 +58,4 @@ describe("when hooking up with three anchor tags were two have navigation attrib
 	it("should not affect anchor without navigation attribute", function() {
 		expect(firstAnchor[0].href).toBe(first);
 	});
-	
-	it("should hook up onclick event for second anchor", function() {
-		expect(secondOnClick).not.toBeUndefined();
-	});
-	
-	it("should hook up onclick event for second anchor", function() {
-		expect(thirdOnClick).not.toBeUndefined();
-	});
 });

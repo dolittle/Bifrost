@@ -31,6 +31,6 @@
     var mappedFormat = mapper.resolve("");
 
     it("should resolve to empty", function () {
-        expect(mappedFormat).toEqual("");
+        expect(mappedFormat).toEqual(mapper.mappings[0].expectedFormat);
     });
 });
