@@ -18,7 +18,10 @@ describe("when resolving and system has multiple levels of inheritance but top l
 	var result = null;
 	var ns = {};
 
+	var dependencyResolvers;
+
 	beforeEach(function () {
+	    dependencyResolvers = Bifrost.dependencyResolvers;
 	    Bifrost.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
@@ -36,6 +39,10 @@ describe("when resolving and system has multiple levels of inheritance but top l
 	    };
 
 	    result = Bifrost.dependencyResolver.resolve(ns, "something");
+	});
+
+	afterEach(function () {
+	    Bifrost.dependencyResolvers = dependencyResolvers;
 	});
 	
 

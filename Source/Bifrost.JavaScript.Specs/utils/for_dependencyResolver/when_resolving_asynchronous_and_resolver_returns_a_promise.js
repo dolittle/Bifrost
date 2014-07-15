@@ -5,6 +5,7 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 
 	var readyCallback;
 	var configure = null;
+	var dependencyResolvers;
 
 	beforeEach(function () {
 	    configure = Bifrost.configure;
@@ -13,6 +14,8 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 	            readyCallback = callback;
 	        }
 	    };
+
+	    dependencyResolvers = Bifrost.dependencyResolvers;
 	    Bifrost.dependencyResolvers = {
 	        getAll: function () {
 	            return [{
@@ -39,6 +42,7 @@ describe("when resolving asynchronous and resolver returns a promise", function(
 	});
 
 	afterEach(function () {
+	    Bifrost.dependencyResolvers = dependencyResolvers;
 	    Bifrost.configure = configure;
 	});
 

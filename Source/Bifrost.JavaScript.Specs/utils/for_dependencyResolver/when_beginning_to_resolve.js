@@ -3,11 +3,16 @@ describe("when beginning to resolve", function () {
     var result;
 
     var configure = null;
+    var dependencyResolvers;
+
     beforeEach(function () {
         configure = Bifrost.configure;
         Bifrost.configure = {
             ready: sinon.stub()
         };
+
+        dependencyResolvers = Bifrost.dependencyResolvers;
+
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [{
@@ -24,6 +29,7 @@ describe("when beginning to resolve", function () {
     });
 
     afterEach(function () {
+        Bifrost.dependencyResolvers = dependencyResolvers;
         Bifrost.configure = configure;
     });
 

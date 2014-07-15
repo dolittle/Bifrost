@@ -4,7 +4,10 @@
     };
     var exception;
 
+    var dependencyResolvers;
     beforeEach(function () {
+        dependencyResolvers = Bifrost.dependencyResolvers;
+
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [resolver];
@@ -15,6 +18,10 @@
         } catch (e) {
             exception = e;
         }
+    });
+
+    afterEach(function () {
+        Bifrost.dependencyResolvers = dependencyResolvers;
     });
 
     it("should throw unresolved dependencies exception", function () {

@@ -6,7 +6,11 @@
         canResolve: sinon.stub().returns(false)
     };
 
+    var dependencyResolvers;
+
     beforeEach(function () {
+        dependencyResolvers = Bifrost.dependencyResolvers;
+
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [firstResolver, secondResolver];
@@ -19,7 +23,7 @@
     });
 
     afterEach(function () {
-        Bifrost.dependencyResolvers = {};
+        Bifrost.dependencyResolvers = dependencyResolvers;
     });
 
     it("should ask first resolver", function () {

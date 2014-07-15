@@ -14,7 +14,9 @@ describe("when handling post binding with one element", function() {
 		this.visit = visitStub;
 	});
 
-	beforeEach(function() {
+	beforeEach(function () {
+	    sinon.stub(Bifrost.markup.ElementVisitor, "getExtenders").returns([]);
+
 	    sinon.stub(Bifrost.views.PostBindingVisitor, "getExtenders").returns([visitorType]);
 
 		var instance = Bifrost.views.UIManager.createWithoutScope({
@@ -24,7 +26,8 @@ describe("when handling post binding with one element", function() {
 		instance.handlePostBinding(root);
 	});
 
-	afterEach(function() {
+	afterEach(function () {
+	    Bifrost.markup.ElementVisitor.getExtenders.restore();
 		Bifrost.views.PostBindingVisitor.getExtenders.restore();
 	});
 

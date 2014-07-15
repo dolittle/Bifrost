@@ -6,6 +6,8 @@
     var readyCallback;
 
     var configure = null;
+    var dependencyResolvers;
+
     beforeEach(function () {
         configure = Bifrost.configure;
         Bifrost.configure = {
@@ -13,6 +15,7 @@
                 readyCallback = callback;
             }
         };
+        dependencyResolvers = Bifrost.dependencyResolvers;
         Bifrost.dependencyResolvers = {
             getAll: function () {
                 return [resolver];
@@ -31,6 +34,7 @@
     });
 
     afterEach(function () {
+        Bifrost.dependencyResolvers = dependencyResolvers;
         Bifrost.configure = configure;
     });
 
