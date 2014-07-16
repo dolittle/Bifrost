@@ -62,15 +62,16 @@ namespace Bifrost.Read
             ThrowIfNoQueryPropertyOnQuery(query);
 
             var result = QueryResult.For(query);
-            var authorizationResult = _fetchingSecurityManager.Authorize(query);
-            if (!authorizationResult.IsAuthorized)
-            {
-                result.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
-                return result;
-            }
 
             try
             {
+                var authorizationResult = _fetchingSecurityManager.Authorize(query);
+                if (!authorizationResult.IsAuthorized)
+                {
+                    result.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
+                    return result;
+                }
+
                 var property = GetQueryPropertyFromQuery(query);
                 var queryProviderType = GetActualProviderTypeFrom(property.PropertyType);
                 ThrowIfUnknownQueryType(queryProviderType, query, property);

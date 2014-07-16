@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.read", {
-    ReadModelOf: Bifrost.Type.extend(function (region, readModelMapper, taskFactory, readModelSystemEvents) {
+    ReadModelOf: Bifrost.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
 	    var self = this;
 	    this.name = "";
 	    this.generatedFrom = "";
@@ -21,7 +21,7 @@ Bifrost.namespace("Bifrost.read", {
 	        var task = taskFactory.createReadModel(target, propertyFilters);
 	        target.region.tasks.execute(task).continueWith(function (data) {
 	            if (!Bifrost.isNullOrUndefined(data)) {
-	                var mappedReadModel = readModelMapper.mapDataToReadModel(target.readModelType, data);
+	                var mappedReadModel = mapper.map(target.readModelType, data);
 	                self.instance(mappedReadModel);
 	            } else {
 	                readModelSystemEvents.noInstance.trigger(target);

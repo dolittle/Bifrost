@@ -29,10 +29,10 @@
         }
     };
 
-    var readModelMapper = {};
+    var mapper = {};
 
     var instance = Bifrost.read.queryService.createWithoutScope({
-        readModelMapper: readModelMapper,
+        mapper: mapper,
         taskFactory: taskFactory
     });
 

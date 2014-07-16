@@ -1,8 +1,8 @@
 describe("when mapping array of data", function(){
-	var mappedReadModelInstance;
+	var mappedInstance;
 	var data = [{ stringProperty: "fourty two"}, {stringProperty: "fourty three"}];
 	
-	var readModelType = Bifrost.Type.extend(function () {
+	var type = Bifrost.Type.extend(function () {
         var self = this;
 
         this.stringProperty = "";
@@ -13,23 +13,23 @@ describe("when mapping array of data", function(){
         };
     });
 
-	var returnedInstance = readModelType.create();
+	var returnedInstance = type.create();
 
 	(function becauseOf(){
-		var readModelMapper = Bifrost.read.readModelMapper.create();
-		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
+	    var mapper = Bifrost.mapping.mapper.create();
+		mappedInstance = mapper.map(type, data);
 	})();
 
 	it("should return an array of mapped instances", function () {
-		expect(mappedReadModelInstance.length).toEqual(2);
+		expect(mappedInstance.length).toEqual(2);
 	});
 
 	it("should map the first datas properties", function(){
-		expect(mappedReadModelInstance[0].stringProperty).toEqual("fourty two");
+		expect(mappedInstance[0].stringProperty).toEqual("fourty two");
 	});
 
 	it("should map the second datas properties", function(){
-		expect(mappedReadModelInstance[1].stringProperty).toEqual("fourty three");
+		expect(mappedInstance[1].stringProperty).toEqual("fourty three");
 	});
 
 });

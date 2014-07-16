@@ -1,6 +1,6 @@
 ﻿describe("when instance changes and command is linked", function () {
     var readModelOf = Bifrost.read.ReadModelOf.create({
-        readModelMapper: {},
+        mapper: {},
         region: {},
         taskFactory: {},
         readModelSystemEvents: {}

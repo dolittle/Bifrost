@@ -979,9 +979,9 @@ Bifrost.namespace("Bifrost", {
 
                     if (resolvedSystem instanceof Bifrost.execution.Promise) {
                         resolvedSystem.continueWith(function (system, innerPromise) {
-
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
+                                
                                 promise.signal(handleSystemInstance(actualSystem));
                             }).onFail(function(e) { promise.fail(e); });
                         });
@@ -1635,7 +1635,6 @@ Bifrost.namespace("Bifrost", {
             if( self._dependencies == null || 
                 typeof self._dependencies == "undefined" || 
                 self._dependencies.length == 0) {
-
                 var instance = self.create(instanceHash);
                 promise.signal(instance);
             } else {
@@ -2257,7 +2256,7 @@ Bifrost.namespace("Bifrost", {
                 dataType: 'json',
                 data: parameters,
                 contentType: 'application/json; charset=utf-8',
-                complete: function (result) {
+                complete: function (result, textStatus) {
                     var data = $.parseJSON(result.responseText);
                     deserialize(data);
                     promise.signal(data);
@@ -4290,8 +4289,10 @@ Bifrost.namespace("Bifrost.commands", {
             properties.forEach(function(property) {
                 var propertyValue = self.targetCommand[property];
                 if (ko.isObservable(propertyValue)) {
-                    propertyValue.extend({ hasChanges: {} })
-                    hasChangesObservables.push(propertyValue.hasChanges);
+                    propertyValue.extend({ hasChanges: {} });
+                    if (!Bifrost.isNullOrUndefined(propertyValue.hasChanges)) {
+                        hasChangesObservables.push(propertyValue.hasChanges);
+                    }
                 }
             });
         };
@@ -4458,7 +4459,13 @@ Bifrost.commands.CommandDescriptor = function(command) {
 
     var builtInCommand = {};
     if (typeof Bifrost.commands.Command !== "undefined") {
-        builtInCommand = Bifrost.commands.Command.create({ region: { commands: [] } });
+        builtInCommand = Bifrost.commands.Command.create({
+            region: { commands: [] },
+            commandCoordinator: {},
+            commandValidationService: {}, 
+            commandSecurityService: { getContextFor: function () { return { continueWith: function () { } } } },
+            options: {}
+        });
     }
 
     function shouldSkipProperty(target, property) {
@@ -4531,7 +4538,7 @@ Bifrost.commands.CommandResult = (function () {
             return commandResult;
         },
         createFrom: function (result) {
-            var existing = typeof result === "string" ? $.parseJSON(result) : result;
+            var existing = typeof result === "string" ? JSON.parse(result) : result;
             var commandResult = new CommandResult(existing);
             return commandResult;
         }
@@ -5139,13 +5146,8 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 		};
 	})
 })
-Bifrost.namespace("Bifrost.read", {
-    readModelSystemEvents: Bifrost.Singleton(function () {
-        this.noInstance = Bifrost.Event.create();
-    })
-});
-Bifrost.namespace("Bifrost.read", {
-	readModelMapper : Bifrost.Type.extend(function () {
+Bifrost.namespace("Bifrost.mapping", {
+	mapper: Bifrost.Type.extend(function () {
 		"use strict";
 		var self = this;
 
@@ -5166,18 +5168,14 @@ Bifrost.namespace("Bifrost.read", {
 			}
 		}
 
-		function mapSingleInstance(readModel, data) {
+		function mapSingleInstance(type, data) {
 		    if (data) {
-		        if (typeof data._readModelType != "undefined") {
-
-		            var readModelType = eval(data._readModelType);
-		            if (typeof readModelType != "undefined" && readModelType !== null) {
-		                readModel = readModelType;
-		            }
+		        if (!Bifrost.isNullOrUndefined(data._sourceType)) {
+		            type = eval(data._sourceType);
 		        }
 		    }
 
-		    var instance = readModel.create();
+		    var instance = type.create();
 
 		    if (data) {
 		        copyProperties(data, instance);
@@ -5185,23 +5183,29 @@ Bifrost.namespace("Bifrost.read", {
 		    return instance;
 		};
 
-		function mapMultipleInstances(readModel, data) {
+		function mapMultipleInstances(type, data) {
 		    var mappedInstances = [];
 		    for (var i = 0; i < data.length; i++) {
 		        var singleData = data[i];
-		        mappedInstances.push(mapSingleInstance(readModel, singleData));
+		        mappedInstances.push(mapSingleInstance(type, singleData));
 		    }
 		    return mappedInstances;
 		};
 
-		this.mapDataToReadModel = function(readModel, data) {
+		this.map = function(type, data) {
 			if(Bifrost.isArray(data)){
-				return mapMultipleInstances(readModel, data);
+				return mapMultipleInstances(type, data);
 			} else {
-				return mapSingleInstance(readModel, data);
+				return mapSingleInstance(type, data);
 			}
 		};
 	})
+});
+Bifrost.WellKnownTypesDependencyResolver.types.mapper = Bifrost.commands.mapper;
+Bifrost.namespace("Bifrost.read", {
+    readModelSystemEvents: Bifrost.Singleton(function () {
+        this.noInstance = Bifrost.Event.create();
+    })
 });
 Bifrost.namespace("Bifrost.read", {
     PagingInfo: Bifrost.Type.extend(function (size, number) {
@@ -5309,8 +5313,6 @@ Bifrost.read.Queryable.new = function (options, region) {
     observable.isQueryable = true;
     return observable;
 };
-
-
 Bifrost.namespace("Bifrost.read", {
     queryableFactory: Bifrost.Singleton(function () {
         this.create = function (query, region) {
@@ -5443,7 +5445,7 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
-    ReadModelOf: Bifrost.Type.extend(function (region, readModelMapper, taskFactory, readModelSystemEvents) {
+    ReadModelOf: Bifrost.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
 	    var self = this;
 	    this.name = "";
 	    this.generatedFrom = "";
@@ -5465,7 +5467,7 @@ Bifrost.namespace("Bifrost.read", {
 	        var task = taskFactory.createReadModel(target, propertyFilters);
 	        target.region.tasks.execute(task).continueWith(function (data) {
 	            if (!Bifrost.isNullOrUndefined(data)) {
-	                var mappedReadModel = readModelMapper.mapDataToReadModel(target.readModelType, data);
+	                var mappedReadModel = mapper.map(target.readModelType, data);
 	                self.instance(mappedReadModel);
 	            } else {
 	                readModelSystemEvents.noInstance.trigger(target);
@@ -5579,7 +5581,7 @@ Bifrost.namespace("Bifrost.read", {
     })
 });
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function (readModelMapper, taskFactory) {
+    queryService: Bifrost.Singleton(function (mapper, taskFactory) {
         var self = this;
 
         this.execute = function (query, paging) {
@@ -5595,7 +5597,7 @@ Bifrost.namespace("Bifrost.read", {
                 if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    result.items = readModelMapper.mapDataToReadModel(query.readModel, result.items);
+                    result.items = mapper.map(query.readModel, result.items);
                 }
                 promise.signal(result);
             });
@@ -6799,19 +6801,6 @@ Bifrost.namespace("Bifrost.views", {
             }
         }
 
-        this.getViewModelObservableFor = function (element) {
-            var name = documentService.getViewModelNameFor(element);
-
-            var observable = null;
-            if (self.hasOwnProperty(name)) {
-                observable = self[name]
-            } else {
-                observable = ko.observable();
-                observable.__bifrost_vm__ = name;
-                self[name] = observable;
-            }
-            return observable;
-        };
 
         this.setFor = function (element, viewModel) {
             var existingViewModel = self.getFor(element);
@@ -7547,12 +7536,11 @@ Bifrost.namespace("Bifrost.interaction", {
 	})
 });
 Bifrost.namespace("Bifrost.navigation", {
-    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history, viewManager) {
+    NavigationFrame: Bifrost.Type.extend(function (home, uriMapper, history) {
         var self = this;
 
         this.home = home;
         this.history = history;
-        this.viewManager = viewManager;
 
         this.container = null;
         this.currentUri = ko.observable(home);

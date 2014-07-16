@@ -120,8 +120,8 @@
 @depends interaction/VisualStateManager.js
 @depends interaction/VisualStateTransition.js
 @depends interaction/visualStateActions/Opacity.js
+@depends mapping/mapper.js
 @depends read/readModelSystemEvents.js
-@depends read/readModelMapper.js
 @depends read/PagingInfo.js
 @depends read/Queryable.js
 @depends read/queryableFactory.js

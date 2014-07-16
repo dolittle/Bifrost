@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.read", {
-    queryService: Bifrost.Singleton(function (readModelMapper, taskFactory) {
+    queryService: Bifrost.Singleton(function (mapper, taskFactory) {
         var self = this;
 
         this.execute = function (query, paging) {
@@ -15,7 +15,7 @@ Bifrost.namespace("Bifrost.read", {
                 if (typeof result.totalItems == "undefined" || result.totalItems == null) result.totalItems = 0;
 
                 if (query.hasReadModel()) {
-                    result.items = readModelMapper.mapDataToReadModel(query.readModel, result.items);
+                    result.items = mapper.map(query.readModel, result.items);
                 }
                 promise.signal(result);
             });

@@ -20,12 +20,12 @@
         }
     };
 
-    var readModelMapper = {
-        mapDataToReadModel: sinon.stub().returns(readModel)
+    var mapper = {
+        map: sinon.stub().returns(readModel)
     };
 
     var readModelOf = Bifrost.read.ReadModelOf.create({
-        readModelMapper: readModelMapper,
+        mapper: mapper,
         region: region,
         taskFactory: taskFactory,
         readModelSystemEvents: {}
@@ -47,7 +47,7 @@
     });
 
     it("should map resulting data to read model", function () {
-        expect(readModelMapper.mapDataToReadModel.secondCall.calledWith(readModelOf.readModelType, data)).toBe(true);
+        expect(mapper.map.secondCall.calledWith(readModelOf.readModelType, data)).toBe(true);
     });
 
     it("should set the instance to the result coming back", function () {

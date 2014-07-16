@@ -1,8 +1,8 @@
 describe("when mapping object with matching object property", function(){
-	var mappedReadModelInstance;
+	var mappedInstance;
 	var data = { objectProperty: {objectProperty : "value"}};
 	
-	var readModelType = Bifrost.Type.extend(function () {
+	var type = Bifrost.Type.extend(function () {
         var self = this;
 
         this.stringProperty = "";
@@ -13,26 +13,26 @@ describe("when mapping object with matching object property", function(){
         };
     });
 
-	var returnedInstance = readModelType.create();
+	var returnedInstance = type.create();
 
-    readModelType.create = sinon.stub().returns(returnedInstance);
+    type.create = sinon.stub().returns(returnedInstance);
 
 
 	(function becauseOf(){
-		var readModelMapper = Bifrost.read.readModelMapper.create();
-		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
+		var mapper = Bifrost.mapping.mapper.create();
+		mappedInstance = mapper.map(type, data);
 	})();
 
 	it("should return the instance", function () {
-		expect(mappedReadModelInstance).toEqual(returnedInstance);
+		expect(mappedInstance).toEqual(returnedInstance);
 	});
 
 	it("should map the corresponding objectProperty", function(){
-		expect(mappedReadModelInstance.objectProperty).toEqual(data.objectProperty);
+		expect(mappedInstance.objectProperty).toEqual(data.objectProperty);
 	});
 
 	it("should map the objects properties value", function() {
-		expect(mappedReadModelInstance.objectProperty.objectProperty).toEqual("value")
+		expect(mappedInstance.objectProperty.objectProperty).toEqual("value")
 	});
 
 });

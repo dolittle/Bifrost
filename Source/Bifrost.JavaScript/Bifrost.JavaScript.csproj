@@ -124,7 +124,7 @@
     <Content Include="read\PagingInfo.js" />
     <Content Include="read\Queryable.js" />
     <Content Include="read\QueryTask.js" />
-    <Content Include="read\readModelMapper.js" />
+    <Content Include="mapping\mapper.js" />
     <Content Include="read\readModelOfDependencyResolver.js" />
     <Content Include="services\Service.js" />
     <Content Include="services\serviceDependencyResolver.js" />

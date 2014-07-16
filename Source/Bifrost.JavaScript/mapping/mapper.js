@@ -1,5 +1,5 @@
-Bifrost.namespace("Bifrost.read", {
-	readModelMapper : Bifrost.Type.extend(function () {
+Bifrost.namespace("Bifrost.mapping", {
+	mapper: Bifrost.Type.extend(function () {
 		"use strict";
 		var self = this;
 
@@ -20,18 +20,14 @@ Bifrost.namespace("Bifrost.read", {
 			}
 		}
 
-		function mapSingleInstance(readModel, data) {
+		function mapSingleInstance(type, data) {
 		    if (data) {
-		        if (typeof data._readModelType != "undefined") {
-
-		            var readModelType = eval(data._readModelType);
-		            if (typeof readModelType != "undefined" && readModelType !== null) {
-		                readModel = readModelType;
-		            }
+		        if (!Bifrost.isNullOrUndefined(data._sourceType)) {
+		            type = eval(data._sourceType);
 		        }
 		    }
 
-		    var instance = readModel.create();
+		    var instance = type.create();
 
 		    if (data) {
 		        copyProperties(data, instance);
@@ -39,21 +35,22 @@ Bifrost.namespace("Bifrost.read", {
 		    return instance;
 		};
 
-		function mapMultipleInstances(readModel, data) {
+		function mapMultipleInstances(type, data) {
 		    var mappedInstances = [];
 		    for (var i = 0; i < data.length; i++) {
 		        var singleData = data[i];
-		        mappedInstances.push(mapSingleInstance(readModel, singleData));
+		        mappedInstances.push(mapSingleInstance(type, singleData));
 		    }
 		    return mappedInstances;
 		};
 
-		this.mapDataToReadModel = function(readModel, data) {
+		this.map = function(type, data) {
 			if(Bifrost.isArray(data)){
-				return mapMultipleInstances(readModel, data);
+				return mapMultipleInstances(type, data);
 			} else {
-				return mapSingleInstance(readModel, data);
+				return mapSingleInstance(type, data);
 			}
 		};
 	})
 });
+Bifrost.WellKnownTypesDependencyResolver.types.mapper = Bifrost.commands.mapper;

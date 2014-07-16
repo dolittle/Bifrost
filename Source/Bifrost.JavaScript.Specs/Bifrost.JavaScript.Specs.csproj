@@ -62,7 +62,6 @@
     <Content Include="commands\for_commandValidationService\when_validating_with_invalid_properties.js" />
     <Content Include="commands\for_commandValidationService\when_applying_validation_results_to_properties.js" />
     <Content Include="commands\for_commandValidationService\when_validating.js" />
-    <Content Include="commands\for_Command\when_populated_externally_with_property_values_set_with_well_known_target_types.js" />
     <Content Include="commands\for_Command\when_setting_property_values_with_object_literal_containing_observables_in_command.js" />
     <Content Include="commands\for_Command\when_executing_with_exception_in_coordinator.js" />
     <Content Include="commands\for_Command\when_one_value_is_reporting_change_after_initialization.js" />
@@ -116,8 +115,6 @@
     <Content Include="rules\for_Rule\when_rule_with_observable_evaluator_gets_changed.js" />
     <Content Include="rules\for_Rule\when_rule_has_not_been_evaluated_against_an_instance.js" />
     <Content Include="rules\for_Rule\when_rule_is_evaluated_against_an_instance.js" />
-    <Content Include="types\for_TypeInfo\when_creating_from_instance_with_no_properties.js" />
-    <Content Include="types\for_TypeInfo\when_creating_from_instance_with_properties_of_different_types.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />
@@ -187,8 +184,6 @@
     <Content Include="navigation\for_navigationManager\when_hooking_up_with_two_anchor_tags.js" />
     <Content Include="navigation\for_observableQueryParameter\when_default_value_is_specified_and_query_parameter_does_not_exist.js" />
     <Content Include="navigation\for_observableQueryParameter\when_default_value_is_specified_but_query_parameter_exist_as_well.js" />
-    <Content Include="navigation\for_observableQueryParameter\when_parameter_changes_in_query.js" />
-    <Content Include="navigation\for_observableQueryParameter\when_value_changes.js" />
     <Content Include="navigation\for_UriMapper\when_adding_mapping.js" />
     <Content Include="navigation\for_UriMapper\when_asking_for_all_mappings_and_no_mappings_have_been_registered.js" />
     <Content Include="navigation\for_UriMapper\when_resolving_an_empty_uri_that_has_match.js" />
@@ -235,15 +230,15 @@
     <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_they_are_not_all_set.js" />
     <Content Include="read\for_Query\when_getting_parameters.js" />
     <Content Include="read\for_Query\when_setting_parameters_with_two_observables_on_query_type.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_read_model_type_specified.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_and_empty_object.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_array_of_data.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_array_property.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_number_property.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_object_property.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_matching_string_property.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_object_with_objectproperty_with_mismatching_type.js" />
-    <Content Include="read\for_readModelMapper\when_mapping_property_with_property_with_mismatching_type.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_source_type_specified.js" />
+    <Content Include="mapping\for_mapper\when_mapping_an_empty_object.js" />
+    <Content Include="mapping\for_mapper\when_mapping_array_of_data.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_matching_array_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_matching_number_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_matching_object_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_matching_string_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_object_with_objectproperty_with_mismatching_type.js" />
+    <Content Include="mapping\for_mapper\when_mapping_property_with_property_with_mismatching_type.js" />
     <Content Include="read\for_ReadModelOf\when_loading_and_instance_is_null.js" />
     <Content Include="read\for_ReadModelOf\when_matching_with_property_filters_with_observables_that_change_after_initial_setup.js" />
     <Content Include="read\for_ReadModelOf\when_matching_with_property_filters.js" />
@@ -484,7 +479,6 @@
     <Content Include="values\for_stringFormatter\when_formatting_string_with_one_chunk_in_format_with_known_formatter.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_with_format_if_element_has_format.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_without_format_if_element_has_format.js" />
-    <Content Include="values\for_StringTypeConverter\when_convertering_from_a_number.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_string_format.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_type_specified.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_for_view_with_unset_observable.js" />
@@ -544,7 +538,7 @@
     <Content Include="views\for_Region\when_region_gets_an_executing_task_that_gets_completed.js" />
     <Content Include="views\for_Region\when_creating.js" />
     <Content Include="views\for_Region\when_region_gets_an_executing_task.js" />
-    <Content Include="values\for_typeExtender\when_extending_observable.js" />
+    <Content Include="values\for_typeConverterExtender\when_extending_observable.js" />
     <Content Include="values\for_typeConverters\when_converting_to_without_supporting_converter_for_type.js" />
     <Content Include="values\for_typeConverters\when_converting_to_and_supporting_converter_for_type.js" />
     <Content Include="values\for_typeConverters\when_converting_from_with_type_without_supporting_converter_for_type.js" />

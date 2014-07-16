@@ -31,8 +31,8 @@
         { something: 45 }
     ];
 
-    var readModelMapper = {
-        mapDataToReadModel: function (readModel, data) {
+    var mapper = {
+        map: function (readModel, data) {
             return mappedItems;
         }
     };
@@ -44,7 +44,7 @@
     };
 
     var instance = Bifrost.read.queryService.createWithoutScope({
-        readModelMapper: readModelMapper,
+        mapper: mapper,
         taskFactory: taskFactory
 
     });

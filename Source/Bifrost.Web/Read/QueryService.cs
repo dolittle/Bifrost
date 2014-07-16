@@ -62,7 +62,7 @@ namespace Bifrost.Web.Read
                 var type = item.GetType();
 
                 if (_configuration.NamespaceMapper.CanResolveToClient(type.Namespace))
-                    dynamicItem._readModelType = string.Format("{0}.{1}", _configuration.NamespaceMapper.GetClientNamespaceFrom(type.Namespace), type.Name.ToCamelCase());
+                    dynamicItem._sourceType = string.Format("{0}.{1}", _configuration.NamespaceMapper.GetClientNamespaceFrom(type.Namespace), type.Name.ToCamelCase());
 
                 items.Add(dynamicItem);
             }

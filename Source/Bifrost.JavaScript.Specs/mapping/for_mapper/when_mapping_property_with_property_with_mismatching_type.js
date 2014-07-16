@@ -1,8 +1,8 @@
 describe("when mapping property with property with mismatching type", function(){
-	var mappedReadModelInstance;
+	var mappedInstance;
 	var data = { numberProperty: "fourty two"};
 	
-	var readModelType = Bifrost.Type.extend(function () {
+	var type = Bifrost.Type.extend(function () {
         var self = this;
 
         this.stringProperty = "";
@@ -13,21 +13,21 @@ describe("when mapping property with property with mismatching type", function()
         };
     });
 
-	var returnedInstance = readModelType.create();
+	var returnedInstance = type.create();
 
-    readModelType.create = sinon.stub().returns(returnedInstance);
+    type.create = sinon.stub().returns(returnedInstance);
 
 
 	(function becauseOf(){
-		var readModelMapper = Bifrost.read.readModelMapper.create();
-		mappedReadModelInstance = readModelMapper.mapDataToReadModel(readModelType, data);
+	    var mapper = Bifrost.mapping.mapper.create();
+		mappedInstance = mapper.map(type, data);
 	})();
 
 	it("should return the instance", function () {
-		expect(mappedReadModelInstance).toEqual(returnedInstance);
+		expect(mappedInstance).toEqual(returnedInstance);
 	});
 
 	it("should map the corresponding numberProprty value", function(){
-		expect(mappedReadModelInstance.numberProperty).toEqual(data.numberProperty);
+		expect(mappedInstance.numberProperty).toEqual(data.numberProperty);
 	});
 });

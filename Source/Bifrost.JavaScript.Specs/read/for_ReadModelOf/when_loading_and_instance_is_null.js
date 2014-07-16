@@ -17,8 +17,8 @@
         }
     };
 
-    var readModelMapper = {
-        mapDataToReadModel: sinon.stub()
+    var mapper = {
+        map: sinon.stub()
     };
 
     var readModelSystemEvents = {
@@ -28,7 +28,7 @@
     };
 
     var readModelOf = Bifrost.read.ReadModelOf.create({
-        readModelMapper: readModelMapper,
+        mapper: mapper,
         region: region,
         taskFactory: taskFactory,
         readModelSystemEvents: readModelSystemEvents
@@ -37,7 +37,7 @@
     readModelOf.instanceMatching(propertyFilters);
 
     it("should not map resulting data to read model", function () {
-        expect(readModelMapper.mapDataToReadModel.called).toBe(false);
+        expect(mapper.map.called).toBe(false);
     });
 
     it("should trigger the no instance system event", function () {
