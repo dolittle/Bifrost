@@ -13,6 +13,9 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		{
 		    var containerMock = new Mock<IContainer>();
 			var typeDiscovererMock = new Mock<ITypeDiscoverer>();
+
+            containerMock.Setup(c => c.Get(typeof(FirstMultipleClass))).Returns(new FirstMultipleClass());
+            containerMock.Setup(c => c.Get(typeof(SecondMultipleClass))).Returns(new SecondMultipleClass());
 			typeDiscovererMock.Setup(t => t.FindMultiple<IMultipleInterface>()).Returns(new[]
 			                                                                            	{
 																								typeof(FirstMultipleClass),
@@ -30,6 +33,9 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		{
             var containerMock = new Mock<IContainer>();
 			var typeDiscovererMock = new Mock<ITypeDiscoverer>();
+
+            containerMock.Setup(c => c.Get(typeof(SingleClass))).Returns(new SingleClass());
+
 			typeDiscovererMock.Setup(t => t.FindMultiple<ISingleInterface>()).Returns(new[]
 			                                                                            	{
 																								typeof(SingleClass),
