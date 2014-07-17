@@ -29,7 +29,7 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {}
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {

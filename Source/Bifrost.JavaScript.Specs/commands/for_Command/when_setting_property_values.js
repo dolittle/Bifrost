@@ -19,7 +19,9 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {
+            mapToInstance: sinon.stub()
+        }
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {
@@ -43,19 +45,7 @@
 
     ko.extenders.hasChanges = hasChangesExtender;
 
-    it("should update the observable", function () {
-        expect(command.someValue()).toBe(newValues.someValue);
-    });
-
-    it("should update the observable array", function () {
-        expect(command.someArray()).toBe(newValues.someArray);
-    });
-
-    it("should set the observable value for the has changes extension", function () {
-        expect(command.someValue.setInitialValue.called).toBe(true);
-    });
-
-    it("should set the observable array value for the has changes extension", function () {
-        expect(command.someArray.setInitialValue.called).toBe(true);
+    it("should forward to mapper", function () {
+        expect(parameters.mapper.mapToInstance.calledWith(commandType, newValues, command)).toBe(true);
     });
 });

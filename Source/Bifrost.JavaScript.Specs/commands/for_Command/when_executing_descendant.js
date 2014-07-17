@@ -51,8 +51,8 @@
         region: {
             commands: []
         },
-        typeConverters: {}
-    }
+        mapper: {}
+    };
 
     var descendant = Bifrost.commands.Command.extend(function () {
         this.name = "descendant";

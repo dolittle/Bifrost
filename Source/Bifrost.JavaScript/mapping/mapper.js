@@ -51,6 +51,10 @@ Bifrost.namespace("Bifrost.mapping", {
 				return mapSingleInstance(type, data);
 			}
 		};
+
+		this.mapToInstance = function (targetType, data, target) {
+
+		};
 	})
 });
-Bifrost.WellKnownTypesDependencyResolver.types.mapper = Bifrost.commands.mapper;
+Bifrost.WellKnownTypesDependencyResolver.types.mapper = Bifrost.mapping.mapper;

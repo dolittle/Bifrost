@@ -30,7 +30,7 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {}
     };
 
     beforeEach(function () {

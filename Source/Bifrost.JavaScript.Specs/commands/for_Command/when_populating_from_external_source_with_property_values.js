@@ -20,7 +20,9 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {
+            mapToInstance: sinon.stub()
+        }
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {
@@ -35,6 +37,11 @@
 
     var command = commandType.create(parameters);
     command.populateFromExternalSource(newValues);
+
+
+    it("should forward to mapper", function () {
+        expect(parameters.mapper.mapToInstance.calledWith(commandType, newValues, command)).toBe(true);
+    });
 
     it("should be considered populated externally", function () {
         expect(command.isPopulatedExternally()).toBe(true);

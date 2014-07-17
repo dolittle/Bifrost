@@ -23,7 +23,7 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {}
     });
 
     command.populatedExternally();

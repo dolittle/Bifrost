@@ -50,7 +50,7 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {}
     }
     command = Bifrost.commands.Command.create(parameters);
     command.execute();

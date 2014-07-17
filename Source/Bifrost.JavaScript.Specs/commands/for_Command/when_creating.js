@@ -27,7 +27,7 @@
         region: {
             commands: []
         },
-        typeConverters: {}
+        mapper: {}
     }
     var command = null;
 

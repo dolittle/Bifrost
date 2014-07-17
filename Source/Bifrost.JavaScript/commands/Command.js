@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.commands", {
-    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, typeConverters, options, region) {
+    Command: Bifrost.Type.extend(function (commandCoordinator, commandValidationService, commandSecurityService, mapper, options, region) {
         var self = this;
         var hasChangesObservables = ko.observableArray();
 
@@ -248,6 +248,11 @@ Bifrost.namespace("Bifrost.commands", {
             commandValidationService.clearValidationMessagesFor(self.targetCommand);
         };
 
+        this.setPropertyValuesFrom = function (values) {
+            mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
+        };
+
+        /*
         function setValueOnObservable(observable, value) {
             if (!Bifrost.isNullOrUndefined(observable._typeAsString) && !Bifrost.isNullOrUndefined(value)) {
                 value = typeConverters.convertFrom(value.toString(), observable._typeAsString);
@@ -281,6 +286,7 @@ Bifrost.namespace("Bifrost.commands", {
                 });
             }
         };
+        */
 
         this.onCreated = function (lastDescendant) {
             self.targetCommand = lastDescendant;
