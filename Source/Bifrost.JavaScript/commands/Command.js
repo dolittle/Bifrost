@@ -252,42 +252,6 @@ Bifrost.namespace("Bifrost.commands", {
             mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
         };
 
-        /*
-        function setValueOnObservable(observable, value) {
-            if (!Bifrost.isNullOrUndefined(observable._typeAsString) && !Bifrost.isNullOrUndefined(value)) {
-                value = typeConverters.convertFrom(value.toString(), observable._typeAsString);
-            }
-            observable(value);
-
-            if (typeof observable.setInitialValue == "function") {
-                observable.setInitialValue(value);
-            }
-        }
-
-
-        this.setPropertyValuesFrom = function (values) {
-            var properties = this.getProperties();
-
-            for (var valueProperty in values) {
-                properties.forEach(function (property) {
-                    if (valueProperty == property) {
-                        var value = ko.utils.unwrapObservable(values[property]);
-                        var observable = self.targetCommand[property];
-
-                        if (!ko.isObservable(observable)) {
-
-                            for (var subProperty in observable) {
-                                setValueOnObservable(observable[subProperty], value[subProperty]);
-                            }
-                        } else {
-                            setValueOnObservable(observable, value);
-                        }
-                    }
-                });
-            }
-        };
-        */
-
         this.onCreated = function (lastDescendant) {
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
