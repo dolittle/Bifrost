@@ -2,13 +2,17 @@ globalType = Bifrost.Type.extend(function () {
     var self = this;
 });
 
-describe("when mapping object with source type specified", function () {
+describe("when mapping to type with source type specified", function () {
 	var mappedInstance;
 	var data = {
 	    _sourceType : "globalType"
 	};
 	var returnedInstance = {};
-	
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = {
 	    create: sinon.stub().returns({
 	    })
@@ -17,7 +21,7 @@ describe("when mapping object with source type specified", function () {
     globalType.create = sinon.stub().returns(returnedInstance);
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+	    var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 

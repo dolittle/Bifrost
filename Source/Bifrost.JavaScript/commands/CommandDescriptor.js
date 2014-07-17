@@ -9,6 +9,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
             commandCoordinator: {},
             commandValidationService: {}, 
             commandSecurityService: { getContextFor: function () { return { continueWith: function () { } } } },
+            mapper: {},
             options: {}
         });
     }

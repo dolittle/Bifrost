@@ -1,6 +1,11 @@
-describe("when mapping object with matching string property", function(){
+describe("when mapping to type with an empty object", function(){
 	var mappedInstance;
-	var data = { stringProperty: "string"};
+	var data = {};
+	var returnedInstance = {};
+
+	var parameters = {
+	    typeConverters: {}
+	};
 	
 	var type = Bifrost.Type.extend(function () {
         var self = this;
@@ -13,22 +18,19 @@ describe("when mapping object with matching string property", function(){
         };
     });
 
-	var returnedInstance = type.create();
-
     type.create = sinon.stub().returns(returnedInstance);
 
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+		var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
+
+	it("should create an instance of the type", function () {
+		expect(type.create.called).toBe(true);
+	});
 
 	it("should return the instance", function () {
 		expect(mappedInstance).toEqual(returnedInstance);
 	});
-
-	it("should map the corresponding stringProprty value", function(){
-		expect(mappedInstance.stringProperty).toEqual(data.stringProperty);
-	})
-
 });

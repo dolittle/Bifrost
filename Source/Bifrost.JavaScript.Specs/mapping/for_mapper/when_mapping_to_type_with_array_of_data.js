@@ -1,7 +1,11 @@
-describe("when mapping array of data", function(){
+describe("when mapping to type with array of data", function(){
 	var mappedInstance;
 	var data = [{ stringProperty: "fourty two"}, {stringProperty: "fourty three"}];
 	
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
@@ -16,7 +20,7 @@ describe("when mapping array of data", function(){
 	var returnedInstance = type.create();
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+	    var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 

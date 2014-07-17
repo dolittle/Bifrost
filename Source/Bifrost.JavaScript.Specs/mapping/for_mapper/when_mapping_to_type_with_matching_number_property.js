@@ -1,7 +1,11 @@
-describe("when mapping object with matching number property", function(){
+describe("when mapping to type with matching number property", function(){
 	var mappedInstance;
 	var data = { integer: 42, decimal: 42.2 };
-	
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
@@ -15,7 +19,7 @@ describe("when mapping object with matching number property", function(){
 
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+	    var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 

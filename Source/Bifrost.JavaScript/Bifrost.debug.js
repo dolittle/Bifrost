@@ -4470,6 +4470,7 @@ Bifrost.commands.CommandDescriptor = function(command) {
             commandCoordinator: {},
             commandValidationService: {}, 
             commandSecurityService: { getContextFor: function () { return { continueWith: function () { } } } },
+            mapper: {},
             options: {}
         });
     }
@@ -5153,7 +5154,7 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 	})
 })
 Bifrost.namespace("Bifrost.mapping", {
-	mapper: Bifrost.Type.extend(function () {
+	mapper: Bifrost.Type.extend(function (typeConverters) {
 		"use strict";
 		var self = this;
 
@@ -5164,11 +5165,25 @@ Bifrost.namespace("Bifrost.mapping", {
 			            copyProperties(from[property], to[property]);
 			        } else {
 			            var value = from[property];
-			            if (!Bifrost.isNullOrUndefined(to[property]) &&
-                            to[property].constructor === Date) {
-			                value = new Date(value);
+			            var toValue = ko.unwrap(to[property]);
+
+			            var typeAsString = null;
+			            if (value.constructor != toValue.constructor) {
+			                typeAsString = toValue.constructor.name.toString();
 			            }
-			            to[property] = value;
+			            if (!Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
+			                typeAsString = to[property]._typeAsString;
+			            }
+
+			            if (!Bifrost.isNullOrUndefined(typeAsString) && !Bifrost.isNullOrUndefined(value)) {
+			                value = typeConverters.convertFrom(value.toString(), typeAsString);
+			            }
+
+			            if (ko.isObservable(to[property])) {
+			                to[property](value);
+			            } else {
+			                to[property] = value;
+			            }
 					}
 				}
 			}
@@ -5198,16 +5213,16 @@ Bifrost.namespace("Bifrost.mapping", {
 		    return mappedInstances;
 		};
 
-		this.map = function(type, data) {
-			if(Bifrost.isArray(data)){
-				return mapMultipleInstances(type, data);
-			} else {
-				return mapSingleInstance(type, data);
-			}
+		this.map = function (type, data) {
+		    if (Bifrost.isArray(data)) {
+		        return mapMultipleInstances(type, data);
+		    } else {
+		        return mapSingleInstance(type, data);
+		    }
 		};
 
 		this.mapToInstance = function (targetType, data, target) {
-
+		    copyProperties(data, target);
 		};
 	})
 });

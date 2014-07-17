@@ -1,11 +1,15 @@
-describe("when mapping object with matching array property", function(){
+describe("when mapping to type with matching string property", function () {
 	var mappedInstance;
-	var data = { arrayProperty: [ "value1", "value2"]};
-	
+	var data = { stringProperty: "string"};
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
-        this.stringProperty = "s";
+        this.stringProperty = "";
         this.numberProperty = 0;
         this.arrayProperty = [];
         this.objectProperty = {
@@ -19,7 +23,7 @@ describe("when mapping object with matching array property", function(){
 
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+	    var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 
@@ -27,8 +31,8 @@ describe("when mapping object with matching array property", function(){
 		expect(mappedInstance).toEqual(returnedInstance);
 	});
 
-	it("should map the corresponding arrayProperty value", function(){
-		expect(mappedInstance.arrayProperty).toEqual(data.arrayProperty);
-	});
+	it("should map the corresponding stringProprty value", function(){
+		expect(mappedInstance.stringProperty).toEqual(data.stringProperty);
+	})
 
 });

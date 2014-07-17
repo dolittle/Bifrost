@@ -1,7 +1,10 @@
-describe("when mapping object with matching object property", function(){
-	var mappedInstance;
+describe("when mapping to instance with matching object property", function(){
 	var data = { objectProperty: {objectProperty : "value"}};
-	
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
@@ -11,21 +14,14 @@ describe("when mapping object with matching object property", function(){
         this.objectProperty = {
         	objectProperty : ""
         };
-    });
+	});
 
-	var returnedInstance = type.create();
-
-    type.create = sinon.stub().returns(returnedInstance);
-
+	var mappedInstance = type.create();
 
 	(function becauseOf(){
-		var mapper = Bifrost.mapping.mapper.create();
-		mappedInstance = mapper.map(type, data);
+		var mapper = Bifrost.mapping.mapper.create(parameters);
+		mapper.mapToInstance(type, data, mappedInstance);
 	})();
-
-	it("should return the instance", function () {
-		expect(mappedInstance).toEqual(returnedInstance);
-	});
 
 	it("should map the corresponding objectProperty", function(){
 		expect(mappedInstance.objectProperty).toEqual(data.objectProperty);

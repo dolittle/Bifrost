@@ -1,12 +1,15 @@
-describe("when mapping an empty object", function(){
+describe("when mapping to type with matching array property", function () {
 	var mappedInstance;
-	var data = {};
-	var returnedInstance = {};
-	
+	var data = { arrayProperty: [ "value1", "value2"]};
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
-        this.stringProperty = "";
+        this.stringProperty = "s";
         this.numberProperty = 0;
         this.arrayProperty = [];
         this.objectProperty = {
@@ -14,19 +17,22 @@ describe("when mapping an empty object", function(){
         };
     });
 
+	var returnedInstance = type.create();
+
     type.create = sinon.stub().returns(returnedInstance);
 
 
 	(function becauseOf(){
-		var mapper = Bifrost.mapping.mapper.create();
+	    var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
-
-	it("should create an instance of the type", function () {
-		expect(type.create.called).toBe(true);
-	});
 
 	it("should return the instance", function () {
 		expect(mappedInstance).toEqual(returnedInstance);
 	});
+
+	it("should map the corresponding arrayProperty value", function(){
+		expect(mappedInstance.arrayProperty).toEqual(data.arrayProperty);
+	});
+
 });

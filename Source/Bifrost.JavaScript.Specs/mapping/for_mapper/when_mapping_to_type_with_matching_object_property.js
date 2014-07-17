@@ -1,7 +1,11 @@
-describe("when mapping property with property with mismatching type", function(){
+describe("when mapping to type with matching object property", function () {
 	var mappedInstance;
-	var data = { numberProperty: "fourty two"};
-	
+	var data = { objectProperty: {objectProperty : "value"}};
+
+	var parameters = {
+	    typeConverters: {}
+	};
+
 	var type = Bifrost.Type.extend(function () {
         var self = this;
 
@@ -19,7 +23,7 @@ describe("when mapping property with property with mismatching type", function()
 
 
 	(function becauseOf(){
-	    var mapper = Bifrost.mapping.mapper.create();
+		var mapper = Bifrost.mapping.mapper.create(parameters);
 		mappedInstance = mapper.map(type, data);
 	})();
 
@@ -27,7 +31,12 @@ describe("when mapping property with property with mismatching type", function()
 		expect(mappedInstance).toEqual(returnedInstance);
 	});
 
-	it("should map the corresponding numberProprty value", function(){
-		expect(mappedInstance.numberProperty).toEqual(data.numberProperty);
+	it("should map the corresponding objectProperty", function(){
+		expect(mappedInstance.objectProperty).toEqual(data.objectProperty);
 	});
+
+	it("should map the objects properties value", function() {
+		expect(mappedInstance.objectProperty.objectProperty).toEqual("value")
+	});
+
 });
