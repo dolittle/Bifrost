@@ -49,7 +49,7 @@ namespace Bifrost.Web.Read
 			PopulateProperties (descriptor, queryType, query);
 
             var result = _queryCoordinator.Execute(query, paging);
-            AddClientTypeInformation(result);
+            if( result.Success ) AddClientTypeInformation(result);
             return result;
         }
 
