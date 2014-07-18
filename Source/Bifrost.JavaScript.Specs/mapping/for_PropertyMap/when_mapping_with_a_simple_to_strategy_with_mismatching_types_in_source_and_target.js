@@ -1,13 +1,17 @@
-﻿describe("when mapping with a simple to strategy", function () {
+﻿describe("when mapping with a simple to strategy with mismatching types in source and target", function () {
     var propertyMap = Bifrost.mapping.PropertyMap.create({
         sourceProperty: "sourceProperty",
-        typeConverters: {}
+        typeConverters: {
+            convertFrom: sinon.stub().returns(42)
+        }
     });
 
     var source = {
-        sourceProperty: 42
+        sourceProperty: "42"
     };
-    var target = {};
+    var target = {
+        targetProperty: 43
+    };
     
     propertyMap.to("targetProperty");
 

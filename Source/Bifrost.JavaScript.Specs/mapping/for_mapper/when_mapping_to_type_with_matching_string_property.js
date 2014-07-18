@@ -3,7 +3,8 @@ describe("when mapping to type with matching string property", function () {
 	var data = { stringProperty: "string"};
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

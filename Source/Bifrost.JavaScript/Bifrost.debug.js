@@ -4395,42 +4395,6 @@ Bifrost.namespace("Bifrost.commands", {
             mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
         };
 
-        /*
-        function setValueOnObservable(observable, value) {
-            if (!Bifrost.isNullOrUndefined(observable._typeAsString) && !Bifrost.isNullOrUndefined(value)) {
-                value = typeConverters.convertFrom(value.toString(), observable._typeAsString);
-            }
-            observable(value);
-
-            if (typeof observable.setInitialValue == "function") {
-                observable.setInitialValue(value);
-            }
-        }
-
-
-        this.setPropertyValuesFrom = function (values) {
-            var properties = this.getProperties();
-
-            for (var valueProperty in values) {
-                properties.forEach(function (property) {
-                    if (valueProperty == property) {
-                        var value = ko.utils.unwrapObservable(values[property]);
-                        var observable = self.targetCommand[property];
-
-                        if (!ko.isObservable(observable)) {
-
-                            for (var subProperty in observable) {
-                                setValueOnObservable(observable[subProperty], value[subProperty]);
-                            }
-                        } else {
-                            setValueOnObservable(observable, value);
-                        }
-                    }
-                });
-            }
-        };
-        */
-
         this.onCreated = function (lastDescendant) {
             self.targetCommand = lastDescendant;
             if (typeof options !== "undefined") {
@@ -5154,16 +5118,144 @@ Bifrost.namespace("Bifrost.interaction.visualStateActions", {
 	})
 })
 Bifrost.namespace("Bifrost.mapping", {
-	mapper: Bifrost.Type.extend(function (typeConverters) {
+    MissingPropertyStrategy: Bifrost.Type.extend(function() {
+
+    })
+});
+Bifrost.namespace("Bifrost.mapping", {
+    PropertyMap: Bifrost.Type.extend(function (sourceProperty, typeConverters) {
+        var self = this;
+
+        this.strategy = null;
+
+        function throwIfMissingPropertyStrategy() {
+            if (Bifrost.isNullOrUndefined(self.strategy)) {
+                throw Bifrost.mapping.MissingPropertyStrategy.create();
+            }
+        }
+
+        this.to = function (targetProperty) {
+            self.strategy = function (source, target) {
+                var value = ko.unwrap(source[sourceProperty]);
+                var targetValue = ko.unwrap(target[targetProperty]);
+
+                var typeAsString = null;
+                if (!Bifrost.isNullOrUndefined(value)) {
+                    if (!Bifrost.isNullOrUndefined(targetValue)) {
+                        if (value.constructor != targetValue.constructor) {
+                            typeAsString = targetValue.constructor.name.toString();
+                        }
+
+                        if (!Bifrost.isNullOrUndefined(target[targetProperty]._typeAsString)) {
+                            typeAsString = target[targetProperty]._typeAsString;
+                        }
+                    }
+
+                    if (!Bifrost.isNullOrUndefined(typeAsString) ) {
+                        value = typeConverters.convertFrom(value.toString(), typeAsString);
+                    }
+                }
+
+                if (ko.isObservable(target[targetProperty])) {
+                    target[targetProperty](value);
+                } else {
+                    target[targetProperty] = value;
+                }
+            };
+        };
+
+        this.map = function (source, target) {
+            throwIfMissingPropertyStrategy();
+
+            self.strategy(source, target);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.mapping", {
+    Map: Bifrost.Type.extend(function () {
+        var self = this;
+
+        var properties = {};
+
+        this.sourceType = null;
+        this.targetType = null;
+
+        this.source = function (type) {
+            self.sourceType = type;
+        };
+
+        this.target = function (type) {
+            self.targetType = type;
+        };
+
+        this.property = function (property) {
+            var propertyMap = Bifrost.mapping.PropertyMap.create({ sourceProperty: property });
+            properties[property] = propertyMap;
+            return propertyMap;
+        };
+
+        this.canMapProperty = function (property) {
+            return properties.hasOwnProperty(property);
+        };
+
+        this.mapProperty = function (property, source, target) {
+            if (self.canMapProperty(property)) {
+                properties[property].map(source, target);
+            }
+        };
+    })
+});
+Bifrost.namespace("Bifrost.mapping", {
+    maps: Bifrost.Singleton(function () {
+        var self = this;
+        var maps = {};
+
+        function getKeyFrom(sourceType, targetType) {
+            return sourceType._typeId + " - " + targetType._typeId;
+        }
+
+        var extenders = Bifrost.mapping.Map.getExtenders();
+
+        extenders.forEach(function (extender) {
+            var map = extender.create();
+            var key = getKeyFrom(map.sourceType, map.targetType);
+            maps[key] = map;
+        });
+
+        this.hasMapFor = function (sourceType, targetType) {
+            if (Bifrost.isNullOrUndefined(sourceType) || Bifrost.isNullOrUndefined(targetType)) return false;
+            var key = getKeyFrom(sourceType, targetType);
+            return maps.hasOwnProperty(key);
+        };
+
+        this.getMapFor = function (sourceType, targetType) {
+            if (self.hasMapFor(sourceType, targetType)) {
+                var key = getKeyFrom(sourceType, targetType);
+                return maps[key];
+            }
+        };
+    })
+});
+Bifrost.namespace("Bifrost.mapping", {
+	mapper: Bifrost.Type.extend(function (typeConverters, maps) {
 		"use strict";
 		var self = this;
 
-		function copyProperties (from, to) {
+		function copyProperties (from, to, map) {
 			for (var property in from){
 			    if (typeof to[property] !== "undefined") {
 			        if (Bifrost.isObject(to[property])) {
 			            copyProperties(from[property], to[property]);
 			        } else {
+
+			            
+			            if (!Bifrost.isNullOrUndefined(map)) {
+			                if (map.canMapProperty(property)) {
+			                    map.mapProperty(property, from, to);
+			                    continue;
+			                }
+			            }
+
 			            var value = from[property];
 			            var toValue = ko.unwrap(to[property]);
 
@@ -5199,7 +5291,12 @@ Bifrost.namespace("Bifrost.mapping", {
 		    var instance = type.create();
 
 		    if (data) {
-		        copyProperties(data, instance);
+		        var map = null;
+		        if (maps.hasMapFor(data._type, type)) {
+		            map = maps.getMapFor(data._type, type);
+		        }
+
+		        copyProperties(data, instance, map);
 		    }
 		    return instance;
 		};
@@ -5222,7 +5319,11 @@ Bifrost.namespace("Bifrost.mapping", {
 		};
 
 		this.mapToInstance = function (targetType, data, target) {
-		    copyProperties(data, target);
+		    var map = null;
+		    if (maps.hasMapFor(data._type, targetType)) {
+		        map = maps.getMapFor(data._type, targetType);
+		    }
+		    copyProperties(data, target, map);
 		};
 	})
 });

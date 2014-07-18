@@ -4,7 +4,8 @@ describe("when mapping to type with an empty object", function(){
 	var returnedInstance = {};
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 	
 	var type = Bifrost.Type.extend(function () {

@@ -2,7 +2,8 @@ describe("when mapping to type with matching observable number property", functi
 	var data = { integer: 42, number: 42.2 };
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 	
 	var type = Bifrost.Type.extend(function () {

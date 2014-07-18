@@ -5,7 +5,8 @@ describe("when mapping to type with observable property with mismatching types",
 	var parameters = {
 	    typeConverters: {
 	        convertFrom: sinon.stub().returns(42)
-	    }
+	    },
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

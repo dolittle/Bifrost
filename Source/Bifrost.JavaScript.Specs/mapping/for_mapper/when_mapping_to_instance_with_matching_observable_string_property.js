@@ -2,7 +2,8 @@ describe("when mapping to instance with matching observable string property", fu
     var data = { stringProperty: "fourty two" };
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

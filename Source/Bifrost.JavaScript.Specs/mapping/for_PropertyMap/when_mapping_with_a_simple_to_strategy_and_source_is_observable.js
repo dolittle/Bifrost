@@ -1,13 +1,15 @@
-﻿describe("when mapping with a simple to strategy", function () {
+﻿describe("when mapping with a simple to strategy and source is observable", function () {
     var propertyMap = Bifrost.mapping.PropertyMap.create({
         sourceProperty: "sourceProperty",
         typeConverters: {}
     });
 
     var source = {
-        sourceProperty: 42
+        sourceProperty: ko.observable(42)
     };
-    var target = {};
+    var target = {
+        
+    };
     
     propertyMap.to("targetProperty");
 

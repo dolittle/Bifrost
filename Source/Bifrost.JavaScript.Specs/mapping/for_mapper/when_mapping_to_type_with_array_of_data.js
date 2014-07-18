@@ -3,7 +3,8 @@ describe("when mapping to type with array of data", function(){
 	var data = [{ stringProperty: "fourty two"}, {stringProperty: "fourty three"}];
 	
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

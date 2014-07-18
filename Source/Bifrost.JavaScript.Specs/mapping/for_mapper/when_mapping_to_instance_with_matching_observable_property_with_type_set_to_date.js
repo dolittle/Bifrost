@@ -4,7 +4,8 @@ describe("when mapping to instance with matching observable number property", fu
 	var parameters = {
 	    typeConverters: {
 	        convertFrom: sinon.stub().returns(date)
-	    }
+	    },
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 	
 	var type = Bifrost.Type.extend(function () {

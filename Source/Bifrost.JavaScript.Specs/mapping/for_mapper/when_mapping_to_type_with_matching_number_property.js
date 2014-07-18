@@ -3,7 +3,8 @@ describe("when mapping to type with matching number property", function(){
 	var data = { integer: 42, decimal: 42.2 };
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

@@ -59,7 +59,8 @@
     <Content Include="commands\hasChanges.js" />
     <Content Include="mapping\Map.js" />
     <Content Include="mapping\maps.js" />
-    <Content Include="mapping\propertyMap.js" />
+    <Content Include="mapping\MissingPropertyStrategy.js" />
+    <Content Include="mapping\PropertyMap.js" />
     <Content Include="rules\And.js" />
     <Content Include="rules\Or.js" />
     <Content Include="rules\Rule.js" />

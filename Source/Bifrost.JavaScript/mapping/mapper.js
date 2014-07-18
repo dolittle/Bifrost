@@ -1,14 +1,23 @@
 Bifrost.namespace("Bifrost.mapping", {
-	mapper: Bifrost.Type.extend(function (typeConverters) {
+	mapper: Bifrost.Type.extend(function (typeConverters, maps) {
 		"use strict";
 		var self = this;
 
-		function copyProperties (from, to) {
+		function copyProperties (from, to, map) {
 			for (var property in from){
 			    if (typeof to[property] !== "undefined") {
 			        if (Bifrost.isObject(to[property])) {
 			            copyProperties(from[property], to[property]);
 			        } else {
+
+			            
+			            if (!Bifrost.isNullOrUndefined(map)) {
+			                if (map.canMapProperty(property)) {
+			                    map.mapProperty(property, from, to);
+			                    continue;
+			                }
+			            }
+
 			            var value = from[property];
 			            var toValue = ko.unwrap(to[property]);
 
@@ -44,7 +53,12 @@ Bifrost.namespace("Bifrost.mapping", {
 		    var instance = type.create();
 
 		    if (data) {
-		        copyProperties(data, instance);
+		        var map = null;
+		        if (maps.hasMapFor(data._type, type)) {
+		            map = maps.getMapFor(data._type, type);
+		        }
+
+		        copyProperties(data, instance, map);
 		    }
 		    return instance;
 		};
@@ -67,7 +81,11 @@ Bifrost.namespace("Bifrost.mapping", {
 		};
 
 		this.mapToInstance = function (targetType, data, target) {
-		    copyProperties(data, target);
+		    var map = null;
+		    if (maps.hasMapFor(data._type, targetType)) {
+		        map = maps.getMapFor(data._type, targetType);
+		    }
+		    copyProperties(data, target, map);
 		};
 	})
 });

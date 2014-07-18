@@ -3,7 +3,8 @@ describe("when mapping to type with matching array property", function () {
 	var data = { arrayProperty: [ "value1", "value2"]};
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = Bifrost.Type.extend(function () {

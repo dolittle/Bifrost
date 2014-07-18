@@ -122,7 +122,7 @@
 @depends interaction/visualStateActions/Opacity.js
 @depends mapping/MissingPropertyStrategy.js
 @depends mapping/propertyMap.js
-@depends mapping/map.js
+@depends mapping/Map.js
 @depends mapping/maps.js
 @depends mapping/mapper.js
 @depends read/readModelSystemEvents.js

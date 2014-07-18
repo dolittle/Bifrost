@@ -10,7 +10,8 @@ describe("when mapping to type with source type specified", function () {
 	var returnedInstance = {};
 
 	var parameters = {
-	    typeConverters: {}
+	    typeConverters: {},
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	var type = {

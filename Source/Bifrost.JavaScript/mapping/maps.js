@@ -1,12 +1,31 @@
 ﻿Bifrost.namespace("Bifrost.mapping", {
-    maps: Bifrost.Singleton(function() {
+    maps: Bifrost.Singleton(function () {
+        var self = this;
+        var maps = {};
 
-        this.canMapSourceProperty = function (property) {
-            return false;
+        function getKeyFrom(sourceType, targetType) {
+            return sourceType._typeId + " - " + targetType._typeId;
+        }
+
+        var extenders = Bifrost.mapping.Map.getExtenders();
+
+        extenders.forEach(function (extender) {
+            var map = extender.create();
+            var key = getKeyFrom(map.sourceType, map.targetType);
+            maps[key] = map;
+        });
+
+        this.hasMapFor = function (sourceType, targetType) {
+            if (Bifrost.isNullOrUndefined(sourceType) || Bifrost.isNullOrUndefined(targetType)) return false;
+            var key = getKeyFrom(sourceType, targetType);
+            return maps.hasOwnProperty(key);
         };
 
-        this.mapProperty = function (source, property) {
-            return source[property];
+        this.getMapFor = function (sourceType, targetType) {
+            if (self.hasMapFor(sourceType, targetType)) {
+                var key = getKeyFrom(sourceType, targetType);
+                return maps[key];
+            }
         };
     })
 });

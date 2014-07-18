@@ -4,7 +4,8 @@ describe("when mapping to instance with mismatching types", function(){
 	var parameters = {
 	    typeConverters: {
 	        convertFrom: sinon.stub().returns(42)
-	    }
+	    },
+	    maps: { hasMapFor: sinon.stub().returns(false) }
 	};
 
 	
