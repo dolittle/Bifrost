@@ -57,6 +57,9 @@
     <Content Include="commands\HandleCommandsTask.js" />
     <Content Include="commands\HandleCommandTask.js" />
     <Content Include="commands\hasChanges.js" />
+    <Content Include="mapping\Map.js" />
+    <Content Include="mapping\maps.js" />
+    <Content Include="mapping\propertyMap.js" />
     <Content Include="rules\And.js" />
     <Content Include="rules\Or.js" />
     <Content Include="rules\Rule.js" />

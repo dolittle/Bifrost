@@ -489,6 +489,8 @@
     <Content Include="values\for_stringFormatter\when_formatting_string_with_one_chunk_in_format_with_known_formatter.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_with_format_if_element_has_format.js" />
     <Content Include="values\for_stringFormatter\when_checking_element_without_format_if_element_has_format.js" />
+    <Content Include="values\for_StringTypeConverter\when_convertering_from_a_number.js" />
+    <Content Include="values\for_typeExtender\when_extending_observable.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_string_format.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_twice_for_view_with_type_specified.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_for_view_with_unset_observable.js" />
