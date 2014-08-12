@@ -19,7 +19,7 @@ describe("when visiting a property set tag with different parent tag", function(
 		exception = e;
 	} 
 
-	it("should throw an exception", function() {
-		expect(exception).not.toBeNull();
+	it("should throw parent tagname mismatched exception", function() {
+	    expect(exception instanceof Bifrost.markup.ParentTagNameMismatched).toBe(true);
 	});
 });

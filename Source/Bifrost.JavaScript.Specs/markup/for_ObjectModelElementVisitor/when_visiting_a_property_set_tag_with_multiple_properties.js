@@ -18,7 +18,7 @@ describe("when visiting a property set tag with multiple properties", function()
 		exception = e;
 	} 
 
-	it("should throw an exception", function() {
-		expect(exception).not.toBeNull();
+	it("should throw multiple property references not allowed exception", function() {
+	    expect(exception instanceof Bifrost.markup.MultiplePropertyReferencesNotAllowed).toBe(true);
 	});
 });

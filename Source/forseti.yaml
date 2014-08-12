@@ -51,6 +51,9 @@ Dependencies :
   - Bifrost.JavaScript/commands/Command.js
   - Bifrost.JavaScript/read/ReadModelOf.js
   - Bifrost.JavaScript/read/Query.js
+  - Bifrost.JavaScript/markup/MultipleNamespacesInNameNotAllowed.js
+  - Bifrost.JavaScript/markup/MultiplePropertyReferencesNotAllowed.js
+  - Bifrost.JavaScript/markup/ParentTagNameMismatched.js
   - Bifrost.JavaScript/markup/ElementVisitor.js  
   - Bifrost.JavaScript/markup/ElementVisitorResultActions.js  
   - Bifrost.JavaScript/views/PostBindingVisitor.js  
