@@ -6,7 +6,7 @@
 
         this.pageHasViewModel = function (viewModel) {
             var context = ko.contextFor($("body")[0]);
-            if (Bifrost.isUndefined(context) ) {
+            if (Bifrost.isUndefined(context)) {
                 return false;
             }
             return context.$data === viewModel;
@@ -20,7 +20,7 @@
             }
             element.attributes.setNamedItem(dataViewModelName);
             return dataViewModelName.value;
-        }
+        };
 
         this.setViewModelParametersOn = function (element, parameters) {
             element.viewModelParameters = parameters;
@@ -46,7 +46,7 @@
         this.hasViewFile = function (element) {
             var attribute = element.attributes["data-view-file"];
             return !Bifrost.isNullOrUndefined(attribute);
-        }
+        };
 
         this.getViewFileFrom = function (element) {
             if (self.hasViewFile(element)) {
@@ -62,7 +62,9 @@
             /// <param name="element" type="HTMLElement">HTML Element to check</param>
             /// <returns>true if it has its own region, false it not</returns>
 
-            if (element.region) return true;
+            if (element.region) {
+                return true;
+            }
             return false;
         };
 

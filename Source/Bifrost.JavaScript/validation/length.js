@@ -26,13 +26,6 @@
             throwIfValueIsNotANumber(options.max);
         }
 
-
-        function throwIfValueIsNotAString(string) {
-            if (!Bifrost.isString(string)) {
-                throw new Bifrost.validation.NotAString("Value " + string + " is not a string");
-            }
-        }
-
         this.validate = function (value) {
             throwIfOptionsInvalid(self.options);
             if (notSet(value)) {

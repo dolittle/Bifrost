@@ -3,13 +3,13 @@
         target._initialValueSet = false;
         target.hasChanges = ko.observable(false);
         function updateHasChanges() {
-            if (target._initialValueSet == false) {
+            if (target._initialValueSet === false) {
                 target.hasChanges(false);
             } else {
                 if (Bifrost.isArray(target._initialValue)) {
                     target.hasChanges(!target._initialValue.shallowEquals(target()));
                     return;
-                } 
+                }
                 target.hasChanges(target._initialValue !== target());
             }
         }
@@ -25,7 +25,7 @@
             } else {
                 initialValue = value;
             }
-            
+
             target._initialValue = initialValue;
             target._initialValueSet = true;
             updateHasChanges();

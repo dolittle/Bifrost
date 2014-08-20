@@ -4,6 +4,6 @@
 
         this.format = function (value, format) {
             return value.format(format);
-        }
+        };
     })
 });

@@ -8,7 +8,7 @@
 
         // <field name="isAuthorizaed" type="observable">Holds a boolean; true if authorized / false if not</field>
         this.isAuthorized = ko.observable(false);
-        
+
         // <field name="commandCreated" type="Bifrost.Event">Event that gets triggered when command is created</field>
         this.commandCreated = Bifrost.Event.create();
 

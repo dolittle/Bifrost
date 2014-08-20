@@ -4,6 +4,8 @@
         "nomen":  true, // Allow prefixed or postfixed with _ for names
         "vars":  true, // Allow multiple vars
         "sloppy":  true, // Allow non strict
+        "unparam":  true, // Allow unused parameters
+        //"white":  true, // Ignore strict whitespace rules
         "predef":  {
             "Bifrost":  true,
             "$":  true,
@@ -12,7 +14,8 @@
             "HTMLElement":  true,
             "HTMLCollection":  true,
             "NodeList":  true,
-            "document":  true
+            "document":  true,
+            "setTimeout":  true
         }
     },
     

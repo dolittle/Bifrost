@@ -20,7 +20,6 @@
         /// is an observable and its state changes.
         /// </remarks>
         this.isSatisfied = ko.computed(function () {
-            
             if (ko.isObservable(self.evaluator)) {
                 return self.evaluator();
             }

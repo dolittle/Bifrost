@@ -144,10 +144,12 @@ HTMLElement.prototype.isKnownType = function () {
     }
 
     var isKnown = this.constructor !== HTMLElement;
-    if (isKnown == false) {
+    if (isKnown === false) {
         var tagName = this.tagName.toLowerCase();
         isKnown = this.knownElementTypes.some(function (type) {
-            if (tagName == type) return true;
+            if (tagName === type) {
+                return true;
+            }
         });
     }
     return isKnown;
@@ -155,8 +157,9 @@ HTMLElement.prototype.isKnownType = function () {
 HTMLElement.prototype.getChildElements = function () {
     var children = [];
     this.childNodes.forEach(function (node) {
-        if (node.nodeType == 1)
+        if (node.nodeType === 1) {
             children.push(node);
+        }
     });
     return children;
 };

@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.values", {
-    DateTypeConverter: Bifrost.values.TypeConverter.extend(function() {
+    DateTypeConverter: Bifrost.values.TypeConverter.extend(function () {
         this.supportedType = Date;
 
         this.convertFrom = function (value) {
