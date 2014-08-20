@@ -22,8 +22,12 @@ Bifrost.namespace("Bifrost.mapping", {
 			            var toValue = ko.unwrap(to[property]);
 
 			            var typeAsString = null;
-			            if (value.constructor != toValue.constructor) {
-			                typeAsString = toValue.constructor.name.toString();
+			            if (!Bifrost.isNullOrUndefined(value) &&
+                            !Bifrost.isNullOrUndefined(toValue)) {
+
+			                if (value.constructor != toValue.constructor) {
+			                    typeAsString = toValue.constructor.name.toString();
+			                }
 			            }
 			            if (!Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
 			                typeAsString = to[property]._typeAsString;
