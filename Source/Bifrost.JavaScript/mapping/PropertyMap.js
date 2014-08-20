@@ -27,7 +27,7 @@
                         }
                     }
 
-                    if (!Bifrost.isNullOrUndefined(typeAsString) ) {
+                    if (!Bifrost.isNullOrUndefined(typeAsString)) {
                         value = typeConverters.convertFrom(value.toString(), typeAsString);
                     }
                 }

@@ -15,7 +15,7 @@
 
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return securityContextName != null && namespace != null && namespace.hasOwnProperty(securityContextName);
+            return securityContextName !== null && namespace !== null && namespace.hasOwnProperty(securityContextName);
         }
 
         function getSecurityContextInNamespaceFor(type, namespace) {
@@ -33,7 +33,7 @@
                 promise.signal(context);
             } else {
                 var context = self.commandSecurityContextFactory.create();
-                if (typeof command.generatedFrom == "undefined" || command.generatedFrom == "") {
+                if (Bifrost.isNullOrUndefined(command.generatedFrom) || command.generatedFrom === "") {
                     promise.signal(context);
                 } else {
                     var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.generatedFrom;

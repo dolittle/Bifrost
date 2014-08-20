@@ -16,7 +16,9 @@
 
         this.commandType.subscribe(function (type) {
             commandSecurityService.getContextForType(type).continueWith(function (context) {
-                if (!Bifrost.isNullOrUndefined(context)) self.isAuthorized(context.isAuthorized());
+                if (!Bifrost.isNullOrUndefined(context)) {
+                    self.isAuthorized(context.isAuthorized());
+                }
             });
         });
 

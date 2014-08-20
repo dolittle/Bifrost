@@ -5260,8 +5260,12 @@ Bifrost.namespace("Bifrost.mapping", {
 			            var toValue = ko.unwrap(to[property]);
 
 			            var typeAsString = null;
-			            if (value.constructor != toValue.constructor) {
-			                typeAsString = toValue.constructor.name.toString();
+			            if (!Bifrost.isNullOrUndefined(value) &&
+                            !Bifrost.isNullOrUndefined(toValue)) {
+
+			                if (value.constructor != toValue.constructor) {
+			                    typeAsString = toValue.constructor.name.toString();
+			                }
 			            }
 			            if (!Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
 			                typeAsString = to[property]._typeAsString;
@@ -6253,6 +6257,21 @@ Bifrost.namespace("Bifrost.markup", {
 	})
 });
 Bifrost.namespace("Bifrost.markup", {
+    MultipleNamespacesInNameNotAllowed: Bifrost.Type.extend(function (tagName) {
+        //"Syntax error: tagname '" + name + "' has multiple namespaces";
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    MultiplePropertyReferencesNotAllowed: Bifrost.Type.extend(function(tagName) {
+        // "Syntax error: tagname '"+name+"' has multiple properties its referring to";
+    })
+}); 
+Bifrost.namespace("Bifrost.markup", {
+    ParentTagNameMismatched: Bifrost.Type.extend(function (tagName, parentTagName) {
+        // "Setting property using tag '"+name+"' does not match parent tag of '"+parentName+"'";
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
 	ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
 		this.visit = function(element, actions) {
 			// Tags : 
@@ -6299,7 +6318,7 @@ Bifrost.namespace("Bifrost.markup", {
 
 			var namespaceSplit = name.split(":");
 			if( namespaceSplit.length > 2 ) {
-				throw "Syntax error: tagname '"+name+"' has multiple namespaces";
+			    throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
 			}
  			if( namespaceSplit.length == 2 ) {
 				name = namespaceSplit[1];
@@ -6314,7 +6333,7 @@ Bifrost.namespace("Bifrost.markup", {
 
 			var propertySplit = element.localName.split(".");
 			if( propertySplit.length > 2 ) {
-				throw "Syntax error: tagname '"+name+"' has multiple properties its referring to";
+			    throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
 			}
 
 			if( propertySplit.length == 2 ) {
@@ -6322,7 +6341,7 @@ Bifrost.namespace("Bifrost.markup", {
 					var parentName = element.parentElement.localName.toLowerCase();
 
 					if( parentName !== propertySplit[0] ) {
-						throw "Setting property using tag '"+name+"' does not match parent tag of '"+parentName+"'";
+					    throw Bifrost.markup.ParentTagNameMismatched.create({ tagName: name, parentTagName: parentName });
 					}
 				}
 			}

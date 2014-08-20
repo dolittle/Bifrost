@@ -1,16 +1,16 @@
 Bifrost.namespace("Bifrost.interaction", {
-	VisualStateAction: Bifrost.Type.extend(function() {
+    VisualStateAction: Bifrost.Type.extend(function() {
 
-		this.initialize = function(namingRoot) {
+        this.initialize = function(namingRoot) {
 
-		};
+        };
 
-		this.onEnter = function(namingRoot, duration) {
+        this.onEnter = function(namingRoot, duration) {
 
-		};
+        };
 
-		this.onExit = function(namingRoot, duration) {
+        this.onExit = function(namingRoot, duration) {
 
-		};
-	})
+        };
+    })
 });
