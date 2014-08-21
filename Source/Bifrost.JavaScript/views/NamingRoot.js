@@ -5,7 +5,9 @@ Bifrost.namespace("Bifrost.views", {
 
         this.find = function (name, element) {
             if (Bifrost.isNullOrUndefined(element)) {
-                if (Bifrost.isNullOrUndefined(self.target)) return null;
+                if (Bifrost.isNullOrUndefined(self.target)) {
+                    return null;
+                }
                 element = self.target;
             }
 

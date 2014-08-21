@@ -24,7 +24,9 @@
             var body = document.body;
             if (body !== null) {
                 var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
-                if (file === "") file = "index";
+                if (file === "") {
+                    file = "index";
+                }
 
                 if (pathResolvers.canResolve(body, file)) {
                     var actualPath = pathResolvers.resolve(body, file);
@@ -36,7 +38,7 @@
                     var region = regionManager.getFor(view);
                     regionManager.describe(view, region).continueWith(function () {
                         if (viewModelManager.hasForView(actualPath)) {
-                            viewModelPath = viewModelManager.getViewModelPathForView(actualPath);
+                            var viewModelPath = viewModelManager.getViewModelPathForView(actualPath);
                             if (!viewModelManager.isLoaded(viewModelPath)) {
                                 viewModelLoader.load(viewModelPath, region).continueWith(function (viewModel) {
                                     if (!Bifrost.isNullOrUndefined(viewModel)) {

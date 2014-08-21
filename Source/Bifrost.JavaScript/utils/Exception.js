@@ -14,22 +14,28 @@ Bifrost.MissingName = function (message) {
 
 Bifrost.Exception = (function(global, undefined) {
     function throwIfNameMissing(name) {
-        if( !name || typeof name == "undefined" ) throw new Bifrost.MissingName();
+        if (!name || typeof name === "undefined") {
+            throw new Bifrost.MissingName();
+        }
     }
     
     function throwIfDefinitionNotAFunction(definition) {
-        if( typeof definition != "function" ) throw new Bifrost.DefinitionMustBeFunction();
+        if (typeof definition !== "function") {
+            throw new Bifrost.DefinitionMustBeFunction();
+        }
     }
 
     function getExceptionName(name) {
         var lastDot = name.lastIndexOf(".");
-        if( lastDot == -1 && lastDot != name.length ) return name;
+        if (lastDot === -1 && lastDot !== name.length) {
+            return name;
+        }
         return name.substr(lastDot+1);
     }
     
     function defineAndGetTargetScope(name) {
         var lastDot = name.lastIndexOf(".");
-        if( lastDot == -1 ) {
+        if( lastDot === -1 ) {
             return global;
         }
         
@@ -58,7 +64,7 @@ Bifrost.Exception = (function(global, undefined) {
             };
             exception.prototype = Error.prototype;
             
-            if( definition && typeof definition != "undefined" ) {
+            if( definition && typeof definition !== "undefined" ) {
                 throwIfDefinitionNotAFunction(definition);
                 
                 definition.prototype = Error.prototype;

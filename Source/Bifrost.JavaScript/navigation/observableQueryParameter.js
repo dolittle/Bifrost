@@ -27,7 +27,7 @@
                 window.addEventListener("hashchange", function () {
                     if (observable != null) {
                         var state = getState();
-                        if (observable() != state) {
+                        if (observable() !== state) {
                             observable(state);
                         }
                     }
@@ -58,18 +58,21 @@
             }
 
             function cleanQueryString(queryString) {
-                if (queryString.indexOf("#") === 0 || queryString.indexOf("?") === 0) queryString = queryString.substr(1);
+                if (queryString.indexOf("#") === 0 || queryString.indexOf("?") === 0) {
+                    queryString = queryString.substr(1);
+                }
                 return queryString;
             }
 
             observable.subscribe(function (newValue) {
+                var queryString;
                 if (historyEnabled) {
                     var state = History.getState();
                     state[parameterName] = newValue;
-                    var queryString = "?" + getQueryStringParametersWithValueForParameter(cleanQueryString(state.url), newValue);
+                    queryString = "?" + getQueryStringParametersWithValueForParameter(cleanQueryString(state.url), newValue);
                     History.pushState(state, state.title, queryString);
                 } else {
-                    var queryString = "#" + getQueryStringParametersWithValueForParameter(cleanQueryString(document.location.hash), newValue);
+                    queryString = "#" + getQueryStringParametersWithValueForParameter(cleanQueryString(document.location.hash), newValue);
                     document.location.hash = queryString;
                 }
             });

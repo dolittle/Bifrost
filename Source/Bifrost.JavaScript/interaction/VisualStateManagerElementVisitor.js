@@ -7,7 +7,7 @@ Bifrost.namespace("Bifrost.interaction", {
                 var child = stateElement.firstChild;
                 while (child) {
                     visualStateActionTypes.forEach(function(type) {
-                        if (type._name.toLowerCase() == child.localName) {
+                        if (type._name.toLowerCase() === child.localName) {
                             var action = type.create();
 
                             for (var attributeIndex=0; attributeIndex<child.attributes.length; attributeIndex++ ) {
@@ -60,7 +60,7 @@ Bifrost.namespace("Bifrost.interaction", {
                                 duration = parseFloat(duration);
                                 if (!isNaN(duration)) {
                                     duration = duration * 1000;
-                                    timespan = Bifrost.TimeSpan.fromMilliseconds(duration);
+                                    var timespan = Bifrost.TimeSpan.fromMilliseconds(duration);
                                     group.defaultDuration = timespan;
                                 }
                             }

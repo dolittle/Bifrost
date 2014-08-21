@@ -41,7 +41,7 @@ Bifrost.Uri = (function(window, undefined) {
 
             var result = parseUri(location);
 
-            if (!result.protocol || typeof result.protocol == "undefined") {
+            if (!result.protocol || typeof result.protocol === "undefined") {
                 throw new Bifrost.InvalidUriFormat("Uri ('" + location + "') was in the wrong format");
             }
 
@@ -55,15 +55,17 @@ Bifrost.Uri = (function(window, undefined) {
             self.parameters = Bifrost.hashString.decode(result.query);
             self.parameters = Bifrost.extend(Bifrost.hashString.decode(result.anchor), self.parameters);
 
-            self.isSameAsOrigin = (window.location.protocol == result.protocol + ":" &&
-                window.location.hostname == self.host);
+            self.isSameAsOrigin = (window.location.protocol === result.protocol + ":" &&
+                window.location.hostname === self.host);
         };
         
         this.setLocation(location);
     }
     
     function throwIfLocationNotSpecified(location) {
-        if( !location || typeof location == "undefined" ) throw new Bifrost.LocationNotSpecified();
+        if (!location || typeof location === "undefined") {
+            throw new Bifrost.LocationNotSpecified();
+        }
     }
     
     

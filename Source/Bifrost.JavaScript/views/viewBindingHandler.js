@@ -27,9 +27,9 @@ Bifrost.namespace("Bifrost.views", {
                 } else {
                     templateEngine = ViewBindingHandlerTemplateEngine;
                     var actualPath = pathResolvers.resolve(element, viewUri);
-                    var view = viewFactory.createFrom(actualPath);
+                    view = viewFactory.createFrom(actualPath);
                     view.element = element;
-                    var region = regionManager.getFor(view);
+                    region = regionManager.getFor(view);
                 }
 
                 return {

@@ -38,10 +38,14 @@
 
         this.resolve = function (input) {
             try {
-                if (input === null || typeof input === "undefined") return "";
+                if (input === null || typeof input === "undefined") {
+                    return "";
+                }
                 
                 var mapping = self.getMappingFor(input);
-                if (Bifrost.isNullOrUndefined(mapping)) return "";
+                if (Bifrost.isNullOrUndefined(mapping)) {
+                    return "";
+                }
 
                 return mapping.resolve(input);
             } catch (e) {

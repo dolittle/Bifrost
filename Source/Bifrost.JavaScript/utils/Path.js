@@ -41,14 +41,20 @@
         this.fullPath = fullPath;
 
         this.hasExtension = function () {
-            if (Bifrost.isNullOrUndefined(self.extension)) return false;
-            if (self.extension === "") return false;
+            if (Bifrost.isNullOrUndefined(self.extension)) {
+                return false;
+            }
+            if (self.extension === "") {
+                return false;
+            }
             return true;
         };
     })
 });
 Bifrost.Path.makeRelative = function (fullPath) {
-    if (fullPath.indexOf("/") === 0) return fullPath.substr(1);
+    if (fullPath.indexOf("/") === 0) {
+        return fullPath.substr(1);
+    }
 
     return fullPath;
 };
@@ -66,7 +72,9 @@ Bifrost.Path.getFilenameWithoutExtension = function (fullPath) {
     return filename.substr(0,lastIndex);
 };
 Bifrost.Path.hasExtension = function (path) {
-    if (path.indexOf("?") > 0) path = path.substr(0, path.indexOf("?"));
+    if (path.indexOf("?") > 0) {
+        path = path.substr(0, path.indexOf("?"));
+    }
     var lastIndex = path.lastIndexOf(".");
     return lastIndex > 0;
 };

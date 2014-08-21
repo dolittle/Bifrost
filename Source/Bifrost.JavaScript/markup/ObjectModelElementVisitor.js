@@ -38,7 +38,9 @@ Bifrost.namespace("Bifrost.markup", {
             // </ns:somecontrol>
             // 
 
-            if (element.isKnownType()) return;
+            if (element.isKnownType()) {
+                return;
+            }
 
             var namespace;
             var name = element.localName.toLowerCase();
@@ -47,7 +49,7 @@ Bifrost.namespace("Bifrost.markup", {
             if ( namespaceSplit.length > 2 ) {
                 throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
             }
-            if ( namespaceSplit.length == 2 ) {
+            if ( namespaceSplit.length === 2 ) {
                 name = namespaceSplit[1];
                 namespace = namespaceSplit[0];
             }
@@ -63,7 +65,7 @@ Bifrost.namespace("Bifrost.markup", {
                 throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
             }
 
-            if( propertySplit.length == 2 ) {
+            if( propertySplit.length === 2 ) {
                 if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
                     var parentName = element.parentElement.localName.toLowerCase();
 
@@ -74,8 +76,8 @@ Bifrost.namespace("Bifrost.markup", {
             }
 
             if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
-                var propertySplit = element.parentElement.localName.split(".");
-                if( propertySplit.length == 2 ) {
+                propertySplit = element.parentElement.localName.split(".");
+                if( propertySplit.length === 2 ) {
                     var propertyName = propertySplit[1];
                     if( !Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode) ) {
                         if( ko.isObservable(element.parentElement.__objectModelNode[propertyName]) ) {
@@ -88,7 +90,7 @@ Bifrost.namespace("Bifrost.markup", {
             }
 
             for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
-                var name = element.attributes[attributeIndex].localName;
+                name = element.attributes[attributeIndex].localName;
                 var value = element.attributes[attributeIndex].value;
 
                 if( name in instance ) {

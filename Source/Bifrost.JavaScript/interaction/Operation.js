@@ -17,7 +17,9 @@
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
         this.canPerform = ko.computed({
             read: function () {
-                if (canPerformObservables().length === 0) return true;
+                if (canPerformObservables().length === 0) {
+                    return true;
+                }
 
                 var canPerform = true;
                 canPerformObservables().forEach(function (observable) {

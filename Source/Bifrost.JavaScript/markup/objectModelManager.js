@@ -35,7 +35,7 @@ Bifrost.namespace("Bifrost.markup", {
                     var namespace = Bifrost.namespace(ns);
                     for (var type in namespace) {
                         type = type.toLowerCase();
-                        if (type == name) {
+                        if (type === name) {
                             foundType = type;
                             return;
                         }

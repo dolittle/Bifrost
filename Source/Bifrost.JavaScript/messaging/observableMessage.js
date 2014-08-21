@@ -4,7 +4,9 @@
 
         var internal = false;
         observable.subscribe(function (newValue) {
-            if (internal === true) return;
+            if (internal === true) {
+                return;
+            }
             Bifrost.messaging.Messenger.global.publish(message, newValue);
         });
 

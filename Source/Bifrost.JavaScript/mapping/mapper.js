@@ -25,7 +25,7 @@ Bifrost.namespace("Bifrost.mapping", {
                         if (!Bifrost.isNullOrUndefined(value) &&
                             !Bifrost.isNullOrUndefined(toValue)) {
 
-                            if (value.constructor != toValue.constructor) {
+                            if (value.constructor !== toValue.constructor) {
                                 typeAsString = toValue.constructor.name.toString();
                             }
                         }

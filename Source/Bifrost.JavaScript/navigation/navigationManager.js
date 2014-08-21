@@ -2,10 +2,13 @@ Bifrost.namespace("Bifrost.navigation", {
     navigateTo: function (featureName, queryString) {
         var url = featureName;
 
-        if (featureName.charAt(0) !== "/")
+        if (featureName.charAt(0) !== "/") {
             url = "/" + url;
-        if (queryString)
+        }
+
+        if (queryString) {
             url += queryString;
+        }
 
         // TODO: Support title somehow
         if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
@@ -22,7 +25,7 @@ Bifrost.namespace("Bifrost.navigation", {
             if (typeof History !== "undefined" && typeof History.Adapter !== "undefined") {
                 $("body").click(function (e) {
                     var href = e.target.href;
-                    if (typeof href == "undefined") {
+                    if (typeof href === "undefined") {
                         var closestAnchor = $(e.target).closest("a")[0];
                         if (!closestAnchor) {
                             return;
@@ -46,10 +49,10 @@ Bifrost.namespace("Bifrost.navigation", {
                         e.preventDefault();
 
                         var result = $(e.target).closest("[data-navigation-target]");
-                        if (result.length == 1) {
+                        if (result.length === 1) {
                             var id = $(result[0]).data("navigation-target");
                             var element = $("#"+id);
-                            if (element.length == 1 && typeof element[0].navigationFrame !== "undefined") {
+                            if (element.length === 1 && typeof element[0].navigationFrame !== "undefined") {
                                 element[0].navigationFrame.navigate(targetUri.path);
                             } else {
                                 // Element not found

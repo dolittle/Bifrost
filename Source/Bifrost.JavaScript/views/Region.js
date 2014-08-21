@@ -80,7 +80,9 @@
 
                 var commands = self.aggregatedCommands();
                 if (breakIfThisHasNoCommands === true) {
-                    if (commands.length === 0) return false;
+                    if (commands.length === 0) {
+                        return false;
+                    }
                 }
                 commands.forEach(function (command) {
                     if (command[commandPropertyName]() === false) {
@@ -179,7 +181,9 @@
                 }
             });
             
-            if (self.tasks.all().length > 0) isBusy = true;
+            if (self.tasks.all().length > 0) {
+                isBusy = true;
+            }
 
             return isBusy;
         });

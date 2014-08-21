@@ -8,7 +8,7 @@
             this.origin = window.location.href;
             this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
 
-            if (this.origin.lastIndexOf("/") == this.origin.length - 1) {
+            if (this.origin.lastIndexOf("/") === this.origin.length - 1) {
                 this.origin = this.origin.substr(0, this.origin.length - 1);
             }
         } else {

@@ -42,7 +42,9 @@
         });
 
         function executeTaskIfNotExecuting(task) {
-            if (task.isExecuting() === true) return;
+            if (task.isExecuting() === true) {
+                return;
+            }
             task.isExecuting(true);
             var taskHistoryId = taskHistory.begin(task);
 

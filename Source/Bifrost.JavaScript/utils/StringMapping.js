@@ -17,9 +17,13 @@
         var components = [];
 
         var resolveExpression = format.replace(combinedRegex, function(match) {
-            if (typeof match === "undefined" || match === "") return "";
+            if (typeof match === "undefined" || match === "") {
+                return "";
+            }
             components.push(match);
-            if( match.indexOf("**") === 0) return "([\\w.//]*)";
+            if (match.indexOf("**") === 0) {
+                return "([\\w.//]*)";
+            }
             return "([\\w.]*)";
         });
 

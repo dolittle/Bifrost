@@ -10,7 +10,7 @@
         this.areAllParametersSet = null;
 
         this.hasReadModel = function () {
-            return typeof self.target.readModel != "undefined" && self.target.readModel != null;
+            return typeof self.target.readModel !== "undefined" && self.target.readModel != null;
         };
 
         this.setParameters = function (parameters) {
@@ -28,7 +28,7 @@
 
             for (var property in self.target) {
                 if (ko.isObservable(self.target[property]) &&
-                    property != "areAllParametersSet") {
+                    property !== "areAllParametersSet") {
                     parameters[property] = self.target[property];
                 }
             }
@@ -38,6 +38,7 @@
 
         this.getParameterValues = function () {
             var parameterValues = {};
+            var value;
 
             var parameters = self.getParameters();
             for (var property in parameters) {
@@ -78,13 +79,15 @@
                     if (ko.isObservable(self.target[property]) === true) {
                         hasParameters = true;
                         var value = self.target[property]();
-                        if (typeof value == "undefined" || value === null) {
+                        if (typeof value === "undefined" || value === null) {
                             isSet = false;
                             break;
                         }
                     }
                 }
-                if (hasParameters === false) return true;
+                if (hasParameters === false) {
+                    return true;
+                }
                 return isSet;
             });
         };

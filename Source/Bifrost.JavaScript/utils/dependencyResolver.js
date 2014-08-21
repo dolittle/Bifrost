@@ -4,7 +4,9 @@ Bifrost.namespace("Bifrost", {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
             resolvers.forEach(function (resolver) {
-                if (resolvedSystem != null) return;
+                if (resolvedSystem != null) {
+                    return;
+                }
                 var canResolve = resolver.canResolve(namespace, name);
                 if (canResolve) {
                     resolvedSystem = resolver.resolve(namespace, name);
@@ -19,7 +21,7 @@ Bifrost.namespace("Bifrost", {
             if (system != null &&
                 system._super !== null) {
 
-                if (typeof system._super != "undefined" &&
+                if (typeof system._super !== "undefined" &&
                     system._super === Bifrost.Type) {
                     return true;
                 }
@@ -73,7 +75,9 @@ Bifrost.namespace("Bifrost", {
                 var canResolve = false;
 
                 resolvers.forEach(function (resolver) {
-                    if (canResolve === true) return;
+                    if (canResolve === true) {
+                        return;
+                    }
 
                     canResolve = resolver.canResolve(namespace, name);
                 });

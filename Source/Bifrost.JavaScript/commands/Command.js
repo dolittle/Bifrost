@@ -127,7 +127,7 @@ Bifrost.namespace("Bifrost.commands", {
                 var propertyValue = self.targetCommand[property];
 
                 if (!ko.isObservable(propertyValue) &&
-                     (typeof propertyValue != "object" || Bifrost.isArray(propertyValue))) {
+                     (typeof propertyValue !== "object" || Bifrost.isArray(propertyValue))) {
 
                     if (typeof propertyValue !== "function") {
                         if (Bifrost.isArray(propertyValue)) {
@@ -263,7 +263,9 @@ Bifrost.namespace("Bifrost.commands", {
             if (typeof lastDescendant.name !== "undefined" && lastDescendant.name !== "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
                 var validators = commandValidationService.getValidatorsFor(lastDescendant);
-                if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);
+                if (Bifrost.isArray(validators) && validators.length > 0) {
+                    self.validators(validators);
+                }
                 commandValidationService.validateSilently(this);
             }
             
