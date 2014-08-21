@@ -67,13 +67,13 @@ Bifrost.namespace("Bifrost.interaction", {
             }
 
             var state = self.getStateByName(stateName);
-            if( !Bifrost.isNullOrUndefined(state) ) {
+            if (!Bifrost.isNullOrUndefined(state)) {
                 var duration = self.defaultDuration;
-                if( !Bifrost.isNullOrUndefined(currentState) ) {
+                if (!Bifrost.isNullOrUndefined(currentState)) {
                     currentState.exit(namingRoot, duration);
                 }
                 state.enter(namingRoot, duration);
-            
+
                 dispatcher.schedule(duration.totalMilliseconds(), function () {
                     self.currentState(state);
                 });

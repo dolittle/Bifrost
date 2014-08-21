@@ -1,7 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
     viewBindingHandler: Bifrost.Type.extend(function (ViewBindingHandlerTemplateEngine, UIManager, viewFactory, viewManager, viewModelManager, documentService, regionManager, pathResolvers) {
-        var self = this;
-
         function makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext) {
             return function () {
                 var viewUri = ko.utils.unwrapObservable(valueAccessor());
@@ -19,17 +17,17 @@ Bifrost.namespace("Bifrost.views", {
 
                 var viewModel = ko.observable(element.viewModel);
                 var viewModelParameters = allBindingsAccessor().viewModelParameters || {};
-                
+
                 var templateEngine = null;
                 var view = null;
                 var region = null;
 
-                if (Bifrost.isNullOrUndefined(viewUri) || viewUri == "") {
+                if (Bifrost.isNullOrUndefined(viewUri) || viewUri === "") {
                     templateEngine = new ko.nativeTemplateEngine();
                 } else {
                     templateEngine = ViewBindingHandlerTemplateEngine;
                     var actualPath = pathResolvers.resolve(element, viewUri);
-                    var view = viewFactory.createFrom(actualPath)
+                    var view = viewFactory.createFrom(actualPath);
                     view.element = element;
                     var region = regionManager.getFor(view);
                 }
@@ -43,10 +41,10 @@ Bifrost.namespace("Bifrost.views", {
                     viewModelParameters: viewModelParameters,
                     view: view,
                     region: region
-                }
+                };
             };
-        };
-        
+        }
+
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             return ko.bindingHandlers.template.init(element, makeTemplateValueAccessor(element, valueAccessor, allBindingsAccessor, bindingContext), allBindingsAccessor, viewModel, bindingContext);
         };

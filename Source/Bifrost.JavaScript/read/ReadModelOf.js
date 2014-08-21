@@ -39,7 +39,7 @@ Bifrost.namespace("Bifrost.read", {
                     value.subscribe(function () {
                         var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
                         performLoad(self.target, unwrappedPropertyFilters);
-                    })
+                    });
                 }
             }
         };

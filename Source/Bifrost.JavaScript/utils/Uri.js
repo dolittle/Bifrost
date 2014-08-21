@@ -19,7 +19,7 @@ Bifrost.Uri = (function(window, undefined) {
         var uriParts = new RegExp("^(?:([^:/?#.]+):)?(?://)?(([^:/?#]*)(?::(\\d*))?)?((/(?:[^?#](?![^?#/]*\\.[^?#/.]+(?:[\\?#]|$)))*/?)?([^?#/]*))?(?:\\?([^#]*))?(?:#(.*))?").exec(sourceUri);
         var uri = {};
 
-        for(var i = 0; i < 10; i++){
+        for (var i = 0; i < 10; i++){
             uri[uriPartNames[i]] = (uriParts[i] ? uriParts[i] : "");
         }
 
@@ -35,14 +35,14 @@ Bifrost.Uri = (function(window, undefined) {
     
     function Uri(location) {
         var self = this;
-        this.setLocation = function(location) {
+        this.setLocation = function (location) {
             self.fullPath = location;
-            location = location.replace("#!","/");
-        
+            location = location.replace("#!", "/");
+
             var result = parseUri(location);
-        
-            if( !result.protocol || typeof result.protocol == "undefined" ) {
-                throw new Bifrost.InvalidUriFormat("Uri ('"+location+"') was in the wrong format");
+
+            if (!result.protocol || typeof result.protocol == "undefined") {
+                throw new Bifrost.InvalidUriFormat("Uri ('" + location + "') was in the wrong format");
             }
 
             self.scheme = result.protocol;
@@ -54,10 +54,10 @@ Bifrost.Uri = (function(window, undefined) {
             self.port = parseInt(result.port);
             self.parameters = Bifrost.hashString.decode(result.query);
             self.parameters = Bifrost.extend(Bifrost.hashString.decode(result.anchor), self.parameters);
-            
-            self.isSameAsOrigin = (window.location.protocol == result.protocol+":" &&
-                window.location.hostname == self.host); 
-        }
+
+            self.isSameAsOrigin = (window.location.protocol == result.protocol + ":" &&
+                window.location.hostname == self.host);
+        };
         
         this.setLocation(location);
     }

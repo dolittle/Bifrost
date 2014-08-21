@@ -18,13 +18,13 @@
             dataBind.value = dataBindString + "viewModel: $root['" + viewModelName + "']";
             element.attributes.setNamedItem(dataBind);
         }
-        
+
         this.initializeLandingPage = function () {
             var promise = Bifrost.execution.Promise.create();
             var body = document.body;
             if (body !== null) {
                 var file = Bifrost.Path.getFilenameWithoutExtension(document.location.toString());
-                if (file == "") file = "index";
+                if (file === "") file = "index";
 
                 if (pathResolvers.canResolve(body, file)) {
                     var actualPath = pathResolvers.resolve(body, file);

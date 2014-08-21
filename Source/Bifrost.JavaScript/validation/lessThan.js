@@ -12,7 +12,7 @@ Bifrost.namespace("Bifrost.validation", {
             }
             if (notSet(options.value)) {
                 var exception = new Bifrost.validation.OptionsValueNotSpecified();
-                exception.message = exception.message + " 'value' is not set."
+                exception.message = exception.message + " 'value' is not set.";
                 throw exception;
             }
         }

@@ -23,7 +23,7 @@
         function getActualFilename(filename) {
             var actualFilename = self.origin;
 
-            if (filename.indexOf("/") != 0) {
+            if (filename.indexOf("/") !== 0) {
                 actualFilename += "/";
             }
             actualFilename += filename;
@@ -54,7 +54,7 @@
             require(filesToLoad, function () {
                 promise.signal(arguments);
             });
-            
+
             return promise;
         };
     })

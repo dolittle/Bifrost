@@ -1,7 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
     ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory, UIManager) {
-        var self = this;
-
         var content = "";
 
 
@@ -14,7 +12,7 @@
                 UIManager.handle(wrapper);
 
                 content = wrapper.innerHTML;
-                
+
                 if (Bifrost.isNullOrUndefined(loadedView.viewModelType)) {
                     promise.signal(loadedView);
                 } else {

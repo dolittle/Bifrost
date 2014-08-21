@@ -37,7 +37,7 @@
                 return self[name];
             }
             return null;
-        }
+        };
 
 
         this.clearFor = function (element) {

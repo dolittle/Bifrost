@@ -19,7 +19,7 @@
                 var content = {};
 
                 for (var property in task) {
-                    if (property.indexOf("_") != 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
+                    if (property.indexOf("_") !== 0 && task.hasOwnProperty(property) && typeof task[property] !== "function") {
                         content[property] = task[property];
                     }
                 }

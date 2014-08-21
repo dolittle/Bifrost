@@ -96,6 +96,7 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_type_with_map_that_has_propertymap_for_given_property.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_map_that_has_propertymap_for_given_property.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_type_with_observable_property_with_mismatching_type.js" />

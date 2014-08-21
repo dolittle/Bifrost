@@ -14,6 +14,8 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <NuGetPackageImportStamp>13371b08</NuGetPackageImportStamp>
+    <JSLintSkip>
+    </JSLintSkip>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -302,16 +304,11 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </ItemGroup>
   <ItemGroup>
     <None Include="Bifrost.JS.nuspec" />
-    <None Include="JSLintNet.json" />
+    <None Include="jshint.conf" />
     <None Include="merge.cmd" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="..\Solutions\packages\JSLintNet.MSBuild.1.6.4\build\JSLintNet.MSBuild.targets" Condition="Exists('..\Solutions\packages\JSLintNet.MSBuild.1.6.4\build\JSLintNet.MSBuild.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\Solutions\packages\JSLintNet.MSBuild.1.6.4\build\JSLintNet.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Solutions\packages\JSLintNet.MSBuild.1.6.4\build\JSLintNet.MSBuild.targets'))" />
+  <UsingTask AssemblyFile="$(SolutionDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" />
+  <Target Name="BeforeBuild">
+    <JSLintTask SourceDirectory="$(ProjectDir)" SettingsFile="$(ProjectDir)jshint.conf" UseHint="true" />
   </Target>
 </Project>

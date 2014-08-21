@@ -1,7 +1,6 @@
 ﻿Bifrost.namespace("Bifrost.views", {
     regionDescriptorManager: Bifrost.Singleton(function () {
         /// <summary>Represents a manager that knows how to manage region descriptors</summary>
-        var self = this;
 
         this.describe = function (view, region) {
             /// <summary>Describe a specific region related to a view</summary>
@@ -27,7 +26,7 @@
         };
 
         this.describeTopLevel = function (region) {
-            
+
         };
     })
 });

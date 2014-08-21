@@ -33,12 +33,12 @@
             throw {
                 name: "ArgumentError",
                 message: "String mapping for (" + input + ") could not be found"
-            }
+            };
         };
 
         this.resolve = function (input) {
             try {
-                if( input === null || typeof input === "undefined" ) return "";
+                if (input === null || typeof input === "undefined") return "";
                 
                 var mapping = self.getMappingFor(input);
                 if (Bifrost.isNullOrUndefined(mapping)) return "";

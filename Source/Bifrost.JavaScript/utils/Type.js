@@ -1,6 +1,5 @@
 Bifrost.namespace("Bifrost", {
     Type: function () {
-        var self = this;
     }
 });
 
@@ -142,7 +141,7 @@ Bifrost.namespace("Bifrost", {
 
     addMissingDependenciesAsNullFromTypeDefinition = function (instanceHash, typeDefinition) {
         if (typeof typeDefinition._dependencies === "undefined") return;
-        if (typeof instanceHash === "undefined" || instanceHash == null) return 
+        if (typeof instanceHash === "undefined" || instanceHash == null) return;
         for( var index=0; index<typeDefinition._dependencies.length; index++ ) {
             var dependency = typeDefinition._dependencies[index];
             if (!(dependency in instanceHash)) {
@@ -184,7 +183,7 @@ Bifrost.namespace("Bifrost", {
 
         if (typeof type._super !== "undefined") {
             var isType = this._super.typeOf(type);
-            if (isType == true) return true;
+            if (isType === true) return true;
         }
 
 
@@ -233,29 +232,29 @@ Bifrost.namespace("Bifrost", {
 
     Bifrost.Type.registerExtender = function (typeExtended, typeDefined) {
         var superType = typeExtended;
-        
+
         while (superType != null) {
             if (superType._extenders.indexOf(typeDefined) === -1) {
                 superType._extenders.push(typeDefined);
             }
             superType = superType._super;
         }
-    }
+    };
 
     Bifrost.Type.scopeTo = function(scope) {
         if( typeof scope === "function" ) {
             this.scope = {
                 getFor: scope
-            }
+            };
         } else {
             if( typeof scope.getFor === "function" ) {
                 this.scope = scope;
             } else {
                 this.scope = {
-                    getFor: function() {
+                    getFor: function () {
                         return scope;
                     }
-                }
+                };
             }
         }
         return this;
@@ -380,7 +379,7 @@ Bifrost.namespace("Bifrost", {
 
             if( self._dependencies == null || 
                 typeof self._dependencies == "undefined" || 
-                self._dependencies.length == 0) {
+                self._dependencies.length === 0) {
                 var instance = self.create(instanceHash);
                 promise.signal(instance);
             } else {

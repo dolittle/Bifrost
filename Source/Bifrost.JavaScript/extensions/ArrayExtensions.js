@@ -16,7 +16,7 @@ function polyFillClone() {
     if (typeof Array.prototype.clone !== "function") {
         Array.prototype.clone = function () {
             return this.slice(0);
-        }
+        };
     }
 }
 
@@ -31,7 +31,7 @@ function shallowEquals() {
                 if (this[i] !== other[i]) return false;
             }
             return true;
-        }
+        };
     }
 }
 

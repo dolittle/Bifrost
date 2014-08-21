@@ -46,6 +46,6 @@
             }
 
             return resolvedInstances;
-        }
+        };
     }
-})
+});

@@ -6,7 +6,7 @@ if (typeof ko !== 'undefined') {
             if (Bifrost.isNullOrUndefined(validator)) return;
 
             validator.isValid.subscribe(function (newValue) {
-                if (newValue == true) {
+                if (newValue === true) {
                     $(element).hide();
                 } else {
                     $(element).show();

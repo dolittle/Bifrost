@@ -8,7 +8,7 @@
 
         if (target == null) {
             if (Bifrost.isArray(source)) {
-                target = []
+                target = [];
             } else {
                 target = {};
             }
@@ -48,4 +48,4 @@
 
         return target;
     }
-})
+});

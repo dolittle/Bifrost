@@ -1,7 +1,5 @@
 ﻿Bifrost.namespace("Bifrost", {
     taskFactory: Bifrost.Singleton(function () {
-        var self = this;
-
         this.createHttpPost = function (url, payload) {
             var task = Bifrost.tasks.HttpPostTask.create({
                 url: url,

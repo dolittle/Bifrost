@@ -11,13 +11,13 @@ Bifrost.namespace("Bifrost.commands", {
         this.validationMessages = ko.observableArray();
         this.securityContext = ko.observable(null);
         this.populatedFromExternalSource = ko.observable(false);
-        
+
 
         this.isBusy = ko.observable(false);
         this.isValid = ko.computed(function () {
             var valid = true;
             self.validators().some(function (validator) {
-                if (ko.isObservable(validator.isValid) && validator.isValid() == false) {
+                if (ko.isObservable(validator.isValid) && validator.isValid() === false) {
                     valid = false;
                     return true;
                 }
@@ -35,19 +35,19 @@ Bifrost.namespace("Bifrost.commands", {
         });
         this.isPopulatedExternally = ko.observable(false);
         this.isReady = ko.computed(function () {
-            if (self.isPopulatedExternally() == false) {
+            if (self.isPopulatedExternally() === false) {
                 return true;
             }
             return self.populatedFromExternalSource();
         });
         this.isReadyToExecute = ko.computed(function () {
-            if (self.isPopulatedExternally() == false) {
+            if (self.isPopulatedExternally() === false) {
                 return true;
             }
 
             return self.hasChanges();
         });
-        
+
 
         this.hasChanges = ko.computed(function () {
             var hasChange = false;
@@ -260,7 +260,7 @@ Bifrost.namespace("Bifrost.commands", {
             }
             this.makePropertiesObservable();
             this.extendPropertiesWithHasChanges();
-            if (typeof lastDescendant.name !== "undefined" && lastDescendant.name != "") {
+            if (typeof lastDescendant.name !== "undefined" && lastDescendant.name !== "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
                 var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) self.validators(validators);

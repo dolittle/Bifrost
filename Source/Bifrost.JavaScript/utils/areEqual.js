@@ -18,7 +18,7 @@
             }
 
             for (var index = 0; index < source.length; index++) {
-                if (Bifrost.areEqual(source[index], target[index]) == false) {
+                if (Bifrost.areEqual(source[index], target[index]) === false) {
                     return false;
                 }
             }

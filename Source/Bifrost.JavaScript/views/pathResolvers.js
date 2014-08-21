@@ -23,7 +23,7 @@
             for (var resolverIndex = 0; resolverIndex < resolvers.length; resolverIndex++) {
                 var resolver = resolvers[resolverIndex];
                 var result = resolver.canResolve(element, path);
-                if (result == true) return true;
+                if (result === true) return true;
             }
             return false;
         };

@@ -1,9 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.values", {
     TypeConverterElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, resultActions) {
-            return;
+            /*
             var typeConverterAttribute = element.getAttribute("data-typeconverter");
-            if( Bifrost.isNullOrUndefined(typeConverterAttribute) ) return;
+            if (Bifrost.isNullOrUndefined(typeConverterAttribute)) return;
 
             var bindingExpression = element.getAttribute("data-bind");
             if (!Bifrost.isNullOrUndefined(bindingExpression)) {
@@ -18,7 +18,7 @@
                         value.extend({ typeConverter: typeConverterAttribute.toString() })
                     }
                 }
-            }
+            }*/
         };
     })
 });

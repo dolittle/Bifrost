@@ -19,7 +19,7 @@ Bifrost.namespace("Bifrost.interaction", {
             /// <summary>Go to a specific state by its name</summary>
             /// <param name="stateName" type="String">Name of state to go to</param>
             self.groups().forEach(function (group) {
-                if( group.hasState(stateName) == true ) {
+                if (group.hasState(stateName) === true) {
                     group.goTo(self.namingRoot, stateName);
                 }
             });

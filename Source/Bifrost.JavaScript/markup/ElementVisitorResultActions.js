@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.markup", {
-	ElementVisitorResultActions: Bifrost.Type.extend(function() {
-	
-	})
+    ElementVisitorResultActions: Bifrost.Type.extend(function() {
+
+    })
 });

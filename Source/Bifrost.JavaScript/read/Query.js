@@ -16,7 +16,7 @@
         this.setParameters = function (parameters) {
             try {
                 for (var property in parameters) {
-                    if (self.target.hasOwnProperty(property) && ko.isObservable(self.target[property]) == true) {
+                    if (self.target.hasOwnProperty(property) && ko.isObservable(self.target[property]) === true) {
                         self.target[property](parameters[property]);
                     }
                 }
@@ -66,7 +66,7 @@
             self.target = query;
 
             for (var property in self.target) {
-                if (ko.isObservable(self.target[property]) == true) {
+                if (ko.isObservable(self.target[property]) === true) {
                     self.target[property].extend({ linked: {} });
                 }
             }
@@ -75,7 +75,7 @@
                 var isSet = true;
                 var hasParameters = false;
                 for (var property in self.target) {
-                    if (ko.isObservable(self.target[property]) == true) {
+                    if (ko.isObservable(self.target[property]) === true) {
                         hasParameters = true;
                         var value = self.target[property]();
                         if (typeof value == "undefined" || value === null) {
@@ -84,7 +84,7 @@
                         }
                     }
                 }
-                if (hasParameters == false) return true;
+                if (hasParameters === false) return true;
                 return isSet;
             });
         };

@@ -21,7 +21,7 @@ Bifrost.commands.CommandResult = (function () {
 
         if (typeof existing !== "undefined") {
             Bifrost.extend(this, existing);
-        } 
+        }
     }
 
     return {

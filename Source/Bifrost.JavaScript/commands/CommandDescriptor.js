@@ -7,8 +7,8 @@ Bifrost.commands.CommandDescriptor = function(command) {
         builtInCommand = Bifrost.commands.Command.create({
             region: { commands: [] },
             commandCoordinator: {},
-            commandValidationService: {}, 
-            commandSecurityService: { getContextFor: function () { return { continueWith: function () { } } } },
+            commandValidationService: {},
+            commandSecurityService: { getContextFor: function () { return { continueWith: function () { } }; } },
             mapper: {},
             options: {}
         });

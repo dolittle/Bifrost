@@ -80,7 +80,7 @@
             }
 
             return found;
-        }
+        };
 
         this.getRegionFor = function (element) {
             /// <summary>Get region for an element, either directly or implicitly through the nearest parent, null if none</summary>
@@ -148,7 +148,7 @@
             }
             style = styleString;
 
-            if(document.getElementsByTagName("head").length == 0) {
+            if(document.getElementsByTagName("head").length === 0) {
                 return;
             }
 
@@ -163,11 +163,11 @@
                     mediaType = typeof media;
 
                     if(mediaType == "string") {
-                        if(media == "" || (media.indexOf("screen") != -1)) {
+                        if(media === "" || (media.indexOf("screen") != -1)) {
                             styleSheet = document.styleSheets[i];
                         }
                     } else if(mediaType == "object") {
-                        if(media.mediaText == "" || (media.mediaText.indexOf("screen") != -1)) {
+                        if(media.mediaText === "" || (media.mediaText.indexOf("screen") != -1)) {
                             styleSheet = document.styleSheets[i];
                         }
                     }

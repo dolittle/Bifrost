@@ -1,6 +1,5 @@
 Bifrost.namespace("Bifrost.validation", {
     Rule: Bifrost.Type.extend(function (options) {
-        var self = this;
         options = options || {};
         this.message = options.message || "";
         this.options = {};

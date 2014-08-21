@@ -11,9 +11,9 @@ this.Element && (function (ElementPrototype, polyfill) {
     function matchesSelector(selector) {
         var results = this.parentNode.querySelectorAll(selector);
         var resultsIndex = -1;
- 
+
         while (results[++resultsIndex] && results[resultsIndex] != this) {}
- 
+
         return !!results[resultsIndex];
     };
 
@@ -23,7 +23,7 @@ this.Element && (function (ElementPrototype, polyfill) {
     ElementPrototype.oAncestorQuerySelectorAll ||
     ElementPrototype.webkitAncestorQuerySelectorAll ||
     function ancestorQuerySelectorAll(selector) {
-        for (var cite = this, newNodeList = new NodeList; cite = cite.parentElement;) {
+        for (var cite = this, newNodeList = new NodeList(); cite = cite.parentElement;) {
             if (cite.matchesSelector(selector)) Array.prototype.push.call(newNodeList, cite);
         }
  

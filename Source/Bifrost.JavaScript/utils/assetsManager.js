@@ -3,7 +3,7 @@
         initialize: function () {
             var promise = Bifrost.execution.Promise.create();
             if (typeof Bifrost.assetsManager.scripts === "undefined" ||
-                Bifrost.assetsManager.scripts.length == 0) {
+                Bifrost.assetsManager.scripts.length === 0) {
 
                 $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
                     Bifrost.assetsManager.scripts = result;

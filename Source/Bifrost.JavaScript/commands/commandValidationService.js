@@ -47,7 +47,7 @@
                         target[property].validator.validate(valueToValidate);
                     }
 
-                    if (target[property].validator.isValid() == false) {
+                    if (target[property].validator.isValid() === false) {
                         result.valid = false;
                     }
                 } else if (typeof target[property] === "object") {
@@ -62,6 +62,7 @@
                 var path = members[memberIndex].split(".");
                 var property = null;
                 var target = command;
+
                 path.forEach(function (member) {
                     property = member.toCamelCase();
                     if (property in target) {

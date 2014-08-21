@@ -51,6 +51,6 @@
             /// <summary>Undo the last operation on the stack and remove it as an operation</summary>
 
             throw "Not implemented";
-        }
+        };
     })
 });

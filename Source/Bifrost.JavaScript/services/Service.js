@@ -57,7 +57,7 @@
 
         this.onCreated = function (lastDescendant) {
             self.url = lastDescendant.url;
-            if (self.url.indexOf("/") != 0) self.url = "/" + self.url;
+            if (self.url.indexOf("/") !== 0) self.url = "/" + self.url;
 
             self.name = lastDescendant.name;
         };

@@ -15,6 +15,6 @@
                 element.attributes.setNamedItem(dataBind);
                 element.attributes.removeNamedItem("data-viewmodel-file");
             }
-        }
+        };
     })
-})
+});

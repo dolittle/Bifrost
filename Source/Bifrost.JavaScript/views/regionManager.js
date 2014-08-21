@@ -66,7 +66,7 @@
         this.getCurrent = function () {
             /// <summary>Gets the current region</summary>
             return Bifrost.views.Region.current;
-        }
+        };
 
         this.evict = function (region) {
             /// <summary>Evict a region from the page</summary>

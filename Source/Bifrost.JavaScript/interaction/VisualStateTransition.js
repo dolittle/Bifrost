@@ -1,7 +1,6 @@
 Bifrost.namespace("Bifrost.interaction", {
     VisualStateTransition: Bifrost.Type.extend(function() {
         /// <summary>Represents a description of transition between two named states</summary>
-        var self = this;
 
         /// <field name="from" type="String">Name of visual state that we are describing transitioning from</field>
         this.from = "";

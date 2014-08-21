@@ -19,7 +19,7 @@ Bifrost.namespace("Bifrost.validation", {
             if (notSet(options.length)) {
                 throw new Bifrost.validation.MaxNotSpecified();
             }
-            throwIfValueIsNotANumber(options.length)
+            throwIfValueIsNotANumber(options.length);
         }
 
 

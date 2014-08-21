@@ -17,15 +17,15 @@
         /// <field name="canPerform" type="observable">Set to true if the operation can be performed, false if not</field>
         this.canPerform = ko.computed({
             read: function () {
-                if (canPerformObservables().length == 0) return true;
+                if (canPerformObservables().length === 0) return true;
 
                 var canPerform = true;
                 canPerformObservables().forEach(function (observable) {
-                    if (observable() == false) {
+                    if (observable() === false) {
                         canPerform = false;
                         return;
                     }
-                })
+                });
 
                 return canPerform;
             },
@@ -34,7 +34,7 @@
             }
         });
 
-        this.canPerform.when = function(observable) {
+        this.canPerform.when = function (observable) {
             /// <summary>Chainable clauses</summary>
             /// <param name="observable" type="observable">The observable to use for deciding wether or not the operation can perform</param>
             /// <returns>The canPerform that can be further chained</returns>
@@ -55,4 +55,4 @@
             /// <param name="state" type="object">State generated when the operation was performed</param>
         };
     })
-})
+});

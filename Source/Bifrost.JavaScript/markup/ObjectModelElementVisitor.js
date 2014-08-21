@@ -38,16 +38,16 @@ Bifrost.namespace("Bifrost.markup", {
             // </ns:somecontrol>
             // 
 
-            if( element.isKnownType() ) return;
+            if (element.isKnownType()) return;
 
             var namespace;
             var name = element.localName.toLowerCase();
 
             var namespaceSplit = name.split(":");
-            if( namespaceSplit.length > 2 ) {
+            if ( namespaceSplit.length > 2 ) {
                 throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
             }
-            if( namespaceSplit.length == 2 ) {
+            if ( namespaceSplit.length == 2 ) {
                 name = namespaceSplit[1];
                 namespace = namespaceSplit[0];
             }

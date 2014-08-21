@@ -1,7 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
     viewModelLoader: Bifrost.Singleton(function (taskFactory, fileFactory, viewModelTypes) {
-        var self = this;
-
         this.load = function (path, region, viewModelParameters) {
             var promise = Bifrost.execution.Promise.create();
             var file = fileFactory.create(path, Bifrost.io.fileType.javaScript);

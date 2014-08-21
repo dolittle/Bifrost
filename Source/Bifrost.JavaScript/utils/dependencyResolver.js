@@ -24,7 +24,7 @@ Bifrost.namespace("Bifrost", {
                     return true;
                 }
 
-                if (isType(system._super) == true) {
+                if (isType(system._super) === true) {
                     return true;
                 }
             }
@@ -74,7 +74,7 @@ Bifrost.namespace("Bifrost", {
 
                 resolvers.forEach(function (resolver) {
                     if (canResolve === true) return;
-                    
+
                     canResolve = resolver.canResolve(namespace, name);
                 });
 
@@ -84,7 +84,7 @@ Bifrost.namespace("Bifrost", {
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                    console.log("Unable to resolve '" + name + "' in '"+namespace+"'");
+                    console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
@@ -109,9 +109,9 @@ Bifrost.namespace("Bifrost", {
                         resolvedSystem.continueWith(function (system, innerPromise) {
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
-                                
+
                                 promise.signal(handleSystemInstance(actualSystem));
-                            }).onFail(function(e) { promise.fail(e); });
+                            }).onFail(function (e) { promise.fail(e); });
                         });
                     } else {
                         promise.signal(handleSystemInstance(resolvedSystem));
@@ -120,6 +120,6 @@ Bifrost.namespace("Bifrost", {
 
                 return promise;
             }
-        }
+        };
     })()
 });

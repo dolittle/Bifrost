@@ -41,6 +41,6 @@
             });
 
             return resolvedTypes;
-        }
+        };
     }
-})
+});

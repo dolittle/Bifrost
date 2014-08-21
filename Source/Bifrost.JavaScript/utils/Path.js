@@ -3,11 +3,11 @@
         var self = this;
 
         // Based on node.js implementation : http://stackoverflow.com/questions/9451100/filename-extension-in-javascript
-        var splitDeviceRe = 
+        var splitDeviceRe =
             /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/][^\\\/]+)?([\\\/])?([\s\S]*?)$/;
 
         // Regex to split the tail part of the above into [*, dir, basename, ext]
-        var splitTailRe = 
+        var splitTailRe =
             /^([\s\S]+[\\\/](?!$)|[\\\/])?((?:\.{1,2}$|[\s\S]+?)?(\.[^.\/\\]*)?)$/;
 
         function removeUnsupportedParts(filename) {
@@ -42,13 +42,13 @@
 
         this.hasExtension = function () {
             if (Bifrost.isNullOrUndefined(self.extension)) return false;
-            if (self.extension == "") return false;
+            if (self.extension === "") return false;
             return true;
         };
     })
 });
 Bifrost.Path.makeRelative = function (fullPath) {
-    if (fullPath.indexOf("/") == 0) return fullPath.substr(1);
+    if (fullPath.indexOf("/") === 0) return fullPath.substr(1);
 
     return fullPath;
 };

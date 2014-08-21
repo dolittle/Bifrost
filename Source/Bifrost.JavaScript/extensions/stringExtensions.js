@@ -1,14 +1,14 @@
-if ( typeof String.prototype.startsWith != 'function' ) {
-    String.prototype.startsWith = function( str ) {
-        return str.length > 0 && this.substring( 0, str.length ) === str;
-    }
-};
+if (typeof String.prototype.startsWith != 'function') {
+    String.prototype.startsWith = function (str) {
+        return str.length > 0 && this.substring(0, str.length) === str;
+    };
+}
 
-if ( typeof String.prototype.endsWith != 'function' ) {
-    String.prototype.endsWith = function( str ) {
-        return str.length > 0 && this.substring( this.length - str.length, this.length ) === str;
-    }
-};
+if (typeof String.prototype.endsWith != 'function') {
+    String.prototype.endsWith = function (str) {
+        return str.length > 0 && this.substring(this.length - str.length, this.length) === str;
+    };
+}
 
 String.prototype.replaceAll = function (toReplace, replacement) {
     var result = this.split(toReplace).join(replacement);
@@ -29,7 +29,7 @@ String.prototype.toPascalCase = function () {
 
 String.prototype.hashCode = function () {
     var charCode, hash = 0;
-    if (this.length == 0) return hash;
+    if (this.length === 0) return hash;
     for (var i = 0; i < this.length; i++) {
         charCode = this.charCodeAt(i);
         hash = ((hash << 5) - hash) + charCode;

@@ -33,14 +33,14 @@ Bifrost.namespace("Bifrost.navigation", {
                         href = href.substr(0, href.indexOf("#!"));
                     }
 
-                    if (href.length == 0) {
+                    if (href.length === 0) {
                         href = "/";
                     }
                     var targetUri = Bifrost.Uri.create(href);
                     if (targetUri.isSameAsOrigin &&
                         targetUri.queryString.indexOf("postback")<0) {
                         var target = targetUri.path;
-                        while (target.indexOf("/") == 0) {
+                        while (target.indexOf("/") === 0) {
                             target = target.substr(1);
                         }
                         e.preventDefault();

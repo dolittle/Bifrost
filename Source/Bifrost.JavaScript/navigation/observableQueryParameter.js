@@ -5,7 +5,7 @@
         var historyEnabled = typeof History !== "undefined" && typeof History.Adapter !== "undefined";
 
         this.create = function (parameterName, defaultValue, navigationManager) {
-            
+
             function getState() {
                 var uri = navigationManager.getCurrentLocation();
                 if (uri.parameters.hasOwnProperty(parameterName)) {
@@ -58,7 +58,7 @@
             }
 
             function cleanQueryString(queryString) {
-                if (queryString.indexOf("#") == 0 || queryString.indexOf("?") == 0) queryString = queryString.substr(1);
+                if (queryString.indexOf("#") === 0 || queryString.indexOf("?") === 0) queryString = queryString.substr(1);
                 return queryString;
             }
 

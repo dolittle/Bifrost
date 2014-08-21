@@ -87,5 +87,5 @@ Bifrost.validation.Validator = (function () {
             }
             this.applyTo(items, options);
         }
-    }
+    };
 })();

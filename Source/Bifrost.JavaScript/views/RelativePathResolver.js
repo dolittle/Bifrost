@@ -4,7 +4,7 @@
             var closest = $(element).closest("[data-view]");
             if (closest.length == 1) {
                 var view = $(closest[0]).view;
-                
+
             }
             return false;
         };
@@ -13,7 +13,7 @@
             var closest = $(element).closest("[data-urimapper]");
             if (closest.length == 1) {
                 var mapperName = $(closest[0]).data("urimapper");
-                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) == true) {
+                if (Bifrost.uriMappers[mapperName].hasMappingFor(path) === true) {
                     return Bifrost.uriMappers[mapperName].resolve(path);
                 }
             }
