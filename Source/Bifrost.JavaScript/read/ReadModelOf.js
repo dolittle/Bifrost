@@ -30,16 +30,17 @@ Bifrost.namespace("Bifrost.read", {
         }
 
         this.instanceMatching = function (propertyFilters) {
-            var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
-            performLoad(self.target, unwrappedPropertyFilters);
+            function load() {
+                var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
+                performLoad(self.target, unwrappedPropertyFilters);
+            }
+
+            load();
 
             for (var property in propertyFilters) {
                 var value = propertyFilters[property];
                 if (ko.isObservable(value)) {
-                    value.subscribe(function () {
-                        var unwrappedPropertyFilters = unwrapPropertyFilters(propertyFilters);
-                        performLoad(self.target, unwrappedPropertyFilters);
-                    });
+                    value.subscribe(load);
                 }
             }
         };

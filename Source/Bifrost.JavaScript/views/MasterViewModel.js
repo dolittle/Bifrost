@@ -7,7 +7,7 @@
                 if (Bifrost.isFunction(viewModel.deactivated)) {
                     viewModel.deactivated();
                 }
-                delete viewModel;
+                
             }
         }
 
@@ -44,6 +44,7 @@
             var name = documentService.getViewModelNameFor(element);
             if (!self.hasOwnProperty(name)) {
                 deactivateViewModel(self[name]);
+                delete self[name];
                 self[name] = null;
             }
         };

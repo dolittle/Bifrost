@@ -82,19 +82,21 @@
 
 
         function applyValidationMessageToMembers(command, members, message) {
+            function fixMember(member) {
+                property = member.toCamelCase();
+                if (property in target) {
+                    if (typeof target[property] === "object") {
+                        target = target[property];
+                    }
+                }
+            }
+
             for (var memberIndex = 0; memberIndex < members.length; memberIndex++) {
                 var path = members[memberIndex].split(".");
                 var property = null;
                 var target = command;
 
-                path.forEach(function (member) {
-                    property = member.toCamelCase();
-                    if (property in target) {
-                        if (typeof target[property] === "object") {
-                            target = target[property];
-                        }
-                    }
-                });
+                path.forEach(fixMember);
 
                 if (property != null && property.length) {
                     var member = target[property];

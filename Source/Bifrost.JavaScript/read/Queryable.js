@@ -28,9 +28,7 @@
             for (var propertyName in query) {
                 var property = query[propertyName];
                 if (ko.isObservable(property) === true && query.hasOwnProperty(propertyName) && propertyName !== "areAllParametersSet") {
-                    property.subscribe(function () {
-                        self.execute();
-                    });
+                    property.subscribe(self.execute);
                 }
             }
         }

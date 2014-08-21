@@ -27,6 +27,7 @@ Bifrost.namespace("Bifrost.values", {
                 return value;
             }
             for (var converter in convertersByType) {
+                /* jshint eqeqeq: false */
                 if (value.constructor == converter) {
                     return convertersByType[converter].convertTo(value);
                 }

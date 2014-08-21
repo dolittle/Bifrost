@@ -5,10 +5,10 @@
         this.format = format;
         this.mappedFormat = mappedFormat;
 
-        var placeholderExpression = "\{[a-zA-Z]+\}";
+        var placeholderExpression = "{[a-zA-Z]+}";
         var placeholderRegex = new RegExp(placeholderExpression, "g");
 
-        var wildcardExpression = "\\*{2}[//||\.]";
+        var wildcardExpression = "\\*{2}[//||.]";
         var wildcardRegex = new RegExp(wildcardExpression, "g");
 
         var combinedExpression = "(" + placeholderExpression + ")*(" + wildcardExpression + ")*";

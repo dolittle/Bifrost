@@ -64,10 +64,17 @@ Bifrost.namespace("Bifrost", {
                     resolvedCallback(result, nextPromise);
                 });
         return promise;
-    };
+    }
 
 
     function beginGetDependencyInstances(namespace, typeDefinition, instanceHash) {
+        function resolved(result, nextPromise) {
+            solvedDependencies++;
+            if (solvedDependencies === dependenciesToResolve) {
+                promise.signal(dependencyInstances);
+            }
+        }
+
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
@@ -85,12 +92,7 @@ Bifrost.namespace("Bifrost", {
                         promise.signal(dependencyInstances);
                     }
                 } else {
-                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function (result, nextPromise) {
-                        solvedDependencies++;
-                        if (solvedDependencies === dependenciesToResolve) {
-                            promise.signal(dependencyInstances);
-                        }
-                    }).onFail(function (e) { promise.fail(e); });
+                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, resolved).onFail(promise.fail);
                 }
             }
 

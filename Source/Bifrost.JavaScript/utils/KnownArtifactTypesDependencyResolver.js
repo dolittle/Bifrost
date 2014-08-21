@@ -28,7 +28,8 @@
 
         this.canResolve = function (namespace, name) {
             return name in supportedArtifacts;
-        },
+        };
+
         this.resolve = function (namespace, name) {
             var type = supportedArtifacts[name];
             var extenders = type.getExtendersIn(namespace);

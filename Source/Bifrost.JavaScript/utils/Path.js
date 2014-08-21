@@ -31,7 +31,7 @@
             return [device, dir, basename, ext];
         }
 
-        var fullPath = removeUnsupportedParts(fullPath);
+        fullPath = removeUnsupportedParts(fullPath);
         var result = splitPath(fullPath);
         this.device = result[0] || "";
         this.directory = result[1] || "";

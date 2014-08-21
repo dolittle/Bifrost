@@ -2,25 +2,29 @@ Bifrost.namespace("Bifrost.interaction", {
     VisualStateManagerElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         var visualStateActionTypes = Bifrost.interaction.VisualStateAction.getExtenders();
 
+        
+
         function parseActions(namingRoot, stateElement, state) {
+            function parseAction(type) {
+                if (type._name.toLowerCase() === child.localName) {
+                    var action = type.create();
+
+                    for (var attributeIndex = 0; attributeIndex < child.attributes.length; attributeIndex++) {
+                        var name = child.attributes[attributeIndex].localName;
+                        var value = child.attributes[attributeIndex].value;
+                        if (action.hasOwnProperty(name)) {
+                            action[name] = value;
+                        }
+                    }
+                    action.initialize(namingRoot);
+                    state.addAction(action);
+                }
+            }
+
             if (stateElement.hasChildNodes()) {
                 var child = stateElement.firstChild;
                 while (child) {
-                    visualStateActionTypes.forEach(function(type) {
-                        if (type._name.toLowerCase() === child.localName) {
-                            var action = type.create();
-
-                            for (var attributeIndex=0; attributeIndex<child.attributes.length; attributeIndex++ ) {
-                                var name = child.attributes[attributeIndex].localName;
-                                var value = child.attributes[attributeIndex].value;
-                                if( action.hasOwnProperty(name) ) {
-                                    action[name] = value;
-                                }
-                            }
-                            action.initialize(namingRoot);
-                            state.addAction(action);
-                        }
-                    });
+                    visualStateActionTypes.forEach(parseAction);
                     child = child.nextSibling;
                 }
             }
