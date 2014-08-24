@@ -15,20 +15,21 @@
     <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Microsoft.AspNet.SignalR.Core" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.JS" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.Owin" version="1.0.0"/>
-      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="1.0.0"/>
-      <dependency id="Microsoft.Owin.Host.SystemWeb" version="1.0.0"/>
+      <dependency id="Microsoft.AspNet.SignalR.Core" version="2.0.1"/>
+      <dependency id="Microsoft.AspNet.SignalR.JS" version="2.0.1"/>
+      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.0.1"/>
+      <dependency id="Microsoft.Owin" version="2.0.2"/>
+      <dependency id="Microsoft.Owin.Host.SystemWeb" version="2.0.2"/>
+      <dependency id="Microsoft.Owin.Security" version="2.0.2"/>
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0"/>
-      <dependency id="Newtonsoft.Json" version="4.5.11"/>
+      <dependency id="Newtonsoft.Json" version="5.0.1"/>
       <dependency id="Owin" version="1.0"/>
       <dependency id="Bifrost" version="$version$"/>
       <dependency id="Bifrost.JS" version="$version$"/>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Bifrost.Mimir*.*" target="lib\net40"/>
+    <file src="bin\Bifrost.Mimir*.*" target="lib\net45"/>
 	<file src="**\*.cs" target="src" />
   </files>
 </package>

@@ -18,9 +18,9 @@ require.config({
 
     paths: {
         "jquery": "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min",
-        "signalr": "jquery.signalR-1.0.0.min",
+        "signalr": "jquery.signalR-2.0.1.min",
         "signalrHubs": "/signalr/hubs",
-        "knockout": "knockout-2.0.0", //"http://cdn.dolittle.com/knockout/knockout-2.0.0",
+        "knockout": "knockout-3.1.0", //"http://cdn.dolittle.com/knockout/knockout-2.0.0",
         "knockout.mapping": "knockout.mapping-2.0.0",
         "bifrost": "Bifrost.debug",
         "order": "order", //"http://cdn.dolittle.com/require/order",
@@ -36,9 +36,9 @@ function loadHubs() {
     document.body.appendChild(script);
 }
 
-require(["jquery", "knockout"], function () {
-    require(["signalr", "order!noext!signalr/hubs", "jquery.history"], function () {
-        require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
+//require(["jquery", "knockout"], function () {
+    //require(["signalr", "order!noext!signalr/hubs", "jquery.history"], function () {
+        //require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {
             Bifrost.features.featureMapper.add("{feature}/{subFeature}", combinePaths(applicationDir, "/Features/{feature}/{subFeature}"), false);
             Bifrost.features.featureMapper.add("{feature}", combinePaths(applicationDir, "/Features/{feature}"), true);
 
@@ -60,6 +60,6 @@ require(["jquery", "knockout"], function () {
 
                 $(window).load();
             });
-        });
-    });
-});
+        //});
+    //});
+//});

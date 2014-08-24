@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\Bifrost.*" target="lib\net40"/>
+    <file src="bin\debug\Bifrost.*" target="lib\net45"/>
 	<file src="**\*.cs" target="src" />
   </files>
 </package>

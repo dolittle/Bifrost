@@ -17,6 +17,7 @@ namespace Bifrost.QuickStart
         {
             var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
             configure
+                .UsingSignalR()
                 .Serialization
                     .UsingJson()
                 .Events
