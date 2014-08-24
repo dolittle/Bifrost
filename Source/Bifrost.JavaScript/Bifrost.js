@@ -150,6 +150,9 @@
 @depends markup/MarkupExtension.js
 @depends markup/markupExtensions.js
 @depends markup/objectModelManager.js
+@depends markup/MultipleNamespacesInNameNotAllowed.js
+@depends markup/MultiplePropertyReferencesNotAllowed.js
+@depends markup/ParentTagNameMismatched.js
 @depends markup/ObjectModelElementVisitor.js
 @depends markup/Binding.js
 @depends views/PostBindingVisitor.js

@@ -18,7 +18,7 @@ describe("when visiting a tag with two namespaces", function() {
 		exception = e;
 	}
 
-	it("should throw an exception", function() {
-		expect(exception).not.toBe(null);
+	it("should throw multiple namespaces in name not allowed", function() {
+	    expect(exception instanceof Bifrost.markup.MultipleNamespacesInNameNotAllowed).toBe(true);
 	});
 });
