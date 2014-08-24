@@ -36,6 +36,6 @@
             });
 
             return promise;
-        }
+        };
     })
 });

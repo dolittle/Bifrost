@@ -3,7 +3,7 @@
         /// <summary>Represents a rule based on the specification pattern</summary>
         var self = this;
         var currentInstance = ko.observable();
-        
+
         /// <field name="evaluator">
         /// Holds the evaluator to be used to evaluate wether or not the rule is satisfied
         /// </field>
@@ -20,7 +20,6 @@
         /// is an observable and its state changes.
         /// </remarks>
         this.isSatisfied = ko.computed(function () {
-            
             if (ko.isObservable(self.evaluator)) {
                 return self.evaluator();
             }

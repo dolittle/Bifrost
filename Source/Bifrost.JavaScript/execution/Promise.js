@@ -21,7 +21,9 @@ Bifrost.namespace("Bifrost.execution", {
         }
 
         this.fail = function (error) {
-            if (self.failedCallback != null) self.failedCallback(error);
+            if (self.failedCallback != null) {
+                self.failedCallback(error);
+            }
             self.hasFailed = true;
             self.error = error;
         };
@@ -44,7 +46,9 @@ Bifrost.namespace("Bifrost.execution", {
 
         this.continueWith = function (callback) {
             this.callback = callback;
-            if (self.signalled === true) onSignal();
+            if (self.signalled === true) {
+                onSignal();
+            }
             return self;
         };
     }

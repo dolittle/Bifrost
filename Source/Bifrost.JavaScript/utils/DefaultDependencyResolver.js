@@ -51,14 +51,16 @@
 
         this.canResolve = function (namespace, name) {
             var current = namespace;
-            while (current != null && current != window) {
+            while (current != null && current !== window) {
                 if (self.doesNamespaceHave(current, name)) {
                     return true;
                 }
                 if (self.doesNamespaceHaveScriptReference(current, name) ) {
                     return true;
                 }
-                if (current === current.parent) break;
+                if (current === current.parent) {
+                    break;
+                }
                 current = current.parent;
             }
 
@@ -67,7 +69,7 @@
 
         this.resolve = function (namespace, name) {
             var current = namespace;
-            while (current != null && current != window) {
+            while (current != null && current !== window) {
                 if (self.doesNamespaceHave(current, name)) {
                     return current[name];
                 }
@@ -76,7 +78,9 @@
                     self.loadScriptReference(current, name, promise);
                     return promise;
                 }
-                if (current === current.parent) break;
+                if (current === current.parent) {
+                    break;
+                }
                 current = current.parent;
 
             }

@@ -34,15 +34,17 @@
             /// <summary>Gets the region for the given view and creates one if none exist</summary>
             /// <param name="view" type="View">View to get a region for</param>
             /// <returns>The region for the element</returns>
+
+            var region;
             var element = view.element;
             if (documentService.hasOwnRegion(element)) {
-                var region = documentService.getRegionFor(element);
+                region = documentService.getRegionFor(element);
                 region.view(view);
                 return region;
             }
 
             var parentRegion = manageInheritance(element);
-            var region = manageHierarchy(parentRegion);
+            region = manageHierarchy(parentRegion);
             region.view(view);
             documentService.setRegionOn(element, region);
 
@@ -66,7 +68,7 @@
         this.getCurrent = function () {
             /// <summary>Gets the current region</summary>
             return Bifrost.views.Region.current;
-        }
+        };
 
         this.evict = function (region) {
             /// <summary>Evict a region from the page</summary>

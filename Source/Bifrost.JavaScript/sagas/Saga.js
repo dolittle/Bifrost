@@ -6,7 +6,7 @@ Bifrost.sagas.Saga = (function () {
         this.executeCommands = function (commands, options) {
 
             var canExecuteSaga = true;
-            
+
             commands.forEach(function (command) {
                 if (command.onBeforeExecute() === false) {
                     canExecuteSaga = false;
@@ -18,7 +18,7 @@ Bifrost.sagas.Saga = (function () {
                 return;
             }
             Bifrost.commands.commandCoordinator.handleForSaga(self, commands, options);
-        }
+        };
     }
 
     return {
@@ -27,5 +27,5 @@ Bifrost.sagas.Saga = (function () {
             Bifrost.extend(saga, configuration);
             return saga;
         }
-    }
+    };
 })();

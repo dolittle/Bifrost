@@ -222,7 +222,7 @@ Bifrost.TimeSpan.fromDays = function (days) {
 };
 Bifrost.TimeSpan.fromDates = function (firstDate, secondDate, forcePositive) {
     var differenceMsecs = secondDate.valueOf() - firstDate.valueOf();
-    if(forcePositive === true) {
+    if (forcePositive === true) {
         differenceMsecs = Math.abs(differenceMsecs);
     }
     return new Bifrost.TimeSpan(differenceMsecs, 0, 0, 0, 0);

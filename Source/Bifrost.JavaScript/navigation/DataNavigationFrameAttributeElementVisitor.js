@@ -15,7 +15,6 @@
 
                 element.attributes.removeNamedItem("data-navigation-frame");
             }
-        }
+        };
     })
 });
-    

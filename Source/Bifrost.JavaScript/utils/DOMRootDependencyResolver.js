@@ -4,7 +4,7 @@
     },
 
     resolve: function (namespace, name) {
-        if (document.body != null && typeof document.body != "undefined") {
+        if (document.body != null && typeof document.body !== "undefined") {
             return document.body;
         }
 

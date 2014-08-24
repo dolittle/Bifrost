@@ -23,7 +23,7 @@
 
                 all.forEach(function (task) {
                     rule.evaluate(task);
-                    if (rule.isSatisfied() == true) {
+                    if (rule.isSatisfied() === true) {
                         filtered.push(task);
                     }
                 });
@@ -35,14 +35,16 @@
 
         /// <field name="errors" type="observableArrayOfString">All errors that occured during execution of the task</field>
         this.errors = ko.observableArray();
-        
+
         /// <field name="isBusy" type="Boolean">Returns true if the system is busy working, false if not</field>
         this.isBusy = ko.computed(function () {
             return self.all().length > 0;
         });
 
         function executeTaskIfNotExecuting(task) {
-            if (task.isExecuting() === true) return;
+            if (task.isExecuting() === true) {
+                return;
+            }
             task.isExecuting(true);
             var taskHistoryId = taskHistory.begin(task);
 

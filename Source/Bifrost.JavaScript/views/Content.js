@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.views", {
-	Content: Bifrost.Type.extend(function() {
-		
-	})
-})
+    Content: Bifrost.Type.extend(function () {
+
+    })
+});

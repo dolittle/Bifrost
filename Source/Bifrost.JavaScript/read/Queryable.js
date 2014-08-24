@@ -27,10 +27,8 @@
         function observePropertiesFrom(query) {
             for (var propertyName in query) {
                 var property = query[propertyName];
-                if (ko.isObservable(property) == true && query.hasOwnProperty(propertyName) && propertyName != "areAllParametersSet") {
-                    property.subscribe(function () {
-                        self.execute();
-                    });
+                if (ko.isObservable(property) === true && query.hasOwnProperty(propertyName) && propertyName !== "areAllParametersSet") {
+                    property.subscribe(self.execute);
                 }
             }
         }

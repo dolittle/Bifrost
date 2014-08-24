@@ -5,10 +5,11 @@
 
         this.canResolve = function (namespace, name) {
             return self.types.hasOwnProperty(name);
-        },
+        };
+
         this.resolve = function (namespace, name) {
             return self.types[name];
-        }
+        };
     }
 });
 

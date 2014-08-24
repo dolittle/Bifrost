@@ -19,10 +19,10 @@ Bifrost.namespace("Bifrost.validation", {
             if (notSet(options.length)) {
                 throw new Bifrost.validation.MaxNotSpecified();
             }
-            throwIfValueIsNotANumber(options.length)
+            throwIfValueIsNotANumber(options.length);
         }
 
-    
+
         function throwIfValueIsNotAString(string) {
             if (!Bifrost.isString(string)) {
                 throw new Bifrost.validation.NotAString("Value " + string + " is not a string");

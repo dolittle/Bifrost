@@ -6,12 +6,12 @@ Bifrost.validation.ruleHandlers.greaterThanOrEqual = {
         }
         if (this.notSet(options.value)) {
             var exception = new Bifrost.validation.OptionsValueNotSpecified();
-            exception.message = exception.message + " 'value' is not set."
+            exception.message = exception.message + " 'value' is not set.";
             throw exception;
         }
         this.throwIfValueToCheckIsNotANumber(options.value);
     },
-       
+
     throwIfValueToCheckIsNotANumber: function (value) {
         if (!Bifrost.isNumber(value)) {
             throw new Bifrost.validation.NotANumber("Value " + value + " is not a number");

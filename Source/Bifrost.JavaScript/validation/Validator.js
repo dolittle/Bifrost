@@ -9,18 +9,19 @@ Bifrost.validation.Validator = (function () {
         options = options || {};
 
         this.setOptions = function (options) {
+            function setupRule(ruleType) {
+                if (ruleType._name === property) {
+                    var rule = ruleType.create({ options: options[property] || {} });
+                    self.rules.push(rule);
+                }
+
+                if (ruleType._name === "required") {
+                    self.isRequired = true;
+                }
+            }
             for (var property in options) {
                 var ruleTypes = Bifrost.validation.Rule.getExtenders();
-                ruleTypes.some(function (ruleType) {
-                    if (ruleType._name === property) {
-                        var rule = ruleType.create({ options: options[property] || {} });
-                        self.rules.push(rule);
-                    }
-
-                    if (ruleType._name === "required") {
-                        self.isRequired = true;
-                    }
-                });
+                ruleTypes.some(setupRule);
             }
         };
 
@@ -87,5 +88,5 @@ Bifrost.validation.Validator = (function () {
             }
             this.applyTo(items, options);
         }
-    }
+    };
 })();

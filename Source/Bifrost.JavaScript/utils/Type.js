@@ -1,31 +1,30 @@
 Bifrost.namespace("Bifrost", {
     Type: function () {
-        var self = this;
     }
 });
 
 (function () {
-    throwIfMissingTypeDefinition = function(typeDefinition) {
-        if (typeDefinition == null || typeof typeDefinition == "undefined") {
+    function throwIfMissingTypeDefinition(typeDefinition) {
+        if (typeDefinition == null || typeof typeDefinition === "undefined") {
             throw new Bifrost.MissingTypeDefinition();
         }
-    };
+    }
 
-    throwIfTypeDefinitionIsObjectLiteral = function(typeDefinition) {
+    function throwIfTypeDefinitionIsObjectLiteral(typeDefinition) {
         if (typeof typeDefinition === "object") {
             throw new Bifrost.ObjectLiteralNotAllowed();
         }
-    };
+    }
 
-    addStaticProperties = function (typeDefinition) {
+    function addStaticProperties(typeDefinition) {
         for (var property in Bifrost.Type) {
-            if (Bifrost.Type.hasOwnProperty(property) && property != "_extenders") {
+            if (Bifrost.Type.hasOwnProperty(property) && property !== "_extenders") {
                 typeDefinition[property] = Bifrost.Type[property];
             }
         }
-    };
+    }
 
-    setupDependencies = function(typeDefinition) {
+    function setupDependencies(typeDefinition) {
         typeDefinition._dependencies = Bifrost.dependencyResolver.getDependenciesFor(typeDefinition);
 
         var firstParameter = true;
@@ -43,9 +42,9 @@ Bifrost.namespace("Bifrost", {
         createFunctionString += ");')";
 
         typeDefinition.createFunction = eval(createFunctionString);
-    };
+    }
 
-    getDependencyInstances = function(namespace, typeDefinition) {
+    function getDependencyInstances(namespace, typeDefinition) {
         var dependencyInstances = [];
         if( typeof typeDefinition._dependencies !== "undefined" ) {
             typeDefinition._dependencies.forEach(function(dependency) {
@@ -54,9 +53,9 @@ Bifrost.namespace("Bifrost", {
             });
         }
         return dependencyInstances;
-    };
+    }
 
-    resolve = function(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
+    function resolve(namespace, dependency, index, instances, typeDefinition, resolvedCallback) {
         var promise = 
             Bifrost.dependencyResolver
                 .beginResolve(namespace, dependency)
@@ -65,10 +64,17 @@ Bifrost.namespace("Bifrost", {
                     resolvedCallback(result, nextPromise);
                 });
         return promise;
-    };
+    }
 
 
-    beginGetDependencyInstances = function(namespace, typeDefinition, instanceHash) {
+    function beginGetDependencyInstances(namespace, typeDefinition, instanceHash) {
+        function resolved(result, nextPromise) {
+            solvedDependencies++;
+            if (solvedDependencies === dependenciesToResolve) {
+                promise.signal(dependencyInstances);
+            }
+        }
+
         var promise = Bifrost.execution.Promise.create();
         var dependencyInstances = [];
         var solvedDependencies = 0;
@@ -82,50 +88,47 @@ Bifrost.namespace("Bifrost", {
                 if (instanceHash && instanceHash.hasOwnProperty(dependency)) {
                     dependencyInstances[dependencyIndex] = instanceHash[dependency];
                     solvedDependencies++;
-                    if (solvedDependencies == dependenciesToResolve) {
+                    if (solvedDependencies === dependenciesToResolve) {
                         promise.signal(dependencyInstances);
                     }
                 } else {
-                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, function (result, nextPromise) {
-                        solvedDependencies++;
-                        if (solvedDependencies == dependenciesToResolve) {
-                            promise.signal(dependencyInstances);
-                        }
-                    }).onFail(function (e) { promise.fail(e); });
+                    resolve(namespace, dependency, dependencyIndex, dependencyInstances, typeDefinition, resolved).onFail(promise.fail);
                 }
             }
 
         }
         return promise;
-    };
+    }
 
-    expandInstancesHashToDependencies = function(typeDefinition, instanceHash, dependencyInstances) {
-        if( typeof typeDefinition._dependencies === "undefined" || typeDefinition._dependencies == null ) return;
+    function expandInstancesHashToDependencies(typeDefinition, instanceHash, dependencyInstances) {
+        if (typeof typeDefinition._dependencies === "undefined" || typeDefinition._dependencies == null) {
+            return;
+        }
         for( var dependency in instanceHash ) {
             for( var dependencyIndex=0; dependencyIndex<typeDefinition._dependencies.length; dependencyIndex++ ) {
-                if( typeDefinition._dependencies[dependencyIndex] == dependency ) {
+                if( typeDefinition._dependencies[dependencyIndex] === dependency ) {
                     dependencyInstances[dependencyIndex] = instanceHash[dependency];
                 }
             }
         }
-    };
+    }
 
-    expandDependenciesToInstanceHash = function(typeDefinition, dependencies, instanceHash) {
+    function expandDependenciesToInstanceHash(typeDefinition, dependencies, instanceHash) {
         for( var dependencyIndex=0; dependencyIndex<dependencies.length; dependencyIndex++ ) {
             instanceHash[typeDefinition._dependencies[dependencyIndex]] = dependencies[dependencyIndex];
         }
-    };
+    }
 
-    resolveDependencyInstancesThatHasNotBeenResolved = function(dependencyInstances, typeDefinition) {
+    function resolveDependencyInstancesThatHasNotBeenResolved(dependencyInstances, typeDefinition) {
         dependencyInstances.forEach(function(dependencyInstance, index) {
-            if( dependencyInstance == null || typeof dependencyInstance == "undefined" ) {
+            if( dependencyInstance == null || typeof dependencyInstance === "undefined" ) {
                 var dependency = typeDefinition._dependencies[index];
                 dependencyInstances[index] = Bifrost.dependencyResolver.resolve(typeDefinition._namespace, dependency);
             }
         });
-    };
+    }
 
-    resolveDependencyInstances = function(instanceHash, typeDefinition) {
+    function resolveDependencyInstances(instanceHash, typeDefinition) {
         var dependencyInstances = [];
         if( typeof instanceHash === "object" ) {
             expandInstancesHashToDependencies(typeDefinition, instanceHash, dependencyInstances);
@@ -138,21 +141,27 @@ Bifrost.namespace("Bifrost", {
             }
         }
         return dependencyInstances;
-    };
+    }
 
-    addMissingDependenciesAsNullFromTypeDefinition = function (instanceHash, typeDefinition) {
-        if (typeof typeDefinition._dependencies === "undefined") return;
-        if (typeof instanceHash === "undefined" || instanceHash == null) return 
+    function addMissingDependenciesAsNullFromTypeDefinition(instanceHash, typeDefinition) {
+        if (typeof typeDefinition._dependencies === "undefined") {
+            return;
+        }
+        if (typeof instanceHash === "undefined" || instanceHash == null) {
+            return;
+        }
         for( var index=0; index<typeDefinition._dependencies.length; index++ ) {
             var dependency = typeDefinition._dependencies[index];
             if (!(dependency in instanceHash)) {
                 instanceHash[dependency] = null;
             }
         }
-    };
+    }
 
-    handleOnCreate = function(type, lastDescendant, currentInstance) {
-        if( currentInstance == null || typeof currentInstance === "undefined" ) return;
+    function handleOnCreate(type, lastDescendant, currentInstance) {
+        if (currentInstance == null || typeof currentInstance === "undefined") {
+            return;
+        }
 
         if( typeof type !== "undefined" && typeof type.prototype !== "undefined" ) {
             handleOnCreate(type._super, lastDescendant, type.prototype);
@@ -161,7 +170,7 @@ Bifrost.namespace("Bifrost", {
         if( currentInstance.hasOwnProperty("onCreated") && typeof currentInstance.onCreated === "function" ) {
             currentInstance.onCreated(lastDescendant);
         }
-    };
+    }
 
     Bifrost.Type._extenders = [];
 
@@ -173,8 +182,8 @@ Bifrost.namespace("Bifrost", {
 
     Bifrost.Type.typeOf = function (type) {
 
-        if (typeof this._super == "undefined" ||
-            typeof this._super._typeId == "undefined") {
+        if (typeof this._super === "undefined" ||
+            typeof this._super._typeId === "undefined") {
             return false;
         }
 
@@ -184,7 +193,9 @@ Bifrost.namespace("Bifrost", {
 
         if (typeof type._super !== "undefined") {
             var isType = this._super.typeOf(type);
-            if (isType == true) return true;
+            if (isType === true) {
+                return true;
+            }
         }
 
 
@@ -201,13 +212,14 @@ Bifrost.namespace("Bifrost", {
         this._extenders.forEach(function (extender) {
             var current = namespace;
             while (current !== window) {
-                if (extender._namespace == current) {
+                if (extender._namespace === current) {
                     inNamespace.push(extender);
                     break;
                 }
 
-                if (Bifrost.isUndefined(current.parent))
+                if (Bifrost.isUndefined(current.parent)) {
                     break;
+                }
 
                 current = current.parent;
             }
@@ -233,29 +245,29 @@ Bifrost.namespace("Bifrost", {
 
     Bifrost.Type.registerExtender = function (typeExtended, typeDefined) {
         var superType = typeExtended;
-        
+
         while (superType != null) {
             if (superType._extenders.indexOf(typeDefined) === -1) {
                 superType._extenders.push(typeDefined);
             }
             superType = superType._super;
         }
-    }
+    };
 
     Bifrost.Type.scopeTo = function(scope) {
         if( typeof scope === "function" ) {
             this.scope = {
                 getFor: scope
-            }
+            };
         } else {
             if( typeof scope.getFor === "function" ) {
                 this.scope = scope;
             } else {
                 this.scope = {
-                    getFor: function() {
+                    getFor: function () {
                         return scope;
                     }
-                }
+                };
             }
         }
         return this;
@@ -286,7 +298,7 @@ Bifrost.namespace("Bifrost", {
         addMissingDependenciesAsNullFromTypeDefinition(instanceHash, this);
         var dependencyInstances = resolveDependencyInstances(instanceHash, this);
         var scope = null;
-        if( this != Bifrost.Type ) {
+        if( this !== Bifrost.Type ) {
             this.instancesPerScope = this.instancesPerScope || {};
 
             scope = this.scope.getFor(this._namespace, this._name, this._typeId);
@@ -379,8 +391,8 @@ Bifrost.namespace("Bifrost", {
             self.prototype = _super;
 
             if( self._dependencies == null || 
-                typeof self._dependencies == "undefined" || 
-                self._dependencies.length == 0) {
+                typeof self._dependencies === "undefined" || 
+                self._dependencies.length === 0) {
                 var instance = self.create(instanceHash);
                 promise.signal(instance);
             } else {

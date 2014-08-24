@@ -14,7 +14,7 @@ Bifrost.namespace("Bifrost.validation", {
                 throw new Bifrost.validation.MissingExpression();
             }
             if (!Bifrost.isString(options.expression)) {
-                throw new Bifrost.validation.NotAString("Expression " + options.expression+ " is not a string.");
+                throw new Bifrost.validation.NotAString("Expression " + options.expression + " is not a string.");
             }
         }
 

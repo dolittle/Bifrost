@@ -15,7 +15,7 @@
 
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return securityContextName != null && namespace != null && namespace.hasOwnProperty(securityContextName);
+            return securityContextName !== null && namespace !== null && namespace.hasOwnProperty(securityContextName);
         }
 
         function getSecurityContextInNamespaceFor(type, namespace) {
@@ -25,15 +25,16 @@
 
         this.getContextFor = function (command) {
             var promise = Bifrost.execution.Promise.create();
+            var context;
 
             var type = getTypeNameFor(command);
             if (hasSecurityContextInNamespaceFor(type, command._type._namespace)) {
                 var contextType = getSecurityContextInNamespaceFor(type, command._type._namespace);
-                var context = contextType.create();
+                context = contextType.create();
                 promise.signal(context);
             } else {
-                var context = self.commandSecurityContextFactory.create();
-                if (typeof command.generatedFrom == "undefined" || command.generatedFrom == "") {
+                context = self.commandSecurityContextFactory.create();
+                if (Bifrost.isNullOrUndefined(command.generatedFrom) || command.generatedFrom === "") {
                     promise.signal(context);
                 } else {
                     var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.generatedFrom;
@@ -48,15 +49,15 @@
         };
 
         this.getContextForType = function (commandType) {
-
             var promise = Bifrost.execution.Promise.create();
+            var context;
 
             if (hasSecurityContextInNamespaceFor(commandType._name, commandType._namespace)) {
                 var contextType = getSecurityContextInNamespaceFor(commandType._name, commandType._namespace);
-                var context = contextType.create();
+                context = contextType.create();
                 promise.signal(context);
             } else {
-                var context = Bifrost.commands.CommandSecurityContext.create();
+                context = Bifrost.commands.CommandSecurityContext.create();
                 context.isAuthorized(true);
                 promise.signal(context);
             }

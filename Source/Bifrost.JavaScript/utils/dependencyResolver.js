@@ -4,7 +4,9 @@ Bifrost.namespace("Bifrost", {
             var resolvers = Bifrost.dependencyResolvers.getAll();
             var resolvedSystem = null;
             resolvers.forEach(function (resolver) {
-                if (resolvedSystem != null) return;
+                if (resolvedSystem != null) {
+                    return;
+                }
                 var canResolve = resolver.canResolve(namespace, name);
                 if (canResolve) {
                     resolvedSystem = resolver.resolve(namespace, name);
@@ -19,12 +21,12 @@ Bifrost.namespace("Bifrost", {
             if (system != null &&
                 system._super !== null) {
 
-                if (typeof system._super != "undefined" &&
+                if (typeof system._super !== "undefined" &&
                     system._super === Bifrost.Type) {
                     return true;
                 }
 
-                if (isType(system._super) == true) {
+                if (isType(system._super) === true) {
                     return true;
                 }
             }
@@ -73,8 +75,10 @@ Bifrost.namespace("Bifrost", {
                 var canResolve = false;
 
                 resolvers.forEach(function (resolver) {
-                    if (canResolve === true) return;
-                    
+                    if (canResolve === true) {
+                        return;
+                    }
+
                     canResolve = resolver.canResolve(namespace, name);
                 });
 
@@ -84,7 +88,7 @@ Bifrost.namespace("Bifrost", {
             resolve: function (namespace, name) {
                 var resolvedSystem = resolveImplementation(namespace, name);
                 if (typeof resolvedSystem === "undefined" || resolvedSystem === null) {
-                    console.log("Unable to resolve '" + name + "' in '"+namespace+"'");
+                    console.log("Unable to resolve '" + name + "' in '" + namespace + "'");
                     throw new Bifrost.UnresolvedDependencies();
                 }
 
@@ -109,9 +113,9 @@ Bifrost.namespace("Bifrost", {
                         resolvedSystem.continueWith(function (system, innerPromise) {
                             beginHandleSystemInstance(system)
                             .continueWith(function (actualSystem, next) {
-                                
+
                                 promise.signal(handleSystemInstance(actualSystem));
-                            }).onFail(function(e) { promise.fail(e); });
+                            }).onFail(function (e) { promise.fail(e); });
                         });
                     } else {
                         promise.signal(handleSystemInstance(resolvedSystem));
@@ -120,6 +124,6 @@ Bifrost.namespace("Bifrost", {
 
                 return promise;
             }
-        }
+        };
     })()
 });

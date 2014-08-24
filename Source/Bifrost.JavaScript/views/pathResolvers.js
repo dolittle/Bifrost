@@ -6,11 +6,13 @@
             for (var property in Bifrost.views.pathResolvers) {
                 if (Bifrost.views.pathResolvers.hasOwnProperty(property)) {
                     var value = Bifrost.views.pathResolvers[property];
-                    if( typeof value == "function" &&
-                        typeof value.create == "function") {
+                    if( typeof value === "function" &&
+                        typeof value.create === "function") {
 
                         var resolver = value.create();
-                        if (typeof resolver.canResolve == "function") resolvers.push(resolver);
+                        if (typeof resolver.canResolve === "function") {
+                            resolvers.push(resolver);
+                        }
                     }
                 }
             }
@@ -23,7 +25,9 @@
             for (var resolverIndex = 0; resolverIndex < resolvers.length; resolverIndex++) {
                 var resolver = resolvers[resolverIndex];
                 var result = resolver.canResolve(element, path);
-                if (result == true) return true;
+                if (result === true) {
+                    return true;
+                }
             }
             return false;
         };
@@ -32,7 +36,9 @@
             var resolvers = getResolvers();
             for (var resolverIndex = 0; resolverIndex < resolvers.length; resolverIndex++) {
                 var resolver = resolvers[resolverIndex];
-                if (resolver.canResolve(element, path)) return resolver.resolve(element, path);
+                if (resolver.canResolve(element, path)) {
+                    return resolver.resolve(element, path);
+                }
             }
             return null;
         };

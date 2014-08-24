@@ -2,7 +2,9 @@ Bifrost.namespace("Bifrost.views", {
     viewModelBindingHandler: Bifrost.Type.extend(function(documentService, viewFactory, viewModelLoader, viewModelManager, viewModelTypes, regionManager) {
         this.init = function (element, valueAccessor, allBindingsAccessor, parentViewModel, bindingContext) {
             var path = ko.utils.unwrapObservable(valueAccessor());
-            if (element._isLoading === true || (element._viewModelPath === path && !Bifrost.isNullOrUndefined(element._viewModel))) return;
+            if (element._isLoading === true || (element._viewModelPath === path && !Bifrost.isNullOrUndefined(element._viewModel))) {
+                return;
+            }
 
             element._isLoading = true;
             element._viewModelPath = path;
@@ -25,7 +27,7 @@ Bifrost.namespace("Bifrost.views", {
                 viewModelParameters.region = region;
 
                 if (viewModelTypes.isLoaded(path)) {
-                    viewModelType = viewModelTypes.getViewModelTypeForPath(path);
+                    var viewModelType = viewModelTypes.getViewModelTypeForPath(path);
 
                     var lastRegion = Bifrost.views.Region.current;
                     Bifrost.views.Region.current = region;

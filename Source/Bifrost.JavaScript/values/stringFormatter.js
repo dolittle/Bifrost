@@ -9,7 +9,9 @@
         });
 
         function getFormat(element) {
-            if (element.nodeType !== 1 || Bifrost.isNullOrUndefined(element.attributes)) return null;
+            if (element.nodeType !== 1 || Bifrost.isNullOrUndefined(element.attributes)) {
+                return null;
+            }
             var stringFormatAttribute = element.attributes.getNamedItem("data-stringformat");
             if (!Bifrost.isNullOrUndefined(stringFormatAttribute)) {
                 return stringFormatAttribute.value;

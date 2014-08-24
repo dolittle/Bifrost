@@ -5,6 +5,7 @@
 });
 Bifrost.types.TypeInfo.createFrom = function (instance) {
     var typeInfo = Bifrost.types.TypeInfo.create();
+    var propertyInfo;
     for (var property in instance) {
         var value = instance[property];
         if (!Bifrost.isNullOrUndefined(value)) {
@@ -15,7 +16,7 @@ Bifrost.types.TypeInfo.createFrom = function (instance) {
                 type = instance[property]._type;
             }
 
-            var propertyInfo = Bifrost.types.PropertyInfo.create({
+            propertyInfo = Bifrost.types.PropertyInfo.create({
                 name: property,
                 type: type
             });

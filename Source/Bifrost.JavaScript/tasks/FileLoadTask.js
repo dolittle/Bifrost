@@ -17,6 +17,6 @@
                 promise.signal(instances);
             });
             return promise;
-        }
+        };
     })
 });

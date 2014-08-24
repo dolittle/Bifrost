@@ -3,15 +3,33 @@
         var self = this;
 
         function shouldSkipProperty(target, property) {
-            if (property == "region") return true;
-            if (target instanceof HTMLElement) return true;
-            if (!target.hasOwnProperty(property)) return true;
-            if (ko.isObservable(target[property])) return false;
-            if (typeof target[property] === "function") return true;
-            if (property == "_type") return true;
-            if (property == "_dependencies") return true;
-            if (property == "_namespace") return true;
-            if ((target[property] == null) ) return true;
+            if (property === "region") {
+                return true;
+            }
+            if (target instanceof HTMLElement) {
+                return true;
+            }
+            if (!target.hasOwnProperty(property)) {
+                return true;
+            }
+            if (ko.isObservable(target[property])) {
+                return false;
+            }
+            if (typeof target[property] === "function") {
+                return true;
+            }
+            if (property === "_type") {
+                return true;
+            }
+            if (property === "_dependencies") {
+                return true;
+            }
+            if (property === "_namespace") {
+                return true;
+            }
+            if ((target[property] == null)) {
+                return true;
+            }
             if ((typeof target[property].prototype !== "undefined") &&
                 (target[property].prototype !== null) &&
                 (target[property] instanceof Bifrost.Type)) {
@@ -23,8 +41,12 @@
 
         function extendProperties(target, validators) {
             for (var property in target) {
-                if (shouldSkipProperty(target, property)) continue;
-                if (typeof target[property].validator != "undefined") continue;
+                if (shouldSkipProperty(target, property)) {
+                    continue;
+                }
+                if (typeof target[property].validator !== "undefined") {
+                    continue;
+                }
 
                 if (ko.isObservable(target[property])) {
                     target[property].extend({ validation: {} });
@@ -37,7 +59,9 @@
 
         function validatePropertiesFor(target, result, silent) {
             for (var property in target) {
-                if (shouldSkipProperty(target, property)) continue;
+                if (shouldSkipProperty(target, property)) {
+                    continue;
+                }
 
                 if (typeof target[property].validator !== "undefined") {
                     var valueToValidate = ko.utils.unwrapObservable(target[property]());
@@ -47,7 +71,7 @@
                         target[property].validator.validate(valueToValidate);
                     }
 
-                    if (target[property].validator.isValid() == false) {
+                    if (target[property].validator.isValid() === false) {
                         result.valid = false;
                     }
                 } else if (typeof target[property] === "object") {
@@ -58,18 +82,21 @@
 
 
         function applyValidationMessageToMembers(command, members, message) {
+            function fixMember(member) {
+                property = member.toCamelCase();
+                if (property in target) {
+                    if (typeof target[property] === "object") {
+                        target = target[property];
+                    }
+                }
+            }
+
             for (var memberIndex = 0; memberIndex < members.length; memberIndex++) {
                 var path = members[memberIndex].split(".");
                 var property = null;
                 var target = command;
-                path.forEach(function (member) {
-                    property = member.toCamelCase();
-                    if (property in target) {
-                        if (typeof target[property] === "object") {
-                            target = target[property];
-                        }
-                    }
-                });
+
+                path.forEach(fixMember);
 
                 if (property != null && property.length) {
                     var member = target[property];
@@ -108,7 +135,9 @@
 
         this.clearValidationMessagesFor = function (target) {
             for (var property in target) {
-                if (shouldSkipProperty(target, property)) continue;
+                if (shouldSkipProperty(target, property)) {
+                    continue;
+                }
 
                 if (!Bifrost.isNullOrUndefined(target[property].validator)) {
                     target[property].validator.message("");
@@ -125,9 +154,11 @@
             for (var property in source) {
                 var value = source[property];
 
-                if (shouldSkipProperty(source, property)) continue;
+                if (shouldSkipProperty(source, property)) {
+                    continue;
+                }
 
-                if (ko.isObservable(value) && typeof value.validator != "undefined") {
+                if (ko.isObservable(value) && typeof value.validator !== "undefined") {
                     validators.push(value.validator);
                 } else if (Bifrost.isObject(value)) {
                     collectValidators(value, validators);

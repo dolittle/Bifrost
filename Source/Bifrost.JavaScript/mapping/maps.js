@@ -16,7 +16,9 @@
         });
 
         this.hasMapFor = function (sourceType, targetType) {
-            if (Bifrost.isNullOrUndefined(sourceType) || Bifrost.isNullOrUndefined(targetType)) return false;
+            if (Bifrost.isNullOrUndefined(sourceType) || Bifrost.isNullOrUndefined(targetType)) {
+                return false;
+            }
             var key = getKeyFrom(sourceType, targetType);
             return maps.hasOwnProperty(key);
         };

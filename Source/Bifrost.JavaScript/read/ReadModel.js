@@ -6,7 +6,7 @@
 
         this.copyTo = function (target) {
             for (var property in actualReadModel) {
-                if (actualReadModel.hasOwnProperty(property) && property.indexOf("_") != 0) {
+                if (actualReadModel.hasOwnProperty(property) && property.indexOf("_") !== 0) {
                     var value = ko.utils.unwrapObservable(actualReadModel[property]);
                     if (!target.hasOwnProperty(property)) {
                         target[property] = ko.observable(value);

@@ -23,8 +23,8 @@ Bifrost.namespace("Bifrost.validation", {
             if (notSet(options.min)) {
                 throw new Bifrost.validation.MinNotSpecified();
             }
-            throwIfValueIsNotANumber(options.min, "min")
-            throwIfValueIsNotANumber(options.max, "max")
+            throwIfValueIsNotANumber(options.min, "min");
+            throwIfValueIsNotANumber(options.max, "max");
         }
 
 

@@ -8,7 +8,8 @@
         this.begin = ko.observable();
         this.end = ko.observable();
         this.total = ko.computed(function () {
-            if (typeof self.end() !== "undefined" && typeof (self.begin()) !== "undefined") {
+            if (!Bifrost.isNullOrUndefined(self.end()) &&
+                !Bifrost.isNullOrUndefined(self.begin())) {
                 return self.end() - self.begin();
             }
             return 0;
@@ -17,10 +18,10 @@
         this.error = ko.observable();
 
         this.isFinished = ko.computed(function () {
-            return typeof self.end() !== "undefined";
+            return !Bifrost.isNullOrUndefined(self.end());
         });
         this.hasFailed = ko.computed(function () {
-            return typeof self.error() !== "undefined";
+            return !Bifrost.isNullOrUndefined(self.error());
         });
 
         this.isSuccess = ko.computed(function () {

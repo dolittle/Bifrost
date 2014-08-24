@@ -17,6 +17,6 @@
                 promise.signal(view);
             });
             return promise;
-        }
+        };
     })
 });

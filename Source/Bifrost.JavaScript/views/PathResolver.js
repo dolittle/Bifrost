@@ -5,7 +5,7 @@
         };
 
         this.resolve = function (element, path) {
-            
+
         };
     })
 });

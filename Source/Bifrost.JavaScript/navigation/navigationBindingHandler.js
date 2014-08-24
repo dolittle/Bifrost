@@ -26,9 +26,9 @@
         }
 
         function makeValueAccessor(navigationFrame) {
-            return function() {
+            return function () {
                 return navigationFrame.currentUri();
-            }
+            };
         }
 
         this.init = function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

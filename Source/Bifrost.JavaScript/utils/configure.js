@@ -39,7 +39,7 @@
         function onStartup() {
             var configurators = Bifrost.configurator.getExtenders();
             configurators.forEach(function (configuratorType) {
-                var configurator = configuratorType.create()
+                var configurator = configuratorType.create();
                 configurator.config(self);
             });
 
@@ -69,7 +69,7 @@
         }
 
         this.ready = function(callback) {
-            if (self.isReady == true) {
+            if (self.isReady === true) {
                 callback();
             } else {
                 self.readyCallbacks.push(callback);

@@ -5,22 +5,25 @@
         this.format = format;
         this.mappedFormat = mappedFormat;
 
-        var placeholderExpression = "\{[a-zA-Z]+\}";
+        var placeholderExpression = "{[a-zA-Z]+}";
         var placeholderRegex = new RegExp(placeholderExpression, "g");
 
-        var wildcardExpression = "\\*{2}[//||\.]";
+        var wildcardExpression = "\\*{2}[//||.]";
         var wildcardRegex = new RegExp(wildcardExpression, "g");
 
         var combinedExpression = "(" + placeholderExpression + ")*(" + wildcardExpression + ")*";
         var combinedRegex = new RegExp(combinedExpression, "g");
 
         var components = [];
-        
 
         var resolveExpression = format.replace(combinedRegex, function(match) {
-            if( typeof match === "undefined" || match == "") return "";
+            if (typeof match === "undefined" || match === "") {
+                return "";
+            }
             components.push(match);
-            if( match.indexOf("**") == 0) return "([\\w.//]*)";
+            if (match.indexOf("**") === 0) {
+                return "([\\w.//]*)";
+            }
             return "([\\w.]*)";
         });
 
@@ -41,7 +44,7 @@
             components.forEach(function (c, i) {
                 var component = c.substr(1, c.length - 2);
                 var value = match[i + 2];
-                if (c.indexOf("**") != 0) {
+                if (c.indexOf("**") !== 0) {
                     output[component] = value;
                 }
             });
@@ -56,7 +59,7 @@
 
             components.forEach(function (c, i) {
                 var value = match[i + 1];
-                if (c.indexOf("**") == 0) {
+                if (c.indexOf("**") === 0) {
                     var wildcard = mappedFormatWildcardMatch[wildcardOffset];
                     value = value.replaceAll(c[2], wildcard[2]);
                     result = result.replace(wildcard, value);

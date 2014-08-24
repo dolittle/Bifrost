@@ -7,20 +7,32 @@ Bifrost.commands.CommandDescriptor = function(command) {
         builtInCommand = Bifrost.commands.Command.create({
             region: { commands: [] },
             commandCoordinator: {},
-            commandValidationService: {}, 
-            commandSecurityService: { getContextFor: function () { return { continueWith: function () { } } } },
+            commandValidationService: {},
+            commandSecurityService: { getContextFor: function () { return { continueWith: function () { } }; } },
             mapper: {},
             options: {}
         });
     }
 
     function shouldSkipProperty(target, property) {
-        if (!target.hasOwnProperty(property)) return true;
-        if (builtInCommand.hasOwnProperty(property)) return true;
-        if (ko.isObservable(target[property])) return false;
-        if (typeof target[property] === "function") return true;
-        if (property == "_type") return true;
-        if (property == "_namespace") return true;
+        if (!target.hasOwnProperty(property)) {
+            return true;
+        }
+        if (builtInCommand.hasOwnProperty(property)) {
+            return true;
+        }
+        if (ko.isObservable(target[property])) {
+            return false;
+        }
+        if (typeof target[property] === "function") {
+            return true;
+        }
+        if (property === "_type") {
+            return true;
+        }
+        if (property === "_namespace") {
+            return true;
+        }
 
         return false;
     }

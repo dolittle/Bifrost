@@ -23,7 +23,6 @@ Bifrost.sagas.sagaNarrator = (function () {
         } else {
             return false;
         }
-        return true;
     }
 
     return {
@@ -34,13 +33,13 @@ Bifrost.sagas.sagaNarrator = (function () {
             post(baseUrl + "/Conclude", JSON.stringify(methodParameters), function (jqXHR) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(jqXHR.responseText);
                 var isSuccess = isRequestSuccess(jqXHR, commandResult);
-                if (isSuccess == true && typeof success === "function") {
+                if (isSuccess === true && typeof success === "function") {
                     success(saga);
                 }
-                if (isSuccess == false && typeof error === "function") {
+                if (isSuccess === false && typeof error === "function") {
                     error(saga);
                 }
             });
         }
-    }
+    };
 })();

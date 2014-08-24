@@ -5,7 +5,7 @@
             this.commands = ko.observable(commands);
             this.messages = ko.observableArray([]);
             this.hasMessages = ko.computed(function(){
-                return this.messages().length > 0
+                return this.messages().length > 0;
             },self);
 
             function aggregateMessages() {
@@ -27,7 +27,7 @@
 
                 unwrappedCommand.validators().forEach(function (validator) {
                     validator.message.subscribe(aggregateMessages);
-                }); 
+                });
             });
         }
     });
@@ -41,13 +41,13 @@
             ul.innerHTML = "<li><span data-bind='text: $data'></span></li>";
 
             ko.utils.domData.set(element, 'validationsummary', validationSummary);
-            
+
             ko.applyBindingsToNode(element, { visible: validationSummary.hasMessages }, validationSummary);
             ko.applyBindingsToNode(ul, { foreach: validationSummary.messages }, validationSummary);
         },
         update: function (element, valueAccessor) {
             var validationSummary = ko.utils.domData.get(element, 'validationsummary');
-            validationSummary.commands( ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor) );
+            validationSummary.commands(ko.bindingHandlers.validationSummaryFor.getValueAsArray(valueAccessor));
         },
         getValueAsArray: function (valueAccessor) {
             var target = ko.utils.unwrapObservable(valueAccessor());

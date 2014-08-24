@@ -3,10 +3,12 @@ if (typeof ko !== 'undefined') {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
             var validator = value.validator;
-            if (Bifrost.isNullOrUndefined(validator)) return;
+            if (Bifrost.isNullOrUndefined(validator)) {
+                return;
+            }
 
             validator.isValid.subscribe(function (newValue) {
-                if (newValue == true) {
+                if (newValue === true) {
                     $(element).hide();
                 } else {
                     $(element).show();

@@ -18,7 +18,7 @@
                 var typeAsString = null;
                 if (!Bifrost.isNullOrUndefined(value)) {
                     if (!Bifrost.isNullOrUndefined(targetValue)) {
-                        if (value.constructor != targetValue.constructor) {
+                        if (value.constructor !== targetValue.constructor) {
                             typeAsString = targetValue.constructor.name.toString();
                         }
 
@@ -27,7 +27,7 @@
                         }
                     }
 
-                    if (!Bifrost.isNullOrUndefined(typeAsString) ) {
+                    if (!Bifrost.isNullOrUndefined(typeAsString)) {
                         value = typeConverters.convertFrom(value.toString(), typeAsString);
                     }
                 }
