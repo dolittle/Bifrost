@@ -3,13 +3,13 @@ using It = Machine.Specifications.It;
 
 namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
-    public class when_invoking_with_a_int_as_a_parameter : given.a_rest_service_method_invoker_and_a_service_call_for_int_input_and_no_output
+    public class when_invoking_with_a_int_as_an_escaped_string_parameter : given.a_rest_service_method_invoker_and_a_service_call_for_int_input_and_no_output
     {
         const   int expected = 42;
 
         Establish context = () =>
             {
-                parameters.Add("input", expected.ToString());
+                parameters.Add("input", "\""+expected.ToString()+"\"");
             };
 
         Because of = () => invoker.Invoke(base_url, service_instance, uri, parameters);

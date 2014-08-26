@@ -1,7 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
 
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker.given
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker.given
 {
     public class a_rest_service_method_invoker_and_a_service_call_for_string_input_and_no_output : a_rest_service_method_invoker_and_a_service_call
     {

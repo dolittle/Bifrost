@@ -1,7 +1,7 @@
 ﻿using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class when_invoking_with_a_complex_type_as_a_parameter : given.a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output
     {

@@ -75,6 +75,17 @@
     <Compile Include="Services\for_RequestParamsFactory\given\a_request_params_factory.cs" />
     <Compile Include="Services\for_RequestParamsFactory\when_building_a_request_params_object.cs" />
     <Compile Include="Services\for_RestServiceMethodInvoker\ComplexType.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_float_as_an_escaped_string_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_float_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_float_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_int_as_an_escaped_string_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_guid_concept_as_escaped_string_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_guid_concept_as_string_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_guid_concept_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\GuidConcept.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_guid_as_escaped_string_as_a_parameter.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_guid_input_and_no_output.cs" />
+    <Compile Include="Services\for_RestServiceMethodInvoker\when_invoking_with_a_guid_as_string_as_a_parameter.cs" />
     <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker.cs" />
     <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call.cs" />
     <Compile Include="Services\for_RestServiceMethodInvoker\given\a_rest_service_method_invoker_and_a_service_call_for_complex_input_and_no_output.cs" />

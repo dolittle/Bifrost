@@ -1,8 +1,8 @@
 using Bifrost.Web.Services;
-using Bifrost.Services.Specs.Execution.for_RequestParamsFactory.given;
+using Bifrost.Web.Specs.Services.for_RequestParamsFactory.given;
 using Machine.Specifications;
 
-namespace Bifrost.Services.Specs.Execution.for_RequestParamsFactory
+namespace Bifrost.Web.Specs.Services.for_RequestParamsFactory
 {
     [Subject(typeof(RequestParamsFactory))]
     public class when_building_a_request_params_object : a_request_params_factory

@@ -1,5 +1,5 @@
 ﻿
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class ServiceWithoutMethods
     {

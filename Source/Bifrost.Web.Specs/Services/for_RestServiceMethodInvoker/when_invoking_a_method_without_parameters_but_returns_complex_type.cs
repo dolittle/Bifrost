@@ -3,7 +3,7 @@ using Machine.Specifications;
 using It = Machine.Specifications.It;
 using Bifrost.Serialization;
 
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
     public class when_invoking_a_method_without_parameters_but_returns_complex_type : given.a_rest_service_method_invoker_and_a_service_call
     {

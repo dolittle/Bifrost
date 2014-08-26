@@ -3,7 +3,7 @@ using Bifrost.Web.Services;
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker.given
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker.given
 {
     public class a_rest_service_method_invoker
     {

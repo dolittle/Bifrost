@@ -1,4 +1,6 @@
-﻿namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker
+﻿using System;
+
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
 
 
@@ -49,6 +51,33 @@
         {
             IntInputNoOutputCalled = true;
             IntInputNoOutputInput = input;
+        }
+
+        public const string FloatInputNoOutputMethod = "FloatInputNoOutput";
+        public bool FloatInputNoOutputCalled = false;
+        public float FloatInputNoOutputInput;
+        public void FloatInputNoOutput(float input)
+        {
+            FloatInputNoOutputCalled = true;
+            FloatInputNoOutputInput = input;
+        }
+
+        public const string GuidInputNoOutputMethod = "GuidInputNoOutput";
+        public bool GuidInputNoOutputCalled = false;
+        public Guid GuidInputNoOutputInput;
+        public void GuidInputNoOutput(Guid input)
+        {
+            GuidInputNoOutputCalled = true;
+            GuidInputNoOutputInput = input;
+        }
+
+        public const string GuidConceptInputNoOutputMethod = "GuidConceptInputNoOutput";
+        public bool GuidConceptInputNoOutputCalled = false;
+        public GuidConcept GuidConceptInputNoOutputInput;
+        public void GuidConceptInputNoOutput(GuidConcept input)
+        {
+            GuidConceptInputNoOutputCalled = true;
+            GuidConceptInputNoOutputInput = input;
         }
 
     }

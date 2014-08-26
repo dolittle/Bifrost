@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using Machine.Specifications;
 
-namespace Bifrost.Services.Specs.Execution.for_RestServiceMethodInvoker.given
+namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker.given
 {
     public class a_rest_service_method_invoker_and_a_service_call : a_rest_service_method_invoker
     {

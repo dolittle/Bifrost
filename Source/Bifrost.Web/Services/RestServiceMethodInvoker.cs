@@ -82,11 +82,22 @@ namespace Bifrost.Web.Services
             return values.ToArray();
         }
 
+        string Unescape(string value)
+        {
+            if (value.StartsWith("\"")) value = value.Substring(1);
+            if (value.EndsWith("\"")) value = value.Substring(0, value.Length - 1);
+
+            return value;
+        }
+
+
 
         object HandleValue(ParameterInfo parameter, string input)
         {            
             if (parameter.ParameterType == typeof(string))
                 return input;
+
+            input = Unescape(input);
 
             if (parameter.ParameterType.IsValueType)
                 return TypeDescriptor.GetConverter(parameter.ParameterType).ConvertFromInvariantString(input);

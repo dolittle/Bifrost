@@ -7,7 +7,7 @@ using Bifrost.Web.Services;
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Services.Specs.Execution.for_RequestParamsFactory.given
+namespace Bifrost.Web.Specs.Services.for_RequestParamsFactory.given
 {
     public class a_request_params_factory
     {
