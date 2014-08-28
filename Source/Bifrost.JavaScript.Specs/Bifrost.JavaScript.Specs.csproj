@@ -96,6 +96,9 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_value_but_target_property_is_null.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value_and_target_property_is_undefined.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value_and_target_property_is_null.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_type_with_map_that_has_propertymap_for_given_property.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_map_that_has_propertymap_for_given_property.js" />
@@ -149,6 +152,10 @@
     <Content Include="rules\for_Rule\when_rule_with_observable_evaluator_gets_changed.js" />
     <Content Include="rules\for_Rule\when_rule_has_not_been_evaluated_against_an_instance.js" />
     <Content Include="rules\for_Rule\when_rule_is_evaluated_against_an_instance.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_object_literal_is_object.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_string_is_object.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_number_is_object.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_null_is_object.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />

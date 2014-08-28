@@ -4,13 +4,13 @@ Bifrost.namespace("Bifrost.mapping", {
         var self = this;
 
         function copyProperties(from, to, map) {
-            for (var property in from){
-                if (typeof to[property] !== "undefined") {
+            for (var property in from) {
+                
+                if (!Bifrost.isUndefined(to[property])) {
+                    
                     if (Bifrost.isObject(to[property])) {
                         copyProperties(from[property], to[property]);
                     } else {
-
-                        
                         if (!Bifrost.isNullOrUndefined(map)) {
                             if (map.canMapProperty(property)) {
                                 map.mapProperty(property, from, to);
@@ -29,7 +29,9 @@ Bifrost.namespace("Bifrost.mapping", {
                                 typeAsString = toValue.constructor.name.toString();
                             }
                         }
-                        if (!Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
+                        
+                        if (!Bifrost.isNullOrUndefined(to[property]) &&
+                            !Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
                             typeAsString = to[property]._typeAsString;
                         }
 
