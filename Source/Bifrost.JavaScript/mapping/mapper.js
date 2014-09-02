@@ -5,6 +5,9 @@ Bifrost.namespace("Bifrost.mapping", {
 
         function copyProperties(from, to, map) {
             for (var property in from) {
+                if (property.indexOf("_") === 0) {
+                    continue;
+                }
                 
                 if (!Bifrost.isUndefined(to[property])) {
                     

@@ -19,7 +19,7 @@ Bifrost.namespace("Bifrost.read", {
                 }
 
                 if (query.hasReadModel()) {
-                    result.items = mapper.map(query.readModel, result.items);
+                    result.items = mapper.map(query._readModel, result.items);
                 }
                 promise.signal(result);
             });

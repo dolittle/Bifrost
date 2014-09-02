@@ -42,7 +42,7 @@
     });
 
     it("should map resulting data to read model", function () {
-        expect(mapper.map.calledWith(readModelOf.readModelType, data)).toBe(true);
+        expect(mapper.map.calledWith(readModelOf._readModelType, data)).toBe(true);
     });
 
     it("should set the instance to the result coming back", function () {

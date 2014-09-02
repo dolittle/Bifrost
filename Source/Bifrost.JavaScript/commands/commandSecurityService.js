@@ -34,10 +34,10 @@
                 promise.signal(context);
             } else {
                 context = self.commandSecurityContextFactory.create();
-                if (Bifrost.isNullOrUndefined(command.generatedFrom) || command.generatedFrom === "") {
+                if (Bifrost.isNullOrUndefined(command._generatedFrom) || command._generatedFrom === "") {
                     promise.signal(context);
                 } else {
-                    var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.generatedFrom;
+                    var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command._generatedFrom;
                     $.getJSON(url, function (e) {
                         context.isAuthorized(e.isAuthorized);
                         promise.signal(context);

@@ -4,8 +4,8 @@ Bifrost.namespace("Bifrost.commands", {
         var hasChangesObservables = ko.observableArray();
 
         this.region = region;
-        this.name = "";
-        this.generatedFrom = "";
+        this._name = "";
+        this._generatedFrom = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
@@ -250,6 +250,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.setPropertyValuesFrom = function (values) {
             mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
+            self.setInitialValuesFromCurrentValues();
         };
 
         this.onCreated = function (lastDescendant) {

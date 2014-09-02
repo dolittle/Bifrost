@@ -1,10 +1,11 @@
 Bifrost.namespace("Bifrost.read", {
     ReadModelOf: Bifrost.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
         var self = this;
-        this.name = "";
-        this.generatedFrom = "";
         this.target = null;
-        this.readModelType = Bifrost.Type.extend(function () { });
+
+        this._name = "";
+        this._generatedFrom = "";
+        this._readModelType = Bifrost.Type.extend(function () { });
         this.instance = ko.observable();
         this.commandToPopulate = null;
         this.region = region;
@@ -21,7 +22,7 @@ Bifrost.namespace("Bifrost.read", {
             var task = taskFactory.createReadModel(target, propertyFilters);
             target.region.tasks.execute(task).continueWith(function (data) {
                 if (!Bifrost.isNullOrUndefined(data)) {
-                    var mappedReadModel = mapper.map(target.readModelType, data);
+                    var mappedReadModel = mapper.map(target._readModelType, data);
                     self.instance(mappedReadModel);
                 } else {
                     readModelSystemEvents.noInstance.trigger(target);
@@ -59,7 +60,7 @@ Bifrost.namespace("Bifrost.read", {
 
         this.onCreated = function (lastDescendant) {
             self.target = lastDescendant;
-            var readModelInstance = lastDescendant.readModelType.create();
+            var readModelInstance = lastDescendant._readModelType.create();
             self.instance(readModelInstance);
         };
     })

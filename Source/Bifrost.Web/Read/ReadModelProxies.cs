@@ -68,7 +68,7 @@ namespace Bifrost.Web.Read
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
-                                        .Property("generatedFrom", p => p.WithString(type.FullName))
+                                        .Property("_generatedFrom", p => p.WithString(type.FullName))
                                         .WithPropertiesFrom(type, typeof(IReadModel)));
 
                     currentNamespace.Content.Assign("readModelOf" + name.ToPascalCase())
@@ -77,9 +77,9 @@ namespace Bifrost.Web.Read
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
-                                        .Property("name", p => p.WithString(name))
-                                        .Property("generatedFrom", p => p.WithString(type.FullName))
-                                        .Property("readModelType", p => p.WithLiteral(currentNamespace.Name+"." + name))
+                                        .Property("_name", p => p.WithString(name))
+                                        .Property("_generatedFrom", p => p.WithString(type.FullName))
+                                        .Property("_readModelType", p => p.WithLiteral(currentNamespace.Name+"." + name))
                                         .WithReadModelConvenienceFunctions(type));
                 }
 

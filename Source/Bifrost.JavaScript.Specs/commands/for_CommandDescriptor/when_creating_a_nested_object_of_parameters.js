@@ -1,6 +1,6 @@
 ﻿describe("when creating a list of parameters", function () {
     var command = {
-        name: "DoSomething",
+        _name: "DoSomething",
         id: Bifrost.Guid.create(),
         plainObject: {
             plainString: "test",

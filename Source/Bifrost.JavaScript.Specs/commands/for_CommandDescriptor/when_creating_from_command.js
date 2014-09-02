@@ -1,6 +1,7 @@
 ﻿describe("when creating from command", function () {
     var command = {
-        name: "DoSomething",
+        _name: "DoSomething",
+        _generatedFrom: "Somewhere",
         id: Bifrost.Guid.create(),
         parameters: {},
         someFunction: function () { },
@@ -15,7 +16,7 @@
         Bifrost.commands.Command = {
             create: function () {
                 return {
-                    name: "",
+                    _name: "",
                     id: ""
                 };
             }
@@ -34,7 +35,11 @@
     });
 
     it("should set name", function () {
-        expect(commandDescriptor.name).toEqual(command.name);
+        expect(commandDescriptor.name).toEqual(command._name);
+    });
+
+    it("should set generated from", function () {
+        expect(commandDescriptor.generatedFrom).toEqual(command._generatedFrom);
     });
 
     it("should include a command property", function () {

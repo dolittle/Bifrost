@@ -1,10 +1,10 @@
 ﻿Bifrost.namespace("Bifrost.read", {
     QueryTask: Bifrost.tasks.LoadTask.extend(function (query, paging, taskFactory) {
-        var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+        var url = "/Bifrost/Query/Execute?_q=" + query._generatedFrom;
         var payload = {
             descriptor: {
-                nameOfQuery: query.name,
-                generatedFrom: query.generatedFrom,
+                nameOfQuery: query._name,
+                generatedFrom: query._generatedFrom,
                 parameters: query.getParameterValues()
             },
             paging: {
@@ -13,7 +13,7 @@
             }
         };
 
-        this.query = query.name;
+        this.query = query._name;
         this.paging = payload.paging;
 
         var innerTask = taskFactory.createHttpPost(url, payload);

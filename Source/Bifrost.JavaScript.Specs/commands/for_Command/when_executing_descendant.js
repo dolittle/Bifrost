@@ -55,7 +55,7 @@
     };
 
     var descendant = Bifrost.commands.Command.extend(function () {
-        this.name = "descendant";
+        this._name = "descendant";
         this.firstProperty = ko.observable(42);
         this.secondProperty = ko.observable("43");
 

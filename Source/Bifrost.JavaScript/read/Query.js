@@ -1,16 +1,17 @@
 ﻿Bifrost.namespace("Bifrost.read", {
     Query: Bifrost.Type.extend(function (queryableFactory, region) {
         var self = this;
-        this.name = "";
         this.target = this;
-        this.generatedFrom = "";
-        this.readModel = null;
+
+        this._name = "";
+        this._generatedFrom = "";
+        this._readModel = null;
         this.region = region;
 
         this.areAllParametersSet = null;
 
         this.hasReadModel = function () {
-            return typeof self.target.readModel !== "undefined" && self.target.readModel != null;
+            return typeof self.target._readModel !== "undefined" && self.target._readModel != null;
         };
 
         this.setParameters = function (parameters) {

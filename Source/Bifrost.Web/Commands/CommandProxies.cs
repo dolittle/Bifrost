@@ -80,8 +80,8 @@ namespace Bifrost.Web.Commands
                                 .Function
                                     .Body
                                         .Variant("self", v => v.WithThis())
-                                        .Property("name", p => p.WithString(name))
-                                        .Property("generatedFrom", p => p.WithString(type.FullName))
+                                        .Property("_name", p => p.WithString(name))
+                                        .Property("_generatedFrom", p => p.WithString(type.FullName))
 
                                         .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
                                         {

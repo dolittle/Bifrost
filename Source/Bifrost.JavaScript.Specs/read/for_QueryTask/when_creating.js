@@ -1,7 +1,7 @@
 ﻿describe("when creating", function () {
     var query = {
-        name: "Its a query",
-        generatedFrom: "Something",
+        _name: "Its a query",
+        _generatedFrom: "Something",
         getParameterValues: function () {
             return {
                 firstValue: 42,
@@ -32,18 +32,18 @@
         paging: paging
     });
 
-    var expectedUrl = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+    var expectedUrl = "/Bifrost/Query/Execute?_q=" + query._generatedFrom;
 
     it("should create an inner task with correct url", function () {
         expect(urlForTask).toBe(expectedUrl);
     });
 
     it("should put the name of query as part of the parameters", function () {
-        expect(payloadForTask.descriptor.nameOfQuery).toBe(query.name);
+        expect(payloadForTask.descriptor.nameOfQuery).toBe(query._name);
     });
 
     it("should put the generated from as part of the parameters", function () {
-        expect(payloadForTask.descriptor.generatedFrom).toBe(query.generatedFrom);
+        expect(payloadForTask.descriptor.generatedFrom).toBe(query._generatedFrom);
     });
 
     it("should put the first value into the parameters", function () {

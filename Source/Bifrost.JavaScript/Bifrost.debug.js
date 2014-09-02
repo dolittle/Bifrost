@@ -3998,7 +3998,7 @@ Bifrost.namespace("Bifrost.commands", {
                 commandDescriptor: commandDescriptor
             };
 
-            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command.generatedFrom;
+            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command._generatedFrom;
 
             server.post(url, parameters).continueWith(function (result) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(result);
@@ -4286,8 +4286,8 @@ Bifrost.namespace("Bifrost.commands", {
         var hasChangesObservables = ko.observableArray();
 
         this.region = region;
-        this.name = "";
-        this.generatedFrom = "";
+        this._name = "";
+        this._generatedFrom = "";
         this.targetCommand = this;
         this.validators = ko.observableArray();
         this.validationMessages = ko.observableArray();
@@ -4532,6 +4532,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         this.setPropertyValuesFrom = function (values) {
             mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
+            self.setInitialValuesFromCurrentValues();
         };
 
         this.onCreated = function (lastDescendant) {
@@ -4614,8 +4615,8 @@ Bifrost.commands.CommandDescriptor = function(command) {
         return properties;
     }
 
-    this.name = command.name;
-    this.generatedFrom = command.generatedFrom;
+    this.name = command._name;
+    this.generatedFrom = command._generatedFrom;
     this.id = Bifrost.Guid.create();
 
     var properties = getPropertiesFromCommand(command);
@@ -4729,10 +4730,10 @@ Bifrost.namespace("Bifrost.commands", {
                 promise.signal(context);
             } else {
                 context = self.commandSecurityContextFactory.create();
-                if (Bifrost.isNullOrUndefined(command.generatedFrom) || command.generatedFrom === "") {
+                if (Bifrost.isNullOrUndefined(command._generatedFrom) || command._generatedFrom === "") {
                     promise.signal(context);
                 } else {
-                    var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command.generatedFrom;
+                    var url = "/Bifrost/CommandSecurity/GetForCommand?commandName=" + command._generatedFrom;
                     $.getJSON(url, function (e) {
                         context.isAuthorized(e.isAuthorized);
                         promise.signal(context);
@@ -5396,6 +5397,9 @@ Bifrost.namespace("Bifrost.mapping", {
 
         function copyProperties(from, to, map) {
             for (var property in from) {
+                if (property.indexOf("_") === 0) {
+                    continue;
+                }
                 
                 if (!Bifrost.isUndefined(to[property])) {
                     
@@ -5608,16 +5612,17 @@ Bifrost.WellKnownTypesDependencyResolver.types.queryableFactory = Bifrost.intera
 Bifrost.namespace("Bifrost.read", {
     Query: Bifrost.Type.extend(function (queryableFactory, region) {
         var self = this;
-        this.name = "";
         this.target = this;
-        this.generatedFrom = "";
-        this.readModel = null;
+
+        this._name = "";
+        this._generatedFrom = "";
+        this._readModel = null;
         this.region = region;
 
         this.areAllParametersSet = null;
 
         this.hasReadModel = function () {
-            return typeof self.target.readModel !== "undefined" && self.target.readModel != null;
+            return typeof self.target._readModel !== "undefined" && self.target._readModel != null;
         };
 
         this.setParameters = function (parameters) {
@@ -5731,10 +5736,11 @@ Bifrost.namespace("Bifrost.read", {
 Bifrost.namespace("Bifrost.read", {
     ReadModelOf: Bifrost.Type.extend(function (region, mapper, taskFactory, readModelSystemEvents) {
         var self = this;
-        this.name = "";
-        this.generatedFrom = "";
         this.target = null;
-        this.readModelType = Bifrost.Type.extend(function () { });
+
+        this._name = "";
+        this._generatedFrom = "";
+        this._readModelType = Bifrost.Type.extend(function () { });
         this.instance = ko.observable();
         this.commandToPopulate = null;
         this.region = region;
@@ -5751,7 +5757,7 @@ Bifrost.namespace("Bifrost.read", {
             var task = taskFactory.createReadModel(target, propertyFilters);
             target.region.tasks.execute(task).continueWith(function (data) {
                 if (!Bifrost.isNullOrUndefined(data)) {
-                    var mappedReadModel = mapper.map(target.readModelType, data);
+                    var mappedReadModel = mapper.map(target._readModelType, data);
                     self.instance(mappedReadModel);
                 } else {
                     readModelSystemEvents.noInstance.trigger(target);
@@ -5789,23 +5795,23 @@ Bifrost.namespace("Bifrost.read", {
 
         this.onCreated = function (lastDescendant) {
             self.target = lastDescendant;
-            var readModelInstance = lastDescendant.readModelType.create();
+            var readModelInstance = lastDescendant._readModelType.create();
             self.instance(readModelInstance);
         };
     })
 });
 Bifrost.namespace("Bifrost.read", {
     ReadModelTask: Bifrost.tasks.LoadTask.extend(function (readModelOf, propertyFilters, taskFactory) {
-        var url = "/Bifrost/ReadModel/InstanceMatching?_rm=" + readModelOf.generatedFrom;
+        var url = "/Bifrost/ReadModel/InstanceMatching?_rm=" + readModelOf._generatedFrom;
         var payload = {
             descriptor: {
-                readModel: readModelOf.name,
-                generatedFrom: readModelOf.generatedFrom,
+                readModel: readModelOf._name,
+                generatedFrom: readModelOf._generatedFrom,
                 propertyFilters: propertyFilters
             }
         };
 
-        this.readModel = readModelOf.generatedFrom;
+        this.readModel = readModelOf._generatedFrom;
 
         var innerTask = taskFactory.createHttpPost(url, payload);
 
@@ -5841,11 +5847,11 @@ Bifrost.dependencyResolvers.query = {
 };
 Bifrost.namespace("Bifrost.read", {
     QueryTask: Bifrost.tasks.LoadTask.extend(function (query, paging, taskFactory) {
-        var url = "/Bifrost/Query/Execute?_q=" + query.generatedFrom;
+        var url = "/Bifrost/Query/Execute?_q=" + query._generatedFrom;
         var payload = {
             descriptor: {
-                nameOfQuery: query.name,
-                generatedFrom: query.generatedFrom,
+                nameOfQuery: query._name,
+                generatedFrom: query._generatedFrom,
                 parameters: query.getParameterValues()
             },
             paging: {
@@ -5854,7 +5860,7 @@ Bifrost.namespace("Bifrost.read", {
             }
         };
 
-        this.query = query.name;
+        this.query = query._name;
         this.paging = payload.paging;
 
         var innerTask = taskFactory.createHttpPost(url, payload);
@@ -5886,7 +5892,7 @@ Bifrost.namespace("Bifrost.read", {
                 }
 
                 if (query.hasReadModel()) {
-                    result.items = mapper.map(query.readModel, result.items);
+                    result.items = mapper.map(query._readModel, result.items);
                 }
                 promise.signal(result);
             });

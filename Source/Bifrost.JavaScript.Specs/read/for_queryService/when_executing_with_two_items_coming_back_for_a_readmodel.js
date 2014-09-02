@@ -15,10 +15,10 @@
     };
 
     var query = {
-        name: "Its a query",
-        generatedFrom: "Something",
+        _name: "Its a query",
+        _generatedFrom: "Something",
         getParameterValues: function () { return {}; },
-        readModel: "SureIsAReadModel",
+        _readModel: "SureIsAReadModel",
         hasReadModel: function () { return true; },
         region: {
             tasks: tasks

@@ -11,7 +11,7 @@
                 commandDescriptor: commandDescriptor
             };
 
-            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command.generatedFrom;
+            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command._generatedFrom;
 
             server.post(url, parameters).continueWith(function (result) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(result);
