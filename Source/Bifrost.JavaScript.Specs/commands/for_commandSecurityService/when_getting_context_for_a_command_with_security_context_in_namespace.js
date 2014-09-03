@@ -12,8 +12,8 @@
     };
 
     var command = {
-        name: "SomeCommand",
-        generatedFrom : "SomeCommand",
+        _name: "SomeCommand",
+        _generatedFrom : "SomeCommand",
         _type: {
             _name: "SomeCommand",
             _namespace: {

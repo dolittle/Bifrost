@@ -2879,8 +2879,8 @@ Bifrost.namespace("Bifrost.io", {
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.fileManager = Bifrost.io.fileManager;
-Bifrost.namespace("Bifrost.rules", {
-    Rule: Bifrost.Type.extend(function () {
+Bifrost.namespace("Bifrost.specifications", {
+    Specification: Bifrost.Type.extend(function () {
         /// <summary>Represents a rule based on the specification pattern</summary>
         var self = this;
         var currentInstance = ko.observable();
@@ -2931,11 +2931,11 @@ Bifrost.namespace("Bifrost.rules", {
 
             if (Bifrost.isFunction(rule)) {
                 var oldRule = rule;
-                rule = Bifrost.rules.Rule.create();
+                rule = Bifrost.specifications.Specification.create();
                 rule.evaluator = oldRule;
             }
 
-            var and = Bifrost.rules.And.create(this, rule);
+            var and = Bifrost.specifications.And.create(this, rule);
             return and;
         };
 
@@ -2949,16 +2949,16 @@ Bifrost.namespace("Bifrost.rules", {
 
             if (Bifrost.isFunction(rule)) {
                 var oldRule = rule;
-                rule = Bifrost.rules.Rule.create();
+                rule = Bifrost.specifications.Specification.create();
                 rule.evaluator = oldRule;
             }
 
-            var or = Bifrost.Rules.Or.create(this, rule);
+            var or = Bifrost.specifications.Or.create(this, rule);
             return or;
         };
     })
 });
-Bifrost.rules.Rule.when = function (evaluator) {
+Bifrost.specification.Specification.when = function (evaluator) {
     /// <summary>Starts a rule chain</summary>
     /// <param name="evaluator">
     /// The evaluator can either be a function that gets called with the instance
@@ -2966,12 +2966,12 @@ Bifrost.rules.Rule.when = function (evaluator) {
     /// not have the instance passed 
     /// </param>
     /// <returns>A new composed rule</returns>
-    var rule = Bifrost.rules.Rule.create();
+    var rule = Bifrost.specificatiosn.Specification.create();
     rule.evaluator = evaluator;
     return rule;
 };
-Bifrost.namespace("Bifrost.rules", {
-    And: Bifrost.rules.Rule.extend(function (leftHandSide, rightHandSide) {
+Bifrost.namespace("Bifrost.specifications", {
+    And: Bifrost.specifications.Specification.extend(function (leftHandSide, rightHandSide) {
         /// <summary>Represents the "and" composite rule based on the specification pattern</summary>
 
         this.isSatisfied = ko.computed(function () {
@@ -2985,8 +2985,8 @@ Bifrost.namespace("Bifrost.rules", {
         };
     })
 });
-Bifrost.namespace("Bifrost.rules", {
-    Or: Bifrost.rules.Rule.extend(function (leftHandSide, rightHandSide) {
+Bifrost.namespace("Bifrost.specifications", {
+    Or: Bifrost.specifications.Specification.extend(function (leftHandSide, rightHandSide) {
         /// <summary>Represents the "or" composite rule based on the specification pattern</summary>
 
         this.isSatisfied = ko.computed(function () {
@@ -3120,7 +3120,7 @@ Bifrost.namespace("Bifrost.tasks", {
         /// <field name="unfiltered" type="Bifrost.tasks.Task[]">All tasks completely unfiltered</field>
         this.unfiltered = ko.observableArray();
 
-        /// <field name="executeWhen" type="Bifrost.rules.Rule">Gets or sets the rule for execution</field>
+        /// <field name="executeWhen" type="Bifrost.specifications.Specification">Gets or sets the rule for execution</field>
         /// <remarks>
         /// If a task gets executed that does not get satisfied by the rule, it will just queue it up
         /// </remarks>
@@ -4711,7 +4711,7 @@ Bifrost.namespace("Bifrost.commands", {
 
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return Bifrost.isNullOrUndefined(securityContextName) &&
+            return !Bifrost.isNullOrUndefined(securityContextName) &&
                 !Bifrost.isNullOrUndefined(namespace) &&
                 namespace.hasOwnProperty(securityContextName);
         }

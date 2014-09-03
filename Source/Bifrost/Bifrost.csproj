@@ -224,13 +224,13 @@
     <Compile Include="Read\TypeDiscovererExtensions.cs" />
     <Compile Include="Read\UnknownQueryException.cs" />
     <Compile Include="Read\UnknownReadModelOfException.cs" />
-    <Compile Include="Rules\And.cs" />
-    <Compile Include="Rules\CompositeRule.cs" />
-    <Compile Include="Rules\Negative.cs" />
-    <Compile Include="Rules\Or.cs" />
-    <Compile Include="Rules\ParameterRebinder.cs" />
-    <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Rules\RuleExtensions.cs" />
+    <Compile Include="Specifications\And.cs" />
+    <Compile Include="Specifications\CompositeRule.cs" />
+    <Compile Include="Specifications\Negative.cs" />
+    <Compile Include="Specifications\Or.cs" />
+    <Compile Include="Specifications\ParameterRebinder.cs" />
+    <Compile Include="Specifications\Specification.cs" />
+    <Compile Include="Specifications\SpecificationExtensions.cs" />
     <Compile Include="Sagas\Constants.cs" />
     <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
     <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
@@ -488,7 +488,9 @@
     <Compile Include="Read\IReadModel.cs" />
     <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Rules\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

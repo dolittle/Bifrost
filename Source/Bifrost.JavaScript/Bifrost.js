@@ -58,9 +58,9 @@
 @depends io/File.js
 @depends io/fileFactory.js
 @depends io/fileManager.js
-@depends rules/Rule.js
-@depends rules/And.js
-@depends rules/Or.js
+@depends specifications/Specification.js
+@depends specifications/And.js
+@depends specifications/Or.js
 @depends tasks/Task.js
 @depends tasks/TaskHistoryEntry.js
 @depends tasks/taskHistory.js

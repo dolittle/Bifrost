@@ -15,7 +15,7 @@
 
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return Bifrost.isNullOrUndefined(securityContextName) &&
+            return !Bifrost.isNullOrUndefined(securityContextName) &&
                 !Bifrost.isNullOrUndefined(namespace) &&
                 namespace.hasOwnProperty(securityContextName);
         }

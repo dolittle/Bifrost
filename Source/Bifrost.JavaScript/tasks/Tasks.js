@@ -6,7 +6,7 @@
         /// <field name="unfiltered" type="Bifrost.tasks.Task[]">All tasks completely unfiltered</field>
         this.unfiltered = ko.observableArray();
 
-        /// <field name="executeWhen" type="Bifrost.rules.Rule">Gets or sets the rule for execution</field>
+        /// <field name="executeWhen" type="Bifrost.specifications.Specification">Gets or sets the rule for execution</field>
         /// <remarks>
         /// If a task gets executed that does not get satisfied by the rule, it will just queue it up
         /// </remarks>
