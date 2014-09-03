@@ -4711,7 +4711,9 @@ Bifrost.namespace("Bifrost.commands", {
 
         function hasSecurityContextInNamespaceFor(type, namespace) {
             var securityContextName = getSecurityContextNameFor(type);
-            return securityContextName !== null && namespace !== null && namespace.hasOwnProperty(securityContextName);
+            return Bifrost.isNullOrUndefined(securityContextName) &&
+                !Bifrost.isNullOrUndefined(namespace) &&
+                namespace.hasOwnProperty(securityContextName);
         }
 
         function getSecurityContextInNamespaceFor(type, namespace) {
