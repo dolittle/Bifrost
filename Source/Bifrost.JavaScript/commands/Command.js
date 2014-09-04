@@ -170,7 +170,9 @@ Bifrost.namespace("Bifrost.commands", {
             var properties = self.getProperties();
             properties.forEach(function (propertyName) {
                 var property = self.targetCommand[propertyName];
-                if (ko.isObservable(property) && ko.isWriteableObservable(property)) {
+                if (ko.isObservable(property) &&
+                    ko.isWriteableObservable(property) &&
+                    Bifrost.isFunction(property.setInitialValue)) {
                     var value = property();
                     property.setInitialValue(value);
                 }
