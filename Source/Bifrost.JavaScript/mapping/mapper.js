@@ -21,7 +21,7 @@ Bifrost.namespace("Bifrost.mapping", {
                             }
                         }
 
-                        var value = from[property];
+                        var value = ko.unwrap(from[property]);
                         var toValue = ko.unwrap(to[property]);
 
                         var typeAsString = null;
