@@ -224,6 +224,13 @@
     <Compile Include="Read\TypeDiscovererExtensions.cs" />
     <Compile Include="Read\UnknownQueryException.cs" />
     <Compile Include="Read\UnknownReadModelOfException.cs" />
+    <Compile Include="Read\Validation\ArgumentRule.cs" />
+    <Compile Include="Read\Validation\QueryArgumentRuleContext.cs" />
+    <Compile Include="Read\Validation\QueryArgumentValidationBuilder.cs" />
+    <Compile Include="Read\Validation\QueryValidationDescriptorFor.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\IRuleContext.cs" />
+    <Compile Include="Rules\IRuleContextChangeSubscriber.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
     <Compile Include="Specifications\Negative.cs" />
@@ -488,9 +495,7 @@
     <Compile Include="Read\IReadModel.cs" />
     <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rules\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ExceptionStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
