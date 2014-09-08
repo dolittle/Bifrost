@@ -439,7 +439,7 @@
     <Compile Include="Validation\Rules\LessThanOrEqual.cs" />
     <Compile Include="Validation\Rules\GreaterThanOrEqual.cs" />
     <Compile Include="Validation\Rules\GreaterThan.cs" />
-    <Compile Include="Validation\Rules\EMail.cs" />
+    <Compile Include="Validation\Rules\Email.cs" />
     <Compile Include="Validation\TypeExtensions.cs" />
     <Compile Include="Validation\BusinessValidator.cs" />
     <Compile Include="Validation\ValidationRules.cs" />

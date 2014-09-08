@@ -742,6 +742,10 @@
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidation.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating.cs" />
+    <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_domain_suffix.cs" />
+    <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_at_sign.cs" />
+    <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_valid_email.cs" />
+    <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_wrong_type.cs" />
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_equal_to.cs" />
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_greater_than.cs" />
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_less_than.cs" />
