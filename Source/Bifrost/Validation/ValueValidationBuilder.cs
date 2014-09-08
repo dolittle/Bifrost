@@ -16,27 +16,35 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Validation;
+using System.Collections.Generic;
+using System.Reflection;
+using Bifrost.Rules;
 
-namespace Bifrost.Read.Validation
+namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents the basis for an argument rule
+    /// Defines a builder for building rules for value validation
     /// </summary>
-    public abstract class ArgumentRule<TQuery> : ValueRule
+    public class ValueValidationBuilder<TValue> : IValueValidationBuilder
     {
-#pragma warning disable 1591 // Xml Comments
-        protected override bool IsSatisfiedBy(ValueRuleContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-#pragma warning restore 1591 // Xml Comments
+        List<IRule> _rules;
 
         /// <summary>
-        /// Evaluates from a <see cref="QueryArgumentRuleContext{TQuery}"/> wether or not the rule is satisfied
+        /// Initializes an instance of <see cref="ValueValidationBuilder"/>
         /// </summary>
-        /// <param name="context"><see cref="QueryArgumentRuleContext{TQuery}"/> to evalute from</param>
-        /// <returns>True if satisfied, false if not</returns>
-        protected abstract bool IsSatisfiedBy(QueryArgumentRuleContext<TQuery> context);
+        /// <param name="propertyInfo">Property that represents the value</param>
+        public ValueValidationBuilder(PropertyInfo propertyInfo)
+        {
+            _rules = new List<IRule>();
+        }
+
+#pragma warning disable 1591 // Xml Comments
+        public IEnumerable<IRule> Rules { get { return _rules; } }
+
+        public void AddRule(IRule rule)
+        {
+            _rules.Add(rule);
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

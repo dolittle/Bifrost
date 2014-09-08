@@ -2,11 +2,11 @@
 using Bifrost.Read.Validation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Rules.for_QueryValidationDescriptorFor
+namespace Bifrost.Specs.Read.Validation.for_QueryValidationDescriptorFor
 {
     public class when_describing_same_argument_twice : given.an_empty_query_validation_descriptor
     {
-        static QueryArgumentValidationBuilder<SomeQuery> builder;
+        static QueryArgumentValidationBuilder<SomeQuery, int> builder;
 
         Because of = () =>
         {

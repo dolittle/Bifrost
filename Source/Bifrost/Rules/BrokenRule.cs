@@ -16,23 +16,23 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Rules;
 
-namespace Bifrost.Validation
+using System;
+namespace Bifrost.Rules
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// Represents a broken rule
+    /// </summary>
+    public class BrokenRule
     {
-#pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
-        {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
-        }
+        /// <summary>
+        /// Gets the type of rule that is broken
+        /// </summary>
+        public Type RuleType { get; private set; }
 
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
-#pragma warning restore 1591 // Xml Comments
-        
+        /// <summary>
+        /// Gets the context in which the rule was broken
+        /// </summary>
+        public IRuleContext Context { get; private set; }
     }
 }

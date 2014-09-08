@@ -405,11 +405,17 @@
     <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters_and_one_that_does_not.cs" />
     <Compile Include="Read\for_ReadModelFilters\ReadModelWithString.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_without_any_filters_discovered.cs" />
-    <Compile Include="Rules\for_QueryValidationDescriptorFor\given\an_empty_query_validation_descriptor.cs" />
-    <Compile Include="Rules\for_QueryValidationDescriptorFor\SomeQuery.cs" />
-    <Compile Include="Rules\for_QueryValidationDescriptorFor\SomeReadModel.cs" />
-    <Compile Include="Rules\for_QueryValidationDescriptorFor\when_describing_same_argument_twice.cs" />
-    <Compile Include="Rules\for_QueryValidationDescriptorFor\when_describing_argument.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\given\an_empty_query_validation_descriptor.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\SomeQuery.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\SomeReadModel.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\when_describing_same_argument_twice.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\when_describing_argument.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_with_one_broken_rule.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_with_null_passed_as_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_without_any_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_null_passed_as_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />
     <Compile Include="Specifications\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />
@@ -718,6 +724,7 @@
     <Compile Include="Validation\for_BusinessValidator\SimpleObject.cs" />
     <Compile Include="Validation\for_BusinessValidator\ValidatorWithModelRuleWithOneMustClause.cs" />
     <Compile Include="Validation\for_BusinessValidator\when_applying_model_rule_with_a_must_callback.cs" />
+    <Compile Include="Validation\for_ValueValidationBuilder\when_adding_rule.cs" />
     <Compile Include="Validation\MetaData\for_RegexGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_EmailGenerator\when_generating.cs" />
     <Compile Include="Validation\MetaData\for_GreaterThanGenerator\when_generating.cs" />
@@ -735,6 +742,22 @@
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidation.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
     <Compile Include="Validation\MetaData\for_ValidationMetaDataGenerator\when_generating.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_equal_to.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_greater_than.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_less_than.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_wrong_type.cs" />
+    <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_equal_to.cs" />
+    <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_greater_than.cs" />
+    <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_less_than.cs" />
+    <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_wrong_type.cs" />
+    <Compile Include="Validation\Rules\for_LessThan\when_checking_value_that_is_equal_to.cs" />
+    <Compile Include="Validation\Rules\for_LessThan\when_checking_value_that_is_greater_than.cs" />
+    <Compile Include="Validation\Rules\for_LessThan\when_checking_value_that_is_less_than.cs" />
+    <Compile Include="Validation\Rules\for_LessThan\when_checking_value_that_is_wrong_type.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThan\when_checking_value_that_is_less_than.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThan\when_checking_value_that_is_equal_to.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThan\when_checking_value_that_is_wrong_type.cs" />
+    <Compile Include="Validation\Rules\for_GreaterThan\when_checking_value_that_is_greater_than.cs" />
     <Compile Include="Views\for_View\given\a_query_repository.cs" />
     <Compile Include="Views\for_View\Subjects.cs" />
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />
@@ -744,6 +767,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Globalization\for_Localizer\given\" />
+    <Folder Include="Rules\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />
   </ItemGroup>

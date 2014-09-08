@@ -16,14 +16,21 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Rules;
 
-namespace Bifrost.Validation
+namespace Bifrost.Validation.Rules
 {
     /// <summary>
-    /// Represents the context of a <see cref="ValueRule"/>
+    /// Represents the <see cref="ValueRule"/> for requiring the value
     /// </summary>
-    public class ValueRuleContext : IRuleContext
+    public class Required : ValueRule
     {
+#pragma warning disable 1591 // Xml Comments
+        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        {
+            throw new System.NotImplementedException();
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

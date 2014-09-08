@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Bifrost.Extensions;
+using Bifrost.Rules;
 
 namespace Bifrost.Read.Validation
 {
@@ -29,19 +30,19 @@ namespace Bifrost.Read.Validation
     /// <typeparam name="TQuery">Type of <see cref="IQuery"/> descriptor is for</typeparam>
     public class QueryValidationDescriptorFor<TQuery> where TQuery : IQuery
     {
-        Dictionary<string, QueryArgumentValidationBuilder<TQuery>> _arguments;
+        Dictionary<string, IRuleBuilder> _arguments;
 
         /// <summary>
         /// Gets all the builders for all arguments
         /// </summary>
-        public IEnumerable<QueryArgumentValidationBuilder<TQuery>> Arguments { get { return _arguments.Values; } }
+        public IEnumerable<IRuleBuilder> Arguments { get { return _arguments.Values; } }
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryaValidationDescriptorFor{TQ}"/>
         /// </summary>
         public QueryValidationDescriptorFor()
         {
-            _arguments = new Dictionary<string, QueryArgumentValidationBuilder<TQuery>>();
+            _arguments = new Dictionary<string, IRuleBuilder>();
         }
 
         /// <summary>
@@ -49,10 +50,10 @@ namespace Bifrost.Read.Validation
         /// </summary>
         /// <param name="expression">Expression pointing to the argument on the query</param>
         /// <returns>A <see cref="QueryArgumentValidationBuilder{TQ, TA}"/> for building the rules for the argument</returns>
-        public QueryArgumentValidationBuilder<TQuery> ForArgument(Expression<Func<TQuery, object>> expression)
+        public QueryArgumentValidationBuilder<TQuery, TArgument> ForArgument<TArgument>(Expression<Func<TQuery, TArgument>> expression)
         {
-            var builder = new QueryArgumentValidationBuilder<TQuery>(expression);
             var property = expression.GetPropertyInfo();
+            var builder = new QueryArgumentValidationBuilder<TQuery, TArgument>(property);
             _arguments[property.Name] = builder;
             return builder;
         }

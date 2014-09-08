@@ -1,6 +1,6 @@
 ﻿using Bifrost.Read;
 
-namespace Bifrost.Specs.Rules.for_QueryValidationDescriptorFor
+namespace Bifrost.Specs.Read.Validation.for_QueryValidationDescriptorFor
 {
     public class SomeQuery : IQueryFor<SomeReadModel>
     {

@@ -16,23 +16,24 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Rules;
+using System.Collections.Generic;
 
-namespace Bifrost.Validation
+namespace Bifrost.Rules
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// Defines the basis for a rule builder
+    /// </summary>
+    public interface IRuleBuilder
     {
-#pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
-        {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
-        }
+        /// <summary>
+        /// Gets the rules from the builder
+        /// </summary>
+        IEnumerable<IRule> Rules { get; }
 
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
-#pragma warning restore 1591 // Xml Comments
-        
+        /// <summary>
+        /// Add a rule to the builder
+        /// </summary>
+        /// <param name="rule"><see cref="IRule"/> to add</param>
+        void AddRule(IRule rule);
     }
 }

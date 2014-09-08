@@ -17,22 +17,12 @@
 //
 #endregion
 using Bifrost.Rules;
-
 namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// Defines the basis for a builder for value validation
+    /// </summary>
+    public interface IValueValidationBuilder : IRuleBuilder
     {
-#pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
-        {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
-        }
-
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
-#pragma warning restore 1591 // Xml Comments
-        
     }
 }

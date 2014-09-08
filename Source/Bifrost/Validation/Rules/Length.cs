@@ -18,21 +18,18 @@
 #endregion
 using Bifrost.Rules;
 
-namespace Bifrost.Validation
+namespace Bifrost.Validation.Rules
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// Represents the <see cref="ValueRule"/> for specific length - any value must be a specific length
+    /// </summary>
+    public class Length : ValueRule
     {
 #pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
+        public override bool IsSatisfiedBy(IRuleContext context, object instance)
         {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
+            throw new System.NotImplementedException();
         }
-
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
 #pragma warning restore 1591 // Xml Comments
-        
     }
 }

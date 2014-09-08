@@ -1,7 +1,7 @@
 ﻿using Bifrost.Read.Validation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Rules.for_QueryValidationDescriptorFor.given
+namespace Bifrost.Specs.Read.Validation.for_QueryValidationDescriptorFor.given
 {
     public class an_empty_query_validation_descriptor
     {

@@ -16,24 +16,34 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
-using Bifrost.Validation;
+using System.Collections.Generic;
+using System.Linq;
+using Bifrost.Rules;
 
 namespace Bifrost.Read.Validation
 {
     /// <summary>
-    /// Represents a builder for building validation description for a query
+    /// Represents the result of query validation, typically done by <see cref="IQueryValidator"/>
     /// </summary>
-    public class QueryArgumentValidationBuilder<TQuery, TArgument> : ValueValidationBuilder<TArgument>
-        where TQuery : IQuery
+    public class QueryValidationResult
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="QueryArgumentValidationBuilder{TQuery, TArgument}"/>
+        /// Initializes an instance of <see cref="QueryValidationResult"/>
         /// </summary>
-        /// <param name="property">Property that represents the argument</param>
-        public QueryArgumentValidationBuilder(PropertyInfo property) : base(property)
+        /// <param name="brokenRules">Broken rules</param>
+        public QueryValidationResult(IEnumerable<BrokenRule> brokenRules)
         {
-
+            BrokenRules = brokenRules ?? new BrokenRule[0];
         }
+
+        /// <summary>
+        /// Gets all the rules
+        /// </summary>
+        public IEnumerable<BrokenRule> BrokenRules { get; private set; }
+
+        /// <summary>
+        /// Gets wether or not the validation was successful
+        /// </summary>
+        public bool Success { get { return BrokenRules.Count() == 0; } }
     }
 }

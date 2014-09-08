@@ -16,23 +16,23 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Rules;
+using System;
 
 namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// The exception that is thrown if a value coming in is of the wrong type from what is expected in a rule
+    /// </summary>
+    public class ValueTypeMismatch : ArgumentException
     {
-#pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
+        /// <summary>
+        /// Initializes a new instance of <see cref="ValueTypeMismatch"/>
+        /// </summary>
+        /// <param name="expected">Expected type for value</param>
+        /// <param name="actual">Actual type for value</param>
+        public ValueTypeMismatch(Type expected, Type actual) : base("Expected '"+expected.Name+"' but got '"+actual.Name+"'")
         {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
-        }
 
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
-#pragma warning restore 1591 // Xml Comments
-        
+        }
     }
 }

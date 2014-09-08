@@ -16,24 +16,21 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Rules;
 
-namespace Bifrost.Read.Validation
+namespace Bifrost.Validation.Rules
 {
     /// <summary>
-    /// Represents the context that is needed for the <see cref="QueryArgument{TQ, TA}"/> to be able to evaluate
+    /// Represents the <see cref="ValueRule"/> for specific regular expression - any value must conform with a regular expression
     /// </summary>
-    /// <typeparam name="TQuery">Type of <see cref="IQuery"/> that the argument rule context is for</typeparam>
-    public class QueryArgumentRuleContext<TQuery> : IRuleContext
+    public class Regex : ValueRule
     {
-        /// <summary>
-        /// Gets the query that is part of the context
-        /// </summary>
-        public TQuery Query { get; private set; }
-
-        /// <summary>
-        /// Gets the argument that is part of the context
-        /// </summary>
-        public object Argument { get; private set; }
+#pragma warning disable 1591 // Xml Comments
+        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        {
+            throw new System.NotImplementedException();
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

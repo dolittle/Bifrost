@@ -16,23 +16,21 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
 using Bifrost.Rules;
 
-namespace Bifrost.Validation
+namespace Bifrost.Read.Validation
 {
     /// <summary>
-    /// Represents the basis for a value rule
-    /// </summary>  
-    public abstract class ValueRule : IRule
+    /// Defines the system that validates a query
+    /// </summary>
+    public interface IQueryValidator
     {
-#pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
-        {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
-        }
-
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
-#pragma warning restore 1591 // Xml Comments
-        
+        /// <summary>
+        /// Validate a query instance
+        /// </summary>
+        /// <param name="query"><see cref="IQuery"/> to validate</param>
+        /// <returns>The <see cref="QueryValidationResult">result</see> of the query</returns>
+        QueryValidationResult Validate(IQuery query);
     }
 }
