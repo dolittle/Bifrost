@@ -746,6 +746,10 @@
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_greater_than.cs" />
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_less_than.cs" />
     <Compile Include="Validation\Rules\for_GreaterThanOrEqual\when_checking_value_that_is_wrong_type.cs" />
+    <Compile Include="Validation\Rules\for_Length\when_checking_value_that_is_longer.cs" />
+    <Compile Include="Validation\Rules\for_Length\when_checking_value_that_is_same_length.cs" />
+    <Compile Include="Validation\Rules\for_Length\when_checking_value_that_is_shorter.cs" />
+    <Compile Include="Validation\Rules\for_Length\when_checking_value_that_is_wrong_type.cs" />
     <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_equal_to.cs" />
     <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_greater_than.cs" />
     <Compile Include="Validation\Rules\for_LessThanOrEqual\when_checking_value_that_is_less_than.cs" />

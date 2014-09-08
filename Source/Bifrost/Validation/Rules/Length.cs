@@ -25,10 +25,25 @@ namespace Bifrost.Validation.Rules
     /// </summary>
     public class Length : ValueRule
     {
+        /// <summary>
+        /// Initializes an instance of <see cref="Length"/>
+        /// </summary>
+        /// <param name="requiredLength">The required length</param>
+        public Length(int requiredLength)
+        {
+            RequiredLength = requiredLength;
+        }
+
+        /// <summary>
+        /// Gets the required length
+        /// </summary>
+        public int RequiredLength { get; private set; }
+
 #pragma warning disable 1591 // Xml Comments
         public override bool IsSatisfiedBy(IRuleContext context, object instance)
         {
-            throw new System.NotImplementedException();
+            ThrowIfValueTypeMismatch<string>(instance);
+            return ((string)instance).Length <= RequiredLength;
         }
 #pragma warning restore 1591 // Xml Comments
     }
