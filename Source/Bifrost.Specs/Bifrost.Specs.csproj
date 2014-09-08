@@ -410,6 +410,12 @@
     <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\SomeReadModel.cs" />
     <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\when_describing_same_argument_twice.cs" />
     <Compile Include="Read\Validation\for_QueryValidationDescriptorFor\when_describing_argument.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\given\a_query_argument_validation_result_without_any_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\given\a_query_argument_validation_result_with_null_passed_as_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\given\a_query_argument_validation_result_with_one_broken_rule.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\when_asking_for_success_on_result_null_passed_as_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryArgumentValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_with_null_passed_as_broken_rules.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\given\a_query_validation_result_without_any_broken_rules.cs" />

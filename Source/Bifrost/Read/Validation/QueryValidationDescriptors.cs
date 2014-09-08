@@ -16,30 +16,21 @@
 // limitations under the License.
 //
 #endregion
-
 namespace Bifrost.Read.Validation
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IQueryValidator"/>
+    /// Represents an implementation of <see cref="IQueryValidationDescriptors"/> 
     /// </summary>
-    public class QueryValidator : IQueryValidator
+    public class QueryValidationDescriptors : IQueryValidationDescriptors
     {
-        IQueryValidationDescriptors _descriptors;
-
-        /// <summary>
-        /// Initializes an instance of <see cref="QueryValidator"/>
-        /// </summary>
-        /// <param name="descriptors"><see cref="IQueryValidationDescriptors"/> for getting descriptors for queries for running through rules</param>
-        public QueryValidator(IQueryValidationDescriptors descriptors)
+#pragma warning disable 1591 // Xml Comments
+        public bool HasDescriptorFor<TQuery>() where TQuery : IQuery
         {
-            _descriptors = descriptors;
+            throw new System.NotImplementedException();
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public QueryValidationResult Validate(IQuery query)
+        public QueryValidationDescriptorFor<TQuery> GetDescriptorFor<TQuery>() where TQuery : IQuery
         {
-
-
             throw new System.NotImplementedException();
         }
 #pragma warning restore 1591 // Xml Comments

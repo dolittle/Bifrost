@@ -23,19 +23,18 @@ using Bifrost.Rules;
 namespace Bifrost.Read.Validation
 {
     /// <summary>
-    /// Represents the result of query validation, typically done by <see cref="IQueryValidator"/>
+    /// Represents the result of query argument validation, typically done by <see cref="IQueryValidator"/>
     /// </summary>
-    public class QueryValidationResult
+    public class QueryArgumentValidationResult 
     {
         /// <summary>
-        /// Initializes an instance of <see cref="QueryValidationResult"/>
+        /// Initializes an instance of <see cref="QueryArgumentValidationResult"/>
         /// </summary>
         /// <param name="brokenRules">Broken rules</param>
-        public QueryValidationResult(IEnumerable<BrokenRule> brokenRules)
+        public QueryArgumentValidationResult(IEnumerable<BrokenRule> brokenRules)
         {
             BrokenRules = brokenRules ?? new BrokenRule[0];
         }
-
         /// <summary>
         /// Gets all the broken rules
         /// </summary>

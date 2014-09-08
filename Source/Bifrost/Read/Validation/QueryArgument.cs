@@ -17,33 +17,36 @@
 //
 #endregion
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using Bifrost.Rules;
 
 namespace Bifrost.Read.Validation
 {
     /// <summary>
-    /// Represents the result of query validation, typically done by <see cref="IQueryValidator"/>
+    /// Represents an argument on a query
     /// </summary>
-    public class QueryValidationResult
+    public class QueryArgument
     {
         /// <summary>
-        /// Initializes an instance of <see cref="QueryValidationResult"/>
+        /// Gets or sets the property info for the argument
         /// </summary>
-        /// <param name="brokenRules">Broken rules</param>
-        public QueryValidationResult(IEnumerable<BrokenRule> brokenRules)
+        public PropertyInfo Property { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the rules for the argument
+        /// </summary>
+        public IEnumerable<IRule> Rules { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public QueryArgumentValidationResult    Validate(IRuleContext context)
         {
-            BrokenRules = brokenRules ?? new BrokenRule[0];
+            var result = new QueryArgumentValidationResult(null);
+
+            return result;
         }
-
-        /// <summary>
-        /// Gets all the broken rules
-        /// </summary>
-        public IEnumerable<BrokenRule> BrokenRules { get; private set; }
-
-        /// <summary>
-        /// Gets wether or not the validation was successful
-        /// </summary>
-        public bool Success { get { return BrokenRules.Count() == 0; } }
     }
 }

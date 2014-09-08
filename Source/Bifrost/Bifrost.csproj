@@ -226,8 +226,11 @@
     <Compile Include="Read\UnknownReadModelOfException.cs" />
     <Compile Include="Read\Validation\IQueryValidationDescriptors.cs" />
     <Compile Include="Read\Validation\IQueryValidator.cs" />
+    <Compile Include="Read\Validation\QueryArgument.cs" />
     <Compile Include="Read\Validation\QueryArgumentValidationBuilder.cs" />
+    <Compile Include="Read\Validation\QueryArgumentValidationResult.cs" />
     <Compile Include="Read\Validation\QueryValidationDescriptorFor.cs" />
+    <Compile Include="Read\Validation\QueryValidationDescriptors.cs" />
     <Compile Include="Read\Validation\QueryValidationResult.cs" />
     <Compile Include="Read\Validation\QueryValidator.cs" />
     <Compile Include="Rules\IRule.cs" />
