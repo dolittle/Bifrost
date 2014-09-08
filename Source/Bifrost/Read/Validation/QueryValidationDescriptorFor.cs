@@ -16,9 +16,11 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using Bifrost.Extensions;
+
 namespace Bifrost.Read.Validation
 {
     /// <summary>
@@ -27,14 +29,31 @@ namespace Bifrost.Read.Validation
     /// <typeparam name="TQuery">Type of <see cref="IQuery"/> descriptor is for</typeparam>
     public class QueryValidationDescriptorFor<TQuery> where TQuery : IQuery
     {
+        Dictionary<string, QueryArgumentValidationBuilder<TQuery>> _arguments;
+
         /// <summary>
-        /// 
+        /// Gets all the builders for all arguments
         /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        public QueryArgumentValidationBuilder<TQuery,TArgument> ForArgument<TArgument>(Expression<Func<TQuery, TArgument>> expression)
+        public IEnumerable<QueryArgumentValidationBuilder<TQuery>> Arguments { get { return _arguments.Values; } }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="QueryaValidationDescriptorFor{TQ}"/>
+        /// </summary>
+        public QueryValidationDescriptorFor()
         {
-            var builder = new QueryArgumentValidationBuilder<TQuery, TArgument>(expression);
+            _arguments = new Dictionary<string, QueryArgumentValidationBuilder<TQuery>>();
+        }
+
+        /// <summary>
+        /// Start describing an argument on a <see cref="IQuery"/>
+        /// </summary>
+        /// <param name="expression">Expression pointing to the argument on the query</param>
+        /// <returns>A <see cref="QueryArgumentValidationBuilder{TQ, TA}"/> for building the rules for the argument</returns>
+        public QueryArgumentValidationBuilder<TQuery> ForArgument(Expression<Func<TQuery, object>> expression)
+        {
+            var builder = new QueryArgumentValidationBuilder<TQuery>(expression);
+            var property = expression.GetPropertyInfo();
+            _arguments[property.Name] = builder;
             return builder;
         }
     }

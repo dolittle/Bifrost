@@ -405,6 +405,11 @@
     <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters_and_one_that_does_not.cs" />
     <Compile Include="Read\for_ReadModelFilters\ReadModelWithString.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_without_any_filters_discovered.cs" />
+    <Compile Include="Rules\for_QueryValidationDescriptorFor\given\an_empty_query_validation_descriptor.cs" />
+    <Compile Include="Rules\for_QueryValidationDescriptorFor\SomeQuery.cs" />
+    <Compile Include="Rules\for_QueryValidationDescriptorFor\SomeReadModel.cs" />
+    <Compile Include="Rules\for_QueryValidationDescriptorFor\when_describing_same_argument_twice.cs" />
+    <Compile Include="Rules\for_QueryValidationDescriptorFor\when_describing_argument.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />
     <Compile Include="Specifications\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />

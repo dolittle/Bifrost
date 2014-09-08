@@ -429,6 +429,8 @@
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
     <Compile Include="Validation\TypeExtensions.cs" />
     <Compile Include="Validation\BusinessValidator.cs" />
+    <Compile Include="Validation\ValueRule.cs" />
+    <Compile Include="Validation\ValueRuleContext.cs" />
     <Compile Include="Views\IHaveId.cs" />
     <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
     <Compile Include="Commands\CommandContext.cs" />

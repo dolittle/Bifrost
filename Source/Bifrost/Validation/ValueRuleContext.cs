@@ -18,22 +18,12 @@
 #endregion
 using Bifrost.Rules;
 
-namespace Bifrost.Read.Validation
+namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents the context that is needed for the <see cref="QueryArgument{TQ, TA}"/> to be able to evaluate
+    /// Represents the context of a <see cref="ValueRule"/>
     /// </summary>
-    /// <typeparam name="TQuery">Type of <see cref="IQuery"/> that the argument rule context is for</typeparam>
-    public class QueryArgumentRuleContext<TQuery> : IRuleContext
+    public class ValueRuleContext : IRuleContext
     {
-        /// <summary>
-        /// Gets the query that is part of the context
-        /// </summary>
-        public TQuery Query { get; private set; }
-
-        /// <summary>
-        /// Gets the argument that is part of the context
-        /// </summary>
-        public object Argument { get; private set; }
     }
 }

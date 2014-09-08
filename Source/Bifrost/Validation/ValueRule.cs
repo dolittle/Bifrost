@@ -16,27 +16,27 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Validation;
+using Bifrost.Rules;
 
-namespace Bifrost.Read.Validation
+namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents the basis for an argument rule
+    /// Represents the basis for a value rule
     /// </summary>
-    public abstract class ArgumentRule<TQuery> : ValueRule
+    public abstract class ValueRule : IRule
     {
 #pragma warning disable 1591 // Xml Comments
-        protected override bool IsSatisfiedBy(ValueRuleContext context)
+        public bool IsSatisfiedBy(IRuleContext context)
         {
             throw new System.NotImplementedException();
         }
 #pragma warning restore 1591 // Xml Comments
 
         /// <summary>
-        /// Evaluates from a <see cref="QueryArgumentRuleContext{TQuery}"/> wether or not the rule is satisfied
+        /// Evaluates from a <see cref="ValueRuleContext"/> wether or not the rule is satisfied
         /// </summary>
-        /// <param name="context"><see cref="QueryArgumentRuleContext{TQuery}"/> to evalute from</param>
+        /// <param name="context"><see cref="ValueRuleContext"/> to evaluate from</param>
         /// <returns>True if satisfied, false if not</returns>
-        protected abstract bool IsSatisfiedBy(QueryArgumentRuleContext<TQuery> context);
+        protected abstract bool IsSatisfiedBy(ValueRuleContext context);
     }
 }

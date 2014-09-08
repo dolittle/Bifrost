@@ -25,29 +25,29 @@ namespace Bifrost.Read.Validation
     /// <summary>
     /// Represents a builder for building validation description for a query
     /// </summary>
-    public class QueryArgumentValidationBuilder<TQuery, TArgument> where TQuery : IQuery
+    public class QueryArgumentValidationBuilder<TQuery> where TQuery : IQuery
     {
-        List<ArgumentRule<TQuery, TArgument>> _rules;
+        List<ArgumentRule<TQuery>> _rules;
 
         /// <summary>
         /// Initializes the builder for building validation for a query argument
         /// </summary>
         /// <param name="argument"></param>
-        public QueryArgumentValidationBuilder(Expression<Func<TQuery, TArgument>> argument)
+        public QueryArgumentValidationBuilder(Expression<Func<TQuery, object>> argument)
         {
-            _rules = new List<ArgumentRule<TQuery, TArgument>>();
+            _rules = new List<ArgumentRule<TQuery>>();
         }
 
         /// <summary>
         /// Gets the rules from the builder
         /// </summary>
-        public IEnumerable<ArgumentRule<TQuery, TArgument>> Rules { get { return _rules; } }
+        public IEnumerable<ArgumentRule<TQuery>> Rules { get { return _rules; } }
 
         /// <summary>
         /// Add a rule the builder
         /// </summary>
         /// <param name="rule"><see cref="ArgumentRule{TQ, TA}"/> to add</param>
-        public void AddRule(ArgumentRule<TQuery, TArgument> rule)
+        public void AddRule(ArgumentRule<TQuery> rule)
         {
 
         }
