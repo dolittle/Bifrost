@@ -26,10 +26,28 @@ namespace Bifrost.Validation.Rules
     /// </summary>
     public class Regex : ValueRule
     {
+        System.Text.RegularExpressions.Regex _actualRegex;
+
+        /// <summary>
+        /// Initializes an instance of <see cref="Regex"/>
+        /// </summary>
+        /// <param name="expression"></param>
+        public Regex(string expression)
+        {
+            Expression = expression;
+            _actualRegex = new System.Text.RegularExpressions.Regex(expression);
+        }
+
+        /// <summary>
+        /// Get the expression that values must conform to
+        /// </summary>
+        public string Expression { get; private set; }
+
 #pragma warning disable 1591 // Xml Comments
         public override bool IsSatisfiedBy(IRuleContext context, object instance)
         {
-            throw new System.NotImplementedException();
+            ThrowIfValueTypeMismatch<string>(instance);
+            return _actualRegex.IsMatch((string)instance);
         }
 #pragma warning restore 1591 // Xml Comments
     }
