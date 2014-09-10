@@ -20,13 +20,14 @@
             commands: []
         },
         mapper: {
-            mapToInstance: sinon.stub()
+            mapToInstance: sinon.stub().returns(["someValue", "someArray"])
         }
     }
 
     var commandType = Bifrost.commands.Command.extend(function () {
         this.someValue = ko.observable(42);
         this.someArray = ko.observableArray();
+        this.someInternalValue = ko.observable();
     });
 
     var newValues = {
@@ -47,5 +48,17 @@
 
     it("should forward to mapper", function () {
         expect(parameters.mapper.mapToInstance.calledWith(commandType, newValues, command)).toBe(true);
+    });
+
+    it("should set initial value for the someValue property", function () {
+        expect(command.someValue.setInitialValue.called).toBe(true);
+    });
+
+    it("should set initial value for the someArray property", function () {
+        expect(command.someArray.setInitialValue.called).toBe(true);
+    });
+
+    it("should not set initial value for the someInternalValue property", function () {
+        expect(command.someInternalValue.setInitialValue.called).toBe(false);
     });
 });

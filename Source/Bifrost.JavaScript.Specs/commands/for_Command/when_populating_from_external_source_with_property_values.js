@@ -21,7 +21,7 @@
             commands: []
         },
         mapper: {
-            mapToInstance: sinon.stub()
+            mapToInstance: sinon.stub().returns(["someValue", "someArray"])
         }
     }
 

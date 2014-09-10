@@ -166,8 +166,7 @@ Bifrost.namespace("Bifrost.commands", {
             });
         };
 
-        this.setInitialValuesFromCurrentValues = function () {
-            var properties = self.getProperties();
+        this.setInitialValuesForProperties = function (properties) {
             properties.forEach(function (propertyName) {
                 var property = self.targetCommand[propertyName];
                 if (ko.isObservable(property) &&
@@ -179,6 +178,10 @@ Bifrost.namespace("Bifrost.commands", {
             });
         };
 
+        this.setInitialValuesFromCurrentValues = function () {
+            var properties = self.getProperties();
+            self.setInitialValuesForProperties(properties);
+        };
 
         this.onSucceeded = function (commandResult) {
             self.options.succeeded(commandResult);
@@ -251,8 +254,8 @@ Bifrost.namespace("Bifrost.commands", {
         };
 
         this.setPropertyValuesFrom = function (values) {
-            mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
-            self.setInitialValuesFromCurrentValues();
+            var mappedProperties = mapper.mapToInstance(self.targetCommand._type, values, self.targetCommand);
+            self.setInitialValuesForProperties(mappedProperties);
         };
 
         this.onCreated = function (lastDescendant) {
