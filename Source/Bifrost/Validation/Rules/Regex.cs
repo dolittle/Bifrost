@@ -16,7 +16,6 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using Bifrost.Rules;
 
 namespace Bifrost.Validation.Rules
@@ -26,6 +25,11 @@ namespace Bifrost.Validation.Rules
     /// </summary>
     public class Regex : ValueRule
     {
+        /// <summary>
+        /// When a string does not conform to the specified expression, this is the reason given
+        /// </summary>
+        public static BrokenRuleReason NotConformingToExpression = BrokenRuleReason.Create("BE58A125-40DB-47EA-B260-37F7AF4455C5");
+
         System.Text.RegularExpressions.Regex _actualRegex;
 
         /// <summary>
@@ -44,10 +48,12 @@ namespace Bifrost.Validation.Rules
         public string Expression { get; private set; }
 
 #pragma warning disable 1591 // Xml Comments
-        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        public override void Evaluate(IRuleContext context, object instance)
         {
-            ThrowIfValueTypeMismatch<string>(instance);
-            return _actualRegex.IsMatch((string)instance);
+            if (FailIfValueTypeMismatch<string>(context, instance))
+            {
+                if (!_actualRegex.IsMatch((string)instance)) context.Fail(this, instance, NotConformingToExpression);
+            }
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -8,18 +8,18 @@ namespace Bifrost.Specs.Validation.Rules.for_GreaterThan
 {
     public class when_checking_value_that_is_equal_to
     {
-        static bool result;
+        static double value = 42.0;
         static GreaterThan<double>  rule;
         static Mock<IRuleContext> rule_context_mock;
 
         Establish context = () => 
         {
-            rule = new GreaterThan<double>(42.0);
+            rule = new GreaterThan<double>(value);
             rule_context_mock = new Mock<IRuleContext>();
         };
 
-        Because of = () => result = rule.IsSatisfiedBy(rule_context_mock.Object, 42.0);
+        Because of = () => rule.Evaluate(rule_context_mock.Object, value);
 
-        It should_not_be_valid = () => result.ShouldBeFalse();
+        It should_fail_with_value_is_equal_reason = () => rule_context_mock.Verify(r => r.Fail(rule, value, Reasons.ValueIsEqual), Times.Once());
     }
 }

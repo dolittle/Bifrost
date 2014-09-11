@@ -23,27 +23,30 @@ namespace Bifrost.Validation.Rules
     /// <summary>
     /// Represents the <see cref="ValueRule"/> for specific length - any value must be a specific length
     /// </summary>
-    public class Length : ValueRule
+    public class MaxLength : ValueRule
     {
         /// <summary>
         /// Initializes an instance of <see cref="Length"/>
         /// </summary>
-        /// <param name="requiredLength">The required length</param>
-        public Length(int requiredLength)
+        /// <param name="length">The required length</param>
+        public MaxLength(int length)
         {
-            RequiredLength = requiredLength;
+            Length = length;
         }
 
         /// <summary>
         /// Gets the required length
         /// </summary>
-        public int RequiredLength { get; private set; }
+        public int Length { get; private set; }
 
 #pragma warning disable 1591 // Xml Comments
-        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        public override void Evaluate(IRuleContext context, object instance)
         {
-            ThrowIfValueTypeMismatch<string>(instance);
-            return ((string)instance).Length <= RequiredLength;
+            if (FailIfValueTypeMismatch<string>(context, instance))
+            {
+                var length = ((string)instance).Length;
+                if (length > Length) context.Fail(this, instance, Reasons.LengthIsTooLong);
+            }
         }
 #pragma warning restore 1591 // Xml Comments
     }

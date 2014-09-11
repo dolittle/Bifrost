@@ -238,6 +238,7 @@
     <Compile Include="Rules\IRuleContext.cs" />
     <Compile Include="Rules\IRuleContextChangeSubscriber.cs" />
     <Compile Include="Rules\BrokenRule.cs" />
+    <Compile Include="Rules\BrokenRuleReason.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
     <Compile Include="Specifications\Negative.cs" />
@@ -435,6 +436,7 @@
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Validation\PropertyValidatorWithDynamicState.cs" />
     <Compile Include="Validation\RuleBuilderExtensions.cs" />
+    <Compile Include="Validation\Rules\Reasons.cs" />
     <Compile Include="Validation\Rules\Required.cs" />
     <Compile Include="Validation\Rules\Regex.cs" />
     <Compile Include="Validation\Rules\Length.cs" />

@@ -25,13 +25,23 @@ namespace Bifrost.Validation
     /// </summary>  
     public abstract class ValueRule : IRule
     {
+        /// <summary>
+        /// When a value is of the wrong type, this is the reason given for breaking a rule
+        /// </summary>
+        public static BrokenRuleReason ValueTypeMismatch = BrokenRuleReason.Create("150757B0-8118-42FB-A8C4-2D49E7AC3AFD");
+
 #pragma warning disable 1591 // Xml Comments
-        protected void ThrowIfValueTypeMismatch<TDesired>(object value)
+        protected bool FailIfValueTypeMismatch<TDesired>(IRuleContext context, object value)
         {
-            if (value.GetType() != typeof(TDesired)) throw new ValueTypeMismatch(typeof(TDesired), value.GetType());
+            if (value.GetType() != typeof(TDesired))
+            {
+                context.Fail(this, value, ValueTypeMismatch);
+                return false;
+            }
+            return true;
         }
 
-        public abstract bool IsSatisfiedBy(IRuleContext context, object instance);
+        public abstract void Evaluate(IRuleContext context, object instance);
 #pragma warning restore 1591 // Xml Comments
         
     }

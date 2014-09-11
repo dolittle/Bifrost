@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 namespace Bifrost.Rules
 {
     /// <summary>
@@ -28,11 +29,16 @@ namespace Bifrost.Rules
         /// <summary>
         /// Gets the type of rule that is broken
         /// </summary>
-        public Type RuleType { get; private set; }
+        public IRule RuleType { get; private set; }
 
         /// <summary>
         /// Gets the context in which the rule was broken
         /// </summary>
         public IRuleContext Context { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="BrokenRuleReason">reasons</see> why the rule is broken
+        /// </summary>
+        public IEnumerable<BrokenRuleReason> Reasons { get; private set; }
     }
 }

@@ -29,7 +29,6 @@ namespace Bifrost.Rules
         /// </summary>
         /// <param name="context">The <see cref="IRuleContext"/> to evaluate for</param>
         /// <param name="instance">The instance to check if satisfies the rule</param>
-        /// <returns>True if satisfied, false if not</returns>
-        bool IsSatisfiedBy(IRuleContext context, object instance);
+        void Evaluate(IRuleContext context, object instance);
     }
 }

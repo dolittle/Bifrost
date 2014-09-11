@@ -6,23 +6,22 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.Rules.for_Length
+namespace Bifrost.Specs.Validation.Rules.for_MaxLength
 {
     public class when_checking_value_that_is_wrong_type
     {
-        static bool result;
-        static Length rule;
+        static MaxLength rule;
         static Mock<IRuleContext> rule_context_mock;
         static Exception exception;
 
         Establish context = () => 
         {
-            rule = new Length(42);
+            rule = new MaxLength(42);
             rule_context_mock = new Mock<IRuleContext>();
         };
 
-        Because of = () => exception = Catch.Exception(() => result = rule.IsSatisfiedBy(rule_context_mock.Object, 45));
+        Because of = () => rule.Evaluate(rule_context_mock.Object, 45);
 
-        It should_throw_value_type_mismatch = () => exception.ShouldBeOfExactType<ValueTypeMismatch>();
+        It should_fail_with_wrong_type_as_reason = () => rule_context_mock.Verify(r => r.Fail(rule, Moq.It.IsAny<object>(), ValueRule.ValueTypeMismatch), Times.Once());
     }
 }

@@ -42,10 +42,14 @@ namespace Bifrost.Validation.Rules
         public T Value { get; private set; }
 
 #pragma warning disable 1591 // Xml Comments
-        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        public override void Evaluate(IRuleContext context, object instance)
         {
-            ThrowIfValueTypeMismatch<T>(instance);
-            return ((IComparable<T>)instance).CompareTo(Value) > 0;
+            if (FailIfValueTypeMismatch<T>(context, instance))
+            {
+                var comparison = ((IComparable<T>)instance).CompareTo(Value);
+                if (comparison == 0) context.Fail(this, instance, Reasons.ValueIsEqual);
+                if (comparison < 0) context.Fail(this, instance, Reasons.ValueIsLessThan);
+            }
         }
 #pragma warning restore 1591 // Xml Comments
     }

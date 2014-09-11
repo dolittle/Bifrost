@@ -6,22 +6,22 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.Rules.for_Length
+namespace Bifrost.Specs.Validation.Rules.for_MaxLength
 {
     public class when_checking_value_that_is_longer
     {
-        static bool result;
-        static Length rule;
+        static string value = "12345";
+        static MaxLength rule;
         static Mock<IRuleContext> rule_context_mock;
 
         Establish context = () => 
         {
-            rule = new Length(4);
+            rule = new MaxLength(4);
             rule_context_mock = new Mock<IRuleContext>();
         };
 
-        Because of = () => result = rule.IsSatisfiedBy(rule_context_mock.Object, "12345");
+        Because of = () => rule.Evaluate(rule_context_mock.Object, value);
 
-        It should_not_be_valid = () => result.ShouldBeFalse();
+        It should_fail_with_length_is_too_long_as_reason = () => rule_context_mock.Verify(r => r.Fail(rule, value, Reasons.LengthIsTooLong), Times.Once());
     }
 }

@@ -24,5 +24,12 @@ namespace Bifrost.Rules
     /// </summary>
     public interface IRuleContext
     {
+        /// <summary>
+        /// Report a rule as failing
+        /// </summary>
+        /// <param name="rule"><see cref="IRule"/> to report</param>
+        /// <param name="instance">The instance that was part of causing the problem</param>
+        /// <param name="reason"><see cref="BrokeRuleReason">Reason</see> for it failing</param>
+        void Fail(IRule rule, object instance, BrokenRuleReason reason);
     }
 }

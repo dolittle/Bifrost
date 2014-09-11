@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Validation.Rules.for_GreaterThanOrEqual
 {
     public class when_checking_value_that_is_less_than
     {
-        static bool result;
+        static double value = 41.0;
         static GreaterThanOrEqual<double> rule;
         static Mock<IRuleContext> rule_context_mock;
 
@@ -18,8 +18,8 @@ namespace Bifrost.Specs.Validation.Rules.for_GreaterThanOrEqual
             rule_context_mock = new Mock<IRuleContext>();
         };
 
-        Because of = () => result = rule.IsSatisfiedBy(rule_context_mock.Object, 41.0);
+        Because of = () => rule.Evaluate(rule_context_mock.Object, value);
 
-        It should_not_be_valid = () => result.ShouldBeFalse();
+        It should_fail_with_value_is_less_than_reason = () => rule_context_mock.Verify(r => r.Fail(rule, value, Reasons.ValueIsLessThan), Times.Once());
     }
 }

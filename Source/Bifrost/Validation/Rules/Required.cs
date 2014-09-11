@@ -26,8 +26,13 @@ namespace Bifrost.Validation.Rules
     /// </summary>
     public class Required : ValueRule
     {
+        /// <summary>
+        /// When a value is not specified, this is the reason given
+        /// </summary>
+        public static BrokenRuleReason ValueNotSpecified = BrokenRuleReason.Create("5F790FC3-5C7D-4F3A-B1E9-8F85FAF7176D");
+
 #pragma warning disable 1591 // Xml Comments
-        public override bool IsSatisfiedBy(IRuleContext context, object instance)
+        public override void Evaluate(IRuleContext context, object instance)
         {
             throw new System.NotImplementedException();
         }
