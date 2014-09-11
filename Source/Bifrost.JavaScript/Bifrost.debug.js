@@ -2958,7 +2958,7 @@ Bifrost.namespace("Bifrost.specifications", {
         };
     })
 });
-Bifrost.specification.Specification.when = function (evaluator) {
+Bifrost.specifications.Specification.when = function (evaluator) {
     /// <summary>Starts a rule chain</summary>
     /// <param name="evaluator">
     /// The evaluator can either be a function that gets called with the instance
@@ -2966,7 +2966,7 @@ Bifrost.specification.Specification.when = function (evaluator) {
     /// not have the instance passed 
     /// </param>
     /// <returns>A new composed rule</returns>
-    var rule = Bifrost.specificatiosn.Specification.create();
+    var rule = Bifrost.specifications.Specification.create();
     rule.evaluator = evaluator;
     return rule;
 };
