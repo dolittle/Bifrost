@@ -782,6 +782,10 @@
     <Compile Include="Validation\Rules\for_Regex\when_checking_value_that_is_wrong_type.cs" />
     <Compile Include="Validation\Rules\for_Regex\when_checking_value_with_matching_expression.cs" />
     <Compile Include="Validation\Rules\for_Regex\when_checking_value_with_non_matching_expression.cs" />
+    <Compile Include="Validation\Rules\for_Required\when_evaluating_empty_string.cs" />
+    <Compile Include="Validation\Rules\for_Required\when_evaluating_double_holding_zero.cs" />
+    <Compile Include="Validation\Rules\for_Required\when_evaluating_integer_holding_zero.cs" />
+    <Compile Include="Validation\Rules\for_Required\when_evaluating_null_instance.cs" />
     <Compile Include="Views\for_View\given\a_query_repository.cs" />
     <Compile Include="Views\for_View\Subjects.cs" />
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />

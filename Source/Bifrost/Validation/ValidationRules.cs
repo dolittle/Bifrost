@@ -16,7 +16,10 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using Bifrost.Rules;
+using Bifrost.Validation.Rules;
+
 namespace Bifrost.Validation
 {
     /// <summary>
@@ -31,6 +34,7 @@ namespace Bifrost.Validation
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
         public static ValueValidationBuilder<string> ValidEMail(this ValueValidationBuilder<string> builder)
         {
+            builder.AddRule(new Email());
             return builder;
         }
 
@@ -40,8 +44,10 @@ namespace Bifrost.Validation
         /// <param name="builder"><see cref="ValueValidationBuilder"/> to build for</param>
         /// <param name="value">Value the input value must be greater than</param>
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
-        public static ValueValidationBuilder<double> GreaterThan(this ValueValidationBuilder<double> builder, double value)
+        public static ValueValidationBuilder<T> GreaterThan<T>(this ValueValidationBuilder<T> builder, T value)
+            where T:IComparable<T>
         {
+            builder.AddRule(new GreaterThan<T>(value));
             return builder;
         }
 
@@ -51,8 +57,10 @@ namespace Bifrost.Validation
         /// <param name="builder"><see cref="ValueValidationBuilder"/> to build for</param>
         /// <param name="value">Value the input value must be greater or equal than</param>
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
-        public static ValueValidationBuilder<double> GreaterThanOrEqual(this ValueValidationBuilder<double> builder, double value)
+        public static ValueValidationBuilder<T> GreaterThanOrEqual<T>(this ValueValidationBuilder<T> builder, T value)
+            where T : IComparable<T>
         {
+            builder.AddRule(new GreaterThanOrEqual<T>(value));
             return builder;
         }
 
@@ -62,8 +70,9 @@ namespace Bifrost.Validation
         /// <param name="builder"><see cref="ValueValidationBuilder"/> to build for</param>
         /// <param name="length">The length the value must be</param>
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
-        public static ValueValidationBuilder<string> Length(this ValueValidationBuilder<string> builder, int length)
+        public static ValueValidationBuilder<string> MaxLength(this ValueValidationBuilder<string> builder, int length)
         {
+            builder.AddRule(new MaxLength(length));
             return builder;
         }
 
@@ -73,8 +82,10 @@ namespace Bifrost.Validation
         /// <param name="builder"><see cref="ValueValidationBuilder"/> to build for</param>
         /// <param name="value">Value the input value must be less than</param>
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
-        public static ValueValidationBuilder<double> LessThan(this ValueValidationBuilder<double> builder, double value)
+        public static ValueValidationBuilder<T> LessThan<T>(this ValueValidationBuilder<T> builder, T value)
+            where T : IComparable<T>
         {
+            builder.AddRule(new LessThan<T>(value));
             return builder;
         }
 
@@ -84,8 +95,10 @@ namespace Bifrost.Validation
         /// <param name="builder"><see cref="ValueValidationBuilder"/> to build for</param>
         /// <param name="value">Value the input value must be less or equal than</param>
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
-        public static ValueValidationBuilder<double> LessThanOrEqual(this ValueValidationBuilder<double> builder, double value)
+        public static ValueValidationBuilder<T> LessThanOrEqual<T>(this ValueValidationBuilder<T> builder, T value)
+            where T : IComparable<T>
         {
+            builder.AddRule(new LessThanOrEqual<T>(value));
             return builder;
         }
 
@@ -97,6 +110,7 @@ namespace Bifrost.Validation
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
         public static ValueValidationBuilder<string> Regex(this ValueValidationBuilder<string> builder, string expression)
         {
+            builder.AddRule(new Regex(expression));
             return builder;
         }
 
@@ -110,6 +124,7 @@ namespace Bifrost.Validation
         /// </remarks>
         public static IValueValidationBuilder Required(this IValueValidationBuilder builder)
         {
+            builder.AddRule(new Required());
             return builder;
         }
     }

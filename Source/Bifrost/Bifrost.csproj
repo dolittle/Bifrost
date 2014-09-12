@@ -439,7 +439,7 @@
     <Compile Include="Validation\Rules\Reasons.cs" />
     <Compile Include="Validation\Rules\Required.cs" />
     <Compile Include="Validation\Rules\Regex.cs" />
-    <Compile Include="Validation\Rules\Length.cs" />
+    <Compile Include="Validation\Rules\MaxLength.cs" />
     <Compile Include="Validation\Rules\LessThan.cs" />
     <Compile Include="Validation\Rules\LessThanOrEqual.cs" />
     <Compile Include="Validation\Rules\GreaterThanOrEqual.cs" />
