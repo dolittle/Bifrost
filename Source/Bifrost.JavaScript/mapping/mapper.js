@@ -52,6 +52,10 @@ Bifrost.namespace("Bifrost.mapping", {
                         }
 
                         if (ko.isObservable(to[property])) {
+                            if (!ko.isWriteableObservable(to[property])) {
+                                continue;
+                            }
+
                             to[property](value);
                         } else {
                             to[property] = value;

@@ -98,6 +98,7 @@
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_one_of_two_matching_properties.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_matching_system_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_read_only_observable_property.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_value_but_target_property_is_null.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value_and_target_property_is_undefined.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_property_with_null_value_and_target_property_is_null.js" />
