@@ -34,7 +34,7 @@ Bifrost.namespace("Bifrost.mapping", {
                             !Bifrost.isNullOrUndefined(toValue)) {
 
                             if (value.constructor !== toValue.constructor) {
-                                typeAsString = toValue.constructor.name.toString();
+                                typeAsString = toValue.constructor.toString().match(/function\040+(\w*)/)[1]
                             }
                         }
                         
