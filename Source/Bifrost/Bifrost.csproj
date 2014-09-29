@@ -182,6 +182,7 @@
     <Compile Include="Execution\ExecutionContextManager.cs" />
     <Compile Include="Execution\ExecutionContextPopulator.cs" />
     <Compile Include="Execution\HashCodeHelper.cs" />
+    <Compile Include="Execution\HaveInstancesOf.cs" />
     <Compile Include="Execution\ICallContext.cs" />
     <Compile Include="Execution\IExecutionContext.cs" />
     <Compile Include="Execution\IExecutionContextFactory.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Execution\ICanPopulateExecutionContextDetails.cs" />
     <Compile Include="Execution\IExecutionContextDetailsPopulator.cs" />
     <Compile Include="Execution\IgnoreDefaultConventionAttribute.cs" />
+    <Compile Include="Execution\IHaveInstancesOf.cs" />
     <Compile Include="Execution\ReadOnlyObjectException.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
