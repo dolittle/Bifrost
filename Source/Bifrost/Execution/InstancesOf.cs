@@ -23,11 +23,11 @@ using System.Collections.Generic;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IHaveInstancesOf{T}"/>
+    /// Represents an implementation of <see cref="IInstancesOf{T}"/>
     /// </summary>
     /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface</typeparam>
     [Singleton]
-    public class HaveInstancesOf<T> : IHaveInstancesOf<T>
+    public class InstancesOf<T> : IInstancesOf<T>
         where T : class
     {
         IEnumerable<Type> _types;
@@ -38,7 +38,7 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> used for discovering types</param>
         /// <param name="container"><see cref="IContainer"/> used for managing instances of the types when needed</param>
-        public HaveInstancesOf(ITypeDiscoverer typeDiscoverer, IContainer container)
+        public InstancesOf(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _types = typeDiscoverer.FindMultiple<T>();
             _container = container;

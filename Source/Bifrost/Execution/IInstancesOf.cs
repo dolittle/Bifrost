@@ -25,7 +25,7 @@ namespace Bifrost.Execution
     /// when enumerated over
     /// </summary>
     /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface</typeparam>
-    public interface IHaveInstancesOf<T> : IEnumerable<T>
+    public interface IInstancesOf<T> : IEnumerable<T>
         where T : class
     {
     }

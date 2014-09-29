@@ -5,7 +5,7 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Execution.for_HaveInstancesOf
+namespace Bifrost.Specs.Execution.for_InstancesOf
 {
     public class when_having_multiple_implementations
     {
@@ -30,7 +30,7 @@ namespace Bifrost.Specs.Execution.for_HaveInstancesOf
             container_mock.Setup(c => c.Get(typeof(SecondImplementation))).Returns(second_implemenation_instance);
         };
 
-        Because of = () => instances = new HaveInstancesOf<IAmAnInterface>(type_discoverer_mock.Object, container_mock.Object).ToArray();
+        Because of = () => instances = new InstancesOf<IAmAnInterface>(type_discoverer_mock.Object, container_mock.Object).ToArray();
 
         It should_get_the_implementations = () => instances.ShouldContainOnly(one_implementation_instance, second_implemenation_instance);
              
