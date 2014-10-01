@@ -11,12 +11,12 @@ namespace Bifrost
             configure
                 .Serialization
                     .UsingJson()
-                .Events
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
+                //.Events
+                    //.UsingRavenDB(e=>e.LocatedAt(dataPath).WithManagementStudio())
                 .Events
                     .Asynchronous(e=>e.UsingSignalR())
-                .DefaultStorage
-                    .UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
+                //.DefaultStorage
+                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
 					.Web(w=>w.AsSinglePageApplication())
                 .WithMimir();
