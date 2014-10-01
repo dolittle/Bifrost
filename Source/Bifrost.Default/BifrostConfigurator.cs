@@ -13,8 +13,8 @@ namespace Bifrost
                     .UsingJson()
                 //.Events
                     //.UsingRavenDB(e=>e.LocatedAt(dataPath).WithManagementStudio())
-                .Events
-                    .Asynchronous(e=>e.UsingSignalR())
+                //.Events
+                    //.Asynchronous(e=>e.UsingSignalR())
                 //.DefaultStorage
                     //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend

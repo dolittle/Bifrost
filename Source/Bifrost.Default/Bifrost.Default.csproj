@@ -124,10 +124,6 @@
       <Project>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</Project>
       <Name>Bifrost.Ninject</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bifrost.SignalR\Bifrost.SignalR.csproj">
-      <Project>{758D6292-93E7-40CB-AB6A-B9402CBBEFB3}</Project>
-      <Name>Bifrost.SignalR</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
       <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>
       <Name>Bifrost.Web</Name>
