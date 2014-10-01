@@ -16,9 +16,37 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using System.Linq.Expressions;
 
 namespace Bifrost.Read.Validation
 {
+#pragma warning disable 1591 // Xml Comments
+    public static class MethodCalls
+    {
+        /*
+        public static void CallGenericMethod<T>(this T target, Expression<Func<T, Action>> method)
+        {
+
+        }*/
+
+        public static TOut CallGenericMethod<T, TOut>(this T target, Expression<Func<T, Func<TOut>>> method, Type methodTypeArgument)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /*
+        public static void CallGenericMethod<T, T1>(this T target, Expression<Action<T>> method)
+        {
+
+        }*/
+    }
+#pragma warning restore 1591 // Xml Comments
+
+
+
+
     /// <summary>
     /// Represents an implementation of <see cref="IQueryValidator"/>
     /// </summary>
@@ -38,6 +66,9 @@ namespace Bifrost.Read.Validation
 #pragma warning disable 1591 // Xml Comments
         public QueryValidationResult Validate(IQuery query)
         {
+            // _descriptors.GetType().GetMethod("HasDescriptorFor")
+
+            _descriptors.CallGenericMethod<IQueryValidationDescriptors, bool>(d => d.HasDescriptorFor<IQuery>, query.GetType());
 
 
             throw new System.NotImplementedException();

@@ -422,6 +422,7 @@
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_null_passed_as_broken_rules.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\when_validating_query_with_descriptor_with_rules.cs" />
     <Compile Include="Rules\for_BrokenRuleReason\when_creating.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />
