@@ -21,6 +21,7 @@ using System.Text;
 using Bifrost.Execution;
 using Bifrost.Web.Commands;
 using Bifrost.Web.Configuration;
+using Bifrost.Web.Hubs;
 using Bifrost.Web.Read;
 using Bifrost.Web.Services;
 
@@ -36,6 +37,7 @@ namespace Bifrost.Web.Proxies
             ReadModelProxies readModelProxies,
             ServiceProxies serviceProxies,
             NamespaceConfigurationProxies namespaceConfigurationProxies,
+            HubProxies hubProxies,
             ITypeDiscoverer typeDiscoverer,
             IContainer container)
         {
@@ -46,6 +48,7 @@ namespace Bifrost.Web.Proxies
             builder.Append(queryProxies.Generate());
             builder.Append(serviceProxies.Generate());
             builder.Append(namespaceConfigurationProxies.Generate());
+            builder.Append(hubProxies.Generate());
 
             var generatorTypes = typeDiscoverer.FindMultiple<IProxyGenerator>().Where(t => !t.Namespace.StartsWith("Bifrost"));
             foreach (var generatorType in generatorTypes)

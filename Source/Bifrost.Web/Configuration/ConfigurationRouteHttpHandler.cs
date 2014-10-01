@@ -100,14 +100,16 @@ namespace Bifrost.Web.Configuration
             
             var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
 
-
             var builder = new StringBuilder();
 
             if (_webConfiguration.ScriptsToInclude.JQuery)
-                builder.Append(GetResource("Bifrost.Web.Scripts.jquery-1.9.1.min.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery-2.1.1.min.js"));
 
             if (_webConfiguration.ScriptsToInclude.Knockout)
-                builder.Append(GetResource("Bifrost.Web.Scripts.knockout-3.1.0.debug.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.knockout-3.2.0.debug.js"));
+
+            if (_webConfiguration.ScriptsToInclude.SignalR)
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery.signalR-2.1.2.js"));
 
             if (_webConfiguration.ScriptsToInclude.JQueryHistory)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));

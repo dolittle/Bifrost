@@ -107,6 +107,7 @@
     <Compile Include="Events\CommandCoordinatorEvents.cs" />
     <Compile Include="Events\EventStoreChangeNotifier.cs" />
     <Compile Include="Events\ICommandCoordinatorEvents.cs" />
+    <Compile Include="Hubs\HubProxies.cs" />
     <Compile Include="Security\SecurityRoute.cs" />
     <Compile Include="Security\SecurityRouteHandler.cs" />
     <Compile Include="Security\SecurityRouteHttpHandler.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="Services\IJsonInterceptor.cs" />
     <Compile Include="Services\JsonInterceptor.cs" />
     <Compile Include="SignalR\BifrostDependencyResolver.cs" />
-    <Compile Include="SignalR\ConfigurationExtensions.cs" />
     <Compile Include="SignalR\FilteredCamelCasePropertyNamesContractResolver.cs" />
     <Compile Include="Visualizer\QualityAssurance\AllProblems.cs" />
     <Compile Include="Visualizer\QualityAssurance\Problems.cs" />
@@ -173,6 +173,10 @@
       <Project>{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}</Project>
       <Name>Bifrost.JavaScript</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
+      <Project>{db77eb6a-db79-4839-ab30-90593bce470f}</Project>
+      <Name>Bifrost.JSON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
@@ -188,7 +192,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visualizer\SegoeUI.ttf" />
     <DotLess Include="Styles\bifrost.less" />
-    <None Include="Scripts\jquery-2.1.1.min.map" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Styles\bootstrap\accordion.less" />
     <None Include="Styles\bootstrap\alerts.less" />
     <None Include="Styles\bootstrap\bootstrap.less" />
@@ -324,13 +328,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LessMsbuildTasks.txt" />
-    <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.1.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
-    <Content Include="Scripts\knockout-3.2.0.debug.js" />
-    <Content Include="Scripts\knockout-3.2.0.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-2.1.2.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-2.1.2.min.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.2.0.debug.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.2.0.js" />
   </ItemGroup>
   <Import Project="..\Solutions\packages\LessMsbuildTasks.1.0.6\tools\LessCompiler.targets" Condition="Exists('..\Solutions\packages\LessMsbuildTasks.1.0.6\tools\LessCompiler.targets')" />
 </Project>

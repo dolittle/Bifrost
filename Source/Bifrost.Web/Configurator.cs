@@ -16,7 +16,13 @@
 // limitations under the License.
 //
 #endregion
+using System.Web.Routing;
 using Bifrost.Configuration;
+using Bifrost.JSON.Serialization;
+using Bifrost.Web.SignalR;
+using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Owin;
 
 namespace Bifrost.Web
 {
@@ -25,6 +31,24 @@ namespace Bifrost.Web
         public void Configure(IConfigure configure)
         {
             configure.CallContext.WithCallContextTypeOf<WebCallContext>();
+            ConfigureSignalR(configure);
+        }
+
+        void ConfigureSignalR(IConfigure configure)
+        {
+            var resolver = new BifrostDependencyResolver(configure.Container);
+
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new FilteredCamelCasePropertyNamesContractResolver(),
+                Converters = { new ConceptConverter(), new ConceptDictionaryConverter() }
+            };
+            var jsonSerializer = JsonSerializer.Create(serializerSettings);
+            resolver.Register(typeof(JsonSerializer), () => jsonSerializer);
+
+            GlobalHost.DependencyResolver = resolver;
+            var hubConfiguration = new HubConfiguration { Resolver = resolver };
+            RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
         }
     }
 }
