@@ -319,6 +319,10 @@
     <Compile Include="Execution\for_ExecutionContextManager\given\all_dependencies.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\given\an_execution_context_manager.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\when_getting_current_twice.cs" />
+    <Compile Include="Execution\for_InstancesOf\IAmAnInterface.cs" />
+    <Compile Include="Execution\for_InstancesOf\OneImplementation.cs" />
+    <Compile Include="Execution\for_InstancesOf\SecondImplementation.cs" />
+    <Compile Include="Execution\for_InstancesOf\when_having_multiple_implementations.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\a_read_only_container.cs" />
