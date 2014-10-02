@@ -29,8 +29,8 @@ using Bifrost.Web.Security;
 using Bifrost.Web.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"PreApplicationStart")]
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bifrost.Web.BootStrapper), "Start")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Bifrost.Web.BootStrapper),"PreApplicationStart")]
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Bifrost.Web.BootStrapper), "Start")]
 
 namespace Bifrost.Web
 {
