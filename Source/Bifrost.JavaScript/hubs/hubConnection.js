@@ -7,6 +7,9 @@
             return proxy;
         };
 
+        $.connection.hub.start().done(function () {
+            console.log("Hub connection up and running");
+        });
     })
 });
 Bifrost.WellKnownTypesDependencyResolver.types.hubConnection = Bifrost.hubs.hubConnection;
