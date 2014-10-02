@@ -17,6 +17,8 @@
 //
 #endregion
 using System.Collections.Generic;
+using System.IO;
+using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
 {
@@ -25,18 +27,58 @@ namespace Bifrost.Events.Files
     /// </summary>
     public class FileEventSubscriptions : IEventSubscriptions
     {
+        FileEventStoreConfiguration _configuration;
+        ISerializer _serializer;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="FileEventSubscriptions"/>
+        /// </summary>
+        /// <param name="configuration"><see cref="FileEventStoreConfiguration"/> to use for configuration</param>
+        /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
+        public FileEventSubscriptions(FileEventStoreConfiguration configuration, ISerializer serializer)
+        {
+            _configuration = configuration;
+            _serializer = serializer;
+        }
+
 #pragma warning disable 1591 // Xml Comments
+
+        string GetPathForSubscriptions()
+        {
+            var fullPath = Path.Combine(_configuration.Path, "EventSubscribers");
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+            return fullPath;
+        }
+
         public IEnumerable<EventSubscription> GetAll()
         {
-            return new EventSubscription[0];
+            var subscriptions = new List<EventSubscription>();
+            var path = GetPathForSubscriptions();
+            var files = Directory.GetFiles(path);
+
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var subscription = _serializer.FromJson<EventSubscription>(json);
+                subscriptions.Add(subscription);
+            }
+
+            return subscriptions;
         }
 
         public void Save(EventSubscription subscription)
         {
+            var path = GetPathForSubscriptions();
+            var file = string.Format("{0}\\{1}.{2}.{3}", path, subscription.Owner.Namespace, subscription.Owner.Name, subscription.EventName);
+            var json = _serializer.ToJson(subscription);
+            File.WriteAllText(file, json);
         }
 
         public void ResetLastEventForAllSubscriptions()
         {
+            var path = GetPathForSubscriptions();
+            Directory.Delete(path, true);
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -134,8 +134,6 @@ namespace Bifrost.Events.Files
             return fullPath;
         }
 #pragma warning restore 1591 // Xml Comments
-
-
         
     }
 }
