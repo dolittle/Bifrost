@@ -3,11 +3,6 @@ using System.Web.Routing;
 using Bifrost.Configuration;
 using Bifrost.QuickStart.Domain.HumanResources.Foos;
 using Bifrost.Web.Services;
-using Bifrost.Execution;
-using Bifrost.QuickStart.Concepts.Persons;
-using Bifrost.QuickStart.Domain.HumanResources.Employees;
-using Bifrost.QuickStart.Infrastructure;
-using Bifrost.Validation;
 
 namespace Bifrost.QuickStart
 {
@@ -52,7 +47,6 @@ namespace Bifrost.QuickStart
                         w.PathsToNamespaces.Add("Features/**/", "Bifrost.QuickStart.Features.**.");
                         w.PathsToNamespaces.Add("/Features/**/", "Bifrost.QuickStart.Features.**.");
 
-                        // Bifrost.QuickStart.Features.Read.HumanResources.Employees
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Domain.HumanResources.**.");
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Read.HumanResources.**.");
                         w.NamespaceMapper.Add("Bifrost.QuickStart.Features.**.", "Bifrost.QuickStart.Features.**.");

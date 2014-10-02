@@ -2796,7 +2796,7 @@ Bifrost.namespace("Bifrost.hubs", {
             return proxy;
         };
 
-        $.connection.hub.logging = true;
+        //$.connection.hub.logging = true;
         $.connection.hub.start().done(function () {
             console.log("Hub connection up and running");
             self.isConnected = true;
