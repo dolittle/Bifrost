@@ -249,16 +249,20 @@ namespace Bifrost.Execution
         Type[] Find(Type type)
         {
             Type[] typesFound;
+
+            Func<Type, Type, bool> isAssignableFrom = (t1, t2) => t2.IsAssignableFrom(t1);
+            if (type.IsInterface) isAssignableFrom = (t1, t2) => t1.HasInterface(t2);
+
             if (!_implementingTypes.TryGetValue(type, out typesFound))
             {
                 var query = from t in _types.Values.SelectMany(a => a.Values)
                             where
-                                t.HasInterface(type) &&
+                                isAssignableFrom(t,type) &&
 #if(NETFX_CORE)
                                 !t.GetTypeInfo().IsInterface &&
                                 !t.GetTypeInfo().IsAbstract
 #else
- !t.IsInterface &&
+                                !t.IsInterface &&
                                 !t.IsAbstract
 #endif
                             select t;
