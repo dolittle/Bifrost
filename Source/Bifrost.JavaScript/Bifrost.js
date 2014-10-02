@@ -54,6 +54,8 @@
 @depends systemEvents.js
 @depends dispatcher.js
 @depends linked.js
+@depends hubs/hubConnection.js
+@depends hubs/Hub.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js

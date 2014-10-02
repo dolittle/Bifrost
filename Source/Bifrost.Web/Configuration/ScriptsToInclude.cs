@@ -27,6 +27,8 @@ namespace Bifrost.Web.Configuration
         public bool Require { get; set; }
         public bool Bifrost { get; set; }
 
+        public bool SignalR { get; set; }
+
         public ScriptsToInclude()
         {
             JQuery = true;
@@ -34,6 +36,7 @@ namespace Bifrost.Web.Configuration
             Knockout = true;
             Require = true;
             Bifrost = true;
+            SignalR = true;
         }
 
         public void ExcludeAllScripts()
@@ -43,6 +46,7 @@ namespace Bifrost.Web.Configuration
             Knockout = false;
             Require = false;
             Bifrost = false;
+            SignalR = false;
         }
     }
 }
