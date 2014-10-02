@@ -345,6 +345,15 @@
     <Compile Include="..\Bifrost\Entities\IEntityContextConnection.cs">
       <Link>Entities\IEntityContextConnection.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Entities\NullEntityContext.cs">
+      <Link>Entities\NullEntityContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Entities\NullEntityContextConfiguration.cs">
+      <Link>Entities\NullEntityContextConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Entities\NullEntityContextConnection.cs">
+      <Link>Entities\NullEntityContextConnection.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Events\AsynchronousUncommittedEventStreamCoordinator.cs">
       <Link>Events\AsynchronousUncommittedEventStreamCoordinator.cs</Link>
     </Compile>

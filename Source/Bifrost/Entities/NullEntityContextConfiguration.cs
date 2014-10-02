@@ -16,26 +16,33 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Entities;
-using Bifrost.Execution;
+using System;
+using Bifrost.Configuration;
 
-namespace Bifrost.Configuration
+namespace Bifrost.Entities
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IDefaultStorageConfiguration"/>
+    /// Represents a null implementation of <see cref="IEntityContextConfiguration"/>
     /// </summary>
-    public class DefaultStorageConfiguration : ConfigurationStorageElement, IDefaultStorageConfiguration
+    public class NullEntityContextConfiguration : IEntityContextConfiguration
     {
-#pragma warning disable 1591 // Xml Comments
 
-        public override void Initialize(IContainer container)
+        /// <summary>
+        /// Initializes a new instance of <see cref="NullEntityContextConfiguration"/>
+        /// </summary>
+        public NullEntityContextConfiguration()
         {
-            if (EntityContextConfiguration == null)
-                EntityContextConfiguration = new NullEntityContextConfiguration();
-
-            EntityContextConfiguration.BindDefaultEntityContext(container);
-            base.Initialize(container);
+            Connection = new NullEntityContextConnection();
         }
-#pragma warning restore 1591  //Xml Comments
+
+
+#pragma warning disable 1591 // Xml Comments
+        public Type EntityContextType
+        {
+            get { return typeof(NullEntityContext<>); }
+        }
+
+        public IEntityContextConnection Connection { get; set; }
+#pragma warning restore 1591 // Xml Comments
     }
 }
