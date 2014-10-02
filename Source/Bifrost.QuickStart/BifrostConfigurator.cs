@@ -10,16 +10,15 @@ namespace Bifrost.QuickStart
     {
         public void Configure(IConfigure configure)
         {
-            var dataPath = HttpContext.Current.Server.MapPath("~/App_Data");
+            var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
+            var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
             configure
-                //.UsingSignalR()
                 .Serialization
                     .UsingJson()
-                //.Events
+                .Events
+                    .UsingFiles(eventsPath)
                     //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
                     //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
-                //.Events
-                    //.Asynchronous(e=>e.UsingSignalR())
                 //.DefaultStorage
                     //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
                     //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))

@@ -164,10 +164,14 @@
     <Compile Include="Entities\NullEntityContextConfiguration.cs" />
     <Compile Include="Entities\NullEntityContextConnection.cs" />
     <Compile Include="Events\AsynchronousUncommittedEventStreamCoordinator.cs" />
+    <Compile Include="Events\Files\ConfigurationExtensions.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
+    <Compile Include="Events\Files\FileEventStore.cs" />
+    <Compile Include="Events\Files\FileEventStoreConfiguration.cs" />
+    <Compile Include="Events\Files\FileEventSubscriptions.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
     <Compile Include="Events\IEventStoreChangeManager.cs" />
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />
