@@ -5,30 +5,61 @@
         var proxy = null;
         this._name = "";
 
-        function makeClientProxyFunction(callback, args) {
+        function makeClientProxyFunction(callback) {
             return function () {
-                callback.apply(self, args);
+                callback.apply(self, arguments);
             };
         }
 
-        this.client = function (client) {
+        this.client = function (callback) {
+            var client = {};
+            callback(client);
+
             for (var property in client) {
                 var value = client[property];
                 if (!Bifrost.isFunction(value)) {
                     continue;
                 }
 
-                proxy.on(property, makeClientProxyFunction(value, arguments));
+                proxy.on(property, makeClientProxyFunction(value));
             }
         };
 
         this.server = {};
 
+        var delayedServerInvocations = [];
+
+        hubConnection.connected.subscribe(function () {
+            delayedServerInvocations.forEach(function (invocationFunction) {
+                invocationFunction();
+            });
+        });
+
+        function makeInvocationFunction(promise, method, args) {
+            return function () {
+                var argumentsAsArray = [];
+                for (var arg = 0; arg < args.length; arg++) {
+                    argumentsAsArray.push(args[arg]);
+                }
+
+                var allArguments = [method].concat(argumentsAsArray);
+                proxy.invoke.apply(proxy, allArguments).done(function (result) {
+                    promise.signal(result);
+                });
+            };
+        }
+
         this.invokeServerMethod = function (method, args) {
             var promise = Bifrost.execution.Promise.create();
-            proxy.invoke(method, args).done(function (result) {
-                promise.signal(result);
-            });
+
+            var invocationFunction = makeInvocationFunction(promise, method, args);
+
+            if (hubConnection.isConnected === false) {
+                delayedServerInvocations.push(invocationFunction);
+            } else {
+                invocationFunction();
+            }
+
             return promise;
         };
 

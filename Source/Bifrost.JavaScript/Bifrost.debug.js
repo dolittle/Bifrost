@@ -2782,15 +2782,25 @@ ko.extenders.linked = function (target, options) {
 };
 Bifrost.namespace("Bifrost.hubs", {
     hubConnection: Bifrost.Singleton(function () {
+        var self = this;
         var hub = $.hubConnection("/signalr", { useDefaultPath: false });
+        /* jshint ignore:start */
+        $.signalR.hub = hub;
+        /* jshint ignore:end */
+
+        this.isConnected = false;
+        this.connected = Bifrost.Event.create();
 
         this.createProxy = function (hubName) {
             var proxy = hub.createHubProxy(hubName);
             return proxy;
         };
 
+        $.connection.hub.logging = true;
         $.connection.hub.start().done(function () {
             console.log("Hub connection up and running");
+            self.isConnected = true;
+            self.connected.trigger();
         });
     })
 });
@@ -2802,30 +2812,61 @@ Bifrost.namespace("Bifrost.hubs", {
         var proxy = null;
         this._name = "";
 
-        function makeClientProxyFunction(callback, args) {
+        function makeClientProxyFunction(callback) {
             return function () {
-                callback.apply(self, args);
+                callback.apply(self, arguments);
             };
         }
 
-        this.client = function (client) {
+        this.client = function (callback) {
+            var client = {};
+            callback(client);
+
             for (var property in client) {
                 var value = client[property];
                 if (!Bifrost.isFunction(value)) {
                     continue;
                 }
 
-                proxy.on(property, makeClientProxyFunction(value, arguments));
+                proxy.on(property, makeClientProxyFunction(value));
             }
         };
 
         this.server = {};
 
+        var delayedServerInvocations = [];
+
+        hubConnection.connected.subscribe(function () {
+            delayedServerInvocations.forEach(function (invocationFunction) {
+                invocationFunction();
+            });
+        });
+
+        function makeInvocationFunction(promise, method, args) {
+            return function () {
+                var argumentsAsArray = [];
+                for (var arg = 0; arg < args.length; arg++) {
+                    argumentsAsArray.push(args[arg]);
+                }
+
+                var allArguments = [method].concat(argumentsAsArray);
+                proxy.invoke.apply(proxy, allArguments).done(function (result) {
+                    promise.signal(result);
+                });
+            };
+        }
+
         this.invokeServerMethod = function (method, args) {
             var promise = Bifrost.execution.Promise.create();
-            proxy.invoke(method, args).done(function (result) {
-                promise.signal(result);
-            });
+
+            var invocationFunction = makeInvocationFunction(promise, method, args);
+
+            if (hubConnection.isConnected === false) {
+                delayedServerInvocations.push(invocationFunction);
+            } else {
+                invocationFunction();
+            }
+
             return promise;
         };
 
@@ -2834,6 +2875,18 @@ Bifrost.namespace("Bifrost.hubs", {
         };
     })
 });
+Bifrost.dependencyResolvers.hub = {
+    canResolve: function (namespace, name) {
+        if (typeof hubs !== "undefined") {
+            return name in hubs;
+        }
+        return false;
+    },
+
+    resolve: function (namespace, name) {
+        return hubs[name].create();
+    }
+};
 Bifrost.namespace("Bifrost.io", {
     fileType: {
         unknown: 0,

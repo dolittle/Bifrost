@@ -70,7 +70,7 @@ namespace Bifrost.Web.Hubs
                                     .Body
                                         .Variant("self", v => v.WithThis())
                                         .Property("_name", p => p.WithString(name))
-                                        .WithServerPropertiesFrom(type)
+                                        .WithServerMethodsFrom(type)
                         );
                 }
 

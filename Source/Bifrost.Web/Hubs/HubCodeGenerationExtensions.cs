@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Reflection;
+using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Extensions;
 
@@ -25,7 +26,7 @@ namespace Bifrost.Web.Hubs
 {
     public static class HubCodeGenerationExtensions
     {
-        public static FunctionBody WithServerPropertiesFrom(this FunctionBody body, Type type)
+        public static FunctionBody WithServerMethodsFrom(this FunctionBody body, Type type)
         {
             body.Property("server", p => p.WithObjectLiteral(o =>
             {
@@ -36,9 +37,15 @@ namespace Bifrost.Web.Hubs
 
                     o.Assign(method.Name.ToCamelCase()).WithFunction(f =>
                     {
-                        f.Body.Access("self", a => a.WithFunctionCall(fc => fc
-                            .WithName("invokeServerMethod")
-                            .WithParameters("\"" + method.Name + "\"", "arguments")));
+                        f.Body.Variant("result", v =>
+                        {
+                            v.WithFunctionCall(fc => fc
+                                .WithName("self.invokeServerMethod")
+                                .WithParameters("\"" + method.Name + "\"", "arguments")
+                            );
+                        });
+
+                        f.Body.Return(new Literal("result"));
                     });
 
                 }

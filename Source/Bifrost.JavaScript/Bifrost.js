@@ -56,6 +56,7 @@
 @depends linked.js
 @depends hubs/hubConnection.js
 @depends hubs/Hub.js
+@depends hubs/hubDependencyResolver.js
 @depends io/fileType.js
 @depends io/File.js
 @depends io/fileFactory.js
