@@ -1,8 +1,8 @@
 ﻿using System;
-using Bifrost.QuickStart.Concepts.Persons;
+using Web.Concepts.Persons;
 using Bifrost.Read;
 
-namespace Bifrost.QuickStart.Read.HumanResources.Employees
+namespace Web.Read.HumanResources.Employees
 {
     public class Employee : IReadModel
     {

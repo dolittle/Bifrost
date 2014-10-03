@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
+﻿Bifrost.namespace("Web.HumanResources.Employees", {
     list: Bifrost.views.ViewModel.extend(function (allEmployees, testHub) {
         var self = this;
         this.employees = allEmployees.paged(8, 0);

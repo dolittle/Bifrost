@@ -20,8 +20,6 @@
       <dependency id="Bifrost.Ninject" version="$version$"/>
       <dependency id="Bifrost.Mimir" version="$version$"/>
       <dependency id="Bifrost.Web" version="$version$"/>
-      <dependency id="Bifrost.SignalR" version="$version$"/>
-      <dependency id="Bifrost.RavenDB.Embedded" version="$version$"/>
     </dependencies>
   </metadata>
   <files>

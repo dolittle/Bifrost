@@ -1,7 +1,7 @@
 ﻿using System;
 using Bifrost.Events;
 
-namespace Bifrost.QuickStart.Events.HumanResources.Employees
+namespace Web.Events.HumanResources.Employees
 {
     public class EmployeeRegistered : Event
     {

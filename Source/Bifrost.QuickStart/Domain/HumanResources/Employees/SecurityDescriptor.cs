@@ -1,6 +1,6 @@
 ﻿using Bifrost.Security;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Employees
+namespace Web.Domain.HumanResources.Employees
 {
     public class SecurityDescriptor : BaseSecurityDescriptor
     {

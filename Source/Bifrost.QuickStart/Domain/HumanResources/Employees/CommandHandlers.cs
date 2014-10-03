@@ -2,7 +2,7 @@
 using Bifrost.Commands;
 using Bifrost.Domain;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Employees
+namespace Web.Domain.HumanResources.Employees
 {
     public class CommandHandlers : IHandleCommands
     {

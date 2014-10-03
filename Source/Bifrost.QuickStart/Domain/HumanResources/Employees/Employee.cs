@@ -1,9 +1,9 @@
 ﻿using System;
 using Bifrost.Domain;
-using Bifrost.QuickStart.Concepts.Persons;
-using Bifrost.QuickStart.Events.HumanResources.Employees;
+using Web.Concepts.Persons;
+using Web.Events.HumanResources.Employees;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Employees
+namespace Web.Domain.HumanResources.Employees
 {
     public class Employee : AggregateRoot
     {

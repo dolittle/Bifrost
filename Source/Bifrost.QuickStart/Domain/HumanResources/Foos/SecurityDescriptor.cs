@@ -1,7 +1,7 @@
 ﻿using Bifrost.Security;
 using Bifrost.Services;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Foos
+namespace Web.Domain.HumanResources.Foos
 {
     public class SecurityDescriptor : BaseSecurityDescriptor
     {

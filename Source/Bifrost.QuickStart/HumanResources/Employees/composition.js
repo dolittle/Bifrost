@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
+﻿Bifrost.namespace("Web.HumanResources.Employees", {
     composition: Bifrost.views.ViewModel.extend(function (globalMessenger) {
         var self = this;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using Bifrost.Commands;
-using Bifrost.QuickStart.Concepts.Persons;
+using Web.Concepts.Persons;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Employees
+namespace Web.Domain.HumanResources.Employees
 {
     public class RegisterEmployee : Command
     {

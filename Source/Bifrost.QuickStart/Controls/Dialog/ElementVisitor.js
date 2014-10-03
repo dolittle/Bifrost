@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Dialog", {
+﻿Bifrost.namespace("Web.Controls.Dialog", {
     ElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
         this.visit = function (element, actions) {
             if (element.localName != "dialog") {
@@ -52,7 +52,7 @@
 
             var container = document.createElement("div");
             var bindingAttribute = document.createAttribute("data-bind");
-            bindingAttribute.value = "view: 'Dialog/Index', viewModelParameters: { configuration: "+JSON.stringify(configuration)+"}";
+            bindingAttribute.value = "view: 'Controls/Dialog/Index', viewModelParameters: { configuration: "+JSON.stringify(configuration)+"}";
             container.attributes.setNamedItem(bindingAttribute);
 
             element.parentElement.replaceChild(container, element);

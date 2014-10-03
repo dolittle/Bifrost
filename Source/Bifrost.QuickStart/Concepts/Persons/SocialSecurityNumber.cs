@@ -2,7 +2,7 @@
 using Bifrost.Validation;
 using FluentValidation;
 
-namespace Bifrost.QuickStart.Concepts.Persons
+namespace Web.Concepts.Persons
 {
     public class SocialSecurityNumber : ConceptAs<string>
     {

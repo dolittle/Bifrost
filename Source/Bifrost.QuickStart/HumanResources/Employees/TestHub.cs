@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 
-namespace Bifrost.QuickStart.Features.Employees
+namespace Web.HumanResources.Employees
 {
     public class TestHub : Hub
     {

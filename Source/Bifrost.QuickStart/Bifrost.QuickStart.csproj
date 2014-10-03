@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.QuickStart</RootNamespace>
-    <AssemblyName>Bifrost.QuickStart</AssemblyName>
+    <RootNamespace>Web</RootNamespace>
+    <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -100,20 +100,20 @@
     <EmbeddedResource Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="css\dolittle.css" />
-    <Content Include="Features\Dialog\ElementVisitor.js" />
-    <Content Include="Features\Dialog\Index.html" />
-    <Content Include="Features\Dialog\Index.js" />
-    <Content Include="Features\Employees\composition.html" />
-    <Content Include="Features\Employees\composition.js" />
-    <Content Include="Features\Employees\popup.html" />
-    <Content Include="Features\Employees\popup.js" />
-    <Content Include="Features\Employees\index.html" />
-    <Content Include="Features\Employees\index.js" />
-    <Content Include="Features\Employees\list.html" />
-    <Content Include="Features\Employees\list.js" />
-    <Content Include="Features\Employees\RegionDescriptor.js" />
-    <Content Include="Features\Employees\register.html" />
-    <Content Include="Features\Employees\register.js" />
+    <Content Include="Controls\Dialog\ElementVisitor.js" />
+    <Content Include="Controls\Dialog\Index.html" />
+    <Content Include="Controls\Dialog\Index.js" />
+    <Content Include="HumanResources\Employees\composition.html" />
+    <Content Include="HumanResources\Employees\composition.js" />
+    <Content Include="HumanResources\Employees\popup.html" />
+    <Content Include="HumanResources\Employees\popup.js" />
+    <Content Include="HumanResources\Employees\index.html" />
+    <Content Include="HumanResources\Employees\index.js" />
+    <Content Include="HumanResources\Employees\list.html" />
+    <Content Include="HumanResources\Employees\list.js" />
+    <Content Include="HumanResources\Employees\RegionDescriptor.js" />
+    <Content Include="HumanResources\Employees\register.html" />
+    <Content Include="HumanResources\Employees\register.js" />
     <EmbeddedResource Include="img\balder-icon.png" />
     <EmbeddedResource Include="img\bifrost-icon.png" />
     <EmbeddedResource Include="img\bifrost.png" />
@@ -124,9 +124,9 @@
     <EmbeddedResource Include="img\glyphicons-halflings.png" />
     <EmbeddedResource Include="img\pattern_40.gif" />
     <EmbeddedResource Include="img\yggdrasil-icon.png" />
-    <Content Include="Features\Employees\test.html" />
-    <Content Include="Features\Employees\test.js" />
-    <Content Include="Features\Employees\viewWithoutViewModel.html" />
+    <Content Include="HumanResources\Employees\test.html" />
+    <Content Include="HumanResources\Employees\test.js" />
+    <Content Include="HumanResources\Employees\viewWithoutViewModel.html" />
     <Content Include="img\warning.png" />
     <Content Include="img\spinner.gif" />
     <Content Include="index.html" />
@@ -152,7 +152,7 @@
     <Compile Include="Domain\HumanResources\Foos\SecurityDescriptor.cs" />
     <Compile Include="Events\HumanResources\Employees\EmployeeRegistered.cs" />
     <Compile Include="Domain\HumanResources\Foos\SecuredService.cs" />
-    <Compile Include="Features\Employees\TestHub.cs" />
+    <Compile Include="HumanResources\Employees\TestHub.cs" />
     <Compile Include="Infrastructure\DummyValueFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
@@ -180,7 +180,7 @@
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
-      <Project>{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}</Project>
+      <Project>{63bbc1f3-e5e0-4902-badf-1589f91c0bea}</Project>
       <Name>Bifrost.MongoDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
@@ -188,7 +188,7 @@
       <Name>Bifrost.Ninject</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
-      <Project>{CB331526-55BF-4887-A0D8-EE721B7FCDD7}</Project>
+      <Project>{cb331526-55bf-4887-a0d8-ee721b7fcdd7}</Project>
       <Name>Bifrost.RavenDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">

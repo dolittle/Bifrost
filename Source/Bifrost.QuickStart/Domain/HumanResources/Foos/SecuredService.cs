@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Foos
+namespace Web.Domain.HumanResources.Foos
 {
     public class SecuredService
     {

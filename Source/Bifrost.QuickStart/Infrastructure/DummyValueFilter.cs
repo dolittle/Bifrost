@@ -1,6 +1,6 @@
 ﻿using Bifrost.Web.Services;
 
-namespace Bifrost.QuickStart.Infrastructure
+namespace Web.Infrastructure
 {
     public class DummyValueFilter : ICanInterceptValue<string> 
     {

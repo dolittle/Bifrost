@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Bifrost.Read;
 
-namespace Bifrost.QuickStart.Read.HumanResources.Employees
+namespace Web.Read.HumanResources.Employees
 {
     public class AllEmployees : IQueryFor<Employee>
     {

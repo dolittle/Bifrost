@@ -1,7 +1,7 @@
 ﻿using Bifrost.Validation;
 using FluentValidation;
 
-namespace Bifrost.QuickStart.Domain.HumanResources.Employees
+namespace Web.Domain.HumanResources.Employees
 {
     public class RegisterEmployeeInputValidator : CommandInputValidator<RegisterEmployee>
     {

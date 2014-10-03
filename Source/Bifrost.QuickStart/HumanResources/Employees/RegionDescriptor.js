@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
+﻿Bifrost.namespace("Web.HumanResources.Employees", {
     RegionDescriptor: Bifrost.views.RegionDescriptor.extend(function () {
         var self = this;
 

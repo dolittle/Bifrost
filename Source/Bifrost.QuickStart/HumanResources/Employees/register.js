@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Employees", {
+﻿Bifrost.namespace("Web.HumanResources.Employees", {
     register: Bifrost.views.ViewModel.extend(function (registerEmployee) {
         var self = this;
 

@@ -1,8 +1,8 @@
 ﻿using Bifrost.Events;
-using Bifrost.QuickStart.Events.HumanResources.Employees;
+using Web.Events.HumanResources.Employees;
 using Bifrost.Read;
 
-namespace Bifrost.QuickStart.Read.HumanResources.Employees
+namespace Web.Read.HumanResources.Employees
 {
     public class EventSubscribers : IProcessEvents
     {

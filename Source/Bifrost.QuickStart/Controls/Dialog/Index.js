@@ -1,4 +1,4 @@
-﻿Bifrost.namespace("Bifrost.QuickStart.Features.Dialog", {
+﻿Bifrost.namespace("Web.Controls.Dialog", {
     Index: Bifrost.views.Control.extend(function (configuration) {
         this.configuration = configuration;
     })
