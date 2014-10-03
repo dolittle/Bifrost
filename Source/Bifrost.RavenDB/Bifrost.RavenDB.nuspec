@@ -15,7 +15,7 @@
     <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="RavenDB.Client" version="[2.0.2330]" />
+      <dependency id="RavenDB.Client" version="2.5.2916" />
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>

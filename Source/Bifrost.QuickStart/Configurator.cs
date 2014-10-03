@@ -6,7 +6,7 @@ using Bifrost.Web.Services;
 
 namespace Web
 {
-    public class BifrostConfigurator : ICanConfigure
+    public class Configurator : ICanConfigure
     {
         public void Configure(IConfigure configure)
         {

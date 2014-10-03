@@ -91,6 +91,7 @@
   <ItemGroup>
     <Content Include="index.html" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="readme.txt" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Web.config" />

@@ -5,7 +5,11 @@ set version=%1
 
 %nuget% pack Bifrost\Bifrost.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.JSON\Bifrost.JSON.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.AutoFac\Bifrost.Ninject.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.Ninject\Bifrost.Ninject.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.StructureMap\Bifrost.Ninject.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.Unity\Bifrost.Ninject.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.Windsor\Bifrost.Ninject.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.JavaScript\Bifrost.JS.nuspec -Version %version%
 %nuget% pack Bifrost.Web\Bifrost.Web.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.RavenDB\Bifrost.RavenDB.nuspec -Symbols -Version %version%

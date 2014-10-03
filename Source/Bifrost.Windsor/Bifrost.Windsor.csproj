@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Bifrost.Windsor.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

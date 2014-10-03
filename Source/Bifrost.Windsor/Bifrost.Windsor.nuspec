@@ -1,32 +1,27 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Bifrost.Web</id>
+    <id>Bifrost.Windsor</id>
     <version>$version$</version>
-    <title>Bifrost Web support</title>
+    <title>Bifrost Windsor support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
     <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
     <projectUrl>http://bifrost.dolittle.com</projectUrl>
     <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Support for Web applications for Bifrost</description>
+    <description>Support for Windsor for Bifrost</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="FluentValidation" version="3.4.6.0" />
-      <dependency id="Newtonsoft.Json" version="6.0.5" />
-      <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0" />
-      <dependency id="Microsoft.AspNet.Web.Optimization" version="1.1.3" />
-      <dependency id="WebActivator" version="1.5.3" />
-      <dependency id="Microsoft.AspNet.SignalR.SystemWeb" version="2.1.2" />
+      <dependency id="Castle.Windsor" version="2.5.1" />
       <dependency id="Bifrost" version="$version$" />
-      <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\Bifrost.Web.*" target="lib\net45"/>
+    
+    <file src="bin\debug\Bifrost.Windsor.*" target="lib\net45"/>
 	<file src="**\*.cs" target="src" />
   </files>
 </package>
