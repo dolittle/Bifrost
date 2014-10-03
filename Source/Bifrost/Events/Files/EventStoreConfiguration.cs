@@ -19,12 +19,12 @@
 namespace Bifrost.Events.Files
 {
     /// <summary>
-    /// Represents the configuration for the <see cref="FileEventStore"/>
+    /// Represents the configuration for the <see cref="EventStore"/>
     /// </summary>
-    public class FileEventStoreConfiguration
+    public class EventStoreConfiguration
     {
         /// <summary>
-        /// Path of where the <see cref="FileEventStore"/> will keep its files
+        /// Path of where the <see cref="EventStore"/> will keep its files
         /// </summary>
         public string Path { get; set; }
     }

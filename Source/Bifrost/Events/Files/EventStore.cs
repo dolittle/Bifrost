@@ -27,17 +27,17 @@ namespace Bifrost.Events.Files
     /// <summary>
     /// Represents a simple file based <see cref="IEventStore"/>
     /// </summary>
-    public class FileEventStore : IEventStore
+    public class EventStore : IEventStore
     {
-        FileEventStoreConfiguration _configuration;
+        EventStoreConfiguration _configuration;
         ISerializer _serializer;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FileEventStore"/>
+        /// Initializes a new instance of <see cref="EventStore"/>
         /// </summary>
-        /// <param name="configuration"><see cref="FileEventStoreConfiguration"/> to use as configuration</param>
+        /// <param name="configuration"><see cref="EventStoreConfiguration"/> to use as configuration</param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
-        public FileEventStore(FileEventStoreConfiguration configuration, ISerializer serializer)
+        public EventStore(EventStoreConfiguration configuration, ISerializer serializer)
         {
             _configuration = configuration;
             _serializer = serializer;

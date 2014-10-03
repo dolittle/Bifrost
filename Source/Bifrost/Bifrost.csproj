@@ -169,9 +169,9 @@
     <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
-    <Compile Include="Events\Files\FileEventStore.cs" />
-    <Compile Include="Events\Files\FileEventStoreConfiguration.cs" />
-    <Compile Include="Events\Files\FileEventSubscriptions.cs" />
+    <Compile Include="Events\Files\EventStore.cs" />
+    <Compile Include="Events\Files\EventStoreConfiguration.cs" />
+    <Compile Include="Events\Files\EventSubscriptions.cs" />
     <Compile Include="Events\IEventStoreChangeListener.cs" />
     <Compile Include="Events\IEventStoreChangeManager.cs" />
     <Compile Include="Events\IEventStoreChangeNotifier.cs" />
@@ -530,7 +530,9 @@
     <Compile Include="Read\IReadModel.cs" />
     <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\Files\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
