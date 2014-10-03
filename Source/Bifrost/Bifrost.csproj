@@ -160,6 +160,10 @@
     <Compile Include="Diagnostics\QualityAssurance.cs" />
     <Compile Include="Diagnostics\TypeRules.cs" />
     <Compile Include="Dynamic\DynamicHelpers.cs" />
+    <Compile Include="Entities\Files\ConfigurationExtensions.cs" />
+    <Compile Include="Entities\Files\EntityContext.cs" />
+    <Compile Include="Entities\Files\EntityContextConfiguration.cs" />
+    <Compile Include="Entities\Files\EntityContextConnection.cs" />
     <Compile Include="Entities\NullEntityContext.cs" />
     <Compile Include="Entities\NullEntityContextConfiguration.cs" />
     <Compile Include="Entities\NullEntityContextConnection.cs" />
@@ -530,9 +534,7 @@
     <Compile Include="Read\IReadModel.cs" />
     <Compile Include="Read\IReadModelRepositoryFor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\Files\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ExceptionStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

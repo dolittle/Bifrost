@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Bifrost.Serialization;
@@ -51,6 +52,15 @@ namespace Bifrost.Events.Files
             return fullPath;
         }
 
+        class EventSubscriptionHolder
+        {
+            public int Id { get; set; }
+            public Type Owner { get; set; }
+            public Type EventType { get; set; }
+            public string EventName { get; set; }
+            public long LastEventId { get; set; }
+        }
+
         public IEnumerable<EventSubscription> GetAll()
         {
             var subscriptions = new List<EventSubscription>();
@@ -60,7 +70,14 @@ namespace Bifrost.Events.Files
             foreach (var file in files)
             {
                 var json = File.ReadAllText(file);
-                var subscription = _serializer.FromJson<EventSubscription>(json);
+                var holder = _serializer.FromJson<EventSubscriptionHolder>(json);
+                var subscription = new EventSubscription();
+                subscription.Id = holder.Id;
+                subscription.LastEventId = holder.LastEventId;
+                subscription.Owner = holder.Owner;
+                subscription.EventType = holder.EventType;
+                subscription.EventName = holder.EventName;
+                subscription.Method = holder.Owner.GetMethod(Bifrost.Events.ProcessMethodInvoker.ProcessMethodName, new Type[] { subscription.EventType });
                 subscriptions.Add(subscription);
             }
 
@@ -71,7 +88,17 @@ namespace Bifrost.Events.Files
         {
             var path = GetPathForSubscriptions();
             var file = string.Format("{0}\\{1}.{2}.{3}", path, subscription.Owner.Namespace, subscription.Owner.Name, subscription.EventName);
-            var json = _serializer.ToJson(subscription);
+
+            var holder = new EventSubscriptionHolder
+            {
+                Id = subscription.Id,
+                LastEventId = subscription.LastEventId,
+                Owner = subscription.Owner,
+                EventType = subscription.EventType,
+                EventName = subscription.EventName
+            };
+
+            var json = _serializer.ToJson(holder);
             File.WriteAllText(file, json);
         }
 

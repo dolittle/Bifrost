@@ -81,7 +81,10 @@ namespace Bifrost.JSON.Serialization
 				                          		}
 				                          		catch
 				                          		{
-				                          			return defaultCreator();
+                                                    if (defaultCreator != null)
+                                                        return defaultCreator();
+                                                    else
+                                                        return null;
 				                          		}
 				                          	};
 			}

@@ -18,10 +18,10 @@ namespace Bifrost.QuickStart
                 .Events
                     .UsingFiles(eventsPath)
                     //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath).WithManagementStudio())
-                //.DefaultStorage
+                .DefaultStorage
+                    .UsingFiles(entitiesPath)
+
                     //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-                    //.UsingRavenDBEmbedded(e=>e.LocatedAt(dataPath))
                 .Frontend
                     .Web(w=> {
                         w.AsSinglePageApplication();

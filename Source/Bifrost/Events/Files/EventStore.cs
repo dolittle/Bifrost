@@ -73,7 +73,10 @@ namespace Bifrost.Events.Files
         {
             foreach (var @event in uncommittedEventStream)
             {
-                var eventPath = GetPathFor(Type.GetType(@event.EventSource).Name, @event.EventSourceId);
+                var eventSourceName = Type.GetType(@event.EventSource).Name;
+                var eventPath = GetPathFor(eventSourceName, @event.EventSourceId);
+
+                @event.Id = GetNextEventId();
 
                 var json = _serializer.ToJson(new
                 {
@@ -82,16 +85,30 @@ namespace Bifrost.Events.Files
                     Event = _serializer.ToJson(@event)
                 });
 
-                var id = 1;
-                var first = Directory.GetFiles(eventPath).OrderByDescending(f => f).FirstOrDefault();
-                if (first != null) id = int.Parse(first) + 1;
 
-                File.WriteAllText(string.Format("{0}\\{1}",eventPath,id), json);
+                File.WriteAllText(string.Format("{0}\\{1}.{2}",eventPath,@event.Version.Commit, @event.Version.Sequence), json);
             }
 
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
             committedEventStream.Append(uncommittedEventStream);
             return committedEventStream;
+        }
+
+        int GetNextEventId()
+        {
+            var id = 0;
+            var idFile = string.Format("{0}\\LastEventId", _configuration.Path);
+
+            if (File.Exists(idFile))
+            {
+                var idAsString = File.ReadAllText(idFile);
+                int.TryParse(idAsString, out id);
+            }
+
+            id++;
+            File.WriteAllText(idFile, id.ToString());
+
+            return id;
         }
 
         public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
@@ -123,10 +140,19 @@ namespace Bifrost.Events.Files
             throw new NotImplementedException();
         }
 
+        string GetPathFor(string eventSource)
+        {
+            var fullPath = Path.Combine(_configuration.Path, "EventStore", eventSource);
+            if (!Directory.Exists(fullPath))
+            {
+                Directory.CreateDirectory(fullPath);
+            }
+            return fullPath;
+        }
 
         string GetPathFor(string eventSource, Guid eventSourceId)
         {
-            var fullPath = Path.Combine(_configuration.Path, "EventStore", eventSource, eventSourceId.ToString());
+            var fullPath = Path.Combine(GetPathFor(eventSource), eventSourceId.ToString());
             if (!Directory.Exists(fullPath))
             {
                 Directory.CreateDirectory(fullPath);
