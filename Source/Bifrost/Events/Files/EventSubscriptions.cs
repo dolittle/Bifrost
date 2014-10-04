@@ -55,8 +55,8 @@ namespace Bifrost.Events.Files
         class EventSubscriptionHolder
         {
             public int Id { get; set; }
-            public Type Owner { get; set; }
-            public Type EventType { get; set; }
+            public string Owner { get; set; }
+            public string EventType { get; set; }
             public string EventName { get; set; }
             public long LastEventId { get; set; }
         }
@@ -74,10 +74,10 @@ namespace Bifrost.Events.Files
                 var subscription = new EventSubscription();
                 subscription.Id = holder.Id;
                 subscription.LastEventId = holder.LastEventId;
-                subscription.Owner = holder.Owner;
-                subscription.EventType = holder.EventType;
+                subscription.Owner = Type.GetType(holder.Owner);
+                subscription.EventType = Type.GetType(holder.EventType);
                 subscription.EventName = holder.EventName;
-                subscription.Method = holder.Owner.GetMethod(Bifrost.Events.ProcessMethodInvoker.ProcessMethodName, new Type[] { subscription.EventType });
+                subscription.Method = subscription.Owner.GetMethod(Bifrost.Events.ProcessMethodInvoker.ProcessMethodName, new Type[] { subscription.EventType });
                 subscriptions.Add(subscription);
             }
 
@@ -93,8 +93,8 @@ namespace Bifrost.Events.Files
             {
                 Id = subscription.Id,
                 LastEventId = subscription.LastEventId,
-                Owner = subscription.Owner,
-                EventType = subscription.EventType,
+                Owner = string.Format("{0}.{1}, {2}", subscription.Owner.Namespace, subscription.Owner.Name, subscription.Owner.Assembly.GetName().Name),
+                EventType = string.Format("{0}.{1}, {2}", subscription.EventType.Namespace, subscription.EventType.Name, subscription.EventType.Assembly.GetName().Name),
                 EventName = subscription.EventName
             };
 
