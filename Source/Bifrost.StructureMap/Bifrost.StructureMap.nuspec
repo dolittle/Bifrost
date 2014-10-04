@@ -11,7 +11,7 @@
     <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Support for StructureMap for Bifrost</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
     <copyright>Copyright 2008 - 2014</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
