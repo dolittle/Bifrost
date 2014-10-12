@@ -73,10 +73,8 @@ namespace Bifrost.Read
                 }
 
                 var property = GetQueryPropertyFromQuery(query);
-                var queryProviderType = GetActualProviderTypeFrom(property.PropertyType);
-                ThrowIfUnknownQueryType(queryProviderType, query, property);
-                var provider = _container.Get(queryProviderType);
                 var actualQuery = property.GetValue(query, null);
+                var provider = GetQueryProvider(query, property, actualQuery);
                 var providerResult = ExecuteOnProvider(provider, actualQuery, paging);
                 result.TotalItems = providerResult.TotalItems;
                 var readModels = providerResult.Items as IEnumerable<IReadModel>;
@@ -93,6 +91,7 @@ namespace Bifrost.Read
 
             return result;
         }
+
 
 
 #pragma warning restore 1591 // Xml Comments
@@ -116,6 +115,20 @@ namespace Bifrost.Read
             var property = query.GetType().GetProperty(QueryPropertyName, BindingFlags.Public | BindingFlags.Instance);
             return property;
         }
+
+        object GetQueryProvider(IQuery query, PropertyInfo property, object actualQuery)
+        {
+            Type queryProviderType = null;
+            if (actualQuery != null && actualQuery.GetType() != property.PropertyType)
+                queryProviderType = GetActualProviderTypeFrom(actualQuery.GetType());
+
+            if (queryProviderType == null)
+                queryProviderType = GetActualProviderTypeFrom(property.PropertyType);
+            ThrowIfUnknownQueryType(queryProviderType, query, property);
+            var provider = _container.Get(queryProviderType);
+            return provider;
+        }
+
 
         QueryProviderResult ExecuteOnProvider(object provider, object query, PagingInfo paging)
         {

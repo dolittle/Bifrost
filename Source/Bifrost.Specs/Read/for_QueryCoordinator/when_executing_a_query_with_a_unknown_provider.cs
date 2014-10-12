@@ -20,6 +20,6 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
 
         Because of = () => result = coordinator.Execute(query, paging);
 
-        It should_throw_a_unknown_query_type_exception = () => result.Exception.ShouldBeOfType<UnknownQueryTypeException>();
+        It should_throw_a_unknown_query_type_exception = () => result.Exception.ShouldBeOfExactType<UnknownQueryTypeException>();
     }
 }

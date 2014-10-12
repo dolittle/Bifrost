@@ -373,8 +373,12 @@
     <Compile Include="Read\for_PagingInfo\when_page_size_is_more_than_zero.cs" />
     <Compile Include="Read\for_PagingInfo\when_page_size_is_zero.cs" />
     <Compile Include="Read\for_QueryableProvider\when_paging_is_set_two_show_second_page.cs" />
+    <Compile Include="Read\for_QueryCoordinator\DerivedQueryType.cs" />
+    <Compile Include="Read\for_QueryCoordinator\given\a_query_coordinator_with_provider_for_known_query_and_one_for_derived_type.cs" />
+    <Compile Include="Read\for_QueryCoordinator\QueryProviderForDerivedType.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_that_does_not_pass_authorization.cs" />
     <Compile Include="Read\for_QueryCoordinator\ReadModelWithString.cs" />
+    <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_known_provider_for_a_derived_type_being_returned.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_unknown_provider.cs" />
     <Compile Include="Read\for_QueryCoordinator\GenericKnownType.cs" />
     <Compile Include="Read\for_QueryCoordinator\given\a_query_coordinator_with_non_generic_known_provider.cs" />
