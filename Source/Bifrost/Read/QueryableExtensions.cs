@@ -63,9 +63,8 @@ namespace Bifrost.Read
         public static IQueryable Skip(this IQueryable queryable, int count)
         {
             var genericMethod = _skipMethod.MakeGenericMethod(new Type[] { queryable.ElementType });
-            var skipExpression = Expression.Call(null, genericMethod, queryable.Expression, Expression.Constant(count));
-            var expression = queryable.Provider.CreateQuery(skipExpression);
-            return expression;
+            queryable = genericMethod.Invoke(null, new object[] { queryable, count }) as IQueryable;
+            return queryable;
         }
 
         /// <summary>
@@ -77,9 +76,8 @@ namespace Bifrost.Read
         public static IQueryable Take(this IQueryable queryable, int count)
         {
             var genericMethod = _takeMethod.MakeGenericMethod(new Type[] { queryable.ElementType });
-            var takeExpression = Expression.Call(null, genericMethod, queryable.Expression, Expression.Constant(count));
-            var expression = queryable.Provider.CreateQuery(takeExpression);
-            return expression;
+            queryable = genericMethod.Invoke(null, new object[] { queryable, count }) as IQueryable;
+            return queryable;
         }
 
         /// <summary>
