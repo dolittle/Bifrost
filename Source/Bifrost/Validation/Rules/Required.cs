@@ -48,12 +48,14 @@ namespace Bifrost.Validation.Rules
             if (instance == null) context.Fail(this, instance, ValueIsNull);
             if (instance is string && ((string)instance) == string.Empty) context.Fail(this, instance, StringIsEmpty);
 
-            var type = instance.GetType();
-            if (type.HasDefaultConstructor())
+            if (instance != null)
             {
-                if (Activator.CreateInstance(type).Equals(instance)) context.Fail(this, instance, ValueNotSpecified);
+                var type = instance.GetType();
+                if (type.HasDefaultConstructor())
+                {
+                    if (Activator.CreateInstance(type).Equals(instance)) context.Fail(this, instance, ValueNotSpecified);
+                }
             }
-            
         }
 #pragma warning restore 1591 // Xml Comments
     }
