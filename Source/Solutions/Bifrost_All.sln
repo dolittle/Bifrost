@@ -99,6 +99,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Default", "..\Bifro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Autofac", "..\Bifrost.Autofac\Bifrost.Autofac.csproj", "{26ECC23C-4139-4167-9DED-00002E5D9570}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.DocumentDB", "..\Bifrost.DocumentDB\Bifrost.DocumentDB.csproj", "{8DB73E9B-8AE1-4341-8DF8-469C578A150D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -640,6 +642,20 @@ Global
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|x64.ActiveCfg = Release|Any CPU
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|x86.ActiveCfg = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -683,6 +699,7 @@ Global
 		{9E87D7C6-65C2-4FAD-81FF-FDC7F0400384} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 		{D8A3E244-AC49-4372-8C03-F5AA3107BD80} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 		{26ECC23C-4139-4167-9DED-00002E5D9570} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
+		{8DB73E9B-8AE1-4341-8DF8-469C578A150D} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35
