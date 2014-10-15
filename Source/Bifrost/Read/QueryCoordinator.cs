@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Execution;
+using Bifrost.Read.Validation;
 
 namespace Bifrost.Read
 {
@@ -33,8 +34,10 @@ namespace Bifrost.Read
         const string ExecuteMethodName = "Execute";
 
         Dictionary<Type, Type> _queryProviderTypesPerTargetType;
+        ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
         IReadModelFilters _filters;
+        IQueryValidator _validator;
         IFetchingSecurityManager _fetchingSecurityManager;
 
         /// <summary>
@@ -43,18 +46,23 @@ namespace Bifrost.Read
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IQueryProviderFor{T}"/> implementations</param>
         /// <param name="container"><see cref="IContainer"/> for getting instances of <see cref="IQueryProviderFor{T}">query providers</see></param>
         /// <param name="fetchingSecurityManager"><see cref="IFetchingSecurityManager"/> to use for securing <see cref="IQuery">queries</see></param>
+        /// <param name="validator"><see cref="IQueryValidator"/> to use for validating <see cref="IQuery">queries</see></param>
         /// <param name="filters"><see cref="IReadModelFilters">Filters</see> used to filter any of the read models coming back after a query</param>
-        public QueryCoordinator(ITypeDiscoverer typeDiscoverer, IContainer container, IFetchingSecurityManager fetchingSecurityManager, IReadModelFilters filters)
+        public QueryCoordinator(
+            ITypeDiscoverer typeDiscoverer, 
+            IContainer container, 
+            IFetchingSecurityManager fetchingSecurityManager,
+            IQueryValidator validator,
+            IReadModelFilters filters)
         {
+            _typeDiscoverer = typeDiscoverer;
             _container = container;
+            _validator = validator;
             _filters = filters;
             _fetchingSecurityManager = fetchingSecurityManager;
-            var queryTypes = typeDiscoverer.FindMultiple(typeof(IQueryProviderFor<>));
-
-            _queryProviderTypesPerTargetType = queryTypes.Select(t => new { 
-                TargetType = GetQueryTypeFrom(t), 
-                QueryProviderType = t }).ToDictionary(t => t.TargetType, t => t.QueryProviderType);
+            DiscoverQueryTypesPerTargetType();
         }
+
 
 #pragma warning disable 1591 // Xml Comments
         public QueryResult Execute(IQuery query, PagingInfo paging)
@@ -69,8 +77,16 @@ namespace Bifrost.Read
                 if (!authorizationResult.IsAuthorized)
                 {
                     result.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
+                    result.Items = new object[0];
                     return result;
                 }
+                result.Validation = _validator.Validate(query);
+                if (!result.Validation.Success)
+                {
+                    result.Items = new object[0];
+                    return result;
+                }
+                
 
                 var property = GetQueryPropertyFromQuery(query);
                 var actualQuery = property.GetValue(query, null);
@@ -161,5 +177,15 @@ namespace Bifrost.Read
             return null;
         }
 
+        void DiscoverQueryTypesPerTargetType()
+        {
+            var queryTypes = _typeDiscoverer.FindMultiple(typeof(IQueryProviderFor<>));
+
+            _queryProviderTypesPerTargetType = queryTypes.Select(t => new
+            {
+                TargetType = GetQueryTypeFrom(t),
+                QueryProviderType = t
+            }).ToDictionary(t => t.TargetType, t => t.QueryProviderType);
+        }
     }
 }

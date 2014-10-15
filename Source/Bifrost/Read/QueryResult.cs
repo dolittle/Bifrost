@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Bifrost.Read.Validation;
 
 namespace Bifrost.Read
 {
@@ -62,6 +63,11 @@ namespace Bifrost.Read
         public IEnumerable<string> SecurityMessages { get; set; }
 
         /// <summary>
+        /// Gets the <see cref="QueryValidationResult">validation result</see>
+        /// </summary>
+        public QueryValidationResult Validation { get; set; }
+
+        /// <summary>
         /// Gets or sets wether or not command passed security
         /// </summary>
         public bool PassedSecurity
@@ -76,7 +82,10 @@ namespace Bifrost.Read
         {
             get
             {
-                return Exception == null && Items != null && PassedSecurity;
+                return  Exception == null && 
+                        Items != null && 
+                        Validation.Success &&
+                        PassedSecurity;
             }
         }
 

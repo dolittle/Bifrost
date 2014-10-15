@@ -378,6 +378,7 @@
     <Compile Include="Read\for_QueryCoordinator\QueryProviderForDerivedType.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_that_does_not_pass_authorization.cs" />
     <Compile Include="Read\for_QueryCoordinator\ReadModelWithString.cs" />
+    <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_that_does_not_pass_validation.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_known_provider_for_a_derived_type_being_returned.cs" />
     <Compile Include="Read\for_QueryCoordinator\when_executing_a_query_with_a_unknown_provider.cs" />
     <Compile Include="Read\for_QueryCoordinator\GenericKnownType.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Read\for_QueryResult\when_exception_is_set_and_it_has_items.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_items_is_null.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_has_items.cs" />
+    <Compile Include="Read\for_QueryResult\when_validation_has_broken_rules.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters_and_one_that_does_not.cs" />
     <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters.cs" />

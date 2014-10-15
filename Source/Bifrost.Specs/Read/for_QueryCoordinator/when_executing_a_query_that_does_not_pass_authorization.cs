@@ -35,5 +35,6 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
         Because of = () => result = coordinator.Execute(query, paging);
 
         It should_not_pass_security = () => result.PassedSecurity.ShouldBeFalse();
+        It should_have_hold_an_empty_items_array = () => result.Items.ShouldBeEmpty();
     }
 }
