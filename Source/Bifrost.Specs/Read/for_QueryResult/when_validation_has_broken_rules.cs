@@ -15,5 +15,6 @@ namespace Bifrost.Specs.Read.for_QueryResult
         };
 
         It should_be_considered_unsuccessful = () => result.Success.ShouldBeFalse();
+        It should_be_invalid = () => result.Invalid.ShouldBeTrue();
     }
 }

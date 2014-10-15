@@ -90,6 +90,14 @@ namespace Bifrost.Read
         }
 
         /// <summary>
+        /// Get wether or not the query is considered invalid in validation terms
+        /// </summary>
+        public bool Invalid
+        {
+            get { return !Validation.Success; }
+        }
+
+        /// <summary>
         /// Creates a <see cref="QueryResult"/> for a given <see cref="IQuery"/>
         /// </summary>
         /// <param name="query"><see cref="IQuery"/> to create for</param>
