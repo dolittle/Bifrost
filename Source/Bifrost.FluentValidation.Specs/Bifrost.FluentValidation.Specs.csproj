@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53CDDC70-4541-4E9E-A2F4-95AFD556AC40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost.FluentValidation.Specs</RootNamespace>
+    <AssemblyName>Bifrost.FluentValidation.Specs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\commands.cs" />
+    <Compile Include="Commands\for_CommandInputValidator\given\a_command_input_validator.cs" />
+    <Compile Include="Commands\for_CommandInputValidator\when_validating_an_invalid_command.cs" />
+    <Compile Include="Commands\for_CommandInputValidator\when_validating_a_valid_command.cs" />
+    <Compile Include="Commands\for_CommandValidationService\given\a_command_validation_service.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_that_has_correct_inputs_but_does_not_fulfill_business_rules.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_that_has_incorrect_inputs.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_that_has_model_rule_and_property_errors_on_input_validator.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_that_has_model_rule_error_on_input_validator.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_that_passes.cs" />
+    <Compile Include="Commands\for_CommandValidationService\when_validating_a_command_with_no_validators.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\given\a_command_validator_provider_with_input_and_business_validators.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_created.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_an_input_validator.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator_for_the_first_time.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_an_input_validator_for_a_type_with_no_input_validator_for_the_second_time.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_a_business_validator.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_no_business_validator_for_the_first_time.cs" />
+    <Compile Include="Commands\for_CommandValidatorProvider\when_getting_a_business_validator_for_a_command_with_no_business_validator_for_the_second_time.cs" />
+    <Compile Include="Commands\for_ComposedCommandBusinessValidator\given\a_composed_command_business_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandBusinessValidator\when_composing_a_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandBusinessValidator\when_validating_a_command_with_an_invalid_long_with_a_composed_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandBusinessValidator\when_validating_a_command_with_an_invalid_string_with_a_composed_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandBusinessValidator\when_validating_a_valid_command_with_a_composed_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandInputValidator\given\a_composed_command_input_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandInputValidator\when_composing_a_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandInputValidator\when_validating_a_command_with_an_invalid_long_with_a_composed_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandInputValidator\when_validating_a_command_with_an_invalid_string_with_a_composed_validator.cs" />
+    <Compile Include="Commands\for_ComposedCommandInputValidator\when_validating_a_valid_command_with_a_composed_validator.cs" />
+    <Compile Include="for_BusinessValidator\given\a_complex_object_graph_and_validator.cs" />
+    <Compile Include="for_BusinessValidator\SimpleObject.cs" />
+    <Compile Include="for_BusinessValidator\ValidatorWithModelRuleWithOneMustClause.cs" />
+    <Compile Include="for_BusinessValidator\when_applying_model_rule_with_a_must_callback.cs" />
+    <Compile Include="for_BusinessValidator\when_validating_a_complex_graph_with_model_rules_and_concepts.cs" />
+    <Compile Include="for_DynamicState\Model.cs" />
+    <Compile Include="for_DynamicState\ModelContainer.cs" />
+    <Compile Include="for_DynamicState\when_getting_member_from_model.cs" />
+    <Compile Include="for_DynamicState\when_gettng_member_via_container.cs" />
+    <Compile Include="for_PropertyValidatorWithDynamicState\Model.cs" />
+    <Compile Include="for_PropertyValidatorWithDynamicState\MyValidator.cs" />
+    <Compile Include="for_PropertyValidatorWithDynamicState\when_adding_property_expression.cs" />
+    <Compile Include="for_PropertyValidatorWithDynamicState\when_validating.cs" />
+    <Compile Include="for_RuleBuilderExtensions\FakePropertyValidatorWithDynamicState.cs" />
+    <Compile Include="for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator.cs" />
+    <Compile Include="for_RuleBuilderExtensions\when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state.cs" />
+    <Compile Include="MetaData\for_EmailGenerator\when_generating.cs" />
+    <Compile Include="MetaData\for_GreaterThanGenerator\when_generating.cs" />
+    <Compile Include="MetaData\for_LessThanGenerator\when_generating.cs" />
+    <Compile Include="MetaData\for_RegexGenerator\when_generating.cs" />
+    <Compile Include="MetaData\for_RequiredGenerator\when_generating_from_not_empty.cs" />
+    <Compile Include="MetaData\for_RequiredGenerator\when_generating_from_not_null.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ConceptAsStringValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\given\a_validation_meta_data_generator_with_common_rules.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidation.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidationValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectWithConcept.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectWithConceptValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating_for_an_object_with_concept_on_it_and_a_model_rule.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating_for_nested_properties.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sagas\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
+    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
+    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_that_passes.cs" />
+    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_with_no_validators.cs" />
+    <Compile Include="Sagas\for_ChapterValidatorProvider\given\a_chapter_validator_provider.cs" />
+    <Compile Include="Sagas\for_ChapterValidatorProvider\when_getting_a_validator_for_a_chapter_with_a_validator.cs" />
+    <Compile Include="Sagas\for_ChapterValidatorProvider\when_getting_a_validator_for_chapter_with_no_validator.cs" />
+    <Compile Include="Sagas\for_ChapterValidatorProvider\when_validating_a_chapter_that_does_not_exist.cs" />
+    <Compile Include="Sagas\for_ChapterValidator\given\a_chapter_validator.cs" />
+    <Compile Include="Sagas\for_ChapterValidator\when_validating_an_invalid_chapter.cs" />
+    <Compile Include="Sagas\for_ChapterValidator\when_validating_a_valid_chapter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

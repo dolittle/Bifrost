@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
 //
@@ -16,16 +16,22 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Bifrost.Sagas;
+
+namespace Bifrost.Sagas
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Validates that the chapter is valid and conforms to specified business rules
     /// </summary>
-    public class Rule
+    public interface IChapterValidationService
     {
         /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
+        /// Validate the chapter
         /// </summary>
-        public string Message { get; set; }
+        /// <param name="chapter">Instance to be validated</param>
+        /// <returns>A collection of ValidationResults that indicate any invalid properties / rules</returns>
+        IEnumerable<ValidationResult> Validate(IChapter chapter);
     }
 }

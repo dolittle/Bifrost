@@ -16,16 +16,28 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using System;
+
+namespace Bifrost.FluentValidation
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Exception that is thrown if a validator type is of wrong type
     /// </summary>
-    public class Rule
+    public class InvalidValidatorTypeException : ArgumentException
     {
         /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
+        /// Initializes an instance of <see cref="InvalidValidatorTypeException"/>
         /// </summary>
-        public string Message { get; set; }
+        public InvalidValidatorTypeException()
+        {
+        }
+
+        /// <summary>
+        /// Initializes an instance of <see cref="InvalidValidatorTypeException"/> with a message
+        /// </summary>
+        public InvalidValidatorTypeException(string message)
+            : base(message)
+        {
+        }
     }
 }

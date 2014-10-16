@@ -16,16 +16,11 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+namespace Bifrost.FluentValidation
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Marker interface to identify types that can perform input validation 
     /// </summary>
-    public class Rule
-    {
-        /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
-        /// </summary>
-        public string Message { get; set; }
-    }
+    public interface IValidateInput<T>
+    {}
 }

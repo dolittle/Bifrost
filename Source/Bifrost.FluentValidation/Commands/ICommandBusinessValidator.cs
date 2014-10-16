@@ -16,16 +16,16 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Bifrost.Commands;
+
+namespace Bifrost.FluentValidation.Commands
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Marker interface for business validators
     /// </summary>
-    public class Rule
+    public interface ICommandBusinessValidator
     {
-        /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
-        /// </summary>
-        public string Message { get; set; }
     }
 }

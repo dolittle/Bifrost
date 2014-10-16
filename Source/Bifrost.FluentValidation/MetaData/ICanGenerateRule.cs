@@ -16,16 +16,28 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using FluentValidation.Validators;
+using System;
+using Bifrost.Validation.MetaData;
+
+namespace Bifrost.FluentValidation.MetaData
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Defines a system that can generate rule from a Fluent Validations property validator
     /// </summary>
-    public class Rule
+    public interface ICanGenerateRule
     {
         /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
+        /// Types that are supported by the generator
         /// </summary>
-        public string Message { get; set; }
+        Type[] From { get; }
+
+        /// <summary>
+        /// Generate from a specific <see cref="IPropertyValidator"/>
+        /// </summary>
+        /// <param name="propertyName">Name of the property</param>
+        /// <param name="propertyValidator"><see cref="IPropertyValidator"/></param>
+        /// <returns></returns>
+        Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator);
     }
 }

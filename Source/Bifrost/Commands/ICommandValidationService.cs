@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
 //
@@ -16,16 +16,22 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Bifrost.Commands;
+
+namespace Bifrost.Commands
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Validates that a command is valid and conforms to simple business rules
     /// </summary>
-    public class Rule
+    public interface ICommandValidationService
     {
         /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
+        /// Validate the command
         /// </summary>
-        public string Message { get; set; }
+        /// <param name="command">Instance to be validated</param>
+        /// <returns>Validation results for a <see cref="ICommand">Command</see></returns>
+        CommandValidationResult Validate(ICommand command);
     }
 }

@@ -17,19 +17,28 @@
 //
 #endregion
 using System;
+using Bifrost.Validation.MetaData;
+using FluentValidation.Validators;
 
-namespace Bifrost.Validation.MetaData
+namespace Bifrost.FluentValidation.MetaData
 {
     /// <summary>
-    /// Defines the generator that generates metadata for a validator
+    /// Represents the generater that can generate a <see cref="Email"/> rule from
+    /// a <see cref="IEmailValidator"/>
     /// </summary>
-    public interface IValidationMetaDataGenerator
+    public class EmailGenerator : ICanGenerateRule
     {
-        /// <summary>
-        /// Generate metadata from a specific validator
-        /// </summary>
-        /// <param name="typeForValidation">The <see cref="Type"/> that will be validated</param>
-        /// <returns>The actual metadata</returns>
-        ValidationMetaData GenerateFor(Type typeForValidation);
+#pragma warning disable 1591 // Xml Comments
+        public Type[] From { get { return new[] { typeof(IEmailValidator) }; } }
+
+        public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
+        {
+            var emailRule = new Email
+            {
+                Message = propertyValidator.GetErrorMessageFor(propertyName)
+            };
+            return emailRule;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

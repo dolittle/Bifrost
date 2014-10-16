@@ -17,7 +17,8 @@
 //
 #endregion
 using System.Web.Mvc;
-using Bifrost.Validation;
+using Bifrost.FluentValidation;
+using Bifrost.FluentValidation.Commands;
 using Bifrost.Web.Mvc;
 using FluentValidation.Mvc;
 

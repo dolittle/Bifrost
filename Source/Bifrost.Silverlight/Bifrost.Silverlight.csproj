@@ -56,10 +56,6 @@
     <Reference Include="Castle.Core">
       <HintPath>..\Solutions\packages\Castle.Core.3.3.1\lib\sl5\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\SL4\FluentValidation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\Microsoft.CSharp.dll</HintPath>
@@ -606,9 +602,6 @@
     <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
       <Link>Extensions\ExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Extensions\FluentValidationRuleExtensions.cs">
-      <Link>Extensions\FluentValidationRuleExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
       <Link>Extensions\ITypeInfo.cs</Link>
     </Compile>
@@ -671,6 +664,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Sagas\IChapter.cs">
       <Link>Sagas\IChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Sagas\IChapterValidationService.cs">
+      <Link>Sagas\IChapterValidationService.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Sagas\ISaga.cs">
       <Link>Sagas\ISaga.cs</Link>
@@ -885,101 +881,11 @@
     <Compile Include="..\Bifrost\Time\SystemClock.cs">
       <Link>Time\SystemClock.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Validation\BusinessValidator.cs">
-      <Link>Validation\BusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ChapterValidation.cs">
-      <Link>Validation\ChapterValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ChapterValidationService.cs">
-      <Link>Validation\ChapterValidationService.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ChapterValidatorProvider.cs">
-      <Link>Validation\ChapterValidatorProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandBusinessValidator.cs">
-      <Link>Validation\CommandBusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandInputValidator.cs">
-      <Link>Validation\CommandInputValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandPredicateRule.cs">
-      <Link>Validation\CommandPredicateRule.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandValidationResult.cs">
-      <Link>Validation\CommandValidationResult.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandValidationService.cs">
-      <Link>Validation\CommandValidationService.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandValidatorFactory.cs">
-      <Link>Validation\CommandValidatorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\CommandValidatorProvider.cs">
-      <Link>Validation\CommandValidatorProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ComposedCommandBusinessValidator.cs">
-      <Link>Validation\ComposedCommandBusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ComposedCommandInputValidator.cs">
-      <Link>Validation\ComposedCommandInputValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ComposedValidator.cs">
-      <Link>Validation\ComposedValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ConventionValidatorFactory.cs">
-      <Link>Validation\ConventionValidatorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\DefaultValidatorFactory.cs">
-      <Link>Validation\DefaultValidatorFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Validation\ICanValidate.cs">
       <Link>Validation\ICanValidate.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IChapterValidationService.cs">
-      <Link>Validation\IChapterValidationService.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IChapterValidator.cs">
-      <Link>Validation\IChapterValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IChapterValidatorProvider.cs">
-      <Link>Validation\IChapterValidatorProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ICommandBusinessValidator.cs">
-      <Link>Validation\ICommandBusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ICommandInputValidator.cs">
-      <Link>Validation\ICommandInputValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ICommandValidationService.cs">
-      <Link>Validation\ICommandValidationService.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ICommandValidatorProvider.cs">
-      <Link>Validation\ICommandValidatorProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\InputValidator.cs">
-      <Link>Validation\InputValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IValidateBusinessRules.cs">
-      <Link>Validation\IValidateBusinessRules.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IValidateInput.cs">
-      <Link>Validation\IValidateInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\ModelRule.cs">
-      <Link>Validation\ModelRule.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\NullChapterValidator.cs">
-      <Link>Validation\NullChapterValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\NullCommandBusinessValidator.cs">
-      <Link>Validation\NullCommandBusinessValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\NullCommandInputValidator.cs">
-      <Link>Validation\NullCommandInputValidator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Views\IHaveId.cs">
       <Link>Views\IHaveId.cs</Link>

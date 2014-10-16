@@ -16,16 +16,16 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Validation.MetaData
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Bifrost.Sagas;
+
+namespace Bifrost.FluentValidation.Sagas
 {
     /// <summary>
-    /// Represents the base class of a rule
+    /// Marker interface for a Saga <see href="IChapter">Chapter</see> validator
     /// </summary>
-    public class Rule
+    public interface IChapterValidator
     {
-        /// <summary>
-        /// Gets or sets the message that will be used when rule is not valid
-        /// </summary>
-        public string Message { get; set; }
     }
 }
