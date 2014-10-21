@@ -176,6 +176,10 @@
       <Project>{8db73e9b-8ae1-4341-8df8-469c578a150d}</Project>
       <Name>Bifrost.DocumentDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
+      <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
+      <Name>Bifrost.FluentValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
       <Project>{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}</Project>
       <Name>Bifrost.JavaScript</Name>
