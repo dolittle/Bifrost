@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 //
 // Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
 //
@@ -16,16 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Bifrost.Commands;
-
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Validates that a command is valid and conforms to simple business rules
+    /// Defines the validators for validating a <see cref="ICommand"/>
     /// </summary>
-    public interface ICommandValidationService
+    public interface ICommandValidators
     {
         /// <summary>
         /// Validate the command

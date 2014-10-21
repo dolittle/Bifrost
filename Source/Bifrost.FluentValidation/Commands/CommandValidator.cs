@@ -25,18 +25,18 @@ using Bifrost.Execution;
 namespace Bifrost.FluentValidation.Commands
 {
     /// <summary>
-    /// Represents a <see cref="ICommandValidationService">ICommandValidationService</see>
+    /// Represents a <see cref="ICommandValidator">ICommandValidationService</see>
     /// </summary>
     [Singleton]
-    public class CommandValidationService : ICommandValidationService
+    public class CommandValidator : ICommandValidator
     {
         private readonly ICommandValidatorProvider _commandValidatorProvider;
 
         /// <summary>
-        /// Initializes an instance of <see cref="CommandValidationService"/> CommandValidationService
+        /// Initializes an instance of <see cref="CommandValidator"/> CommandValidationService
         /// </summary>
         /// <param name="commandValidatorProvider"></param>
-        public CommandValidationService(ICommandValidatorProvider commandValidatorProvider)
+        public CommandValidator(ICommandValidatorProvider commandValidatorProvider)
         {
             _commandValidatorProvider = commandValidatorProvider;
         }

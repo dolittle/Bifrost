@@ -135,6 +135,8 @@
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_a_specific_command_type.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_handling.cs" />
     <Compile Include="Commands\for_CommandSecurityExtensions\when_specifying_namespace.cs" />
+    <Compile Include="Commands\for_CommandValidators\second_command_validator.cs" />
+    <Compile Include="Commands\for_CommandValidators\when_validating_and_there_are_two_providers.cs" />
     <Compile Include="Commands\for_HandleCommandSecurityActionBuilder\when_targetting_commands.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\given\a_command_security_manager.cs" />
     <Compile Include="Commands\for_CommandSecurityManager\when_authorizing_a_command.cs" />
@@ -679,6 +681,10 @@
     <Compile Include="Events\for_EventStream\when_creating_a_new_committed_event_stream.cs" />
     <Compile Include="Events\for_EventStream\when_creating_a_new_uncommitted_event_stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Commands\for_CommandValidators\first_command_validator.cs" />
+    <Compile Include="Commands\for_CommandValidators\first_query_validator.cs" />
+    <Compile Include="Commands\for_CommandValidators\given\all_dependencies.cs" />
+    <Compile Include="Commands\for_CommandValidators\given\command_validators_with_two_providers.cs" />
     <Compile Include="Validation\for_ValueValidationBuilder\when_adding_rule.cs" />
     <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_at_sign.cs" />
     <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_domain_suffix.cs" />

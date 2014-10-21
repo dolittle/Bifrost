@@ -39,7 +39,7 @@ namespace Bifrost.Testing
     /// <typeparam name="T">Type of the Command which the Scenario Tests</typeparam>
     public class CommandScenario<T> where T : class, ICommand
     {
-        Mock<ICommandValidationService> command_validation_service_mock;
+        Mock<ICommandValidators> command_validators_mock;
         ICommandCoordinator command_coordinator;
         Mock<ILocalizer> localizer;
         ICommandContextFactory command_context_factory;
@@ -83,7 +83,7 @@ namespace Bifrost.Testing
 
             localizer = new Mock<ILocalizer>();
 
-            command_validation_service_mock = new Mock<ICommandValidationService>();
+            command_validators_mock = new Mock<ICommandValidators>();
 
             command_security_manager_mock = new Mock<ICommandSecurityManager>();
             //TODO: Allow spec'ing of Security
@@ -93,7 +93,7 @@ namespace Bifrost.Testing
                                         command_handler_manager.Object, 
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
-                                        command_validation_service_mock.Object,
+                                        command_validators_mock.Object,
                                         localizer.Object);
 
             null_validator_mock = new Mock<ICanValidate<T>>();

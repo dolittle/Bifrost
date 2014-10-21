@@ -98,6 +98,7 @@
     <Compile Include="Commands\CommandSecurityTarget.cs" />
     <Compile Include="Commands\CommandSecurityExtensions.cs" />
     <Compile Include="Commands\CommandSecurityManager.cs" />
+    <Compile Include="Commands\CommandValidators.cs" />
     <Compile Include="Commands\Diagnostics\CommandProblemMetaData.cs" />
     <Compile Include="Commands\Diagnostics\ComplexTypesRule.cs" />
     <Compile Include="Commands\Diagnostics\CommandInheritanceRule.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Commands\HandleCommand.cs" />
     <Compile Include="Commands\ICommandContextFactory.cs" />
     <Compile Include="Commands\ICommandSecurityManager.cs" />
+    <Compile Include="Commands\ICommandValidators.cs" />
     <Compile Include="Commands\TypeDiscovererExtensions.cs" />
     <Compile Include="Concepts\ConceptAs.cs" />
     <Compile Include="Concepts\ConceptExtensions.cs" />
@@ -373,7 +375,7 @@
     <Compile Include="Validation\ICanValidate.cs" />
     <Compile Include="Sagas\IChapterValidationService.cs" />
     <Compile Include="Commands\ICommandContextStore.cs" />
-    <Compile Include="Commands\ICommandValidationService.cs" />
+    <Compile Include="Commands\ICommandValidator.cs" />
     <Compile Include="Validation\IValueValidationBuilder.cs" />
     <Compile Include="Validation\MetaData\Length.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqual.cs" />

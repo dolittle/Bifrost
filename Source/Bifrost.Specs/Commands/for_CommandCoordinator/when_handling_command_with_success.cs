@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         Establish context = () =>
                                 {
                                     var validation_results = new CommandValidationResult();
-                                    command_validation_service_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(validation_results);
+                                    command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(validation_results);
                                 };
 
         Because of = () =>
@@ -21,7 +21,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
                              Result = coordinator.Handle(command_mock.Object);
                          };
 
-        It should_have_validated_the_command = () => command_validation_service_mock.VerifyAll();
+        It should_have_validated_the_command = () => command_validators_mock.VerifyAll();
         It should_have_a_result = () => Result.ShouldNotBeNull();
         It should_have_success_set_to_true = () => Result.Success.ShouldBeTrue();
     }

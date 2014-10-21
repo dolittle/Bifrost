@@ -49,7 +49,7 @@
     <Compile Include="Commands\CommandBusinessValidator.cs" />
     <Compile Include="Commands\CommandInputValidator.cs" />
     <Compile Include="Commands\CommandPredicateRule.cs" />
-    <Compile Include="Commands\CommandValidationService.cs" />
+    <Compile Include="Commands\CommandValidator.cs" />
     <Compile Include="Commands\CommandValidatorFactory.cs" />
     <Compile Include="Commands\CommandValidatorProvider.cs" />
     <Compile Include="Commands\ComposedCommandBusinessValidator.cs" />
