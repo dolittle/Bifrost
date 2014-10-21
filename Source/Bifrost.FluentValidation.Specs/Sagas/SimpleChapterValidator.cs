@@ -1,7 +1,8 @@
-using Bifrost.Validation;
-using FluentValidation;
+using Bifrost.FluentValidation.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
+using global::FluentValidation;
 
-namespace Bifrost.Testing.Fakes.Sagas
+namespace Bifrost.FluentValidation.Specs.Sagas
 {
     public class TransitionalChapterValidator : ChapterValidator<TransitionalChapter>
     {

@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
-using Bifrost.Specs.Validation.for_CommandValidationService.given;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_CommandValidationService
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 {
-    public class when_validating_a_command_that_has_incorrect_inputs : a_command_validation_service
+    public class when_validating_a_command_that_has_incorrect_inputs : given.a_command_validation_service
     {
         static IEnumerable<ValidationResult> input_validation_errors;
         static CommandValidationResult result;

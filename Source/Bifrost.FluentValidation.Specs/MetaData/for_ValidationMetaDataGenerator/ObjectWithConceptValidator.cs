@@ -1,8 +1,7 @@
-﻿using Bifrost.Testing.Fakes.Concepts;
-using Bifrost.Validation;
+﻿using Bifrost.FluentValidation.Specs.for_ValidationMetaDataGenerator;
 using FluentValidation;
 
-namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     public class ObjectWithConceptValidator : BusinessValidator<ObjectWithConcept>
     {

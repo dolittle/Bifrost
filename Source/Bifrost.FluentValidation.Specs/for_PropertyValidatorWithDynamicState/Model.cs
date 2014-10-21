@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Bifrost.Specs.Validation.for_PropertyValidatorWithDynamicState
+namespace Bifrost.FluentValidation.Specs.for_PropertyValidatorWithDynamicState
 {
     public class Model
     {

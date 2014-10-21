@@ -1,10 +1,10 @@
-﻿using Bifrost.Validation.MetaData;
+﻿using System;
+using Bifrost.Execution;
+using Bifrost.FluentValidation.MetaData;
 using Machine.Specifications;
 using Moq;
-using Bifrost.Execution;
-using System;
 
-namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator.given
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator.given
 {
     public class a_validation_meta_data_generator_with_common_rules
     {
@@ -22,6 +22,13 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator.give
                     typeof(LessThanGenerator),
                     typeof(GreaterThanGenerator)
                 });
+
+
+            type_discoverer_mock.Setup(t => t.FindMultiple(typeof(IValidateInput<>))).Returns(new[] {
+                typeof(ObjectForValidationValidator),
+                typeof(ObjectWithConceptValidator),
+                typeof(NestedObjectForValidationValidator)
+            });
 
             container_mock = new Mock<IContainer>();
             container_mock.Setup(c => c.Get(Moq.It.IsAny<Type>())).

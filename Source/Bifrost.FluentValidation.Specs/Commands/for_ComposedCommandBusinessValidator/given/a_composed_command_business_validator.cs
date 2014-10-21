@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Bifrost.Specs.Concepts.given;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
+using Bifrost.FluentValidation.Specs.Concepts.given;
 using FluentValidation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_ComposedCommandBusinessValidator.given
+namespace Bifrost.FluentValidation.Specs.Commands.for_ComposedCommandBusinessValidator.given
 {
     public class a_composed_command_business_validator : commands
     {

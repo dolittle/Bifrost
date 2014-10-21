@@ -1,8 +1,9 @@
+using Bifrost.FluentValidation.Sagas;
 using Bifrost.Sagas;
 using Bifrost.Validation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidatorProvider
 {
     [Subject(typeof (ChapterValidatorProvider))]
     public class when_validating_a_chapter_that_does_not_exist : given.a_chapter_validator_provider
@@ -11,6 +12,6 @@ namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider
 
         Because of = () => validator = chapter_validator_provider.GetValidatorFor(null as IChapter);
 
-        It should_return_a_null_validator = () => validator.ShouldBeOfType(typeof(NullChapterValidator));
+        It should_return_a_null_validator = () => validator.ShouldBeOfExactType(typeof(NullChapterValidator));
     }
 }

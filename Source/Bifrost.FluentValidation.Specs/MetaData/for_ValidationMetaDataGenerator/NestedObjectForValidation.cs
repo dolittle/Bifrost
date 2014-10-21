@@ -1,4 +1,4 @@
-﻿namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
+﻿namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     public class NestedObjectForValidation
     {

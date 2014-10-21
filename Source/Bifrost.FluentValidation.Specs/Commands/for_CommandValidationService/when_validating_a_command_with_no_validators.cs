@@ -1,15 +1,12 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
-using Bifrost.Specs.Validation.for_CommandValidationService.given;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_CommandValidationService
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 {
-    public class when_validating_a_command_with_no_validators : a_command_validation_service
+    public class when_validating_a_command_with_no_validators : given.a_command_validation_service
     {
         static CommandValidationResult result;
         static Mock<ICommand> command_mock;

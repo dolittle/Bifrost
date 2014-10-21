@@ -53,7 +53,7 @@ namespace Bifrost.FluentValidation.MetaData
 
             _inputValidatorsByType = typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
                             .Where(t => typeof(IValidator).IsAssignableFrom(t))
-                            .ToDictionary<Type,Type>(t=>t.GetGenericArguments()[0]);
+                            .ToDictionary<Type,Type>(t=>t.BaseType.GetGenericArguments()[0]);
 
             PopulateGenerators();
         }

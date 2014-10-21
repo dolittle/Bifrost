@@ -1,10 +1,9 @@
 using Bifrost.Execution;
-using Bifrost.Testing.Fakes.Sagas;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Sagas;
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidatorProvider.given
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidatorProvider.given
 {
     public class a_chapter_validator_provider
     {

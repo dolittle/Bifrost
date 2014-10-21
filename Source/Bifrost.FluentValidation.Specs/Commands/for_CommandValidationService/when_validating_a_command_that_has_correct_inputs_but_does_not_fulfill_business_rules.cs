@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
-using Bifrost.Specs.Validation.for_CommandValidationService.given;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_CommandValidationService
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 {
-    public class when_validating_a_command_that_has_correct_inputs_but_does_not_fulfill_business_rules : a_command_validation_service
+    public class when_validating_a_command_that_has_correct_inputs_but_does_not_fulfill_business_rules : given.a_command_validation_service
     {
         static IEnumerable<ValidationResult> business_validation_errors;
         static CommandValidationResult result;

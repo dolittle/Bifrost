@@ -1,8 +1,6 @@
-﻿using Bifrost.Specs.Validation.for_BusinessValidator;
-using Bifrost.Validation;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Bifrost.Specs.Validation.for_Validator
+namespace Bifrost.FluentValidation.Specs.for_BusinessValidator
 {
     public class ValidatorWithModelRuleWithOneMustClause : BusinessValidator<SimpleObject>
     {

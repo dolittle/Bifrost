@@ -1,8 +1,9 @@
-﻿using Machine.Specifications;
-using FluentValidation.Validators;
+﻿using Bifrost.FluentValidation.MetaData;
 using Bifrost.Validation.MetaData;
+using FluentValidation.Validators;
+using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.MetaData.for_GreaterThanGenerator
+namespace Bifrost.FluentValidation.Specs.MetaData.for_GreaterThanGenerator
 {
     public class when_generating
     {

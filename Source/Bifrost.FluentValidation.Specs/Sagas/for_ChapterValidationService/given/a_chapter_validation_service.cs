@@ -1,8 +1,9 @@
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Sagas;
+using Bifrost.Sagas;
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidationService.given
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidationService.given
 {
     public class a_chapter_validation_service
     {

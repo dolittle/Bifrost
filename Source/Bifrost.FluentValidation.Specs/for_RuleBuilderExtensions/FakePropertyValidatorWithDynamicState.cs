@@ -1,9 +1,8 @@
-﻿using Bifrost.Validation;
-using FluentValidation.Validators;
+﻿using System;
 using System.Linq.Expressions;
-using System;
+using FluentValidation.Validators;
 
-namespace Bifrost.Specs.Validation.for_RuleBuilderExtensions
+namespace Bifrost.FluentValidation.Specs.for_RuleBuilderExtensions
 {
     public class FakePropertyValidatorWithDynamicState : PropertyValidatorWithDynamicState
     {

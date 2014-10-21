@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Sagas;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidator
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidator
 {
     [Subject(typeof(ChapterValidator<>))]
     public class when_validating_an_invalid_chapter : given.a_chapter_validator

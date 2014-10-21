@@ -1,8 +1,7 @@
-﻿using System;
-using Bifrost.Validation;
+﻿using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_ComposedCommandInputValidator
+namespace Bifrost.FluentValidation.Specs.Commands.for_ComposedCommandInputValidator
 {
     [Subject(typeof (ComposedCommandInputValidator<>))]
     public class when_composing_a_validator : given.a_composed_command_input_validator

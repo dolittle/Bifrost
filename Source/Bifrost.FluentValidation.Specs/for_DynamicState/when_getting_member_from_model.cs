@@ -1,7 +1,6 @@
-﻿using Bifrost.Validation;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_DynamicState
+namespace Bifrost.FluentValidation.Specs.for_DynamicState
 {
     public class when_getting_member_from_model
     {

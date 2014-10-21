@@ -1,13 +1,11 @@
 using System.Linq;
-using Bifrost.Specs.Validation.for_BusinessValidator.given;
-using Bifrost.Validation;
 using FluentValidation.Results;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_BusinessValidator
+namespace Bifrost.FluentValidation.Specs.for_BusinessValidator
 {
     [Subject(typeof(BusinessValidator<>))]
-    public class when_validating_a_complex_graph_with_model_rules_and_concepts : a_complex_object_graph_and_validator
+    public class when_validating_a_complex_graph_with_model_rules_and_concepts : given.a_complex_object_graph_and_validator
     {
         static ValidationResult result;
 

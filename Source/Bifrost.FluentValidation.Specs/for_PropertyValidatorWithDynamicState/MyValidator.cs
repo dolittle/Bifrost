@@ -1,7 +1,6 @@
-﻿using Bifrost.Validation;
-using FluentValidation.Validators;
+﻿using FluentValidation.Validators;
 
-namespace Bifrost.Specs.Validation.for_PropertyValidatorWithDynamicState
+namespace Bifrost.FluentValidation.Specs.for_PropertyValidatorWithDynamicState
 {
     public class MyValidator : PropertyValidatorWithDynamicState
     {

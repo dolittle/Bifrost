@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using Machine.Specifications;
-using Bifrost.Validation;
-using Moq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Bifrost.Commands;
-using System.ComponentModel.DataAnnotations;
+using Bifrost.Validation;
+using Machine.Specifications;
+using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_CommandValidationService
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 {
     public class when_validating_a_command_that_has_model_rule_and_property_errors_on_input_validator : given.a_command_validation_service
     {

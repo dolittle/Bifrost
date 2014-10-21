@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Bifrost.Extensions;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.MetaData;
 using Bifrost.Validation.MetaData;
 using FluentValidation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     [Subject(typeof(ValidationMetaDataGenerator))]
     public class when_generating_for_an_object_with_concept_on_it_and_a_model_rule : given.a_validation_meta_data_generator_with_common_rules
@@ -17,9 +17,10 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         {
             ValidatorOptions.PropertyNameResolver = NameResolvers.PropertyNameResolver;
             validator = new ObjectWithConceptValidator();
+            container_mock.Setup(c => c.Get(typeof(ObjectWithConceptValidator))).Returns(validator);
         };
 
-        Because of = () => result = generator.GenerateFrom(validator);
+        Because of = () => result = generator.GenerateFor(typeof(ObjectWithConcept));
 
         It should_have_required_for_string_concept = () => result["stringConcept"]["required"].ShouldNotBeNull();
         It should_have_required_for_long_concept = () => result["longConcept"]["required"].ShouldNotBeNull();

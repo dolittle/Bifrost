@@ -3,7 +3,7 @@ using FluentValidation.Internal;
 using FluentValidation.Validators;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_PropertyValidatorWithDynamicState
+namespace Bifrost.FluentValidation.Specs.for_PropertyValidatorWithDynamicState
 {
     public class when_validating
     {

@@ -1,7 +1,7 @@
-﻿using Machine.Specifications;
-using Bifrost.Validation.MetaData;
+﻿using Bifrost.Validation.MetaData;
+using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     public class when_generating : given.a_validation_meta_data_generator_with_common_rules
     {
@@ -11,10 +11,11 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         Establish context = () =>
         {
             validator = new ObjectForValidationValidator();
+            container_mock.Setup(c => c.Get(typeof(ObjectForValidationValidator))).Returns(validator);
             
         };
 
-        Because of = () => meta_data = generator.GenerateFrom(validator);
+        Because of = () => meta_data = generator.GenerateFor(typeof(ObjectForValidation));
 
         It should_return_meta_data = () => meta_data.ShouldNotBeNull();
         It should_have_some_string_property = () => meta_data[ObjectForValidation.SomeStringName].ShouldNotBeEmpty();

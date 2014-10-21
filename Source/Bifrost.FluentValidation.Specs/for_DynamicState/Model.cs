@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Bifrost.Specs.Validation.for_DynamicState
+namespace Bifrost.FluentValidation.Specs.for_DynamicState
 {
     public class Model
     {

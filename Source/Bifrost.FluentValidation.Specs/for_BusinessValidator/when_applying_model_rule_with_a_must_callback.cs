@@ -1,7 +1,6 @@
-﻿using Bifrost.Specs.Validation.for_Validator;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_BusinessValidator
+namespace Bifrost.FluentValidation.Specs.for_BusinessValidator
 {
     public class when_applying_model_rule_with_a_must_callback
     {

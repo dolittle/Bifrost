@@ -1,11 +1,10 @@
 ﻿using System;
-using Bifrost.Validation;
 using FluentValidation;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_RuleBuilderExtensions
+namespace Bifrost.FluentValidation.Specs.for_RuleBuilderExtensions
 {
     public class when_adding_dynamic_state_to_validator_not_capable_of_dynamic_state
     {
@@ -16,6 +15,6 @@ namespace Bifrost.Specs.Validation.for_RuleBuilderExtensions
 
         Because of = () => exception = Catch.Exception(() => validator_mock.Object.RuleFor(o => o).NotNull().WithDynamicStateFrom(o => o));
 
-        It should_throw_invalid_validator_type_exception = () => exception.ShouldBeOfType<InvalidValidatorTypeException>();
+        It should_throw_invalid_validator_type_exception = () => exception.ShouldBeOfExactType<InvalidValidatorTypeException>();
     }
 }

@@ -2,7 +2,7 @@ using System;
 using Bifrost.Testing.Fakes.Commands;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_CommandInputValidator.given
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandInputValidator.given
 {
     public class a_command_input_validator
     {

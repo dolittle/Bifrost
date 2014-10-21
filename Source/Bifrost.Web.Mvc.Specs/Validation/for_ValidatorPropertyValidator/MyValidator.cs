@@ -1,4 +1,5 @@
-﻿using Bifrost.Validation;
+﻿using Bifrost.FluentValidation;
+using Bifrost.Validation;
 using FluentValidation.Validators;
 
 namespace Bifrost.Web.Mvc.Specs.Validation.for_ValidatorPropertyValidator

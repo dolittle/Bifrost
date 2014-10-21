@@ -1,13 +1,11 @@
-using Bifrost.Commands;
+using System;
 using Bifrost.Execution;
+using Bifrost.FluentValidation.Commands;
 using Bifrost.Testing.Fakes.Commands;
-using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
-using System;
-using Bifrost.Configuration;
 
-namespace Bifrost.Specs.Validation.for_CommandValidatorProvider.given
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider.given
 {
     public class a_command_validator_provider_with_input_and_business_validators : commands
     {

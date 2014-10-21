@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
+using Bifrost.Testing.Fakes.Commands;
 
-namespace Bifrost.Testing.Fakes.Commands
+namespace Bifrost.FluentValidation.Specs.Commands
 {
     public class SimpleCommandBusinessValidator : CommandBusinessValidator<SimpleCommand>
     {

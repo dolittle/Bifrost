@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using Bifrost.Validation.MetaData;
 
-namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     public class when_generating_for_nested_properties : given.a_validation_meta_data_generator_with_common_rules
     {
@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
         static ValidationMetaData meta_data;
         static string someObjectStringValue;
         static string someIntValue;
-        private static string firstLevelStringValue;
+        static string firstLevelStringValue;
 
         Establish context = () =>
         {
@@ -22,11 +22,12 @@ namespace Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator
 
             objectValidator = new ObjectForValidationValidator();
             nestedValidator = new NestedObjectForValidationValidator(objectValidator);
-            
-           
+
+            container_mock.Setup(c => c.Get(typeof(ObjectForValidationValidator))).Returns(objectValidator);
+            container_mock.Setup(c => c.Get(typeof(NestedObjectForValidationValidator))).Returns(nestedValidator);
         };
 
-        Because of = () => meta_data = generator.GenerateFrom(nestedValidator);
+        Because of = () => meta_data = generator.GenerateFor(typeof(NestedObjectForValidation));
 
         It should_return_meta_data = () => meta_data.ShouldNotBeNull();
 

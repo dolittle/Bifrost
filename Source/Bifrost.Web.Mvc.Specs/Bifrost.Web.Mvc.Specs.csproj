@@ -106,6 +106,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
+      <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
+      <Name>Bifrost.FluentValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
       <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
       <Name>Bifrost.Testing</Name>

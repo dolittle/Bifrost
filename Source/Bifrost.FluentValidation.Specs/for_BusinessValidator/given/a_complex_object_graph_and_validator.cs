@@ -1,10 +1,8 @@
-﻿using Bifrost.Specs.Validation.MetaData.for_ValidationMetaDataGenerator;
-using Bifrost.Testing.Fakes.Concepts;
-using Bifrost.Validation;
+﻿using Bifrost.Testing.Fakes.Concepts;
 using FluentValidation;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_BusinessValidator.given
+namespace Bifrost.FluentValidation.Specs.for_BusinessValidator.given
 {
     public class a_complex_object_graph_and_validator
     {

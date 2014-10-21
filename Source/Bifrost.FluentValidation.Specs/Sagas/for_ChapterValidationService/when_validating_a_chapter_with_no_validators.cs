@@ -1,8 +1,7 @@
-using System;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Sagas;
 using Machine.Specifications;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidationService
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidationService
 {
     [Subject(typeof (ChapterValidationService))]
     public class when_validating_a_chapter_with_no_validators

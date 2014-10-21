@@ -1,13 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bifrost.FluentValidation.Sagas;
 using Bifrost.Sagas;
 using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Validation.for_ChapterValidationService
+namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidationService
 {
     [Subject(typeof (ChapterValidationService))]
     public class when_validating_a_chapter_that_passes : given.a_chapter_validation_service

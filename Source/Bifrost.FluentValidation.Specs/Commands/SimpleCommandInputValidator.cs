@@ -1,7 +1,8 @@
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
+using Bifrost.Testing.Fakes.Commands;
 using FluentValidation;
 
-namespace Bifrost.Testing.Fakes.Commands
+namespace Bifrost.FluentValidation.Specs.Commands
 {
     public class SimpleCommandInputValidator : CommandInputValidator<SimpleCommand>
     {
