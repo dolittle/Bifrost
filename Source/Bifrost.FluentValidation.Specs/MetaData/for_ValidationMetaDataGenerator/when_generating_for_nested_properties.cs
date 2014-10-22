@@ -8,7 +8,7 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
     {
         static NestedObjectForValidationValidator nestedValidator;
         static ObjectForValidationValidator objectValidator;
-        static ValidationMetaData meta_data;
+        static TypeMetaData meta_data;
         static string someObjectStringValue;
         static string someIntValue;
         static string firstLevelStringValue;

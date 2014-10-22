@@ -6,7 +6,7 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
     public class when_generating : given.a_validation_meta_data_generator_with_common_rules
     {
         static ObjectForValidationValidator validator;
-        static ValidationMetaData meta_data;
+        static TypeMetaData meta_data;
 
         Establish context = () =>
         {

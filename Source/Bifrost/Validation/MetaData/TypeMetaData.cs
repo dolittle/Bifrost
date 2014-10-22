@@ -24,7 +24,7 @@ namespace Bifrost.Validation.MetaData
     /// <summary>
     /// Represents the validation metadata for a type
     /// </summary>
-    public class ValidationMetaData
+    public class TypeMetaData
     {
         Dictionary<string, Dictionary<string, Rule>> _propertiesWithRules = new Dictionary<string, Dictionary<string, Rule>>();
 

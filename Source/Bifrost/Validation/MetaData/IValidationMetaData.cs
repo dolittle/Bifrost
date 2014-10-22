@@ -21,15 +21,15 @@ using System;
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Defines the generator that generates metadata for a validator
+    /// Represents a system for retrieving validation metadata
     /// </summary>
-    public interface IValidationMetaDataGenerator
+    public interface IValidationMetaData
     {
         /// <summary>
-        /// Generate metadata from a specific type that can be validated
+        /// Get property metadata from a specific type
         /// </summary>
         /// <param name="typeForValidation">The <see cref="Type"/> that will be validated</param>
         /// <returns>The actual metadata</returns>
-        TypeMetaData GenerateFor(Type typeForValidation);
+        TypeMetaData GetPropertyMetaDataFor(Type typeForValidation);
     }
 }

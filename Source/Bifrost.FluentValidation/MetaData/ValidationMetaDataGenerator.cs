@@ -61,9 +61,9 @@ namespace Bifrost.FluentValidation.MetaData
 
 #pragma warning disable 1591 // Xml Comments
 
-        public ValidationMetaData GenerateFor(Type typeForValidation)
+        public TypeMetaData GenerateFor(Type typeForValidation)
         {
-            var metaData = new ValidationMetaData();
+            var metaData = new TypeMetaData();
 
             if (_inputValidatorsByType.ContainsKey(typeForValidation))
             {
@@ -75,7 +75,7 @@ namespace Bifrost.FluentValidation.MetaData
         }
 
 
-        void GetValue(IValidator inputValidator, ValidationMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
+        void GetValue(IValidator inputValidator, TypeMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
         {
             var inputValidatorType = inputValidator.GetType();
             var genericArguments = inputValidatorType.BaseType.GetGenericArguments();
@@ -120,7 +120,7 @@ namespace Bifrost.FluentValidation.MetaData
         }
 #pragma warning restore 1591 // Xml Comments
 
-        void GenerateFor(ValidationMetaData metaData, string property, IPropertyValidator validator)
+        void GenerateFor(TypeMetaData metaData, string property, IPropertyValidator validator)
         {
             var validatorType = validator.GetType();
             var types = new List<Type>();
