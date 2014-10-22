@@ -38,7 +38,7 @@ namespace Bifrost.Read.Validation
         public IEnumerable<IRuleBuilder> Arguments { get { return _arguments.Values; } }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="QueryaValidationDescriptorFor{TQ}"/>
+        /// Initializes a new instance of <see cref="QueryValidationDescriptorFor{TQ}"/>
         /// </summary>
         public QueryValidationDescriptorFor()
         {

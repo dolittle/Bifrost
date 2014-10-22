@@ -18,29 +18,56 @@
 #endregion
 using System;
 using System.Linq.Expressions;
+using Bifrost.Rules;
+using Bifrost.Extensions;
+using System.Reflection;
 
 namespace Bifrost.Read.Validation
 {
 #pragma warning disable 1591 // Xml Comments
     public static class MethodCalls
     {
-        /*
-        public static void CallGenericMethod<T>(this T target, Expression<Func<T, Action>> method)
+        public static TOut CallGenericMethod<T, T1, T2, T3, TOut>(this T target, Expression<Func<T, Func<T1, T2, T3, TOut>>> method, T1 param1, T2 param2, T3 param3, params Type[] genericArguments)
         {
-
-        }*/
-
-        public static TOut CallGenericMethod<T, TOut>(this T target, Expression<Func<T, Func<TOut>>> method, Type methodTypeArgument)
-        {
-            throw new NotImplementedException();
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param1, param2, param3 }, genericArguments);
         }
 
-
-        /*
-        public static void CallGenericMethod<T, T1>(this T target, Expression<Action<T>> method)
+        public static TOut CallGenericMethod<T, T1, T2, TOut>(this T target, Expression<Func<T, Func<T1, T2, TOut>>> method, T1 param1, T2 param2, params Type[] genericArguments)
         {
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param1, param2 }, genericArguments);
+        }
 
-        }*/
+        public static TOut CallGenericMethod<T, T1, TOut>(this T target, Expression<Func<T, Func<T1, TOut>>> method, T1 param1, params Type[] genericArguments)
+        {
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param1 }, genericArguments);
+        }
+
+        // Expression<Func<T, Func<TOut>>> method
+        public static TOut CallGenericMethod<T, TOut>(this T target, Expression<Func<T, Func<TOut>>> method, params Type[] genericArguments)
+        {
+            return CallGenericMethod<T, TOut>(target, method, new object[0], genericArguments);
+        }
+
+        static TOut CallGenericMethod<T, TOut>(this T target, Expression method, object[] parameters, Type[] genericArguments)
+        {
+            var lambda = method as LambdaExpression;
+            var unary = lambda.Body as UnaryExpression;
+            var methodCall = unary.Operand as MethodCallExpression;
+            var constant = methodCall.Object as ConstantExpression;
+
+            var methodInfo = constant.Value as MethodInfo;
+            var genericMethodDefinition = methodInfo.GetGenericMethodDefinition();
+
+            var genericMethod = genericMethodDefinition.MakeGenericMethod(genericArguments);
+
+            var result = genericMethod.Invoke(target, parameters);
+            return (TOut)result;
+        }
+    }
+
+    public class ClassWithGenericMethods
+    {
+        
     }
 #pragma warning restore 1591 // Xml Comments
 
@@ -66,12 +93,11 @@ namespace Bifrost.Read.Validation
 #pragma warning disable 1591 // Xml Comments
         public QueryValidationResult Validate(IQuery query)
         {
-            // _descriptors.GetType().GetMethod("HasDescriptorFor")
+            var result = new QueryValidationResult(new BrokenRule[0]);
+            var hasDescriptor = _descriptors.CallGenericMethod<IQueryValidationDescriptors, bool>(d => d.HasDescriptorFor<IQuery>, query.GetType());
 
-            _descriptors.CallGenericMethod<IQueryValidationDescriptors, bool>(d => d.HasDescriptorFor<IQuery>, query.GetType());
 
-
-            throw new System.NotImplementedException();
+            return result;
         }
 #pragma warning restore 1591 // Xml Comments
     }

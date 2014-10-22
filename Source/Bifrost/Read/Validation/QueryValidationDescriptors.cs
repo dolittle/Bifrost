@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using Bifrost.Execution;
 namespace Bifrost.Read.Validation
 {
     /// <summary>
@@ -23,6 +24,15 @@ namespace Bifrost.Read.Validation
     /// </summary>
     public class QueryValidationDescriptors : IQueryValidationDescriptors
     {
+        /// <summary>
+        /// Initializes an instance of <see cref="QueryValidationDescriptors"/>
+        /// </summary>
+        public QueryValidationDescriptors(ITypeDiscoverer typeDiscoverer, IContainer container)
+        {
+            var descriptors = typeDiscoverer.FindMultiple(typeof(QueryValidationDescriptorFor<>));
+        }
+
+
 #pragma warning disable 1591 // Xml Comments
         public bool HasDescriptorFor<TQuery>() where TQuery : IQuery
         {
