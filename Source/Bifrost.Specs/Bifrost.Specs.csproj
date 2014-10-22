@@ -685,6 +685,12 @@
     <Compile Include="Commands\for_CommandValidators\first_query_validator.cs" />
     <Compile Include="Commands\for_CommandValidators\given\all_dependencies.cs" />
     <Compile Include="Commands\for_CommandValidators\given\command_validators_with_two_providers.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\given\all_dependencies.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\given\two_generators.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\given\validation_meta_data_with_two_generators.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\second_generator.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\first_generator.cs" />
+    <Compile Include="Validation\for_ValidationMetaData\when_getting_for_type_with_two_generators.cs" />
     <Compile Include="Validation\for_ValueValidationBuilder\when_adding_rule.cs" />
     <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_at_sign.cs" />
     <Compile Include="Validation\Rules\for_Email\when_checking_value_that_is_missing_domain_suffix.cs" />

@@ -26,10 +26,10 @@ namespace Bifrost.Validation.MetaData
     public interface IValidationMetaData
     {
         /// <summary>
-        /// Get property metadata from a specific type
+        /// Get metadata for a specific type
         /// </summary>
         /// <param name="typeForValidation">The <see cref="Type"/> that will be validated</param>
         /// <returns>The actual metadata</returns>
-        TypeMetaData GetPropertyMetaDataFor(Type typeForValidation);
+        TypeMetaData GetMetaDataFor(Type typeForValidation);
     }
 }

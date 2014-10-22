@@ -377,6 +377,7 @@
     <Compile Include="Commands\ICommandContextStore.cs" />
     <Compile Include="Commands\ICommandValidator.cs" />
     <Compile Include="Validation\IValueValidationBuilder.cs" />
+    <Compile Include="Validation\MetaData\ICanGenerateValidationMetaData.cs" />
     <Compile Include="Validation\MetaData\IValidationMetaData.cs" />
     <Compile Include="Validation\MetaData\Length.cs" />
     <Compile Include="Validation\MetaData\LessThanOrEqual.cs" />
@@ -384,7 +385,6 @@
     <Compile Include="Validation\MetaData\Regex.cs" />
     <Compile Include="Validation\MetaData\Email.cs" />
     <Compile Include="Validation\MetaData\GreaterThan.cs" />
-    <Compile Include="Validation\MetaData\IValidationMetaDataGenerator.cs" />
     <Compile Include="Validation\MetaData\LessThan.cs" />
     <Compile Include="Validation\MetaData\Required.cs" />
     <Compile Include="Validation\MetaData\Rule.cs" />
@@ -411,6 +411,7 @@
     <Compile Include="Execution\IAssemblyLocator.cs" />
     <Compile Include="Execution\MultipleTypesFoundException.cs" />
     <Compile Include="Validation\MetaData\TypeMetaData.cs" />
+    <Compile Include="Validation\MetaData\ValidationMetaData.cs" />
     <Compile Include="Validation\Rules\Reasons.cs" />
     <Compile Include="Validation\Rules\Required.cs" />
     <Compile Include="Validation\Rules\Regex.cs" />

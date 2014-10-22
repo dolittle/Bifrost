@@ -18,7 +18,6 @@
 #endregion
 using System;
 using Bifrost.CodeGeneration.JavaScript;
-using Bifrost.Validation;
 using Bifrost.Validation.MetaData;
 using Newtonsoft.Json;
 
@@ -26,16 +25,16 @@ namespace Bifrost.Web.Commands
 {
     public class CommandValidationPropertyExtender : ICanExtendCommandProperty
     {
-        IValidationMetaDataGenerator _validationMetaDataGenerator;
+        IValidationMetaData _validationMetaData;
 
-        public CommandValidationPropertyExtender(IValidationMetaDataGenerator validationMetaDataGenerator)
+        public CommandValidationPropertyExtender(IValidationMetaData validationMetaData)
         {
-            _validationMetaDataGenerator = validationMetaDataGenerator;
+            _validationMetaData = validationMetaData;
         }
 
         public void Extend(Type commandType, string propertyName, Observable observable)
         {
-            var metaData = _validationMetaDataGenerator.GenerateFor(commandType);
+            var metaData = _validationMetaData.GetMetaDataFor(commandType);
             if (metaData.Properties.ContainsKey(propertyName))
             {
                 var options = JsonConvert.SerializeObject(metaData.Properties[propertyName],

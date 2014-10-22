@@ -30,15 +30,15 @@ using FluentValidation.Validators;
 namespace Bifrost.FluentValidation.MetaData
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IValidationMetaDataGenerator"/>
+    /// Represents an implementation of <see cref="ICanGenerateValidationMetaData"/>
     /// </summary>
-    public class ValidationMetaDataGenerator : IValidationMetaDataGenerator
+    public class ValidationMetaDataGenerator : ICanGenerateValidationMetaData
     {
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
 
         Dictionary<Type, ICanGenerateRule> _generatorsByType = new Dictionary<Type, ICanGenerateRule>();
-        Dictionary<Type, Type> _inputValidatorsByType = new Dictionary<Type, Type>();
+        Dictionary<Type, IEnumerable<Type>> _inputValidatorsByType = new Dictionary<Type, IEnumerable<Type>>();
 
 
         /// <summary>
@@ -51,10 +51,14 @@ namespace Bifrost.FluentValidation.MetaData
             _typeDiscoverer = typeDiscoverer;
             _container = container;
 
-            _inputValidatorsByType = typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
-                            .Where(t => typeof(IValidator).IsAssignableFrom(t))
-                            .ToDictionary<Type,Type>(t=>t.BaseType.GetGenericArguments()[0]);
+            var inputValidatorsByType = typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
+                                                .Where(t => typeof(IValidator).IsAssignableFrom(t))
+                                                .GroupBy(t=>t.BaseType.GetGenericArguments()[0]);
 
+            foreach (var inputValidatorByType in inputValidatorsByType)
+            {
+                _inputValidatorsByType[inputValidatorByType.Key] = inputValidatorByType.ToList();
+            }
             PopulateGenerators();
         }
 
@@ -67,8 +71,11 @@ namespace Bifrost.FluentValidation.MetaData
 
             if (_inputValidatorsByType.ContainsKey(typeForValidation))
             {
-                var validator = _container.Get(_inputValidatorsByType[typeForValidation]) as IValidator;
-                GetValue(validator, metaData, string.Empty);
+                foreach (var inputValidatorType in _inputValidatorsByType[typeForValidation])
+                {
+                    var validator = _container.Get(inputValidatorType) as IValidator;
+                    GetValue(validator, metaData, string.Empty);
+                }
             }
 
             return metaData;

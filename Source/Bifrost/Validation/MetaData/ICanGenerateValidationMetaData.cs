@@ -23,7 +23,7 @@ namespace Bifrost.Validation.MetaData
     /// <summary>
     /// Defines the generator that generates metadata for a validator
     /// </summary>
-    public interface IValidationMetaDataGenerator
+    public interface ICanGenerateValidationMetaData
     {
         /// <summary>
         /// Generate metadata from a specific type that can be validated
