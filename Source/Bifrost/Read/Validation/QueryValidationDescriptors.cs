@@ -36,7 +36,8 @@ namespace Bifrost.Read.Validation
 #pragma warning disable 1591 // Xml Comments
         public bool HasDescriptorFor<TQuery>() where TQuery : IQuery
         {
-            throw new System.NotImplementedException();
+            return false; 
+            //throw new System.NotImplementedException();
         }
 
         public IQueryValidationDescriptor GetDescriptorFor<TQuery>() where TQuery : IQuery
