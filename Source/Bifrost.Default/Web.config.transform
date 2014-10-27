@@ -1,7 +1,22 @@
 ﻿<?xml version="1.0"?>
 <configuration>
+  <appSettings>
+    <add key="owin:AutomaticAppStartup" value="false" />
+  </appSettings>
+
   <system.webServer>
     <!-- Bifrost needs to be able to process all requests due to Mimir -->
     <modules runAllManagedModulesForAllRequests="true"></modules>
+    <httpProtocol>
+      <customHeaders>
+        <add name="Cache-Control" value="no-cache, no-store" />
+        <add name="Pragma" value="no-cache" />
+        <add name="Expires" value="-1" />
+      </customHeaders>
+    </httpProtocol>
+    <staticContent>
+      <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="00:00:01" />
+    </staticContent>
+
   </system.webServer>
 </configuration>
