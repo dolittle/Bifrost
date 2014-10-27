@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Bifrost.Extensions;
 using Bifrost.Rules;
+using Bifrost.Validation;
 
 namespace Bifrost.Read.Validation
 {
@@ -31,20 +32,20 @@ namespace Bifrost.Read.Validation
     public class QueryValidationDescriptorFor<TQuery> : IQueryValidationDescriptor
         where TQuery : IQuery
     {
-        Dictionary<string, IRuleBuilder> _arguments;
+        Dictionary<string, IValueValidationBuilder> _arguments;
 
         /// <summary>
         /// Initializes a new instance of <see cref="QueryValidationDescriptorFor{TQ}"/>
         /// </summary>
         public QueryValidationDescriptorFor()
         {
-            _arguments = new Dictionary<string, IRuleBuilder>();
+            _arguments = new Dictionary<string, IValueValidationBuilder>();
         }
 
         /// <summary>
         /// Gets the <see cref="IRuleBuilder">rule builders</see> for the <see cref="IQuery">query </see>arguments
         /// </summary>
-        public IEnumerable<IRuleBuilder> ArgumentsRuleBuilders
+        public IEnumerable<IValueValidationBuilder> ArgumentsRuleBuilders
         {
             get
             {
@@ -66,11 +67,11 @@ namespace Bifrost.Read.Validation
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<IRule> ArgumentRules
+        public IEnumerable<ValueRule> ArgumentRules
         {
             get 
             {
-                var rules = new List<IRule>();
+                var rules = new List<ValueRule>();
                 _arguments.Values.ForEach(r => rules.AddRange(r.Rules));
                 return rules;
             }

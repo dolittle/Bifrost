@@ -251,6 +251,9 @@
     <Compile Include="..\Bifrost\Configuration\MissingDefaultConstructorException.cs">
       <Link>Configuration\MissingDefaultConstructorException.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\MultiplePrincipalResolversFound.cs">
+      <Link>Configuration\MultiplePrincipalResolversFound.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\SagasConfiguration.cs">
       <Link>Configuration\SagasConfiguration.cs</Link>
     </Compile>

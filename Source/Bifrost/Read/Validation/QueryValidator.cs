@@ -124,15 +124,16 @@ namespace Bifrost.Read.Validation
         {
             var result = new QueryValidationResult(new BrokenRule[0]);
 
-            //var c = new ClassWithGenericMethods();
-            //c.Generics().Invoke<object>(m => m.Something<object>, typeof(string));
-            //c.CallGenericMethod<bool, ClassWithGenericMethods, int, double, string>(d => d.Something<object>, 42, 42.0, "fourty two", typeof(string));
+            var ruleContext = new RuleContext();
 
             var hasDescriptor = _descriptors.CallGenericMethod<bool, IQueryValidationDescriptors>(d => d.HasDescriptorFor<IQuery>, query.GetType());
             if (hasDescriptor)
             {
                 var descriptor = _descriptors.CallGenericMethod<IQueryValidationDescriptor, IQueryValidationDescriptors>(d => d.GetDescriptorFor<IQuery>, query.GetType());
-                //descriptor.ArgumentRules.ForEach(r => r.Evaluate());
+                descriptor.ArgumentRules.ForEach(r => {
+                    var value = r.Property.GetValue(query);
+                    r.Evaluate(ruleContext, value);
+                });
             }
 
             return result;

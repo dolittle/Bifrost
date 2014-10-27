@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Rules;
 
 namespace Bifrost.Validation.Rules
@@ -30,8 +31,9 @@ namespace Bifrost.Validation.Rules
         /// <summary>
         /// Initializes a new instance of <see cref="GreaterThan"/> 
         /// </summary>
+        /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
         /// <param name="value">Value that the input value must be greater than</param>
-        public GreaterThan(T value)
+        public GreaterThan(PropertyInfo property, T value) : base(property)
         {
             Value = value;
         }

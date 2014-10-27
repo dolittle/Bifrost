@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Validation.Rules.for_Regex
 
         Establish context = () => 
         {
-            rule = new Regex("\\w");
+            rule = new Regex(null, "\\w");
             rule_context_mock = new Mock<IRuleContext>();
         };
 

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Bifrost.Read.Validation;
 using Bifrost.Rules;
+using Bifrost.Validation;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -12,9 +14,9 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidator
         static SomeQuery query;
         static QueryValidationResult result;
         static Mock<IQueryValidationDescriptor> descriptor_mock;
-        static Mock<IRule> first_rule_broken;
-        static Mock<IRule> second_rule_not_broken;
-        static Mock<IRule> third_rule_broken;
+        static Mock<ValueRule> first_rule_broken;
+        static Mock<ValueRule> second_rule_not_broken;
+        static Mock<ValueRule> third_rule_broken;
 
         static BrokenRuleReason first_broken_rule_first_reason;
         static BrokenRuleReason first_broken_rule_second_reason;
@@ -24,13 +26,13 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidator
         {
             query = new SomeQuery();
 
-            first_rule_broken = new Mock<IRule>();
-            second_rule_not_broken = new Mock<IRule>();
-            third_rule_broken = new Mock<IRule>();
+            first_rule_broken = new Mock<ValueRule>();
+            second_rule_not_broken = new Mock<ValueRule>();
+            third_rule_broken = new Mock<ValueRule>();
 
-            first_broken_rule_first_reason = BrokenRuleReason.Create("1-1");
-            first_broken_rule_second_reason = BrokenRuleReason.Create("1-2");
-            third_broken_rule_reason = BrokenRuleReason.Create("2");
+            first_broken_rule_first_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString());
+            first_broken_rule_second_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString());
+            third_broken_rule_reason = BrokenRuleReason.Create(Guid.NewGuid().ToString());
 
             first_rule_broken.Setup(f => f.Evaluate(Moq.It.IsAny<IRuleContext>(), Moq.It.IsAny<object>())).Callback((IRuleContext context, object instance) =>
             {
@@ -44,7 +46,7 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidator
             });
 
             descriptor_mock = new Mock<IQueryValidationDescriptor>();
-            descriptor_mock.SetupGet(d => d.ArgumentRules).Returns(new IRule[] {
+            descriptor_mock.SetupGet(d => d.ArgumentRules).Returns(new ValueRule[] {
                 first_rule_broken.Object,
                 second_rule_not_broken.Object,
                 third_rule_broken.Object

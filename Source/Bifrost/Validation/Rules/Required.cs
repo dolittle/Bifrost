@@ -19,6 +19,7 @@
 using System;
 using Bifrost.Rules;
 using Bifrost.Extensions;
+using System.Reflection;
 
 namespace Bifrost.Validation.Rules
 {
@@ -41,6 +42,12 @@ namespace Bifrost.Validation.Rules
         /// When a value is not specified, this is the reason given
         /// </summary>
         public static BrokenRuleReason ValueNotSpecified = BrokenRuleReason.Create("5F790FC3-5C7D-4F3A-B1E9-8F85FAF7176D");
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Required"/> rule
+        /// </summary>
+        /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
+        public Required(PropertyInfo property) : base(property) { }
 
 #pragma warning disable 1591 // Xml Comments
         public override void Evaluate(IRuleContext context, object instance)

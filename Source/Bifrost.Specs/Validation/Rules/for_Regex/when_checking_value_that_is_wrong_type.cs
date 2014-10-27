@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.Rules.for_Regex
 
         Establish context = () => 
         {
-            rule = new Regex(string.Empty);
+            rule = new Regex(null, string.Empty);
             rule_context_mock = new Mock<IRuleContext>();
         };
 

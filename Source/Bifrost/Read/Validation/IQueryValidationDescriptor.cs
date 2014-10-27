@@ -18,6 +18,7 @@
 #endregion
 using System.Collections.Generic;
 using Bifrost.Rules;
+using Bifrost.Validation;
 
 namespace Bifrost.Read.Validation
 {
@@ -29,6 +30,6 @@ namespace Bifrost.Read.Validation
         /// <summary>
         /// Gets the argument rules
         /// </summary>
-        IEnumerable<IRule> ArgumentRules { get; }
+        IEnumerable<ValueRule> ArgumentRules { get; }
     }
 }

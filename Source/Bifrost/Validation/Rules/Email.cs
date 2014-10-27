@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
 using Bifrost.Rules;
 
 namespace Bifrost.Validation.Rules
@@ -25,6 +26,12 @@ namespace Bifrost.Validation.Rules
     /// </summary>
     public class Email : ValueRule
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Email"/> rule
+        /// </summary>
+        /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
+        public Email(PropertyInfo property) : base(property) { }
+
         /// <summary>
         /// When an email is invalid, this is the reason given
         /// </summary>

@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
 using Bifrost.Rules;
 
 namespace Bifrost.Validation.Rules
@@ -35,8 +36,9 @@ namespace Bifrost.Validation.Rules
         /// <summary>
         /// Initializes an instance of <see cref="Regex"/>
         /// </summary>
+        /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
         /// <param name="expression"></param>
-        public Regex(string expression)
+        public Regex(PropertyInfo property, string expression) : base(property)
         {
             Expression = expression;
             _actualRegex = new System.Text.RegularExpressions.Regex(expression);

@@ -10,11 +10,11 @@ namespace Bifrost.Specs.Validation.for_ValueValidationBuilder
     public class when_adding_rule
     {
         static ValueValidationBuilder<object>   builder;
-        static Mock<IRule>  rule_mock;
+        static Mock<ValueRule>  rule_mock;
 
         Establish context = () => {
             builder = new ValueValidationBuilder<object>(null);
-            rule_mock = new Mock<IRule>();
+            rule_mock = new Mock<ValueRule>();
         };
 
         Because of = () => builder.AddRule(rule_mock.Object);
