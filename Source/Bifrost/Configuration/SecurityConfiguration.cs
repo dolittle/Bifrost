@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Security;
 
@@ -27,20 +28,17 @@ namespace Bifrost.Configuration
     /// </summary>
     public class SecurityConfiguration : ISecurityConfiguration
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SecurityConfiguration"/> 
-        /// </summary>
-        public SecurityConfiguration()
-        {
-            PrincipalResolverType = typeof(DefaultPrincipalResolver);
-        }
-
 #pragma warning disable 1591 // Xml Comments
-        public Type PrincipalResolverType { get; set; }
-
         public void Initialize(IContainer container)
         {
-            container.Bind<ICanResolvePrincipal>(PrincipalResolverType);
+            var typeDiscoverer = container.Get<ITypeDiscoverer>();
+
+            var resolverType = typeof(DefaultPrincipalResolver);
+            var resolverTypes = typeDiscoverer.FindMultiple<ICanResolvePrincipal>().Where(t => t.Assembly != typeof(SecurityConfiguration).Assembly).ToArray();
+            if (resolverTypes.Length > 1) throw new MultiplePrincipalResolversFound();
+            if (resolverTypes.Length == 1) resolverType = resolverTypes[0];
+
+            container.Bind<ICanResolvePrincipal>(resolverType);
         }
 #pragma warning restore 1591 // Xml Comments
     }

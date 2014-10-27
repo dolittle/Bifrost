@@ -136,6 +136,7 @@
     <Compile Include="Configuration\ISecurityConfiguration.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
     <Compile Include="Configuration\MissingDefaultConstructorException.cs" />
+    <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />
     <Compile Include="Configuration\SecurityConfiguration.cs" />
     <Compile Include="Configuration\TasksConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />

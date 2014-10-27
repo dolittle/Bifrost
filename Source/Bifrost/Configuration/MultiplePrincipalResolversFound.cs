@@ -21,9 +21,13 @@ using System;
 namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Defines the configuration for security
+    /// Exception that is thrown when the system finds more than one principal resolver
     /// </summary>
-    public interface ISecurityConfiguration : IConfigurationElement
+    public class MultiplePrincipalResolversFound : ArgumentException
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="MultiplePrincipalResolversFound"/>
+        /// </summary>
+        public MultiplePrincipalResolversFound() : base("More than one implementation of ICanResolvePrincipal found - there can only be one") { }
     }
 }
