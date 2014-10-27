@@ -210,6 +210,7 @@
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
+    <Compile Include="Extensions\MethodCalls.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
@@ -256,7 +257,10 @@
     <Compile Include="Rules\IRuleContextChangeSubscriber.cs" />
     <Compile Include="Rules\BrokenRule.cs" />
     <Compile Include="Rules\BrokenRuleReason.cs" />
+    <Compile Include="Rules\IRuleContexts.cs" />
     <Compile Include="Rules\RuleContext.cs" />
+    <Compile Include="Rules\RuleContextFail.cs" />
+    <Compile Include="Rules\RuleContexts.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
     <Compile Include="Specifications\Negative.cs" />
@@ -379,6 +383,7 @@
     <Compile Include="Sagas\IChapterValidationService.cs" />
     <Compile Include="Commands\ICommandContextStore.cs" />
     <Compile Include="Commands\ICommandValidator.cs" />
+    <Compile Include="Validation\IValueRule.cs" />
     <Compile Include="Validation\IValueValidationBuilder.cs" />
     <Compile Include="Validation\MetaData\ICanGenerateValidationMetaData.cs" />
     <Compile Include="Validation\MetaData\IValidationMetaData.cs" />

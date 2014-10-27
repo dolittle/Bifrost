@@ -398,6 +398,7 @@
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_items_is_null.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_has_items.cs" />
     <Compile Include="Read\for_QueryResult\when_validation_has_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationResult\given\all_dependencies.cs" />
     <Compile Include="Read\Validation\for_QueryValidator\given\all_dependencies.cs" />
     <Compile Include="Read\Validation\for_QueryValidator\given\a_query_validator.cs" />
     <Compile Include="Read\Validation\for_QueryValidator\SomeQuery.cs" />
@@ -434,6 +435,7 @@
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
     <Compile Include="Rules\for_BrokenRuleReason\when_creating.cs" />
+    <Compile Include="Rules\for_RuleContext\when_failing_with_two_callbacks_registered.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />
     <Compile Include="Specifications\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />

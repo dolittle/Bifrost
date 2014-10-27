@@ -30,6 +30,6 @@ namespace Bifrost.Read.Validation
         /// <summary>
         /// Gets the argument rules
         /// </summary>
-        IEnumerable<ValueRule> ArgumentRules { get; }
+        IEnumerable<IValueRule> ArgumentRules { get; }
     }
 }

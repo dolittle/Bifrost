@@ -67,11 +67,11 @@ namespace Bifrost.Read.Validation
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValueRule> ArgumentRules
+        public IEnumerable<IValueRule> ArgumentRules
         {
             get 
             {
-                var rules = new List<ValueRule>();
+                var rules = new List<IValueRule>();
                 _arguments.Values.ForEach(r => rules.AddRange(r.Rules));
                 return rules;
             }

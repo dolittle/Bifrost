@@ -24,7 +24,7 @@ namespace Bifrost.Validation
     /// <summary>
     /// Represents the basis for a value rule
     /// </summary>  
-    public abstract class ValueRule : IRule
+    public abstract class ValueRule : IValueRule
     {
         /// <summary>
         /// When a value is of the wrong type, this is the reason given for breaking a rule
@@ -40,12 +40,9 @@ namespace Bifrost.Validation
             Property = property;
         }
 
-        /// <summary>
-        /// Gets the name of the value
-        /// </summary>
+#pragma warning disable 1591 // Xml Comments
         public PropertyInfo Property { get; private set; }
 
-#pragma warning disable 1591 // Xml Comments
         protected bool FailIfValueTypeMismatch<TDesired>(IRuleContext context, object value)
         {
             if (value.GetType() != typeof(TDesired))

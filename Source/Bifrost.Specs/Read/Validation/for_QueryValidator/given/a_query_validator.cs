@@ -7,6 +7,6 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidator.given
     {
         protected static QueryValidator query_validator;
 
-        Establish context = () => query_validator = new QueryValidator(query_validation_descriptors_mock.Object);
+        Establish context = () => query_validator = new QueryValidator(query_validation_descriptors_mock.Object, rule_contexts_mock.Object);
     }
 }

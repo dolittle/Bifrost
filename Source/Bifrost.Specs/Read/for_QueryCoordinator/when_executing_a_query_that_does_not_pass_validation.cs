@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
             query = new QueryForKnownProvider();
             paging = new PagingInfo();
 
-            validation_result = new QueryValidationResult(new[] { new BrokenRule() });
+            validation_result = new QueryValidationResult(new[] { new BrokenRule(null,null,null) });
 
             query_validator_mock.Setup(c => c.Validate(query)).Returns(validation_result);
         };

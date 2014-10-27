@@ -16,28 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using Bifrost.Extensions;
 
 namespace Bifrost.Rules
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IRuleContext"/>
+    /// Defines a system for managing <see cref="IRuleContext">rule contexts</see>
     /// </summary>
-    public class RuleContext : IRuleContext
+    public interface IRuleContexts
     {
-        List<RuleFailed> _callbacks = new List<RuleFailed>();
-
-#pragma warning disable 1591 // Xml Comments
-        public void OnFailed(RuleFailed callback)
-        {
-            _callbacks.Add(callback);
-        }
-
-        public void Fail(IRule rule, object instance, BrokenRuleReason reason)
-        {
-            _callbacks.ForEach(c => c(rule, instance, reason));
-        }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Get a <see cref="IRuleContext"/> for a given instance
+        /// </summary>
+        /// <param name="instance">Instance to get for</param>
+        /// <returns><see cref="IRuleContext"/> to use</returns>
+        IRuleContext GetFor(object instance);
     }
 }

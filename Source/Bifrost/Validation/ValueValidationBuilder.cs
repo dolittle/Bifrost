@@ -27,7 +27,7 @@ namespace Bifrost.Validation
     /// </summary>
     public class ValueValidationBuilder<TValue> : IValueValidationBuilder
     {
-        List<ValueRule> _rules;
+        List<IValueRule> _rules;
 
         /// <summary>
         /// Initializes an instance of <see cref="ValueValidationBuilder"/>
@@ -35,16 +35,16 @@ namespace Bifrost.Validation
         /// <param name="property">Property that represents the value</param>
         public ValueValidationBuilder(PropertyInfo property)
         {
-            _rules = new List<ValueRule>();
+            _rules = new List<IValueRule>();
             Property = property;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public PropertyInfo Property { get; private set; }
 
-        public IEnumerable<ValueRule> Rules { get { return _rules; } }
+        public IEnumerable<IValueRule> Rules { get { return _rules; } }
 
-        public void AddRule(ValueRule rule)
+        public void AddRule(IValueRule rule)
         {
             _rules.Add(rule);
         }

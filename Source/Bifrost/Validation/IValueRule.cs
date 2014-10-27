@@ -16,28 +16,20 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using Bifrost.Extensions;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using Bifrost.Rules;
 
-namespace Bifrost.Rules
+namespace Bifrost.Validation
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IRuleContext"/>
+    /// Defines a rule for a value
     /// </summary>
-    public class RuleContext : IRuleContext
+    public interface IValueRule : IRule
     {
-        List<RuleFailed> _callbacks = new List<RuleFailed>();
-
-#pragma warning disable 1591 // Xml Comments
-        public void OnFailed(RuleFailed callback)
-        {
-            _callbacks.Add(callback);
-        }
-
-        public void Fail(IRule rule, object instance, BrokenRuleReason reason)
-        {
-            _callbacks.ForEach(c => c(rule, instance, reason));
-        }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Gets the property that represents the value
+        /// </summary>
+        PropertyInfo Property { get; }
     }
 }
