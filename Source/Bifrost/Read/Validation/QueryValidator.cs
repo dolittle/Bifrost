@@ -128,14 +128,11 @@ namespace Bifrost.Read.Validation
             //c.Generics().Invoke<object>(m => m.Something<object>, typeof(string));
             //c.CallGenericMethod<bool, ClassWithGenericMethods, int, double, string>(d => d.Something<object>, 42, 42.0, "fourty two", typeof(string));
 
-            IRuleContext
-
             var hasDescriptor = _descriptors.CallGenericMethod<bool, IQueryValidationDescriptors>(d => d.HasDescriptorFor<IQuery>, query.GetType());
             if (hasDescriptor)
             {
                 var descriptor = _descriptors.CallGenericMethod<IQueryValidationDescriptor, IQueryValidationDescriptors>(d => d.GetDescriptorFor<IQuery>, query.GetType());
-                descriptor.ArgumentRules.ForEach(r=>r.Evaluate())
-
+                //descriptor.ArgumentRules.ForEach(r => r.Evaluate());
             }
 
             return result;
