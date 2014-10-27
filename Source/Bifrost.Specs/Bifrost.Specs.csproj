@@ -398,6 +398,15 @@
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_items_is_null.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_has_items.cs" />
     <Compile Include="Read\for_QueryResult\when_validation_has_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\when_getting_descriptor_and_one_descriptor_exist.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\when_asking_if_has_descriptor_and_one_descriptor_exist.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\given\all_dependencies.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\given\one_query_validation_descriptor_for_query.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\given\no_query_validation_descriptors.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\given\when_asking_if_has_descriptor_and_one_exist_for_query.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\SimpleQuery.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\SimpleQueryDescriptor.cs" />
+    <Compile Include="Read\Validation\for_QueryValidationDescriptors\when_asking_if_has_descriptor_and_no_descriptors_exists.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\given\all_dependencies.cs" />
     <Compile Include="Read\Validation\for_QueryValidator\given\all_dependencies.cs" />
     <Compile Include="Read\Validation\for_QueryValidator\given\a_query_validator.cs" />
