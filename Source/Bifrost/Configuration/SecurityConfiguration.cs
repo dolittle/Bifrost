@@ -34,9 +34,9 @@ namespace Bifrost.Configuration
             var typeDiscoverer = container.Get<ITypeDiscoverer>();
 
             var resolverType = typeof(DefaultPrincipalResolver);
-            var resolverTypes = typeDiscoverer.FindMultiple<ICanResolvePrincipal>().Where(t => t.Assembly != typeof(SecurityConfiguration).Assembly).ToArray();
-            if (resolverTypes.Length > 1) throw new MultiplePrincipalResolversFound();
-            if (resolverTypes.Length == 1) resolverType = resolverTypes[0];
+            var resolverTypes = typeDiscoverer.FindMultiple<ICanResolvePrincipal>().Where(t => t.Assembly != typeof(SecurityConfiguration).Assembly);
+            if (resolverTypes.Count() > 1) throw new MultiplePrincipalResolversFound();
+            if (resolverTypes.Count() == 1) resolverType = resolverTypes.First();
 
             container.Bind<ICanResolvePrincipal>(resolverType);
         }
