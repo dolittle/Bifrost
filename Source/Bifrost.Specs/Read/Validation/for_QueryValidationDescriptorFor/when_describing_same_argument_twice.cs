@@ -14,6 +14,6 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidationDescriptorFor
             descriptor.ForArgument(q => q.IntegerArgument);
         };
 
-        It should_only_have_one_builder = () => descriptor.Arguments.Count().ShouldEqual(1);
+        It should_only_have_one_builder = () => descriptor.ArgumentsRuleBuilders.Count().ShouldEqual(1);
     }
 }

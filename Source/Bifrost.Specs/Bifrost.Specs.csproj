@@ -398,6 +398,12 @@
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_items_is_null.cs" />
     <Compile Include="Read\for_QueryResult\when_exception_is_null_and_it_has_items.cs" />
     <Compile Include="Read\for_QueryResult\when_validation_has_broken_rules.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\given\all_dependencies.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\given\a_query_validator.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\SomeQuery.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\when_validating_query_without_descriptor.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\when_validating_query_with_descriptor.cs" />
+    <Compile Include="Read\Validation\for_QueryValidator\when_validating_query_with_three_rules_and_two_are_broken.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters_and_one_that_does_not.cs" />
     <Compile Include="Read\for_ReadModelFilters\given\read_model_filters_with_one_filter_that_filters.cs" />
     <Compile Include="Read\for_ReadModelFilters\when_filtering_with_one_filter_that_filters.cs" />
@@ -427,7 +433,6 @@
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_null_passed_as_broken_rules.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
-    <Compile Include="Read\Validation\for_QueryValidator\when_validating_query_with_descriptor_with_rules.cs" />
     <Compile Include="Rules\for_BrokenRuleReason\when_creating.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />

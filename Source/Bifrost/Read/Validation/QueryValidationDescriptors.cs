@@ -39,7 +39,7 @@ namespace Bifrost.Read.Validation
             throw new System.NotImplementedException();
         }
 
-        public QueryValidationDescriptorFor<TQuery> GetDescriptorFor<TQuery>() where TQuery : IQuery
+        public IQueryValidationDescriptor GetDescriptorFor<TQuery>() where TQuery : IQuery
         {
             throw new System.NotImplementedException();
         }

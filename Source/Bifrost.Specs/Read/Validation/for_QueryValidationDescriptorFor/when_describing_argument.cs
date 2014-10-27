@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidationDescriptorFor
 
         Because of = () => builder = descriptor.ForArgument(q => q.IntegerArgument);
 
+        It should_hold_the_builder = () => descriptor.ArgumentsRuleBuilders.ShouldContainOnly(builder);
         It should_return_a_builder = () => builder.ShouldNotBeNull();
-        It should_have_the_builder_available = () => descriptor.Arguments.ShouldContainOnly(builder);
     }
 }

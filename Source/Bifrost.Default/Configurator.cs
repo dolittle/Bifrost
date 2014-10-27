@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using Bifrost.Configuration;
 
-namespace Bifrost
+namespace Web
 {
     public class BifrostConfigurator : ICanConfigure
     {
@@ -33,12 +33,13 @@ namespace Bifrost
 					.Web(w=> {
                         w.AsSinglePageApplication();
 
-                        w.PathsToNamespaces.Add("Features/**/", "Web.HumanResources.**.");
-                        w.PathsToNamespaces.Add("/Features/**/", "Web.HumanResources.**.");
+                        w.PathsToNamespaces.Add("**/", "Web.**.");
+                        w.PathsToNamespaces.Add("/**/", "Web.**.");
+                        w.PathsToNamespaces.Add("", "Web");
 
-                        w.NamespaceMapper.Add("Web.**.", "Web.Domain.HumanResources.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.Read.HumanResources.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.HumanResources.**.");
+                        w.NamespaceMapper.Add("Web.**.", "Web.Domain.**.");
+                        w.NamespaceMapper.Add("Web.**.", "Web.Read.**.");
+                        w.NamespaceMapper.Add("Web.**.", "Web.**.");
 
                     })
                 .WithMimir();
