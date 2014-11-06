@@ -75,6 +75,7 @@ namespace Bifrost.Entities.Files
 
         public void Update(T entity)
         {
+            Save(entity);
         }
 
         public void Delete(T entity)
