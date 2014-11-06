@@ -39,8 +39,7 @@ namespace Bifrost.Testing
     /// <typeparam name="T">Type of the Command which the Scenario Tests</typeparam>
     public class CommandScenario<T> where T : class, ICommand
     {
-        Mock<ICommandValidatorProvider> command_validator_provider;
-        ICommandValidationService command_validation_service;
+        Mock<ICommandValidators> command_validators_mock;
         ICommandCoordinator command_coordinator;
         Mock<ILocalizer> localizer;
         ICommandContextFactory command_context_factory;
@@ -54,7 +53,8 @@ namespace Bifrost.Testing
         Mock<IExecutionContextFactory> execution_context_factory_mock;
         Mock<ICallContext> call_context_mock;
         IExecutionContextManager execution_context_manager;
-        ICanValidate<T> null_validator = new NullCommandInputValidator();
+        Mock<ICanValidate<T>> null_validator_mock;
+        ICanValidate<T> null_validator;
 
         dynamic command_handler;
         ICanValidate<T> input_validator;
@@ -82,9 +82,8 @@ namespace Bifrost.Testing
             command_handler_manager.Setup(m => m.Handle(It.IsAny<ICommand>())).Callback((ICommand c) => command_handler.Handle((dynamic)c));
 
             localizer = new Mock<ILocalizer>();
-            
-            command_validator_provider = new Mock<ICommandValidatorProvider>();
-            command_validation_service = new CommandValidationService(command_validator_provider.Object);
+
+            command_validators_mock = new Mock<ICommandValidators>();
 
             command_security_manager_mock = new Mock<ICommandSecurityManager>();
             //TODO: Allow spec'ing of Security
@@ -94,9 +93,11 @@ namespace Bifrost.Testing
                                         command_handler_manager.Object, 
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
-                                        command_validation_service,
+                                        command_validators_mock.Object,
                                         localizer.Object);
 
+            null_validator_mock = new Mock<ICanValidate<T>>();
+            null_validator = null_validator_mock.Object;
             input_validator = null_validator;
             business_validator = null_validator;
 
@@ -160,9 +161,6 @@ namespace Bifrost.Testing
         {
             if (command_handler == null)
                 throw new Exception("You must specify a command handler before calling CommandIsHandled");
-
-            command_validator_provider.Setup(p => p.GetInputValidatorFor(command)).Returns(input_validator);
-            command_validator_provider.Setup(p => p.GetBusinessValidatorFor(command)).Returns(business_validator);
 
             using(var currentPrincipal = CurrentPrincipal.SetPrincipalTo(principal))
             {

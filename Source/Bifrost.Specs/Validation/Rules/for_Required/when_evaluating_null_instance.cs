@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Validation.Rules.for_Required
 
         Establish context = () =>
         {
-            rule = new Required();
+            rule = new Required(null);
             rule_context_mock = new Mock<IRuleContext>();
         };
 

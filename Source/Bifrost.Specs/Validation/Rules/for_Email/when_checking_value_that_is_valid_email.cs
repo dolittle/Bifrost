@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Validation.Rules.for_Email
 
         Establish context = () => 
         {
-            rule = new Email();
+            rule = new Email(null);
             rule_context_mock = new Mock<IRuleContext>();
         };
 

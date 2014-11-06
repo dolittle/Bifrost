@@ -18,60 +18,67 @@
 #endregion
 using System;
 using System.Linq.Expressions;
+using Bifrost.Rules;
+using Bifrost.Extensions;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Bifrost.Read.Validation
 {
-#pragma warning disable 1591 // Xml Comments
-    public static class MethodCalls
-    {
-        /*
-        public static void CallGenericMethod<T>(this T target, Expression<Func<T, Action>> method)
-        {
-
-        }*/
-
-        public static TOut CallGenericMethod<T, TOut>(this T target, Expression<Func<T, Func<TOut>>> method, Type methodTypeArgument)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /*
-        public static void CallGenericMethod<T, T1>(this T target, Expression<Action<T>> method)
-        {
-
-        }*/
-    }
-#pragma warning restore 1591 // Xml Comments
-
-
-
-
     /// <summary>
     /// Represents an implementation of <see cref="IQueryValidator"/>
     /// </summary>
     public class QueryValidator : IQueryValidator
     {
         IQueryValidationDescriptors _descriptors;
+        IRuleContexts _ruleContexts;
 
         /// <summary>
         /// Initializes an instance of <see cref="QueryValidator"/>
         /// </summary>
         /// <param name="descriptors"><see cref="IQueryValidationDescriptors"/> for getting descriptors for queries for running through rules</param>
-        public QueryValidator(IQueryValidationDescriptors descriptors)
+        /// <param name="ruleContexts"><see cref="IRuleContexts"/> used for getting <see cref="IRuleContext"/></param>
+        public QueryValidator(IQueryValidationDescriptors descriptors, IRuleContexts ruleContexts)
         {
             _descriptors = descriptors;
+            _ruleContexts = ruleContexts;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public QueryValidationResult Validate(IQuery query)
         {
-            // _descriptors.GetType().GetMethod("HasDescriptorFor")
+            var brokenRules = new Dictionary<IRule, BrokenRule>();
 
-            _descriptors.CallGenericMethod<IQueryValidationDescriptors, bool>(d => d.HasDescriptorFor<IQuery>, query.GetType());
+            var ruleContext = _ruleContexts.GetFor(query);
+            ruleContext.OnFailed(RuleFailed(ruleContext, brokenRules));
 
+            var hasDescriptor = _descriptors.CallGenericMethod<bool, IQueryValidationDescriptors>(d => d.HasDescriptorFor<IQuery>, query.GetType());
+            if (hasDescriptor)
+            {
+                var descriptor = _descriptors.CallGenericMethod<IQueryValidationDescriptor, IQueryValidationDescriptors>(d => d.GetDescriptorFor<IQuery>, query.GetType());
+                descriptor.ArgumentRules.ForEach(r => {
+                    var value = r.Property.GetValue(query);
+                    r.Evaluate(ruleContext, value);
+                });
+            }
 
-            throw new System.NotImplementedException();
+            var result = new QueryValidationResult(brokenRules.Values);
+            return result;
+        }
+
+        RuleFailed RuleFailed(IRuleContext ruleContext, Dictionary<IRule, BrokenRule> brokenRules)
+        {
+            return (rule, instance, reason) =>
+            {
+                BrokenRule brokenRule;
+                if (brokenRules.ContainsKey(rule)) brokenRule = brokenRules[rule];
+                else
+                {
+                    brokenRule = new BrokenRule(rule, instance, ruleContext);
+                    brokenRules[rule] = brokenRule;
+                }
+                brokenRule.AddReason(reason);
+            };
         }
 #pragma warning restore 1591 // Xml Comments
     }

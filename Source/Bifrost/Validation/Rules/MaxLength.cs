@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
 using Bifrost.Rules;
 
 namespace Bifrost.Validation.Rules
@@ -28,8 +29,9 @@ namespace Bifrost.Validation.Rules
         /// <summary>
         /// Initializes an instance of <see cref="Length"/>
         /// </summary>
+        /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
         /// <param name="length">The required length</param>
-        public MaxLength(int length)
+        public MaxLength(PropertyInfo property, int length) : base(property)
         {
             Length = length;
         }

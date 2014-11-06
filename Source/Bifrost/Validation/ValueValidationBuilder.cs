@@ -27,24 +27,28 @@ namespace Bifrost.Validation
     /// </summary>
     public class ValueValidationBuilder<TValue> : IValueValidationBuilder
     {
-        List<IRule> _rules;
+        List<IValueRule> _rules;
 
         /// <summary>
         /// Initializes an instance of <see cref="ValueValidationBuilder"/>
         /// </summary>
-        /// <param name="propertyInfo">Property that represents the value</param>
-        public ValueValidationBuilder(PropertyInfo propertyInfo)
+        /// <param name="property">Property that represents the value</param>
+        public ValueValidationBuilder(PropertyInfo property)
         {
-            _rules = new List<IRule>();
+            _rules = new List<IValueRule>();
+            Property = property;
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<IRule> Rules { get { return _rules; } }
+        public PropertyInfo Property { get; private set; }
 
-        public void AddRule(IRule rule)
+        public IEnumerable<IValueRule> Rules { get { return _rules; } }
+
+        public void AddRule(IValueRule rule)
         {
             _rules.Add(rule);
         }
 #pragma warning restore 1591 // Xml Comments
+
     }
 }

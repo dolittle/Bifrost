@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E7507338-7499-4046-8A9E-76D100974E82}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bifrost.FluentValidation</RootNamespace>
+    <AssemblyName>Bifrost.FluentValidation</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Bifrost.FluentValidation.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessValidator.cs" />
+    <Compile Include="Commands\CommandBusinessValidator.cs" />
+    <Compile Include="Commands\CommandInputValidator.cs" />
+    <Compile Include="Commands\CommandPredicateRule.cs" />
+    <Compile Include="Commands\CommandValidator.cs" />
+    <Compile Include="Commands\CommandValidatorFactory.cs" />
+    <Compile Include="Commands\CommandValidatorProvider.cs" />
+    <Compile Include="Commands\ComposedCommandBusinessValidator.cs" />
+    <Compile Include="Commands\ComposedCommandInputValidator.cs" />
+    <Compile Include="Commands\ICommandBusinessValidator.cs" />
+    <Compile Include="Commands\ICommandInputValidator.cs" />
+    <Compile Include="Commands\ICommandValidatorProvider.cs" />
+    <Compile Include="Commands\NullCommandBusinessValidator.cs" />
+    <Compile Include="Commands\NullCommandInputValidator.cs" />
+    <Compile Include="ComposedValidator.cs" />
+    <Compile Include="Configurator.cs" />
+    <Compile Include="ConventionValidatorFactory.cs" />
+    <Compile Include="DefaultValidatorFactory.cs" />
+    <Compile Include="DynamicState.cs" />
+    <Compile Include="FluentValidationRuleExtensions.cs" />
+    <Compile Include="InputValidator.cs" />
+    <Compile Include="InvalidValidatorTypeException.cs" />
+    <Compile Include="IValidateBusinessRules.cs" />
+    <Compile Include="IValidateInput.cs" />
+    <Compile Include="MetaData\EmailGenerator.cs" />
+    <Compile Include="MetaData\GreaterThanGenerator.cs" />
+    <Compile Include="MetaData\GreaterThanOrEqualGenerator.cs" />
+    <Compile Include="MetaData\ICanGenerateRule.cs" />
+    <Compile Include="MetaData\LengthGenerator.cs" />
+    <Compile Include="MetaData\LessThanGenerator.cs" />
+    <Compile Include="MetaData\LessThanOrEqualGenerator.cs" />
+    <Compile Include="MetaData\PropertyValidatorMessageFormattingExtensions.cs" />
+    <Compile Include="MetaData\RegexGenerator.cs" />
+    <Compile Include="MetaData\RequiredGenerator.cs" />
+    <Compile Include="MetaData\ValidationMetaDataGenerator.cs" />
+    <Compile Include="ModelRule.cs" />
+    <Compile Include="NameResolvers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyValidatorWithDynamicState.cs" />
+    <Compile Include="RuleBuilderExtensions.cs" />
+    <Compile Include="Sagas\ChapterValidation.cs" />
+    <Compile Include="Sagas\ChapterValidationService.cs" />
+    <Compile Include="Sagas\ChapterValidatorProvider.cs" />
+    <Compile Include="Sagas\IChapterValidator.cs" />
+    <Compile Include="Sagas\IChapterValidatorProvider.cs" />
+    <Compile Include="Sagas\NullChapterValidator.cs" />
+    <Compile Include="TypeExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bifrost.FluentValidation.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -25,9 +25,5 @@ namespace Bifrost.Configuration
     /// </summary>
     public interface ISecurityConfiguration : IConfigurationElement
     {
-        /// <summary>
-        /// Gets or sets the resolver that is used to resolve the principal
-        /// </summary>
-        Type PrincipalResolverType { get; set; }
     }
 }

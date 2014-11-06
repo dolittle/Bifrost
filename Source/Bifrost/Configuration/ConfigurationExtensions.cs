@@ -98,16 +98,6 @@ namespace Bifrost.Configuration
 
 
         /// <summary>
-        /// Configure what <see cref="ICanResolvePrincipal"/> to use for resolving principals
-        /// </summary>
-        /// <typeparam name="T">Type to use for resolving the principal</typeparam>
-        /// <param name="securityConfiguration"><see cref="ISecurityConfiguration"/> to configure</param>
-        public static void ResolvePrincipalsUsing<T>(this ISecurityConfiguration securityConfiguration) where T : ICanResolvePrincipal
-        {
-            securityConfiguration.PrincipalResolverType = typeof(T);
-        }
-
-        /// <summary>
         /// Configure what <see cref="ICallContext"/> to use
         /// </summary>
         /// <typeparam name="T">Type of use as <see cref="ICallContext"/></typeparam>

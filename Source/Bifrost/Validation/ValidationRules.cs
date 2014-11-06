@@ -34,7 +34,7 @@ namespace Bifrost.Validation
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
         public static ValueValidationBuilder<string> MustBeValidEMail(this ValueValidationBuilder<string> builder)
         {
-            builder.AddRule(new Email());
+            builder.AddRule(new Email(builder.Property));
             return builder;
         }
 
@@ -47,7 +47,7 @@ namespace Bifrost.Validation
         public static ValueValidationBuilder<T> HasToBeGreaterThan<T>(this ValueValidationBuilder<T> builder, T value)
             where T:IComparable<T>
         {
-            builder.AddRule(new GreaterThan<T>(value));
+            builder.AddRule(new GreaterThan<T>(builder.Property, value));
             return builder;
         }
 
@@ -60,7 +60,7 @@ namespace Bifrost.Validation
         public static ValueValidationBuilder<T> HasToBeGreaterThanOrEqual<T>(this ValueValidationBuilder<T> builder, T value)
             where T : IComparable<T>
         {
-            builder.AddRule(new GreaterThanOrEqual<T>(value));
+            builder.AddRule(new GreaterThanOrEqual<T>(builder.Property, value));
             return builder;
         }
 
@@ -72,7 +72,7 @@ namespace Bifrost.Validation
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
         public static ValueValidationBuilder<string> MustHaveMaxLengthOf(this ValueValidationBuilder<string> builder, int length)
         {
-            builder.AddRule(new MaxLength(length));
+            builder.AddRule(new MaxLength(builder.Property, length));
             return builder;
         }
 
@@ -85,7 +85,7 @@ namespace Bifrost.Validation
         public static ValueValidationBuilder<T> HasToBeLessThan<T>(this ValueValidationBuilder<T> builder, T value)
             where T : IComparable<T>
         {
-            builder.AddRule(new LessThan<T>(value));
+            builder.AddRule(new LessThan<T>(builder.Property, value));
             return builder;
         }
 
@@ -98,7 +98,7 @@ namespace Bifrost.Validation
         public static ValueValidationBuilder<T> HasToBeLessThanOrEqual<T>(this ValueValidationBuilder<T> builder, T value)
             where T : IComparable<T>
         {
-            builder.AddRule(new LessThanOrEqual<T>(value));
+            builder.AddRule(new LessThanOrEqual<T>(builder.Property, value));
             return builder;
         }
 
@@ -110,7 +110,7 @@ namespace Bifrost.Validation
         /// <returns><see cref="ValueValidationBuilder"/> to continue building on</returns>
         public static ValueValidationBuilder<string> MustConformToRegularExpressionOf(this ValueValidationBuilder<string> builder, string expression)
         {
-            builder.AddRule(new Regex(expression));
+            builder.AddRule(new Regex(builder.Property, expression));
             return builder;
         }
 
@@ -124,7 +124,7 @@ namespace Bifrost.Validation
         /// </remarks>
         public static IValueValidationBuilder IsRequired(this IValueValidationBuilder builder)
         {
-            builder.AddRule(new Required());
+            builder.AddRule(new Required(builder.Property));
             return builder;
         }
     }

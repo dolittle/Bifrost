@@ -1,4 +1,5 @@
-﻿using Bifrost.Validation;
+﻿using Bifrost.FluentValidation.Commands;
+using Bifrost.Validation;
 using FluentValidation;
 
 namespace Web.Domain.HumanResources.Employees

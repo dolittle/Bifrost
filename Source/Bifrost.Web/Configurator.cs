@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System.Linq;
 using System.Web.Routing;
 using Bifrost.Configuration;
 using Bifrost.JSON.Serialization;
@@ -47,8 +48,13 @@ namespace Bifrost.Web
             resolver.Register(typeof(JsonSerializer), () => jsonSerializer);
 
             GlobalHost.DependencyResolver = resolver;
+
             var hubConfiguration = new HubConfiguration { Resolver = resolver };
+
             RouteTable.Routes.MapOwinPath("/signalr", a => a.RunSignalR(hubConfiguration));
+            var route = RouteTable.Routes.Last();
+            RouteTable.Routes.Remove(route);
+            RouteTable.Routes.Insert(0, route);
         }
     }
 }

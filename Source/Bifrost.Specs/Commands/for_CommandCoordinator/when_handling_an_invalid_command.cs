@@ -22,14 +22,14 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
     	                    		                    	}
                                     };
 
-    	                    		command_validation_service_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(
+    	                    		command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(
     	                    			validation_errors);
     	                    	};
 
     	Because of = () => Result = coordinator.Handle(command_mock.Object);
     	             	
 
-        It should_have_validated_the_command = () => command_validation_service_mock.VerifyAll();
+        It should_have_validated_the_command = () => command_validators_mock.VerifyAll();
         It should_have_a_result = () => Result.ShouldNotBeNull();
         It should_have_success_set_to_false = () => Result.Success.ShouldBeFalse();
         It should_have_a_record_of_each_validation_failure = () => Result.ValidationResults.ShouldContainOnly(validation_errors.ValidationResults);

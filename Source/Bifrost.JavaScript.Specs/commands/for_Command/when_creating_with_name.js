@@ -25,6 +25,6 @@
     var command = Bifrost.commands.Command.create(parameters);
 
     it("should set name on the command", function () {
-        expect(command.name).toBe("something");
+        expect(command._name).toBe("something");
     });
 });

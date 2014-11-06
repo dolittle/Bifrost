@@ -102,7 +102,6 @@
     <EmbeddedResource Include="index.html" />
     <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
     <EmbeddedResource Include="Scripts\domReady.js" />
-    <EmbeddedResource Include="Scripts\jquery-1.7.1.min.js" />
     <EmbeddedResource Include="Scripts\jquery.ba-url.min.js" />
     <EmbeddedResource Include="Scripts\jquery.history.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-2.0.0.js" />
@@ -160,11 +159,11 @@
     <EmbeddedResource Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-latest.debug.js" />
     <EmbeddedResource Include="Scripts\knockout.mapping-latest.js" />
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\knockout-3.2.0.debug.js" />
-    <Content Include="Scripts\knockout-3.2.0.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.min.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.2.0.debug.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\libs\flot\API.txt" />
     <Content Include="Scripts\libs\flot\examples\ajax.html" />
     <Content Include="Scripts\libs\flot\examples\annotating.html" />
@@ -287,7 +286,7 @@
     <EmbeddedResource Include="fonts\font-awesome\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="fonts\font-awesome\fontawesome-webfont.woff" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <EmbeddedResource Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\libs\flot\examples\data-eu-gdp-growth-1.json" />
     <None Include="Scripts\libs\flot\examples\data-eu-gdp-growth-2.json" />
     <None Include="Scripts\libs\flot\examples\data-eu-gdp-growth-3.json" />

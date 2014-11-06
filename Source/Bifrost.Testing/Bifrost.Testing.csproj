@@ -57,12 +57,8 @@
     <Compile Include="CommandScenario.cs" />
     <Compile Include="Exceptions\CommandScenarioNotRunException.cs" />
     <Compile Include="Fakes\Commands\AnotherSimpleCommand.cs" />
-    <Compile Include="Fakes\Commands\AnotherSimpleCommandBusinessValidator.cs" />
-    <Compile Include="Fakes\Commands\AnotherSimpleCommandInputValidator.cs" />
     <Compile Include="Fakes\Commands\CommandInADifferentNamespace.cs" />
     <Compile Include="Fakes\Commands\SimpleCommand.cs" />
-    <Compile Include="Fakes\Commands\SimpleCommandBusinessValidator.cs" />
-    <Compile Include="Fakes\Commands\SimpleCommandInputValidator.cs" />
     <Compile Include="Fakes\Concepts\ConceptAsGuid.cs" />
     <Compile Include="Fakes\Concepts\ConceptAsLong.cs" />
     <Compile Include="Fakes\Concepts\ConceptAsString.cs" />
@@ -86,11 +82,9 @@
     <Compile Include="Fakes\Events\v3\SimpleEvent.cs" />
     <Compile Include="Fakes\Sagas\AnotherTransitionalChapter.cs" />
     <Compile Include="Fakes\Sagas\NonTransitionalChapter.cs" />
-    <Compile Include="Fakes\Sagas\NonTransitionalChapterValidator.cs" />
     <Compile Include="Fakes\Sagas\SagaWithOneChapterProperty.cs" />
     <Compile Include="Fakes\Sagas\SagaWithTwoChapterProperties.cs" />
     <Compile Include="Fakes\Sagas\SimpleChapter.cs" />
-    <Compile Include="Fakes\Sagas\SimpleChapterValidator.cs" />
     <Compile Include="Fakes\Sagas\SimpleSaga.cs" />
     <Compile Include="Fakes\Sagas\SimpleSagaWithConflictingPropertyNames.cs" />
     <Compile Include="Fakes\Sagas\TransitionalChapter.cs" />

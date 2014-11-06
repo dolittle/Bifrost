@@ -16,37 +16,46 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using System.Dynamic;
+using System;
+using Bifrost.Execution;
 
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Represents the validation metadata for a type
+    /// Represents an implementation of <see cref="IValidationMetaData"/>
     /// </summary>
-    public class ValidationMetaData
+    public class ValidationMetaData : IValidationMetaData
     {
-        Dictionary<string, Dictionary<string, Rule>> _propertiesWithRules = new Dictionary<string, Dictionary<string, Rule>>();
+        IInstancesOf<ICanGenerateValidationMetaData> _generators;
 
         /// <summary>
-        /// Gets the ruleset for a specific property
+        /// Initializes an instance of <see cref="ValidationMetaData"/>
         /// </summary>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        public Dictionary<string, Rule>   this[string property]
+        public ValidationMetaData(IInstancesOf<ICanGenerateValidationMetaData> generators)
         {
-            get 
-            {
-                if (!_propertiesWithRules.ContainsKey(property))
-                    _propertiesWithRules[property] = new Dictionary<string, Rule>();
-                return _propertiesWithRules[property]; 
-            }
+            _generators = generators;
         }
 
+#pragma warning disable 1591 // Xml Comments
+        public TypeMetaData GetMetaDataFor(Type typeForValidation)
+        {
+            var typeMetaData = new TypeMetaData();
 
-        /// <summary>
-        /// Gets the properties with rulesets
-        /// </summary>
-        public Dictionary<string, Dictionary<string, Rule>> Properties { get { return _propertiesWithRules; } }
+            foreach (var generator in _generators)
+            {
+                var metaData = generator.GenerateFor(typeForValidation);
+
+                foreach (var property in metaData.Properties.Keys)
+                {
+                    foreach( var ruleSet in metaData.Properties[property].Keys ) 
+                    {
+                        typeMetaData[property][ruleSet] = metaData.Properties[property][ruleSet];
+                    }
+                }                
+            }
+
+            return typeMetaData;
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

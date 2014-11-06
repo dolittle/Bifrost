@@ -95,6 +95,10 @@
     <Compile Include="Validation\ValidatorPropertyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
+      <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
+      <Name>Bifrost.FluentValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
       <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>
       <Name>Bifrost.Web</Name>

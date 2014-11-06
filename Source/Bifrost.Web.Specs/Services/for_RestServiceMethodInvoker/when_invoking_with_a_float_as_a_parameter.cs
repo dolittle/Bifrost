@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using System.Globalization;
+using Machine.Specifications;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
@@ -9,7 +10,7 @@ namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 
         Establish context = () =>
             {
-                parameters.Add("input", expected.ToString());
+                parameters.Add("input", expected.ToString(CultureInfo.InvariantCulture));
             };
 
         Because of = () => invoker.Invoke(base_url, service_instance, uri, parameters);

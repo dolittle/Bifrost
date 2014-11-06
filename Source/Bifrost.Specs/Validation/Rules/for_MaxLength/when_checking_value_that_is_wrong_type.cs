@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.Rules.for_MaxLength
 
         Establish context = () => 
         {
-            rule = new MaxLength(42);
+            rule = new MaxLength(null, 42);
             rule_context_mock = new Mock<IRuleContext>();
         };
 

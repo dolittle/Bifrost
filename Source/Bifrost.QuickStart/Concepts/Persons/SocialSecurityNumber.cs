@@ -1,4 +1,5 @@
 ﻿using Bifrost.Concepts;
+using Bifrost.FluentValidation;
 using Bifrost.Validation;
 using FluentValidation;
 

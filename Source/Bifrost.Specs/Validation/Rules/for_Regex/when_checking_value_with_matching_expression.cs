@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Validation.Rules.for_Regex
 
         Establish context = () => 
         {
-            rule = new Regex("[a-z]*");
+            rule = new Regex(null, "[a-z]*");
             rule_context_mock = new Mock<IRuleContext>();
         };
 

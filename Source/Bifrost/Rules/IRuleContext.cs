@@ -19,11 +19,19 @@
 
 namespace Bifrost.Rules
 {
+
+
     /// <summary>
     /// Defines the context a rule can evaluate
     /// </summary>
     public interface IRuleContext
     {
+        /// <summary>
+        /// Register callback that gets called if there is a <see cref="IRule">rule</see> that fails
+        /// </summary>
+        /// <param name="callback"><see cref="RuleFailed"/> callback</param>
+        void OnFailed(RuleFailed callback);
+
         /// <summary>
         /// Report a rule as failing
         /// </summary>

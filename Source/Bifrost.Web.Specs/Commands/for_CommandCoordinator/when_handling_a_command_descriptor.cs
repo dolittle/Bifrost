@@ -34,7 +34,8 @@ namespace Bifrost.Web.Specs.Commands.for_CommandCoordinator
             command_descriptor = new CommandDescriptor
             {
                 Id = Guid.NewGuid(),
-                Name = "Something",
+                GeneratedFrom = "SomeServerCommand",
+                Name = "Some Command",
                 Command = "Actual command"
             };
 
@@ -45,6 +46,6 @@ namespace Bifrost.Web.Specs.Commands.for_CommandCoordinator
 
         Because of = () => command_coordinator.Handle(command_descriptor);
 
-        It should_get_type_from_name = () => type_discoverer_mock.Verify(c => c.FindTypeByFullName(command_descriptor.Name), Times.Once());
+        It should_get_type_from_name = () => type_discoverer_mock.Verify(c => c.FindTypeByFullName(command_descriptor.GeneratedFrom), Times.Once());
     }
 }

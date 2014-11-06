@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         Establish context = () =>
             {
                 exception = new Exception();
-                command_validation_service_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Throws(exception);
+                command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Throws(exception);
             };
 
         Because of = () => result = coordinator.Handle(command_mock.Object);

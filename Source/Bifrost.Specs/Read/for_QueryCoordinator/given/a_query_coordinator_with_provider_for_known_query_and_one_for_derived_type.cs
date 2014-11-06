@@ -6,7 +6,7 @@ using Moq;
 
 namespace Bifrost.Specs.Read.for_QueryCoordinator.given
 {
-    public class a_query_coordinator_with_provider_for_known_query_and_one_for_derived_type : all_dependencies
+    public class a_query_coordinator_with_provider_for_known_query_and_one_for_derived_type : a_query_coordinator
     {
         protected static Mock<IQueryProviderFor<QueryType>> query_provider_mock;
         protected static QueryCoordinator coordinator;

@@ -23,17 +23,18 @@ namespace Bifrost.Rules
     /// <summary>
     /// Defines the basis for a rule builder
     /// </summary>
-    public interface IRuleBuilder
+    public interface IRuleBuilder<T>
+        where T:IRule
     {
         /// <summary>
         /// Gets the rules from the builder
         /// </summary>
-        IEnumerable<IRule> Rules { get; }
+        IEnumerable<T> Rules { get; }
 
         /// <summary>
         /// Add a rule to the builder
         /// </summary>
-        /// <param name="rule"><see cref="IRule"/> to add</param>
-        void AddRule(IRule rule);
+        /// <param name="rule">A rule that implements <see cref="IRule"/> to add</param>
+        void AddRule(T rule);
     }
 }

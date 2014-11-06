@@ -93,7 +93,7 @@ Bifrost.namespace("Bifrost.commands", {
         this.setOptions = function (options) {
             Bifrost.extend(self.options, options);
             if (typeof options.name !== "undefined" && typeof options.name === "string") {
-                self.name = options.name;
+                self._name = options.name;
             }
         };
 
@@ -266,7 +266,7 @@ Bifrost.namespace("Bifrost.commands", {
             }
             this.makePropertiesObservable();
             this.extendPropertiesWithHasChanges();
-            if (typeof lastDescendant.name !== "undefined" && lastDescendant.name !== "") {
+            if (typeof lastDescendant._name !== "undefined" && lastDescendant._name !== "") {
                 commandValidationService.extendPropertiesWithoutValidation(lastDescendant);
                 var validators = commandValidationService.getValidatorsFor(lastDescendant);
                 if (Bifrost.isArray(validators) && validators.length > 0) {

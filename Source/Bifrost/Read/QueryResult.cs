@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Read.Validation;
+using Bifrost.Rules;
 
 namespace Bifrost.Read
 {
@@ -35,6 +36,7 @@ namespace Bifrost.Read
         public QueryResult()
         {
             SecurityMessages = new string[0];
+            Validation = new QueryValidationResult(new BrokenRule[0]);
         }
 
         /// <summary>

@@ -16,8 +16,6 @@
 // limitations under the License.
 //
 #endregion
-using FluentValidation.Validators;
-
 namespace Bifrost.Validation.MetaData
 {
     /// <summary>

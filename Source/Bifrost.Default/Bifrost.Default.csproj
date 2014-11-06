@@ -101,7 +101,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BifrostConfigurator.cs" />
+    <Compile Include="Configurator.cs" />
     <Compile Include="ContainerCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -117,6 +117,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
+      <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
+      <Name>Bifrost.FluentValidation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
       <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
       <Name>Bifrost.JSON</Name>
