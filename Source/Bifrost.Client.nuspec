@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.Client</id>
+    <version>$version$</version>
+    <title>Bifrost Client</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Productivity Line of Business Application Framework</description>
+    <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
+    <copyright>Copyright 2008 - 2014</copyright>
+    <tags>MVVM LOB CQRS</tags>
+  </metadata>
+  
+  <files>
+    <file src="Bifrost.Client\bin\debug\Bifrost.*" target="lib\net45"/>
+    <file src="Bifrost.Client.WindowsPhone\bin\debug\Bifrost.*" target="lib\wpa"/>
+	  <file src="Bifrost.Client\**\*.cs" target="src" />
+    <!--<file src="Bifrost.Client.WindowsPhone\**\*.cs" target="src\wpa" />-->
+  </files>
+</package>
