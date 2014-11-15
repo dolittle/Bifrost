@@ -90,6 +90,9 @@
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
@@ -118,7 +121,6 @@
     <Compile Include="Execution\DispatcherManager.cs" />
     <Compile Include="Execution\IDispatcher.cs" />
     <Compile Include="Interaction\DelegateCommand.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Values\DependencyProperty.cs" />
     <Compile Include="Values\DependencyPropertyExtensions.cs" />
     <Compile Include="Values\DependencyPropertyHelper.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Values\NotifyChangesForAttribute.cs" />
     <Compile Include="Values\NotifyingObjectWeaver.cs" />
     <Compile Include="Values\PropertyChangedHandler.cs" />
+    <Compile Include="ViewModels\ViewModelService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

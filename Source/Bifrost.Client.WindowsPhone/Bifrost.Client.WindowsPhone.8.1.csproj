@@ -173,6 +173,9 @@
     <Compile Include="..\Bifrost.Client\Values\PropertyChangedHandler.cs">
       <Link>Values\PropertyChangedHandler.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\ViewModels\ViewModelService.cs">
+      <Link>ViewModels\ViewModelService.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
       <Link>Concepts\ConceptAs.cs</Link>
     </Compile>
@@ -212,8 +215,10 @@
     <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
       <Link>Validation\IAmValidatable.cs</Link>
     </Compile>
+    <Compile Include="..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Execution\Dispatcher.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
