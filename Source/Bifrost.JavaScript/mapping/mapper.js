@@ -3,15 +3,34 @@ Bifrost.namespace("Bifrost.mapping", {
         "use strict";
         var self = this;
 
+        function getTypeAsString(to, property, value, toValue) {
+            var typeAsString = null;
+            if (!Bifrost.isNullOrUndefined(value) &&
+                !Bifrost.isNullOrUndefined(toValue)) {
+
+                if (value.constructor !== toValue.constructor) {
+                    typeAsString = toValue.constructor.toString().match(/function\040+(\w*)/)[1];
+                }
+            }
+
+            if (!Bifrost.isNullOrUndefined(to[property]) &&
+                !Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
+                typeAsString = to[property]._typeAsString;
+            }
+            return typeAsString;
+        }
+        
+
+
         function copyProperties(mappedProperties, from, to, map) {
             for (var property in from) {
                 if (property.indexOf("_") === 0) {
                     continue;
                 }
-                
-                if (!Bifrost.isUndefined(to[property])) {
+
+                if (!Bifrost.isUndefined(from[property])) {
                     
-                    if (Bifrost.isObject(to[property])) {
+                    if (Bifrost.isObject(from[property])) {
                         copyProperties(mappedProperties, from[property], to[property]);
                     } else {
                         if (!Bifrost.isNullOrUndefined(map)) {
@@ -26,39 +45,30 @@ Bifrost.namespace("Bifrost.mapping", {
                             }
                         }
 
-                        var value = ko.unwrap(from[property]);
-                        var toValue = ko.unwrap(to[property]);
+                        if (!Bifrost.isUndefined(to[property])) {
+                            var value = ko.unwrap(from[property]);
+                            var toValue = ko.unwrap(to[property]);
 
-                        var typeAsString = null;
-                        if (!Bifrost.isNullOrUndefined(value) &&
-                            !Bifrost.isNullOrUndefined(toValue)) {
+                            var typeAsString = getTypeAsString(to, property, value, toValue);
 
-                            if (value.constructor !== toValue.constructor) {
-                                typeAsString = toValue.constructor.toString().match(/function\040+(\w*)/)[1];
-                            }
-                        }
-                        
-                        if (!Bifrost.isNullOrUndefined(to[property]) &&
-                            !Bifrost.isNullOrUndefined(to[property]._typeAsString)) {
-                            typeAsString = to[property]._typeAsString;
-                        }
-
-                        if (!Bifrost.isNullOrUndefined(typeAsString) && !Bifrost.isNullOrUndefined(value)) {
-                            value = typeConverters.convertFrom(value.toString(), typeAsString);
-                        }
-
-                        if (mappedProperties.indexOf(property) < 0) {
-                            mappedProperties.push(property);
-                        }
-
-                        if (ko.isObservable(to[property])) {
-                            if (!ko.isWriteableObservable(to[property])) {
-                                continue;
+                            if (!Bifrost.isNullOrUndefined(typeAsString) && !Bifrost.isNullOrUndefined(value)) {
+                                value = typeConverters.convertFrom(value.toString(), typeAsString);
                             }
 
-                            to[property](value);
-                        } else {
-                            to[property] = value;
+                            if (mappedProperties.indexOf(property) < 0) {
+                                mappedProperties.push(property);
+                            }
+
+
+                            if (ko.isObservable(to[property])) {
+                                if (!ko.isWriteableObservable(to[property])) {
+                                    continue;
+                                }
+
+                                to[property](value);
+                            } else {
+                                to[property] = value;
+                            }
                         }
                     }
                 }

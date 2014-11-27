@@ -96,6 +96,8 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_type_with_map_that_has_propertymap_with_different_target_property_for_given_property.js" />
+    <Content Include="mapping\for_mapper\when_mapping_to_instance_with_map_that_has_propertymap_with_different_target_property_for_one_of_the_given_properties.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_one_of_two_matching_properties.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_matching_system_property.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_read_only_observable_property.js" />
