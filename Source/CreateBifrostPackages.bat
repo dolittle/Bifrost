@@ -20,3 +20,4 @@ set version=%1
 %nuget% pack Bifrost.Mimir.Web\Bifrost.Mimir.nuspec -Version %version%
 %nuget% pack Bifrost.Default\Bifrost.Default.nuspec -Version %version%
 %nuget% pack Bifrost.QuickStart\Bifrost.QuickStart.nuspec -Version %version%
+%nuget% pack Bifrost.MSpec\Bifrost.MSpec.nuspec -Version %version%
