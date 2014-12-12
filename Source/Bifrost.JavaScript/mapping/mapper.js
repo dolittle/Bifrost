@@ -30,7 +30,7 @@ Bifrost.namespace("Bifrost.mapping", {
 
                 if (!Bifrost.isUndefined(from[property])) {
                     
-                    if (Bifrost.isObject(from[property])) {
+                    if (Bifrost.isObject(from[property]) && Bifrost.isObject(to[property])) {
                         copyProperties(mappedProperties, from[property], to[property]);
                     } else {
                         if (!Bifrost.isNullOrUndefined(map)) {
