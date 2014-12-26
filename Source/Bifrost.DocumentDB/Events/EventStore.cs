@@ -40,6 +40,8 @@ namespace Bifrost.DocumentDB.Events
         Database _database;
         DocumentCollection _collection;
         JsonSerializer _serializer;
+        StoredProcedure _insertEventStoredProcedure;
+
 
 
         /// <summary>
@@ -51,6 +53,7 @@ namespace Bifrost.DocumentDB.Events
             Initialize(configuration);
             InitializeCollection();
             InitializeSerializer();
+            InitializeInsertEventStoredProcedure();
         }
 
 #pragma warning disable 1591
@@ -65,7 +68,15 @@ namespace Bifrost.DocumentDB.Events
             {
                 using( var stream = SerializeToStream(@event))
                 {
-                    _client.CreateDocumentAsync(_collection.DocumentsLink, Resource.LoadFrom<Document>(stream));
+                    _client
+                        .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, @event)
+                        .ContinueWith(t =>
+                        {
+                            // r.Result should hold ID of event
+                            @event.Id = t.Result;
+                        })
+                        .Wait();
+                    //_client.CreateDocumentAsync(_collection.DocumentsLink, Resource.LoadFrom<Document>(stream));
                 }
             }
 
@@ -137,6 +148,24 @@ namespace Bifrost.DocumentDB.Events
                     .ContinueWith(r => _collection = r.Result.Resource)
                     .Wait();
             }
+        }
+
+        void InitializeInsertEventStoredProcedure()
+        {
+            var insertEventProcedure = string.Empty;
+            using (var reader = new StreamReader(typeof(EventStore).Assembly.GetManifestResourceStream("Bifrost.DocumentDB.Events.InsertEvent.js")))
+            {
+                insertEventProcedure = reader.ReadToEnd();
+            }
+
+            _insertEventStoredProcedure = new StoredProcedure
+            {
+
+                Id = "InsertEvent",
+                Body = insertEventProcedure
+            };
+
+            _client.CreateStoredProcedureAsync(_collection.SelfLink, _insertEventStoredProcedure);
         }
 
 
