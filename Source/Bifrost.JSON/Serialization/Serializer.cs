@@ -25,6 +25,7 @@ using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.JSON.Concepts;
 using Bifrost.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

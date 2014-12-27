@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.JSON.Concepts;
+using Bifrost.JSON.Events;
 using Bifrost.JSON.Serialization;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -87,8 +89,8 @@ namespace Bifrost.DocumentDB.Events
         {
             var version = EventSourceVersion.Zero;
             _client
-                .ExecuteStoredProcedureAsync<EventSourceVersion>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSourceId)
-                .ContinueWith(t => version = t.Result)
+                .ExecuteStoredProcedureAsync<double>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSourceId)
+                .ContinueWith(t => version = EventSourceVersion.FromCombined(t.Result))
                 .Wait();
 
             return version;
@@ -131,6 +133,7 @@ namespace Bifrost.DocumentDB.Events
             _serializer.Converters.Add(new MethodInfoConverter());
             _serializer.Converters.Add(new ConceptConverter());
             _serializer.Converters.Add(new ConceptDictionaryConverter());
+            _serializer.Converters.Add(new EventSourceVersionConverter());
         }
 
 
@@ -164,14 +167,32 @@ namespace Bifrost.DocumentDB.Events
                 procedure = reader.ReadToEnd();
             }
 
-            storedProcedure = new StoredProcedure
+            _client
+                .ReadStoredProcedureFeedAsync(_collection.StoredProceduresLink)
+                .ContinueWith(t => storedProcedure = t.Result.SingleOrDefault(s => s.Id == name))
+                .Wait();
+
+            if (storedProcedure == null)
             {
+                storedProcedure = new StoredProcedure
+                {
+                    Id = name,
+                    Body = procedure
+                };
+                _client
+                    .CreateStoredProcedureAsync(_collection.SelfLink, storedProcedure)
+                    .ContinueWith(t => storedProcedure = t.Result)
+                    .Wait();
+            }
+            else
+            {
+                storedProcedure.Body = procedure;
+                _client
+                    .ReplaceStoredProcedureAsync(storedProcedure)
+                    .ContinueWith(t => storedProcedure = t.Result)
+                    .Wait();
+            }
 
-                Id = name,
-                Body = procedure
-            };
-
-            _client.CreateStoredProcedureAsync(_collection.SelfLink, storedProcedure);
             return storedProcedure;
 
         }

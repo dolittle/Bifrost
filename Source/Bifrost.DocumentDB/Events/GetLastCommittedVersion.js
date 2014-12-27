@@ -5,12 +5,10 @@
 
     // Filter by eventSourceId - manual sorting to get the highest version number
 
-    collection.querydocuments(collection.getSelfLink(),
+    collection.queryDocuments(collection.getSelfLink(),
         "SELECT * FROM Events",
         {},
         function (error, documents, responseOptions) {
-
+            response.setBody(1.1);
         });
-
-    response.setBody(0);
 }

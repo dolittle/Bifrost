@@ -21,7 +21,7 @@ using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Newtonsoft.Json;
 
-namespace Bifrost.JSON.Serialization
+namespace Bifrost.JSON.Concepts
 {
     public class ConceptConverter : JsonConverter
     {
