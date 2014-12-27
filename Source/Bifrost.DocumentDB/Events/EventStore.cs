@@ -41,6 +41,7 @@ namespace Bifrost.DocumentDB.Events
         DocumentCollection _collection;
         JsonSerializer _serializer;
         StoredProcedure _insertEventStoredProcedure;
+        StoredProcedure _getLastCommittedVersionStoredProcedure;
 
 
 
@@ -53,7 +54,7 @@ namespace Bifrost.DocumentDB.Events
             Initialize(configuration);
             InitializeCollection();
             InitializeSerializer();
-            InitializeInsertEventStoredProcedure();
+            InitializeStoredProcedures();
         }
 
 #pragma warning disable 1591
@@ -64,30 +65,33 @@ namespace Bifrost.DocumentDB.Events
 
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+
             foreach( var @event in uncommittedEventStream )
             {
                 using( var stream = SerializeToStream(@event))
                 {
                     _client
                         .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, @event)
-                        .ContinueWith(t =>
-                        {
-                            // r.Result should hold ID of event
-                            @event.Id = t.Result;
-                        })
+                        .ContinueWith(t => @event.Id = t.Result)
                         .Wait();
-                    //_client.CreateDocumentAsync(_collection.DocumentsLink, Resource.LoadFrom<Document>(stream));
+
+                    committedEventStream.Append(@event);
                 }
             }
-
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-            committedEventStream.Append(uncommittedEventStream);
+            
             return committedEventStream;
         }
 
         public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
         {
-            throw new NotImplementedException();
+            var version = EventSourceVersion.Zero;
+            _client
+                .ExecuteStoredProcedureAsync<EventSourceVersion>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSourceId)
+                .ContinueWith(t => version = t.Result)
+                .Wait();
+
+            return version;
         }
 
         public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
@@ -145,27 +149,37 @@ namespace Bifrost.DocumentDB.Events
                 _collection = new DocumentCollection { Id = collectionName };
                 _client
                     .CreateDocumentCollectionAsync(_database.SelfLink, _collection)
+                    
                     .ContinueWith(r => _collection = r.Result.Resource)
                     .Wait();
             }
         }
 
-        void InitializeInsertEventStoredProcedure()
+        StoredProcedure InitializeStoredProcedureFromResource(string name, string resource)
         {
-            var insertEventProcedure = string.Empty;
-            using (var reader = new StreamReader(typeof(EventStore).Assembly.GetManifestResourceStream("Bifrost.DocumentDB.Events.InsertEvent.js")))
+            StoredProcedure storedProcedure = null;
+            var procedure = string.Empty;
+            using (var reader = new StreamReader(typeof(EventStore).Assembly.GetManifestResourceStream(resource)))
             {
-                insertEventProcedure = reader.ReadToEnd();
+                procedure = reader.ReadToEnd();
             }
 
-            _insertEventStoredProcedure = new StoredProcedure
+            storedProcedure = new StoredProcedure
             {
 
-                Id = "InsertEvent",
-                Body = insertEventProcedure
+                Id = name,
+                Body = procedure
             };
 
-            _client.CreateStoredProcedureAsync(_collection.SelfLink, _insertEventStoredProcedure);
+            _client.CreateStoredProcedureAsync(_collection.SelfLink, storedProcedure);
+            return storedProcedure;
+
+        }
+
+        void InitializeStoredProcedures()
+        {
+            _insertEventStoredProcedure = InitializeStoredProcedureFromResource("InsertEvent", "Bifrost.DocumentDB.Events.InsertEvent.js");
+            _getLastCommittedVersionStoredProcedure = InitializeStoredProcedureFromResource("GetLastCommittedVersion", "Bifrost.DocumentDB.Events.GetLastCommittedVersion.js");
         }
 
 

@@ -51,10 +51,13 @@ namespace Bifrost.Events
             }
         }
 
-        private void Append(IEvent @event)
+        /// <summary>
+        /// Append a single event to the stream.
+        /// </summary>
+        /// <param name="event"><see cref="IEvent"/> to append</param>
+        public void Append(IEvent @event)
         {
             EnsureEventIsValid(@event);
-
             Events.Add(@event);
         }
 
