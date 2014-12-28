@@ -10,6 +10,8 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
 {
     public class an_event_subscription_manager_with_one_subscriber_from_repository_and_matching_in_process
     {
+        protected static Guid event_subscription_id = Guid.NewGuid();
+
         protected const string event_source = "MyEventSource";
         protected static EventSubscriptionManager event_subscription_manager;
         protected static Mock<IEventSubscriptions> event_subscriptions_mock;
@@ -21,7 +23,6 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
         protected static Type event_type;
         protected static Type event_subscriber_type;
 
-
         Establish context = () =>
         {
             event_subscriptions_mock = new Mock<IEventSubscriptions>();
@@ -32,7 +33,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
             event_subscriber_type = typeof(SomeEventSubscriber);
             subscription = new EventSubscription
             {
-                Id = 42,
+                Id = event_subscription_id,
                 EventType = event_type,
                 EventName = event_type.Name,
                 Owner = event_subscriber_type,

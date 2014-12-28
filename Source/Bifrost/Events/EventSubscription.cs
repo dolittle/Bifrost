@@ -29,7 +29,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets or sets the id of the <see cref="EventSubscription"/>
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the owner of the subscriber method that subscribes to the event

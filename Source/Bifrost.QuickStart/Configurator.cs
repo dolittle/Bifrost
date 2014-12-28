@@ -17,6 +17,9 @@ namespace Web
                 .Serialization
                     .UsingJson()
                 .Events
+                    .Synchronous()
+
+                .Events
                     //.UsingFiles(eventsPath)
 
                     // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below

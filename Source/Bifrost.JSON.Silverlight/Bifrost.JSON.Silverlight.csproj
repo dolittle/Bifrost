@@ -61,17 +61,20 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bifrost.JSON\Concepts\ConceptConverter.cs">
+      <Link>Concepts\ConceptConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.JSON\Concepts\ConceptDictionaryConverter.cs">
+      <Link>Concepts\ConceptDictionaryConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.JSON\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.JSON\Events\EventSourceVersionConverter.cs">
+      <Link>Events\EventSourceVersionConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.JSON\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\ConceptConverter.cs">
-      <Link>Serialization\ConceptConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\ConceptDictionaryConverter.cs">
-      <Link>Serialization\ConceptDictionaryConverter.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.JSON\Serialization\Serializer.cs">
       <Link>Serialization\Serializer.cs</Link>

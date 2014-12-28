@@ -70,7 +70,6 @@ namespace Bifrost.MongoDB.Events
 
         public void Save(EventSubscription subscription)
         {
-            subscription.Id = subscription.GetHashCode();
             _collection.Save(subscription);
         }
 

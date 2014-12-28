@@ -24,12 +24,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bifrost.Events;
-using Bifrost.JSON.Concepts;
-using Bifrost.JSON.Events;
-using Bifrost.JSON.Serialization;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-using Newtonsoft.Json;
 
 namespace Bifrost.DocumentDB.Events
 {
@@ -41,21 +37,24 @@ namespace Bifrost.DocumentDB.Events
         DocumentClient _client;
         Database _database;
         DocumentCollection _collection;
-        JsonSerializer _serializer;
+        ISerialization _serialization;
+        
         StoredProcedure _insertEventStoredProcedure;
         StoredProcedure _getLastCommittedVersionStoredProcedure;
-
 
 
         /// <summary>
         /// Initializes an instance of <see cref="EventStore"/>
         /// </summary>
         /// <param name="configuration"><see cref="EventStorageConfiguration">Configuration</see> for storage</param>
-        public EventStore(EventStorageConfiguration configuration)
+        /// <param name="serialization"><see cref="ISerialization">Serialization utility</see></param>
+        public EventStore(EventStorageConfiguration configuration, ISerialization serialization)
         {
+            _serialization = serialization;
+
             Initialize(configuration);
             InitializeCollection();
-            InitializeSerializer();
+            
             InitializeStoredProcedures();
         }
 
@@ -71,10 +70,11 @@ namespace Bifrost.DocumentDB.Events
 
             foreach( var @event in uncommittedEventStream )
             {
-                using( var stream = SerializeToStream(@event))
+                using (var stream = _serialization.ToStream(@event))
                 {
+                    
                     _client
-                        .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, @event)
+                        .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, Resource.LoadFrom<Document>(stream))
                         .ContinueWith(t => @event.Id = t.Result)
                         .Wait();
 
@@ -106,35 +106,6 @@ namespace Bifrost.DocumentDB.Events
             throw new NotImplementedException();
         }
 #pragma warning restore 1591
-
-        Stream SerializeToStream(IEvent @event)
-        {
-            var serialized = string.Empty;
-            using (var stringWriter = new StringWriter())
-            {
-                _serializer.Serialize(stringWriter, @event);
-                serialized = stringWriter.ToString();
-            }
-
-            var stream = new MemoryStream();
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write(serialized);
-                writer.Flush();
-                stream.Position = 0;
-            }
-
-            return stream;
-        }
-
-        void InitializeSerializer()
-        {
-            _serializer = new JsonSerializer();
-            _serializer.Converters.Add(new MethodInfoConverter());
-            _serializer.Converters.Add(new ConceptConverter());
-            _serializer.Converters.Add(new ConceptDictionaryConverter());
-            _serializer.Converters.Add(new EventSourceVersionConverter());
-        }
 
 
         void InitializeCollection()

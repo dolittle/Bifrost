@@ -58,6 +58,8 @@
     <Compile Include="Events\EventStorageConfiguration.cs" />
     <Compile Include="Events\EventStore.cs" />
     <Compile Include="Events\EventSubscriptions.cs" />
+    <Compile Include="Events\ISerialization.cs" />
+    <Compile Include="Events\Serialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\QueryProvider.cs" />
   </ItemGroup>

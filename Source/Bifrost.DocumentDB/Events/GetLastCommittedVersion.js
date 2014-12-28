@@ -3,12 +3,20 @@
     var collection = context.getCollection();
     var response = context.getResponse();
 
-    // Filter by eventSourceId - manual sorting to get the highest version number
-
     collection.queryDocuments(collection.getSelfLink(),
-        "SELECT * FROM Events",
+        "SELECT * FROM Events WHERE EventSourceId = '"+eventSourceId+"'",
         {},
         function (error, documents, responseOptions) {
-            response.setBody(1.1);
+            var version = 0.0;
+
+            if (typeof documents != "undefined" && documents != null) {
+                documents.forEach(function (document) {
+                    if (document.version > version) {
+                        version = document.version;
+                    }
+                });
+            }
+
+            response.setBody(version);
         });
 }

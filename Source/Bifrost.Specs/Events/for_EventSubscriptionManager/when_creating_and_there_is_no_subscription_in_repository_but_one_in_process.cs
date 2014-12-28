@@ -1,10 +1,9 @@
 ﻿using System;
 using Bifrost.Events;
 using Bifrost.Execution;
-using Machine.Specifications;
-using Bifrost.Time;
-using Moq;
 using Bifrost.Globalization;
+using Machine.Specifications;
+using Moq;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager
@@ -42,5 +41,6 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         Because of = () => event_subscription_manager = new EventSubscriptionManager(event_subscriptions_mock.Object, type_discoverer_mock.Object, container_mock.Object, localizer_mock.Object);
 
         It should_add_subscription = () => actual_subscription.ShouldEqual(expected_subscription);
+        It should_assign_a_new_id = () => actual_subscription.Id.ShouldNotEqual(Guid.Empty);
     }
 }

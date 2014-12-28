@@ -54,7 +54,7 @@ namespace Bifrost.Events.Files
 
         class EventSubscriptionHolder
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public string Owner { get; set; }
             public string EventType { get; set; }
             public string EventName { get; set; }
@@ -72,7 +72,7 @@ namespace Bifrost.Events.Files
                 var json = File.ReadAllText(file);
                 var holder = _serializer.FromJson<EventSubscriptionHolder>(json);
                 var subscription = new EventSubscription();
-                subscription.Id = holder.Id;
+                subscription.Id = Guid.Parse(holder.Id);
                 subscription.LastEventId = holder.LastEventId;
                 subscription.Owner = Type.GetType(holder.Owner);
                 subscription.EventType = Type.GetType(holder.EventType);
@@ -91,7 +91,7 @@ namespace Bifrost.Events.Files
 
             var holder = new EventSubscriptionHolder
             {
-                Id = subscription.Id,
+                Id = subscription.Id.ToString(),
                 LastEventId = subscription.LastEventId,
                 Owner = string.Format("{0}.{1}, {2}", subscription.Owner.Namespace, subscription.Owner.Name, subscription.Owner.Assembly.GetName().Name),
                 EventType = string.Format("{0}.{1}, {2}", subscription.EventType.Namespace, subscription.EventType.Name, subscription.EventType.Assembly.GetName().Name),
