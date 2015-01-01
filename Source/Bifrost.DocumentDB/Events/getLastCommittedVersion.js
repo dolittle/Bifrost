@@ -1,4 +1,4 @@
-﻿function GetLastCommittedVersion(eventSourceId) {
+﻿function getLastCommittedVersion(eventSourceId) {
     var context = getContext();
     var collection = context.getCollection();
     var response = context.getResponse();

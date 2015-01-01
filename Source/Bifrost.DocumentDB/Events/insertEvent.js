@@ -1,4 +1,4 @@
-﻿function InsertEvent(event)
+﻿function insertEvent(event)
 {
     var context = getContext();
     var collection = context.getCollection();
