@@ -168,8 +168,8 @@ namespace Bifrost.DocumentDB.Events
 
         void InitializeStoredProcedures()
         {
-            _insertEventStoredProcedure = InitializeStoredProcedureFromResource("InsertEvent", "Bifrost.DocumentDB.Events.InsertEvent.js");
-            _getLastCommittedVersionStoredProcedure = InitializeStoredProcedureFromResource("GetLastCommittedVersion", "Bifrost.DocumentDB.Events.GetLastCommittedVersion.js");
+            _insertEventStoredProcedure = InitializeStoredProcedureFromResource("insertEvent", "Bifrost.DocumentDB.Events.insertEvent.js");
+            _getLastCommittedVersionStoredProcedure = InitializeStoredProcedureFromResource("getLastCommittedVersion", "Bifrost.DocumentDB.Events.getLastCommittedVersion.js");
         }
 
 
