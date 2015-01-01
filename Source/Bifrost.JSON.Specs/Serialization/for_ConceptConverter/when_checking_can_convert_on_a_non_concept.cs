@@ -1,4 +1,5 @@
 using System;
+using Bifrost.JSON.Concepts;
 using Bifrost.JSON.Serialization;
 using Machine.Specifications;
 
