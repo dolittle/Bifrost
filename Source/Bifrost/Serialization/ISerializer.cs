@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Bifrost.Serialization
 {
@@ -59,6 +60,14 @@ namespace Bifrost.Serialization
 		/// <param name="options">Options for the serializer</param>
 		/// <returns><see cref="string"/> containing the serialized instance</returns>
 		string ToJson(object instance, SerializationOptions options = null);
+
+        /// <summary>
+        /// Serialize an object to Json as a <see cref="Stream"/>
+        /// </summary>
+        /// <param name="instance">Instance to serialize</param>
+        /// <param name="options">Options for the serializer</param>
+        /// <returns><see cref="Stream"/> containing the serialized instance</returns>
+        Stream ToJsonStream(object instance, SerializationOptions options = null);
 
 		/// <summary>
 		/// Deserialize Json into a key/value dictionary

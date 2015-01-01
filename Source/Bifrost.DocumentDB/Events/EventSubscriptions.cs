@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.Serialization;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -34,7 +35,7 @@ namespace Bifrost.DocumentDB.Events
     /// </summary>
     public class EventSubscriptions : IEventSubscriptions
     {
-        ISerialization _serialization;
+        ISerializer _serializer;
 
         DocumentClient _client;
         Database _database;
@@ -44,10 +45,10 @@ namespace Bifrost.DocumentDB.Events
         /// Initializes a new instance of <see cref="EventSubscriptions"/>
         /// </summary>
         /// <param name="configuration"><see cref="EventStorageConfiguration">Configuration</see> for event storage</param>
-        /// <param name="serialization"><see cref="ISerialization">Serialization utility</see></param>
-        public EventSubscriptions(EventStorageConfiguration configuration, ISerialization serialization)
+        /// <param name="serializer"><see cref="ISerializer">Serializer</see></param>
+        public EventSubscriptions(EventStorageConfiguration configuration, ISerializer serializer)
         {
-            _serialization = serialization;
+            _serializer = serializer;
 
             Initialize(configuration);
             InitializeCollection();
@@ -58,7 +59,7 @@ namespace Bifrost.DocumentDB.Events
         {
             
             var subscriptionsAsDocuments = _client.CreateDocumentQuery(_collection.SelfLink).ToArray();
-            var subscriptions = subscriptionsAsDocuments.Select(d => _serialization.FromDocument<EventSubscription>(d));
+            var subscriptions = subscriptionsAsDocuments.Select(d => _serializer.FromDocument<EventSubscription>(d));
 
             return subscriptions;
         }
@@ -69,7 +70,7 @@ namespace Bifrost.DocumentDB.Events
                 .CreateDocumentQuery(_collection.SelfLink).Where(d => d.Id == subscription.Id.ToString()).ToArray()
                 .SingleOrDefault(d => d.Id == subscription.Id.ToString());
 
-            using (var stream = _serialization.ToStream(subscription))
+            using (var stream = _serializer.ToJsonStream(subscription, SerializationExtensions.SerializationOptions))
             {
                 if (document != null)
                 {

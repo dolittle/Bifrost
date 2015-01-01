@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.Serialization;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 
@@ -37,7 +38,7 @@ namespace Bifrost.DocumentDB.Events
         DocumentClient _client;
         Database _database;
         DocumentCollection _collection;
-        ISerialization _serialization;
+        ISerializer _serializer;
         
         StoredProcedure _insertEventStoredProcedure;
         StoredProcedure _getLastCommittedVersionStoredProcedure;
@@ -47,10 +48,10 @@ namespace Bifrost.DocumentDB.Events
         /// Initializes an instance of <see cref="EventStore"/>
         /// </summary>
         /// <param name="configuration"><see cref="EventStorageConfiguration">Configuration</see> for storage</param>
-        /// <param name="serialization"><see cref="ISerialization">Serialization utility</see></param>
-        public EventStore(EventStorageConfiguration configuration, ISerialization serialization)
+        /// <param name="serializer"><see cref="ISerializer">Serializer</see></param>
+        public EventStore(EventStorageConfiguration configuration, ISerializer serializer)
         {
-            _serialization = serialization;
+            _serializer = serializer;
 
             Initialize(configuration);
             InitializeCollection();
@@ -70,16 +71,13 @@ namespace Bifrost.DocumentDB.Events
 
             foreach( var @event in uncommittedEventStream )
             {
-                using (var stream = _serialization.ToStream(@event))
-                {
-                    
-                    _client
-                        .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, Resource.LoadFrom<Document>(stream))
-                        .ContinueWith(t => @event.Id = t.Result)
-                        .Wait();
+                var serialized = _serializer.ToJson(@event, SerializationExtensions.SerializationOptions);
+                _client
+                    .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
+                    .ContinueWith(t => @event.Id = t.Result)
+                    .Wait();
 
-                    committedEventStream.Append(@event);
-                }
+                committedEventStream.Append(@event);
             }
             
             return committedEventStream;

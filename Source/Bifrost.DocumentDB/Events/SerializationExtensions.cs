@@ -20,28 +20,33 @@
 //
 #endregion
 using System.IO;
+using Bifrost.Serialization;
 using Microsoft.Azure.Documents;
 
 namespace Bifrost.DocumentDB.Events
 {
     /// <summary>
-    /// Defines a serialization utility
+    /// Extends <see cref="ISerializer"/> with helper functionality
     /// </summary>
-    public interface ISerialization
+    public static class SerializationExtensions
     {
-        /// <summary>
-        /// Serialize an object to a stream
-        /// </summary>
-        /// <typeparam name="T">Type of the object to serialize</typeparam>
-        /// <param name="source">Source object to serialize</param>
-        /// <returns><see cref="Stream"/> representing the serialized object</returns>
-        Stream ToStream<T>(T source);
+        internal static SerializationOptions SerializationOptions = new SerializationOptions { UseCamelCase = true };
 
         /// <summary>
         /// Deserialize from a document
         /// </summary>
+        /// <param name="serializer"><see cref="ISerializer"/> that is extended</param>
         /// <param name="document"><see cref="Document"/> to deserialize from</param>
         /// <returns>The serialized type</returns>
-        T FromDocument<T>(Document document);
+        public static T FromDocument<T>(this ISerializer serializer, Document document)
+        {
+            var stream = new MemoryStream();
+            document.SaveTo(stream);
+            stream.Position = 0;
+            var reader = new StreamReader(stream);
+            var jsonAsString = reader.ReadToEnd();
+            var deserialized = (T)serializer.FromJson(typeof(T), jsonAsString, SerializationOptions);
+            return deserialized;
+        }
     }
 }

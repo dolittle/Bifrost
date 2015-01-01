@@ -4,6 +4,8 @@
     var collection = context.getCollection();
     var response = context.getResponse();
 
+    event = JSON.parse(event);
+
     var nextId = 1;
     var collectionLink = collection.getSelfLink();
 
