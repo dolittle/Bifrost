@@ -12,6 +12,7 @@ Bifrost.namespace("Bifrost.markup", {
             //  - if no namespace is defined, try to resolve in the global namespace
             //  - namespaces in the object model can point to multiple JavaScript namespaces
             //  - multiple types with same name in namespace groupings should throw an exception
+            //  - registering a namespace can be done on any tag by adding xmlns:name="point to JS namespace"
             // Properties : 
             //  - Attributes on an element is a property
             //  - Values in property should always go through type conversion sub system
@@ -24,6 +25,8 @@ Bifrost.namespace("Bifrost.markup", {
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
             //    at the same time should yield an exception
+            // Markup extensions :
+            //  - Any value should be recognized when it is a markup extension
             //
             // Example : 
             // Simple control:
@@ -37,6 +40,15 @@ Bifrost.namespace("Bifrost.markup", {
             //    <ns:somecontrol.property>42</ns:somcontrol.property>
             // </ns:somecontrol>
             // 
+            // Using a markup extension:
+            // <ns:somecontrol somevalue="{{binding property}}">
+            // <ns:somecontrol
+            //
+            // <span>{{binding property}}</span>
+            //
+            // <ns:somecontrol>
+            //    <ns:somecontrol.property>{{binding property}}</ns:somcontrol.property>
+            // </ns:somecontrol>
 
             if (element.isKnownType()) {
                 return;
