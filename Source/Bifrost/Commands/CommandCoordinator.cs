@@ -83,6 +83,7 @@ namespace Bifrost.Commands
                     if (!authorizationResult.IsAuthorized)
                     {
                         commandResult.SecurityMessages = authorizationResult.BuildFailedAuthorizationMessages();
+                        transaction.Rollback();
                         return commandResult;
                     }
 
@@ -107,6 +108,10 @@ namespace Bifrost.Commands
                             commandResult.Exception = exception;
                             transaction.Rollback();
                         }
+                    }
+                    else
+                    {
+                        transaction.Rollback();
                     }
                 }
             }

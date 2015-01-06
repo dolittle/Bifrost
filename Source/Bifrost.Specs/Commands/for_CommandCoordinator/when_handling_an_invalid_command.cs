@@ -34,5 +34,6 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         It should_have_success_set_to_false = () => Result.Success.ShouldBeFalse();
         It should_have_a_record_of_each_validation_failure = () => Result.ValidationResults.ShouldContainOnly(validation_errors.ValidationResults);
         It should_not_handle_the_command = () => command_handler_manager_mock.Verify(chm => chm.Handle(command_mock.Object), Moq.Times.Never());
+        It should_rollback_the_command_context = () => command_context_mock.Verify(c => c.Rollback(), Moq.Times.Once());
     }
 }
