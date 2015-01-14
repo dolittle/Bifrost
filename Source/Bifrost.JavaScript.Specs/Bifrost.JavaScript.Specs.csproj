@@ -169,6 +169,8 @@
     <Content Include="Utils\for_isObject\when_asking_if_number_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_null_is_object.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_prefixed_with_letters.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_postfixed_with_letters.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />
     <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
@@ -526,6 +528,7 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_empty_string.js" />
     <Content Include="values\for_stringFormatter\when_checking_if_element_has_formant_with_element_of_type_other_than_one_without_attributes.js" />
     <Content Include="values\for_stringFormatter\when_formatting_string_with_two_chunks_in_format_with_known_formatter.js" />
     <Content Include="values\for_stringFormatter\when_formatting_string_with_one_chunk_in_format_with_known_formatter.js" />

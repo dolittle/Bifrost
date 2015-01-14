@@ -57,7 +57,6 @@ namespace Bifrost.DocumentDB.Events
 #pragma warning disable 1591
         public IEnumerable<EventSubscription> GetAll()
         {
-            
             var subscriptionsAsDocuments = _client.CreateDocumentQuery(_collection.SelfLink).ToArray();
             var subscriptions = subscriptionsAsDocuments.Select(d => _serializer.FromDocument<EventSubscription>(d));
 
