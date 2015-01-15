@@ -147,6 +147,13 @@
     <Content Include="mapping\for_PropertyMap\when_mapping_with_a_simple_to_strategy_with_mismatching_types_in_source_and_target.js" />
     <Content Include="mapping\for_PropertyMap\when_mapping_without_strategy_set.js" />
     <Content Include="mapping\for_PropertyMap\when_mapping_with_a_simple_to_strategy.js" />
+    <Content Include="markup\for_namespaces\given\a_namespaces_instance.js" />
+    <Content Include="markup\for_namespaces\when_expanding_namespaces_on_element_with_namespace_of_same_prefix_as_parent_definition.js" />
+    <Content Include="markup\for_namespaces\when_expanding_namespaces_on_element_with_two_namespaces.js" />
+    <Content Include="markup\for_namespaces\when_resolving_element_without_namespace_prefix.js" />
+    <Content Include="markup\for_namespaces\when_resolving_element_with_namespace_defined_on_element_with_naming_root_inbetween.js" />
+    <Content Include="markup\for_namespaces\when_resolving_element_missing_namespace_definition.js" />
+    <Content Include="markup\for_namespaces\when_resolving_element_with_namespace_definition_set_in_a_parent.js" />
     <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />

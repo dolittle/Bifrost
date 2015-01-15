@@ -1,4 +1,4 @@
-Bifrost.namespace("Bifrost.views", {
+Bifrost.namespace("Bifrost.markup", {
     NamingRoot: Bifrost.Type.extend(function() {
         var self = this;
         this.target = null;
