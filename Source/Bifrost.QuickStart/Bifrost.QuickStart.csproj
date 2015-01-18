@@ -103,6 +103,8 @@
     <Content Include="Controls\Dialog\ElementVisitor.js" />
     <Content Include="Controls\Dialog\Index.html" />
     <Content Include="Controls\Dialog\Index.js" />
+    <Content Include="Controls\Test\TestControl.html" />
+    <Content Include="Controls\Test\TestControl.js" />
     <Content Include="HumanResources\Employees\composition.html" />
     <Content Include="HumanResources\Employees\composition.js" />
     <Content Include="HumanResources\Employees\popup.html" />

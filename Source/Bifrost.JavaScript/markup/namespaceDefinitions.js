@@ -2,9 +2,10 @@
     namespaceDefinitions: Bifrost.Singleton(function () {
 
         this.create = function (prefix) {
-            Bifrost.markup.NamespaceDefinition.create({
+            var definition = Bifrost.markup.NamespaceDefinition.create({
                 prefix: prefix,
             });
+            return definition;
         };
     })
 });

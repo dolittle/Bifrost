@@ -11,11 +11,11 @@
 
     beforeEach(function () {
         element = document.createElement("div");
-        var firstPrefixAttribute = document.createAttribute("xmlns:"+firstPrefix);
+        var firstPrefixAttribute = document.createAttribute("ns:"+firstPrefix);
         firstPrefixAttribute.value = firstTarget;
         element.attributes.setNamedItem(firstPrefixAttribute);
 
-        var secondPrefixAttribute = document.createAttribute("xmlns:" + secondPrefix);
+        var secondPrefixAttribute = document.createAttribute("ns:" + secondPrefix);
         secondPrefixAttribute.value = secondTarget;
         element.attributes.setNamedItem(secondPrefixAttribute);
 

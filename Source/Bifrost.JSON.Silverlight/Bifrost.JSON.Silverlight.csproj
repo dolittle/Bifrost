@@ -76,6 +76,9 @@
     <Compile Include="..\Bifrost.JSON\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.JSON\Serialization\MethodInfoConverter.cs">
+      <Link>Serialization\MethodInfoConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.JSON\Serialization\Serializer.cs">
       <Link>Serialization\Serializer.cs</Link>
     </Compile>

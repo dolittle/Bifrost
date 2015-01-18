@@ -6,20 +6,22 @@
 
         this.mappings = [];
 
-        this.hasMappingFor = function (input) {
+        this.reverseMappings = [];
+
+        function hasMappingFor(mappings, input) {
             var found = false;
-            self.mappings.some(function (m) {
+            mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = true;
                 }
                 return found;
             });
             return found;
-        };
+        }
 
-        this.getMappingFor = function (input) {
+        function getMappingFor(mappings, input) {
             var found;
-            self.mappings.some(function (m) {
+            mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = m;
                     return true;
@@ -34,9 +36,9 @@
                 name: "ArgumentError",
                 message: "String mapping for (" + input + ") could not be found"
             };
-        };
+        }
 
-        this.resolve = function (input) {
+        function resolve(mappings, input) {
             try {
                 if (input === null || typeof input === "undefined") {
                     return "";
@@ -51,11 +53,38 @@
             } catch (e) {
                 return "";
             }
+        }
+
+        this.hasMappingFor = function (input) {
+            return hasMappingFor(self.mappings, input);
+        };
+        this.getMappingFor = function (input) {
+            return getMappingFor(self.mappings, input);
+        };
+        this.resolve = function (input) {
+            return resolve(self.mappings, input);
+        };
+
+        this.reverse = {
+            hasMappingFor: function (input) {
+                return self.hasMappingFor(self.reverseMappings, input);
+            },
+
+            getMappingFor: function (input) {
+                return self.getMappingFor(self.reverseMappings, input);
+            },
+
+            resolve: function (input) {
+                return self.resolve(self.reverseMappings, input);
+            }
         };
 
         this.addMapping = function (format, mappedFormat) {
             var mapping = self.stringMappingFactory.create(format, mappedFormat);
             self.mappings.push(mapping);
+
+            var reverseMapping = self.stringMappingFactory.create(mappedFormat, format);
+            self.reverseMappings.push(reverseMapping);
         };
     })
 });

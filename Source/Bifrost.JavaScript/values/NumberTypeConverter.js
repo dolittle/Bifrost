@@ -11,7 +11,7 @@
             for (var charIndex = 0; charIndex < value.length; charIndex++) {
                 var found = false;
                 for (var allowedCharIndex = 0; allowedCharIndex < allowedCharacters.length; allowedCharIndex++) {
-                    if (value[charIndex] == allowedCharacters[allowedCharIndex]) {
+                    if (value[charIndex] === allowedCharacters[allowedCharIndex]) {
                         found = true;
                         returnValue = returnValue + value[charIndex];
                         break;

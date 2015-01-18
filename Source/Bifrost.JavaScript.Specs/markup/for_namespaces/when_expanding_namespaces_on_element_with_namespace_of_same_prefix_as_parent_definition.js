@@ -10,12 +10,12 @@
 
     beforeEach(function () {
         parent = document.createElement("div");
-        var firstPrefixAttribute = document.createAttribute("xmlns:" + prefix);
+        var firstPrefixAttribute = document.createAttribute("ns:" + prefix);
         firstPrefixAttribute.value = firstTarget;
         parent.attributes.setNamedItem(firstPrefixAttribute);
 
         element = document.createElement("div");
-        var secondPrefixAttribute = document.createAttribute("xmlns:" + prefix);
+        var secondPrefixAttribute = document.createAttribute("ns:" + prefix);
         secondPrefixAttribute.value = secondTarget;
         element.attributes.setNamedItem(secondPrefixAttribute);
         element.parentElement = parent;

@@ -78,6 +78,7 @@
     <Content Include="markup\namespaceDefinitions.js" />
     <Content Include="markup\namespaces.js" />
     <Content Include="markup\ParentTagNameMismatched.js" />
+    <Content Include="markup\propertyExpander.js" />
     <Content Include="specifications\And.js" />
     <Content Include="specifications\Or.js" />
     <Content Include="specifications\Specification.js" />

@@ -912,6 +912,24 @@ Bifrost.namespace("Bifrost", {
     }
 });
 Bifrost.namespace("Bifrost", {
+    WellKnownTypesDependencyResolver: function () {
+        var self = this;
+        this.types = Bifrost.WellKnownTypesDependencyResolver.types;
+
+        this.canResolve = function (namespace, name) {
+            return self.types.hasOwnProperty(name);
+        };
+
+        this.resolve = function (namespace, name) {
+            return self.types[name];
+        };
+    }
+});
+
+Bifrost.WellKnownTypesDependencyResolver.types = {
+    options: {}
+};
+Bifrost.namespace("Bifrost", {
     dependencyResolver: (function () {
         function resolveImplementation(namespace, name) {
             var resolvers = Bifrost.dependencyResolvers.getAll();
@@ -1040,6 +1058,7 @@ Bifrost.namespace("Bifrost", {
         };
     })()
 });
+Bifrost.WellKnownTypesDependencyResolver.types.dependencyResolver = Bifrost.dependencyResolver;
 Bifrost.namespace("Bifrost", {
     dependencyResolvers: (function () {
         return {
@@ -1154,24 +1173,6 @@ Bifrost.namespace("Bifrost", {
         };
     }
 });
-Bifrost.namespace("Bifrost", {
-    WellKnownTypesDependencyResolver: function () {
-        var self = this;
-        this.types = Bifrost.WellKnownTypesDependencyResolver.types;
-
-        this.canResolve = function (namespace, name) {
-            return self.types.hasOwnProperty(name);
-        };
-
-        this.resolve = function (namespace, name) {
-            return self.types[name];
-        };
-    }
-});
-
-Bifrost.WellKnownTypesDependencyResolver.types = {
-    options: {}
-};
 Bifrost.dependencyResolvers.DOMRootDependencyResolver = {
     canResolve: function (namespace, name) {
         return name === "DOMRoot";
@@ -2213,20 +2214,22 @@ Bifrost.namespace("Bifrost", {
 
         this.mappings = [];
 
-        this.hasMappingFor = function (input) {
+        this.reverseMappings = [];
+
+        function hasMappingFor(mappings, input) {
             var found = false;
-            self.mappings.some(function (m) {
+            mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = true;
                 }
                 return found;
             });
             return found;
-        };
+        }
 
-        this.getMappingFor = function (input) {
+        function getMappingFor(mappings, input) {
             var found;
-            self.mappings.some(function (m) {
+            mappings.some(function (m) {
                 if (m.matches(input)) {
                     found = m;
                     return true;
@@ -2241,9 +2244,9 @@ Bifrost.namespace("Bifrost", {
                 name: "ArgumentError",
                 message: "String mapping for (" + input + ") could not be found"
             };
-        };
+        }
 
-        this.resolve = function (input) {
+        function resolve(mappings, input) {
             try {
                 if (input === null || typeof input === "undefined") {
                     return "";
@@ -2258,11 +2261,38 @@ Bifrost.namespace("Bifrost", {
             } catch (e) {
                 return "";
             }
+        }
+
+        this.hasMappingFor = function (input) {
+            return hasMappingFor(self.mappings, input);
+        };
+        this.getMappingFor = function (input) {
+            return getMappingFor(self.mappings, input);
+        };
+        this.resolve = function (input) {
+            return resolve(self.mappings, input);
+        };
+
+        this.reverse = {
+            hasMappingFor: function (input) {
+                return self.hasMappingFor(self.reverseMappings, input);
+            },
+
+            getMappingFor: function (input) {
+                return self.getMappingFor(self.reverseMappings, input);
+            },
+
+            resolve: function (input) {
+                return self.resolve(self.reverseMappings, input);
+            }
         };
 
         this.addMapping = function (format, mappedFormat) {
             var mapping = self.stringMappingFactory.create(format, mappedFormat);
             self.mappings.push(mapping);
+
+            var reverseMapping = self.stringMappingFactory.create(mappedFormat, format);
+            self.reverseMappings.push(reverseMapping);
         };
     })
 });
@@ -5536,7 +5566,7 @@ Bifrost.namespace("Bifrost.mapping", {
 
                 if (!Bifrost.isUndefined(from[property])) {
                     
-                    if (Bifrost.isObject(from[property])) {
+                    if (Bifrost.isObject(from[property]) && Bifrost.isObject(to[property])) {
                         copyProperties(mappedProperties, from[property], to[property]);
                     } else {
                         if (!Bifrost.isNullOrUndefined(map)) {
@@ -6511,65 +6541,43 @@ Bifrost.namespace("Bifrost.markup", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
-    objectModelManager: Bifrost.Singleton(function() {
-        var self = this;
-        this.globalNamespacePrefix = "__global";
+    objectModelManager: Bifrost.Singleton(function (dependencyResolver, documentService) {
+        
+        function tryResolveTargetNamespaces(localName, targets, success, error) {
+            function tryResolve(queue) {
+                if (queue.length) {
+                    var namespace = Bifrost.namespace(targets.shift());
 
-        this.prefixNamespaceArrayDictionary = {};
-
-        this.registerNamespace = function(prefix, namespace) {
-            var ns = Bifrost.namespace(namespace);
-            var array;
-
-            if(self.prefixNamespaceArrayDictionary.hasOwnProperty(prefix)) {
-                array = self.prefixNamespaceArrayDictionary[prefix];
-            } else {
-                array = [];
-                self.prefixNamespaceArrayDictionary[prefix] = array;
-            }
-            self.prefixNamespaceArrayDictionary[prefix].push(namespace);
-        };
-
-
-        this.getObjectFromTagName =  function(name, namespace) {
-            var hasNamespace = true;
-            if(Bifrost.isNullOrUndefined(namespace)) {
-                namespace = self.globalNamespacePrefix;
-                hasNamespace = false;
-            }
-            namespace = namespace.toLowerCase();
-            name = name.toLowerCase();
-
-            var foundType = null;
-
-            if(self.prefixNamespaceArrayDictionary.hasOwnProperty(namespace)) {
-                self.prefixNamespaceArrayDictionary[namespace].forEach(function (ns) {
-                    var namespace = Bifrost.namespace(ns);
-                    for (var type in namespace) {
-                        type = type.toLowerCase();
-                        if (type === name) {
-                            foundType = type;
-                            return;
+                    var found = false;
+                    namespace._scripts.forEach(function (script) {
+                        if (script.toLowerCase() === localName.toLowerCase()) {
+                            dependencyResolver.beginResolve(namespace, script)
+                                .continueWith(function (instance) {
+                                    success(instance);
+                                })
+                                .onFail(function () {
+                                    tryResolveTargetNamespaces(localName, targets, success, error);
+                                });
+                            found = true;
                         }
+                    });
+
+                    if (!found) {
+                        tryResolveTargetNamespaces(localName, targets, success, error);
                     }
-                });
-            }
 
-            if (foundType !== null) {
-                var instance = foundType.create();
-                return instance;
-            }
-
-            /*
-            if( foundType == null ) {
-                var namespaceMessage = "";
-                if( hasNamespace == true ) {
-                    namespaceMessage = " in namespace prefixed '"+namespace+"'";
+                } else {
+                    error();
                 }
-                throw "Could not resolve type '"+name+"'"+namespaceMessage;
-            }*/
 
-            return null;
+            }
+
+            tryResolve(targets);
+        }
+
+
+        this.handleElement = function (element, localName, namespaceDefinition, success, error) {
+            tryResolveTargetNamespaces(localName, namespaceDefinition.targets, success, error);
         };
     })
 });
@@ -6589,7 +6597,199 @@ Bifrost.namespace("Bifrost.markup", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
+    NamespaceDefinition: Bifrost.Type.extend(function (prefix) {
+        var self = this;
+        this.prefix = prefix;
+
+        this.targets = [];
+
+        this.addTarget = function (target) {
+            self.targets.push(target);
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    namespaceDefinitions: Bifrost.Singleton(function () {
+
+        this.create = function (prefix) {
+            var definition = Bifrost.markup.NamespaceDefinition.create({
+                prefix: prefix,
+            });
+            return definition;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    namespaces: Bifrost.Singleton(function (namespaceDefinitions, elementNaming) {
+        var self = this;
+        var ns = "ns:";
+
+        this.global = namespaceDefinitions.create("__global");
+
+        function findNamespaceDefinitionInElementOrParent(prefix, element) {
+            if (!Bifrost.isNullOrUndefined(element.__namespaces)) {
+                var found = null;
+                element.__namespaces.forEach(function (definition) {
+                    if (definition.prefix === prefix) {
+                        found = definition;
+                        return false;
+                    }
+                });
+
+                if (found != null) {
+                    return found;
+                }
+            }
+            if (Bifrost.isNullOrUndefined(element.parentElement) ||
+                element.parentElement.constructor === HTMLHtmlElement) {
+                
+                return null;
+            }
+
+            var parentResult = findNamespaceDefinitionInElementOrParent(prefix, element.parentElement);
+            if (parentResult != null) {
+                return parentResult;
+            }
+
+            return null;
+        }
+
+
+        this.expandNamespaceDefinitions = function (element) {
+            for (var attributeIndex = 0; attributeIndex < element.attributes.length; attributeIndex++) {
+                var attribute = element.attributes[attributeIndex];
+                if( attribute.name.indexOf(ns) === 0) {
+                    var prefix = attribute.name.substr(ns.length);
+                    var target = attribute.value;
+
+                    var namespaceDefinition = findNamespaceDefinitionInElementOrParent(prefix, element);
+                    if (Bifrost.isNullOrUndefined(namespaceDefinition)) {
+                        if (Bifrost.isNullOrUndefined(element.__namespaces)) {
+                            element.__namespaces = [];
+                        }
+                        namespaceDefinition = namespaceDefinitions.create(prefix);
+                        element.__namespaces.push(namespaceDefinition);
+                    }
+
+                    namespaceDefinition.addTarget(target);
+                }
+            }
+        };
+
+        this.resolveFor = function (element) {
+            var prefix = elementNaming.getNamespacePrefixFor(element);
+            if (Bifrost.isNullOrUndefined(prefix) || prefix === "") {
+                return self.global;
+            }
+            var definition = findNamespaceDefinitionInElementOrParent(prefix, element);
+            return definition;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    elementNaming: Bifrost.Singleton(function () {
+
+        function getNameAndNamespace(element) {
+            var namespace;
+            var name = element.localName.toLowerCase();
+
+            var namespaceSplit = name.split(":");
+            if (namespaceSplit.length > 2) {
+                throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
+            }
+            if (namespaceSplit.length === 2) {
+                name = namespaceSplit[1];
+                namespace = namespaceSplit[0];
+            }
+
+            return {
+                name: name,
+                namespace: namespace
+            };
+        }
+
+
+        this.getNamespacePrefixFor = function (element) {
+            var nameAndNamespace = getNameAndNamespace(element);
+            if (Bifrost.isNullOrUndefined(nameAndNamespace.namespace)) {
+                return "";
+            }
+            return nameAndNamespace.namespace;
+        };
+
+        this.getLocalNameFor = function (element) {
+            var nameAndNamespace = getNameAndNamespace(element);
+            return nameAndNamespace.name;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    propertyExpander: Bifrost.Singleton(function (typeConverters) {
+
+        this.expand = function (element, target) {
+
+            /*
+            var propertySplit = element.localName.split(".");
+            if (propertySplit.length > 2) {
+                throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
+            }
+
+            if (propertySplit.length === 2) {
+                if (!Bifrost.isNullOrUndefined(element.parentElement)) {
+                    var parentName = element.parentElement.localName.toLowerCase();
+
+                    if (parentName !== propertySplit[0]) {
+                        throw Bifrost.markup.ParentTagNameMismatched.create({ tagName: name, parentTagName: parentName });
+                    }
+                }
+            }
+
+            if (!Bifrost.isNullOrUndefined(element.parentElement)) {
+                propertySplit = element.parentElement.localName.split(".");
+                if (propertySplit.length === 2) {
+                    var propertyName = propertySplit[1];
+                    if (!Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode)) {
+                        if (ko.isObservable(element.parentElement.__objectModelNode[propertyName])) {
+                            element.parentElement.__objectModelNode[propertyName](instance);
+                        } else {
+                            element.parentElement.__objectModelNode[propertyName] = instance;
+                        }
+                    }
+                }
+            }*/
+
+            for (var attributeIndex = 0; attributeIndex < element.attributes.length; attributeIndex++) {
+                var name = element.attributes[attributeIndex].localName;
+                var value = element.attributes[attributeIndex].value;
+
+                if (name in target) {
+                    var targetValue = target[name];
+                    if (ko.isObservable(targetValue)) {
+                        targetValue(value);
+                    } else {
+                        target[name] = value;
+                    }
+
+                    /*
+                    var targetType = typeof targetValue;
+                    if (ko.isObservable(targetValue)) {
+                        targetType = typeof targetValue();
+                    }
+
+                    var convertedValue = typeConverters.convert(targetType, value);
+                    if (ko.isObservable(targetValue)) {
+                        targetValue(convertedValue);
+                    } else {
+                        target[name] = convertedValue;
+                    }
+                    */
+                }
+            }
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelManager, propertyExpander) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -6602,6 +6802,11 @@ Bifrost.namespace("Bifrost.markup", {
             //  - if no namespace is defined, try to resolve in the global namespace
             //  - namespaces in the object model can point to multiple JavaScript namespaces
             //  - multiple types with same name in namespace groupings should throw an exception
+            //  - registering a namespace can be done on any tag by adding xmlns:name="point to JS namespace"
+            //  - If one registers a namespace with a prefix a parent already has and no naming root sits in between, 
+            //    it should add the namespace target on the same definition
+            //  - Naming roots are important - if there occurs a naming root, everything is relative to that and 
+            //    breaking any "inheritance"
             // Properties : 
             //  - Attributes on an element is a property
             //  - Values in property should always go through type conversion sub system
@@ -6614,6 +6819,12 @@ Bifrost.namespace("Bifrost.markup", {
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
             //    at the same time should yield an exception
+            // Markup extensions :
+            //  - Any value should be recognized when it is a markup extension
+            // Templating :
+            //  - If a UIElement is found, it will need to be instantiated
+            //  - If the instance is of a Control type - we will look at the 
+            //    ControlTemplate property for its template and use that to replace content
             //
             // Example : 
             // Simple control:
@@ -6627,81 +6838,118 @@ Bifrost.namespace("Bifrost.markup", {
             //    <ns:somecontrol.property>42</ns:somcontrol.property>
             // </ns:somecontrol>
             // 
+            // Using a markup extension:
+            // <ns:somecontrol somevalue="{{binding property}}">
+            // <ns:somecontrol
+            //
+            // <span>{{binding property}}</span>
+            //
+            // <ns:somecontrol>
+            //    <ns:somecontrol.property>{{binding property}}</ns:somcontrol.property>
+            // </ns:somecontrol>
+
+            namespaces.expandNamespaceDefinitions(element);
 
             if (element.isKnownType()) {
                 return;
             }
 
-            var namespace;
-            var name = element.localName.toLowerCase();
+            var localName = elementNaming.getLocalNameFor(element);
+            var namespaceDefinition = namespaces.resolveFor(element);
+            objectModelManager.handleElement(element, localName, namespaceDefinition,
+                function (instance) {
+                    propertyExpander.expand(element, instance);
+                    var result = instance.prepare(instance._type, element);
+                    if (result instanceof Bifrost.execution.Promise) {
+                        result.continueWith(function () {
 
-            var namespaceSplit = name.split(":");
-            if ( namespaceSplit.length > 2 ) {
-                throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
-            }
-            if ( namespaceSplit.length === 2 ) {
-                name = namespaceSplit[1];
-                namespace = namespaceSplit[0];
-            }
+                            if (!Bifrost.isNullOrUndefined(instance.template)) {
+                                var UIManager = Bifrost.views.UIManager.create();
 
-            var instance = objectModelManager.getObjectFromTagName(name, namespace);
-            if (Bifrost.isNullOrUndefined(instance)) {
-                return;
-            }
-            element.__objectModelNode = instance;
+                                UIManager.handle(instance.template);
 
-            var propertySplit = element.localName.split(".");
-            if( propertySplit.length > 2 ) {
-                throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
-            }
+                                ko.applyBindingsToNode(instance.template, {
+                                    "with": instance
+                                });
 
-            if( propertySplit.length === 2 ) {
-                if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
-                    var parentName = element.parentElement.localName.toLowerCase();
-
-                    if( parentName !== propertySplit[0] ) {
-                        throw Bifrost.markup.ParentTagNameMismatched.create({ tagName: name, parentTagName: parentName });
+                                element.parentElement.replaceChild(instance.template, element);
+                            }
+                        });
                     }
+                },
+                function () {
                 }
-            }
+            );
 
-            if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
-                propertySplit = element.parentElement.localName.split(".");
-                if( propertySplit.length === 2 ) {
-                    var propertyName = propertySplit[1];
-                    if( !Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode) ) {
-                        if( ko.isObservable(element.parentElement.__objectModelNode[propertyName]) ) {
-                            element.parentElement.__objectModelNode[propertyName](instance);
-                        } else {
-                            element.parentElement.__objectModelNode[propertyName] = instance;
-                        }
-                    }
-                }
-            }
-
-            for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
-                name = element.attributes[attributeIndex].localName;
-                var value = element.attributes[attributeIndex].value;
-
-                if( name in instance ) {
-                    var targetValue = instance[name];
-                    var targetType = typeof targetValue;
-                    if( ko.isObservable(targetValue)) {
-                        targetType = typeof targetValue();
-                    }
-                    var convertedValue = typeConverters.convert(targetType, value);
-                    if( ko.isObservable(targetValue)) {
-                        targetValue(convertedValue);
-                    } else {
-                        instance[name] = convertedValue;
-                    }
-                }
-            }
         };
     })
 });
 Bifrost.namespace("Bifrost.markup", {
     Binding: Bifrost.markup.MarkupExtension.extend(function () {
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    NamingRoot: Bifrost.Type.extend(function() {
+        var self = this;
+        this.target = null;
+
+        this.find = function (name, element) {
+            if (Bifrost.isNullOrUndefined(element)) {
+                if (Bifrost.isNullOrUndefined(self.target)) {
+                    return null;
+                }
+                element = self.target;
+            }
+
+
+            if (element.getAttribute("name") === name) {
+                return element;
+            }
+
+            if (element.hasChildNodes()) {
+                var child = element.firstChild;
+                while (child) {
+                    if (child.nodeType === 1) {
+                        var foundElement = self.find(name, child);
+                        if (foundElement != null) {
+                            return foundElement;
+                        }
+                    }
+                    child = child.nextSibling;
+                }
+            }
+
+            return null;
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    UIElement: Bifrost.markup.NamingRoot.extend(function () {
+
+        this.prepare = function (type, element) {
+
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    Control: Bifrost.markup.UIElement.extend(function () {
+        var self = this;
+        this.template = null;
+
+        this.prepare = function (type, element) {
+            var promise = Bifrost.execution.Promise.create();
+
+            var file = type._namespace._path + type._name + ".html";
+            require(["text!" + file + "!strip"], function (v) {
+                var container = document.createElement("div");
+                container.innerHTML = v;
+                self.template = container;
+
+                promise.signal();
+            });
+
+            return promise;
+        };
     })
 });
 Bifrost.namespace("Bifrost.views", {
@@ -6746,66 +6994,12 @@ Bifrost.namespace("Bifrost.views", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.UIManager = Bifrost.views.UIManager;
 Bifrost.namespace("Bifrost.views", {
-    NamingRoot: Bifrost.Type.extend(function() {
-        var self = this;
-        this.target = null;
-
-        this.find = function (name, element) {
-            if (Bifrost.isNullOrUndefined(element)) {
-                if (Bifrost.isNullOrUndefined(self.target)) {
-                    return null;
-                }
-                element = self.target;
-            }
-
-
-            if (element.getAttribute("name") === name) {
-                return element;
-            }
-
-            if (element.hasChildNodes()) {
-                var child = element.firstChild;
-                while (child) {
-                    if (child.nodeType === 1) {
-                        var foundElement = self.find(name, child);
-                        if (foundElement != null) {
-                            return foundElement;
-                        }
-                    }
-                    child = child.nextSibling;
-                }
-            }
-
-            return null;
-        };
-    })
-});
-Bifrost.namespace("Bifrost.views", {
-    NamingRootElementVisitor: Bifrost.markup.ElementVisitor.extend(function () {
-        this.visit = function(element, actions) {
-            var namingRoot = Bifrost.views.NamingRoot.create();
-            namingRoot.target = element;
-            element.namingRoot = namingRoot;
-        };
-    })
-});
-Bifrost.namespace("Bifrost.views", {
     Content: Bifrost.Type.extend(function () {
 
     })
 });
 Bifrost.namespace("Bifrost.views", {
     Items: Bifrost.Type.extend(function () {
-
-    })
-});
-Bifrost.namespace("Bifrost.views", {
-    UIElement: Bifrost.views.NamingRoot.extend(function() {
-
-    })
-});
-Bifrost.namespace("Bifrost.views", {
-    Control: Bifrost.views.UIElement.extend(function() {
 
     })
 });
@@ -8339,9 +8533,36 @@ Bifrost.namespace("Bifrost.values", {
 });
 Bifrost.namespace("Bifrost.values", {
     NumberTypeConverter: Bifrost.values.TypeConverter.extend(function () {
+        var allowedCharacters = "0123456789.,";
+
         this.supportedType = Number;
 
+        function stripLetters(value) {
+            value = value.toString();
+            var returnValue = "";
+
+            for (var charIndex = 0; charIndex < value.length; charIndex++) {
+                var found = false;
+                for (var allowedCharIndex = 0; allowedCharIndex < allowedCharacters.length; allowedCharIndex++) {
+                    if (value[charIndex] === allowedCharacters[allowedCharIndex]) {
+                        found = true;
+                        returnValue = returnValue + value[charIndex];
+                        break;
+                    }
+                }
+            }
+
+            return returnValue;
+        }
+
         this.convertFrom = function (value) {
+            if (value.constructor === Number) {
+                return value;
+            }
+            if (value === "") {
+                return 0;
+            }
+            value = stripLetters(value);
             var result = 0;
             if (value.indexOf(".") >= 0) {
                 result = parseFloat(value);

@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function(objectModelManager, markupExtensions, typeConverters) {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelManager, propertyExpander) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -31,6 +31,10 @@ Bifrost.namespace("Bifrost.markup", {
             //    at the same time should yield an exception
             // Markup extensions :
             //  - Any value should be recognized when it is a markup extension
+            // Templating :
+            //  - If a UIElement is found, it will need to be instantiated
+            //  - If the instance is of a Control type - we will look at the 
+            //    ControlTemplate property for its template and use that to replace content
             //
             // Example : 
             // Simple control:
@@ -54,75 +58,39 @@ Bifrost.namespace("Bifrost.markup", {
             //    <ns:somecontrol.property>{{binding property}}</ns:somcontrol.property>
             // </ns:somecontrol>
 
+            namespaces.expandNamespaceDefinitions(element);
+
             if (element.isKnownType()) {
                 return;
             }
 
-            var namespace;
-            var name = element.localName.toLowerCase();
+            var localName = elementNaming.getLocalNameFor(element);
+            var namespaceDefinition = namespaces.resolveFor(element);
+            objectModelManager.handleElement(element, localName, namespaceDefinition,
+                function (instance) {
+                    propertyExpander.expand(element, instance);
+                    var result = instance.prepare(instance._type, element);
+                    if (result instanceof Bifrost.execution.Promise) {
+                        result.continueWith(function () {
 
-            var namespaceSplit = name.split(":");
-            if ( namespaceSplit.length > 2 ) {
-                throw Bifrost.markup.MultipleNamespacesInNameNotAllowed.create({ tagName: name });
-            }
-            if ( namespaceSplit.length === 2 ) {
-                name = namespaceSplit[1];
-                namespace = namespaceSplit[0];
-            }
+                            if (!Bifrost.isNullOrUndefined(instance.template)) {
+                                var UIManager = Bifrost.views.UIManager.create();
 
-            var instance = objectModelManager.getObjectFromTagName(name, namespace);
-            if (Bifrost.isNullOrUndefined(instance)) {
-                return;
-            }
-            element.__objectModelNode = instance;
+                                UIManager.handle(instance.template);
 
-            var propertySplit = element.localName.split(".");
-            if( propertySplit.length > 2 ) {
-                throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
-            }
+                                ko.applyBindingsToNode(instance.template, {
+                                    "with": instance
+                                });
 
-            if( propertySplit.length === 2 ) {
-                if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
-                    var parentName = element.parentElement.localName.toLowerCase();
-
-                    if( parentName !== propertySplit[0] ) {
-                        throw Bifrost.markup.ParentTagNameMismatched.create({ tagName: name, parentTagName: parentName });
+                                element.parentElement.replaceChild(instance.template, element);
+                            }
+                        });
                     }
+                },
+                function () {
                 }
-            }
+            );
 
-            if( !Bifrost.isNullOrUndefined(element.parentElement) ) {
-                propertySplit = element.parentElement.localName.split(".");
-                if( propertySplit.length === 2 ) {
-                    var propertyName = propertySplit[1];
-                    if( !Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode) ) {
-                        if( ko.isObservable(element.parentElement.__objectModelNode[propertyName]) ) {
-                            element.parentElement.__objectModelNode[propertyName](instance);
-                        } else {
-                            element.parentElement.__objectModelNode[propertyName] = instance;
-                        }
-                    }
-                }
-            }
-
-            for( var attributeIndex=0; attributeIndex<element.attributes.length; attributeIndex++ ) {
-                name = element.attributes[attributeIndex].localName;
-                var value = element.attributes[attributeIndex].value;
-
-                if( name in instance ) {
-                    var targetValue = instance[name];
-                    var targetType = typeof targetValue;
-                    if( ko.isObservable(targetValue)) {
-                        targetType = typeof targetValue();
-                    }
-                    var convertedValue = typeConverters.convert(targetType, value);
-                    if( ko.isObservable(targetValue)) {
-                        targetValue(convertedValue);
-                    } else {
-                        instance[name] = convertedValue;
-                    }
-                }
-            }
         };
     })
 });

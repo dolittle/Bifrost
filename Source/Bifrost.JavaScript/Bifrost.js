@@ -22,10 +22,10 @@
 @depends utils/isType.js
 @depends utils/functionParser.js
 @depends utils/assetsManager.js
+@depends utils/WellKnownTypesDependencyResolver.js
 @depends utils/dependencyResolver.js
 @depends utils/dependencyResolvers.js
 @depends utils/defaultDependencyResolver.js
-@depends utils/WellKnownTypesDependencyResolver.js
 @depends utils/DOMRootDependencyResolver.js
 @depends utils/KnownArtifactTypesDependencyResolver.js
 @depends utils/KnownArtifactInstancesDependencyResolver.js
@@ -156,10 +156,11 @@
 @depends markup/MultipleNamespacesInNameNotAllowed.js
 @depends markup/MultiplePropertyReferencesNotAllowed.js
 @depends markup/ParentTagNameMismatched.js
-@depends markup/NamespaceDefinitions.js
+@depends markup/NamespaceDefinition.js
 @depends markup/namespaceDefinitions.js
 @depends markup/namespaces.js
 @depends markup/elementNaming.js
+@depends markup/propertyExpander.js
 @depends markup/ObjectModelElementVisitor.js
 @depends markup/Binding.js
 @depends markup/NamingRoot.js
@@ -167,7 +168,6 @@
 @depends markup/Control.js
 @depends views/PostBindingVisitor.js
 @depends views/UIManager.js
-@depends views/NamingRootElementVisitor.js
 @depends views/Content.js
 @depends views/Items.js
 @depends views/ComposeTask.js

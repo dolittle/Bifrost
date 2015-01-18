@@ -1,63 +1,41 @@
 Bifrost.namespace("Bifrost.markup", {
-    objectModelManager: Bifrost.Singleton(function() {
-        var self = this;
-        this.globalNamespacePrefix = "__global";
+    objectModelManager: Bifrost.Singleton(function (dependencyResolver, documentService) {
+        
+        function tryResolveTargetNamespaces(localName, targets, success, error) {
+            function tryResolve(queue) {
+                if (queue.length) {
+                    var namespace = Bifrost.namespace(targets.shift());
 
-        this.prefixNamespaceArrayDictionary = {};
-
-        this.registerNamespace = function(prefix, namespace) {
-            var ns = Bifrost.namespace(namespace);
-            var array;
-
-            if(self.prefixNamespaceArrayDictionary.hasOwnProperty(prefix)) {
-                array = self.prefixNamespaceArrayDictionary[prefix];
-            } else {
-                array = [];
-                self.prefixNamespaceArrayDictionary[prefix] = array;
-            }
-            self.prefixNamespaceArrayDictionary[prefix].push(namespace);
-        };
-
-
-        this.getObjectFromTagName =  function(name, namespace) {
-            var hasNamespace = true;
-            if(Bifrost.isNullOrUndefined(namespace)) {
-                namespace = self.globalNamespacePrefix;
-                hasNamespace = false;
-            }
-            namespace = namespace.toLowerCase();
-            name = name.toLowerCase();
-
-            var foundType = null;
-
-            if(self.prefixNamespaceArrayDictionary.hasOwnProperty(namespace)) {
-                self.prefixNamespaceArrayDictionary[namespace].forEach(function (ns) {
-                    var namespace = Bifrost.namespace(ns);
-                    for (var type in namespace) {
-                        type = type.toLowerCase();
-                        if (type === name) {
-                            foundType = type;
-                            return;
+                    var found = false;
+                    namespace._scripts.forEach(function (script) {
+                        if (script.toLowerCase() === localName.toLowerCase()) {
+                            dependencyResolver.beginResolve(namespace, script)
+                                .continueWith(function (instance) {
+                                    success(instance);
+                                })
+                                .onFail(function () {
+                                    tryResolveTargetNamespaces(localName, targets, success, error);
+                                });
+                            found = true;
                         }
+                    });
+
+                    if (!found) {
+                        tryResolveTargetNamespaces(localName, targets, success, error);
                     }
-                });
-            }
 
-            if (foundType !== null) {
-                var instance = foundType.create();
-                return instance;
-            }
-
-            /*
-            if( foundType == null ) {
-                var namespaceMessage = "";
-                if( hasNamespace == true ) {
-                    namespaceMessage = " in namespace prefixed '"+namespace+"'";
+                } else {
+                    error();
                 }
-                throw "Could not resolve type '"+name+"'"+namespaceMessage;
-            }*/
 
-            return null;
+            }
+
+            tryResolve(targets);
+        }
+
+
+        this.handleElement = function (element, localName, namespaceDefinition, success, error) {
+            tryResolveTargetNamespaces(localName, namespaceDefinition.targets, success, error);
         };
     })
 });
