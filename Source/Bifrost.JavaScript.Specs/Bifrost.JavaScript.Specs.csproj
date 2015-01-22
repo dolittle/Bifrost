@@ -179,6 +179,7 @@
     <Content Include="specifications\for_Specification\when_specification_with_observable_evaluator_gets_changed.js" />
     <Content Include="specifications\for_Specification\when_specification_has_not_been_evaluated_against_an_instance.js" />
     <Content Include="specifications\for_Specification\when_specification_is_evaluated_against_an_instance.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_undefined_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_object_literal_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_string_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_number_is_object.js" />
@@ -568,16 +569,6 @@
     <Content Include="views\for_MasterViewModel\when_setting_same_viewmodel_twice.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag_with_an_observable_on_target.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_a_property.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_observable_property.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_uppercase_name.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_different_parent_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_multiple_properties.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_tag_with_namespace.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_tag_with_two_namespaces.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_region_descriptor_exists.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
@@ -628,6 +619,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="features\for_FeatureState\" />
+    <Folder Include="markup\for_ObjectModelElementVisitor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_Singleton\when_creating_instance_of_two_definitions.js" />
