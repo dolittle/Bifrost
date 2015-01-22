@@ -25,6 +25,16 @@ Bifrost.namespace("Bifrost.markup", {
             //    to type conversion sub system
             //  - Properties can be set with tag suffixed with .<name of property> - more than one
             //    '.' in a tag name should throw an exception
+            // Dependency Properties
+            //  - A property type that has the ability of notifying something when it changes
+            //    Typically a property gets registered with the ability to offer a callback
+            //    Dependency properties needs to be explicitly setup
+            //  - Attached dependency properties - one should be able to attach dependency properties 
+            //    Adding new functionality to an existing element through exposing new properties on
+            //    existing elements. It does not matter what elements, it could be existing ones.
+            //    The attached dependency property defines what it is for by specifying a type. Once
+            //    we're matching a particular dependency property in the markup with the type it supports
+            //    its all good
             // Child tags :
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
