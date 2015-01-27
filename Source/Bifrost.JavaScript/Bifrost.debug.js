@@ -6541,7 +6541,7 @@ Bifrost.namespace("Bifrost.markup", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
-    objectModelManager: Bifrost.Singleton(function (dependencyResolver, documentService) {
+    objectModelFactory: Bifrost.Singleton(function (dependencyResolver, documentService) {
         
         function tryResolveTargetNamespaces(localName, targets, success, error) {
             function tryResolve(queue) {

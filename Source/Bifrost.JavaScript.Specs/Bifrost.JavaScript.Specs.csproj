@@ -94,6 +94,7 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
+    <Content Include="extensions\for_HTMLElementExtensions\when_asking_custom_element_if_its_known.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_map_with_objectproperty.js" />
@@ -163,6 +164,7 @@
     <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_definition_set_in_a_parent.js" />
     <Content Include="markup\for_namespaces\when_resolving_for_element_with_unknown_namespace_prefix.js" />
     <Content Include="markup\for_ObjectModelElementVisitor\given\an_object_model_element_visitor.js" />
+    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_custom_element.js" />
     <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />
