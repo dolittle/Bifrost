@@ -6576,7 +6576,7 @@ Bifrost.namespace("Bifrost.markup", {
         }
 
 
-        this.handleElement = function (element, localName, namespaceDefinition, success, error) {
+        this.createFrom = function (element, localName, namespaceDefinition, success, error) {
             tryResolveTargetNamespaces(localName, namespaceDefinition.targets, success, error);
         };
     })
@@ -6789,7 +6789,7 @@ Bifrost.namespace("Bifrost.markup", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelManager, propertyExpander) {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -6815,6 +6815,12 @@ Bifrost.namespace("Bifrost.markup", {
             //    to type conversion sub system
             //  - Properties can be set with tag suffixed with .<name of property> - more than one
             //    '.' in a tag name should throw an exception
+            // Value Provider :
+            //  - Any value escaped with {{ }} should be considered a value provider
+            // Value Consumer :
+            //  - In the opposite end of a value sits a consumer. If the target property is a consumer, pass this
+            //    in to the value provider. If the property is just a regular property, use the default property 
+            //    value consumer
             // Dependency Properties
             //  - A property type that has the ability of notifying something when it changes
             //    Typically a property gets registered with the ability to offer a callback
@@ -6825,12 +6831,15 @@ Bifrost.namespace("Bifrost.markup", {
             //    The attached dependency property defines what it is for by specifying a type. Once
             //    we're matching a particular dependency property in the markup with the type it supports
             //    its all good
+            // Services
+            //  - Nodes should have the ability to specify a service that is relevant for the node.
+            //    The service will be called with the element itself. It is defined as an attribute on
+            //    a node, any values in the attribute will be handed in, obviously resolved through
+            //    the value provider system.
             // Child tags :
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
             //    at the same time should yield an exception
-            // Markup extensions :
-            //  - Any value should be recognized when it is a markup extension
             // Templating :
             //  - If a UIElement is found, it will need to be instantiated
             //  - If the instance is of a Control type - we will look at the 
@@ -6866,26 +6875,10 @@ Bifrost.namespace("Bifrost.markup", {
 
             var localName = elementNaming.getLocalNameFor(element);
             var namespaceDefinition = namespaces.resolveFor(element);
-            objectModelManager.handleElement(element, localName, namespaceDefinition,
+            objectModelFactory.createFrom(element, localName, namespaceDefinition,
                 function (instance) {
                     propertyExpander.expand(element, instance);
-                    var result = instance.prepare(instance._type, element);
-                    if (result instanceof Bifrost.execution.Promise) {
-                        result.continueWith(function () {
-
-                            if (!Bifrost.isNullOrUndefined(instance.template)) {
-                                var UIManager = Bifrost.views.UIManager.create();
-
-                                UIManager.handle(instance.template);
-
-                                ko.applyBindingsToNode(instance.template, {
-                                    "with": instance
-                                });
-
-                                element.parentElement.replaceChild(instance.template, element);
-                            }
-                        });
-                    }
+                    UIElementPreparer.prepare(element, instance);
                 },
                 function () {
                 }
@@ -6938,6 +6931,29 @@ Bifrost.namespace("Bifrost.markup", {
 
         this.prepare = function (type, element) {
 
+        };
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    UIElementPreparer: Bifrost.Singleton(function () {
+        this.prepare = function (element, instance) {
+            var result = instance.prepare(instance._type, element);
+            if (result instanceof Bifrost.execution.Promise) {
+                result.continueWith(function () {
+
+                    if (!Bifrost.isNullOrUndefined(instance.template)) {
+                        var UIManager = Bifrost.views.UIManager.create();
+
+                        UIManager.handle(instance.template);
+
+                        ko.applyBindingsToNode(instance.template, {
+                            "with": instance
+                        });
+
+                        element.parentElement.replaceChild(instance.template, element);
+                    }
+                });
+            }
         };
     })
 });

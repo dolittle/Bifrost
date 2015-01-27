@@ -162,6 +162,7 @@
     <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_definition_set_on_body.js" />
     <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_definition_set_in_a_parent.js" />
     <Content Include="markup\for_namespaces\when_resolving_for_element_with_unknown_namespace_prefix.js" />
+    <Content Include="markup\for_ObjectModelElementVisitor\given\an_object_model_element_visitor.js" />
     <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />
@@ -619,7 +620,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="features\for_FeatureState\" />
-    <Folder Include="markup\for_ObjectModelElementVisitor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utils\for_Singleton\when_creating_instance_of_two_definitions.js" />
@@ -641,6 +641,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="read\for_Query\when_asking_for_all.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_known_element.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

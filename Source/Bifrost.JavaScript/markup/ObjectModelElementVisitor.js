@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelManager, propertyExpander) {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -41,6 +41,11 @@ Bifrost.namespace("Bifrost.markup", {
             //    The attached dependency property defines what it is for by specifying a type. Once
             //    we're matching a particular dependency property in the markup with the type it supports
             //    its all good
+            // Services
+            //  - Nodes should have the ability to specify a service that is relevant for the node.
+            //    The service will be called with the element itself. It is defined as an attribute on
+            //    a node, any values in the attribute will be handed in, obviously resolved through
+            //    the value provider system.
             // Child tags :
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
@@ -80,26 +85,10 @@ Bifrost.namespace("Bifrost.markup", {
 
             var localName = elementNaming.getLocalNameFor(element);
             var namespaceDefinition = namespaces.resolveFor(element);
-            objectModelManager.handleElement(element, localName, namespaceDefinition,
+            objectModelFactory.createFrom(element, localName, namespaceDefinition,
                 function (instance) {
                     propertyExpander.expand(element, instance);
-                    var result = instance.prepare(instance._type, element);
-                    if (result instanceof Bifrost.execution.Promise) {
-                        result.continueWith(function () {
-
-                            if (!Bifrost.isNullOrUndefined(instance.template)) {
-                                var UIManager = Bifrost.views.UIManager.create();
-
-                                UIManager.handle(instance.template);
-
-                                ko.applyBindingsToNode(instance.template, {
-                                    "with": instance
-                                });
-
-                                element.parentElement.replaceChild(instance.template, element);
-                            }
-                        });
-                    }
+                    UIElementPreparer.prepare(element, instance);
                 },
                 function () {
                 }

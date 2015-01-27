@@ -34,7 +34,7 @@ Bifrost.namespace("Bifrost.markup", {
         }
 
 
-        this.handleElement = function (element, localName, namespaceDefinition, success, error) {
+        this.createFrom = function (element, localName, namespaceDefinition, success, error) {
             tryResolveTargetNamespaces(localName, namespaceDefinition.targets, success, error);
         };
     })

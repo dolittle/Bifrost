@@ -152,7 +152,7 @@
 @depends markup/ElementVisitorResultActions.js
 @depends markup/MarkupExtension.js
 @depends markup/markupExtensions.js
-@depends markup/objectModelManager.js
+@depends markup/objectModelFactory.js
 @depends markup/MultipleNamespacesInNameNotAllowed.js
 @depends markup/MultiplePropertyReferencesNotAllowed.js
 @depends markup/ParentTagNameMismatched.js
@@ -165,6 +165,7 @@
 @depends markup/Binding.js
 @depends markup/NamingRoot.js
 @depends markup/UIElement.js
+@depends markup/UIElementPreparer.js
 @depends markup/Control.js
 @depends views/PostBindingVisitor.js
 @depends views/UIManager.js

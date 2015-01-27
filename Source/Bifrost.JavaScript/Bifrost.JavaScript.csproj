@@ -79,6 +79,7 @@
     <Content Include="markup\namespaces.js" />
     <Content Include="markup\ParentTagNameMismatched.js" />
     <Content Include="markup\propertyExpander.js" />
+    <Content Include="markup\UIElementPreparer.js" />
     <Content Include="specifications\And.js" />
     <Content Include="specifications\Or.js" />
     <Content Include="specifications\Specification.js" />
@@ -192,7 +193,7 @@
     <Content Include="markup\markupExtensions.js" />
     <Content Include="markup\NamingRoot.js" />
     <Content Include="markup\ObjectModelElementVisitor.js" />
-    <Content Include="markup\objectModelManager.js" />
+    <Content Include="markup\objectModelFactory.js" />
     <Content Include="values\TypeConverter.js" />
     <Content Include="values\typeConverters.js" />
     <Content Include="markup\UIElement.js" />
