@@ -20,7 +20,7 @@ namespace Web
                     .Synchronous()
 
                 .Events
-                    //.UsingFiles(eventsPath)
+                    .UsingFiles(eventsPath)
 
                     // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
                     //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))
@@ -29,7 +29,7 @@ namespace Web
                     //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
 
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                    .UsingDocumentDB(e => e.WithUrl("https://bifrost.documents.azure.com:443/").WithDefaultDatabase("bifrost").UsingAuthorizationKey("uqd1KXaimscohEn/bPhMQS0xBd6hdtfCsgSC8t921KoTHD0WQ+9eYUZlFo3jMz9uD8k8guXEiuV2UwoVKa4HwA=="))
+                    //.UsingDocumentDB(e => e.WithUrl("https://bifrost.documents.azure.com:443/").WithDefaultDatabase("bifrost").UsingAuthorizationKey("uqd1KXaimscohEn/bPhMQS0xBd6hdtfCsgSC8t921KoTHD0WQ+9eYUZlFo3jMz9uD8k8guXEiuV2UwoVKa4HwA=="))
                     
                 .DefaultStorage
                     .UsingFiles(entitiesPath)
@@ -46,6 +46,8 @@ namespace Web
                     .Web(w=> {
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
+
+                        #region Temporary Configuration for the Bifrost Visualizer - work in progress
                         w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
@@ -55,6 +57,9 @@ namespace Web
                         w.PathsToNamespaces.Add("/Visualizer", "Bifrost.Visualizer");
                         w.PathsToNamespaces.Add("Bifrost/Visualizer", "Bifrost.Visualizer");
                         w.PathsToNamespaces.Add("/Bifrost/Visualizer", "Bifrost.Visualizer");
+
+                        w.NamespaceMapper.Add("Bifrost.Visualizer.**.", "Bifrost.Web.Visualizer.**.");
+                        #endregion
 
                         w.PathsToNamespaces.Add("**/", "Web.**.");
                         w.PathsToNamespaces.Add("/**/", "Web.**.");
