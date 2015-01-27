@@ -18,8 +18,8 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
@@ -29,6 +29,14 @@ namespace Bifrost.Events.Files
     /// </summary>
     public class EventStore : IEventStore
     {
+        class EventHolder
+        {
+            public Type Type { get; set; }
+            public EventSourceVersion Version { get; set; }
+            public string Event { get; set; }
+        }
+
+
         EventStoreConfiguration _configuration;
         ISerializer _serializer;
 
@@ -51,7 +59,7 @@ namespace Bifrost.Events.Files
 
             var stream = new CommittedEventStream(eventSourceId);
 
-            var target = new
+            var target = new EventHolder
             {
                 Type = typeof(string),
                 Version = EventSourceVersion.Zero,
@@ -78,7 +86,7 @@ namespace Bifrost.Events.Files
 
                 @event.Id = GetNextEventId();
 
-                var json = _serializer.ToJson(new
+                var json = _serializer.ToJson(new EventHolder
                 {
                     Type = @event.GetType(),
                     Version = @event.Version,
@@ -118,7 +126,7 @@ namespace Bifrost.Events.Files
             if (first == null) return EventSourceVersion.Zero;
 
             var json = File.ReadAllText(first);
-            var target = new
+            var target = new EventHolder
             {
                 Type = typeof(string),
                 Version = EventSourceVersion.Zero,
@@ -137,7 +145,27 @@ namespace Bifrost.Events.Files
 
         public IEnumerable<IEvent> GetAll()
         {
-            throw new NotImplementedException();
+            var events = new List<IEvent>();
+            var path = Path.Combine(_configuration.Path, "EventStore");
+            var eventFiles = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            foreach (var eventFile in eventFiles)
+            {
+                var json = File.ReadAllText(eventFile);
+
+                var target = new EventHolder
+                {
+                    Type = typeof(string),
+                    Version = EventSourceVersion.Zero,
+                    Event = string.Empty
+                };
+
+                _serializer.FromJson(target, json);
+
+                var @event = _serializer.FromJson(target.Type, target.Event) as IEvent;
+                events.Add(@event);
+            }
+
+            return events;
         }
 
         string GetPathFor(string eventSource)

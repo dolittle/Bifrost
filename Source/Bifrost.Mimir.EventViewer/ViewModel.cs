@@ -20,12 +20,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Net;
 using System.Windows;
 using System.Windows.Browser;
 using System.Windows.Input;
 using Bifrost.Events;
 using Bifrost.Interaction;
+using Bifrost.JSON.Concepts;
+using Bifrost.JSON.Events;
+using Bifrost.JSON.Serialization;
 using Newtonsoft.Json;
 
 namespace Bifrost.Mimir.EventViewer
@@ -37,12 +41,25 @@ namespace Bifrost.Mimir.EventViewer
 
     public class ViewModel
 	{
+
+        JsonSerializer _serializer;
+
     	public ViewModel()
         {
+            CreateSerializer();
             HtmlPage.RegisterScriptableObject("eventViewerViewModel", this);
             Events = new ObservableCollection<IEvent>();
             ReloadCommand = DelegateCommand.Create(Reload);
             Load();
+        }
+
+        void CreateSerializer()
+        {
+            _serializer = new JsonSerializer();
+            _serializer.Converters.Add(new MethodInfoConverter());
+            _serializer.Converters.Add(new ConceptConverter());
+            _serializer.Converters.Add(new ConceptDictionaryConverter());
+            _serializer.Converters.Add(new EventSourceVersionConverter());
         }
 
         public virtual ObservableCollection<IEvent> Events { get; private set; }
@@ -55,10 +72,17 @@ namespace Bifrost.Mimir.EventViewer
             {
                 var bytes = System.Text.Encoding.UTF8.GetBytes(e.Result);
                 var eventsAsJson = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                var events = JsonConvert.DeserializeObject<List<ClientEvent>>(eventsAsJson);
-                Events.Clear();
-                foreach (var @event in events)
-                    Events.Add(@event);
+
+                using (var textReader = new StringReader(eventsAsJson))
+                {
+                    using (var reader = new JsonTextReader(textReader))
+                    {
+                        var events = _serializer.Deserialize<List<ClientEvent>>(reader);
+                        Events.Clear();
+                        foreach (var @event in events)
+                            Events.Add(@event);
+                    }
+                }
             };
 
             
