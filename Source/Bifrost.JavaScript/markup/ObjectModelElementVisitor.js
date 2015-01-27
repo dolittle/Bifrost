@@ -25,6 +25,12 @@ Bifrost.namespace("Bifrost.markup", {
             //    to type conversion sub system
             //  - Properties can be set with tag suffixed with .<name of property> - more than one
             //    '.' in a tag name should throw an exception
+            // Value Provider :
+            //  - Any value escaped with {{ }} should be considered a value provider
+            // Value Consumer :
+            //  - In the opposite end of a value sits a consumer. If the target property is a consumer, pass this
+            //    in to the value provider. If the property is just a regular property, use the default property 
+            //    value consumer
             // Dependency Properties
             //  - A property type that has the ability of notifying something when it changes
             //    Typically a property gets registered with the ability to offer a callback
@@ -39,8 +45,6 @@ Bifrost.namespace("Bifrost.markup", {
             //  - Children which are not a property reference are only allowed if a content or
             //    items property exist. There can only be one of the other, two of either or both
             //    at the same time should yield an exception
-            // Markup extensions :
-            //  - Any value should be recognized when it is a markup extension
             // Templating :
             //  - If a UIElement is found, it will need to be instantiated
             //  - If the instance is of a Control type - we will look at the 
