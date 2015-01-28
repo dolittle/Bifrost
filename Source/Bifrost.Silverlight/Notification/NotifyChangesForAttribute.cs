@@ -23,6 +23,10 @@ namespace Bifrost.Notification
 	[AttributeUsage(AttributeTargets.Property)]
 	public class NotifyChangesForAttribute : Attribute
 	{
+        public NotifyChangesForAttribute()
+        {
+        }
+
 		public NotifyChangesForAttribute(params string[] propertyNames)
 		{
 			PropertyNames = propertyNames;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Tasks;
+using Bifrost.Extensions;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
@@ -14,7 +15,8 @@ namespace Bifrost.Specs.Tasks.for_TaskRepository
 
         Establish context = () =>
         {
-            task_entity = new TaskEntity { Id = Guid.NewGuid(), CurrentOperation = 43, State = new Dictionary<string, string> { { "AString", "Hello second world" }, { "AnInteger", "43" } }, Type = typeof(MyTask) };
+            task_entity = new TaskEntity { Id = Guid.NewGuid(), CurrentOperation = 43, Type = typeof(MyTask) };
+            new Dictionary<string, string> { { "AString", "Hello second world" }, { "AnInteger", "43" } }.ForEach(task_entity.State.Add);
             container_mock.Setup(c => c.Get(typeof(MyTask))).Returns(() => new MyTask());
             entity_context_mock.Setup(e => e.GetById(task_entity.Id)).Returns(task_entity);
         };

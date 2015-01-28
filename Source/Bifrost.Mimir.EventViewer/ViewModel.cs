@@ -34,10 +34,6 @@ using Newtonsoft.Json;
 
 namespace Bifrost.Mimir.EventViewer
 {
-    public class ClientEvent : Event
-    {
-        public ClientEvent() : base(Guid.NewGuid()) { }
-    }
 
     public class ViewModel
 	{

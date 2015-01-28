@@ -79,25 +79,5 @@ namespace Bifrost.Extensions
             return new Generify<T>();
         }
     }
-
-    public class ClassWithGenericMethods
-    {
-        public object Something<T>()
-        {
-            return null;
-        }
-
-        public object Something<T>(int param1)
-        {
-            return null;
-        }
-
-
-        public object Something<T>(int param1, double param2, string param3)
-        {
-            return null;
-        }
-
-    }
 #pragma warning restore 1591 // Xml Comments
 }

@@ -164,7 +164,7 @@ namespace Bifrost.Sagas
             public Continuing()
                 : base(new List<State>() { CONCLUDED })
             {
-                _canTransitionTo.Add(this);
+                m_canTransitionTo.Add(this);
             }
 
             public override string ToString()

@@ -26,10 +26,9 @@ namespace Bifrost.Dynamic
 {
     public class CustomPropertyInfo : PropertyInfo
     {
-        public string _name;
-        public Type _type;
-        public List<Attribute> _attributes = new List<Attribute>();
-
+        string _name;
+        Type _type;
+        List<Attribute> _attributes = new List<Attribute>();
 
         public CustomPropertyInfo(string name, Type type)
         {
