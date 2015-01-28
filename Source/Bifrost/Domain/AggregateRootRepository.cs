@@ -17,8 +17,6 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Events;
 
@@ -66,11 +64,6 @@ namespace Bifrost.Domain
 
 			return aggregatedRoot;
 		}
-
-        object IAggregateRootRepository.Get(Guid id)
-        {
-            return Get(id);
-        }
 #pragma warning restore 1591 // Xml Comments
 	}
 }
