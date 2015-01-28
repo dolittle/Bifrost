@@ -22,8 +22,13 @@ namespace Bifrost.Web.Read
 {
     public class ReadModelQueryDescriptor
     {
+        public ReadModelQueryDescriptor()
+        {
+            PropertyFilters = new Dictionary<string, object>();
+        }
+
         public string ReadModel { get; set; }
         public string GeneratedFrom { get; set; }
-        public Dictionary<string, object> PropertyFilters { get; set; }
+        public Dictionary<string, object> PropertyFilters { get; private set; }
     }
 }
