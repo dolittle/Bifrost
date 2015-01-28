@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <NDepend AppName="Bifrost" Platform="DotNet">
   <OutputDir KeepXmlFiles="False">C:\Projects\Bifrost\Source\NDependOut</OutputDir>
   <Assemblies>
@@ -123,7 +123,8 @@
   </TrendMetrics>
   <HistoricAnalysisResult PersistRecurrence="3" UseCustomDir="False" CustomDir="" />
   <SourceFileRebasing FromPath="" ToPath="" />
-  <PathVariables /><Queries>
+  <PathVariables />
+  <Queries>
     <Group Name="Code Quality" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Types too big - critical</Name>
 warnif count > 0 from t in JustMyCode.Types where 
@@ -2795,7 +2796,7 @@ select f
 // Field Name doesn't contain the type and 
 // namespace prefix, FullName does.
       ]]></Query>
-      <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Avoid having different types with same name</Name>
+      <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Avoid having different types with same name</Name>
 // Such practice typically creates confusion, 
 // and type naming collision inside a source file.
 
@@ -4158,4 +4159,5 @@ warnif count > 0 from n in Application.Namespaces where
 select new { n, n.NbLinesOfCode } ]]></Query>
       </Group>
     </Group>
-  </Queries></NDepend>
+  </Queries>
+</NDepend>

@@ -775,4 +775,7 @@ Global
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ..\Bifrost\Bifrost.csproj
 	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = "..\Bifrost.ndproj"
+	EndGlobalSection
 EndGlobal
