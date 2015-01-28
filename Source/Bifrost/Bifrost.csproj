@@ -293,6 +293,7 @@
     <Compile Include="Rules\RuleContexts.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
+    <Compile Include="Specifications\Is.cs" />
     <Compile Include="Specifications\Negative.cs" />
     <Compile Include="Specifications\Or.cs" />
     <Compile Include="Specifications\ParameterRebinder.cs" />
