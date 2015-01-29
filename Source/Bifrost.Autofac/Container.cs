@@ -254,7 +254,7 @@ namespace Bifrost.Autofac
                 {
                 }
             }
-            throw new Exception("No contructor was found.");
+            throw new MissingDefaultConstructorException(type);
         }
     }
 }
