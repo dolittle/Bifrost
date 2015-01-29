@@ -14,7 +14,13 @@ namespace Bifrost.Testing.Fakes.Domain
             DoSomethingCalled = false;
         }
 
-        public static bool DoSomethingCalled = false;
+        public static bool DoSomethingCalled { get; set; }
+
+        static StatelessAggregatedRootWithOneMethod()
+        {
+            DoSomethingCalled = false;
+        }
+
         public void DoSomething(string input)
         {
             DoSomethingCalled = true;

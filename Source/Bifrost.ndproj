@@ -812,7 +812,7 @@ from f in Application.Fields where
 let assignedBy = f.MethodsAssigningMe.Where(m => !m.IsStatic)
 where assignedBy .Count() > 0
 select new { f, assignedBy }]]></Query>
-      <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid empty interfaces</Name>
+      <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid empty interfaces</Name>
 warnif count > 0 from t in JustMyCode.Types where 
   t.IsInterface && 
   t.NbMethods == 0

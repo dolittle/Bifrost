@@ -17,8 +17,8 @@
 //
 #endregion
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Execution;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -27,9 +27,14 @@ namespace Bifrost.Windsor
 {
     public class Container : IContainer
     {
-        internal static BindingLifecycle DefaultBindingLifecycle = BindingLifecycle.Transient;
+        internal static BindingLifecycle DefaultBindingLifecycle { get; private set; }
 
         IWindsorContainer _windsorContainer;
+
+        static Container()
+        {
+            DefaultBindingLifecycle = BindingLifecycle.Transient;
+        }
 
         public Container(IWindsorContainer windsorContainer)
         {

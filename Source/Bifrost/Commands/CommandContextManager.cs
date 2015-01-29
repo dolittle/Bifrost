@@ -30,12 +30,19 @@ namespace Bifrost.Commands
 
         [ThreadStatic] static ICommandContext _currentContext;
 
+
+        static ICommandContext CurrentContext
+        {
+            get { return _currentContext;  }
+            set { _currentContext = value; }
+        }
+
         /// <summary>
         /// Reset context
         /// </summary>
         public static void ResetContext()
         {
-            _currentContext = null;
+            CurrentContext = null;
         }
 
         /// <summary>
@@ -49,14 +56,14 @@ namespace Bifrost.Commands
 
         private static bool IsInContext(ICommand command)
         {
-            var inContext = null != _currentContext && _currentContext.Command.Equals(command);
+            var inContext = null != CurrentContext && CurrentContext.Command.Equals(command);
             return inContext;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public bool HasCurrent
         {
-            get { return _currentContext != null; }
+            get { return CurrentContext != null; }
         }
 
         public ICommandContext GetCurrent()
@@ -65,7 +72,7 @@ namespace Bifrost.Commands
             {
                 throw new InvalidOperationException(ExceptionStrings.CommandNotEstablished);
             }
-            return _currentContext;
+            return CurrentContext;
         }
 
         public ICommandContext EstablishForCommand(ICommand command)
@@ -73,9 +80,9 @@ namespace Bifrost.Commands
             if (!IsInContext(command))
             {
                 var commandContext = _factory.Build(command);
-                _currentContext = commandContext;
+                CurrentContext = commandContext;
             }
-            return _currentContext;
+            return CurrentContext;
         }
 
         public ICommandContext EstablishForSaga(ISaga saga, ICommand command)
@@ -84,9 +91,9 @@ namespace Bifrost.Commands
             {
                 var commandContext = _factory.Build(saga,command);
 
-                _currentContext = commandContext;
+                CurrentContext = commandContext;
             }
-            return _currentContext;
+            return CurrentContext;
         }
 #pragma warning restore 1591 // Xml Comments
     }
