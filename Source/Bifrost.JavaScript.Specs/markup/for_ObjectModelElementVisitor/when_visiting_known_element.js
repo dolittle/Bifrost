@@ -33,4 +33,8 @@
     it("should not prepare the element", function () {
         expect(context.ui_element_preparer.prepare.called).toBe(false);
     });
+
+    it("should expand attribute values", function () {
+        expect(context.attribute_values.expandFor.calledWith(element)).toBe(true);
+    });
 }));

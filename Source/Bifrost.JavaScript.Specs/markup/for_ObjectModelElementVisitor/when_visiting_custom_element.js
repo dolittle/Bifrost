@@ -55,4 +55,8 @@
     it("should prepare the element", function () {
         expect(context.ui_element_preparer.prepare.called).toBe(true);
     });
+
+    it("should expand attribute values from element onto instance", function () {
+        expect(context.attribute_values.expandFor.calledWith(element, instance)).toBe(true);
+    });
 }));

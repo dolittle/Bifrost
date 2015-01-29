@@ -16,11 +16,16 @@
         prepare: sinon.stub()
     };
 
+    this.attribute_values = {
+        expandFor: sinon.stub()
+    };
+
     this.object_model_element_visitor = Bifrost.markup.ObjectModelElementVisitor.create({
         elementNaming: this.element_naming,
         namespaces: this.namespaces,
         objectModelFactory: this.object_model_factory,
         propertyExpander: this.property_expander,
-        UIElementPreparer: this.ui_element_preparer
+        UIElementPreparer: this.ui_element_preparer,
+        attributeValues: this.attribute_values
     });
 });

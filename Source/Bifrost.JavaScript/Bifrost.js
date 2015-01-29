@@ -148,10 +148,10 @@
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
 @depends documentService.js
+@depends markup/attributeValues.js
+@depends markup/valueProviderParser.js
 @depends markup/ElementVisitor.js
 @depends markup/ElementVisitorResultActions.js
-@depends markup/MarkupExtension.js
-@depends markup/markupExtensions.js
 @depends markup/objectModelFactory.js
 @depends markup/MultipleNamespacesInNameNotAllowed.js
 @depends markup/MultiplePropertyReferencesNotAllowed.js
@@ -217,6 +217,10 @@
 @depends values/DateFormatter.js
 @depends values/stringFormatter.js
 @depends values/valuePipeline.js
+@depends values/ValueProvider.js
+@depends values/ValueConsumer.js
+@depends values/valueProviders.js
+@depends values/Binding.js
 @depends utils/configurator.js
 @depends utils/configure.js
 */
