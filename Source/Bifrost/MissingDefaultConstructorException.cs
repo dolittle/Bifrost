@@ -18,7 +18,7 @@
 #endregion
 using System;
 
-namespace Bifrost.Configuration
+namespace Bifrost
 {
     /// <summary>
     /// The exception that is thrown when a type is missing a default constructor and one is required

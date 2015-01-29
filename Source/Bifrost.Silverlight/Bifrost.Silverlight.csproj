@@ -248,9 +248,6 @@
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Configuration\MissingDefaultConstructorException.cs">
-      <Link>Configuration\MissingDefaultConstructorException.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Configuration\MultiplePrincipalResolversFound.cs">
       <Link>Configuration\MultiplePrincipalResolversFound.cs</Link>
     </Compile>
@@ -628,6 +625,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Globalization\Localizer.cs">
       <Link>Globalization\Localizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\MissingDefaultConstructorException.cs">
+      <Link>MissingDefaultConstructorException.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Principal\CurrentPrincipal.cs">
       <Link>Principal\CurrentPrincipal.cs</Link>
