@@ -17,14 +17,23 @@
 //
 #endregion
 using Bifrost.CommonServiceLocator;
+using Bifrost.Execution;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Bifrost.Configuration
 {
+    /// <summary>
+    /// Provides extensions for configuration
+    /// </summary>
     public static class ConfigurationExtensions
     {
         static bool _configured = false;
 
+        /// <summary>
+        /// Enables common service locator and sets the <see cref="IContainer">container</see> as the source of location
+        /// </summary>
+        /// <param name="configure"><see cref="IConfigure"/> object to configure</param>
+        /// <returns>Chained <see cref="IConfigure"/></returns>
         public static IConfigure UsingCommonServiceLocator(this IConfigure configure)
         {
             if (!_configured)
