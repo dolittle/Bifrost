@@ -118,7 +118,7 @@ namespace Bifrost.Execution
 
             if (match.Count > 1)
             {
-                throw new Exception(string.Format("Unable to resolve '{0}'. More than one type found with the current name'", fullName));
+                throw new UnableToResolveTypeByName(fullName);
             }
 
             return match.First();

@@ -219,6 +219,7 @@
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Execution\TypeImporter.cs" />
+    <Compile Include="Execution\UnableToResolveTypeByName.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
