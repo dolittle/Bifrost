@@ -162,7 +162,6 @@
 @depends markup/elementNaming.js
 @depends markup/propertyExpander.js
 @depends markup/ObjectModelElementVisitor.js
-@depends markup/Binding.js
 @depends markup/NamingRoot.js
 @depends markup/UIElement.js
 @depends markup/UIElementPreparer.js
