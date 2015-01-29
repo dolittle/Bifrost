@@ -33,10 +33,8 @@ namespace Bifrost.MongoDB.Concepts
             object value = null;
             var valueType = actualType.GetConceptValueType();
 			if (valueType == typeof(Guid)) {
-				var guidBytes = new byte[16];
-				BsonBinarySubType subType;
-				bsonReader.ReadBinaryData (out guidBytes, out subType);
-				value = new Guid (guidBytes);
+                var binaryData = bsonReader.ReadBinaryData();
+                value = binaryData.ToGuid();
 			} else if (valueType == typeof(double))
 				value = bsonReader.ReadDouble ();
 			else if (valueType == typeof(float))
