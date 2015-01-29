@@ -31,16 +31,24 @@ using IContainer = Bifrost.Execution.IContainer;
 
 namespace Bifrost.Autofac
 {
+    /// <summary>
+    /// Represents an implementation of <see cref="IContainer"/> for AutoFac
+    /// </summary>
     public class Container : IContainer
     {
+        global::Autofac.IContainer _container;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Container"/>
+        /// </summary>
+        /// <param name="container"></param>
         public Container(global::Autofac.IContainer container)
         {
             _container = container;
         }
 
-        public global::Autofac.IContainer _container { get; private set; }
 
-
+#pragma warning disable 1591
         public T Get<T>()
         {
             return _container.Resolve<T>();
@@ -185,17 +193,19 @@ namespace Bifrost.Autofac
 
         public BindingLifecycle DefaultLifecycle { get; set; }
 
-        private void RegisterWithCallback<T>(Type service, Func<T> resolveCallback, BindingLifecycle lifecycle)
+#pragma warning restore 1591
+
+        void RegisterWithCallback<T>(Type service, Func<T> resolveCallback, BindingLifecycle lifecycle)
         {
             Update(x => x.Register(c => resolveCallback()).PerLifeStyle(lifecycle).As(service));
         }
 
-        private void RegisterWithCallback(Type type, Func<Type> resolveCallback, BindingLifecycle lifecycle)
+        void RegisterWithCallback(Type type, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             Update(x => x.Register(c => resolveCallback()).PerLifeStyle(lifecycle).As(type));
         }
 
-        private void RegisterService(Type service, Type type, BindingLifecycle lifecycle)
+        void RegisterService(Type service, Type type, BindingLifecycle lifecycle)
         {
             Update(x =>
                 {
@@ -210,12 +220,12 @@ namespace Bifrost.Autofac
                 });
         }
 
-        private void RegisterInstance(Type service, object instance)
+        void RegisterInstance(Type service, object instance)
         {
             Update(x => x.RegisterInstance(instance).As(service));
         }
 
-        private void Update(Action<ContainerBuilder> action)
+        void Update(Action<ContainerBuilder> action)
         {
             var builder = new ContainerBuilder();
             action.Invoke(builder);
@@ -223,7 +233,7 @@ namespace Bifrost.Autofac
         }
 
 
-        private object ResolveUnregistered(Type type)
+        object ResolveUnregistered(Type type)
         {
             ConstructorInfo[] constructors = type.GetConstructors();
             foreach (ConstructorInfo constructor in constructors)
