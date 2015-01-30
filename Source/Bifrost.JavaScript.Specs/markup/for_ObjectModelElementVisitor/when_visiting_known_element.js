@@ -34,6 +34,10 @@
         expect(context.ui_element_preparer.prepare.called).toBe(false);
     });
 
+    it("should ensure binding context", function () {
+        expect(context.binding_context_manager.ensure.calledWith(element)).toBe(true);
+    });
+
     it("should expand attribute values", function () {
         expect(context.attribute_values.expandFor.calledWith(element)).toBe(true);
     });

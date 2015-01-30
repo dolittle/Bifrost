@@ -1,5 +1,5 @@
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues) {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues, bindingContextManager) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -78,6 +78,7 @@ Bifrost.namespace("Bifrost.markup", {
             // </ns:somecontrol>
 
             namespaces.expandNamespaceDefinitions(element);
+            bindingContextManager.ensure(element);
 
             if (element.isKnownType()) {
                 attributeValues.expandFor(element);

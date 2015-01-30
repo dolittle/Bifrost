@@ -149,6 +149,7 @@
 @depends services/serviceDependencyResolver.js
 @depends documentService.js
 @depends markup/BindingContext.js
+@depends markup/bindingContextManager.js
 @depends markup/attributeValues.js
 @depends markup/valueProviderParser.js
 @depends markup/ElementVisitor.js
