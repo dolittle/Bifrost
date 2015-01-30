@@ -1,8 +1,9 @@
 ﻿Bifrost.namespace("Bifrost.markup", {
-    propertyExpander: Bifrost.Singleton(function (typeConverters) {
+    propertyExpander: Bifrost.Singleton(function (valueProviderParser) {
 
         this.expand = function (element, target) {
 
+            /*, typeConverters*/
             /*
             var propertySplit = element.localName.split(".");
             if (propertySplit.length > 2) {
@@ -38,12 +39,18 @@
                 var value = element.attributes[attributeIndex].value;
 
                 if (name in target) {
+                    if (valueProviderParser.hasValueProvider(value)) {
+                        valueProviderParser.parseFor(target, name, value);
+                    }
+
+                    /*
                     var targetValue = target[name];
                     if (ko.isObservable(targetValue)) {
                         targetValue(value);
                     } else {
                         target[name] = value;
                     }
+                    */
 
                     /*
                     var targetType = typeof targetValue;

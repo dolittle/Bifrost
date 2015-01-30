@@ -148,6 +148,7 @@
 @depends services/Service.js
 @depends services/serviceDependencyResolver.js
 @depends documentService.js
+@depends markup/BindingContext.js
 @depends markup/attributeValues.js
 @depends markup/valueProviderParser.js
 @depends markup/ElementVisitor.js
@@ -216,9 +217,11 @@
 @depends values/stringFormatter.js
 @depends values/valuePipeline.js
 @depends values/ValueProvider.js
-@depends values/ValueConsumer.js
 @depends values/valueProviders.js
+@depends values/ValueConsumer.js
+@depends values/valueConsumers.js
 @depends values/Binding.js
+@depends values/DefaultValueConsumer.js
 @depends utils/configurator.js
 @depends utils/configure.js
 */
