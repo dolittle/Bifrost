@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.values", {
-    Binding: Bifrost.values.ValueProvider.extend(function () {
+    Binding: Bifrost.values.ValueProvider.extend(function (bindingContextManager) {
 
         this.defaultProperty = "path";
 

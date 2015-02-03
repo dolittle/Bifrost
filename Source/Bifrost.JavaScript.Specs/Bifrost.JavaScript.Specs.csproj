@@ -569,6 +569,8 @@
     <Content Include="values\for_valuePipeline\when_getting_value_from_non_observable_for_view_twice_without_value_having_changed.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_from_observable_for_view_twice_without_value_having_changed.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_for_view_without_any_typeconverters.js" />
+    <Content Include="values\for_valueProviders\given\value_providers.js" />
+    <Content Include="values\for_valueProviders\when_asking_by_name_if_provider_is_known_with_provider_matching_name.js" />
     <Content Include="views\for_MasterViewModel\when_setting_same_viewmodel_twice.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />

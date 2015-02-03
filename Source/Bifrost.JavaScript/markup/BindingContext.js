@@ -3,8 +3,6 @@
         this.parent = null;
         this.current = null;
 
-        this.changed = function () {
-
-        };
+        this.changed = Bifrost.Event.create();
     })
 });

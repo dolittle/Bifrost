@@ -19,6 +19,7 @@
 using System;
 using System.Linq;
 using Bifrost.Entities;
+using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
@@ -32,15 +33,18 @@ namespace Bifrost.DocumentDB.Entities
     {
         EntityContextConnection _connection;
         DocumentCollection _collection;
+        IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
         /// </summary>
-        /// <param name="connection"></param>
-        public EntityContext(EntityContextConnection connection)
+        /// <param name="connection"><see cref="EntityContextConnection"/> to use</param>
+        /// <param name="mapper">Mapper to use for mapping objects to documents</param>
+        public EntityContext(EntityContextConnection connection, IMapper mapper)
         {
             _connection = connection;
             _collection = connection.GetCollectionFor<T>();
+            _mapper = mapper;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -59,6 +63,8 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Insert(T entity)
         {
+            var document = _mapper.Map<Document, T>(entity);
+
             _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
         }
 

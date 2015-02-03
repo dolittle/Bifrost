@@ -72,6 +72,8 @@
     <Content Include="mapping\MissingPropertyStrategy.js" />
     <Content Include="mapping\PropertyMap.js" />
     <Content Include="markup\attributeValues.js" />
+    <Content Include="markup\bindingContextManager.js" />
+    <Content Include="markup\BindingContext.js" />
     <Content Include="markup\elementNaming.js" />
     <Content Include="markup\MultipleNamespacesInNameNotAllowed.js" />
     <Content Include="markup\MultiplePropertyReferencesNotAllowed.js" />

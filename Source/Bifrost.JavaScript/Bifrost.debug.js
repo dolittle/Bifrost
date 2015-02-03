@@ -6519,6 +6519,41 @@ Bifrost.namespace("Bifrost", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
+    BindingContext: Bifrost.Type.extend(function () {
+        this.parent = null;
+        this.current = null;
+
+        this.changed = Bifrost.Event.create();
+    })
+});
+Bifrost.namespace("Bifrost.markup", {
+    bindingContextManager: Bifrost.Singleton(function () {
+
+        this.ensure = function (element) {
+            // If there is specific bindingContext for element, return it
+
+            // If no specific, find nearest from parent element
+
+            // If no parent element has one either, there is none - return null
+
+            // If element has an attribute of bindingContext - we can now change it to what it is pointing at
+
+            // If bindingContext changes due to a binding being related to the context from the attribute on the element, it should fire the changed thing on the binding context
+
+            // Inherit from parent - always - parent is prototype of current, point back to parent
+        };
+
+        this.hasFor = function (element) {
+
+        };
+
+        this.getFor = function (element) {
+
+        };
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.bindingContextManager = Bifrost.markup.bindingContextManager;
+Bifrost.namespace("Bifrost.markup", {
     attributeValues: Bifrost.Singleton(function (valueProviderParser) {
         this.expandFor = function (element) {
 
@@ -6871,7 +6906,7 @@ Bifrost.namespace("Bifrost.markup", {
     })
 });
 Bifrost.namespace("Bifrost.markup", {
-    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues) {
+    ObjectModelElementVisitor: Bifrost.markup.ElementVisitor.extend(function (elementNaming, namespaces, objectModelFactory, propertyExpander, UIElementPreparer, attributeValues, bindingContextManager) {
         this.visit = function(element, actions) {
             // Tags : 
             //  - tag names automatically match type names
@@ -6950,6 +6985,7 @@ Bifrost.namespace("Bifrost.markup", {
             // </ns:somecontrol>
 
             namespaces.expandNamespaceDefinitions(element);
+            bindingContextManager.ensure(element);
 
             if (element.isKnownType()) {
                 attributeValues.expandFor(element);
@@ -8998,7 +9034,11 @@ Bifrost.namespace("Bifrost.values", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.valueConsumers = Bifrost.values.valueConsumers;
 Bifrost.namespace("Bifrost.values", {
-    Binding: Bifrost.values.ValueProvider.extend(function () {
+    Binding: Bifrost.values.ValueProvider.extend(function (bindingContextManager) {
+
+        this.defaultProperty = "path";
+
+        this.path = "";
         this.mode = null;
         this.converter = null;
         this.format = null;
