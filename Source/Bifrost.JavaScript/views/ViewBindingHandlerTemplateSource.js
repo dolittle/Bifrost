@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory, UIManager) {
+    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory) {
         var content = "";
 
 
@@ -9,7 +9,7 @@
             view.load(region).continueWith(function (loadedView) {
                 var wrapper = document.createElement("div");
                 wrapper.innerHTML = loadedView.content;
-                UIManager.handle(wrapper);
+                
 
                 content = wrapper.innerHTML;
 
