@@ -6919,7 +6919,8 @@ Bifrost.namespace("Bifrost.markup", {
             //  - if no namespace is defined, try to resolve in the global namespace
             //  - namespaces in the object model can point to multiple JavaScript namespaces
             //  - multiple types with same name in namespace groupings should throw an exception
-            //  - registering a namespace can be done on any tag by adding xmlns:name="point to JS namespace"
+            //  - registering a namespace can be done on any tag by adding ns:name="point to JS namespace"
+            //  - Wildcard registrations to capture anything in a namespace e.g. ns:controls="Web.Controls.*"
             //  - If one registers a namespace with a prefix a parent already has and no naming root sits in between, 
             //    it should add the namespace target on the same definition
             //  - Naming roots are important - if there occurs a naming root, everything is relative to that and 
@@ -7484,7 +7485,7 @@ Bifrost.views.viewBindingHandler.initialize = function () {
     ko.virtualElements.allowedBindings.view = true;
 };
 Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory, UIManager) {
+    ViewBindingHandlerTemplateSource: Bifrost.Type.extend(function (viewFactory) {
         var content = "";
 
 
@@ -7494,7 +7495,7 @@ Bifrost.namespace("Bifrost.views", {
             view.load(region).continueWith(function (loadedView) {
                 var wrapper = document.createElement("div");
                 wrapper.innerHTML = loadedView.content;
-                UIManager.handle(wrapper);
+                
 
                 content = wrapper.innerHTML;
 
@@ -7519,7 +7520,7 @@ Bifrost.namespace("Bifrost.views", {
     })
 });
 Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager, regionManager) {
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager, regionManager, UIManager) {
         var self = this;
         this.renderTemplate = function (template, bindingContext, options) {
             var templateSource;
@@ -7567,6 +7568,14 @@ Bifrost.namespace("Bifrost.views", {
 
             bindingContext.$root = bindingContext.$data;
             var renderedTemplateSource = self.renderTemplateSource(templateSource, bindingContext, options);
+
+            renderedTemplateSource.forEach(function (element) {
+                if (element.constructor !== Text && element.constructor !== Comment) {
+                    UIManager.handle(element);
+                }
+            });
+
+            
             return renderedTemplateSource;
         };
     })
