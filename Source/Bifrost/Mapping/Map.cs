@@ -28,10 +28,19 @@ namespace Bifrost.Mapping
     /// </summary>
     /// <typeparam name="TSource">Source type for the map</typeparam>
     /// <typeparam name="TTarget">Target type for the map</typeparam>
-    public class Map<TSource, TTarget> : IMap
+    public abstract class Map<TSource, TTarget> : IMap
     {
         List<PropertyMap<TSource, TTarget>> _properties = new List<PropertyMap<TSource, TTarget>>();
-        
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Map{TSource, TTarget}"/>
+        /// </summary>
+        public Map()
+        {
+            AddDefaultPropertyMaps();
+        }
+
+
         /// <summary>
         /// Describe a specific property
         /// </summary>
@@ -40,10 +49,9 @@ namespace Bifrost.Mapping
         protected PropertyMap<TSource, TTarget> Property(Expression<Func<TSource, object>> property)
         {
             var propertyInfo = property.GetPropertyInfo();
-            var propertyMap = new PropertyMap<TSource, TTarget>(propertyInfo);
-            _properties.Add(propertyMap);
-            return propertyMap;
+            return AddPropertyMap(propertyInfo);
         }
+
 
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<PropertyMap<TSource, TTarget>> Properties { get { return _properties; } }
@@ -54,5 +62,18 @@ namespace Bifrost.Mapping
 #pragma warning restore 1591 // Xml Comments
 
         IEnumerable<IPropertyMap> IMap.Properties { get { return _properties; } }
+
+        void AddDefaultPropertyMaps()
+        {
+            typeof(TSource).GetProperties().ForEach(p => AddPropertyMap(p).Strategy = new SourcePropertyMappingStrategy(p));
+        }
+
+        PropertyMap<TSource, TTarget> AddPropertyMap(System.Reflection.PropertyInfo propertyInfo)
+        {
+            var propertyMap = new PropertyMap<TSource, TTarget>(propertyInfo);
+            _properties.Add(propertyMap);
+            return propertyMap;
+        }
+
     }
 }

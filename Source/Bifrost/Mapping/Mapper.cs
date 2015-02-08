@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using Bifrost.Extensions;
 using Bifrost.Execution;
 
 namespace Bifrost.Mapping
@@ -42,9 +43,21 @@ namespace Bifrost.Mapping
 
 
 #pragma warning disable 1591 // Xml Comments
-        public TTarget Map<TTarget, TSource>(TSource source)
+        public bool CanMap<TTarget, TSource>()
         {
             throw new NotImplementedException();
+        }
+
+        public TTarget Map<TTarget, TSource>(TSource source)
+        {
+            var map = _maps.GetFor(typeof(TSource), typeof(TTarget));
+            var mappingTarget = _mappingTargets.GetFor(typeof(TTarget));
+
+            var target = Activator.CreateInstance<TTarget>();
+
+            map.Properties.ForEach(p => p.Strategy.Perform(mappingTarget, target, p.From.GetValue(source)));
+
+            return target;
         }
 
         public void MapToInstance<TTarget, TSource>(TSource source, TTarget target)
@@ -52,5 +65,6 @@ namespace Bifrost.Mapping
 
         }
 #pragma warning restore 1591 // Xml Comments
+
     }
 }

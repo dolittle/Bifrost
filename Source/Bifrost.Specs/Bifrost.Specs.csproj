@@ -40,13 +40,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.8.3\lib\net45\Machine.Specifications.dll</HintPath>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications.Clr4, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.8.3\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications.Should, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,9 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Solutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -379,11 +379,16 @@
     <Compile Include="Mapping\for_Maps\when_asking_if_has_map_for_known_combination.cs" />
     <Compile Include="Mapping\for_Maps\when_asking_if_has_map_for_unknown_combination.cs" />
     <Compile Include="Mapping\for_Maps\when_asking_for_map_for_unknown_combination.cs" />
+    <Compile Include="Mapping\for_Map\MapWithOneOfTwoPropertiesMapped.cs" />
+    <Compile Include="Mapping\for_Map\MapWithoutMappings.cs" />
     <Compile Include="Mapping\for_Map\MyMap.cs" />
     <Compile Include="Mapping\for_Map\Source.cs" />
+    <Compile Include="Mapping\for_Map\SourceWithTwoProperties.cs" />
     <Compile Include="Mapping\for_Map\Target.cs" />
     <Compile Include="Mapping\for_Map\when_asking_for_target_type.cs" />
     <Compile Include="Mapping\for_Map\when_asking_for_source_type.cs" />
+    <Compile Include="Mapping\for_Map\when_map_has_one_property_mapped_and_one_property_unmapped.cs" />
+    <Compile Include="Mapping\for_Map\when_map_has_not_mapped_any_properties.cs" />
     <Compile Include="Mapping\for_Map\when_map_maps_one_property.cs" />
     <Compile Include="Mapping\for_PropertyMapExtensions\Target.cs" />
     <Compile Include="Mapping\for_PropertyMapExtensions\when_specifying_to_property.cs" />

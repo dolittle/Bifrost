@@ -16,36 +16,34 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
 
+using System.Reflection;
 namespace Bifrost.Mapping
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPropertyMappingStrategy"/> that supports mapping to 
-    /// a specified property
+    /// Represents a <see cref="IPropertyMappingStrategy"/> that is typically used when property should map to self - same property as source
     /// </summary>
-    public class TargetPropertyMappingStrategy : IPropertyMappingStrategy
+    /// <remarks>
+    /// If the property does not exist in the target, it will just ignore it and the value won't be set. It does not qualify to be an exceptional state.
+    /// </remarks>
+    public class SourcePropertyMappingStrategy : IPropertyMappingStrategy
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="TargetPropertyMappingStrategy"/>
-        /// </summary>
-        /// <param name="propertyInfo"><see cref="PropertyInfo"/> representing the property</param>
-        public TargetPropertyMappingStrategy(PropertyInfo propertyInfo)
-        {
-            PropertyInfo = propertyInfo;
-        }
+        PropertyInfo _propertyInfo;
 
         /// <summary>
-        /// Gets the <see cref="PropertyInfo"/> representing the property
+        /// Initializes a new instance of <see cref="SourcePropertyMappingStrategy"/>
         /// </summary>
-        public PropertyInfo PropertyInfo { get; private set; }
+        /// <param name="propertyInfo"><see cref="PropertyInfo"/> to base it from</param>
+        public SourcePropertyMappingStrategy(PropertyInfo propertyInfo)
+        {
+            _propertyInfo = propertyInfo;
+        }
 
 #pragma warning disable 1591 // Xml Comments
-        public void Perform(IMappingTarget mappingTarget, object target, object sourceValue)
+        public void Perform(IMappingTarget mappingTarget, object target, object value)
         {
-            mappingTarget.SetValue(target, PropertyInfo, sourceValue);
+
         }
 #pragma warning restore 1591 // Xml Comments
-
     }
 }

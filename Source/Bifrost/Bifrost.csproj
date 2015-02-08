@@ -131,6 +131,11 @@
     <Compile Include="Configuration\IHaveStorage.cs" />
     <Compile Include="Configuration\ISecurityConfiguration.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
+    <Compile Include="Entities\Files\Document.cs" />
+    <Compile Include="Entities\Files\Mapping\DocumentMapFor.cs" />
+    <Compile Include="Entities\Files\Mapping\KeyStrategy.cs" />
+    <Compile Include="Entities\Files\Mapping\PropertyMapExtensions.cs" />
+    <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
     <Compile Include="MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />
     <Compile Include="Configuration\SecurityConfiguration.cs" />

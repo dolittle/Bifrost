@@ -25,6 +25,14 @@ namespace Bifrost.Mapping
     public interface IMapper
     {
         /// <summary>
+        /// Check if it is possible to map two types
+        /// </summary>
+        /// <typeparam name="TTarget">Target type to map to</typeparam>
+        /// <typeparam name="TSource">Type of the source we're mapping from</typeparam>
+        /// <returns></returns>
+        bool CanMap<TTarget, TSource>();
+
+        /// <summary>
         /// Map an existing object and create a new while doing so
         /// </summary>
         /// <typeparam name="TTarget">Target type to create</typeparam>

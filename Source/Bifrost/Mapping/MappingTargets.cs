@@ -30,7 +30,6 @@ namespace Bifrost.Mapping
     public class MappingTargets : IMappingTargets
     {
         static DefaultMappingTarget _defaultMappingTarget = new DefaultMappingTarget();
-            
 
         IInstancesOf<IMappingTarget> _mappingTargets;
         Dictionary<Type, IMappingTarget> _mappingTargetsByType;
