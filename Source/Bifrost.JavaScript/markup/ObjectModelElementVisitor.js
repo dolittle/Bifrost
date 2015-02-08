@@ -12,7 +12,8 @@ Bifrost.namespace("Bifrost.markup", {
             //  - if no namespace is defined, try to resolve in the global namespace
             //  - namespaces in the object model can point to multiple JavaScript namespaces
             //  - multiple types with same name in namespace groupings should throw an exception
-            //  - registering a namespace can be done on any tag by adding xmlns:name="point to JS namespace"
+            //  - registering a namespace can be done on any tag by adding ns:name="point to JS namespace"
+            //  - Wildcard registrations to capture anything in a namespace e.g. ns:controls="Web.Controls.*"
             //  - If one registers a namespace with a prefix a parent already has and no naming root sits in between, 
             //    it should add the namespace target on the same definition
             //  - Naming roots are important - if there occurs a naming root, everything is relative to that and 
