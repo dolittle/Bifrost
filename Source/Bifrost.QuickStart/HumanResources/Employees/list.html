@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <title></title>
@@ -11,18 +11,22 @@
         }
     </style>
 
-    
+
 
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th>SSN
+                <th>
+                    SSN
                 </th>
-                <th>First Name
+                <th>
+                    First Name
                 </th>
-                <th>Last Name
+                <th>
+                    Last Name
                 </th>
-                <th>Employed From
+                <th>
+                    Employed From
                 </th>
             </tr>
         </thead>
@@ -35,5 +39,9 @@
             </tr>
         </tbody>
     </table>
+
+    <div ns:controls="Web.Controls.Test">
+        <controls:testcontrol something="{{binding something}}" observable="fourty two"></controls:testcontrol>
+    </div>
 </body>
 </html>
