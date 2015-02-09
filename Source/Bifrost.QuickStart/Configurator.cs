@@ -29,7 +29,7 @@ namespace Web
                     //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
 
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                    //.UsingDocumentDB(e => e.WithUrl("https://bifrost.documents.azure.com:443/").WithDefaultDatabase("bifrost").UsingAuthorizationKey("uqd1KXaimscohEn/bPhMQS0xBd6hdtfCsgSC8t921KoTHD0WQ+9eYUZlFo3jMz9uD8k8guXEiuV2UwoVKa4HwA=="))
+                    //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                     
                 .DefaultStorage
                     .UsingFiles(entitiesPath)
@@ -41,7 +41,7 @@ namespace Web
                     //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
 
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                    //.UsingDocumentDB(e => e.WithUrl("https://bifrost.documents.azure.com:443/").WithDefaultDatabase("QuickStart").UsingAuthorizationKey("2NQ32KwoTGZOxiyUs7vWkq6Mvvl2Fq+HR0s5YBt7tMZwzFvUg5e5LvvLZyYUP6GLIUvN5iOqMaq7Iw6vPjseRQ=="))
+                    //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                 .Frontend
                     .Web(w=> {
                         w.AsSinglePageApplication();
@@ -61,13 +61,16 @@ namespace Web
                         w.NamespaceMapper.Add("Bifrost.Visualizer.**.", "Bifrost.Web.Visualizer.**.");
                         #endregion
 
-                        w.PathsToNamespaces.Add("**/", "Web.**.");
-                        w.PathsToNamespaces.Add("/**/", "Web.**.");
-                        w.PathsToNamespaces.Add("", "Web");
+                        var baseNamespace = global::Bifrost.Configuration.Configure.Instance.EntryAssembly.GetName().Name;
+                        var @namespace = string.Format("{0}.**.", baseNamespace);
 
-                        w.NamespaceMapper.Add("Web.**.", "Web.Domain.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.Read.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.**.");
+                        w.PathsToNamespaces.Add("**/", @namespace);
+                        w.PathsToNamespaces.Add("/**/", @namespace);
+                        w.PathsToNamespaces.Add("", baseNamespace);
+
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Domain.**.", baseNamespace));
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Read.**.", baseNamespace));
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.**.", baseNamespace));
 					})
                 .WithMimir();
 
