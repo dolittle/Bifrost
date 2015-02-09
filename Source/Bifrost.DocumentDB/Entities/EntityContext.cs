@@ -18,8 +18,10 @@
 #endregion
 using System;
 using System.Linq;
+using Bifrost.Concepts;
 using Bifrost.Entities;
 using Bifrost.Mapping;
+using Bifrost.Extensions;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
@@ -63,9 +65,26 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Insert(T entity)
         {
-            var document = _mapper.Map<Document, T>(entity);
+            //var document = _mapper.Map<Document, T>(entity);
 
-            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
+            var document = new Document();
+
+            var properties = typeof(T).GetProperties();
+            properties.ForEach(p =>
+            {
+                var value = p.GetValue(entity);
+
+                if (value.IsConcept()) value = value.GetConceptValue();
+
+                if (p.Name.ToLowerInvariant() == "id")
+                    document.Id = value.ToString();
+                else
+                    document.SetPropertyValue(p.Name, value);
+            });
+
+            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
+
+            //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
         }
 
         public void Update(T entity)
