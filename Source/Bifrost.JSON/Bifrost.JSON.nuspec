@@ -12,10 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Support for Newtonsoft JSON.net for Bifrost</description>
     <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
-    <copyright>Copyright 2008 - 2014</copyright>
+    <copyright>Copyright 2008 - 2015</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="6.0.5" />
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
