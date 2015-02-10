@@ -25,7 +25,7 @@
       <dependency id="Microsoft.Owin.Security" version="3.0.0" />
       <dependency id="Microsoft.Web.Infrastructure" version="1.0.0.0" />
       <dependency id="Newtonsoft.Json" version="6.0.8" />
-      <dependency id="Owin" version="1.0" targetFramework="net40" />
+      <dependency id="Owin" version="1.0"/>
       <dependency id="Bifrost" version="$version$"/>
       <dependency id="Bifrost.Web" version="$version$"/>
     </dependencies>
