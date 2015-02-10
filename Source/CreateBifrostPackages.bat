@@ -4,6 +4,7 @@ set nuget=solutions\.nuget\nuget.exe
 set version=%1
 
 %nuget% pack Bifrost\Bifrost.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.FluentValidation\Bifrost.FluentValidation.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.CommonServiceLocator\Bifrost.CommonServiceLocator.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.Client.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.JSON\Bifrost.JSON.nuspec -Symbols -Version %version%
