@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Bifrost.MongoDB</id>
+    <id>Bifrost.FluentValidation</id>
     <version>$version$</version>
-    <title>Bifrost MongoDB support</title>
+    <title>Bifrost FluentValidation support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
     <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
