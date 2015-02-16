@@ -97,6 +97,7 @@
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Execution\Promise.cs" />
+    <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />
     <Compile Include="Interaction\Operation.cs" />
     <Compile Include="Interaction\OperationContext.cs" />

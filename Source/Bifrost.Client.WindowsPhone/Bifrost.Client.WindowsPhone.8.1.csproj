@@ -176,6 +176,9 @@
     <Compile Include="..\Bifrost.Client\ViewModels\ViewModelService.cs">
       <Link>ViewModels\ViewModelService.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\VisualTree\VisualTreeExtensions.cs">
+      <Link>VisualTree\VisualTreeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
       <Link>Concepts\ConceptAs.cs</Link>
     </Compile>
