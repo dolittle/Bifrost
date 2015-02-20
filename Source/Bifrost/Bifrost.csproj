@@ -135,6 +135,7 @@
     <Compile Include="Entities\Files\Mapping\DocumentMapFor.cs" />
     <Compile Include="Entities\Files\Mapping\KeyStrategy.cs" />
     <Compile Include="Entities\Files\Mapping\PropertyMapExtensions.cs" />
+    <Compile Include="Execution\AssemblyDetails.cs" />
     <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
     <Compile Include="MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />

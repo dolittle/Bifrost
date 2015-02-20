@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -45,22 +46,16 @@ namespace Bifrost.Execution
             var uri = new Uri(codeBase);
             var path = Path.GetDirectoryName(uri.LocalPath);
 
-            var files = new DirectoryInfo(path).GetFiles("*.dll");
+            IEnumerable<FileInfo> files = new DirectoryInfo(path).GetFiles("*.dll");
             files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
+            files = files.Where(AssemblyDetails.IsAssembly);
 
             var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             foreach (var file in files)
             {
-                try
-                {
-                    var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                    if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                        currentAssemblies.Add(Assembly.Load(assemblyName));
-                }
-                catch (BadImageFormatException)
-                {
-                    //Just indicates this is not a .NET assembly
-                }
+                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
+                    currentAssemblies.Add(Assembly.Load(assemblyName));
             }
             _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
         }
