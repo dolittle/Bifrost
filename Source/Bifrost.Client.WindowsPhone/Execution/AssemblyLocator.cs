@@ -17,16 +17,18 @@
 //
 #endregion
 using System;
-using System.IO;
+using System.Collections.Generic;
+using Windows.Storage;
 using System.Linq;
 using System.Reflection;
+
+
 
 namespace Bifrost.Execution
 {
 	/// <summary>
     /// Represents a <see cref="IAssemblyLocator"/>
     /// </summary>
-    [Singleton]
     public class AssemblyLocator : IAssemblyLocator
     {
         Assembly[] _assemblies;
@@ -41,28 +43,33 @@ namespace Bifrost.Execution
 
         private void Initialize()
         {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new Uri(codeBase);
-            var path = Path.GetDirectoryName(uri.LocalPath);
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            var assemblies = new List<Assembly>();
 
-            var files = new DirectoryInfo(path).GetFiles("*.dll");
-            files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
+            IEnumerable<StorageFile>    files = null;
 
-            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            var operation = folder.GetFilesAsync();
+            operation.Completed = async (r, s) => {
+                var result = await r;
+                files = result;
+            };
+
+            while (files == null) ;
+
             foreach (var file in files)
             {
-                try
+                if (file.FileType == ".dll" || file.FileType == ".exe")
                 {
-                    var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                    if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                        currentAssemblies.Add(Assembly.Load(assemblyName));
-                }
-                catch (BadImageFormatException)
-                {
-                    //Just indicates this is not a .NET assembly
+                    var name = new AssemblyName() { Name = System.IO.Path.GetFileNameWithoutExtension(file.Name) };
+                    try
+                    {
+                        Assembly asm = Assembly.Load(name);
+                        assemblies.Add(asm);
+                    }
+                    catch { }
                 }
             }
-            _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
+            _assemblies = assemblies.ToArray();
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -97,5 +104,6 @@ namespace Bifrost.Execution
         {
             return a.ToString() == b.ToString();
         }
+
     }
 }

@@ -42,6 +42,7 @@ namespace Bifrost.VisualTree
                 return;
             }
 
+#if(!NETFX_CORE)
             var decorator = parent as Decorator;
             if (decorator != null)
             {
@@ -51,6 +52,7 @@ namespace Bifrost.VisualTree
                 }
                 return;
             }
+#endif
 
             var contentPresenter = parent as ContentPresenter;
             if (contentPresenter != null)

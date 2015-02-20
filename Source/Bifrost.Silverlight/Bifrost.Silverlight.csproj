@@ -503,9 +503,6 @@
     <Compile Include="..\Bifrost\Execution\AssemblyComparer.cs">
       <Link>Execution\AssemblyComparer.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\AssemblyLocator.cs">
-      <Link>Execution\AssemblyLocator.cs</Link>
-    </Compile>
     <Compile Include="..\Bifrost\Execution\BaseConvention.cs">
       <Link>Execution\BaseConvention.cs</Link>
     </Compile>
@@ -935,6 +932,7 @@
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
+    <Compile Include="Execution\AssemblyLocator.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

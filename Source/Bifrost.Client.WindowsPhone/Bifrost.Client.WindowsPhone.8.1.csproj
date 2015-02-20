@@ -197,6 +197,9 @@
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
+      <Link>Execution\IAssemblyLocator.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Extensions\CollectionsExtensions.cs">
       <Link>Extensions\CollectionsExtensions.cs</Link>
     </Compile>
@@ -221,6 +224,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Execution\AssemblyLocator.cs" />
     <Compile Include="Execution\Dispatcher.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
