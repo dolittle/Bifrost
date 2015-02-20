@@ -40,26 +40,6 @@ namespace Bifrost.Execution
             Initialize();
         }
 
-        private void Initialize()
-        {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new Uri(codeBase);
-            var path = Path.GetDirectoryName(uri.LocalPath);
-
-            IEnumerable<FileInfo> files = new DirectoryInfo(path).GetFiles("*.dll");
-            files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
-            files = files.Where(AssemblyDetails.IsAssembly);
-
-            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            foreach (var file in files)
-            {
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                    currentAssemblies.Add(Assembly.Load(assemblyName));
-            }
-            _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
-        }
-
 #pragma warning disable 1591 // Xml Comments
         public Assembly[] GetAll()
         {
@@ -85,8 +65,28 @@ namespace Bifrost.Execution
             var assembly = query.SingleOrDefault();
             return assembly;
         }
-
 #pragma warning restore 1591 // Xml Comments
+
+        void Initialize()
+        {
+            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var uri = new Uri(codeBase);
+            var path = Path.GetDirectoryName(uri.LocalPath);
+
+            IEnumerable<FileInfo> files = new DirectoryInfo(path).GetFiles("*.dll");
+            files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
+            files = files.Where(AssemblyDetails.IsAssembly);
+
+            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            foreach (var file in files)
+            {
+                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
+                    currentAssemblies.Add(Assembly.Load(assemblyName));
+            }
+            _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
+        }
+
 
         bool Matches(AssemblyName a, AssemblyName b)
         {
