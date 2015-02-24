@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Bifrost.Configuration;
+using Bifrost.DocumentDB;
 using Bifrost.DocumentDB.Entities;
 
 namespace Bifrost.Configuration
@@ -42,7 +43,9 @@ namespace Bifrost.Configuration
             configuration.Connection = connection;
 
             storage.EntityContextConfiguration = configuration;
-            
+
+            Configure.Instance.Container.Bind<ICollectionStrategy>(typeof(MultipleEntitiesInOneCollection));
+
             return Configure.Instance;
         }
 

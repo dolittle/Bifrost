@@ -17,7 +17,7 @@
 //
 #endregion
 
-namespace Bifrost.DocumentDB.Entities
+namespace Bifrost.DocumentDB
 {
     /// <summary>
     /// Defines an interface representing the property added to all documents for dealing with different document types in a collection

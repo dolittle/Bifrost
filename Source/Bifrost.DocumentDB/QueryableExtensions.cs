@@ -21,7 +21,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Bifrost.DocumentDB.Entities
+namespace Bifrost.DocumentDB
 {
     /// <summary>
     /// Extends queryable with DocumentDB specific extensions

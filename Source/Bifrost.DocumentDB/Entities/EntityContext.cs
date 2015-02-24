@@ -36,16 +36,19 @@ namespace Bifrost.DocumentDB.Entities
         EntityContextConnection _connection;
         DocumentCollection _collection;
         IMapper _mapper;
+        ICollectionStrategy _collectionStrategy;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
         /// </summary>
         /// <param name="connection"><see cref="EntityContextConnection"/> to use</param>
         /// <param name="mapper">Mapper to use for mapping objects to documents</param>
-        public EntityContext(EntityContextConnection connection, IMapper mapper)
+        /// <param name="collectionStrategy">Strategy used for dealing with collections</param>
+        public EntityContext(EntityContextConnection connection, IMapper mapper, ICollectionStrategy collectionStrategy)
         {
             _connection = connection;
-            _collection = connection.GetCollectionFor("Entities");
+            _collectionStrategy = collectionStrategy;
+            _collection = connection.GetCollectionFor(collectionStrategy.CollectionNameFor<T>());
             _mapper = mapper;
         }
 
@@ -54,8 +57,8 @@ namespace Bifrost.DocumentDB.Entities
         {
             get
             {
-                var documentType = typeof(T).Name;
-                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink).DocumentType(documentType);
+                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink) as IQueryable<T>;
+                queryable = _collectionStrategy.HandleQueryableFor<T>(queryable);
                 return queryable;
             }
         }
