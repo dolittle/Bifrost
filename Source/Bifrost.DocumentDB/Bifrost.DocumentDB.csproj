@@ -58,6 +58,8 @@
     <Compile Include="Entities\EntityContextConnection.cs" />
     <Compile Include="Entities\EntityContext.cs" />
     <Compile Include="Entities\EntityContextConfiguration.cs" />
+    <Compile Include="Entities\IHaveDocumentType.cs" />
+    <Compile Include="Entities\QueryableExtensions.cs" />
     <Compile Include="Events\ConfigurationExtensions.cs" />
     <Compile Include="Events\EventStorageConfiguration.cs" />
     <Compile Include="Events\EventStore.cs" />

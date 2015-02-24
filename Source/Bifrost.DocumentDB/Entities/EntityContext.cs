@@ -20,8 +20,8 @@ using System;
 using System.Linq;
 using Bifrost.Concepts;
 using Bifrost.Entities;
-using Bifrost.Mapping;
 using Bifrost.Extensions;
+using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
@@ -45,7 +45,7 @@ namespace Bifrost.DocumentDB.Entities
         public EntityContext(EntityContextConnection connection, IMapper mapper)
         {
             _connection = connection;
-            _collection = connection.GetCollectionFor<T>();
+            _collection = connection.GetCollectionFor("Entities");
             _mapper = mapper;
         }
 
@@ -54,7 +54,8 @@ namespace Bifrost.DocumentDB.Entities
         {
             get
             {
-                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink);
+                var documentType = typeof(T).Name;
+                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink).DocumentType(documentType);
                 return queryable;
             }
         }
@@ -67,6 +68,7 @@ namespace Bifrost.DocumentDB.Entities
         {
             //var document = _mapper.Map<Document, T>(entity);
 
+            var documentType = typeof(T).Name;
             var document = new Document();
 
             var properties = typeof(T).GetProperties();
@@ -81,6 +83,7 @@ namespace Bifrost.DocumentDB.Entities
                 else
                     document.SetPropertyValue(p.Name, value);
             });
+            document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
             _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
 

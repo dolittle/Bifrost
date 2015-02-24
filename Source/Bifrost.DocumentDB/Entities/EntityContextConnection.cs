@@ -70,17 +70,27 @@ namespace Bifrost.DocumentDB.Entities
         /// <returns>The <see cref="DocumentCollection"/> for the type</returns>
         public DocumentCollection GetCollectionFor(Type type)
         {
+            return GetCollectionFor(type.Name);
+        }
+
+        /// <summary>
+        /// Get a <see cref="DocumentCollection"/> for a specific name
+        /// </summary>
+        /// <param name="name">Name of collection</param>
+        /// <returns>The <see cref="DocumentCollection"/></returns>
+        public DocumentCollection GetCollectionFor(string name)
+        {
             DocumentCollection collection = null;
 
-            var collectionName = type.Name;
+            
 
             Client.ReadDocumentCollectionFeedAsync(Database.SelfLink)
-                .ContinueWith(f => collection = f.Result.Where(c => c.Id == collectionName).SingleOrDefault())
+                .ContinueWith(f => collection = f.Result.Where(c => c.Id == name).SingleOrDefault())
                 .Wait();
 
             if (collection == null)
             {
-                collection = new DocumentCollection { Id = collectionName };
+                collection = new DocumentCollection { Id = name };
                 Client
                     .CreateDocumentCollectionAsync(Database.SelfLink, collection)
                     .ContinueWith(r => collection = r.Result.Resource)
@@ -88,6 +98,7 @@ namespace Bifrost.DocumentDB.Entities
             }
 
             return collection;
+
         }
 
 #pragma warning disable 1591 // Xml Comments
