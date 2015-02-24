@@ -46,29 +46,33 @@ namespace Bifrost.Interaction
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
 
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            if (!(target.TargetObject is DependencyObject)) return this;
-
-
-            var element = target.TargetObject as FrameworkElement;
-            var targetProperty = target.TargetProperty as DependencyProperty;
-            if (element == null || targetProperty == null) return null;
-
-            var viewModel = GetDataContext(element);
-            if (viewModel == null)
+            try
             {
-                element.DataContextChanged += (s, e) =>
+                var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+                if (!(target.TargetObject is DependencyObject)) return this;
+
+
+                var element = target.TargetObject as FrameworkElement;
+                var targetProperty = target.TargetProperty as DependencyProperty;
+                if (element == null || targetProperty == null) return null;
+
+                var viewModel = GetDataContext(element);
+                if (viewModel == null)
                 {
-                    viewModel = e.NewValue;
+                    element.DataContextChanged += (s, e) =>
+                    {
+                        viewModel = e.NewValue;
+                        var command = GetCommandFromMethod(viewModel);
+                        element.SetValue(targetProperty, command);
+                    };
+                }
+                else
+                {
                     var command = GetCommandFromMethod(viewModel);
-                    element.SetValue(targetProperty, command);
-                };
+                    return command;
+                }
             }
-            else
-            {
-                var command = GetCommandFromMethod(viewModel);
-                return command;
-            }
+            catch { }
 
             return null;
         }
