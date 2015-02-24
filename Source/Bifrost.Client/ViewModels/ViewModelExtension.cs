@@ -19,6 +19,7 @@
 using System;
 using System.Windows.Markup;
 using Bifrost.Configuration;
+using Bifrost.Dynamic;
 
 namespace Bifrost.ViewModels
 {
@@ -35,8 +36,16 @@ namespace Bifrost.ViewModels
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var instance = Configure.Instance.Container.Get(_type);
-            return instance;
+            try
+            {
+
+                var instance = Configure.Instance.Container.Get(_type);
+                return instance;
+            }
+            catch
+            {
+                return new BindableExpandoObject();
+            }
         }
     }
 }
