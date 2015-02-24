@@ -82,9 +82,6 @@
     <Compile Include="Tasks\TaskContext.cs" />
     <Compile Include="Tasks\TaskResult.cs" />
     <Compile Include="Tasks\Tasks.cs" />
-    <Compile Include="Values\BindableExpandoObject.cs" />
-    <Compile Include="Values\BindableExpandoPropertyInfo.cs" />
-    <Compile Include="Values\BindableExpandoType.cs" />
     <Compile Include="Execution\Dispatcher.cs" />
     <Compile Include="Execution\DispatcherManager.cs" />
     <Compile Include="Execution\IDispatcher.cs" />
