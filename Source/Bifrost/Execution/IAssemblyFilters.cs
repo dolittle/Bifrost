@@ -17,22 +17,19 @@
 //
 #endregion
 
-using Bifrost.Execution;
-
-namespace Bifrost.Configuration.Defaults
+using System.Reflection;
+namespace Bifrost.Execution
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultBindings"/>
-	/// </summary>
-    public class DefaultBindings : IDefaultBindings
-	{
-#pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
-        {
-            container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(global::Bifrost.Execution.AssemblyLocator), BindingLifecycle.Singleton);
-            container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
-		}
-#pragma warning restore 1591 // Xml Comments
-	}
+    /// <summary>
+    /// Defines a system for filtering assemblies
+    /// </summary>
+    public interface IAssemblyFilters
+    {
+        /// <summary>
+        /// Method that decides wether or not an assembly should be included
+        /// </summary>
+        /// <param name="assembly"><see cref="Assembly"/> to ask for</param>
+        /// <returns>True if it should be included, false if not</returns>
+        bool ShouldInclude(Assembly assembly);
+    }
 }

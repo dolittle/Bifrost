@@ -16,23 +16,23 @@
 // limitations under the License.
 //
 #endregion
-
-using Bifrost.Execution;
-
-namespace Bifrost.Configuration.Defaults
+namespace Bifrost.Configuration.AssemblyLocator
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultBindings"/>
-	/// </summary>
-    public class DefaultBindings : IDefaultBindings
-	{
-#pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
+    /// <summary>
+    /// Represents a builder for building configuration used by <see cref="AssemblyLocator"/>
+    /// </summary>
+    public class AssemblyLocatorConfigurationBuilder
+    {
+        /// <summary>
+        /// Include all assemblies with possible exceptions
+        /// </summary>
+        /// <returns>
+        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule
+        /// </returns>
+        public IncludeAll IncludeAll()
         {
-            container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(global::Bifrost.Execution.AssemblyLocator), BindingLifecycle.Singleton);
-            container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
-		}
-#pragma warning restore 1591 // Xml Comments
-	}
+            var includeAll = new IncludeAll();
+            return includeAll;
+        }
+    }
 }

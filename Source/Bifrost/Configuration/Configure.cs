@@ -35,6 +35,7 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Diagnostics;
+using Bifrost.Configuration.AssemblyLocator;
 
 
 namespace Bifrost.Configuration
@@ -72,8 +73,10 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-        public static Configure DiscoverAndConfigure()
+        public static Configure DiscoverAndConfigure(Action<AssemblyLocatorConfigurationBuilder> assemblyLocatorConfigurationBuilderCallback=null)
         {
+            var assemblyLocatorConfigurationBuilder = BuildAssemblyLocatorConfigurationIfCallbackDefined(assemblyLocatorConfigurationBuilderCallback);
+
             var assemblies = GetAssembliesCurrentlyInMemory();
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
             ThrowIfCanCreateContainerNotFound(canCreateContainerType);
@@ -331,6 +334,13 @@ namespace Bifrost.Configuration
         }
 
 
+        static AssemblyLocatorConfigurationBuilder BuildAssemblyLocatorConfigurationIfCallbackDefined(Action<AssemblyLocatorConfigurationBuilder> assemblyLocatorConfigurationBuilderCallback)
+        {
+            var builder = new AssemblyLocatorConfigurationBuilder();
+            if (assemblyLocatorConfigurationBuilderCallback != null) assemblyLocatorConfigurationBuilderCallback(builder);
+            return builder;
+        }
+
         
         static void ThrowIfAmbiguousMatchFoundForCanCreateContainer(Type createContainerType)
         {
@@ -349,8 +359,5 @@ namespace Bifrost.Configuration
             if (createContainerType == null)
                 throw new CanCreateContainerNotFoundException();
         }
-
-
-
     }
 }

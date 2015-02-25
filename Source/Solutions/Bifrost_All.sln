@@ -51,11 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Web.Specs", "..\Bif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JSON.Silverlight", "..\Bifrost.JSON.Silverlight\Bifrost.JSON.Silverlight.csproj", "{FE9CD87A-E785-49B7-9BC2-2B76526A2D49}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forseti", "Forseti", "{8186F995-DCEF-4ECA-9161-27BAD741B757}"
-	ProjectSection(SolutionItems) = preProject
-		..\forseti.yaml = ..\forseti.yaml
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.RavenDB", "..\Bifrost.RavenDB\Bifrost.RavenDB.csproj", "{CB331526-55BF-4887-A0D8-EE721B7FCDD7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mimir", "Mimir", "{75CAD46B-8E8E-4798-97F8-C2463D126431}"
@@ -88,6 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\Common\CommonAssemblyInfo.cs = ..\Common\CommonAssemblyInfo.cs
 		..\CreateBifrostPackages.bat = ..\CreateBifrostPackages.bat
+		..\forseti.yaml = ..\forseti.yaml
 		..\..\MIT-LICENSE.txt = ..\..\MIT-LICENSE.txt
 		..\PushToNuget.bat = ..\PushToNuget.bat
 	EndProjectSection
@@ -118,6 +114,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client", "..\Bifrost.Client\Bifrost.Client.csproj", "{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client.Specs", "..\Bifrost.Client.Specs\Bifrost.Client.Specs.csproj", "{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.QuickStart.WPF", "..\Bifrost.QuickStart.WPF\Bifrost.QuickStart.WPF.csproj", "{98284AAA-8606-4918-852D-C332E25265C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -758,6 +756,20 @@ Global
 		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Release|x64.ActiveCfg = Release|Any CPU
 		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505}.Release|x86.ActiveCfg = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|ARM.ActiveCfg = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|x64.ActiveCfg = Release|Any CPU
+		{98284AAA-8606-4918-852D-C332E25265C4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -808,6 +820,7 @@ Global
 		{E70542BE-50FC-437B-B263-49EC917696EC} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F} = {C639794D-C022-4118-902C-5F003DFA0B31}
 		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505} = {C639794D-C022-4118-902C-5F003DFA0B31}
+		{98284AAA-8606-4918-852D-C332E25265C4} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35

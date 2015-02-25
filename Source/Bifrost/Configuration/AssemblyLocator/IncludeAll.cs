@@ -17,22 +17,27 @@
 //
 #endregion
 
-using Bifrost.Execution;
-
-namespace Bifrost.Configuration.Defaults
+using System.Reflection;
+using Bifrost.Specifications;
+namespace Bifrost.Configuration.AssemblyLocator
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultBindings"/>
-	/// </summary>
-    public class DefaultBindings : IDefaultBindings
-	{
-#pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
+    /// <summary>
+    /// Represents the builder for building the <see cref="IncludeAllRule"/> and
+    /// possible exceptions
+    /// </summary>
+    public class IncludeAll 
+    {
+        /// <summary>
+        /// Initializes an instance of <see cref="IncludeAll"/>
+        /// </summary>
+        public IncludeAll()
         {
-            container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(global::Bifrost.Execution.AssemblyLocator), BindingLifecycle.Singleton);
-            container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
-		}
-#pragma warning restore 1591 // Xml Comments
-	}
+            Specification = new IncludeAllRule();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IncludeAllRule"/>
+        /// </summary>
+        public Specification<Assembly> Specification { get; internal set; }
+    }
 }

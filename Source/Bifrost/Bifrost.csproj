@@ -118,6 +118,11 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
+    <Compile Include="Configuration\AssemblyLocator\AssemblyLocatorConfigurationBuilder.cs" />
+    <Compile Include="Configuration\AssemblyLocator\ExceptAssembliesStartingWith.cs" />
+    <Compile Include="Configuration\AssemblyLocator\IncludeAll.cs" />
+    <Compile Include="Configuration\AssemblyLocator\IncludeAllRule.cs" />
+    <Compile Include="Configuration\AssemblyLocator\IncludeAllExtensions.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
@@ -140,6 +145,8 @@
     <Compile Include="Entities\Files\Mapping\KeyStrategy.cs" />
     <Compile Include="Entities\Files\Mapping\PropertyMapExtensions.cs" />
     <Compile Include="Execution\AssemblyDetails.cs" />
+    <Compile Include="Execution\ICanFilterAssembly.cs" />
+    <Compile Include="Execution\IAssemblyFilters.cs" />
     <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
     <Compile Include="MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />
@@ -532,7 +539,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Bifrost.nuspec" />
-    <None Include="Bifrost.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

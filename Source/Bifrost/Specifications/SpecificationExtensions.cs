@@ -51,6 +51,7 @@ namespace Bifrost.Specifications
 			return new And<T>(rhs, lhs);
 		}
 
+
         /// <summary>
         /// Combines two rules in to an "And" rul, where the second rule is negated.
         /// </summary>

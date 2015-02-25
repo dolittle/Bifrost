@@ -16,23 +16,24 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
+using Bifrost.Specifications;
 
-using Bifrost.Execution;
-
-namespace Bifrost.Configuration.Defaults
+namespace Bifrost.Configuration.AssemblyLocator
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultBindings"/>
-	/// </summary>
-    public class DefaultBindings : IDefaultBindings
-	{
-#pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
+    /// <summary>
+    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
+    /// excluding assembies starting with
+    /// </summary>
+    public class ExceptAssembliesStartingWith : Specification<Assembly>
+    {
+        /// <summary>
+        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
+        /// </summary>
+        /// <param name="name"></param>
+        public ExceptAssembliesStartingWith(string name)
         {
-            container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(global::Bifrost.Execution.AssemblyLocator), BindingLifecycle.Singleton);
-            container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
-		}
-#pragma warning restore 1591 // Xml Comments
-	}
+            Predicate = a => !a.FullName.StartsWith(name);
+        }
+    }
 }
