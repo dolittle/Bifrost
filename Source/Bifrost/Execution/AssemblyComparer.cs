@@ -17,7 +17,11 @@
 //
 #endregion
 using System.Collections.Generic;
+#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 
 namespace Bifrost.Execution
 {

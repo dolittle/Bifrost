@@ -16,24 +16,32 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
+#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 using Bifrost.Specifications;
 
-namespace Bifrost.Configuration.AssemblyLocator
+namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
-    /// and used for the <see cref="AssemblyLocator"/>
+    /// Represents the builder for building the <see cref="IncludeAllRule"/> and
+    /// possible exceptions
     /// </summary>
-    public class IncludeAllRule : Specification<_Assembly>
+    public class IncludeAll 
     {
         /// <summary>
-        /// Initializes an instance of <see cref="IncludeAllRule"/>
+        /// Initializes an instance of <see cref="IncludeAll"/>
         /// </summary>
-        public IncludeAllRule()
+        public IncludeAll()
         {
-            Predicate = a => true;
+            Specification = new IncludeAllRule();
         }
+
+        /// <summary>
+        /// Gets the <see cref="IncludeAllRule"/>
+        /// </summary>
+        public Specification<_Assembly> Specification { get; internal set; }
     }
 }

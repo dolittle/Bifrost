@@ -20,7 +20,7 @@ using System.Reflection;
 using Bifrost.Extensions;
 using Bifrost.Specifications;
 
-namespace Bifrost.Configuration.AssemblyLocator
+namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
     /// Extensions for <see cref="IncludeAll"/>

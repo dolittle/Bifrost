@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Windows;
 using Bifrost.Configuration;
-using Bifrost.Configuration.AssemblyLocator;
+using Bifrost.Configuration.Assemblies;
 
 namespace Bifrost.QuickStart.WPF
 {

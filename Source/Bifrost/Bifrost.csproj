@@ -118,11 +118,11 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
-    <Compile Include="Configuration\AssemblyLocator\AssemblyLocatorConfigurationBuilder.cs" />
-    <Compile Include="Configuration\AssemblyLocator\ExceptAssembliesStartingWith.cs" />
-    <Compile Include="Configuration\AssemblyLocator\IncludeAll.cs" />
-    <Compile Include="Configuration\AssemblyLocator\IncludeAllRule.cs" />
-    <Compile Include="Configuration\AssemblyLocator\IncludeAllExtensions.cs" />
+    <Compile Include="Configuration\Assemblies\AssemblyLocatorConfigurationBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />

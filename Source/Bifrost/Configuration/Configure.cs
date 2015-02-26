@@ -35,7 +35,7 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Diagnostics;
-using Bifrost.Configuration.AssemblyLocator;
+using Bifrost.Configuration.Assemblies;
 
 
 namespace Bifrost.Configuration

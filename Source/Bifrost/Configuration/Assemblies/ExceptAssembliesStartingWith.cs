@@ -16,23 +16,28 @@
 // limitations under the License.
 //
 #endregion
-namespace Bifrost.Configuration.AssemblyLocator
+#if(!SILVERLIGHT)
+using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
+using Bifrost.Specifications;
+
+namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents a builder for building configuration used by <see cref="AssemblyLocator"/>
+    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
+    /// excluding assembies starting with
     /// </summary>
-    public class AssemblyLocatorConfigurationBuilder
+    public class ExceptAssembliesStartingWith : Specification<_Assembly>
     {
         /// <summary>
-        /// Include all assemblies with possible exceptions
+        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
         /// </summary>
-        /// <returns>
-        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule
-        /// </returns>
-        public IncludeAll IncludeAll()
+        /// <param name="name"></param>
+        public ExceptAssembliesStartingWith(string name)
         {
-            var includeAll = new IncludeAll();
-            return includeAll;
+            Predicate = a => !a.FullName.StartsWith(name);
         }
     }
 }

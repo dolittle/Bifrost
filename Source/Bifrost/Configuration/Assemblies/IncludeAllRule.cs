@@ -16,24 +16,28 @@
 // limitations under the License.
 //
 #endregion
+using System.Reflection;
+#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 using Bifrost.Specifications;
 
-namespace Bifrost.Configuration.AssemblyLocator
+namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
-    /// excluding assembies starting with
+    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
+    /// and used for the <see cref="Assemblies"/>
     /// </summary>
-    public class ExceptAssembliesStartingWith : Specification<_Assembly>
+    public class IncludeAllRule : Specification<_Assembly>
     {
         /// <summary>
-        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
+        /// Initializes an instance of <see cref="IncludeAllRule"/>
         /// </summary>
-        /// <param name="name"></param>
-        public ExceptAssembliesStartingWith(string name)
+        public IncludeAllRule()
         {
-            Predicate = a => !a.FullName.StartsWith(name);
+            Predicate = a => true;
         }
     }
 }

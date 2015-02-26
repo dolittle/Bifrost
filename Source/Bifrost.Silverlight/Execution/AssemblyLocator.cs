@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -48,7 +49,7 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public Assembly[] GetAll()
+        public IEnumerable<Assembly> GetAll()
         {
             return _assemblies;
         }

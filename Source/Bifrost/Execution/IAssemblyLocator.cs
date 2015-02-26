@@ -19,7 +19,11 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 
 namespace Bifrost.Execution
 {
