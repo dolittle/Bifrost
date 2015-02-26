@@ -149,11 +149,17 @@
     <Compile Include="..\Bifrost\Configuration\AmbiguousContainerCreationException.cs">
       <Link>Configuration\AmbiguousContainerCreationException.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Configuration\Assemblies\AssmbliesConfigurationBuilder.cs">
-      <Link>Configuration\Assemblies\AssmbliesConfigurationBuilder.cs</Link>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\AssembliesConfiguration.cs">
+      <Link>Configuration\Assemblies\AssembliesConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\AssembliesConfigurationBuilder.cs">
+      <Link>Configuration\Assemblies\AssembliesConfigurationBuilder.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\Assemblies\ExceptAssembliesStartingWith.cs">
       <Link>Configuration\Assemblies\ExceptAssembliesStartingWith.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\IAssemblyRuleBuilder.cs">
+      <Link>Configuration\Assemblies\IAssemblyRuleBuilder.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\Assemblies\IncludeAll.cs">
       <Link>Configuration\Assemblies\IncludeAll.cs</Link>

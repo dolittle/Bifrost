@@ -17,6 +17,7 @@
 //
 #endregion
 
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration.Defaults
@@ -26,10 +27,21 @@ namespace Bifrost.Configuration.Defaults
 	/// </summary>
     public class DefaultBindings : IDefaultBindings
 	{
+        AssembliesConfiguration _assembliesConfiguration;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DefaultBindings"/>
+        /// </summary>
+        public DefaultBindings(AssembliesConfiguration assembliesConfiguration)
+        {
+            _assembliesConfiguration = assembliesConfiguration;
+        }
+
 #pragma warning disable 1591 // Xml Comments
 		public void Initialize(IContainer container)
         {
             container.Bind(container);
+            container.Bind<AssembliesConfiguration>(_assembliesConfiguration);
             container.Bind<IAssemblyProvider>(typeof(AssemblyProvider), BindingLifecycle.Singleton);
             container.Bind<IAssemblyFilters>(typeof(AssemblyFilters), BindingLifecycle.Singleton);
             container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);

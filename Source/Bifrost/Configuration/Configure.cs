@@ -53,7 +53,7 @@ namespace Bifrost.Configuration
         public static Configure Instance { get; private set; }
 
 
-        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
             SystemName = "[Not Set]";
 
@@ -76,6 +76,7 @@ namespace Bifrost.Configuration
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
         {
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
 
             var assemblies = GetAssembliesCurrentlyInMemory();
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
@@ -83,7 +84,7 @@ namespace Bifrost.Configuration
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
-            var configure = With(container, BindingLifecycle.Transient);
+            var configure = With(container, BindingLifecycle.Transient, assembliesConfiguration);
             configure.EntryAssembly = canCreateContainerType.Assembly;
             configure.Initialize();
             return configure;
@@ -93,10 +94,11 @@ namespace Bifrost.Configuration
         /// Configure with a specific <see cref="IContainer"/> and the <see cref="BindingLifecycle">Lifecycle</see> of objects set to none
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container)
+        public static Configure With(IContainer container, AssembliesConfiguration assembliesConfiguration)
         {
-            return With(container, BindingLifecycle.Transient);
+            return With(container, BindingLifecycle.Transient, assembliesConfiguration);
         }
 
         /// <summary>
@@ -104,10 +106,11 @@ namespace Bifrost.Configuration
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
         /// <param name="defaultObjectLifecycle">Default <see cref="BindingLifecycle"/> for object creation/management</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle)
+        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, AssembliesConfiguration assembliesConfiguration)
         {
-            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings());
+            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings(assembliesConfiguration), assembliesConfiguration);
         }
 
         /// <summary>
@@ -125,10 +128,11 @@ namespace Bifrost.Configuration
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
         /// <param name="defaultConventions"><see cref="IDefaultConventions"/> to use</param>
         /// <param name="defaultBindings"><see cref="IDefaultBindings"/> to use</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns></returns>
-        public static Configure With(IContainer container, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        public static Configure With(IContainer container, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
-            return With(container, BindingLifecycle.Transient, defaultConventions, defaultBindings);
+            return With(container, BindingLifecycle.Transient, defaultConventions, defaultBindings, assembliesConfiguration);
         }
 
 
@@ -139,14 +143,15 @@ namespace Bifrost.Configuration
         /// <param name="defaultObjectLifecycle">Default <see cref="BindingLifecycle"/> for object creation/management</param>
         /// <param name="defaultConventions"><see cref="IDefaultConventions"/> to use</param>
         /// <param name="defaultBindings"><see cref="IDefaultBindings"/> to use</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns></returns>
-        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
             if (Instance == null)
             {
                 lock (InstanceLock)
                 {
-                    Instance = new Configure(container, defaultObjectLifecycle, defaultConventions, defaultBindings);
+                    Instance = new Configure(container, defaultObjectLifecycle, defaultConventions, defaultBindings, assembliesConfiguration);
                 }
             }
 
@@ -169,6 +174,7 @@ namespace Bifrost.Configuration
         public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
+        public AssembliesConfiguration Assemblies { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }

@@ -16,31 +16,32 @@
 // limitations under the License.
 //
 #endregion
+#if(!SILVERLIGHT)
+using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
+using Bifrost.Specifications;
 
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents a builder for building configuration used by <see cref="Assemblies"/>
+    /// Represents the configuration for Assemblies
     /// </summary>
-    public class AssembliesConfigurationBuilder
+    public class AssembliesConfiguration
     {
         /// <summary>
-        /// Gets the <see cref="IAssemblyRuleBuilder">rule builder</see> used
+        /// Initializes a new instance of <see cref="AssembliesConfiguration"/>
         /// </summary>
-        public IAssemblyRuleBuilder RuleBuilder { get; private set; }
-
+        /// <param name="specification"></param>
+        public AssembliesConfiguration(Specification<_Assembly> specification)
+        {
+            Specification = specification;
+        }
 
         /// <summary>
-        /// Include all assemblies with possible exceptions
+        /// Gets the specification used to specifying which assemblies to include
         /// </summary>
-        /// <returns>
-        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule
-        /// </returns>
-        public IncludeAll IncludeAll()
-        {
-            var includeAll = new IncludeAll();
-            RuleBuilder = includeAll;
-            return includeAll;
-        }
+        public Specification<_Assembly> Specification { get; private set; }
     }
 }

@@ -26,10 +26,10 @@ using Bifrost.Specifications;
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents the builder for building the <see cref="IncludeAllRule"/> and
+    /// Represents the <see cref="IAssemblyRuleBuilder">builder</see> for building the <see cref="IncludeAllRule"/> and
     /// possible exceptions
     /// </summary>
-    public class IncludeAll 
+    public class IncludeAll : IAssemblyRuleBuilder
     {
         /// <summary>
         /// Initializes an instance of <see cref="IncludeAll"/>
