@@ -344,6 +344,7 @@ namespace Bifrost.Configuration
         {
             var builder = new AssembliesConfigurationBuilder();
             if (assembliesConfigurationBuilderCallback != null) assembliesConfigurationBuilderCallback(builder);
+            if (builder.RuleBuilder == null) builder.IncludeAll();
             return builder;
         }
 
