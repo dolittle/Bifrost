@@ -73,9 +73,9 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-        public static Configure DiscoverAndConfigure(Action<AssemblyLocatorConfigurationBuilder> assemblyLocatorConfigurationBuilderCallback=null)
+        public static Configure DiscoverAndConfigure(Action<AssmbliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
         {
-            var assemblyLocatorConfigurationBuilder = BuildAssemblyLocatorConfigurationIfCallbackDefined(assemblyLocatorConfigurationBuilderCallback);
+            var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
 
             var assemblies = GetAssembliesCurrentlyInMemory();
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
@@ -334,10 +334,10 @@ namespace Bifrost.Configuration
         }
 
 
-        static AssemblyLocatorConfigurationBuilder BuildAssemblyLocatorConfigurationIfCallbackDefined(Action<AssemblyLocatorConfigurationBuilder> assemblyLocatorConfigurationBuilderCallback)
+        static AssmbliesConfigurationBuilder BuildAssembliesConfigurationIfCallbackDefined(Action<AssmbliesConfigurationBuilder> assembliesConfigurationBuilderCallback)
         {
-            var builder = new AssemblyLocatorConfigurationBuilder();
-            if (assemblyLocatorConfigurationBuilderCallback != null) assemblyLocatorConfigurationBuilderCallback(builder);
+            var builder = new AssmbliesConfigurationBuilder();
+            if (assembliesConfigurationBuilderCallback != null) assembliesConfigurationBuilderCallback(builder);
             return builder;
         }
 

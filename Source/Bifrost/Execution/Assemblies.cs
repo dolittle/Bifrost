@@ -26,17 +26,17 @@ using System.Runtime.InteropServices;
 namespace Bifrost.Execution
 {
 	/// <summary>
-    /// Represents a <see cref="IAssemblyLocator"/>
+    /// Represents a <see cref="IAssemblies"/>
     /// </summary>
     [Singleton]
-    public class AssemblyLocator : IAssemblyLocator
+    public class Assemblies : IAssemblies
     {
         _Assembly[] _assemblies;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="AssemblyLocator"/>
+        /// Initializes a new instance of <see cref="Assemblies"/>
         /// </summary>
-        public AssemblyLocator()
+        public Assemblies()
         {
             Initialize();
         }

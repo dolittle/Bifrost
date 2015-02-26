@@ -25,7 +25,7 @@ namespace Bifrost.Execution
     /// Defines something that tell wether or not to filter away an assembly.
     /// </summary>
     /// <remarks>
-    /// Typically used by implementations of <see cref="IAssemblyLocator"/> to 
+    /// Typically used by implementations of <see cref="IAssemblies"/> to 
     /// get the correct assemblies located for things like implementations of
     /// <see cref="ITypeDiscoverer"/> which relies on knowing about assemblies
     /// to be able to discover types.

@@ -118,7 +118,7 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
-    <Compile Include="Configuration\Assemblies\AssemblyLocatorConfigurationBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\AssmbliesConfigurationBuilder.cs" />
     <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
@@ -203,7 +203,7 @@
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
-    <Compile Include="Execution\AssemblyLocator.cs" />
+    <Compile Include="Execution\Assemblies.cs" />
     <Compile Include="Execution\BaseConvention.cs" />
     <Compile Include="Execution\BindingConventionManager.cs" />
     <Compile Include="Execution\BindingLifecycle.cs" />
@@ -215,7 +215,7 @@
     <Compile Include="Execution\ExecutionContextManager.cs" />
     <Compile Include="Execution\ExecutionContextPopulator.cs" />
     <Compile Include="Execution\HashCodeHelper.cs" />
-    <Compile Include="Execution\IAssemblyLocator.cs" />
+    <Compile Include="Execution\IAssemblies.cs" />
     <Compile Include="Execution\IBindingConvention.cs" />
     <Compile Include="Execution\IBindingConventionManager.cs" />
     <Compile Include="Execution\ICallContext.cs" />

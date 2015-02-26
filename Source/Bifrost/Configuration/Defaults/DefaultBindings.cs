@@ -30,7 +30,7 @@ namespace Bifrost.Configuration.Defaults
 		public void Initialize(IContainer container)
         {
             container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(global::Bifrost.Execution.AssemblyLocator), BindingLifecycle.Singleton);
+            container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
 		}
 #pragma warning restore 1591 // Xml Comments

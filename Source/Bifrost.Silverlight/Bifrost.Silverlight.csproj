@@ -149,8 +149,8 @@
     <Compile Include="..\Bifrost\Configuration\AmbiguousContainerCreationException.cs">
       <Link>Configuration\AmbiguousContainerCreationException.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Configuration\Assemblies\AssemblyLocatorConfigurationBuilder.cs">
-      <Link>Configuration\Assemblies\AssemblyLocatorConfigurationBuilder.cs</Link>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\AssmbliesConfigurationBuilder.cs">
+      <Link>Configuration\Assemblies\AssmbliesConfigurationBuilder.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\Assemblies\ExceptAssembliesStartingWith.cs">
       <Link>Configuration\Assemblies\ExceptAssembliesStartingWith.cs</Link>
@@ -548,8 +548,8 @@
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
-      <Link>Execution\IAssemblyLocator.cs</Link>
+    <Compile Include="..\Bifrost\Execution\IAssemblies.cs">
+      <Link>Execution\IAssemblies.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\IBindingConvention.cs">
       <Link>Execution\IBindingConvention.cs</Link>
@@ -971,7 +971,7 @@
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
-    <Compile Include="Execution\AssemblyLocator.cs" />
+    <Compile Include="Execution\Assemblies.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

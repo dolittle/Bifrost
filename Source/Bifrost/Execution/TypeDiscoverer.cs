@@ -41,7 +41,7 @@ namespace Bifrost.Execution
     {
         static List<string> NamespaceStartingWithExclusions = new List<string>();
 
-        IAssemblyLocator _assemblyLocator;
+        IAssemblies _assemblies;
 
 #if(SILVERLIGHT || WINDOWS_PHONE)
         Dictionary<string, IDictionary<string, Type>> _types;
@@ -63,9 +63,9 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
         /// </summary>
-        public TypeDiscoverer(IAssemblyLocator assemblyLocator)
+        public TypeDiscoverer(IAssemblies assemblies)
         {
-            _assemblyLocator = assemblyLocator;
+            _assemblies = assemblies;
 
 #if(SILVERLIGHT)
             _types = new Dictionary<string, IDictionary<string, Type>>();
@@ -209,13 +209,13 @@ namespace Bifrost.Execution
 #if(NETFX_CORE)
 		void CollectTypes()
 		{
-            foreach (var assembly in _assemblyLocator.GetAll())
+            foreach (var assembly in _assemblies.GetAll())
                AddTypes(assembly.DefinedTypes.Select(t => t.AsType());
 		}
 #else
         void CollectTypes()
         {
-            var assemblies = _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
+            var assemblies = _assemblies.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
             Parallel.ForEach(assemblies, assembly =>
             {
                 try

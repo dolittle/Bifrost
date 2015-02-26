@@ -30,7 +30,7 @@ namespace Bifrost.Execution
     /// <summary>
     /// Defines a locator for locating assemblies for current application
     /// </summary>
-    public interface IAssemblyLocator
+    public interface IAssemblies
     {
         /// <summary>
         /// Gets all assemblies for current application
