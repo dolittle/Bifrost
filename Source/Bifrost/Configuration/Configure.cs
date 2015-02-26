@@ -73,7 +73,7 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-        public static Configure DiscoverAndConfigure(Action<AssmbliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
+        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
         {
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
 
@@ -334,9 +334,9 @@ namespace Bifrost.Configuration
         }
 
 
-        static AssmbliesConfigurationBuilder BuildAssembliesConfigurationIfCallbackDefined(Action<AssmbliesConfigurationBuilder> assembliesConfigurationBuilderCallback)
+        static AssembliesConfigurationBuilder BuildAssembliesConfigurationIfCallbackDefined(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback)
         {
-            var builder = new AssmbliesConfigurationBuilder();
+            var builder = new AssembliesConfigurationBuilder();
             if (assembliesConfigurationBuilderCallback != null) assembliesConfigurationBuilderCallback(builder);
             return builder;
         }

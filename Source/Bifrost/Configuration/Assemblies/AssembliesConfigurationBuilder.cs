@@ -22,7 +22,7 @@ namespace Bifrost.Configuration.Assemblies
     /// <summary>
     /// Represents a builder for building configuration used by <see cref="Assemblies"/>
     /// </summary>
-    public class AssmbliesConfigurationBuilder
+    public class AssembliesConfigurationBuilder
     {
         /// <summary>
         /// Include all assemblies with possible exceptions
