@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
+using System.Collections.Generic;
 #if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
 #else
@@ -26,15 +26,14 @@ using _Assembly = System.Reflection.Assembly;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a system for filtering assemblies
+    /// Defines a system that can provide <see cref="_Assembly">assemblies</see>
     /// </summary>
-    public interface IAssemblyFilters
+    public interface IAssemblyProvider
     {
         /// <summary>
-        /// Method that decides wether or not an assembly should be included
+        /// Get all the <see cref="_Assembly">assemblies</see> that can be provided
         /// </summary>
-        /// <param name="assembly"><see cref="Assembly"/> to ask for</param>
-        /// <returns>True if it should be included, false if not</returns>
-        bool ShouldInclude(_Assembly assembly);
+        /// <returns><see cref="IEnumerable{_Assembly}">Assemblies</see> provided</returns>
+        IEnumerable<_Assembly> GetAll();
     }
 }

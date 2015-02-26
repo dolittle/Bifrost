@@ -16,25 +16,25 @@
 // limitations under the License.
 //
 #endregion
+#if(!SILVERLIGHT)
+using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 
-using Bifrost.Execution;
-
-namespace Bifrost.Configuration.Defaults
+namespace Bifrost.Execution
 {
-	/// <summary>
-	/// Represents a <see cref="IDefaultBindings"/>
-	/// </summary>
-    public class DefaultBindings : IDefaultBindings
-	{
+    /// <summary>
+    /// Represents an implementation of <see cref="IAssemblyFilters"/>
+    /// </summary>
+    public class AssemblyFilters : IAssemblyFilters
+    {
 #pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
+        public bool ShouldInclude(_Assembly assembly)
         {
-            container.Bind(container);
-            container.Bind<IAssemblyProvider>(typeof(AssemblyProvider), BindingLifecycle.Singleton);
-            container.Bind<IAssemblyFilters>(typeof(AssemblyFilters), BindingLifecycle.Singleton);
-            container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
-            container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
-		}
+            throw new System.NotImplementedException();
+        }
 #pragma warning restore 1591 // Xml Comments
-	}
+
+    }
 }

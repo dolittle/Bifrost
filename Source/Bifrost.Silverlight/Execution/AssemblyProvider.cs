@@ -28,24 +28,16 @@ namespace Bifrost.Execution
     /// Represents a <see cref="IAssemblies"/>
     /// </summary>
     [Singleton]
-    public class Assemblies : IAssemblies
+    public class AssemblyProvider : IAssemblyProvider
     {
         Assembly[] _assemblies;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Assemblies"/>
+        /// Initializes a new instance of <see cref="AssemblyProvider"/>
         /// </summary>
-        public Assemblies()
+        public AssemblyProvider()
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            _assemblies = (from part in Deployment.Current.Parts
-                           where ShouldAddAssembly(part.Source)
-                           let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
-                           select part.Load(info.Stream)).ToArray();
+            Populate();
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -53,28 +45,16 @@ namespace Bifrost.Execution
         {
             return _assemblies;
         }
-
-        public Assembly GetWithFullName(string fullName)
-        {
-            var query = from a in _assemblies
-                        where a.FullName == fullName
-                        select a;
-
-            var assembly = query.SingleOrDefault();
-            return assembly;
-        }
-
-        public Assembly GetWithName(string name)
-        {
-            var query = from a in _assemblies
-                        where a.FullName.Contains(name)
-                        select a;
-
-            var assembly = query.SingleOrDefault();
-            return assembly;
-        }
-
 #pragma warning restore 1591 // Xml Comments
+
+
+        void Populate()
+        {
+            _assemblies = (from part in Deployment.Current.Parts
+                           where ShouldAddAssembly(part.Source)
+                           let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
+                           select part.Load(info.Stream)).ToArray();
+        }
 
         static bool ShouldAddAssembly(string name)
         {

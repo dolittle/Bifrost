@@ -16,12 +16,13 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 
 namespace Bifrost.Execution
 {
@@ -31,14 +32,16 @@ namespace Bifrost.Execution
     [Singleton]
     public class Assemblies : IAssemblies
     {
-        _Assembly[] _assemblies;
+        IAssemblyProvider _assemblyProvider;
+        IEnumerable<_Assembly> _assemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>
         /// </summary>
-        public Assemblies()
-        {
-            Initialize();
+        public Assemblies(IAssemblyProvider assemblyProvider, IAssemblyFilters assemblyFilters)
+        {   
+            _assemblyProvider = assemblyProvider;
+            _assemblies = assemblyProvider.GetAll();
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -67,31 +70,5 @@ namespace Bifrost.Execution
             return assembly;
         }
 #pragma warning restore 1591 // Xml Comments
-
-        void Initialize()
-        {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new Uri(codeBase);
-            var path = Path.GetDirectoryName(uri.LocalPath);
-
-            IEnumerable<FileInfo> files = new DirectoryInfo(path).GetFiles("*.dll");
-            files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
-            files = files.Where(AssemblyDetails.IsAssembly);
-
-            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            foreach (var file in files)
-            {
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
-                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                    currentAssemblies.Add(Assembly.Load(assemblyName));
-            }
-            _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
-        }
-
-
-        bool Matches(AssemblyName a, AssemblyName b)
-        {
-            return a.ToString() == b.ToString();
-        }
     }
 }
