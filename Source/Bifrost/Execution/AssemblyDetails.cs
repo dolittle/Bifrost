@@ -26,7 +26,6 @@ namespace Bifrost.Execution
     /// </summary>
     public class AssemblyDetails
     {
-        
         /// <summary>
         /// Check if a file is an actual .net assembly
         /// </summary>

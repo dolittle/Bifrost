@@ -17,7 +17,7 @@
 //
 #endregion
 using System.Reflection;
-using Bifrost.Execution;
+using System.Runtime.InteropServices;
 using Bifrost.Specifications;
 
 namespace Bifrost.Configuration.AssemblyLocator
@@ -26,7 +26,7 @@ namespace Bifrost.Configuration.AssemblyLocator
     /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
     /// and used for the <see cref="AssemblyLocator"/>
     /// </summary>
-    public class IncludeAllRule : Specification<Assembly>
+    public class IncludeAllRule : Specification<_Assembly>
     {
         /// <summary>
         /// Initializes an instance of <see cref="IncludeAllRule"/>

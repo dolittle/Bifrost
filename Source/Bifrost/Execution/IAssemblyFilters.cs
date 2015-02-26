@@ -16,8 +16,9 @@
 // limitations under the License.
 //
 #endregion
-
 using System.Reflection;
+using System.Runtime.InteropServices;
+
 namespace Bifrost.Execution
 {
     /// <summary>
@@ -30,6 +31,6 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="assembly"><see cref="Assembly"/> to ask for</param>
         /// <returns>True if it should be included, false if not</returns>
-        bool ShouldInclude(Assembly assembly);
+        bool ShouldInclude(_Assembly assembly);
     }
 }

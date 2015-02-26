@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -30,7 +31,7 @@ namespace Bifrost.Execution
     [Singleton]
     public class AssemblyLocator : IAssemblyLocator
     {
-        Assembly[] _assemblies;
+        _Assembly[] _assemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyLocator"/>
@@ -41,12 +42,12 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public Assembly[] GetAll()
+        public IEnumerable<_Assembly> GetAll()
         {
             return _assemblies;
         }
 
-        public Assembly GetWithFullName(string fullName)
+        public _Assembly GetWithFullName(string fullName)
         {
             var query = from a in _assemblies
                         where a.FullName == fullName
@@ -56,7 +57,7 @@ namespace Bifrost.Execution
             return assembly;
         }
 
-        public Assembly GetWithName(string name)
+        public _Assembly GetWithName(string name)
         {
             var query = from a in _assemblies
                         where a.FullName.Contains(name)

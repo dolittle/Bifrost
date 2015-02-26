@@ -16,9 +16,9 @@
 // limitations under the License.
 //
 #endregion
-
-using System.Reflection;
+using System.Runtime.InteropServices;
 using Bifrost.Specifications;
+
 namespace Bifrost.Configuration.AssemblyLocator
 {
     /// <summary>
@@ -38,6 +38,6 @@ namespace Bifrost.Configuration.AssemblyLocator
         /// <summary>
         /// Gets the <see cref="IncludeAllRule"/>
         /// </summary>
-        public Specification<Assembly> Specification { get; internal set; }
+        public Specification<_Assembly> Specification { get; internal set; }
     }
 }

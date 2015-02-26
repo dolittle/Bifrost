@@ -17,22 +17,22 @@
 //
 #endregion
 using System.Collections.Generic;
-using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
 	/// <summary>
 	/// Represents a comparer for comparing assemblies, typically used in Distinct() 
 	/// </summary>
-	public class AssemblyComparer : IEqualityComparer<Assembly>
+	public class AssemblyComparer : IEqualityComparer<_Assembly>
 	{
 #pragma warning disable 1591 // Xml Comments
-		public bool Equals(Assembly x, Assembly y)
+		public bool Equals(_Assembly x, _Assembly y)
 		{
 			return x.FullName == y.FullName;
 		}
 
-		public int GetHashCode(Assembly obj)
+		public int GetHashCode(_Assembly obj)
 		{
 			return obj.GetHashCode();
 		}

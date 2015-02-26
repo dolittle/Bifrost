@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
+using System.Runtime.InteropServices;
 using Bifrost.Specifications;
 
 namespace Bifrost.Configuration.AssemblyLocator
@@ -25,7 +25,7 @@ namespace Bifrost.Configuration.AssemblyLocator
     /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
     /// excluding assembies starting with
     /// </summary>
-    public class ExceptAssembliesStartingWith : Specification<Assembly>
+    public class ExceptAssembliesStartingWith : Specification<_Assembly>
     {
         /// <summary>
         /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>

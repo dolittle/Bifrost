@@ -17,6 +17,7 @@
 //
 #endregion
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -37,6 +38,6 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="assembly"><see cref="Assembly"/> to check</param>
         /// <returns>True if it should be included, false if not</returns>
-        bool ShouldInclude(Assembly assembly);
+        bool ShouldInclude(_Assembly assembly);
     }
 }

@@ -27,6 +27,7 @@ using System.Windows;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bifrost.Extensions;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -215,7 +216,6 @@ namespace Bifrost.Execution
         void CollectTypes()
         {
             var assemblies = _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
-
             Parallel.ForEach(assemblies, assembly =>
             {
                 try
