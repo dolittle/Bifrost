@@ -92,6 +92,11 @@
     <Compile Include="CodeGeneration\JavaScript\TypeExtensionExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\VariantAssignment.cs" />
     <Compile Include="CodeGeneration\LanguageElement.cs" />
+    <Compile Include="Collections\CollectionCleared.cs" />
+    <Compile Include="Collections\IObservableCollection.cs" />
+    <Compile Include="Collections\ItemsAddedToCollection.cs" />
+    <Compile Include="Collections\ItemsRemovedFromCollection.cs" />
+    <Compile Include="Collections\ObservableCollection.cs" />
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandContextFactory.cs" />

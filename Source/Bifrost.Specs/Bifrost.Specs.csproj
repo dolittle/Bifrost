@@ -81,6 +81,10 @@
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_adding_extension.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_with_default_value.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_without_default_value.cs" />
+    <Compile Include="Collection\given\empty_collection.cs" />
+    <Compile Include="Collection\when_clearing.cs" />
+    <Compile Include="Collection\when_removing.cs" />
+    <Compile Include="Collection\when_adding.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandInheritingCommand.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandImplementingICommand.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\when_validating_type_with_nested_inheritance_hierarchy.cs" />
