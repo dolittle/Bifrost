@@ -80,6 +80,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bifrost\Collections\CollectionCleared.cs">
+      <Link>Collections\CollectionCleared.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\IObservableCollection.cs">
+      <Link>Collections\IObservableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ItemsAddedToCollection.cs">
+      <Link>Collections\ItemsAddedToCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ItemsRemovedFromCollection.cs">
+      <Link>Collections\ItemsRemovedFromCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ObservableCollection.cs">
+      <Link>Collections\ObservableCollection.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Commands\Command.cs">
       <Link>Commands\Command.cs</Link>
     </Compile>

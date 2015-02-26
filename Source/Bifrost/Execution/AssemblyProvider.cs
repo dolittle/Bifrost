@@ -18,10 +18,13 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Bifrost.Collections;
+using Bifrost.Extensions;
 
 namespace Bifrost.Execution
 {
@@ -31,23 +34,32 @@ namespace Bifrost.Execution
     [Singleton]
     public class AssemblyProvider : IAssemblyProvider
     {
-        _Assembly[] _assemblies;
+        _AppDomain _appDomain;
+        ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
         /// </summary>
-        public AssemblyProvider()
+        public AssemblyProvider(_AppDomain appDomain)
         {
+            _appDomain = appDomain;
+            appDomain.AssemblyLoad += AssemblyLoaded;
+
             Populate();
         }
 
+
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<_Assembly> GetAll()
+        public IObservableCollection<_Assembly> GetAll()
         {
             return _assemblies;
         }
 
 #pragma warning restore 1591 // Xml Comments
+        void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
+        {
+            _assemblies.Add(args.LoadedAssembly);
+        }
 
         void Populate()
         {
@@ -59,14 +71,16 @@ namespace Bifrost.Execution
             files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
             files = files.Where(AssemblyDetails.IsAssembly);
 
-            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            var currentAssemblies = _appDomain.GetAssemblies().ToList();
             foreach (var file in files)
             {
                 var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
                 if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
                     currentAssemblies.Add(Assembly.Load(assemblyName));
             }
-            _assemblies = currentAssemblies.Distinct(new AssemblyComparer()).ToArray();
+
+            var assemblies = currentAssemblies.Distinct(new AssemblyComparer());
+            assemblies.ForEach(_assemblies.Add);
         }
 
 
@@ -74,6 +88,5 @@ namespace Bifrost.Execution
         {
             return a.ToString() == b.ToString();
         }
-
     }
 }

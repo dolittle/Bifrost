@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Bifrost.Collections;
+using Bifrost.Extensions;
 
 namespace Bifrost.Execution
 {
@@ -30,7 +32,7 @@ namespace Bifrost.Execution
     [Singleton]
     public class AssemblyProvider : IAssemblyProvider
     {
-        Assembly[] _assemblies;
+        ObservableCollection<Assembly> _assemblies = new ObservableCollection<Assembly>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
@@ -41,7 +43,7 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<Assembly> GetAll()
+        public IObservableCollection<Assembly> GetAll()
         {
             return _assemblies;
         }
@@ -50,10 +52,12 @@ namespace Bifrost.Execution
 
         void Populate()
         {
-            _assemblies = (from part in Deployment.Current.Parts
+            var assemblies = (from part in Deployment.Current.Parts
                            where ShouldAddAssembly(part.Source)
                            let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
-                           select part.Load(info.Stream)).ToArray();
+                           select part.Load(info.Stream));
+
+            assemblies.ForEach(_assemblies.Add);
         }
 
         static bool ShouldAddAssembly(string name)

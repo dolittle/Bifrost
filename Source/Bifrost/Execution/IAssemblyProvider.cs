@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 #else
 using _Assembly = System.Reflection.Assembly;
 #endif
+using Bifrost.Collections;
 
 namespace Bifrost.Execution
 {
@@ -34,6 +35,6 @@ namespace Bifrost.Execution
         /// Get all the <see cref="_Assembly">assemblies</see> that can be provided
         /// </summary>
         /// <returns><see cref="IEnumerable{_Assembly}">Assemblies</see> provided</returns>
-        IEnumerable<_Assembly> GetAll();
+        IObservableCollection<_Assembly> GetAll();
     }
 }
