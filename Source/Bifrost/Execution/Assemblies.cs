@@ -38,7 +38,7 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>
         /// </summary>
-        public Assemblies(IAssemblyProvider assemblyProvider, IAssemblyFilters assemblyFilters)
+        public Assemblies(IAssemblyProvider assemblyProvider)
         {   
             _assemblyProvider = assemblyProvider;
             _assemblies = assemblyProvider.GetAll();

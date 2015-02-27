@@ -40,7 +40,7 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
         /// </summary>
-        public AssemblyProvider(_AppDomain appDomain)
+        public AssemblyProvider(_AppDomain appDomain, IAssemblyFilters assemblyFilters)
         {
             _appDomain = appDomain;
             appDomain.AssemblyLoad += AssemblyLoaded;
