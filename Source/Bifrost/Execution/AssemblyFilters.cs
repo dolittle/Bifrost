@@ -16,12 +16,8 @@
 // limitations under the License.
 //
 #endregion
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
 
+using Bifrost.Configuration.Assemblies;
 namespace Bifrost.Execution
 {
     /// <summary>
@@ -29,10 +25,21 @@ namespace Bifrost.Execution
     /// </summary>
     public class AssemblyFilters : IAssemblyFilters
     {
-#pragma warning disable 1591 // Xml Comments
-        public bool ShouldInclude(_Assembly assembly)
+        AssembliesConfiguration _assembliesConfiguration;
+
+        /// <summary>
+        /// Initializes an instance of <see cref="AssemblyFilters"/>
+        /// </summary>
+        /// <param name="assembliesConfiguration"></param>
+        public AssemblyFilters(AssembliesConfiguration assembliesConfiguration)
         {
-            throw new System.NotImplementedException();
+            _assembliesConfiguration = assembliesConfiguration;
+        }
+
+#pragma warning disable 1591 // Xml Comments
+        public bool ShouldInclude(string filename)
+        {
+            return _assembliesConfiguration.Specification.IsSatisfiedBy(filename);
         }
 #pragma warning restore 1591 // Xml Comments
 

@@ -34,6 +34,6 @@ namespace Bifrost.Configuration.Assemblies
         /// <summary>
         /// Get the specification to use
         /// </summary>
-        Specification<_Assembly> Specification { get; }
+        Specification<string> Specification { get; }
     }
 }

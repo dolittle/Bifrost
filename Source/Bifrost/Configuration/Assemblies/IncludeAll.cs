@@ -42,6 +42,6 @@ namespace Bifrost.Configuration.Assemblies
         /// <summary>
         /// Gets the <see cref="IncludeAllRule"/>
         /// </summary>
-        public Specification<_Assembly> Specification { get; internal set; }
+        public Specification<string> Specification { get; internal set; }
     }
 }

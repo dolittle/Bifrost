@@ -34,7 +34,7 @@ namespace Bifrost.Configuration.Assemblies
         /// Initializes a new instance of <see cref="AssembliesConfiguration"/>
         /// </summary>
         /// <param name="specification"></param>
-        public AssembliesConfiguration(Specification<_Assembly> specification)
+        public AssembliesConfiguration(Specification<string> specification)
         {
             Specification = specification;
         }
@@ -42,6 +42,6 @@ namespace Bifrost.Configuration.Assemblies
         /// <summary>
         /// Gets the specification used to specifying which assemblies to include
         /// </summary>
-        public Specification<_Assembly> Specification { get; private set; }
+        public Specification<string> Specification { get; private set; }
     }
 }

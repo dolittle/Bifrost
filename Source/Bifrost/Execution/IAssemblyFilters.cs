@@ -16,13 +16,6 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
-
 namespace Bifrost.Execution
 {
     /// <summary>
@@ -33,8 +26,8 @@ namespace Bifrost.Execution
         /// <summary>
         /// Method that decides wether or not an assembly should be included
         /// </summary>
-        /// <param name="assembly"><see cref="Assembly"/> to ask for</param>
+        /// <param name="filename">Filename of assembly to ask for</param>
         /// <returns>True if it should be included, false if not</returns>
-        bool ShouldInclude(_Assembly assembly);
+        bool ShouldInclude(string filename);
     }
 }

@@ -35,6 +35,7 @@ namespace Bifrost.Execution
     public class AssemblyProvider : IAssemblyProvider
     {
         _AppDomain _appDomain;
+        IAssemblyFilters _assemblyFilters;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace Bifrost.Execution
         public AssemblyProvider(_AppDomain appDomain, IAssemblyFilters assemblyFilters)
         {
             _appDomain = appDomain;
+            _assemblyFilters = assemblyFilters;
             appDomain.AssemblyLoad += AssemblyLoaded;
 
             Populate();
@@ -71,9 +73,11 @@ namespace Bifrost.Execution
             files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
             files = files.Where(AssemblyDetails.IsAssembly);
 
-            var currentAssemblies = _appDomain.GetAssemblies().ToList();
+            var currentAssemblies = _appDomain.GetAssemblies().Where(a=>_assemblyFilters.ShouldInclude(a.GetName().Name)).ToList();
             foreach (var file in files)
             {
+                if (!_assemblyFilters.ShouldInclude(file.Name)) continue;
+
                 var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
                 if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
                     currentAssemblies.Add(Assembly.Load(assemblyName));

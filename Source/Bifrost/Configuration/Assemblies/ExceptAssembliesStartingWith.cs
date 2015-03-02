@@ -29,7 +29,7 @@ namespace Bifrost.Configuration.Assemblies
     /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
     /// excluding assembies starting with
     /// </summary>
-    public class ExceptAssembliesStartingWith : Specification<_Assembly>
+    public class ExceptAssembliesStartingWith : Specification<string>
     {
         /// <summary>
         /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
@@ -37,7 +37,7 @@ namespace Bifrost.Configuration.Assemblies
         /// <param name="name"></param>
         public ExceptAssembliesStartingWith(string name)
         {
-            Predicate = a => !a.FullName.StartsWith(name);
+            Predicate = a => !a.StartsWith(name);
         }
     }
 }

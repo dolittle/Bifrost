@@ -57,6 +57,8 @@ namespace Bifrost.Configuration
         {
             SystemName = "[Not Set]";
 
+            AssembliesConfiguration = assembliesConfiguration;
+
             container.DefaultLifecycle = defaultLifecycle;
             container.Bind<IConfigure>(this);
 
@@ -78,7 +80,7 @@ namespace Bifrost.Configuration
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
 
-            var assemblies = GetAssembliesCurrentlyInMemory();
+            var assemblies = GetAssembliesCurrentlyInMemory(assembliesConfiguration);
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
             ThrowIfCanCreateContainerNotFound(canCreateContainerType);
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
@@ -162,6 +164,7 @@ namespace Bifrost.Configuration
         public IContainer Container { get; private set; }
         public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
+        public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
@@ -216,6 +219,8 @@ namespace Bifrost.Configuration
 
         void InitializeProperties()
         {
+            
+
             Commands = Container.Get<ICommandsConfiguration>();
             Events = Container.Get<IEventsConfiguration>();
             Tasks = Container.Get<ITasksConfiguration>();
@@ -286,7 +291,7 @@ namespace Bifrost.Configuration
         }
 
 
-        static IEnumerable<Assembly> GetAssembliesCurrentlyInMemory()
+        static IEnumerable<Assembly> GetAssembliesCurrentlyInMemory(AssembliesConfiguration assembliesConfiguration)
         {
 #if(SILVERLIGHT)
             var assemblies = (from part in Deployment.Current.Parts
@@ -327,7 +332,7 @@ namespace Bifrost.Configuration
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(f =>
             {
                 var name = f.GetName().Name;
-                return ShouldAddAssembly(name);
+                return ShouldAddAssembly(name) && assembliesConfiguration.Specification.IsSatisfiedBy(name);
             }).ToArray();
 #endif
 #endif
