@@ -6,7 +6,7 @@ namespace Bifrost.QuickStart.WPF.Configuration
     {
         public void Configure(IConfigure configure)
         {
-            
+            configure.Frontend.Desktop();
         }
     }
 }

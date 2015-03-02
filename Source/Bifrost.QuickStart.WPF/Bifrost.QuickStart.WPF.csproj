@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.QuickStart.WPF</RootNamespace>
-    <AssemblyName>Bifrost.QuickStart.WPF</AssemblyName>
+    <AssemblyName>Bifrost.QuickStart</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Solutions\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -65,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
+    <Compile Include="Read\HumanResources\Employees\Employee.cs" />
+    <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />
+    <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,14 +80,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Concepts\Persons\SocialSecurityNumber.cs" />
     <Compile Include="Configuration\Configurator.cs" />
     <Compile Include="Configuration\ContainerCreator.cs" />
+    <Compile Include="Domain\HumanResources\Employees\CommandHandlers.cs" />
+    <Compile Include="Domain\HumanResources\Employees\Employee.cs" />
+    <Compile Include="Domain\HumanResources\Employees\RegisterEmployee.cs" />
+    <Compile Include="Domain\HumanResources\Employees\RegisterEmployeeInputValidator.cs" />
+    <Compile Include="Domain\HumanResources\Employees\SecurityDescriptor.cs" />
+    <Compile Include="Events\HumanResources\Employees\EmployeeRegistered.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +127,10 @@
     <ProjectReference Include="..\Bifrost.Client\Bifrost.Client.csproj">
       <Project>{29bd2efc-79de-4b45-bc4e-a049e6cf243f}</Project>
       <Name>Bifrost.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
+      <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
+      <Name>Bifrost.FluentValidation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
       <Project>{db77eb6a-db79-4839-ab30-90593bce470f}</Project>
