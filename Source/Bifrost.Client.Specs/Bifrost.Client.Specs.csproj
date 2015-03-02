@@ -78,6 +78,13 @@
       <Project>{29bd2efc-79de-4b45-bc4e-a049e6cf243f}</Project>
       <Name>Bifrost.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

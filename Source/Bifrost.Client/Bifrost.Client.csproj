@@ -11,6 +11,8 @@
     <AssemblyName>Bifrost.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +43,9 @@
     <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -58,11 +63,16 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\CommandForProxies.cs" />
+    <Compile Include="Commands\ICommandForProxies.cs" />
+    <Compile Include="Configuration\DesktopConfiguration.cs" />
+    <Compile Include="Configuration\DesktopConfigurationExtensions.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Execution\Promise.cs" />
     <Compile Include="Interaction\FromMethodExtension.cs" />
+    <Compile Include="Commands\ICommandFor.cs" />
     <Compile Include="ViewModels\ViewModelExtension.cs" />
     <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />
@@ -104,7 +114,17 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
