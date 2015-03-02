@@ -16,11 +16,12 @@
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="Bifrost" version="$version$" />
+      <dependency id="Castle.Core" version="3.3.3" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Bifrost.Client\bin\debug\Bifrost.*" target="lib\net45"/>
-    <!--<file src="Bifrost.Client.WindowsPhone\bin\debug\Bifrost.*" target="lib\wpa"/>-->
+    <file src="Bifrost.Client\bin\debug\Bifrost.Client.*" target="lib\net45"/>
+    <!--<file src="Bifrost.Client.WindowsPhone\bin\debug\Bifrost.Client.*" target="lib\wpa"/>-->
 	  <file src="Bifrost.Client\**\*.cs" target="src" />
     <!--<file src="Bifrost.Client.WindowsPhone\**\*.cs" target="src\wpa" />-->
   </files>
