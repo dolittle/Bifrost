@@ -23,6 +23,6 @@ namespace Bifrost.Commands
     public interface ICommandFor<T> : ICommand
         where T:Bifrost.Commands.ICommand
     {
-        T Instance { get; }
+        T Instance { get; set;  }
     }
 }

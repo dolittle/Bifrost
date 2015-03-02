@@ -29,6 +29,6 @@ namespace Bifrost.Commands
         /// </summary>
         /// <typeparam name="T">Type of <see cref="ICommand"/> to get for</typeparam>
         /// <returns>Proxied instance of <see cref="ICommandFor{0}"/> proxy</returns>
-        ICommandFor<T> GetFor<T>() where T : ICommand;
+        ICommandFor<T> GetFor<T>() where T : ICommand, new();
     }
 }
