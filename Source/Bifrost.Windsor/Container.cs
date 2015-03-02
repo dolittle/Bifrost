@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
+using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
@@ -164,9 +165,9 @@ namespace Bifrost.Windsor
             _windsorContainer.Register(Component.For<T>().UsingFactoryMethod(t => resolveCallback()));
         }
 
-        public void Bind(Type service, Func<object> resolveCallback)
+        public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            _windsorContainer.Register(Component.For(service).UsingFactoryMethod(t => resolveCallback()));
+            _windsorContainer.Register(Component.For(service).UsingFactoryMethod((t,c) => resolveCallback(service)));
         }
 
         public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
@@ -174,9 +175,9 @@ namespace Bifrost.Windsor
             _windsorContainer.Register(Component.For<T>().UsingFactoryMethod(t => resolveCallback()).WithLifecycle(lifecycle));
         }
 
-        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
-            _windsorContainer.Register(Component.For(service).UsingFactoryMethod(t => resolveCallback()).WithLifecycle(lifecycle));
+            _windsorContainer.Register(Component.For(service).UsingFactoryMethod(t => resolveCallback(service)).WithLifecycle(lifecycle));
         }
 
         public BindingLifecycle DefaultLifecycle

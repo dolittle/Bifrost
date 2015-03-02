@@ -176,7 +176,7 @@ namespace Bifrost.Autofac
             RegisterWithCallback(typeof (T), resolveCallback, DefaultLifecycle);
         }
 
-        public void Bind(Type service, Func<object> resolveCallback)
+        public void Bind(Type service, Func<Type,object> resolveCallback)
         {
             RegisterWithCallback(service, resolveCallback, DefaultLifecycle);
         }
@@ -186,7 +186,7 @@ namespace Bifrost.Autofac
             RegisterWithCallback(typeof (T), resolveCallback, DefaultLifecycle);
         }
 
-        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
             RegisterWithCallback(service, resolveCallback, DefaultLifecycle);
         }
@@ -200,9 +200,9 @@ namespace Bifrost.Autofac
             Update(x => x.Register(c => resolveCallback()).PerLifeStyle(lifecycle).As(service));
         }
 
-        void RegisterWithCallback(Type type, Func<Type> resolveCallback, BindingLifecycle lifecycle)
+        void RegisterWithCallback(Type type, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
-            Update(x => x.Register(c => resolveCallback()).PerLifeStyle(lifecycle).As(type));
+            Update(x => x.Register(c => resolveCallback(type)).PerLifeStyle(lifecycle).As(type));
         }
 
         void RegisterService(Type service, Type type, BindingLifecycle lifecycle)

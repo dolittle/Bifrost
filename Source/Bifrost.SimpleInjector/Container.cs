@@ -115,9 +115,9 @@ namespace Bifrost.SimpleInjector
             _container.Register(typeof(T), objectResolver);
         }
 
-        public void Bind(Type service, Func<object> resolveCallback)
+        public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            _container.Register(service, resolveCallback);
+            _container.Register(service, () => resolveCallback(service));
         }
 
         public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
@@ -125,7 +125,7 @@ namespace Bifrost.SimpleInjector
             _container.Register<T>(resolveCallback, lifecycle);
         }
 
-        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
             throw new NotImplementedException();
         }

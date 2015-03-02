@@ -163,7 +163,7 @@ namespace Bifrost.Unity
             throw new NotImplementedException();
         }
 
-        public void Bind(Type service, Func<object> resolveCallback)
+        public void Bind(Type service, Func<Type, object> resolveCallback)
         {
             throw new NotImplementedException();
         }
@@ -173,7 +173,7 @@ namespace Bifrost.Unity
             throw new NotImplementedException();
         }
 
-        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
             throw new NotImplementedException();
         }
