@@ -75,6 +75,10 @@
     <Compile Include="Execution\for_Promise\when_failing_with_error_ballback.cs" />
     <Compile Include="Execution\for_Promise\when_signalling_with_continuation_ballback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\for_Interceptor\InterceptorWithHandler.cs" />
+    <Compile Include="Reflection\for_Interceptor\InterceptorWithoutHandlers.cs" />
+    <Compile Include="Reflection\for_Interceptor\when_intercepting_without_handlers.cs" />
+    <Compile Include="Reflection\for_Interceptor\when_intercepting_with_one_handler_that_can_handle.cs" />
     <Compile Include="Tasks\for_TaskContext\given\a_task_context_with_a_task_and_associated_data.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_before_cancelled_and_completed_callback_registered.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_after_cancelled_and_completed_callback_registered.cs" />
