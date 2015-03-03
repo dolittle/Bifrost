@@ -64,7 +64,10 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Commands\CommandForProxies.cs" />
+    <Compile Include="Commands\CommandForProxyInterceptor.cs" />
+    <Compile Include="Commands\CommandInstanceHolder.cs" />
     <Compile Include="Commands\ICommandForProxies.cs" />
+    <Compile Include="Commands\IHoldCommandInstance.cs" />
     <Compile Include="Configuration\DesktopConfiguration.cs" />
     <Compile Include="Configuration\DesktopConfigurationExtensions.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
@@ -73,6 +76,8 @@
     <Compile Include="Execution\Promise.cs" />
     <Compile Include="Interaction\FromMethodExtension.cs" />
     <Compile Include="Commands\ICommandFor.cs" />
+    <Compile Include="Reflection\IProxying.cs" />
+    <Compile Include="Reflection\Proxying.cs" />
     <Compile Include="ViewModels\ViewModelExtension.cs" />
     <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />

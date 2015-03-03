@@ -3,6 +3,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Storyboard x:Key="FlashErrorIcon">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" 
+                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.2000000" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.6000000" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:00.8000000" Value="{x:Static Visibility.Hidden}"/>
+                <DiscreteObjectKeyFrame KeyTime="00:00:01" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Style x:Key="myErrorTemplate" TargetType="Control">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <Ellipse DockPanel.Dock="Right" 
+                                 ToolTip="{Binding ElementName=myTextbox, 
+                                     Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                                 Width="15" Height="15" 
+                                 Margin="-25,0,0,0"
+                                 StrokeThickness="1" Fill="Red" >
+                                <Ellipse.Stroke>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#FFFA0404" Offset="0"/>
+                                        <GradientStop Color="#FFC9C7C7" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Stroke>
+                                <Ellipse.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                        <BeginStoryboard Storyboard="{StaticResource FlashErrorIcon}"/>
+                                    </EventTrigger>
+                                </Ellipse.Triggers>
+                            </Ellipse>
+                            <TextBlock DockPanel.Dock="Right" 
+                                ToolTip="{Binding ElementName=myControl, 
+                                     Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                                Foreground="White"
+                                FontSize="11pt" 
+                                Margin="-15,5,0,0" FontWeight="Bold">!
+                                <TextBlock.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                        <BeginStoryboard Storyboard="{StaticResource FlashErrorIcon}"/>
+                                    </EventTrigger>
+                                </TextBlock.Triggers>
+                            </TextBlock>
+                            <Border BorderBrush="Red" BorderThickness="1">
+                                <AdornedElementPlaceholder Name="myControl"/>
+                            </Border>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource myErrorTemplate}" />
+        <Style TargetType="CheckBox" BasedOn="{StaticResource myErrorTemplate}" />
+        <Style TargetType="ComboBox" BasedOn="{StaticResource myErrorTemplate}" />
     </Application.Resources>
 </Application>

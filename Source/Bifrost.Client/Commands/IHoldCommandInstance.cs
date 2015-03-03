@@ -16,19 +16,16 @@
 // limitations under the License.
 //
 #endregion
-using System;
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Defines a system that can deal with proxies for <see cref="ICommandFor{T}"/>
+    /// Defines something that can hold a <see cref="ICommand"/> instance
     /// </summary>
-    public interface ICommandForProxies
+    public interface IHoldCommandInstance
     {
         /// <summary>
-        /// Get <see cref="ICommandFor{T}"/> for specified command type
+        /// Gets or sets the instance of a <see cref="ICommand"/>
         /// </summary>
-        /// <typeparam name="T">Type of <see cref="ICommand"/> to get for</typeparam>
-        /// <returns>Proxied instance of <see cref="ICommandFor{0}"/> proxy</returns>
-        ICommandFor<T> GetFor<T>() where T : ICommand, new();
+        ICommand CommandInstance { get; set; }
     }
 }

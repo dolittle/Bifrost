@@ -8,7 +8,7 @@
         
         DataContext="{viewmodels:ViewModel {x:Type local:MainWindowViewModel}}"
         >
-    <Grid>
+    <Grid Margin="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -25,7 +25,7 @@
         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Register.FirstName, Mode=TwoWay}"/>
 
         <Label Grid.Column="0" Grid.Row="1">LastName</Label>
-        <TextBox Grid.Column="1" Grid.Row="1"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Stuff.Hello}"/>
 
         <Label Grid.Column="0" Grid.Row="2">SocialScurityNumber</Label>
         <TextBox Grid.Column="1" Grid.Row="2"/>

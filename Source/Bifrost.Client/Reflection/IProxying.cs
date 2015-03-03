@@ -17,18 +17,18 @@
 //
 #endregion
 using System;
-namespace Bifrost.Commands
+namespace Bifrost.Reflection
 {
     /// <summary>
-    /// Defines a system that can deal with proxies for <see cref="ICommandFor{T}"/>
+    /// Defines something can deal with creating proxy types
     /// </summary>
-    public interface ICommandForProxies
+    public interface IProxying
     {
         /// <summary>
-        /// Get <see cref="ICommandFor{T}"/> for specified command type
+        /// Build an interface type that contains the properties from a specific other type
         /// </summary>
-        /// <typeparam name="T">Type of <see cref="ICommand"/> to get for</typeparam>
-        /// <returns>Proxied instance of <see cref="ICommandFor{0}"/> proxy</returns>
-        ICommandFor<T> GetFor<T>() where T : ICommand, new();
+        /// <param name="type"><see cref="Type"/> to get properties from</param>
+        /// <returns>A new <see cref="Type"/></returns>
+        Type BuildInterfaceWithPropertiesFrom(Type type);
     }
 }

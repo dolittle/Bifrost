@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2013, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -17,16 +17,9 @@
 //
 #endregion
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading;
-using Bifrost.Configuration;
 using Bifrost.Execution;
+using Bifrost.Reflection;
 using Castle.DynamicProxy;
-using Castle.DynamicProxy.Generators;
 
 namespace Bifrost.Commands
 {
@@ -36,131 +29,25 @@ namespace Bifrost.Commands
     [Singleton]
     public class CommandForProxies : ICommandForProxies
     {
-        private const string DynamicAssemblyName = "Dynamic Assembly";
-        private const string DynamicModuleName = "Dynamic Module";
-
-        private static readonly AssemblyBuilder DynamicAssembly;
-        private static readonly ModuleBuilder DynamicModule;
-
-        static CommandForProxies()
-        {
-            var dynamicAssemblyName = CreateUniqueName(DynamicAssemblyName);
-            var dynamicModuleName = CreateUniqueName(DynamicModuleName);
-            var appDomain = Thread.GetDomain();
-            var assemblyName = new AssemblyName(dynamicAssemblyName);
-            DynamicAssembly = appDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            DynamicModule = DynamicAssembly.DefineDynamicModule(dynamicModuleName, true);
-        }
-
-        static string CreateUniqueName(string prefix)
-        {
-            var uid = Guid.NewGuid().ToString();
-            uid = uid.Replace('-', '_');
-            var name = string.Format("{0}{1}", prefix, uid);
-            return name;
-        }
-
-
-        static TypeBuilder DefineType(Type type)
-        {
-            var name = CreateUniqueName(type.Name);
-            var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Serializable);
-            return typeBuilder;
-        }
-
-
         ProxyGenerator _proxyGenerator;
+        IProxying _proxying;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandForProxies"/>
         /// </summary>
-        public CommandForProxies()
+        public CommandForProxies(IProxying proxying)
         {
+            _proxying = proxying;
             _proxyGenerator = new ProxyGenerator();
         }
 
 
 #pragma warning disable 1591 // Xml Comments
-
-        public class CommandInstanceHolder : IHoldCommandInstance
-        {
-            public ICommand CommandInstance { get; set; }
-        }
-
-        public interface IHoldCommandInstance
-        {
-            ICommand CommandInstance { get; set; }
-        }
-
-
-        public class CommandForProxyInterceptor : IInterceptor
-        {
-            public void Intercept(IInvocation invocation)
-            {
-                if (HandleCommandInstanceIfInvocationMatches(invocation)) return;
-
-                var commandInstanceHolder = invocation.Proxy as IHoldCommandInstance;
-                var instance = commandInstanceHolder.CommandInstance;
-
-                if (invocation.Method.Name.StartsWith("get_") || invocation.Method.Name.StartsWith("set_"))
-                {
-
-                    if (invocation.Method.Name.Contains("get_Instance"))
-                    {
-                        invocation.ReturnValue = instance;
-                        return;
-                    }
-
-                    if (invocation.Method.Name.StartsWith("get_"))
-                    {
-                        var getMethod = commandInstanceHolder.CommandInstance.GetType().GetMethod(invocation.Method.Name);
-                        invocation.ReturnValue = getMethod.Invoke(instance, null);
-                    }
-                    if (invocation.Method.Name.StartsWith("set_"))
-                    {
-                        var setMethod = instance.GetType().GetMethod(invocation.Method.Name);
-                        setMethod.Invoke(instance, invocation.Arguments);
-                    }
-                }
-
-                var methods = typeof(System.Windows.Input.ICommand).GetMethods();
-                var hasMethod = methods.Any(m => m.Name == invocation.Method.Name);
-                if (!hasMethod) return;
-
-                if (invocation.Method.Name.Equals("CanExecute"))
-                {
-                    invocation.ReturnValue = true;
-                }
-                else if (invocation.Method.Name.Equals("Execute"))
-                {
-                    var commandCoordinator = Configure.Instance.Container.Get<ICommandCoordinator>();
-                    var result = commandCoordinator.Handle(instance);
-                }
-            }
-
-
-            bool HandleCommandInstanceIfInvocationMatches(IInvocation invocation)
-            {
-                if (invocation.Method.Name.Equals("set_CommandInstance"))
-                {
-                    invocation.Proceed();
-                    return true;
-                }
-                if (invocation.Method.Name.Equals("get_CommandInstance"))
-                {
-                    invocation.Proceed();
-                    return true;
-                }
-                return false;
-            }
-
-        }
-
         public ICommandFor<T> GetFor<T>() where T : ICommand, new()
         {
             var command = new T();
-            
-            var interfaceForCommandType = GetInterfaceForCommandType<T>();
+
+            var interfaceForCommandType = _proxying.BuildInterfaceWithPropertiesFrom(typeof(T));
 
             var options = new ProxyGenerationOptions();
             var commandForInterceptor = new CommandForProxyInterceptor();
@@ -183,23 +70,6 @@ namespace Bifrost.Commands
             ((IHoldCommandInstance)i).CommandInstance = command;
 
             return i;
-        }
-
-        static Type GetInterfaceForCommandType<T>() where T : ICommand, new()
-        {
-            var typeBuilder = DefineType(typeof(T));
-
-            foreach (var property in typeof(T).GetProperties())
-            {
-                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
-                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
-                propertyBuilder.SetGetMethod(getMethodBuilder);
-                var setMethodBuilder = typeBuilder.DefineMethod("set_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, new[] { property.PropertyType });
-                propertyBuilder.SetSetMethod(setMethodBuilder);
-            }
-
-            var interfaceForCommandType = typeBuilder.CreateType();
-            return interfaceForCommandType;
         }
 #pragma warning restore 1591 // Xml Comments
     }

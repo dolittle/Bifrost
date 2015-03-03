@@ -14,7 +14,11 @@ namespace Bifrost.Configuration
                 var commandForProxies = container.Get<ICommandForProxies>();
                 return commandForProxies.CallGenericMethod<object, ICommandForProxies>(cc => cc.GetFor<Bifrost.Commands.Command>, t.GenericTypeArguments[0]);
             });
-            
+
+            var dispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
+            Bifrost.Execution.DispatcherManager.Current = new Bifrost.Execution.Dispatcher(dispatcher);
+            container.Bind<System.Windows.Threading.Dispatcher>(dispatcher);
+            Configure.Instance.Container.Bind<IDispatcher>(Bifrost.Execution.DispatcherManager.Current);
         }
     }
 }
