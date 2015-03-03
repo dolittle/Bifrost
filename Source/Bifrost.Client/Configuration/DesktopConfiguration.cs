@@ -2,6 +2,7 @@
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Castle.DynamicProxy;
 
 namespace Bifrost.Configuration
 {
@@ -19,6 +20,9 @@ namespace Bifrost.Configuration
             Bifrost.Execution.DispatcherManager.Current = new Bifrost.Execution.Dispatcher(dispatcher);
             container.Bind<System.Windows.Threading.Dispatcher>(dispatcher);
             Configure.Instance.Container.Bind<IDispatcher>(Bifrost.Execution.DispatcherManager.Current);
+
+            var proxyGenerator = new ProxyGenerator();
+            Configure.Instance.Container.Bind<IProxyBuilder>(proxyGenerator.ProxyBuilder);
         }
     }
 }

@@ -29,16 +29,16 @@ namespace Bifrost.Commands
     [Singleton]
     public class CommandForProxies : ICommandForProxies
     {
-        ProxyGenerator _proxyGenerator;
+        IProxyBuilder _proxyBuilder;
         IProxying _proxying;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandForProxies"/>
         /// </summary>
-        public CommandForProxies(IProxying proxying)
+        public CommandForProxies(IProxying proxying, IProxyBuilder proxyBuilder)
         {
             _proxying = proxying;
-            _proxyGenerator = new ProxyGenerator();
+            _proxyBuilder = proxyBuilder;
         }
 
 
@@ -52,7 +52,7 @@ namespace Bifrost.Commands
             var options = new ProxyGenerationOptions();
             var commandForInterceptor = new CommandForProxyInterceptor();
 
-            var type = _proxyGenerator.ProxyBuilder.CreateClassProxyType(
+            var type = _proxyBuilder.CreateClassProxyType(
                 typeof(CommandInstanceHolder), 
                 new[] { 
                     typeof(ICommandFor<T>), 
