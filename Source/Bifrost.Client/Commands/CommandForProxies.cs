@@ -30,16 +30,23 @@ namespace Bifrost.Commands
     [Singleton]
     public class CommandForProxies : ICommandForProxies
     {
+        static class ProxyTypePerCommand<T>
+        {
+            public static Type ProxyType { get; set; }
+        }
+
         IProxyBuilder _proxyBuilder;
         IProxying _proxying;
+        ICommandForProxyInterceptor _interceptor;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommandForProxies"/>
         /// </summary>
-        public CommandForProxies(IProxying proxying, IProxyBuilder proxyBuilder)
+        public CommandForProxies(IProxying proxying, IProxyBuilder proxyBuilder, ICommandForProxyInterceptor interceptor)
         {
             _proxying = proxying;
             _proxyBuilder = proxyBuilder;
+            _interceptor = interceptor;
         }
 
 
@@ -48,30 +55,38 @@ namespace Bifrost.Commands
         {
             var command = new T();
 
-            var interfaceForCommandType = _proxying.BuildInterfaceWithPropertiesFrom(typeof(T));
+            var type = GetProxyTypeFor<T>();
 
-            var options = new ProxyGenerationOptions();
-            var commandForInterceptor = new CommandForProxyInterceptor();
+            var instance = Activator.CreateInstance(type, new[] { 
+                new IInterceptor[] { 
+                    _interceptor,
+                } 
+            }) as ICommandFor<T>;
 
-            var type = _proxyBuilder.CreateClassProxyType(
-                typeof(CommandInstanceHolder), 
-                new[] { 
+            ((IHoldCommandInstance)instance).CommandInstance = command;
+
+            return instance;
+        }
+
+        Type GetProxyTypeFor<T>() where T : ICommand, new()
+        {
+            if (ProxyTypePerCommand<T>.ProxyType == null)
+            {
+                var interfaceForCommandType = _proxying.BuildInterfaceWithPropertiesFrom(typeof(T));
+
+                var options = new ProxyGenerationOptions();
+
+                ProxyTypePerCommand<T>.ProxyType = _proxyBuilder.CreateClassProxyType(
+                    typeof(CommandInstanceHolder),
+                    new[] { 
                     typeof(ICommandFor<T>), 
                     interfaceForCommandType, 
                     typeof(System.Windows.Input.ICommand), 
                     typeof(INotifyDataErrorInfo),
                     typeof(IHoldCommandInstance) 
                 }, options);
-
-            var i = Activator.CreateInstance(type, new[] { 
-                new IInterceptor[] { 
-                    commandForInterceptor,
-                } 
-            }) as ICommandFor<T>;
-
-            ((IHoldCommandInstance)i).CommandInstance = command;
-
-            return i;
+            }
+            return ProxyTypePerCommand<T>.ProxyType;
         }
 #pragma warning restore 1591 // Xml Comments
     }

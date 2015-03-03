@@ -25,20 +25,22 @@ namespace Bifrost.Commands
     /// <summary>
     /// Represents an <see cref="IInterceptor"/> that intercepts all calls for <see cref="ICommandFor{T}"/> proxies
     /// </summary>
-    public class CommandForProxyInterceptor : Interceptor
+    public class CommandForProxyInterceptor : Interceptor, ICommandForProxyInterceptor
     {
         /// <summary>
         /// Initalizes an instance of <see cref="CommandForProxyInterceptor"/>
         /// </summary>
-        public CommandForProxyInterceptor()
+        public CommandForProxyInterceptor(
+            ICanHandleInvocationsFor<System.Windows.Input.ICommand, CommandInvocationHandler> commandInvocation,
+            ICanHandleInvocationsFor<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler> commandNotifyDataErrorInfo)
         {
-            AddHandler<System.Windows.Input.ICommand, CommandInvocationHandler>();
-            AddHandler<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler>();
+            AddHandler(commandInvocation);
+            AddHandler(commandNotifyDataErrorInfo);
         }
 
 
 #pragma warning disable 1591 // Xml Comments
-        public override void Intercept(IInvocation invocation)
+        public override void OnIntercept(IInvocation invocation)
         {
             if (HandleCommandInstanceIfInvocationMatches(invocation)) return;
 
@@ -47,7 +49,6 @@ namespace Bifrost.Commands
 
             if (invocation.Method.Name.StartsWith("get_") || invocation.Method.Name.StartsWith("set_"))
             {
-
                 if (invocation.Method.Name.Contains("get_Instance"))
                 {
                     invocation.ReturnValue = instance;

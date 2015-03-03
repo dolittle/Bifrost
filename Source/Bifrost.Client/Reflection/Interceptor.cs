@@ -30,19 +30,7 @@ namespace Bifrost.Reflection
     /// </summary>
     public class Interceptor : IInterceptor
     {
-        IContainer _container;
         List<ICanHandleInvocations> _invocationHandlers = new List<ICanHandleInvocations>();
-
-        public Interceptor() : this(Configure.Instance.Container) { }
-
-        /// <summary>
-        /// Initializes an instance of <see cref="Interceptor"/>
-        /// </summary>
-        /// <param name="container"><see cref="IContainer"/> to use for handlers</param>
-        public Interceptor(IContainer container)
-        {
-            _container = container;
-        }
 
         /// <summary>
         /// Add a handler for the given interface and a matching implementation 
@@ -50,11 +38,9 @@ namespace Bifrost.Reflection
         /// </summary>
         /// <typeparam name="TInterface">Interface to add for</typeparam>
         /// <typeparam name="TImplementation">Implementation that will actually handle invocations</typeparam>
-        protected void AddHandler<TInterface, TImplementation>()
-            where TImplementation:TInterface
+        protected void AddHandler(ICanHandleInvocations invocationHandler)
         {
-            var handler = _container.Get<InvocationHandler<TInterface, TImplementation>>();
-            _invocationHandlers.Add(handler);
+            _invocationHandlers.Add(invocationHandler);
         }
 
 
@@ -62,13 +48,13 @@ namespace Bifrost.Reflection
         /// Method to override if you need to intercept invocations that aren't automatically handled
         /// </summary>
         /// <param name="invocation"></param>
-        public virtual void Intercept(IInvocation invocation) {}
+        public virtual void OnIntercept(IInvocation invocation) {}
 
-        void IInterceptor.Intercept(IInvocation invocation)
+        public void Intercept(IInvocation invocation)
         {
             var handler = _invocationHandlers.FirstOrDefault(h => h.CanHandle(invocation));
             if (handler != null) handler.Handle(invocation);
-            else Intercept(invocation);
+            else OnIntercept(invocation);
         }
     }
 }
