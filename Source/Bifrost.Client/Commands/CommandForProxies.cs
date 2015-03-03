@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.ComponentModel;
 using Bifrost.Execution;
 using Bifrost.Reflection;
 using Castle.DynamicProxy;
@@ -58,6 +59,7 @@ namespace Bifrost.Commands
                     typeof(ICommandFor<T>), 
                     interfaceForCommandType, 
                     typeof(System.Windows.Input.ICommand), 
+                    typeof(INotifyDataErrorInfo),
                     typeof(IHoldCommandInstance) 
                 }, options);
 

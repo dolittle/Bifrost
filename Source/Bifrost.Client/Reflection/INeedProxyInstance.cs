@@ -16,25 +16,16 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
-
-namespace Bifrost.Commands
+namespace Bifrost.Reflection
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
+    /// Defines a system that needs the instance of a proxy
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
-    /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
-    /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand
-        where T:Bifrost.Commands.ICommand
+    public interface INeedProxyInstance
     {
         /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
+        /// Gets or sets the instance of the proxy
         /// </summary>
-        T Instance { get; set;  }
+        object Proxy { get; set; }
     }
 }

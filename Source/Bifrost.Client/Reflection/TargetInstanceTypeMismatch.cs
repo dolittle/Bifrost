@@ -16,25 +16,21 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
+using System;
 
-namespace Bifrost.Commands
+namespace Bifrost.Reflection
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
+    /// Exception that gets thrown when a TargetInstance property for implementations
+    /// of <see cref="INeedTargetInstance"/> mismatches the type expected for <see cref="ICanHandleInvocationsFor{T1,T2}"/>
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
-    /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
-    /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand
-        where T:Bifrost.Commands.ICommand
+    public class TargetInstanceTypeMismatch : ArgumentException
     {
         /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
+        /// Initializes a new instance of <see cref="TargetInstanceTypeMismatch"/>
         /// </summary>
-        T Instance { get; set;  }
+        /// <param name="targetInstanceType"><see cref="Type"/> of the target instance</param>
+        /// <param name="expectedType"><see cref="Type"/> that is expected</param>
+        public TargetInstanceTypeMismatch(Type targetInstanceType, Type expectedType) : base(string.Format(Strings.TargetInstanceTypeMismatch, targetInstanceType, expectedType)) { }
     }
 }

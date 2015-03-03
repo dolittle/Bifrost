@@ -16,25 +16,17 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
-
-namespace Bifrost.Commands
+namespace Bifrost.Reflection
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
+    /// Defines a system that needs target instance
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
     /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
+    /// This is a marker interface. By convention the system will look for a property
+    /// called TargetInstance matching the type expected and then set the 
+    /// value on it
     /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand
-        where T:Bifrost.Commands.ICommand
+    public interface INeedTargetInstance
     {
-        /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
-        /// </summary>
-        T Instance { get; set;  }
     }
 }

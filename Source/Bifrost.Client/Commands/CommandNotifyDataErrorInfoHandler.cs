@@ -16,25 +16,30 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
+using System;
+using System.Collections;
+using System.ComponentModel;
 
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
+    /// Represents an implementation of <see cref="INotifyDataErrorInfo"/>
+    /// that will handle any invocations from an interceptor
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
-    /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
-    /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand
-        where T:Bifrost.Commands.ICommand
+    public class CommandNotifyDataErrorInfoHandler : INotifyDataErrorInfo
     {
-        /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
-        /// </summary>
-        T Instance { get; set;  }
+#pragma warning disable 1591 // Xml Comments
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = (s, e) => { };
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return new[] { "Its just wrong!", "And more stuff is wrong as well!" };
+        }
+
+        public bool HasErrors
+        {
+            get { return true; }
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

@@ -65,7 +65,13 @@
     </Compile>
     <Compile Include="Commands\CommandForProxies.cs" />
     <Compile Include="Commands\CommandForProxyInterceptor.cs" />
+    <Compile Include="Commands\CommandInvocationHandler.cs" />
     <Compile Include="Commands\CommandInstanceHolder.cs" />
+    <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
+    <Compile Include="Reflection\INeedProxyInstance.cs" />
+    <Compile Include="Reflection\INeedTargetInstance.cs" />
+    <Compile Include="Reflection\ICanHandleInvocations.cs" />
+    <Compile Include="Reflection\ICanHandleInvocationsFor.cs" />
     <Compile Include="Commands\ICommandForProxies.cs" />
     <Compile Include="Commands\IHoldCommandInstance.cs" />
     <Compile Include="Configuration\DesktopConfiguration.cs" />
@@ -76,8 +82,16 @@
     <Compile Include="Execution\Promise.cs" />
     <Compile Include="Interaction\FromMethodExtension.cs" />
     <Compile Include="Commands\ICommandFor.cs" />
+    <Compile Include="Reflection\Interceptor.cs" />
+    <Compile Include="Reflection\InvocationHandler.cs" />
     <Compile Include="Reflection\IProxying.cs" />
     <Compile Include="Reflection\Proxying.cs" />
+    <Compile Include="Reflection\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Reflection\TargetInstanceTypeMismatch.cs" />
     <Compile Include="ViewModels\ViewModelExtension.cs" />
     <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />
@@ -121,6 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reflection\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

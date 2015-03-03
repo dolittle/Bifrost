@@ -16,25 +16,27 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
+using Castle.DynamicProxy;
 
-namespace Bifrost.Commands
+namespace Bifrost.Reflection
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
-    /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
-    /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
-    /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand
-        where T:Bifrost.Commands.ICommand
+    /// Defines a system that can handle invocations from an interface and delegate it to a concrete
+    /// instance
+    public interface ICanHandleInvocations
     {
         /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
+        /// Gets asked for wether or not it can handle a specific <see cref="IInvocation"/>
         /// </summary>
-        T Instance { get; set;  }
+        /// <param name="invocation"><see cref="IInvocation"/> to ask for</param>
+        /// <returns>True if it can handle it, false if not</returns>
+        bool CanHandle(IInvocation invocation);
+
+        /// <summary>
+        /// Handel a specific <see cref="IInvocation"/>
+        /// </summary>
+        /// <param name="invocation"><see cref="IInvocation"/> to handle</param>
+        void Handle(IInvocation invocation);
+
     }
 }

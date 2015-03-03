@@ -16,8 +16,8 @@
 // limitations under the License.
 //
 #endregion
-using System.Linq;
-using Bifrost.Configuration;
+using System.ComponentModel;
+using Bifrost.Reflection;
 using Castle.DynamicProxy;
 
 namespace Bifrost.Commands
@@ -25,11 +25,20 @@ namespace Bifrost.Commands
     /// <summary>
     /// Represents an <see cref="IInterceptor"/> that intercepts all calls for <see cref="ICommandFor{T}"/> proxies
     /// </summary>
-    public class CommandForProxyInterceptor : IInterceptor
+    public class CommandForProxyInterceptor : Interceptor
     {
-#pragma warning disable 1591 // Xml Comments
+        /// <summary>
+        /// Initalizes an instance of <see cref="CommandForProxyInterceptor"/>
+        /// </summary>
+        public CommandForProxyInterceptor()
+        {
+            AddHandler<System.Windows.Input.ICommand, CommandInvocationHandler>();
+            AddHandler<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler>();
+        }
 
-        public void Intercept(IInvocation invocation)
+
+#pragma warning disable 1591 // Xml Comments
+        public override void Intercept(IInvocation invocation)
         {
             if (HandleCommandInstanceIfInvocationMatches(invocation)) return;
 
@@ -55,20 +64,6 @@ namespace Bifrost.Commands
                     var setMethod = instance.GetType().GetMethod(invocation.Method.Name);
                     setMethod.Invoke(instance, invocation.Arguments);
                 }
-            }
-
-            var methods = typeof(System.Windows.Input.ICommand).GetMethods();
-            var hasMethod = methods.Any(m => m.Name == invocation.Method.Name);
-            if (!hasMethod) return;
-
-            if (invocation.Method.Name.Equals("CanExecute"))
-            {
-                invocation.ReturnValue = true;
-            }
-            else if (invocation.Method.Name.Equals("Execute"))
-            {
-                var commandCoordinator = Configure.Instance.Container.Get<ICommandCoordinator>();
-                var result = commandCoordinator.Handle(instance);
             }
         }
 #pragma warning restore 1591 // Xml Comments
