@@ -64,6 +64,12 @@
     <Compile Include="Commands\for_CommandForProxies\MyCommand.cs" />
     <Compile Include="Commands\for_CommandForProxies\ProxyType.cs" />
     <Compile Include="Commands\for_CommandForProxies\when_getting_for_command.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\given\all_dependencies.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\given\a_known_method.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\MyCommand.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\when_getting_instance.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\when_setting_value_for_property_on_command_instance.cs" />
+    <Compile Include="Commands\for_CommandForProxyInterceptor\when_getting_value_from_property_on_command_instance.cs" />
     <Compile Include="Execution\for_Promise\when_adding_failed_callback_after_it_has_failed.cs" />
     <Compile Include="Execution\for_Promise\when_adding_continuation_callback_after_it_has_been_signaled.cs" />
     <Compile Include="Execution\for_Promise\when_failing_with_error_ballback.cs" />
