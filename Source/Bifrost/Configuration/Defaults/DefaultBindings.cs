@@ -29,13 +29,15 @@ namespace Bifrost.Configuration.Defaults
     public class DefaultBindings : IDefaultBindings
 	{
         AssembliesConfiguration _assembliesConfiguration;
+        IAssemblyProvider _assemblyProvider;
 
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultBindings"/>
         /// </summary>
-        public DefaultBindings(AssembliesConfiguration assembliesConfiguration)
+        public DefaultBindings(AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
         {
             _assembliesConfiguration = assembliesConfiguration;
+            _assemblyProvider = assemblyProvider;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -46,8 +48,7 @@ namespace Bifrost.Configuration.Defaults
             container.Bind<_AppDomain>(AppDomain.CurrentDomain);
 #endif
             container.Bind<AssembliesConfiguration>(_assembliesConfiguration);
-            container.Bind<IAssemblyProvider>(typeof(AssemblyProvider), BindingLifecycle.Singleton);
-            container.Bind<IAssemblyFilters>(typeof(AssemblyFilters), BindingLifecycle.Singleton);
+            container.Bind<IAssemblyProvider>(_assemblyProvider);
             container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
 		}
