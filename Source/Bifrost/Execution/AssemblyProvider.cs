@@ -34,6 +34,9 @@ namespace Bifrost.Execution
     [Singleton]
     public class AssemblyProvider : IAssemblyProvider
     {
+        static object _lockObject = new object();
+
+        AssemblyComparer comparer = new AssemblyComparer();
         _AppDomain _appDomain;
         IAssemblyFilters _assemblyFilters;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
@@ -60,7 +63,7 @@ namespace Bifrost.Execution
 #pragma warning restore 1591 // Xml Comments
         void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
         {
-            _assemblies.Add(args.LoadedAssembly);
+            AddAssembly(args.LoadedAssembly);
         }
 
         void Populate()
@@ -83,8 +86,16 @@ namespace Bifrost.Execution
                     currentAssemblies.Add(Assembly.Load(assemblyName));
             }
 
-            var assemblies = currentAssemblies.Distinct(new AssemblyComparer());
-            assemblies.ForEach(_assemblies.Add);
+            var assemblies = currentAssemblies.Distinct(comparer);
+            assemblies.ForEach(AddAssembly);
+        }
+
+        void AddAssembly(_Assembly assembly)
+        {
+            lock (_lockObject)
+            {
+                if (!_assemblies.Contains(assembly, comparer)) _assemblies.Add(assembly);
+            }
         }
 
 

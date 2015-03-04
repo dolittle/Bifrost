@@ -288,7 +288,9 @@ namespace Bifrost.Configuration
 #if(NETFX_CORE)
                 var type = assembly.DefinedTypes.Select(t => t.AsType()).Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
 #else
-                var type = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
+                var types = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer)));
+                var type = types.SingleOrDefault();
+                var a = types.ToArray();
 #endif
                 if (type != null)
                 {
