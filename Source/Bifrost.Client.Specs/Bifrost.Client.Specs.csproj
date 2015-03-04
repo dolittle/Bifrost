@@ -79,6 +79,15 @@
     <Compile Include="Reflection\for_Interceptor\InterceptorWithoutHandlers.cs" />
     <Compile Include="Reflection\for_Interceptor\when_intercepting_without_handlers.cs" />
     <Compile Include="Reflection\for_Interceptor\when_intercepting_with_one_handler_that_can_handle.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\given\an_invocation.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\ImplementationNeedingProxyInstance.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\ImplementationNeedingTargetInstance.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\Implementation.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\Interface.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_handling_getting_property_value.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_handling_a_method_invocation_with_two_arguments.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_proxy_instance.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_target_instance.cs" />
     <Compile Include="Tasks\for_TaskContext\given\a_task_context_with_a_task_and_associated_data.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_before_cancelled_and_completed_callback_registered.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_after_cancelled_and_completed_callback_registered.cs" />

@@ -63,7 +63,8 @@ namespace Bifrost.Reflection
                 property.SetValue(_implementation, invocation.Proxy);
             }
             if (_implementation is INeedProxyInstance) ((INeedProxyInstance)_implementation).Proxy = invocation.Proxy;
-            invocation.ReturnValue = invocation.Method.Invoke(_implementation, invocation.Arguments);
+            var returnValue = invocation.Method.Invoke(_implementation, invocation.Arguments);
+            invocation.ReturnValue = returnValue;
         }
 #pragma warning restore 1591 // Xml Comments
     }
