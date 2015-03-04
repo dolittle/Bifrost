@@ -58,7 +58,7 @@ namespace Bifrost.Reflection
             if (_implementation is INeedTargetInstance)
             {
                 var property = typeof(TImplementation).GetProperty(TargetInstancePropertyName, BindingFlags.Instance | BindingFlags.Public);
-                if (property.PropertyType != typeof(TInterface)) throw new TargetInstanceTypeMismatch(property.PropertyType, typeof(TInterface));
+                ThrowIfTargetInstanceTypeMismatch(property);
 
                 property.SetValue(_implementation, invocation.Proxy);
             }
@@ -67,5 +67,10 @@ namespace Bifrost.Reflection
             invocation.ReturnValue = returnValue;
         }
 #pragma warning restore 1591 // Xml Comments
+
+        void ThrowIfTargetInstanceTypeMismatch(PropertyInfo property)
+        {
+            if (property.PropertyType != typeof(TInterface)) throw new TargetInstanceTypeMismatch(property.PropertyType, typeof(TInterface));
+        }
     }
 }
