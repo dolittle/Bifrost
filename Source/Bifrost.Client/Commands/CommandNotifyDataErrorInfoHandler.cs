@@ -33,12 +33,12 @@ namespace Bifrost.Commands
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return new[] { "Its just wrong!", "And more stuff is wrong as well!" };
+            return new string[0];
         }
 
         public bool HasErrors
         {
-            get { return true; }
+            get { return false; }
         }
 #pragma warning restore 1591 // Xml Comments
     }

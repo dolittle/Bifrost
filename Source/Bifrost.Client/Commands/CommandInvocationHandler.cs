@@ -54,7 +54,6 @@ namespace Bifrost.Commands
         }
 
         public System.Windows.Input.ICommand TargetInstance { get; set; }
-
 #pragma warning restore 1591 // Xml Comments
     }
 }
