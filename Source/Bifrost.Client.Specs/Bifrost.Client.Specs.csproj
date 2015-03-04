@@ -85,6 +85,8 @@
     <Compile Include="Reflection\for_InvocationHandler\ImplementationNeedingTargetInstance.cs" />
     <Compile Include="Reflection\for_InvocationHandler\Implementation.cs" />
     <Compile Include="Reflection\for_InvocationHandler\Interface.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_asking_if_it_can_handle_for_supported_type.cs" />
+    <Compile Include="Reflection\for_InvocationHandler\when_asking_if_it_can_handle_for_unsupported_type.cs" />
     <Compile Include="Reflection\for_InvocationHandler\when_handling_getting_property_value.cs" />
     <Compile Include="Reflection\for_InvocationHandler\when_handling_a_method_invocation_with_two_arguments.cs" />
     <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_proxy_instance.cs" />
