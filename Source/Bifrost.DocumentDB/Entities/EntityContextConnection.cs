@@ -31,14 +31,17 @@ namespace Bifrost.DocumentDB.Entities
     public class EntityContextConnection : IEntityContextConnection
     {
         EntityContextConfiguration _configuration;
+        
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContextConnection"/>
         /// </summary>
         /// <param name="configuration"><see cref="EntityContextConfiguration">Configuration</see> to use</param>
-        public EntityContextConnection(EntityContextConfiguration configuration)
+        /// <param name="collectionStrategy"><see cref="ICollectionStrategy"/> to use for types</param>
+        public EntityContextConnection(EntityContextConfiguration configuration, ICollectionStrategy collectionStrategy)
         {
             _configuration = configuration;
+            CollectionStrategy = collectionStrategy;
         }
 
         /// <summary>
@@ -50,6 +53,11 @@ namespace Bifrost.DocumentDB.Entities
         /// Gets the <see cref="Database"/> for the connection
         /// </summary>
         public Database Database { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="ICollectionStrategy"/> used
+        /// </summary>
+        public ICollectionStrategy CollectionStrategy { get; private set; }
 
 
         /// <summary>
@@ -70,7 +78,8 @@ namespace Bifrost.DocumentDB.Entities
         /// <returns>The <see cref="DocumentCollection"/> for the type</returns>
         public DocumentCollection GetCollectionFor(Type type)
         {
-            return GetCollectionFor(type.Name);
+            var name = CollectionStrategy.CollectionNameFor(type);
+            return GetCollectionFor(name);
         }
 
         /// <summary>
@@ -85,7 +94,12 @@ namespace Bifrost.DocumentDB.Entities
             
 
             Client.ReadDocumentCollectionFeedAsync(Database.SelfLink)
-                .ContinueWith(f => collection = f.Result.Where(c => c.Id == name).SingleOrDefault())
+                .ContinueWith(f => {
+                    var collections = f.Result.ToArray();
+                    var cc = collections.Where(c => c.Id == name).SingleOrDefault();
+                    collection = cc;
+                        
+                })
                 .Wait();
 
             if (collection == null)

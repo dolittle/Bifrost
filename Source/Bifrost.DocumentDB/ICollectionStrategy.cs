@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Linq;
 using Microsoft.Azure.Documents;
 
@@ -32,6 +33,13 @@ namespace Bifrost.DocumentDB
         /// <typeparam name="T">Type to get collection name for</typeparam>
         /// <returns>Name of the collection</returns>
         string CollectionNameFor<T>();
+
+        /// <summary>
+        /// Gets the name of the collection based on the type
+        /// </summary>
+        /// <param name="type">Type to get collection name for</param>
+        /// <returns>Name of the collection</returns>
+        string CollectionNameFor(Type type);
 
         /// <summary>
         /// Handle queryable for a specific type

@@ -39,12 +39,14 @@ namespace Bifrost.Configuration
             var configuration = new EntityContextConfiguration();
             callback(configuration);
 
-            var connection = new EntityContextConnection(configuration);
+            var collectionStrategy = new MultipleEntitiesInOneCollection();
+
+            var connection = new EntityContextConnection(configuration, collectionStrategy);
             configuration.Connection = connection;
 
             storage.EntityContextConfiguration = configuration;
 
-            Configure.Instance.Container.Bind<ICollectionStrategy>(typeof(MultipleEntitiesInOneCollection));
+            Configure.Instance.Container.Bind<ICollectionStrategy>(collectionStrategy);
 
             return Configure.Instance;
         }

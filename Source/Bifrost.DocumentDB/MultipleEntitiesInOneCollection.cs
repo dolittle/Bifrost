@@ -28,10 +28,15 @@ namespace Bifrost.DocumentDB
     /// </summary>
     public class MultipleEntitiesInOneCollection : ICollectionStrategy
     {
-        const string _collectionName = "Entitites";
+        const string _collectionName = "Entities";
 
 #pragma warning disable 1591 // Xml Comments
         public string CollectionNameFor<T>()
+        {
+            return _collectionName;
+        }
+
+        public string CollectionNameFor(Type type)
         {
             return _collectionName;
         }
@@ -48,5 +53,7 @@ namespace Bifrost.DocumentDB
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
         }
 #pragma warning restore 1591 // Xml Comments
+
+
     }
 }
