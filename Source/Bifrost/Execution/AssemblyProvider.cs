@@ -63,6 +63,8 @@ namespace Bifrost.Execution
 #pragma warning restore 1591 // Xml Comments
         void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
         {
+            var assemblyFile = new FileInfo(args.LoadedAssembly.Location);
+            if (!_assemblyFilters.ShouldInclude(assemblyFile.Name)) return;
             AddAssembly(args.LoadedAssembly);
         }
 
