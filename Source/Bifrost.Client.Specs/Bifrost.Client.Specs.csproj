@@ -63,7 +63,8 @@
     <Compile Include="Commands\for_CommandForProxies\InterfaceForCommand.cs" />
     <Compile Include="Commands\for_CommandForProxies\MyCommand.cs" />
     <Compile Include="Commands\for_CommandForProxies\ProxyType.cs" />
-    <Compile Include="Commands\for_CommandForProxies\when_getting_for_command.cs" />
+    <Compile Include="Commands\for_CommandForProxies\when_getting_for_command_instance.cs" />
+    <Compile Include="Commands\for_CommandForProxies\when_getting_for_command_type.cs" />
     <Compile Include="Commands\for_CommandForProxyInterceptor\given\all_dependencies.cs" />
     <Compile Include="Commands\for_CommandForProxyInterceptor\given\a_known_method.cs" />
     <Compile Include="Commands\for_CommandForProxyInterceptor\MyCommand.cs" />
