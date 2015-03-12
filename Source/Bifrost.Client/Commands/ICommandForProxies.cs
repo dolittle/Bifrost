@@ -30,5 +30,13 @@ namespace Bifrost.Commands
         /// <typeparam name="T">Type of <see cref="ICommand"/> to get for</typeparam>
         /// <returns>Proxied instance of <see cref="ICommandFor{0}"/> proxy</returns>
         ICommandFor<T> GetFor<T>() where T : ICommand, new();
+
+        /// <summary>
+        /// Get <see cref="ICommandFor{T}"/> for specified command instance
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="ICommand"/> to get for</typeparam>
+        /// <param name="instance">Instance of command to wrap in <see cref="ICommandFor{0}"/></param>
+        /// <returns>Proxied instance of <see cref="ICommandFor{0}"/> proxy</returns>
+        ICommandFor<T> GetFor<T>(T instance) where T : ICommand;
     }
 }

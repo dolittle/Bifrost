@@ -54,21 +54,30 @@ namespace Bifrost.Commands
         public ICommandFor<T> GetFor<T>() where T : ICommand, new()
         {
             var command = new T();
+            return GetForInstance(command);
+        }
 
+        public ICommandFor<T> GetFor<T>(T instance) where T : ICommand
+        {
+            return GetForInstance(instance);
+        }
+
+        ICommandFor<T> GetForInstance<T>(T instance) where T : ICommand
+        {
             var type = GetProxyTypeFor<T>();
 
-            var instance = Activator.CreateInstance(type, new[] { 
+            var proxied = Activator.CreateInstance(type, new[] { 
                 new IInterceptor[] { 
                     _interceptor,
                 } 
             }) as ICommandFor<T>;
 
-            ((IHoldCommandInstance)instance).CommandInstance = command;
+            ((IHoldCommandInstance)proxied).CommandInstance = instance;
 
-            return instance;
+            return proxied;
         }
 
-        Type GetProxyTypeFor<T>() where T : ICommand, new()
+        Type GetProxyTypeFor<T>() where T : ICommand
         {
             if (ProxyTypePerCommand<T>.ProxyType == null)
             {
