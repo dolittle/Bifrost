@@ -69,6 +69,7 @@
     <Compile Include="Commands\CommandInstanceHolder.cs" />
     <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
     <Compile Include="Commands\ICommandForProxyInterceptor.cs" />
+    <Compile Include="Interaction\CommandForMethod.cs" />
     <Compile Include="Reflection\INeedProxyInstance.cs" />
     <Compile Include="Reflection\INeedTargetInstance.cs" />
     <Compile Include="Reflection\ICanHandleInvocations.cs" />

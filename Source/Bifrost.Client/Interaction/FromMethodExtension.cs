@@ -18,10 +18,10 @@
 #endregion
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
-using Bifrost.Interaction;
 
 namespace Bifrost.Interaction
 {
@@ -42,10 +42,18 @@ namespace Bifrost.Interaction
             _name = name;
         }
 
+        /// <summary>
+        /// Gets or sets the name of the property or method to call for checking if it can execute
+        /// </summary>
+        /// <remarks>
+        /// If it is a property and the declaring type implements <see cref="INotifyPropertyChanged"/>,
+        /// the extension will subscribe to it and get any changes.
+        /// </remarks>
+        public string CanExecuteWhen { get; set; }
+
 #pragma warning disable 1591
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-
             try
             {
                 var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
@@ -62,13 +70,13 @@ namespace Bifrost.Interaction
                     element.DataContextChanged += (s, e) =>
                     {
                         viewModel = e.NewValue;
-                        var command = GetCommandFromMethod(viewModel);
+                        var command = new CommandForMethod(viewModel, _name, CanExecuteWhen);
                         element.SetValue(targetProperty, command);
                     };
                 }
                 else
                 {
-                    var command = GetCommandFromMethod(viewModel);
+                    var command = new CommandForMethod(viewModel, _name, CanExecuteWhen);
                     return command;
                 }
             }
@@ -77,22 +85,6 @@ namespace Bifrost.Interaction
             return null;
         }
 #pragma warning restore 1591
-
-        ICommand GetCommandFromMethod(object viewModel)
-        {
-            ICommand command = null;
-            var type = viewModel.GetType();
-            var method = type.GetMethods().SingleOrDefault(m => m.Name == _name);
-            if (method == null) throw new ArgumentException(string.Format("Missing method '{0}' on '{1}'", _name, type.AssemblyQualifiedName));
-            var parameters = method.GetParameters();
-            if (parameters.Length == 0)
-                command = DelegateCommand.Create(() => method.Invoke(viewModel, new object[0]));
-            else if (parameters.Length == 1)
-                command = DelegateCommand.Create<object>(o => method.Invoke(viewModel, new[] { o }));
-            else
-                throw new ArgumentException("You can either have a method with one parameter or none");
-            return command;
-        }
 
         object GetDataContext(object target)
         {
