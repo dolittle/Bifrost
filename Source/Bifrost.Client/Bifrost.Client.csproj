@@ -70,6 +70,10 @@
     <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
     <Compile Include="Commands\ICommandForProxyInterceptor.cs" />
     <Compile Include="Interaction\CommandForMethod.cs" />
+    <Compile Include="Interaction\MissingMethodForCommand.cs" />
+    <Compile Include="Interaction\MissingMethodOrPropertyForCanExecute.cs" />
+    <Compile Include="Interaction\MoreThanOneParameter.cs" />
+    <Compile Include="Interaction\ReturnValueShouldBeBoolean.cs" />
     <Compile Include="Reflection\INeedProxyInstance.cs" />
     <Compile Include="Reflection\INeedTargetInstance.cs" />
     <Compile Include="Reflection\ICanHandleInvocations.cs" />

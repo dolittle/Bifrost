@@ -17,8 +17,6 @@
 //
 #endregion
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -58,7 +56,6 @@ namespace Bifrost.Interaction
             {
                 var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
                 if (!(target.TargetObject is DependencyObject)) return this;
-
 
                 var element = target.TargetObject as FrameworkElement;
                 var targetProperty = target.TargetProperty as DependencyProperty;

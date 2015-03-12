@@ -56,41 +56,7 @@ namespace Bifrost.Interaction
             _target = target;
             _canExecuteWhen = canExecuteWhen;
             GetMethod(target, methodName);
-
-            if (!string.IsNullOrEmpty(canExecuteWhen))
-            {
-                var type = target.GetType();
-
-                var methods = type.GetMethods();
-                var method = methods.SingleOrDefault(m => m.Name == canExecuteWhen);
-                if (method != null)
-                {
-                    ThrowIfReturnTypeNotBoolean(type, method, method.ReturnType);
-                    var parameters = _method.GetParameters();
-                    ThrowIfMoreThanOneArgument(parameters);
-                    if (parameters.Length == 1) _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[] { p });
-                    else _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[0]);
-                }
-                else
-                {
-                    var property = type.GetProperty(canExecuteWhen);
-                    ThrowIfReturnTypeNotBoolean(type, property, property.PropertyType);
-                    ThrowIfMissingMethodAndProperty(canExecuteWhen, type, property);
-
-                    _canExecuteFunc = (t, p) => (bool)property.GetValue(t);
-
-                    if (target is INotifyPropertyChanged)
-                    {
-                        ((INotifyPropertyChanged)target).PropertyChanged += CommandForMethod_PropertyChanged;
-                        _isSubscribingForChanges = true;
-                    }
-                }
-            }
-        }
-
-        void CommandForMethod_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == _canExecuteWhen) CanExecuteChanged(this, new EventArgs());
+            if (!string.IsNullOrEmpty(canExecuteWhen)) SetupCanExecuteWhen(target, canExecuteWhen);
         }
 
 #pragma warning disable 1591
@@ -102,12 +68,9 @@ namespace Bifrost.Interaction
             return true;
         }
 
-        
-
         public void Execute(object parameter)
         {
             var parameters = _method.GetParameters();
-            ThrowIfMoreThanOneArgument(parameters);
             if( parameters.Length == 0 ) _method.Invoke(_target,new object[0]);
             else _method.Invoke(_target, new object[] { parameter });
         }
@@ -115,7 +78,7 @@ namespace Bifrost.Interaction
 
         public void Dispose()
         {
-            if (_isSubscribingForChanges) ((INotifyPropertyChanged)_target).PropertyChanged += CommandForMethod_PropertyChanged;
+            if (_isSubscribingForChanges) ((INotifyPropertyChanged)_target).PropertyChanged -= CommandForMethod_PropertyChanged;
         }
 #pragma warning restore 1591
 
@@ -125,27 +88,70 @@ namespace Bifrost.Interaction
             var methods = type.GetMethods();
             _method = methods.SingleOrDefault(m => m.Name == methodName);
             ThrowIfMethodIsMissing(methodName, type, _method);
+            var parameters = _method.GetParameters();
+            ThrowIfMoreThanOneParameter(parameters, methodName, type);
+        }
+
+
+        void SetupCanExecuteWhen(object target, string canExecuteWhen)
+        {
+            var type = target.GetType();
+
+            var methods = type.GetMethods();
+            var method = methods.SingleOrDefault(m => m.Name == canExecuteWhen);
+            if (method != null)
+                SetupCanExecuteWhenForMethod(type, method);
+            else
+                SetupCanExecuteWhenForProperty(target, canExecuteWhen, type);
+        }
+
+        private void SetupCanExecuteWhenForMethod(Type type, MethodInfo method)
+        {
+            ThrowIfReturnTypeNotBoolean(type, method, method.ReturnType);
+            var parameters = method.GetParameters();
+            ThrowIfMoreThanOneParameter(parameters, method.Name, type);
+            if (parameters.Length == 1) _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[] { p });
+            else _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[0]);
+        }
+
+        private void SetupCanExecuteWhenForProperty(object target, string canExecuteWhen, Type type)
+        {
+            var property = type.GetProperty(canExecuteWhen);
+            ThrowIfMissingMethodAndProperty(canExecuteWhen, type, property);
+            ThrowIfReturnTypeNotBoolean(type, property, property.PropertyType);
+
+            _canExecuteFunc = (t, p) => (bool)property.GetValue(t);
+
+            if (target is INotifyPropertyChanged)
+            {
+                ((INotifyPropertyChanged)target).PropertyChanged += CommandForMethod_PropertyChanged;
+                _isSubscribingForChanges = true;
+            }
+        }
+
+        void CommandForMethod_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == _canExecuteWhen) CanExecuteChanged(this, new EventArgs());
         }
 
         void ThrowIfMethodIsMissing(string methodName, Type type, MethodInfo _method)
         {
-            if (_method == null) throw new ArgumentException(string.Format("Missing method '{0}' on '{1}'", methodName, type.AssemblyQualifiedName));
+            if (_method == null) throw new MissingMethodForCommand(type, methodName);
         }
 
-
-        void ThrowIfMoreThanOneArgument(ParameterInfo[] parameters)
+        void ThrowIfMoreThanOneParameter(ParameterInfo[] parameters, string methodName, Type type)
         {
-            if (parameters.Length > 1) throw new ArgumentException("You can either have a method with one parameter or none");
+            if (parameters.Length > 1) throw new MoreThanOneParameter(type, methodName);
         }
 
         void ThrowIfMissingMethodAndProperty(string canExecuteWhen, Type type, PropertyInfo property)
         {
-                            if( property == null ) throw new ArgumentException(string.Format("Missing method or property called '{0}' on '{1}", canExecuteWhen, type.AssemblyQualifiedName));
+            if (property == null) throw new MissingMethodOrPropertyForCanExecute(canExecuteWhen, type);
         }
 
         void ThrowIfReturnTypeNotBoolean(Type type, MemberInfo member, Type returnType)
         {
-            if (returnType != typeof(bool)) throw new ArgumentException(string.Format("Method '{0}' on '{1}' must be return a boolean to be valid for canExecute checks", member.Name, type.AssemblyQualifiedName));
+            if (returnType != typeof(bool)) throw new ReturnValueShouldBeBoolean(member.Name, type);
         }
     }
 }
