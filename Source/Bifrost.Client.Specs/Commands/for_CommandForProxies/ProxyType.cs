@@ -3,14 +3,14 @@ using Bifrost.Commands;
 using Castle.DynamicProxy;
 namespace Bifrost.Client.Specs.Commands.for_CommandForProxies
 {
-    public class ProxyType : ICommandFor<MyCommand>, IHoldCommandInstance
+    public class ProxyType<T> : ICommandFor<T>, IHoldCommandInstance where T: ICommand
     {
         public ProxyType(IInterceptor[] interceptors)
         {
 
         }
 
-        public MyCommand Instance { get; set; }
+        public T Instance { get; set; }
         public ICommand CommandInstance { get; set; }
 
         public bool CanExecute(object parameter)
