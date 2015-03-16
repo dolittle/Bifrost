@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -49,6 +50,11 @@ namespace Bifrost.Interaction
         /// </remarks>
         public string CanExecuteWhen { get; set; }
 
+        /// <summary>
+        /// Gets or sets a <see cref="IValueConverter"/> that will be used to convert the parameter going into the method
+        /// </summary>
+        public IValueConverter ParameterConverter { get; set; }
+
 #pragma warning disable 1591
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -67,13 +73,13 @@ namespace Bifrost.Interaction
                     element.DataContextChanged += (s, e) =>
                     {
                         viewModel = e.NewValue;
-                        var command = new CommandForMethod(viewModel, _name, CanExecuteWhen);
+                        var command = new CommandForMethod(viewModel, _name, CanExecuteWhen, ParameterConverter);
                         element.SetValue(targetProperty, command);
                     };
                 }
                 else
                 {
-                    var command = new CommandForMethod(viewModel, _name, CanExecuteWhen);
+                    var command = new CommandForMethod(viewModel, _name, CanExecuteWhen, ParameterConverter);
                     return command;
                 }
             }

@@ -18,8 +18,10 @@
 #endregion
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Data;
 using System.Windows.Input;
 using Bifrost.Values;
 
@@ -34,6 +36,7 @@ namespace Bifrost.Interaction
         MethodInfo _method;
         object _target;
         string _canExecuteWhen;
+        IValueConverter _parameterConverter;
         Func<object, object, bool> _canExecuteFunc;
         bool _isSubscribingForChanges;
 
@@ -43,6 +46,7 @@ namespace Bifrost.Interaction
         /// <param name="target">Target to bind to for the method, typically a ViewModel</param>
         /// <param name="methodName">Name of the method to bind to</param>
         /// <param name="canExecuteWhen">Optionally a reference to either a property or method that gets called to check if the command can execute</param>
+        /// <param name="parameterConverter">Optionally a <see cref="IValueConverter"/> that will be used for converting value to the method</param>
         /// <remarks>
         /// The canExecuteWhen parameter can take the name of a property or a method. If it is 
         /// a property and the declaring type implements <see cref="INotifyPropertyChanged"/>,
@@ -51,10 +55,11 @@ namespace Bifrost.Interaction
         /// and the CommandParameter property from the view will be the content if so. The method
         /// needs to return a boolean.
         /// </remarks>
-        public CommandForMethod(object target, string methodName, string canExecuteWhen = null)
+        public CommandForMethod(object target, string methodName, string canExecuteWhen = null, IValueConverter parameterConverter = null)
         {
             _target = target;
             _canExecuteWhen = canExecuteWhen;
+            _parameterConverter = parameterConverter;
             GetMethod(target, methodName);
             if (!string.IsNullOrEmpty(canExecuteWhen)) SetupCanExecuteWhen(target, canExecuteWhen);
         }
@@ -72,7 +77,9 @@ namespace Bifrost.Interaction
         {
             var parameters = _method.GetParameters();
             if( parameters.Length == 0 ) _method.Invoke(_target,new object[0]);
-            else _method.Invoke(_target, new object[] { parameter });
+            else _method.Invoke(_target, new object[] { 
+                ConvertParameterIfValueConverterSpecified(parameters[0], parameter)
+            });
         }
 
 
@@ -81,6 +88,12 @@ namespace Bifrost.Interaction
             if (_isSubscribingForChanges) ((INotifyPropertyChanged)_target).PropertyChanged -= CommandForMethod_PropertyChanged;
         }
 #pragma warning restore 1591
+
+        object ConvertParameterIfValueConverterSpecified(ParameterInfo parameterInfo, object parameter)
+        {
+            if (_parameterConverter != null) return _parameterConverter.Convert(parameter, parameterInfo.ParameterType, null, CultureInfo.CurrentUICulture);
+            return parameter;
+        }
 
         void GetMethod(object target, string methodName)
         {
@@ -110,7 +123,9 @@ namespace Bifrost.Interaction
             ThrowIfReturnTypeNotBoolean(type, method, method.ReturnType);
             var parameters = method.GetParameters();
             ThrowIfMoreThanOneParameter(parameters, method.Name, type);
-            if (parameters.Length == 1) _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[] { p });
+            if (parameters.Length == 1) _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[] { 
+                ConvertParameterIfValueConverterSpecified(parameters[0], p)
+            });
             else _canExecuteFunc = (t, p) => (bool)method.Invoke(t, new object[0]);
         }
 
