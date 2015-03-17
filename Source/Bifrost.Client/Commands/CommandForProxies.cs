@@ -90,6 +90,8 @@ namespace Bifrost.Commands
                     new[] { 
                     typeof(ICommandFor<T>), 
                     interfaceForCommandType, 
+                    typeof(ICommandProcess),
+                    typeof(ICanProcessCommandProcess),
                     typeof(System.Windows.Input.ICommand), 
                     typeof(INotifyDataErrorInfo),
                     typeof(IHoldCommandInstance) 

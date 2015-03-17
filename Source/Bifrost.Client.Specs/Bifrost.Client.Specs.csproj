@@ -53,6 +53,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xaml" />
@@ -76,6 +77,11 @@
     <Compile Include="Commands\for_CommandForProxyInterceptor\when_getting_instance.cs" />
     <Compile Include="Commands\for_CommandForProxyInterceptor\when_setting_value_for_property_on_command_instance.cs" />
     <Compile Include="Commands\for_CommandForProxyInterceptor\when_getting_value_from_property_on_command_instance.cs" />
+    <Compile Include="Commands\for_CommandInvocationHandler\Command.cs" />
+    <Compile Include="Commands\for_CommandInvocationHandler\when_executing.cs" />
+    <Compile Include="Commands\for_CommandProcessProcessor\given\callbacks_for_all_conditions.cs" />
+    <Compile Include="Commands\for_CommandProcessProcessor\when_processing_failed_command.cs" />
+    <Compile Include="Commands\for_CommandProcessProcessor\when_processing_successful_command.cs" />
     <Compile Include="Execution\for_Promise\when_adding_failed_callback_after_it_has_failed.cs" />
     <Compile Include="Execution\for_Promise\when_adding_continuation_callback_after_it_has_been_signaled.cs" />
     <Compile Include="Execution\for_Promise\when_failing_with_error_ballback.cs" />

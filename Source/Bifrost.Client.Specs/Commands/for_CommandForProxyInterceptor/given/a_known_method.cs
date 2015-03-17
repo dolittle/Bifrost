@@ -21,7 +21,10 @@ namespace Bifrost.Client.Specs.Commands.for_CommandForProxyInterceptor.given
 
             interceptor = new CommandForProxyInterceptor(
                 command_invocation_mock.Object,
-                command_notify_data_error_info_mock.Object);
+                command_notify_data_error_info_mock.Object,
+                command_process_handler_mock.Object,
+                command_process_processor_mock.Object
+            );
 
             method_mock = new Mock<MethodInfo>();
             method_mock.Setup(m => m.Name).Returns(()=>method_name);

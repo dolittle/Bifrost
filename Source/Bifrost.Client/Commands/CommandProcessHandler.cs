@@ -16,25 +16,36 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows.Input;
+using Bifrost.Reflection;
 
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Represents a <see cref="System.Windows.Input.ICommand"/> for a Bifrost <see cref="ICommand"/>
+    /// Represents the handler for <see cref="ICommandProcess"/>
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="ICommand"/> to represent</typeparam>
-    /// <remarks>
-    /// This is a bridge interface for being able to use the build in functionality of
-    /// the XAML platform without taking too many dependencies on infrastructure for 
-    /// working with <see cref="ICommand">commands</see>
-    /// </remarks>
-    public interface ICommandFor<T> : System.Windows.Input.ICommand, ICommandProcess
-        where T:Bifrost.Commands.ICommand
+    public class CommandProcessHandler : ICommandProcess, INeedProxyInstance
     {
-        /// <summary>
-        /// Gets or sets the instance of the <see cref="ICommand"/>
-        /// </summary>
-        T Instance { get; set;  }
+
+#pragma warning disable 1591 // Xml Comments
+
+        public void Succeeded(CommandSucceeded callback)
+        {
+            ((ICanProcessCommandProcess)Proxy).AddSucceeded(callback);
+        }
+
+        public void Failed(CommandFailed callback)
+        {
+            ((ICanProcessCommandProcess)Proxy).AddFailed(callback);
+        }
+
+        public void Handled(CommandHandled callback)
+        {
+            ((ICanProcessCommandProcess)Proxy).AddHandled(callback);
+        }
+
+        public object Proxy { get; set; }
+#pragma warning restore 1591 // Xml Comments
+
+
     }
 }

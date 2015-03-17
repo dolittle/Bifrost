@@ -25,7 +25,7 @@ namespace Bifrost.Commands
     /// Represents an implementation of <see cref="System.Windows.Input.ICommand"/> that knows how
     /// to handle an invocation coming through an interceptor
     /// </summary>
-    public class CommandInvocationHandler : System.Windows.Input.ICommand, INeedTargetInstance
+    public class CommandInvocationHandler : System.Windows.Input.ICommand, INeedTargetInstance, INeedProxyInstance
     {
         ICommandCoordinator _commandCoordinator;
 
@@ -51,7 +51,11 @@ namespace Bifrost.Commands
         {
             var command = TargetInstance.GetType().GetProperty("Instance").GetValue(TargetInstance) as ICommand;
             var result = _commandCoordinator.Handle(command);
+            var process = Proxy as ICanProcessCommandProcess;
+            process.Process(command, result);
         }
+
+        public object Proxy { get; set; }
 
         public System.Windows.Input.ICommand TargetInstance { get; set; }
 #pragma warning restore 1591 // Xml Comments

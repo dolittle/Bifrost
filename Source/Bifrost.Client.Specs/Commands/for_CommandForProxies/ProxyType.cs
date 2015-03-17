@@ -25,5 +25,20 @@ namespace Bifrost.Client.Specs.Commands.for_CommandForProxies
             throw new System.NotImplementedException();
         }
 
+
+        public void Succeeded(CommandSucceeded callback)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Failed(CommandFailed callback)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Handled(CommandHandled callback)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

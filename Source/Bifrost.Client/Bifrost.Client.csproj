@@ -66,7 +66,14 @@
     <Compile Include="Commands\CommandInvocationHandler.cs" />
     <Compile Include="Commands\CommandInstanceHolder.cs" />
     <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
+    <Compile Include="Commands\CommandFailed.cs" />
+    <Compile Include="Commands\CommandHandled.cs" />
+    <Compile Include="Commands\CommandProcessHandler.cs" />
+    <Compile Include="Commands\CommandProcessProcessor.cs" />
+    <Compile Include="Commands\CommandSucceeded.cs" />
+    <Compile Include="Commands\ICanProcessCommandProcess.cs" />
     <Compile Include="Commands\ICommandForProxyInterceptor.cs" />
+    <Compile Include="Commands\ICommandProcess.cs" />
     <Compile Include="Interaction\CommandForMethod.cs" />
     <Compile Include="Interaction\MissingMethodForCommand.cs" />
     <Compile Include="Interaction\MissingMethodOrPropertyForCanExecute.cs" />

@@ -32,10 +32,14 @@ namespace Bifrost.Commands
         /// </summary>
         public CommandForProxyInterceptor(
             ICanHandleInvocationsFor<System.Windows.Input.ICommand, CommandInvocationHandler> commandInvocation,
-            ICanHandleInvocationsFor<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler> commandNotifyDataErrorInfo)
+            ICanHandleInvocationsFor<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler> commandNotifyDataErrorInfo,
+            ICanHandleInvocationsFor<ICommandProcess, CommandProcessHandler> commandProcess,
+            ICanHandleInvocationsFor<ICanProcessCommandProcess, CommandProcessProcessor> commandProcessProcessor)
         {
             AddHandler(commandInvocation);
             AddHandler(commandNotifyDataErrorInfo);
+            AddHandler(commandProcess);
+            AddHandler(commandProcessProcessor);
         }
 
 
