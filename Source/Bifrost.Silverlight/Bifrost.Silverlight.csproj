@@ -284,6 +284,9 @@
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Configuration\IWantToKnowWhenConfigurationIsDone.cs">
+      <Link>Configuration\IWantToKnowWhenConfigurationIsDone.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Configuration\MultiplePrincipalResolversFound.cs">
       <Link>Configuration\MultiplePrincipalResolversFound.cs</Link>
     </Compile>
@@ -613,6 +616,12 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\IgnoreDefaultConventionAttribute.cs">
       <Link>Execution\IgnoreDefaultConventionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IInstancesOf.cs">
+      <Link>Execution\IInstancesOf.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\InstancesOf.cs">
+      <Link>Execution\InstancesOf.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\ITypeDiscoverer.cs">
       <Link>Execution\ITypeDiscoverer.cs</Link>

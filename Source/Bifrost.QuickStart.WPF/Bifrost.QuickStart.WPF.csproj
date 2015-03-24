@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuration\AfterConfiguration.cs" />
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />

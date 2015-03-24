@@ -224,7 +224,7 @@ namespace Bifrost.Configuration
 #else
             Parallel.ForEach(initializers, initializator => initializator());
 #endif
-            
+            ConfigurationDone();
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -256,11 +256,14 @@ namespace Bifrost.Configuration
 
         void ConfigureFromCanConfigurables()
         {
-            var typeImporter = Container.Get<ITypeImporter>();
-            foreach (var canConfigure in typeImporter.ImportMany<ICanConfigure>())
-            {
-                canConfigure.Configure(this);
-            }
+            var callbacks = Container.Get<IInstancesOf<ICanConfigure>>();
+            callbacks.ForEach(c => c.Configure(this));
+        }
+
+        void ConfigurationDone()
+        {
+            var callbacks = Container.Get<IInstancesOf<IWantToKnowWhenConfigurationIsDone>>();
+            callbacks.ForEach(c => c.Configured(this));
         }
 
         static void ExcludeNamespacesForTypeDiscovery()
