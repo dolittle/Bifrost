@@ -1,7 +1,7 @@
 ﻿using Bifrost.Commands;
 using Machine.Specifications;
 
-namespace Bifrost.Client.Specs.Commands.for_CommandProcessProcessor
+namespace Bifrost.Client.Specs.Commands.for_CommandProxyInstance
 {
     public class when_processing_successful_command : given.callbacks_for_all_conditions
     {

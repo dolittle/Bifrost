@@ -22,7 +22,7 @@ namespace Bifrost.Client.Specs.Commands.for_CommandForProxies
             proxying_mock.Setup(p => p.BuildInterfaceWithPropertiesFrom(typeof(AnotherCommand))).Returns(typeof(InterfaceForCommand));
             proxy_builder_mock.Setup(p =>
                 p.CreateClassProxyType(
-                    typeof(CommandInstanceHolder),
+                    typeof(CommandProxyInstance),
                     Moq.It.IsAny<Type[]>(),
                     Moq.It.IsAny<ProxyGenerationOptions>()
                     )

@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using Moq;
 
-namespace Bifrost.Client.Specs.Commands.for_CommandProcessProcessor.given
+namespace Bifrost.Client.Specs.Commands.for_CommandProxyInstance.given
 {
     public class callbacks_for_all_conditions
     {
@@ -24,7 +24,7 @@ namespace Bifrost.Client.Specs.Commands.for_CommandProcessProcessor.given
         protected static CommandFailed failed;
         protected static CommandHandled handled;
 
-        protected static CommandProcessProcessor processor;
+        protected static CommandProxyInstance processor;
 
         Establish context = () =>
         {
@@ -38,7 +38,7 @@ namespace Bifrost.Client.Specs.Commands.for_CommandProcessProcessor.given
             failed = (c, r) => { failed_called = true; command_for_failed_callback = c; command_result_for_failed_callback = r; };
             handled = (c, r) => { handled_called = true; command_for_handled_callback = c; command_result_for_handled_callback = r; };
 
-            processor = new CommandProcessProcessor();
+            processor = new CommandProxyInstance();
             processor.AddSucceeded(succeeded);
             processor.AddFailed(failed);
             processor.AddHandled(handled);

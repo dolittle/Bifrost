@@ -4,11 +4,39 @@ using Bifrost.QuickStart.Domain.HumanResources.Employees;
 
 namespace Bifrost.QuickStart.WPF
 {
+    public class SomeCommand : Command
+    {
+
+    }
+
+
     public class MainWindowViewModel
     {
-        public MainWindowViewModel(ICommandFor<RegisterEmployee> register)
+        public MainWindowViewModel(ICommandFor<RegisterEmployee> register, ICommandFor<SomeCommand> cmd)
         {
             Register = register;
+            register.Succeeded((c, r) =>
+            {
+            });
+
+            register.Failed((c, r) =>
+            {
+                var i = 0;
+                i++;
+            });
+
+            cmd.Succeeded((c, r) =>
+            {
+                var i = 0;
+                i++;
+            });
+
+            cmd.Failed((c, r) =>
+            {
+                var i = 0;
+                i++;
+            });
+            
 
             Instance = register.Instance;
             Instance.FirstName = "Einar";

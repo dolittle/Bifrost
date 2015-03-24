@@ -64,12 +64,11 @@
     <Compile Include="Commands\CommandForProxies.cs" />
     <Compile Include="Commands\CommandForProxyInterceptor.cs" />
     <Compile Include="Commands\CommandInvocationHandler.cs" />
-    <Compile Include="Commands\CommandInstanceHolder.cs" />
+    <Compile Include="Commands\CommandProxyInstance.cs" />
     <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
     <Compile Include="Commands\CommandFailed.cs" />
     <Compile Include="Commands\CommandHandled.cs" />
     <Compile Include="Commands\CommandProcessHandler.cs" />
-    <Compile Include="Commands\CommandProcessProcessor.cs" />
     <Compile Include="Commands\CommandSucceeded.cs" />
     <Compile Include="Commands\ICanProcessCommandProcess.cs" />
     <Compile Include="Commands\ICommandForProxyInterceptor.cs" />

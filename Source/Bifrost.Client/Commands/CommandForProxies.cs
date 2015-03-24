@@ -86,7 +86,7 @@ namespace Bifrost.Commands
                 var options = new ProxyGenerationOptions();
 
                 ProxyTypePerCommand<T>.ProxyType = _proxyBuilder.CreateClassProxyType(
-                    typeof(CommandInstanceHolder),
+                    typeof(CommandProxyInstance),
                     new[] { 
                     typeof(ICommandFor<T>), 
                     interfaceForCommandType, 

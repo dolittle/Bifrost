@@ -22,15 +22,19 @@ using System.Collections.Generic;
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Represents something can process the <see cref="ICommandProcess"/>
+    /// Represents an implementation of <see cref="IHoldCommandInstance"/>
     /// </summary>
-    public class CommandProcessProcessor : ICanProcessCommandProcess
+    public class CommandProxyInstance : IHoldCommandInstance, ICanProcessCommandProcess
     {
         List<WeakReference<CommandSucceeded>> _commandSucceededCallbacks = new List<WeakReference<CommandSucceeded>>();
         List<WeakReference<CommandFailed>> _commandFailedCallbacks = new List<WeakReference<CommandFailed>>();
         List<WeakReference<CommandHandled>> _commandHandledCallbacks = new List<WeakReference<CommandHandled>>();
 
+
 #pragma warning disable 1591 // Xml Comments
+        public ICommand CommandInstance { get; set; }
+
+
         public void AddSucceeded(CommandSucceeded callback)
         {
             _commandSucceededCallbacks.Add(new WeakReference<CommandSucceeded>(callback));
@@ -46,34 +50,34 @@ namespace Bifrost.Commands
             _commandHandledCallbacks.Add(new WeakReference<CommandHandled>(callback));
         }
 
-        void On<T>(List<WeakReference<T>> callbacks, ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller)
-            where T: class
-        {
-            var forRemove = new List<WeakReference<T>>();
-            callbacks.ForEach(r =>
-            {
-                T callback;
-                if (r.TryGetTarget(out callback))
-                {
-
-                    callbackCaller(callback, command, result);
-                }
-                else
-                {
-                    forRemove.Add(r);
-                }
-            });
-
-            forRemove.ForEach(r=>callbacks.Remove(r));
-        }
-
         public void Process(ICommand command, CommandResult result)
         {
-            if (result.Success) On<CommandSucceeded>(_commandSucceededCallbacks, command, result, (d,c,r) => d(c,r));
+            if (result.Success) On<CommandSucceeded>(_commandSucceededCallbacks, command, result, (d, c, r) => d(c, r));
             else On<CommandFailed>(_commandFailedCallbacks, command, result, (d, c, r) => d(c, r));
             On<CommandHandled>(_commandHandledCallbacks, command, result, (d, c, r) => d(c, r));
         }
 #pragma warning restore 1591 // Xml Comments
-    }
 
+        void On<T>(List<WeakReference<T>> callbacks, ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller)
+            where T : class
+        {
+            var forRemove = new List<WeakReference<T>>();
+            callbacks.ForEach(r => InvokeCallback<T>(command, result, callbackCaller, forRemove, r));
+            forRemove.ForEach(r => callbacks.Remove(r));
+        }
+
+        void InvokeCallback<T>(ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller, List<WeakReference<T>> forRemove, WeakReference<T> r) where T : class
+        {
+            T callback;
+            if (r.TryGetTarget(out callback))
+            {
+
+                callbackCaller(callback, command, result);
+            }
+            else
+            {
+                forRemove.Add(r);
+            }
+        }
+    }
 }

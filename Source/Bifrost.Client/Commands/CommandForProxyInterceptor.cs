@@ -33,13 +33,11 @@ namespace Bifrost.Commands
         public CommandForProxyInterceptor(
             ICanHandleInvocationsFor<System.Windows.Input.ICommand, CommandInvocationHandler> commandInvocation,
             ICanHandleInvocationsFor<INotifyDataErrorInfo, CommandNotifyDataErrorInfoHandler> commandNotifyDataErrorInfo,
-            ICanHandleInvocationsFor<ICommandProcess, CommandProcessHandler> commandProcess,
-            ICanHandleInvocationsFor<ICanProcessCommandProcess, CommandProcessProcessor> commandProcessProcessor)
+            ICanHandleInvocationsFor<ICommandProcess, CommandProcessHandler> commandProcess)
         {
             AddHandler(commandInvocation);
             AddHandler(commandNotifyDataErrorInfo);
             AddHandler(commandProcess);
-            AddHandler(commandProcessProcessor);
         }
 
 
@@ -47,6 +45,12 @@ namespace Bifrost.Commands
         public override void OnIntercept(IInvocation invocation)
         {
             if (HandleCommandInstanceIfInvocationMatches(invocation)) return;
+
+            if (invocation.Method.DeclaringType == typeof(ICanProcessCommandProcess))
+            {
+                invocation.Proceed();
+                return;
+            }
 
             var commandInstanceHolder = invocation.Proxy as IHoldCommandInstance;
             var instance = commandInstanceHolder.CommandInstance;
