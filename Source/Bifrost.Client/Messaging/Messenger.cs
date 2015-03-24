@@ -18,8 +18,10 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Bifrost.Execution;
 namespace Bifrost.Messaging
 {
+    [Singleton]
     public class Messenger : IMessenger
     {
         Dictionary<Type, List<Delegate>> _subscribers = new Dictionary<Type, List<Delegate>>();
