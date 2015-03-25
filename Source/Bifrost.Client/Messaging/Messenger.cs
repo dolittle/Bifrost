@@ -19,35 +19,55 @@
 using System;
 using System.Collections.Generic;
 using Bifrost.Execution;
+
 namespace Bifrost.Messaging
 {
+    /// <summary>
+    /// Represents an implementation of <see cref="IMessenger"/>
+    /// </summary>
     [Singleton]
     public class Messenger : IMessenger
     {
-        Dictionary<Type, List<Delegate>> _subscribers = new Dictionary<Type, List<Delegate>>();
+        Dictionary<Type, List<WeakReference<Delegate>>> _subscribers = new Dictionary<Type, List<WeakReference<Delegate>>>();
 
+#pragma warning disable 1591
         public void Publish<T>(T content)
         {
             var type = typeof(T);
             if (_subscribers.ContainsKey(type))
             {
+                var forRemoval = new List<WeakReference<Delegate>>();
+
                 foreach (var subscriber in _subscribers[type])
-                    subscriber.DynamicInvoke(content);
+                {
+                    Delegate callback;
+                    if (subscriber.TryGetTarget(out callback))
+                    {
+                        callback.DynamicInvoke(content);
+                    }
+                    else
+                    {
+                        forRemoval.Add(subscriber);
+                    }
+                }
+
+                forRemoval.ForEach(s => _subscribers[type].Remove(s));
             }
         }
 
         public void SubscribeTo<T>(Action<T> receivedCallback)
         {
             var type = typeof(T);
-            List<Delegate> subscribersList = null;
+            List<WeakReference<Delegate>> subscribersList = null;
             if (_subscribers.ContainsKey(type))
                 subscribersList = _subscribers[type];
             else
             {
-                subscribersList = new List<Delegate>();
+                subscribersList = new List<WeakReference<Delegate>>();
                 _subscribers[type] = subscribersList;
             }
-            subscribersList.Add(receivedCallback);
+            subscribersList.Add(new WeakReference<Delegate>(receivedCallback));
         }
+#pragma warning restore 1591
     }
 }
