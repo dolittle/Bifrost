@@ -63,6 +63,23 @@ namespace Bifrost.Reflection
         }
 
 
+        public Type BuildClassWithPropertiesFrom(Type type)
+        {
+            var typeBuilder = DefineClass(type);
+
+            foreach (var property in type.GetProperties())
+            {
+                var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
+                var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
+                propertyBuilder.SetGetMethod(getMethodBuilder);
+                var setMethodBuilder = typeBuilder.DefineMethod("set_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, new[] { property.PropertyType });
+                propertyBuilder.SetSetMethod(setMethodBuilder);
+            }
+
+            var classForType = typeBuilder.CreateType();
+            return classForType;
+        }
+
 #pragma warning restore 1591 // Xml Comments
 
         static string CreateUniqueName(string prefix)
@@ -81,6 +98,11 @@ namespace Bifrost.Reflection
             return typeBuilder;
         }
 
-
+        static TypeBuilder DefineClass(Type type)
+        {
+            var name = CreateUniqueName(type.Name);
+            var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.Serializable);
+            return typeBuilder;
+        }
     }
 }

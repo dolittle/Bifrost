@@ -17,9 +17,11 @@
 //
 #endregion
 using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Markup;
 using Bifrost.Configuration;
-using Bifrost.Dynamic;
+using Bifrost.Reflection;
 
 namespace Bifrost.ViewModels
 {
@@ -36,15 +38,21 @@ namespace Bifrost.ViewModels
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            try
-            {
+            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+            if (!(target.TargetObject is DependencyObject)) return this;
 
-                var instance = Configure.Instance.Container.Get(_type);
+            var designMode = DesignerProperties.GetIsInDesignMode(target.TargetObject as DependencyObject);
+            if (designMode)
+            {
+                var proxying = new Proxying();
+                var proxy = proxying.BuildClassWithPropertiesFrom(_type);
+                var instance = Activator.CreateInstance(proxy);
                 return instance;
             }
-            catch
+            else
             {
-                return new BindableExpandoObject();
+                var instance = Configure.Instance.Container.Get(_type);
+                return instance;
             }
         }
     }
