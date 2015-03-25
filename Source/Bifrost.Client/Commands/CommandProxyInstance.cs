@@ -61,9 +61,9 @@ namespace Bifrost.Commands
         void On<T>(List<WeakReference<T>> callbacks, ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller)
             where T : class
         {
-            var forRemove = new List<WeakReference<T>>();
-            callbacks.ForEach(r => InvokeCallback<T>(command, result, callbackCaller, forRemove, r));
-            forRemove.ForEach(r => callbacks.Remove(r));
+            var forRemoval = new List<WeakReference<T>>();
+            callbacks.ForEach(r => InvokeCallback<T>(command, result, callbackCaller, forRemoval, r));
+            forRemoval.ForEach(r => callbacks.Remove(r));
         }
 
         void InvokeCallback<T>(ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller, List<WeakReference<T>> forRemove, WeakReference<T> r) where T : class
