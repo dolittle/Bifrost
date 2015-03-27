@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using Bifrost.Commands;
 using Bifrost.QuickStart.Domain.HumanResources.Employees;
+using Bifrost.Values;
+using ICommand = System.Windows.Input.ICommand;
 
 namespace Bifrost.QuickStart.WPF
 {
@@ -9,7 +11,7 @@ namespace Bifrost.QuickStart.WPF
 
     }
 
-
+    [NotifyChanges]
     public class MainWindowViewModel
     {
         public MainWindowViewModel(ICommandFor<RegisterEmployee> register, ICommandFor<SomeCommand> cmd)
@@ -42,13 +44,14 @@ namespace Bifrost.QuickStart.WPF
             Instance.FirstName = "Einar";
         }
 
-        public System.Windows.Input.ICommand Register { get; private set; }
+        public virtual ICommand Register { get; private set; }
 
-        public RegisterEmployee Instance { get; private set; }
+        public virtual RegisterEmployee Instance { get; private set; }
 
 
         public void DoStuff()
         {
+            var type = this.GetType();
             var i = 0;
             i++;
         }

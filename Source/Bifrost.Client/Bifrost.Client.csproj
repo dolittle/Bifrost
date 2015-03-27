@@ -74,6 +74,7 @@
     <Compile Include="Commands\ICommandForProxyInterceptor.cs" />
     <Compile Include="Commands\ICommandProcess.cs" />
     <Compile Include="Interaction\CommandForMethod.cs" />
+    <Compile Include="Interaction\Input.cs" />
     <Compile Include="Interaction\MissingMethodForCommand.cs" />
     <Compile Include="Interaction\MissingMethodOrPropertyForCanExecute.cs" />
     <Compile Include="Interaction\MoreThanOneParameter.cs" />
@@ -102,6 +103,8 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Reflection\TargetInstanceTypeMismatch.cs" />
+    <Compile Include="Values\NotifyChangesAttribute.cs" />
+    <Compile Include="Values\NotifyChangesBindingConvention.cs" />
     <Compile Include="ViewModels\ViewModelExtension.cs" />
     <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />
