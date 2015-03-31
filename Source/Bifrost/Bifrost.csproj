@@ -158,6 +158,9 @@
     <Compile Include="Execution\IAssemblyProvider.cs" />
     <Compile Include="Execution\ICanFilterAssembly.cs" />
     <Compile Include="Execution\IAssemblyFilters.cs" />
+    <Compile Include="Execution\InvalidSignatureException.cs" />
+    <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
+    <Compile Include="Execution\WeakDelegate.cs" />
     <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
     <Compile Include="MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />

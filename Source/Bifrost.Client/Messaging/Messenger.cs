@@ -28,7 +28,7 @@ namespace Bifrost.Messaging
     [Singleton]
     public class Messenger : IMessenger
     {
-        Dictionary<Type, List<WeakReference<Delegate>>> _subscribers = new Dictionary<Type, List<WeakReference<Delegate>>>();
+        Dictionary<Type, List<WeakDelegate>> _subscribers = new Dictionary<Type, List<WeakDelegate>>();
 
 #pragma warning disable 1591
         public void Publish<T>(T content)
@@ -36,14 +36,13 @@ namespace Bifrost.Messaging
             var type = typeof(T);
             if (_subscribers.ContainsKey(type))
             {
-                var forRemoval = new List<WeakReference<Delegate>>();
+                var forRemoval = new List<WeakDelegate>();
 
                 foreach (var subscriber in _subscribers[type])
                 {
-                    Delegate callback;
-                    if (subscriber.TryGetTarget(out callback))
+                    if (subscriber.IsAlive)
                     {
-                        callback.DynamicInvoke(content);
+                        subscriber.DynamicInvoke(content);
                     }
                     else
                     {
@@ -58,15 +57,15 @@ namespace Bifrost.Messaging
         public void SubscribeTo<T>(Action<T> receivedCallback)
         {
             var type = typeof(T);
-            List<WeakReference<Delegate>> subscribersList = null;
+            List<WeakDelegate> subscribersList = null;
             if (_subscribers.ContainsKey(type))
                 subscribersList = _subscribers[type];
             else
             {
-                subscribersList = new List<WeakReference<Delegate>>();
+                subscribersList = new List<WeakDelegate>();
                 _subscribers[type] = subscribersList;
             }
-            subscribersList.Add(new WeakReference<Delegate>(receivedCallback));
+            subscribersList.Add(new WeakDelegate(receivedCallback));
         }
 #pragma warning restore 1591
     }
