@@ -16,8 +16,8 @@
 // limitations under the License.
 //
 #endregion
-
 using Bifrost.Configuration.Assemblies;
+
 namespace Bifrost.Execution
 {
     /// <summary>
