@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Bifrost.Execution;
 
 namespace Bifrost.Commands
 {
@@ -26,9 +27,9 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandProxyInstance : IHoldCommandInstance, ICanProcessCommandProcess
     {
-        List<WeakReference<CommandSucceeded>> _commandSucceededCallbacks = new List<WeakReference<CommandSucceeded>>();
-        List<WeakReference<CommandFailed>> _commandFailedCallbacks = new List<WeakReference<CommandFailed>>();
-        List<WeakReference<CommandHandled>> _commandHandledCallbacks = new List<WeakReference<CommandHandled>>();
+        List<WeakDelegate> _commandSucceededCallbacks = new List<WeakDelegate>();
+        List<WeakDelegate> _commandFailedCallbacks = new List<WeakDelegate>();
+        List<WeakDelegate> _commandHandledCallbacks = new List<WeakDelegate>();
 
 
 #pragma warning disable 1591 // Xml Comments
@@ -37,17 +38,17 @@ namespace Bifrost.Commands
 
         public void AddSucceeded(CommandSucceeded callback)
         {
-            _commandSucceededCallbacks.Add(new WeakReference<CommandSucceeded>(callback));
+            _commandSucceededCallbacks.Add(new WeakDelegate(callback));
         }
 
         public void AddFailed(CommandFailed callback)
         {
-            _commandFailedCallbacks.Add(new WeakReference<CommandFailed>(callback));
+            _commandFailedCallbacks.Add(new WeakDelegate(callback));
         }
 
         public void AddHandled(CommandHandled callback)
         {
-            _commandHandledCallbacks.Add(new WeakReference<CommandHandled>(callback));
+            _commandHandledCallbacks.Add(new WeakDelegate(callback));
         }
 
         public void Process(ICommand command, CommandResult result)
@@ -58,25 +59,23 @@ namespace Bifrost.Commands
         }
 #pragma warning restore 1591 // Xml Comments
 
-        void On<T>(List<WeakReference<T>> callbacks, ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller)
+        void On<T>(List<WeakDelegate> callbacks, ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller)
             where T : class
         {
-            var forRemoval = new List<WeakReference<T>>();
+            var forRemoval = new List<WeakDelegate>();
             callbacks.ForEach(r => InvokeCallback<T>(command, result, callbackCaller, forRemoval, r));
             forRemoval.ForEach(r => callbacks.Remove(r));
         }
 
-        void InvokeCallback<T>(ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller, List<WeakReference<T>> forRemove, WeakReference<T> r) where T : class
+        void InvokeCallback<T>(ICommand command, CommandResult result, Action<T, ICommand, CommandResult> callbackCaller, List<WeakDelegate> forRemove, WeakDelegate @delegate) where T : class
         {
-            T callback;
-            if (r.TryGetTarget(out callback))
+            if (@delegate.IsAlive)
             {
-
-                callbackCaller(callback, command, result);
+                @delegate.DynamicInvoke(command, result);
             }
             else
             {
-                forRemove.Add(r);
+                forRemove.Add(@delegate);
             }
         }
     }

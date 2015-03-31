@@ -8,5 +8,10 @@
         {
             return ReturnValue;
         }
+
+        public int SomeOtherMethod(IInterface input)
+        {
+            return ReturnValue;
+        }
     }
 }

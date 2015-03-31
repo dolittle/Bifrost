@@ -77,7 +77,7 @@ namespace Bifrost.Execution
 
             for (var argumentIndex = 0; argumentIndex < arguments.Length; argumentIndex++)
             {
-                if (parameters[argumentIndex].ParameterType != arguments[argumentIndex].GetType()) throw new InvalidSignatureException(_method);
+                if (!parameters[argumentIndex].ParameterType.IsAssignableFrom(arguments[argumentIndex].GetType())) throw new InvalidSignatureException(_method);
             }
         }
     }
