@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -141,7 +141,7 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="service">Service to bind</param>
         /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
-        void Bind(Type service, Func<object> resolveCallback);
+        void Bind(Type service, Func<Type, object> resolveCallback);
 
         /// <summary>
         /// Bind a service type to a callback that can resolve the instance
@@ -157,7 +157,7 @@ namespace Bifrost.Execution
         /// <param name="service">Service to bind</param>
         /// <param name="resolveCallback">Callback that gets called to resolve the instance</param>
         /// <param name="lifecycle">Lifecycle of the service</param>
-        void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle);
+        void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle);
 
 
         /// <summary>

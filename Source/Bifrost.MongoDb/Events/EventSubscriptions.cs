@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 // With one exception :
@@ -70,7 +70,6 @@ namespace Bifrost.MongoDB.Events
 
         public void Save(EventSubscription subscription)
         {
-            subscription.Id = subscription.GetHashCode();
             _collection.Save(subscription);
         }
 

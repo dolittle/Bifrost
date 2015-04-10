@@ -127,3 +127,4 @@ Bifrost.namespace("Bifrost", {
         };
     })()
 });
+Bifrost.WellKnownTypesDependencyResolver.types.dependencyResolver = Bifrost.dependencyResolver;

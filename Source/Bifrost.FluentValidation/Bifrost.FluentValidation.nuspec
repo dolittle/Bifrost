@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Bifrost.MongoDB</id>
+    <id>Bifrost.FluentValidation</id>
     <version>$version$</version>
-    <title>Bifrost MongoDB support</title>
+    <title>Bifrost FluentValidation support</title>
     <authors>Dolittle</authors>
     <owners>Dolittle</owners>
     <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Support for FluentValidation for Bifrost</description>
     <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
-    <copyright>Copyright 2008 - 2014</copyright>
+    <copyright>Copyright 2008 - 2015</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="FluentValidation" version="3.4.6.0" />

@@ -80,6 +80,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bifrost\Collections\CollectionCleared.cs">
+      <Link>Collections\CollectionCleared.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\IObservableCollection.cs">
+      <Link>Collections\IObservableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ItemsAddedToCollection.cs">
+      <Link>Collections\ItemsAddedToCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ItemsRemovedFromCollection.cs">
+      <Link>Collections\ItemsRemovedFromCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Collections\ObservableCollection.cs">
+      <Link>Collections\ObservableCollection.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Commands\Command.cs">
       <Link>Commands\Command.cs</Link>
     </Compile>
@@ -148,6 +163,27 @@
     </Compile>
     <Compile Include="..\Bifrost\Configuration\AmbiguousContainerCreationException.cs">
       <Link>Configuration\AmbiguousContainerCreationException.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\AssembliesConfiguration.cs">
+      <Link>Configuration\Assemblies\AssembliesConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\AssembliesConfigurationBuilder.cs">
+      <Link>Configuration\Assemblies\AssembliesConfigurationBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\ExceptAssembliesStartingWith.cs">
+      <Link>Configuration\Assemblies\ExceptAssembliesStartingWith.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\IAssemblyRuleBuilder.cs">
+      <Link>Configuration\Assemblies\IAssemblyRuleBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\IncludeAll.cs">
+      <Link>Configuration\Assemblies\IncludeAll.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\IncludeAllExtensions.cs">
+      <Link>Configuration\Assemblies\IncludeAllExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Configuration\Assemblies\IncludeAllRule.cs">
+      <Link>Configuration\Assemblies\IncludeAllRule.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\CallContextConfiguration.cs">
       <Link>Configuration\CallContextConfiguration.cs</Link>
@@ -248,8 +284,8 @@
     <Compile Include="..\Bifrost\Configuration\IViewsConfiguration.cs">
       <Link>Configuration\IViewsConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Configuration\MissingDefaultConstructorException.cs">
-      <Link>Configuration\MissingDefaultConstructorException.cs</Link>
+    <Compile Include="..\Bifrost\Configuration\IWantToKnowWhenConfigurationIsDone.cs">
+      <Link>Configuration\IWantToKnowWhenConfigurationIsDone.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Configuration\MultiplePrincipalResolversFound.cs">
       <Link>Configuration\MultiplePrincipalResolversFound.cs</Link>
@@ -503,11 +539,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\Assemblies.cs">
+      <Link>Execution\Assemblies.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\AssemblyComparer.cs">
       <Link>Execution\AssemblyComparer.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\AssemblyLocator.cs">
-      <Link>Execution\AssemblyLocator.cs</Link>
+    <Compile Include="..\Bifrost\Execution\AssemblyFilters.cs">
+      <Link>Execution\AssemblyFilters.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\BaseConvention.cs">
       <Link>Execution\BaseConvention.cs</Link>
@@ -539,8 +578,14 @@
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
-      <Link>Execution\IAssemblyLocator.cs</Link>
+    <Compile Include="..\Bifrost\Execution\IAssemblies.cs">
+      <Link>Execution\IAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IAssemblyFilters.cs">
+      <Link>Execution\IAssemblyFilters.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IAssemblyProvider.cs">
+      <Link>Execution\IAssemblyProvider.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\IBindingConvention.cs">
       <Link>Execution\IBindingConvention.cs</Link>
@@ -572,6 +617,12 @@
     <Compile Include="..\Bifrost\Execution\IgnoreDefaultConventionAttribute.cs">
       <Link>Execution\IgnoreDefaultConventionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\IInstancesOf.cs">
+      <Link>Execution\IInstancesOf.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\InstancesOf.cs">
+      <Link>Execution\InstancesOf.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\ITypeDiscoverer.cs">
       <Link>Execution\ITypeDiscoverer.cs</Link>
     </Compile>
@@ -595,6 +646,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\TypeImporter.cs">
       <Link>Execution\TypeImporter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\UnableToResolveTypeByName.cs">
+      <Link>Execution\UnableToResolveTypeByName.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\WriteOnceExpandoObject.cs">
       <Link>Execution\WriteOnceExpandoObject.cs</Link>
@@ -625,6 +679,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Globalization\Localizer.cs">
       <Link>Globalization\Localizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\MissingDefaultConstructorException.cs">
+      <Link>MissingDefaultConstructorException.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Principal\CurrentPrincipal.cs">
       <Link>Principal\CurrentPrincipal.cs</Link>
@@ -830,6 +887,30 @@
     <Compile Include="..\Bifrost\Serialization\SerializationOptions.cs">
       <Link>Serialization\SerializationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Specifications\And.cs">
+      <Link>Specifications\And.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\CompositeRule.cs">
+      <Link>Specifications\CompositeRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\Is.cs">
+      <Link>Specifications\Is.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\Negative.cs">
+      <Link>Specifications\Negative.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\Or.cs">
+      <Link>Specifications\Or.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\ParameterRebinder.cs">
+      <Link>Specifications\ParameterRebinder.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\Specification.cs">
+      <Link>Specifications\Specification.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Specifications\SpecificationExtensions.cs">
+      <Link>Specifications\SpecificationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Tasks\ITaskManager.cs">
       <Link>Tasks\ITaskManager.cs</Link>
     </Compile>
@@ -932,6 +1013,7 @@
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
+    <Compile Include="Execution\AssemblyProvider.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

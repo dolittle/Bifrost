@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -18,7 +18,10 @@
 #endregion
 using System;
 using System.Linq;
+using Bifrost.Concepts;
 using Bifrost.Entities;
+using Bifrost.Extensions;
+using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
@@ -32,15 +35,18 @@ namespace Bifrost.DocumentDB.Entities
     {
         EntityContextConnection _connection;
         DocumentCollection _collection;
+        IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
         /// </summary>
-        /// <param name="connection"></param>
-        public EntityContext(EntityContextConnection connection)
+        /// <param name="connection"><see cref="EntityContextConnection"/> to use</param>
+        /// <param name="mapper">Mapper to use for mapping objects to documents</param>
+        public EntityContext(EntityContextConnection connection, IMapper mapper)
         {
             _connection = connection;
-            _collection = connection.GetCollectionFor<T>();
+            _collection = connection.GetCollectionFor(typeof(T));
+            _mapper = mapper;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -48,7 +54,8 @@ namespace Bifrost.DocumentDB.Entities
         {
             get
             {
-                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink);
+                var queryable = _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink) as IQueryable<T>;
+                queryable = _connection.CollectionStrategy.HandleQueryableFor<T>(queryable);
                 return queryable;
             }
         }
@@ -59,7 +66,28 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Insert(T entity)
         {
-            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
+            //var document = _mapper.Map<Document, T>(entity);
+
+            var documentType = typeof(T).Name;
+            var document = new Document();
+
+            var properties = typeof(T).GetProperties();
+            properties.ForEach(p =>
+            {
+                var value = p.GetValue(entity);
+
+                if (value.IsConcept()) value = value.GetConceptValue();
+
+                if (p.Name.ToLowerInvariant() == "id")
+                    document.Id = value.ToString();
+                else
+                    document.SetPropertyValue(p.Name, value);
+            });
+            document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
+
+            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
+
+            //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
         }
 
         public void Update(T entity)

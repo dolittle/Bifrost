@@ -17,6 +17,9 @@ namespace Web
                 .Serialization
                     .UsingJson()
                 .Events
+                    .Synchronous()
+
+                .Events
                     .UsingFiles(eventsPath)
 
                     // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
@@ -26,6 +29,7 @@ namespace Web
                     //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
 
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
+                    //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                     
                 .DefaultStorage
                     .UsingFiles(entitiesPath)
@@ -37,11 +41,13 @@ namespace Web
                     //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
 
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                    //.UsingDocumentDB(e => e.WithUrl("https://bifrost.documents.azure.com:443/").WithDefaultDatabase("QuickStart").UsingAuthorizationKey("2NQ32KwoTGZOxiyUs7vWkq6Mvvl2Fq+HR0s5YBt7tMZwzFvUg5e5LvvLZyYUP6GLIUvN5iOqMaq7Iw6vPjseRQ=="))
+                    //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                 .Frontend
                     .Web(w=> {
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
+
+                        #region Temporary Configuration for the Bifrost Visualizer - work in progress
                         w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");
                         w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
@@ -52,13 +58,19 @@ namespace Web
                         w.PathsToNamespaces.Add("Bifrost/Visualizer", "Bifrost.Visualizer");
                         w.PathsToNamespaces.Add("/Bifrost/Visualizer", "Bifrost.Visualizer");
 
-                        w.PathsToNamespaces.Add("**/", "Web.**.");
-                        w.PathsToNamespaces.Add("/**/", "Web.**.");
-                        w.PathsToNamespaces.Add("", "Web");
+                        w.NamespaceMapper.Add("Bifrost.Visualizer.**.", "Bifrost.Web.Visualizer.**.");
+                        #endregion
 
-                        w.NamespaceMapper.Add("Web.**.", "Web.Domain.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.Read.**.");
-                        w.NamespaceMapper.Add("Web.**.", "Web.**.");
+                        var baseNamespace = global::Bifrost.Configuration.Configure.Instance.EntryAssembly.GetName().Name;
+                        var @namespace = string.Format("{0}.**.", baseNamespace);
+
+                        w.PathsToNamespaces.Add("**/", @namespace);
+                        w.PathsToNamespaces.Add("/**/", @namespace);
+                        w.PathsToNamespaces.Add("", baseNamespace);
+
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Domain.**.", baseNamespace));
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Read.**.", baseNamespace));
+                        w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.**.", baseNamespace));
 					})
                 .WithMimir();
 

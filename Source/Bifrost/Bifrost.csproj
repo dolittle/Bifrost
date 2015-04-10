@@ -40,15 +40,15 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
@@ -92,6 +92,11 @@
     <Compile Include="CodeGeneration\JavaScript\TypeExtensionExtensions.cs" />
     <Compile Include="CodeGeneration\JavaScript\VariantAssignment.cs" />
     <Compile Include="CodeGeneration\LanguageElement.cs" />
+    <Compile Include="Collections\CollectionCleared.cs" />
+    <Compile Include="Collections\IObservableCollection.cs" />
+    <Compile Include="Collections\ItemsAddedToCollection.cs" />
+    <Compile Include="Collections\ItemsRemovedFromCollection.cs" />
+    <Compile Include="Collections\ObservableCollection.cs" />
     <Compile Include="Commands\AmbiguousCommandException.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandContextFactory.cs" />
@@ -118,6 +123,13 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
+    <Compile Include="Configuration\Assemblies\AssembliesConfiguration.cs" />
+    <Compile Include="Configuration\Assemblies\AssembliesConfigurationBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
+    <Compile Include="Configuration\Assemblies\IAssemblyRuleBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
+    <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
@@ -135,7 +147,22 @@
     <Compile Include="Configuration\IHaveStorage.cs" />
     <Compile Include="Configuration\ISecurityConfiguration.cs" />
     <Compile Include="Configuration\ITasksConfiguration.cs" />
-    <Compile Include="Configuration\MissingDefaultConstructorException.cs" />
+    <Compile Include="Configuration\IWantToKnowWhenConfigurationIsDone.cs" />
+    <Compile Include="Entities\Files\Document.cs" />
+    <Compile Include="Entities\Files\Mapping\DocumentMapFor.cs" />
+    <Compile Include="Entities\Files\Mapping\KeyStrategy.cs" />
+    <Compile Include="Entities\Files\Mapping\PropertyMapExtensions.cs" />
+    <Compile Include="Execution\AssemblyDetails.cs" />
+    <Compile Include="Execution\AssemblyFilters.cs" />
+    <Compile Include="Execution\AssemblyProvider.cs" />
+    <Compile Include="Execution\IAssemblyProvider.cs" />
+    <Compile Include="Execution\ICanFilterAssembly.cs" />
+    <Compile Include="Execution\IAssemblyFilters.cs" />
+    <Compile Include="Execution\InvalidSignatureException.cs" />
+    <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
+    <Compile Include="Execution\WeakDelegate.cs" />
+    <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
+    <Compile Include="MissingDefaultConstructorException.cs" />
     <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />
     <Compile Include="Configuration\SecurityConfiguration.cs" />
     <Compile Include="Configuration\TasksConfiguration.cs" />
@@ -190,7 +217,7 @@
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
-    <Compile Include="Execution\AssemblyLocator.cs" />
+    <Compile Include="Execution\Assemblies.cs" />
     <Compile Include="Execution\BaseConvention.cs" />
     <Compile Include="Execution\BindingConventionManager.cs" />
     <Compile Include="Execution\BindingLifecycle.cs" />
@@ -202,7 +229,7 @@
     <Compile Include="Execution\ExecutionContextManager.cs" />
     <Compile Include="Execution\ExecutionContextPopulator.cs" />
     <Compile Include="Execution\HashCodeHelper.cs" />
-    <Compile Include="Execution\IAssemblyLocator.cs" />
+    <Compile Include="Execution\IAssemblies.cs" />
     <Compile Include="Execution\IBindingConvention.cs" />
     <Compile Include="Execution\IBindingConventionManager.cs" />
     <Compile Include="Execution\ICallContext.cs" />
@@ -223,12 +250,31 @@
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Execution\TypeImporter.cs" />
+    <Compile Include="Execution\UnableToResolveTypeByName.cs" />
     <Compile Include="Execution\WriteOnceExpandoObject.cs" />
     <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Extensions\ITypeInfo.cs" />
     <Compile Include="Extensions\MethodCalls.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeInfo.cs" />
+    <Compile Include="Mapping\DefaultMappingTarget.cs" />
+    <Compile Include="Mapping\IMap.cs" />
+    <Compile Include="Mapping\IMappingTarget.cs" />
+    <Compile Include="Mapping\IMappingTargetFor.cs" />
+    <Compile Include="Mapping\IMappingTargets.cs" />
+    <Compile Include="Mapping\IMaps.cs" />
+    <Compile Include="Mapping\IPropertyMap.cs" />
+    <Compile Include="Mapping\Mapper.cs" />
+    <Compile Include="Mapping\MappingTargetFor.cs" />
+    <Compile Include="Mapping\MappingTargets.cs" />
+    <Compile Include="Mapping\Maps.cs" />
+    <Compile Include="Mapping\MissingMapException.cs" />
+    <Compile Include="Mapping\PropertyMapExtensions.cs" />
+    <Compile Include="Mapping\TargetPropertyMappingStrategy.cs" />
+    <Compile Include="Mapping\IMapper.cs" />
+    <Compile Include="Mapping\IPropertyMappingStrategy.cs" />
+    <Compile Include="Mapping\Map.cs" />
+    <Compile Include="Mapping\PropertyMap.cs" />
     <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\Fetching.cs" />
@@ -279,6 +325,7 @@
     <Compile Include="Rules\RuleContexts.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
+    <Compile Include="Specifications\Is.cs" />
     <Compile Include="Specifications\Negative.cs" />
     <Compile Include="Specifications\Or.cs" />
     <Compile Include="Specifications\ParameterRebinder.cs" />

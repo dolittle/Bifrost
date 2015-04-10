@@ -40,13 +40,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.8.3\lib\net45\Machine.Specifications.dll</HintPath>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.dll</HintPath>
     </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Machine.Specifications.Clr4, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.8.3\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
+      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
     </Reference>
     <Reference Include="Machine.Specifications.Should, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,9 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Solutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -81,6 +81,10 @@
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_adding_extension.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_with_default_value.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_Observable\when_creating_without_default_value.cs" />
+    <Compile Include="Collection\given\empty_collection.cs" />
+    <Compile Include="Collection\when_clearing.cs" />
+    <Compile Include="Collection\when_removing.cs" />
+    <Compile Include="Collection\when_adding.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandInheritingCommand.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\CommandImplementingICommand.cs" />
     <Compile Include="Commands\Diagnostics\for_CommandInheritanceRule\when_validating_type_with_nested_inheritance_hierarchy.cs" />
@@ -320,6 +324,17 @@
     <Compile Include="Execution\for_InstancesOf\when_having_multiple_implementations.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
+    <Compile Include="Execution\for_WeakDelegate\ClassWithMethod.cs" />
+    <Compile Include="Execution\for_WeakDelegate\DerivedImplementation.cs" />
+    <Compile Include="Execution\for_WeakDelegate\Implementation.cs" />
+    <Compile Include="Execution\for_WeakDelegate\IInterface.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_instance_delegate_with_derived_parameter_types.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_on_instance_that_is_not_alive.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_instance_delegate_with_not_matching_signature.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_instance_delegate_with_not_enough_parameters.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_instance_delegate_matching_signature.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_asking_if_static_delegate_is_alive.cs" />
+    <Compile Include="Execution\for_WeakDelegate\when_dynamically_invoking_static_delegate_matching_signature.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\a_read_only_container.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_creating_and_setting_value_during_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\given\a_write_once_expando_object_without_values.cs" />
@@ -357,6 +372,43 @@
     <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_without_a_default_constructor_if_it_has_a_default_constructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_with_a_default_constructor_if_it_has_a_default_constructor.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_getting_default_constructor_from_type_with_default_constructor.cs" />
+    <Compile Include="Mapping\for_Mapper\given\all_dependencies.cs" />
+    <Compile Include="Mapping\for_Mapper\given\a_mapper.cs" />
+    <Compile Include="Mapping\for_Mapper\Target.cs" />
+    <Compile Include="Mapping\for_Mapper\Source.cs" />
+    <Compile Include="Mapping\for_Mapper\when_mapping_to_type.cs" />
+    <Compile Include="Mapping\for_MappingTargetFor\StringMappingTarget.cs" />
+    <Compile Include="Mapping\for_MappingTargetFor\when_asking_for_target_type.cs" />
+    <Compile Include="Mapping\for_MappingTargets\given\all_dependencies.cs" />
+    <Compile Include="Mapping\for_MappingTargets\given\mapping_target_for_string.cs" />
+    <Compile Include="Mapping\for_MappingTargets\given\no_mapping_targets.cs" />
+    <Compile Include="Mapping\for_MappingTargets\StringMappingTarget.cs" />
+    <Compile Include="Mapping\for_MappingTargets\when_getting_for_type_without_known_target.cs" />
+    <Compile Include="Mapping\for_MappingTargets\when_getting_for_type_with_known_target.cs" />
+    <Compile Include="Mapping\for_Maps\given\all_dependencies.cs" />
+    <Compile Include="Mapping\for_Maps\given\map_for_source_and_target_in_system.cs" />
+    <Compile Include="Mapping\for_Maps\given\no_maps.cs" />
+    <Compile Include="Mapping\for_Maps\Source.cs" />
+    <Compile Include="Mapping\for_Maps\Target.cs" />
+    <Compile Include="Mapping\for_Maps\when_asking_for_map_for_known_combination .cs" />
+    <Compile Include="Mapping\for_Maps\when_asking_if_has_map_for_known_combination.cs" />
+    <Compile Include="Mapping\for_Maps\when_asking_if_has_map_for_unknown_combination.cs" />
+    <Compile Include="Mapping\for_Maps\when_asking_for_map_for_unknown_combination.cs" />
+    <Compile Include="Mapping\for_Map\MapWithOneOfTwoPropertiesMapped.cs" />
+    <Compile Include="Mapping\for_Map\MapWithoutMappings.cs" />
+    <Compile Include="Mapping\for_Map\MyMap.cs" />
+    <Compile Include="Mapping\for_Map\Source.cs" />
+    <Compile Include="Mapping\for_Map\SourceWithTwoProperties.cs" />
+    <Compile Include="Mapping\for_Map\Target.cs" />
+    <Compile Include="Mapping\for_Map\when_asking_for_target_type.cs" />
+    <Compile Include="Mapping\for_Map\when_asking_for_source_type.cs" />
+    <Compile Include="Mapping\for_Map\when_map_has_one_property_mapped_and_one_property_unmapped.cs" />
+    <Compile Include="Mapping\for_Map\when_map_has_not_mapped_any_properties.cs" />
+    <Compile Include="Mapping\for_Map\when_map_maps_one_property.cs" />
+    <Compile Include="Mapping\for_PropertyMapExtensions\Target.cs" />
+    <Compile Include="Mapping\for_PropertyMapExtensions\when_specifying_to_property.cs" />
+    <Compile Include="Mapping\for_TargetPropertyMappingStrategy\Target.cs" />
+    <Compile Include="Mapping\for_TargetPropertyMappingStrategy\when_performing.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly.cs" />
     <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly_multitple_times.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_query.cs" />

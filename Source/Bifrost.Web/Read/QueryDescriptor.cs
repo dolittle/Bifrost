@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -22,8 +22,13 @@ namespace Bifrost.Web.Read
 {
     public class QueryDescriptor
     {
+        public QueryDescriptor()
+        {
+            Parameters = new Dictionary<string, object>();
+        }
+
         public string NameOfQuery { get; set; }
         public string GeneratedFrom { get; set; }
-        public Dictionary<string, object> Parameters { get; set; }
+        public IDictionary<string, object> Parameters { get; private set; }
     }
 }

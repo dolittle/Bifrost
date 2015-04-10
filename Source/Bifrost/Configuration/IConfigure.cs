@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -19,6 +19,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -106,6 +107,10 @@ namespace Bifrost.Configuration
         /// </summary>
         ISecurityConfiguration Security { get; }
 
+        /// <summary>
+        /// Gets the configuration for assemblies and how they are treated
+        /// </summary>
+        AssembliesConfiguration Assemblies { get; }
 		
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost

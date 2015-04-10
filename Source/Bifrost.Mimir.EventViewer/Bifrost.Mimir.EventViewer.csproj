@@ -65,7 +65,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.5\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -85,6 +85,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientEvent.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -106,6 +107,10 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JSON.Silverlight\Bifrost.JSON.Silverlight.csproj">
+      <Project>{fe9cd87a-e785-49b7-9bc2-2b76526a2d49}</Project>
+      <Name>Bifrost.JSON.Silverlight</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Silverlight\Bifrost.Silverlight.csproj">
       <Project>{1426a0c9-0445-4e65-839b-1b3a1baecdb7}</Project>
       <Name>Bifrost.Silverlight</Name>

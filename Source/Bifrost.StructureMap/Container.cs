@@ -1,6 +1,6 @@
 #region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -173,7 +173,7 @@ namespace Bifrost.StructureMap
             throw new NotImplementedException();
         }
 
-        public void Bind(Type service, Func<object> resolveCallback)
+        public void Bind(Type service, Func<Type, object> resolveCallback)
         {
             throw new NotImplementedException();
         }
@@ -183,7 +183,7 @@ namespace Bifrost.StructureMap
             throw new NotImplementedException();
         }
 
-        public void Bind(Type service, Func<object> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
-﻿using Bifrost.JSON.Serialization;
+﻿using Bifrost.JSON.Concepts;
+using Bifrost.JSON.Serialization;
 
 namespace Bifrost.JSON.Specs.Serialization.for_ConceptConverter.given
 {

@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -25,7 +25,11 @@ using System.Reflection;
 
 #if(SILVERLIGHT)
 using System.Windows;
+using _Assembly = System.Reflection.Assembly;
+#else
+using System.Runtime.InteropServices;
 #endif
+
 
 #if(NETFX_CORE)
 using Windows.Storage;
@@ -35,6 +39,8 @@ using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Diagnostics;
+using Bifrost.Configuration.Assemblies;
+
 
 
 namespace Bifrost.Configuration
@@ -52,9 +58,11 @@ namespace Bifrost.Configuration
         public static Configure Instance { get; private set; }
 
 
-        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
             SystemName = "[Not Set]";
+
+            AssembliesConfiguration = assembliesConfiguration;
 
             container.DefaultLifecycle = defaultLifecycle;
             container.Bind<IConfigure>(this);
@@ -72,15 +80,23 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-        public static Configure DiscoverAndConfigure()
+        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
         {
-            var assemblies = GetAssembliesCurrentlyInMemory();
+            var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
+#if(SILVERLIGHT)
+            var assemblyProvider = new AssemblyProvider();
+#else
+            var assemblyProvider = new AssemblyProvider(AppDomain.CurrentDomain, new AssemblyFilters(assembliesConfiguration));
+#endif
+            var assemblies = assemblyProvider.GetAll(); 
+            
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
             ThrowIfCanCreateContainerNotFound(canCreateContainerType);
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
-            var configure = With(container, BindingLifecycle.Transient);
+            var configure = With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider);
             configure.EntryAssembly = canCreateContainerType.Assembly;
             configure.Initialize();
             return configure;
@@ -90,10 +106,12 @@ namespace Bifrost.Configuration
         /// Configure with a specific <see cref="IContainer"/> and the <see cref="BindingLifecycle">Lifecycle</see> of objects set to none
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
+        /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> to use for providing assemblies</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container)
+        public static Configure With(IContainer container, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
         {
-            return With(container, BindingLifecycle.Transient);
+            return With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider);
         }
 
         /// <summary>
@@ -101,10 +119,12 @@ namespace Bifrost.Configuration
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
         /// <param name="defaultObjectLifecycle">Default <see cref="BindingLifecycle"/> for object creation/management</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
+        /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> to use for providing assemblies</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle)
+        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
         {
-            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings());
+            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings(assembliesConfiguration, assemblyProvider), assembliesConfiguration);
         }
 
         /// <summary>
@@ -122,10 +142,11 @@ namespace Bifrost.Configuration
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
         /// <param name="defaultConventions"><see cref="IDefaultConventions"/> to use</param>
         /// <param name="defaultBindings"><see cref="IDefaultBindings"/> to use</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns></returns>
-        public static Configure With(IContainer container, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        public static Configure With(IContainer container, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
-            return With(container, BindingLifecycle.Transient, defaultConventions, defaultBindings);
+            return With(container, BindingLifecycle.Transient, defaultConventions, defaultBindings, assembliesConfiguration);
         }
 
 
@@ -136,14 +157,15 @@ namespace Bifrost.Configuration
         /// <param name="defaultObjectLifecycle">Default <see cref="BindingLifecycle"/> for object creation/management</param>
         /// <param name="defaultConventions"><see cref="IDefaultConventions"/> to use</param>
         /// <param name="defaultBindings"><see cref="IDefaultBindings"/> to use</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <returns></returns>
-        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings)
+        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
         {
             if (Instance == null)
             {
                 lock (InstanceLock)
                 {
-                    Instance = new Configure(container, defaultObjectLifecycle, defaultConventions, defaultBindings);
+                    Instance = new Configure(container, defaultObjectLifecycle, defaultConventions, defaultBindings, assembliesConfiguration);
                 }
             }
 
@@ -154,6 +176,7 @@ namespace Bifrost.Configuration
         public IContainer Container { get; private set; }
         public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
+        public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
@@ -166,6 +189,7 @@ namespace Bifrost.Configuration
         public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
+        public AssembliesConfiguration Assemblies { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
 		public CultureInfo Culture { get; set; }
 		public CultureInfo UICulture { get; set; }
@@ -200,7 +224,7 @@ namespace Bifrost.Configuration
 #else
             Parallel.ForEach(initializers, initializator => initializator());
 #endif
-            
+            ConfigurationDone();
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -232,11 +256,14 @@ namespace Bifrost.Configuration
 
         void ConfigureFromCanConfigurables()
         {
-            var typeImporter = Container.Get<ITypeImporter>();
-            foreach (var canConfigure in typeImporter.ImportMany<ICanConfigure>())
-            {
-                canConfigure.Configure(this);
-            }
+            var callbacks = Container.Get<IInstancesOf<ICanConfigure>>();
+            callbacks.ForEach(c => c.Configure(this));
+        }
+
+        void ConfigurationDone()
+        {
+            var callbacks = Container.Get<IInstancesOf<IWantToKnowWhenConfigurationIsDone>>();
+            callbacks.ForEach(c => c.Configured(this));
         }
 
         static void ExcludeNamespacesForTypeDiscovery()
@@ -256,15 +283,17 @@ namespace Bifrost.Configuration
             TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
         }
 
-        static Type DiscoverCanCreateContainerType(IEnumerable<Assembly> assemblies)
+        static Type DiscoverCanCreateContainerType(IEnumerable<_Assembly> assemblies)
         {
             Type createContainerType = null;
-            foreach (var assembly in assemblies)
+            foreach (var assembly in assemblies.ToArray())
             {
 #if(NETFX_CORE)
                 var type = assembly.DefinedTypes.Select(t => t.AsType()).Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
 #else
-                var type = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
+                var types = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer)));
+                var type = types.SingleOrDefault();
+                var a = types.ToArray();
 #endif
                 if (type != null)
                 {
@@ -276,60 +305,13 @@ namespace Bifrost.Configuration
             return createContainerType;
         }
 
-
-        static IEnumerable<Assembly> GetAssembliesCurrentlyInMemory()
+        static AssembliesConfigurationBuilder BuildAssembliesConfigurationIfCallbackDefined(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback)
         {
-#if(SILVERLIGHT)
-            var assemblies = (from part in Deployment.Current.Parts
-                          where ShouldAddAssembly(part.Source)
-                          let info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative))
-                          select part.Load(info.Stream)).ToArray();
-#else 
-#if(NETFX_CORE)
-            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            var assembliesLoaded = new List<Assembly>();
-
-            IEnumerable<StorageFile>    files = null;
-
-            var operation = folder.GetFilesAsync();
-            operation.Completed = async (r, s) => {
-                var result = await r;
-                files = result;
-            };
-
-            while (files == null) ;
-
-            foreach (var file in files)
-            {
-                if (file.FileType == ".dll" || file.FileType == ".exe")
-                {
-                    var name = new AssemblyName() { Name = System.IO.Path.GetFileNameWithoutExtension(file.Name) };
-                    try
-                    {
-                        Assembly asm = Assembly.Load(name);
-                        assembliesLoaded.Add(asm);
-                    }
-                    catch { }
-                }
-            }
-            var assemblies = assembliesLoaded.ToArray();
-#else
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(f =>
-            {
-                var name = f.GetName().Name;
-                return ShouldAddAssembly(name);
-            }).ToArray();
-#endif
-#endif
-            return assemblies;
+            var builder = new AssembliesConfigurationBuilder();
+            if (assembliesConfigurationBuilderCallback != null) assembliesConfigurationBuilderCallback(builder);
+            if (builder.RuleBuilder == null) builder.IncludeAll();
+            return builder;
         }
-
-        static bool ShouldAddAssembly(string name)
-        {
-            return !name.StartsWith("System") && !name.StartsWith("Microsoft");
-        }
-
 
         
         static void ThrowIfAmbiguousMatchFoundForCanCreateContainer(Type createContainerType)
@@ -349,8 +331,5 @@ namespace Bifrost.Configuration
             if (createContainerType == null)
                 throw new CanCreateContainerNotFoundException();
         }
-
-
-
     }
 }

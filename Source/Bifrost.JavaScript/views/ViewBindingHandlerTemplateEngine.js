@@ -1,5 +1,5 @@
 ﻿Bifrost.namespace("Bifrost.views", {
-    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager, regionManager) {
+    ViewBindingHandlerTemplateEngine: Bifrost.Type.extend(function (viewModelManager, regionManager, UIManager) {
         var self = this;
         this.renderTemplate = function (template, bindingContext, options) {
             var templateSource;
@@ -47,6 +47,14 @@
 
             bindingContext.$root = bindingContext.$data;
             var renderedTemplateSource = self.renderTemplateSource(templateSource, bindingContext, options);
+
+            renderedTemplateSource.forEach(function (element) {
+                if (element.constructor !== Text && element.constructor !== Comment) {
+                    UIManager.handle(element);
+                }
+            });
+
+            
             return renderedTemplateSource;
         };
     })

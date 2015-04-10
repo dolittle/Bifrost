@@ -1,6 +1,6 @@
 #region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -33,7 +33,7 @@ namespace Bifrost.Sagas
         /// <summary>
         /// Holds all states it can transition to
         /// </summary>
-        protected readonly ICollection<State> _canTransitionTo;
+        protected readonly ICollection<State> m_canTransitionTo;
 
         /// <summary>
         /// Initializes a new instance of <see cref="State"/>
@@ -41,7 +41,7 @@ namespace Bifrost.Sagas
         /// <param name="canTransitionTo">Collection of states it can transition to</param>
         protected State(ICollection<State> canTransitionTo)
         {
-            _canTransitionTo = canTransitionTo;
+            m_canTransitionTo = canTransitionTo;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Bifrost.Sagas
         /// <returns>true if it can transition, false if not</returns>
         public bool CanTransitionTo(State state)
         {
-            return _canTransitionTo.Contains(state);
+            return m_canTransitionTo.Contains(state);
         }
     }
 }

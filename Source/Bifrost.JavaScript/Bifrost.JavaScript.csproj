@@ -71,6 +71,19 @@
     <Content Include="mapping\maps.js" />
     <Content Include="mapping\MissingPropertyStrategy.js" />
     <Content Include="mapping\PropertyMap.js" />
+    <Content Include="markup\attributeValues.js" />
+    <Content Include="markup\bindingContextManager.js" />
+    <Content Include="markup\BindingContext.js" />
+    <Content Include="markup\elementNaming.js" />
+    <Content Include="markup\MultipleNamespacesInNameNotAllowed.js" />
+    <Content Include="markup\MultiplePropertyReferencesNotAllowed.js" />
+    <Content Include="markup\NamespaceDefinition.js" />
+    <Content Include="markup\namespaceDefinitions.js" />
+    <Content Include="markup\namespaces.js" />
+    <Content Include="markup\ParentTagNameMismatched.js" />
+    <Content Include="markup\propertyExpander.js" />
+    <Content Include="markup\UIElementPreparer.js" />
+    <Content Include="markup\valueProviderParser.js" />
     <Content Include="specifications\And.js" />
     <Content Include="specifications\Or.js" />
     <Content Include="specifications\Specification.js" />
@@ -78,12 +91,14 @@
     <Content Include="types\TypeInfo.js" />
     <Content Include="utils\configurator.js" />
     <Content Include="validation\length.js" />
+    <Content Include="values\Binding.js" />
     <Content Include="values\StringTypeConverter.js" />
     <Content Include="values\DateFormatter.js" />
     <Content Include="values\DateTypeConverter.js" />
     <Content Include="values\Formatter.js" />
     <Content Include="values\NumberTypeConverter.js" />
     <Content Include="values\stringFormatter.js" />
+    <Content Include="values\ValueConsumer.js" />
     <Content Include="values\valuePipeline.js" />
     <Content Include="dispatcher.js" />
     <Content Include="documentService.js" />
@@ -119,7 +134,9 @@
     <Content Include="utils\deepClone.js" />
     <Content Include="utils\isNullOrUndefined.js" />
     <Content Include="utils\isType.js" />
-    <Content Include="markup\Binding.js" />
+    <Content Include="values\ValueProvider.js" />
+    <Content Include="values\valueConsumers.js" />
+    <Content Include="values\valueProviders.js" />
     <Content Include="views\ComposeTask.js" />
     <Content Include="tasks\ExecutionTask.js" />
     <Content Include="tasks\FileLoadTask.js" />
@@ -168,27 +185,23 @@
     <Content Include="validation\lessThanOrEqual.js" />
     <Content Include="validation\greaterThanOrEqual.js" />
     <Content Include="views\Content.js" />
-    <Content Include="views\Control.js" />
+    <Content Include="markup\Control.js" />
     <Content Include="views\PostBindingVisitor.js" />
     <Content Include="views\DataViewModelFileAttributeElementVisitor.js" />
     <Content Include="views\MasterViewModel.js" />
     <Content Include="navigation\DataNavigationFrameAttributeElementVisitor.js" />
     <Content Include="navigation\navigationBindingHandler.js" />
-    <Content Include="values\TypeConverterElementVisitor.js" />
     <Content Include="values\typeExtender.js" />
     <Content Include="views\ViewBindingHandlerTemplateSource.js" />
     <Content Include="markup\ElementVisitor.js" />
     <Content Include="markup\ElementVisitorResultActions.js" />
     <Content Include="views\Items.js" />
-    <Content Include="markup\MarkupExtension.js" />
-    <Content Include="markup\markupExtensions.js" />
-    <Content Include="views\NamingRoot.js" />
-    <Content Include="views\NamingRootElementVisitor.js" />
+    <Content Include="markup\NamingRoot.js" />
     <Content Include="markup\ObjectModelElementVisitor.js" />
-    <Content Include="markup\objectModelManager.js" />
+    <Content Include="markup\objectModelFactory.js" />
     <Content Include="values\TypeConverter.js" />
     <Content Include="values\typeConverters.js" />
-    <Content Include="views\UIElement.js" />
+    <Content Include="markup\UIElement.js" />
     <Content Include="views\UIManager.js" />
     <Content Include="views\ViewModelLoadTask.js" />
     <Content Include="views\ViewLoadTask.js" />
@@ -295,6 +308,8 @@ $(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEv
   </Target>
   -->
   <ItemGroup>
+    <Content Include="markup\AttachedProperty.js" />
+    <Content Include="values\DefaultValueConsumer.js" />
     <Content Include="views\ViewBindingHandlerTemplateEngine.js" />
     <Content Include="views\DataViewAttributeElementVisitor.js" />
     <Content Include="extensions\ArrayExtensions.js" />

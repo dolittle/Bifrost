@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -20,9 +20,19 @@ using System.Net;
 
 namespace Bifrost.MongoDB.Events
 {
+    /// <summary>
+    /// Represents the configuration for <see cref="EventStore"/>
+    /// </summary>
     public class EventStorageConfiguration
     {
+        /// <summary>
+        /// Gets or sets the Url for the mongo server
+        /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default database to use
+        /// </summary>
         public string DefaultDatabase { get; set; }
     }
 }

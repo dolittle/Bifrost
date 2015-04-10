@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -19,6 +19,7 @@
 using System.Linq;
 using System.Web.Routing;
 using Bifrost.Configuration;
+using Bifrost.JSON.Concepts;
 using Bifrost.JSON.Serialization;
 using Bifrost.Web.SignalR;
 using Microsoft.AspNet.SignalR;

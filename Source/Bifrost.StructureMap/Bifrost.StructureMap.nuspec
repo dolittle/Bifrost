@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Support for StructureMap for Bifrost</description>
     <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
-    <copyright>Copyright 2008 - 2014</copyright>
+    <copyright>Copyright 2008 - 2015</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
       <dependency id="structuremap" version="2.6.4.1" />

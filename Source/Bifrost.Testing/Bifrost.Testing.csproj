@@ -87,6 +87,7 @@
     <Compile Include="Fakes\Sagas\SimpleChapter.cs" />
     <Compile Include="Fakes\Sagas\SimpleSaga.cs" />
     <Compile Include="Fakes\Sagas\SimpleSagaWithConflictingPropertyNames.cs" />
+    <Compile Include="Fakes\Sagas\SomeOtherThing.cs" />
     <Compile Include="Fakes\Sagas\TransitionalChapter.cs" />
     <Compile Include="Fakes\Security\MySecurityAction.cs" />
     <Compile Include="Fakes\Security\SecurityDescriptor.cs" />

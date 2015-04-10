@@ -11,6 +11,8 @@
     <AssemblyName>Bifrost.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +25,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RegisterForComInterop>false</RegisterForComInterop>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -36,7 +38,14 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Solutions\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -44,59 +53,60 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
-      <Link>Concepts\ConceptAs.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Concepts\ConceptExtensions.cs">
-      <Link>Concepts\ConceptExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Concepts\ConceptFactory.cs">
-      <Link>Concepts\ConceptFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Concepts\ConceptMap.cs">
-      <Link>Concepts\ConceptMap.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Concepts\Value.cs">
-      <Link>Concepts\Value.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
-      <Link>Execution\HashCodeHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\CollectionsExtensions.cs">
-      <Link>Extensions\CollectionsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\ExpressionExtensions.cs">
-      <Link>Extensions\ExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\ITypeInfo.cs">
-      <Link>Extensions\ITypeInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\StringExtensions.cs">
-      <Link>Extensions\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\TypeExtensions.cs">
-      <Link>Extensions\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Extensions\TypeInfo.cs">
-      <Link>Extensions\TypeInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost\Validation\IAmValidatable.cs">
-      <Link>Validation\IAmValidatable.cs</Link>
-    </Compile>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\CommandForProxies.cs" />
+    <Compile Include="Commands\CommandForProxyInterceptor.cs" />
+    <Compile Include="Commands\CommandInvocationHandler.cs" />
+    <Compile Include="Commands\CommandProxyInstance.cs" />
+    <Compile Include="Commands\CommandNotifyDataErrorInfoHandler.cs" />
+    <Compile Include="Commands\CommandFailed.cs" />
+    <Compile Include="Commands\CommandHandled.cs" />
+    <Compile Include="Commands\CommandProcessHandler.cs" />
+    <Compile Include="Commands\CommandSucceeded.cs" />
+    <Compile Include="Commands\ICanProcessCommandProcess.cs" />
+    <Compile Include="Commands\ICommandForProxyInterceptor.cs" />
+    <Compile Include="Commands\ICommandProcess.cs" />
+    <Compile Include="Interaction\CommandForMethod.cs" />
+    <Compile Include="Interaction\Input.cs" />
+    <Compile Include="Interaction\MissingMethodForCommand.cs" />
+    <Compile Include="Interaction\MissingMethodOrPropertyForCanExecute.cs" />
+    <Compile Include="Interaction\MoreThanOneParameter.cs" />
+    <Compile Include="Interaction\ReturnValueShouldBeBoolean.cs" />
+    <Compile Include="Reflection\INeedProxyInstance.cs" />
+    <Compile Include="Reflection\INeedTargetInstance.cs" />
+    <Compile Include="Reflection\ICanHandleInvocations.cs" />
+    <Compile Include="Reflection\ICanHandleInvocationsFor.cs" />
+    <Compile Include="Commands\ICommandForProxies.cs" />
+    <Compile Include="Commands\IHoldCommandInstance.cs" />
+    <Compile Include="Configuration\DesktopConfiguration.cs" />
+    <Compile Include="Configuration\DesktopConfigurationExtensions.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Dynamic\BindableExpandoPropertyInfo.cs" />
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Execution\Promise.cs" />
+    <Compile Include="Interaction\FromMethodExtension.cs" />
+    <Compile Include="Commands\ICommandFor.cs" />
+    <Compile Include="Reflection\Interceptor.cs" />
+    <Compile Include="Reflection\InvocationHandler.cs" />
+    <Compile Include="Reflection\IProxying.cs" />
+    <Compile Include="Reflection\Proxying.cs" />
+    <Compile Include="Reflection\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Reflection\TargetInstanceTypeMismatch.cs" />
+    <Compile Include="Values\NotifyChangesAttribute.cs" />
+    <Compile Include="Values\NotifyChangesBindingConvention.cs" />
+    <Compile Include="ViewModels\ViewModelExtension.cs" />
+    <Compile Include="VisualTree\VisualTreeExtensions.cs" />
     <Compile Include="Interaction\IOperations.cs" />
     <Compile Include="Interaction\Operation.cs" />
     <Compile Include="Interaction\OperationContext.cs" />
@@ -114,9 +124,6 @@
     <Compile Include="Tasks\TaskContext.cs" />
     <Compile Include="Tasks\TaskResult.cs" />
     <Compile Include="Tasks\Tasks.cs" />
-    <Compile Include="Values\BindableExpandoObject.cs" />
-    <Compile Include="Values\BindableExpandoPropertyInfo.cs" />
-    <Compile Include="Values\BindableExpandoType.cs" />
     <Compile Include="Execution\Dispatcher.cs" />
     <Compile Include="Execution\DispatcherManager.cs" />
     <Compile Include="Execution\IDispatcher.cs" />
@@ -133,7 +140,29 @@
     <Compile Include="Values\PropertyChangedHandler.cs" />
     <Compile Include="ViewModels\ViewModelService.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
+      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
+      <Name>Bifrost</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reflection\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

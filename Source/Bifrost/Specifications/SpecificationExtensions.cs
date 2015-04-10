@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -51,6 +51,7 @@ namespace Bifrost.Specifications
 			return new And<T>(rhs, lhs);
 		}
 
+
         /// <summary>
         /// Combines two rules in to an "And" rul, where the second rule is negated.
         /// </summary>
@@ -88,20 +89,4 @@ namespace Bifrost.Specifications
         }
     }
 
-    /// <summary>
-    /// Helps chain simple <see cref="Specification{T}"/> together
-    /// </summary>
-    public static class Is
-    {
-        /// <summary>
-        /// Creates a Not rule based on the rule passed in.
-        /// </summary>
-        /// <typeparam name="T">Type of the instance that the rule is to be evaluated against</typeparam>
-        /// <param name="rule">The rule being extended</param>
-        /// <returns>A Not{T} rule"></returns>
-        public static Specification<T> Not<T>(Specification<T> rule)
-        {
-            return new Negative<T>(rule);
-        }
-    }
 }

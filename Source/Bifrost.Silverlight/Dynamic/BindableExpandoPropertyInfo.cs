@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -26,10 +26,9 @@ namespace Bifrost.Dynamic
 {
     public class CustomPropertyInfo : PropertyInfo
     {
-        public string _name;
-        public Type _type;
-        public List<Attribute> _attributes = new List<Attribute>();
-
+        string _name;
+        Type _type;
+        List<Attribute> _attributes = new List<Attribute>();
 
         public CustomPropertyInfo(string name, Type type)
         {

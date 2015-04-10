@@ -1,3 +1,4 @@
+using Bifrost.JSON.Concepts;
 using Bifrost.JSON.Serialization;
 using Bifrost.Testing.Fakes.Concepts;
 using Machine.Specifications;

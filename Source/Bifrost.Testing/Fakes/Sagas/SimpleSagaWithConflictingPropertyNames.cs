@@ -6,9 +6,4 @@ namespace Bifrost.Testing.Fakes.Sagas
     {
         public SomeOtherThing SomeOtherThing { get; set; }
     }
-
-    public class SomeOtherThing
-    {
-        public string Id { get; set; }
-    }
 }

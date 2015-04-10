@@ -4,6 +4,8 @@ set nuget=solutions\.nuget\nuget.exe
 set version=%1
 
 %nuget% pack Bifrost\Bifrost.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.FluentValidation\Bifrost.FluentValidation.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.CommonServiceLocator\Bifrost.CommonServiceLocator.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.Client.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.JSON\Bifrost.JSON.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.AutoFac\Bifrost.AutoFac.nuspec -Symbols -Version %version%
@@ -16,6 +18,7 @@ set version=%1
 %nuget% pack Bifrost.Web\Bifrost.Web.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.RavenDB\Bifrost.RavenDB.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.MongoDB\Bifrost.MongoDB.nuspec -Symbols -Version %version%
+%nuget% pack Bifrost.DocumentDB\Bifrost.DocumentDB.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.NHibernate\Bifrost.NHibernate.nuspec -Symbols -Version %version%
 %nuget% pack Bifrost.Mimir.Web\Bifrost.Mimir.nuspec -Version %version%
 %nuget% pack Bifrost.Default\Bifrost.Default.nuspec -Version %version%

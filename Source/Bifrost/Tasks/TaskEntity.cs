@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -27,6 +27,15 @@ namespace Bifrost.Tasks
     public class TaskEntity
     {
         /// <summary>
+        /// Initializes a new instance of <see cref="TaskEntity"/>
+        /// </summary>
+        public TaskEntity()
+        {
+            State = new Dictionary<string, string>();
+        }
+
+
+        /// <summary>
         /// Gets or sets the Id of the <see cref="Task"/>
         /// </summary>
         public Guid Id { get; set; }
@@ -44,6 +53,6 @@ namespace Bifrost.Tasks
         /// <summary>
         /// Gets or sets any state that exists explicitly on the custom <see cref="Task"/>
         /// </summary>
-        public Dictionary<string, string> State { get; set; }
+        public IDictionary<string, string> State { get; private set; }
     }
 }

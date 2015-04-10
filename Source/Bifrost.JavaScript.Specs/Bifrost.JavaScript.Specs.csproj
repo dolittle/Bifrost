@@ -94,6 +94,7 @@
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set_with_value_on_observable.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_not_set.js" />
     <Content Include="commands\for_hasChanges\when_initial_value_is_set_with_value_on_observable_differing.js" />
+    <Content Include="extensions\for_HTMLElementExtensions\when_asking_custom_element_if_its_known.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type_with_command_created_callback.js" />
     <Content Include="interaction\for_CommandOperation\when_creating_command_of_type.js" />
     <Content Include="mapping\for_mapper\when_mapping_to_instance_with_map_with_objectproperty.js" />
@@ -147,6 +148,23 @@
     <Content Include="mapping\for_PropertyMap\when_mapping_with_a_simple_to_strategy_with_mismatching_types_in_source_and_target.js" />
     <Content Include="mapping\for_PropertyMap\when_mapping_without_strategy_set.js" />
     <Content Include="mapping\for_PropertyMap\when_mapping_with_a_simple_to_strategy.js" />
+    <Content Include="markup\for_elementNaming\given\an_element_naming_instance.js" />
+    <Content Include="markup\for_elementNaming\when_getting_local_name_and_there_is_multiple_namespace_prefixes.js" />
+    <Content Include="markup\for_elementNaming\when_getting_local_name_on_element_without_namespace_reference.js" />
+    <Content Include="markup\for_elementNaming\when_getting_namespace_prefix_on_element_without_namespace_reference.js" />
+    <Content Include="markup\for_elementNaming\when_getting_local_name_on_element_with_namespace_reference.js" />
+    <Content Include="markup\for_elementNaming\when_getting_namespace_prefix_on_element_with_namespace_reference.js" />
+    <Content Include="markup\for_elementNaming\when_getting_namespace_prefix_and_there_is_multiple_prefixes.js" />
+    <Content Include="markup\for_namespaces\given\a_namespaces_instance.js" />
+    <Content Include="markup\for_namespaces\when_expanding_namespaces_on_element_with_namespace_of_same_prefix_as_parent_definition.js" />
+    <Content Include="markup\for_namespaces\when_expanding_namespaces_on_element_with_two_namespaces.js" />
+    <Content Include="markup\for_namespaces\when_resolving_for_element_without_namespace_prefix.js" />
+    <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_defined_on_element_with_naming_root_inbetween.js" />
+    <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_definition_set_on_body.js" />
+    <Content Include="markup\for_namespaces\when_resolving_for_element_with_namespace_definition_set_in_a_parent.js" />
+    <Content Include="markup\for_namespaces\when_resolving_for_element_with_unknown_namespace_prefix.js" />
+    <Content Include="markup\for_ObjectModelElementVisitor\given\an_object_model_element_visitor.js" />
+    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_custom_element.js" />
     <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />
@@ -164,11 +182,17 @@
     <Content Include="specifications\for_Specification\when_specification_with_observable_evaluator_gets_changed.js" />
     <Content Include="specifications\for_Specification\when_specification_has_not_been_evaluated_against_an_instance.js" />
     <Content Include="specifications\for_Specification\when_specification_is_evaluated_against_an_instance.js" />
+    <Content Include="Utils\for_isObject\when_asking_if_undefined_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_object_literal_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_string_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_number_is_object.js" />
     <Content Include="Utils\for_isObject\when_asking_if_null_is_object.js" />
+    <Content Include="Utils\for_StringMapper\when_reverse_resolving_a_string_that_should_match_a_string_with_expansion.js" />
+    <Content Include="Utils\for_StringMapper\when_reverse_resolving_a_string_without_any_expansion.js" />
+    <Content Include="Utils\for_StringMapper\when_reverse.resolving_an_empty_string.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_prefixed_with_letters.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_postfixed_with_letters.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_float_string_with_dot_as_separator.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_an_integer_string.js" />
     <Content Include="execution\for_Promise\when_failing_with_callback_defined_after_fail.js" />
@@ -526,6 +550,7 @@
     <Content Include="validation\for_Validator\when_creating_with_known_rule.js" />
     <Content Include="validation\for_Validator\when_validating_with_multiple_rules_and_first_rule_fails.js" />
     <Content Include="validation\for_Validator\when_validating_a_value_that_will_be_failed_by_a_rule.js" />
+    <Content Include="values\for_NumberTypeConverter\when_converting_from_empty_string.js" />
     <Content Include="values\for_stringFormatter\when_checking_if_element_has_formant_with_element_of_type_other_than_one_without_attributes.js" />
     <Content Include="values\for_stringFormatter\when_formatting_string_with_two_chunks_in_format_with_known_formatter.js" />
     <Content Include="values\for_stringFormatter\when_formatting_string_with_one_chunk_in_format_with_known_formatter.js" />
@@ -544,19 +569,11 @@
     <Content Include="values\for_valuePipeline\when_getting_value_from_non_observable_for_view_twice_without_value_having_changed.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_from_observable_for_view_twice_without_value_having_changed.js" />
     <Content Include="values\for_valuePipeline\when_getting_value_for_view_without_any_typeconverters.js" />
+    <Content Include="values\for_valueProviders\given\value_providers.js" />
+    <Content Include="values\for_valueProviders\when_asking_by_name_if_provider_is_known_with_provider_matching_name.js" />
     <Content Include="views\for_MasterViewModel\when_setting_same_viewmodel_twice.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_first_time.js" />
     <Content Include="views\for_MasterViewModel\when_setting_viewmodel_second_time.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_and_parent_is_a_property_set_tag_with_an_observable_on_target.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_a_property.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_an_attribute_matching_observable_property.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_plain_tag_with_uppercase_name.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_different_parent_tag.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_property_set_tag_with_multiple_properties.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_tag_with_namespace.js" />
-    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_a_tag_with_two_namespaces.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_region_descriptor_exists.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_not_having_region.js" />
     <Content Include="views\for_regionManager\when_getting_for_an_element_without_region_and_parent_having_region.js" />
@@ -628,6 +645,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="read\for_Query\when_asking_for_all.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_known_element.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -31,14 +31,17 @@ namespace Bifrost.DocumentDB.Entities
     public class EntityContextConnection : IEntityContextConnection
     {
         EntityContextConfiguration _configuration;
+        
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContextConnection"/>
         /// </summary>
         /// <param name="configuration"><see cref="EntityContextConfiguration">Configuration</see> to use</param>
-        public EntityContextConnection(EntityContextConfiguration configuration)
+        /// <param name="collectionStrategy"><see cref="ICollectionStrategy"/> to use for types</param>
+        public EntityContextConnection(EntityContextConfiguration configuration, ICollectionStrategy collectionStrategy)
         {
             _configuration = configuration;
+            CollectionStrategy = collectionStrategy;
         }
 
         /// <summary>
@@ -50,6 +53,11 @@ namespace Bifrost.DocumentDB.Entities
         /// Gets the <see cref="Database"/> for the connection
         /// </summary>
         public Database Database { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="ICollectionStrategy"/> used
+        /// </summary>
+        public ICollectionStrategy CollectionStrategy { get; private set; }
 
 
         /// <summary>
@@ -70,17 +78,33 @@ namespace Bifrost.DocumentDB.Entities
         /// <returns>The <see cref="DocumentCollection"/> for the type</returns>
         public DocumentCollection GetCollectionFor(Type type)
         {
+            var name = CollectionStrategy.CollectionNameFor(type);
+            return GetCollectionFor(name);
+        }
+
+        /// <summary>
+        /// Get a <see cref="DocumentCollection"/> for a specific name
+        /// </summary>
+        /// <param name="name">Name of collection</param>
+        /// <returns>The <see cref="DocumentCollection"/></returns>
+        public DocumentCollection GetCollectionFor(string name)
+        {
             DocumentCollection collection = null;
 
-            var collectionName = type.Name;
+            
 
             Client.ReadDocumentCollectionFeedAsync(Database.SelfLink)
-                .ContinueWith(f => collection = f.Result.Where(c => c.Id == collectionName).SingleOrDefault())
+                .ContinueWith(f => {
+                    var collections = f.Result.ToArray();
+                    var cc = collections.Where(c => c.Id == name).SingleOrDefault();
+                    collection = cc;
+                        
+                })
                 .Wait();
 
             if (collection == null)
             {
-                collection = new DocumentCollection { Id = collectionName };
+                collection = new DocumentCollection { Id = name };
                 Client
                     .CreateDocumentCollectionAsync(Database.SelfLink, collection)
                     .ContinueWith(r => collection = r.Result.Resource)
@@ -88,6 +112,7 @@ namespace Bifrost.DocumentDB.Entities
             }
 
             return collection;
+
         }
 
 #pragma warning disable 1591 // Xml Comments

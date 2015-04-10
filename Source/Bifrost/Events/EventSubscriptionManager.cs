@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -184,6 +184,7 @@ namespace Bifrost.Events
 #endif
                                   select new EventSubscription
                                   {
+                                      Id = Guid.Empty,
                                       Owner = eventSubscriberType,
                                       Method = m,
                                       EventType = m.GetParameters()[0].ParameterType,
@@ -213,7 +214,10 @@ namespace Bifrost.Events
         {
             var subscribersNotInRepository = _subscriptionsInProcess.Where(s => !_subscriptionsFromRepository.Contains(s));
             foreach (var subscriber in subscribersNotInRepository)
+            {
+                subscriber.Id = Guid.NewGuid();
                 _subscriptions.Save(subscriber);
+            }
         }
 
         void AddInMemoryOrUseRepositorySubscriptions()

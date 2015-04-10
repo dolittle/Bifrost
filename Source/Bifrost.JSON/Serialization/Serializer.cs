@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -21,10 +21,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.JSON.Concepts;
+using Bifrost.JSON.Events;
 using Bifrost.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -106,6 +107,20 @@ namespace Bifrost.JSON.Serialization
 			}
 		}
 
+        public Stream ToJsonStream(object instance, SerializationOptions options = null)
+        {
+            var serialized = ToJson(instance, options);
+
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(serialized);
+            writer.Flush();
+            stream.Position = 0;
+
+            return stream;
+        }
+
+
 		public IDictionary<string, object> GetKeyValuesFromJson(string json)
 		{
 			return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
@@ -184,11 +199,12 @@ namespace Bifrost.JSON.Serialization
 			                 		TypeNameHandling = typeNameHandling,
 									ContractResolver = contractResolver,
 			                 	};
+            serializer.Converters.Add(new MethodInfoConverter());
             serializer.Converters.Add(new ConceptConverter());
             serializer.Converters.Add(new ConceptDictionaryConverter());
-
+            serializer.Converters.Add(new EventSourceVersionConverter());
             
 			return serializer;
 		}
-	}
+    }
 }

@@ -1,6 +1,6 @@
 #region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -23,6 +23,10 @@ namespace Bifrost.Notification
 	[AttributeUsage(AttributeTargets.Property)]
 	public class NotifyChangesForAttribute : Attribute
 	{
+        public NotifyChangesForAttribute()
+        {
+        }
+
 		public NotifyChangesForAttribute(params string[] propertyNames)
 		{
 			PropertyNames = propertyNames;

@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -37,9 +37,9 @@ namespace Bifrost.Events
 		/// <summary>
 		/// Save events for a specific aggregated root
 		/// </summary>
-		/// <param name="eventsToSave"><see cref="UncommittedEventStream"></see><see cref="IEvent"/> to save as an Event Stream</param>
+        /// <param name="uncommittedEventStream"><see cref="UncommittedEventStream"></see><see cref="IEvent"/> to save as an Event Stream</param>
         /// <returns>The <see cref="CommittedEventStream"/> with all the events that was committed with their updated Ids</returns>
-		CommittedEventStream Commit(UncommittedEventStream eventsToSave);
+        CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream);
 
         /// <summary>
         /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="EventSource"/>

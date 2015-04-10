@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -103,13 +103,13 @@ namespace Bifrost.Web.Configuration
             var builder = new StringBuilder();
 
             if (_webConfiguration.ScriptsToInclude.JQuery)
-                builder.Append(GetResource("Bifrost.Web.Scripts.jquery-2.1.1.min.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery-2.1.3.min.js"));
 
             if (_webConfiguration.ScriptsToInclude.Knockout)
                 builder.Append(GetResource("Bifrost.Web.Scripts.knockout-3.2.0.debug.js"));
 
             if (_webConfiguration.ScriptsToInclude.SignalR)
-                builder.Append(GetResource("Bifrost.Web.Scripts.jquery.signalR-2.1.2.js"));
+                builder.Append(GetResource("Bifrost.Web.Scripts.jquery.signalR-2.2.0.js"));
 
             if (_webConfiguration.ScriptsToInclude.JQueryHistory)
                 builder.Append(GetResource("Bifrost.Web.Scripts.jquery.history.js"));

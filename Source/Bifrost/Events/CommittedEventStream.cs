@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -51,10 +51,13 @@ namespace Bifrost.Events
             }
         }
 
-        private void Append(IEvent @event)
+        /// <summary>
+        /// Append a single event to the stream.
+        /// </summary>
+        /// <param name="event"><see cref="IEvent"/> to append</param>
+        public void Append(IEvent @event)
         {
             EnsureEventIsValid(@event);
-
             Events.Add(@event);
         }
 

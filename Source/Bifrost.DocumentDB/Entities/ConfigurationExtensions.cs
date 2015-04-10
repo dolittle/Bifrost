@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Bifrost.Configuration;
+using Bifrost.DocumentDB;
 using Bifrost.DocumentDB.Entities;
 
 namespace Bifrost.Configuration
@@ -38,11 +39,15 @@ namespace Bifrost.Configuration
             var configuration = new EntityContextConfiguration();
             callback(configuration);
 
-            var connection = new EntityContextConnection(configuration);
+            var collectionStrategy = new MultipleEntitiesInOneCollection();
+
+            var connection = new EntityContextConnection(configuration, collectionStrategy);
             configuration.Connection = connection;
 
             storage.EntityContextConfiguration = configuration;
-            
+
+            Configure.Instance.Container.Bind<ICollectionStrategy>(collectionStrategy);
+
             return Configure.Instance;
         }
 

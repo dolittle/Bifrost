@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Entities;
 using Bifrost.Execution;
+using Bifrost.Extensions;
 
 #if(NETFX_CORE)
 using System.Reflection;
@@ -149,7 +150,8 @@ namespace Bifrost.Tasks
 #endif
 
             var sourceProperties = declaringTypeProperties.Where(p=>!taskProperties.Any(pp=>pp.Name == p.Name));
-            target.State = sourceProperties.ToDictionary(p=>p.Name, p=>p.GetValue(source, null).ToString());
+            var sourcePropertiesDictionary = sourceProperties.ToDictionary(p => p.Name, p => p.GetValue(source, null).ToString());
+            sourcePropertiesDictionary.ForEach(target.State.Add);
         }
     }
 }

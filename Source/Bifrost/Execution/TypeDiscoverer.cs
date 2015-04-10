@@ -1,6 +1,6 @@
 #region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -27,6 +27,7 @@ using System.Windows;
 using System.Reflection;
 using System.Threading.Tasks;
 using Bifrost.Extensions;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -40,7 +41,7 @@ namespace Bifrost.Execution
     {
         static List<string> NamespaceStartingWithExclusions = new List<string>();
 
-        IAssemblyLocator _assemblyLocator;
+        IAssemblies _assemblies;
 
 #if(SILVERLIGHT || WINDOWS_PHONE)
         Dictionary<string, IDictionary<string, Type>> _types;
@@ -62,9 +63,9 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
         /// </summary>
-        public TypeDiscoverer(IAssemblyLocator assemblyLocator)
+        public TypeDiscoverer(IAssemblies assemblies)
         {
-            _assemblyLocator = assemblyLocator;
+            _assemblies = assemblies;
 
 #if(SILVERLIGHT)
             _types = new Dictionary<string, IDictionary<string, Type>>();
@@ -118,7 +119,7 @@ namespace Bifrost.Execution
 
             if (match.Count > 1)
             {
-                throw new Exception(string.Format("Unable to resolve '{0}'. More than one type found with the current name'", fullName));
+                throw new UnableToResolveTypeByName(fullName);
             }
 
             return match.First();
@@ -208,14 +209,13 @@ namespace Bifrost.Execution
 #if(NETFX_CORE)
 		void CollectTypes()
 		{
-            foreach (var assembly in _assemblyLocator.GetAll())
+            foreach (var assembly in _assemblies.GetAll())
                AddTypes(assembly.DefinedTypes.Select(t => t.AsType());
 		}
 #else
         void CollectTypes()
         {
-            var assemblies = _assemblyLocator.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
-
+            var assemblies = _assemblies.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
             Parallel.ForEach(assemblies, assembly =>
             {
                 try

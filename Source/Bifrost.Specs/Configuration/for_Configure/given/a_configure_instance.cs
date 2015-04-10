@@ -1,4 +1,5 @@
 ﻿using Bifrost.Configuration;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Machine.Specifications;
@@ -68,7 +69,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
                                     type_importer_mock = new Mock<ITypeImporter>();
                                     container_mock.Setup(c => c.Get<ITypeImporter>()).Returns(type_importer_mock.Object);
 
-                                    configure_instance = Configure.With(container_mock.Object, default_conventions_mock.Object, default_bindings_mock.Object);
+                                    configure_instance = Configure.With(container_mock.Object, default_conventions_mock.Object, default_bindings_mock.Object, new AssembliesConfiguration(null));
                                 };
     }
 }

@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -17,22 +17,26 @@
 //
 #endregion
 using System.Collections.Generic;
-using System.Reflection;
+#if(!SILVERLIGHT)
+using System.Runtime.InteropServices;
+#else
+using _Assembly = System.Reflection.Assembly;
+#endif
 
 namespace Bifrost.Execution
 {
 	/// <summary>
 	/// Represents a comparer for comparing assemblies, typically used in Distinct() 
 	/// </summary>
-	public class AssemblyComparer : IEqualityComparer<Assembly>
+	public class AssemblyComparer : IEqualityComparer<_Assembly>
 	{
 #pragma warning disable 1591 // Xml Comments
-		public bool Equals(Assembly x, Assembly y)
+		public bool Equals(_Assembly x, _Assembly y)
 		{
 			return x.FullName == y.FullName;
 		}
 
-		public int GetHashCode(Assembly obj)
+		public int GetHashCode(_Assembly obj)
 		{
 			return obj.GetHashCode();
 		}

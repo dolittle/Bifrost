@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -45,9 +45,6 @@ namespace Bifrost.RavenDB.Events
 
         public void Save(EventSubscription subscription)
         {
-            var key = subscription.GetHashCode();
-            subscription.Id = key;
-            var keyAsString = key.ToString();
             using (var session = _documentStore.OpenSession())
             {
                 using (new TransactionScope(TransactionScopeOption.Suppress))
@@ -64,7 +61,7 @@ namespace Bifrost.RavenDB.Events
                         }
                         catch (ConcurrencyException)
                         {
-                            var existing = session.Load<EventSubscription>(keyAsString);
+                            var existing = session.Load<EventSubscription>(subscription.Id);
                             if (existing.LastEventId > subscription.LastEventId)
                                 saving = false;
                         }

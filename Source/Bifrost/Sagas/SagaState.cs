@@ -1,6 +1,6 @@
 #region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -164,7 +164,7 @@ namespace Bifrost.Sagas
             public Continuing()
                 : base(new List<State>() { CONCLUDED })
             {
-                _canTransitionTo.Add(this);
+                m_canTransitionTo.Add(this);
             }
 
             public override string ToString()

@@ -11,10 +11,10 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer.given
 
 		Establish context = () =>
 		                    	{
-		                    	    var assemblyLocatorMock = new Mock<IAssemblyLocator>();
-		                    	    assemblyLocatorMock.Setup(x => x.GetAll()).Returns(new[]
+		                    	    var assembliesMock = new Mock<IAssemblies>();
+                                    assembliesMock.Setup(x => x.GetAll()).Returns(new[]
 		                    	                                                           {typeof (a_type_discoverer).Assembly});
-                                    TypeDiscoverer = new TypeDiscoverer(assemblyLocatorMock.Object);
+                                    TypeDiscoverer = new TypeDiscoverer(assembliesMock.Object);
 		                    	};
 	}
 }

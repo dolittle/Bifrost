@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -32,7 +32,12 @@ namespace Bifrost.Concepts
     /// <typeparam name="T">The specific type to provide value object equality semantics to.</typeparam>
     public abstract class Value<T> : IAmValidatable, IEquatable<T> where T : Value<T>
     {
-        static IList<FieldInfo> _fields = new List<FieldInfo>();
+        static IList<FieldInfo> _fields { get; set; }
+
+        static Value()
+        {
+            _fields = new List<FieldInfo>();
+        }
 
         /// <summary>
         /// Checks for Equality between this instance and the obj

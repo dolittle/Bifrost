@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Mapping;
 using Bifrost.Serialization;
 
 namespace Bifrost.Entities.Files
@@ -33,16 +34,19 @@ namespace Bifrost.Entities.Files
     {
         EntityContextConnection _connection;
         ISerializer _serializer;
+        IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
         /// </summary>
         /// <param name="connection">Connection to use</param>
         /// <param name="serializer">Serializer used for serialization</param>
-        public EntityContext(EntityContextConnection connection, ISerializer serializer)
+        /// <param name="mapper">Mapper to deal with mapping</param>
+        public EntityContext(EntityContextConnection connection, ISerializer serializer, IMapper mapper)
         {
             _connection = connection;
             _serializer = serializer;
+            _mapper = mapper;
         }
 
 
@@ -70,7 +74,16 @@ namespace Bifrost.Entities.Files
 
         public void Insert(T entity)
         {
-            Save(entity);
+            /*
+            if (_mapper.CanMap<Document, T>())
+            {
+                var document = _mapper.Map<Document, T>(entity);
+                //Save(document);
+            }
+            else*/
+            {
+                Save(entity);
+            }
         }
 
         public void Update(T entity)

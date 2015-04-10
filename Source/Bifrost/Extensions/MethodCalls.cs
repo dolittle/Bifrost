@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -78,26 +78,6 @@ namespace Bifrost.Extensions
         {
             return new Generify<T>();
         }
-    }
-
-    public class ClassWithGenericMethods
-    {
-        public object Something<T>()
-        {
-            return null;
-        }
-
-        public object Something<T>(int param1)
-        {
-            return null;
-        }
-
-
-        public object Something<T>(int param1, double param2, string param3)
-        {
-            return null;
-        }
-
     }
 #pragma warning restore 1591 // Xml Comments
 }

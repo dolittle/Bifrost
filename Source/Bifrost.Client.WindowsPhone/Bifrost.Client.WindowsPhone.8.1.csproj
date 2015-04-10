@@ -176,6 +176,9 @@
     <Compile Include="..\Bifrost.Client\ViewModels\ViewModelService.cs">
       <Link>ViewModels\ViewModelService.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost.Client\VisualTree\VisualTreeExtensions.cs">
+      <Link>VisualTree\VisualTreeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Concepts\ConceptAs.cs">
       <Link>Concepts\ConceptAs.cs</Link>
     </Compile>
@@ -193,6 +196,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\HashCodeHelper.cs">
       <Link>Execution\HashCodeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\IAssemblyLocator.cs">
+      <Link>Execution\IAssemblyLocator.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Extensions\CollectionsExtensions.cs">
       <Link>Extensions\CollectionsExtensions.cs</Link>
@@ -218,6 +224,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Execution\AssemblyLocator.cs" />
     <Compile Include="Execution\Dispatcher.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

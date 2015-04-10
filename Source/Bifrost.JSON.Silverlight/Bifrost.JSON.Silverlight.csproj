@@ -51,7 +51,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.5\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -61,17 +61,23 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Bifrost.JSON\Concepts\ConceptConverter.cs">
+      <Link>Concepts\ConceptConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.JSON\Concepts\ConceptDictionaryConverter.cs">
+      <Link>Concepts\ConceptDictionaryConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost.JSON\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost.JSON\Events\EventSourceVersionConverter.cs">
+      <Link>Events\EventSourceVersionConverter.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.JSON\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\ConceptConverter.cs">
-      <Link>Serialization\ConceptConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\Bifrost.JSON\Serialization\ConceptDictionaryConverter.cs">
-      <Link>Serialization\ConceptDictionaryConverter.cs</Link>
+    <Compile Include="..\Bifrost.JSON\Serialization\MethodInfoConverter.cs">
+      <Link>Serialization\MethodInfoConverter.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost.JSON\Serialization\Serializer.cs">
       <Link>Serialization\Serializer.cs</Link>

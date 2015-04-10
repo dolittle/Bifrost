@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -74,7 +74,7 @@ namespace Bifrost.FluentValidation.MetaData
                 foreach (var inputValidatorType in _inputValidatorsByType[typeForValidation])
                 {
                     var validator = _container.Get(inputValidatorType) as IValidator;
-                    GetValue(validator, metaData, string.Empty);
+                    GenerateForValidator(validator, metaData, string.Empty);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace Bifrost.FluentValidation.MetaData
         }
 
 
-        void GetValue(IValidator inputValidator, TypeMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
+        void GenerateForValidator(IValidator inputValidator, TypeMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
         {
             var inputValidatorType = inputValidator.GetType();
             var genericArguments = inputValidatorType.BaseType.GetGenericArguments();
@@ -98,24 +98,11 @@ namespace Bifrost.FluentValidation.MetaData
                     foreach (var validator in rule.Validators)
                     {
                         var isModelRule = member.Key == ModelRule<string>.ModelRulePropertyName;
-                        var currentKey = string.Empty;
-                        if (isParentConcept || isParentModelRule || isModelRule)
-                            currentKey = parentKey;
-                        else
-                            currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+                        var currentKey = GetKeyForMember(parentKey, isParentConcept, isParentModelRule, member, isModelRule);
 
                         if (validator is ChildValidatorAdaptor)
                         {
-                            var isConcept = false;
-                            
-                            if (genericArguments.Length == 1)
-                            {
-                                var type = isModelRule ? genericArguments[0] : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
-                                isConcept = type.IsConcept();
-                            }
-
-                            var childValidator = (validator as ChildValidatorAdaptor).Validator;
-                            GetValue(childValidator, metaData, currentKey, isConcept, isModelRule);
+                            GenerateForChildValidator(metaData, genericArguments, member, validator, isModelRule, currentKey);
                         }
                         else if (validator is IPropertyValidator)
                         {
@@ -125,7 +112,32 @@ namespace Bifrost.FluentValidation.MetaData
                 }
             }
         }
+
+
 #pragma warning restore 1591 // Xml Comments
+        string GetKeyForMember(string parentKey, bool isParentConcept, bool isParentModelRule, IGrouping<string, IPropertyValidator> member, bool isModelRule)
+        {
+            var currentKey = string.Empty;
+            if (isParentConcept || isParentModelRule || isModelRule)
+                currentKey = parentKey;
+            else
+                currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+            return currentKey;
+        }
+
+        void GenerateForChildValidator(TypeMetaData metaData, Type[] genericArguments, IGrouping<string, IPropertyValidator> member, IPropertyValidator validator, bool isModelRule, string currentKey)
+        {
+            var isConcept = false;
+
+            if (genericArguments.Length == 1)
+            {
+                var type = isModelRule ? genericArguments[0] : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
+                isConcept = type.IsConcept();
+            }
+
+            var childValidator = (validator as ChildValidatorAdaptor).Validator;
+            GenerateForValidator(childValidator, metaData, currentKey, isConcept, isModelRule);
+        }
 
         void GenerateFor(TypeMetaData metaData, string property, IPropertyValidator validator)
         {

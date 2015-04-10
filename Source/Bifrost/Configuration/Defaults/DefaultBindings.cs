@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Copyright (c) 2008-2014, Dolittle (http://www.dolittle.com)
+// Copyright (c) 2008-2015, Dolittle (http://www.dolittle.com)
 //
 // Licensed under the MIT License (http://opensource.org/licenses/MIT)
 //
@@ -17,6 +17,8 @@
 //
 #endregion
 
+using System;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration.Defaults
@@ -26,11 +28,28 @@ namespace Bifrost.Configuration.Defaults
 	/// </summary>
     public class DefaultBindings : IDefaultBindings
 	{
+        AssembliesConfiguration _assembliesConfiguration;
+        IAssemblyProvider _assemblyProvider;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DefaultBindings"/>
+        /// </summary>
+        public DefaultBindings(AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
+        {
+            _assembliesConfiguration = assembliesConfiguration;
+            _assemblyProvider = assemblyProvider;
+        }
+
 #pragma warning disable 1591 // Xml Comments
 		public void Initialize(IContainer container)
         {
             container.Bind(container);
-            container.Bind<IAssemblyLocator>(typeof(AssemblyLocator), BindingLifecycle.Singleton);
+#if(!SILVERLIGHT)
+            container.Bind<_AppDomain>(AppDomain.CurrentDomain);
+#endif
+            container.Bind<AssembliesConfiguration>(_assembliesConfiguration);
+            container.Bind<IAssemblyProvider>(_assemblyProvider);
+            container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
 		}
 #pragma warning restore 1591 // Xml Comments

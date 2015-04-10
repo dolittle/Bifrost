@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Bifrost.DocumentDB</id>
+    <version>$version$</version>
+    <title>Bifrost support for Azure DocumentDB</title>
+    <authors>Dolittle</authors>
+    <owners>Dolittle</owners>
+    <licenseUrl>http://github.com/dolittle/Bifrost/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://bifrost.dolittle.com</projectUrl>
+    <iconUrl>http://bifrost.dolittle.com/img/bifrost-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Support for Azure DocumentDB for Bifrost</description>
+    <releaseNotes>http://bifr.st/ReleaseNotes</releaseNotes>
+    <copyright>Copyright 2008 - 2015</copyright>
+    <tags>MVVM LOB CQRS</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
+      <dependency id="Microsoft.Azure.Documents.Client" version="0.9.2-preview" />
+      <dependency id="Bifrost" version="$version$" />
+      <dependency id="Bifrost.JSON" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\debug\Bifrost.DocumentDB.*" target="lib\net45"/>
+	<file src="**\*.cs" target="src" />
+  </files>
+</package>
