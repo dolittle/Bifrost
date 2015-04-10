@@ -398,6 +398,11 @@ namespace Bifrost.NHibernate.Read
             throw new NotSupportedException(NOT_ALLOWED);
         }
 
+        public void Save(string entityName, object obj, object id)
+        {
+            throw new NotSupportedException(NOT_ALLOWED);
+        }
+
         public void Save(object obj, object id)
         {
             throw new NotSupportedException(NOT_ALLOWED);
@@ -413,6 +418,11 @@ namespace Bifrost.NHibernate.Read
             throw new NotSupportedException(NOT_ALLOWED);
         }
 
+        public void SaveOrUpdate(string entityName, object obj, object id)
+        {
+            throw new NotSupportedException(NOT_ALLOWED);
+        }
+
         public void SaveOrUpdate(object obj)
         {
             throw new NotSupportedException(NOT_ALLOWED);
@@ -424,6 +434,11 @@ namespace Bifrost.NHibernate.Read
         }
 
         public object SaveOrUpdateCopy(object obj)
+        {
+            throw new NotSupportedException(NOT_ALLOWED);
+        }
+
+        public void Update(string entityName, object obj, object id)
         {
             throw new NotSupportedException(NOT_ALLOWED);
         }
