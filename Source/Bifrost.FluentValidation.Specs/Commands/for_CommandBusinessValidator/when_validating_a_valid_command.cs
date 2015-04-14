@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 
-namespace Bifrost.FluentValidation.Specs.Commands.for_CommandInputValidator
+namespace Bifrost.FluentValidation.Specs.Commands.for_CommandBusinessValidator
 {
-    [Subject(typeof(CommandInputValidator<>))]
-    public class when_validating_a_valid_command : given.a_command_input_validator
+    public class when_validating_a_valid_command : given.a_command_business_validator
     {
         static IEnumerable<ValidationResult> results;
 
@@ -16,7 +14,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandInputValidator
                                     simple_command.SomeInt = 42;
                                 };
 
-        Because of = () => results = simple_command_input_validator.ValidateFor(simple_command);
+        Because of = () => results = simple_command_business_validator.ValidateFor(simple_command);
 
         It should_have_no_invalid_properties = () => results.ShouldBeEmpty();
     }

@@ -40,8 +40,19 @@ namespace Bifrost.FluentValidation.Commands
         public virtual IEnumerable<ValidationResult> ValidateFor(T command)
         {
             var result = Validate(command as T);
+            return BuildValidationResults(result);
+        }
+
+        public virtual IEnumerable<ValidationResult> ValidateFor(T command, string ruleSet)
+        {
+            var result = (this as IValidator<T>).Validate(command as T, ruleSet: ruleSet);
+            return BuildValidationResults(result);
+        }
+
+        private static IEnumerable<ValidationResult> BuildValidationResults(global::FluentValidation.Results.ValidationResult result)
+        {
             return from error in result.Errors
-                   select new ValidationResult(error.ErrorMessage, new[] { error.PropertyName });
+                select new ValidationResult(error.ErrorMessage, new[] {error.PropertyName});
         }
 
         IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)

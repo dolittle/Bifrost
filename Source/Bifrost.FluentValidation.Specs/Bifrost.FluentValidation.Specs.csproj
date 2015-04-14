@@ -62,6 +62,9 @@
     <Compile Include="Commands\AnotherSimpleCommandBusinessValidator.cs" />
     <Compile Include="Commands\AnotherSimpleCommandInputValidator.cs" />
     <Compile Include="Commands\commands.cs" />
+    <Compile Include="Commands\for_CommandBusinessValidator\given\a_command_input_validator.cs" />
+    <Compile Include="Commands\for_CommandBusinessValidator\when_validating_an_invalid_command.cs" />
+    <Compile Include="Commands\for_CommandBusinessValidator\when_validating_a_valid_command.cs" />
     <Compile Include="Commands\for_CommandInputValidator\given\a_command_input_validator.cs" />
     <Compile Include="Commands\for_CommandInputValidator\when_validating_an_invalid_command.cs" />
     <Compile Include="Commands\for_CommandInputValidator\when_validating_a_valid_command.cs" />
@@ -91,7 +94,9 @@
     <Compile Include="Commands\for_ComposedCommandInputValidator\when_validating_a_command_with_an_invalid_string_with_a_composed_validator.cs" />
     <Compile Include="Commands\for_ComposedCommandInputValidator\when_validating_a_valid_command_with_a_composed_validator.cs" />
     <Compile Include="Commands\SimpleCommandBusinessValidator.cs" />
+    <Compile Include="Commands\SimpleCommandBusinessValidatorWithRuleset.cs" />
     <Compile Include="Commands\SimpleCommandInputValidator.cs" />
+    <Compile Include="Commands\SimpleCommandInputValidatorWithRuleset.cs" />
     <Compile Include="ConceptAsLongValidator.cs" />
     <Compile Include="for_BusinessValidator\given\a_complex_object_graph_and_validator.cs" />
     <Compile Include="for_BusinessValidator\SimpleObject.cs" />
@@ -167,6 +172,7 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

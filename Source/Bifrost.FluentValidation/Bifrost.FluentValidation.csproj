@@ -68,6 +68,7 @@
     <Compile Include="DefaultValidatorFactory.cs" />
     <Compile Include="DynamicState.cs" />
     <Compile Include="FluentValidationRuleExtensions.cs" />
+    <Compile Include="ICanValidateExtensions.cs" />
     <Compile Include="InputValidator.cs" />
     <Compile Include="InvalidValidatorTypeException.cs" />
     <Compile Include="IValidateBusinessRules.cs" />
