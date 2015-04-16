@@ -17,6 +17,7 @@
 //
 #endregion
 using Bifrost.Execution;
+
 namespace Bifrost.Entities
 {
 	/// <summary>
