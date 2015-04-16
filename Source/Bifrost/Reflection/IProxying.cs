@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+
 namespace Bifrost.Reflection
 {
     /// <summary>
