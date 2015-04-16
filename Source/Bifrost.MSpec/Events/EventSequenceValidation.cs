@@ -39,7 +39,7 @@ namespace Bifrost.MSpec.Events
 
             var @event = (T)query.FirstOrDefault();
             @event.ShouldNotBeNull();
-            @event.ShouldBeOfType<T>();
+            @event.ShouldBeOfExactType<T>();
             return new EventValueValidation<T>(@event);
         }
 
@@ -63,7 +63,7 @@ namespace Bifrost.MSpec.Events
         {
             var @event = (T)_stream.FirstOrDefault();
             @event.ShouldNotBeNull();
-            @event.ShouldBeOfType<T>();
+            @event.ShouldBeOfExactType<T>();
             return new EventValueValidation<T>(@event);
         }
 
@@ -71,7 +71,7 @@ namespace Bifrost.MSpec.Events
         {
             var @event = (T)_stream.LastOrDefault();
             @event.ShouldNotBeNull();
-            @event.ShouldBeOfType<T>();
+            @event.ShouldBeOfExactType<T>();
             return new EventValueValidation<T>(@event);
 
         }

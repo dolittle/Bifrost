@@ -15,7 +15,7 @@ namespace Bifrost.NHibernate.Specs.Read.for_ReadOnlySession
             };
 
         It should_return_a_read_only_proxy_instead_of_the_session_directly =
-            () => returned_session.ShouldBeOfType<ReadOnlySessionProxy>();
+            () => returned_session.ShouldBeOfExactType<ReadOnlySessionProxy>();
 
         It should_be_set_to_flush_mode_never = () => session.VerifySet(s => s.FlushMode = FlushMode.Never, Moq.Times.Once());
     }
