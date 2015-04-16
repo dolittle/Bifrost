@@ -13,6 +13,6 @@ namespace Bifrost.Web.Mvc.Specs.Commands.for_CommandAjaxHelper
 
         Because of = () => exception = Catch.Exception(() => ajax_helper.BeginCommandForm<SimpleCommand, ControllerWithoutActionForCommandController>());
 
-        It should_throw_missing_action_exception = () => exception.ShouldBeOfType<MissingActionException>();
+        It should_throw_missing_action_exception = () => exception.ShouldBeOfExactType<MissingActionException>();
     }
 }

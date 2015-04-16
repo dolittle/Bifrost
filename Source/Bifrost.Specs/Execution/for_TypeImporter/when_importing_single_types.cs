@@ -16,6 +16,6 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
                          };
 
         It should_not_return_null = () => instance.ShouldNotBeNull();
-        It should_return_expected_type = () => instance.ShouldBeOfType<SingleClass>();
+        It should_return_expected_type = () => instance.ShouldBeOfExactType<SingleClass>();
     }
 }

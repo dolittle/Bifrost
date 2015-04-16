@@ -14,6 +14,6 @@ namespace Bifrost.Specs.Commands.for_HandleCommandSecurityActionBuilder
         Because of = () => target = action.Commands();
 
         It should_return_a_command_security_target_builder = () => target.ShouldNotBeNull();
-        It should_add_a_command_security_target = () => action.Targets.First().ShouldBeOfType<CommandSecurityTarget>();
+        It should_add_a_command_security_target = () => action.Targets.First().ShouldBeOfExactType<CommandSecurityTarget>();
     }
 }

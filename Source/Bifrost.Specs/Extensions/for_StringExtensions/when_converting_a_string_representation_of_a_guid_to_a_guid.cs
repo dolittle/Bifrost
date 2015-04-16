@@ -17,7 +17,7 @@ namespace Bifrost.Specs.Extensions.for_StringExtensions
 
         Because of = () => result = (Guid)guid_as_a_string.ParseTo(typeof(Guid));
 
-        It should_create_a_guid = () => result.ShouldBeOfType<Guid>();
+        It should_create_a_guid = () => result.ShouldBeOfExactType<Guid>();
         It should_have_the_correct_value = () => result.ToString().ShouldEqual(guid_as_a_string);
     }
 }

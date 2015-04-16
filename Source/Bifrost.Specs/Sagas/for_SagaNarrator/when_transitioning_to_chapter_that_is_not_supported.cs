@@ -20,6 +20,6 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
 
         Because of = () => exception = Catch.Exception(() => narrator.TransitionTo<TransitionalChapter>(saga));
 
-        It should_throw_chapter_transition_not_allowed_exception = () => exception.ShouldBeOfType<ChapterTransitionNotAllowedException>();
+        It should_throw_chapter_transition_not_allowed_exception = () => exception.ShouldBeOfExactType<ChapterTransitionNotAllowedException>();
     }
 }

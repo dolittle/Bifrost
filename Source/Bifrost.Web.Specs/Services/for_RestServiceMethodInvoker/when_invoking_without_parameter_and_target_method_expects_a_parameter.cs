@@ -11,6 +11,6 @@ namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 
         Because of = () => exception = Catch.Exception(() => invoker.Invoke(base_url, service_instance, uri, parameters));
 
-        It should_throw_parameter_count_mismatch_exception = () => exception.ShouldBeOfType<ParameterCountMismatchException>();
+        It should_throw_parameter_count_mismatch_exception = () => exception.ShouldBeOfExactType<ParameterCountMismatchException>();
     }
 }

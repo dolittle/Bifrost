@@ -9,6 +9,6 @@ namespace Bifrost.Specs.Commands.for_CommandContextManager
 		static Exception exception;
 		Because of = () => exception = Catch.Exception(() => Manager.GetCurrent());
 
-		It should_throw_invalid_operation_exception = () => exception.ShouldBe(typeof(InvalidOperationException));
+		It should_throw_invalid_operation_exception = () => exception.ShouldBeOfExactType(typeof(InvalidOperationException));
 	}
 }

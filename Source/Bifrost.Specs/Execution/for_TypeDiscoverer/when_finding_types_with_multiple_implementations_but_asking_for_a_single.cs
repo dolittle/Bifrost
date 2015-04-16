@@ -10,6 +10,6 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer
 		static Exception Exception;
 		Because we_ask_for_a_single = () => Exception = Catch.Exception(() => TypeDiscoverer.FindSingle<IMultiple>());
 
-		It should_throw_an_ArgumentException = () => Exception.ShouldBeOfType<ArgumentException>();
+        It should_throw_an_ArgumentException = () => Exception.ShouldBeOfExactType<ArgumentException>();
 	}
 }

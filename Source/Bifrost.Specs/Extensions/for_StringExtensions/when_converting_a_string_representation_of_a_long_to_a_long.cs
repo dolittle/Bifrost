@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Extensions.for_StringExtensions
 
         Because of = () => result = (long)long_as_a_string.ParseTo(typeof(long));
 
-        It should_create_a_long = () => result.ShouldBeOfType<long>();
+        It should_create_a_long = () => result.ShouldBeOfExactType<long>();
         It should_have_the_correct_value = () => result.ToString().ShouldEqual(long_as_a_string);
     }
 }

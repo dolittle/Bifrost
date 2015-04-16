@@ -13,6 +13,6 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchy
             Exception = Catch.Exception(() => event_migration_hierarchy.AddMigrationLevel(typeof(Event)));
         };
 
-        It should_throw_a_not_a_migrated_event_type_exception = () => Exception.ShouldBeOfType(typeof(NotAMigratedEventTypeException));
+        It should_throw_a_not_a_migrated_event_type_exception = () => Exception.ShouldBeOfExactType(typeof(NotAMigratedEventTypeException));
     }
 }

@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Commands.for_CommandSecurityExtensions
 
         Because of = () => target.InNamespace("MyNamespace", n => securable = n);
 
-        It should_add_a_namespace_securable = () => target.Securables.First().ShouldBeOfType<NamespaceSecurable>();
+        It should_add_a_namespace_securable = () => target.Securables.First().ShouldBeOfExactType<NamespaceSecurable>();
         It should_set_the_name_of_the_namespace_on_the_securable = () => ((NamespaceSecurable)target.Securables.First()).Namespace.ShouldEqual("MyNamespace");
         It should_continue_the_fluent_interface_with_namespace_securable_builder = () => securable.ShouldNotBeNull();
     }

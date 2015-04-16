@@ -24,7 +24,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
 
         It should_record_saga = () => librarian_mock.Verify(a => a.Catalogue(saga), Times.Once());
         It should_return_a_chapter = () => transitioned_chapter.ShouldNotBeNull();
-        It should_return_the_chapter_transitioned_to = () => transitioned_chapter.ShouldBeOfType<TransitionalChapter>();
+        It should_return_the_chapter_transitioned_to = () => transitioned_chapter.ShouldBeOfExactType<TransitionalChapter>();
         It should_call_the_on_transitioned_to_method_on_the_chapter = () => ((TransitionalChapter)transitioned_chapter).OnTransitionedToWasCalled.ShouldBeTrue();
     }
 

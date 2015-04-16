@@ -17,6 +17,6 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		                                                        Instance = type_importer.Import<IMultipleInterface>();
 		                                                    });
 
-		It should_throw_an_ArgumentException = () => Exception.ShouldBeOfType<ArgumentException>();
+        It should_throw_an_ArgumentException = () => Exception.ShouldBeOfExactType<ArgumentException>();
 	}
 }

@@ -12,6 +12,6 @@ namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 
         Because of = () => exception = Catch.Exception(() => invoker.Invoke(base_url, service_instance, uri, parameters));
 
-        It should_throw_method_not_specified_exception = () => exception.ShouldBeOfType<MethodNotSpecifiedException>();
+        It should_throw_method_not_specified_exception = () => exception.ShouldBeOfExactType<MethodNotSpecifiedException>();
     }
 }

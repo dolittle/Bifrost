@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationService
 
         Because of = () => result = event_migrator_manager.Migrate(source_event);
 
-        It should_migrate_the_event_to_the_second_generation_type = () => result.ShouldBeOfType(typeof(SimpleEvent));
+        It should_migrate_the_event_to_the_second_generation_type = () => result.ShouldBeOfExactType(typeof(SimpleEvent));
         It should_migrate_the_correct_values = () =>
                                                    {
                                                        var v2 = result as SimpleEvent;

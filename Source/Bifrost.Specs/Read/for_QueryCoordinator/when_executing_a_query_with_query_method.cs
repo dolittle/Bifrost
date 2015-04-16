@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
 
         Because of = () => exception = Catch.Exception(() => coordinator.Execute(query, paging));
 
-        It should_throw_the_no_query_property_exception = () => exception.ShouldBeOfType<NoQueryPropertyException>();
+        It should_throw_the_no_query_property_exception = () => exception.ShouldBeOfExactType<NoQueryPropertyException>();
     }
 }

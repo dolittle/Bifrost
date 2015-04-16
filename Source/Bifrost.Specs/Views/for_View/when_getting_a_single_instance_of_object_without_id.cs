@@ -10,6 +10,6 @@ namespace Bifrost.Specs.Views.for_View
         static Exception exception;
         Because of = () => exception = Catch.Exception(() => Repository.GetById(Guid.NewGuid()));
 
-        It should_throw_object_does_not_have_id_exception = () => exception.ShouldBeOfType<ObjectDoesNotHaveIdException>();
+        It should_throw_object_does_not_have_id_exception = () => exception.ShouldBeOfExactType<ObjectDoesNotHaveIdException>();
     }
 }

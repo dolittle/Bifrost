@@ -18,7 +18,7 @@ namespace Bifrost.RavenDB.Specs.for_ConceptTypeConverter
 
         Because of = () => deserialized_object = converter_of_guid_concept.ConvertTo(guid.ToString());
 
-        It should_create_a_concept_of_guid = () => deserialized_object.ShouldBeOfType<ConceptAsGuid>();
+        It should_create_a_concept_of_guid = () => deserialized_object.ShouldBeOfExactType<ConceptAsGuid>();
         It should_populate_the_correct_value = () => ((ConceptAsGuid)deserialized_object).Value.ShouldEqual(guid);
     }
 }

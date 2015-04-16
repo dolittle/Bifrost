@@ -23,7 +23,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
         Because of = () => conclusion = narrator.Conclude(saga);
 
         It should_have_a_non_successful_conclusion = () => conclusion.Success.ShouldBeFalse();
-        It should_have_an_invalid_saga_state_transition_exception = () => conclusion.Exception.ShouldBeOfType<InvalidSagaStateTransitionException>();
+        It should_have_an_invalid_saga_state_transition_exception = () => conclusion.Exception.ShouldBeOfExactType<InvalidSagaStateTransitionException>();
         It should_not_have_called_the_on_conclude_method = () => saga.OnConcludeCalled.ShouldEqual(0);
     }
 }

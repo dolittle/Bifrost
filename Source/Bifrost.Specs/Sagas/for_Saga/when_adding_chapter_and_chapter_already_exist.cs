@@ -23,7 +23,7 @@ namespace Bifrost.Specs.Sagas.for_Saga
                                                                saga.AddChapter(second_chapter);
                                                            });
 
-        It should_throw_chapter_already_exist_exception = () => exception.ShouldBeOfType<ChapterAlreadyExistException>();
+        It should_throw_chapter_already_exist_exception = () => exception.ShouldBeOfExactType<ChapterAlreadyExistException>();
 
     }
 }

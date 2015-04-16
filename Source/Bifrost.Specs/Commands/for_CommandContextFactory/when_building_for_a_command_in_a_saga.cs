@@ -20,7 +20,7 @@ namespace Bifrost.Specs.Commands.for_CommandContextFactory
 
         Because of = () => command_context = factory.Build(saga,command);
 
-        It should_build_a_saga_commmand_context = () => command_context.ShouldBeOfType<SagaCommandContext>();
+        It should_build_a_saga_commmand_context = () => command_context.ShouldBeOfExactType<SagaCommandContext>();
         It should_contain_the_commmand = () => command_context.Command.ShouldEqual(command);
     }
 }

@@ -33,7 +33,7 @@ namespace Bifrost.Specs.Sagas.for_SagaState
         It should_support_transitioning_to_concluded = () => can_transition_to_concluded.ShouldBeFalse();
 
         It should_throw_an_invalid_saga_state_transition_exception_when_transitioning_to_an_invalid_state =
-            () => exception_when_transitioning_to_an_invalid_state.ShouldBeOfType<InvalidSagaStateTransitionException>();
+            () => exception_when_transitioning_to_an_invalid_state.ShouldBeOfExactType<InvalidSagaStateTransitionException>();
 
         It should_not_throw_an_invalid_saga_state_transition_exception_when_transitioning_to_a_valid_state =
             () => exception_when_transitioning_to_a_valid_state.ShouldBeNull();
