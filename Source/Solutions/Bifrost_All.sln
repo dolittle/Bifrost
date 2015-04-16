@@ -117,6 +117,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client.Specs", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.QuickStart.WPF", "..\Bifrost.QuickStart.WPF\Bifrost.QuickStart.WPF.csproj", "{98284AAA-8606-4918-852D-C332E25265C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.EntityFramework", "..\Bifrost.EntityFramework\Bifrost.EntityFramework.csproj", "{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -770,6 +772,20 @@ Global
 		{98284AAA-8606-4918-852D-C332E25265C4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{98284AAA-8606-4918-852D-C332E25265C4}.Release|x64.ActiveCfg = Release|Any CPU
 		{98284AAA-8606-4918-852D-C332E25265C4}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|x64.ActiveCfg = Release|Any CPU
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -821,6 +837,7 @@ Global
 		{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F} = {C639794D-C022-4118-902C-5F003DFA0B31}
 		{ECE4A786-79A8-4CA1-BE16-E8E961CAA505} = {C639794D-C022-4118-902C-5F003DFA0B31}
 		{98284AAA-8606-4918-852D-C332E25265C4} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
+		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35
