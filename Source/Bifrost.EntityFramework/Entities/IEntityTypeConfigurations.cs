@@ -17,25 +17,23 @@
 //
 #endregion
 using System;
-namespace Bifrost.Reflection
+using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Text;
+
+namespace Bifrost.EntityFramework.Entities
 {
     /// <summary>
-    /// Defines something can deal with creating proxy types
+    /// Defines a system that knows about all <see cref="EntityTypeConfiguration{T}"/> implementations
     /// </summary>
-    public interface IProxying
+    public interface IEntityTypeConfigurations 
     {
         /// <summary>
-        /// Build an interface type that contains the properties from a specific other type
+        /// Get configuration for a specific type
         /// </summary>
-        /// <param name="type"><see cref="Type"/> to get properties from</param>
-        /// <returns>A new <see cref="Type"/></returns>
-        Type BuildInterfaceWithPropertiesFrom(Type type);
-
-        /// <summary>
-        /// Build a class type that contains the properties from a specific other type
-        /// </summary>
-        /// <param name="type"><see cref="Type"/> to get properties from</param>
-        /// <returns>A new <see cref="Type"/></returns>
-        Type BuildClassWithPropertiesFrom(Type type);
+        /// <typeparam name="T">Type to get for</typeparam>
+        /// <returns><see cref="EntityTypeConfiguration{T}"/> instance - if non is found, returns a <see cref="NullEntityTypeConfiguration{T}"/></returns>
+        EntityTypeConfiguration<T> GetFor<T>() where T : class;
     }
 }

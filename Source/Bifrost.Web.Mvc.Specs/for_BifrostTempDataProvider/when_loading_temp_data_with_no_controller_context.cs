@@ -10,6 +10,6 @@ namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 
         Because of = () => exception = Catch.Exception(() => temp_data_provider.LoadTempData(null));
 
-        It should_throw_an_argument_null_exception = () => exception.ShouldBeOfType<ArgumentNullException>();
+        It should_throw_an_argument_null_exception = () => exception.ShouldBeOfExactType<ArgumentNullException>();
     }
 }

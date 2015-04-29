@@ -20,6 +20,6 @@ namespace Bifrost.RavenDB.Specs.for_EntityIdPropertyRegister
         Because of = () => exception = Catch.Exception(() => id_property_register.RegisterIdProperty<SimpleEntity, ConceptAsGuid>(e => e.TheIdProperty));
 
         It should_not_allow_the_registration = () => exception.ShouldNotBeNull();
-        It should_throw_a_duplicate_id_exception = () => exception.ShouldBeOfType<DuplicateIdRegistrationForTypeException>();
+        It should_throw_a_duplicate_id_exception = () => exception.ShouldBeOfExactType<DuplicateIdRegistrationForTypeException>();
     }
 }

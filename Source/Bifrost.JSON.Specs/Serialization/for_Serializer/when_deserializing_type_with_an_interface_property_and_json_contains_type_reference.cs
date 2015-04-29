@@ -17,6 +17,6 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 
     	Because of = () => instance = serializer.FromJson<ClassToSerialize>(json);
 
-        It should_have_the_property_instance_set_to_instance_of_SomethingImplementation = () => instance.Something.ShouldBeOfType<SomethingImplementation>();
+        It should_have_the_property_instance_set_to_instance_of_SomethingImplementation = () => instance.Something.ShouldBeOfExactType<SomethingImplementation>();
     }
 }

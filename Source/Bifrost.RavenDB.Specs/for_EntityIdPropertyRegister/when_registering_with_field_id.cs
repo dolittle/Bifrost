@@ -19,6 +19,6 @@ namespace Bifrost.RavenDB.Specs.for_EntityIdPropertyRegister
         Because of = () => exception = Catch.Exception(() => id_property_register.RegisterIdProperty<AnotherSimpleEntity, string>(e => e.SimpleFieldValue));
 
         It should_not_allow_the_registration = () => exception.ShouldNotBeNull();
-        It should_throw_an_invalid_id_exception = () => exception.ShouldBeOfType<InvalidIdException>();
+        It should_throw_an_invalid_id_exception = () => exception.ShouldBeOfExactType<InvalidIdException>();
     }
 }

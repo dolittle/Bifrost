@@ -7,6 +7,6 @@ namespace Bifrost.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions
     {
         Because of = () => assignment.WithObservable();
 
-        It should_set_value_to_be_an_observable = () => assignment.Value.ShouldBeOfType<Observable>();
+        It should_set_value_to_be_an_observable = () => assignment.Value.ShouldBeOfExactType<Observable>();
     }
 }

@@ -21,7 +21,7 @@ namespace Bifrost.Web.Specs.Commands.for_CommandContextConnectionManager
 
         Because of = () => manager.RemoveConnectionIfPresent(connection_id);
 
-        It should_not_have_the_first_command_context_registered = () => Catch.Exception(() => manager.GetConnectionForCommandContext(first_command_context)).ShouldBeOfType<UnknownCommandContextException>();
-        It should_not_have_the_second_command_context_registered = () => Catch.Exception(() => manager.GetConnectionForCommandContext(first_command_context)).ShouldBeOfType<UnknownCommandContextException>();
+        It should_not_have_the_first_command_context_registered = () => Catch.Exception(() => manager.GetConnectionForCommandContext(first_command_context)).ShouldBeOfExactType<UnknownCommandContextException>();
+        It should_not_have_the_second_command_context_registered = () => Catch.Exception(() => manager.GetConnectionForCommandContext(first_command_context)).ShouldBeOfExactType<UnknownCommandContextException>();
     }
 }

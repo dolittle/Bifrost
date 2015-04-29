@@ -43,6 +43,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\Solutions\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Solutions\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -108,6 +114,10 @@
     <EmbeddedResource Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="css\dolittle.css" />
+    <Content Include="App_Data\Database.mdf" />
+    <Content Include="App_Data\Database_log.ldf">
+      <DependentUpon>Database.mdf</DependentUpon>
+    </Content>
     <Content Include="Controls\Dialog\ElementVisitor.js" />
     <Content Include="Controls\Dialog\Index.html" />
     <Content Include="Controls\Dialog\Index.js" />
@@ -170,6 +180,7 @@
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />
+    <Compile Include="Read\HumanResources\Employees\EmployeeTypeConfiguration.cs" />
     <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +200,10 @@
     <ProjectReference Include="..\Bifrost.DocumentDB\Bifrost.DocumentDB.csproj">
       <Project>{8db73e9b-8ae1-4341-8df8-469c578a150d}</Project>
       <Name>Bifrost.DocumentDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.EntityFramework\Bifrost.EntityFramework.csproj">
+      <Project>{4d449212-b4e6-4d79-9e7d-cb43d8c2d51f}</Project>
+      <Name>Bifrost.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
       <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>

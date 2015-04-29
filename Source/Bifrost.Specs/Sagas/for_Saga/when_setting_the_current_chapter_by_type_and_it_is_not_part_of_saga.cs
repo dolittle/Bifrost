@@ -11,6 +11,6 @@ namespace Bifrost.Specs.Sagas.for_Saga
 
         Because of = () => exception = Catch.Exception(() => saga.SetCurrentChapter<SimpleChapter>());
 
-        It should_throw_chapter_does_not_exist_exception = () => exception.ShouldBeOfType<ChapterDoesNotExistException>();
+        It should_throw_chapter_does_not_exist_exception = () => exception.ShouldBeOfExactType<ChapterDoesNotExistException>();
     }
 }

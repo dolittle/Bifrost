@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Commands.for_CommandContextFactory
 
         Because of = () => command_context = factory.Build(command);
 
-        It should_build_a_commmand_context = () => command_context.ShouldBeOfType<CommandContext>();
+        It should_build_a_commmand_context = () => command_context.ShouldBeOfExactType<CommandContext>();
         It should_contain_the_commmand = () => command_context.Command.ShouldEqual(command);
     }
 }

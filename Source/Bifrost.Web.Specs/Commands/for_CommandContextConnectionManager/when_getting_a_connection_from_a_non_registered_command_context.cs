@@ -13,6 +13,6 @@ namespace Bifrost.Web.Specs.Commands.for_CommandContextConnectionManager
 
         Because of = () => exception = Catch.Exception(() => manager.GetConnectionForCommandContext(Guid.NewGuid()));
 
-        It should_throw_unknown_command_context_exception = () => exception.ShouldBeOfType<UnknownCommandContextException>();
+        It should_throw_unknown_command_context_exception = () => exception.ShouldBeOfExactType<UnknownCommandContextException>();
     }
 }

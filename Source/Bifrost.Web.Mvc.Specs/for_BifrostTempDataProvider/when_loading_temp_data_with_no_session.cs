@@ -25,7 +25,7 @@ namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 
         Because of = () => exception = Catch.Exception(() => temp_data_provider.LoadTempData(controller_context_mock.Object));
 
-        It should_throw_an_invalid_operation_exception = () => exception.ShouldBeOfType<InvalidOperationException>();
+        It should_throw_an_invalid_operation_exception = () => exception.ShouldBeOfExactType<InvalidOperationException>();
     }
 
     [Subject(typeof(BifrostTempDataProvider))]
@@ -45,6 +45,6 @@ namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
 
         Because of = () => exception = Catch.Exception(() => temp_data_provider.SaveTempData(controller_context_mock.Object, new Dictionary<string, object>()));
 
-        It should_throw_an_invalid_operation_exception = () => exception.ShouldBeOfType<InvalidOperationException>();
+        It should_throw_an_invalid_operation_exception = () => exception.ShouldBeOfExactType<InvalidOperationException>();
     }
 }

@@ -28,6 +28,6 @@ namespace Bifrost.RavenDB.Specs.for_EntityIdPropertyRegister
         It should_not_be_the_id_before_registration = () => is_id_property_before_registration.ShouldBeFalse();
         It should_be_the_id_after_registration = () => is_id_property_after_registration.ShouldBeTrue();
         It should_create_a_concept_type_converter_for_this_concept = ()=> id_property_register.GetTypeConvertersForConceptIds().Last()
-                                                                                                                                .ShouldBeOfType<ConceptTypeConverter<ConceptAsLong, long>>();
+                                                                                                                                .ShouldBeOfExactType<ConceptTypeConverter<ConceptAsLong, long>>();
     }
 }

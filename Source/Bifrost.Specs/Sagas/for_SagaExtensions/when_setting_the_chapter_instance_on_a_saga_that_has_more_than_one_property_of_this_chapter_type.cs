@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Sagas.for_SagaExtensions
 
         //Because of = () => exception = Catch.Exception(() => saga.SetChapterInstance(chapter));
 
-        //It should_throw_an_argument_exception = () => exception.ShouldBeOfType(typeof (ArgumentException));
+        //It should_throw_an_argument_exception = () => exception.ShouldBeOfExactType(typeof (ArgumentException));
 	}
 }

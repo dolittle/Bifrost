@@ -15,6 +15,6 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
                 );
         };
 
-        It should_throw_an_unregistered_event_exception = () => exception.ShouldBeOfType(typeof(UnregisteredEventException));
+        It should_throw_an_unregistered_event_exception = () => exception.ShouldBeOfExactType(typeof(UnregisteredEventException));
     }
 }

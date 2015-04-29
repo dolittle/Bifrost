@@ -124,8 +124,6 @@
     <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_proxy_instance.cs" />
     <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_target_instance_but_has_wrong_type.cs" />
     <Compile Include="Reflection\for_InvocationHandler\when_handling_on_implementation_that_needs_target_instance.cs" />
-    <Compile Include="Reflection\for_Proxying\TypeWithProperties.cs" />
-    <Compile Include="Reflection\for_Proxying\when_building_interface_with_properties_from_other_type.cs" />
     <Compile Include="Tasks\for_TaskContext\given\a_task_context_with_a_task_and_associated_data.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_before_cancelled_and_completed_callback_registered.cs" />
     <Compile Include="Tasks\for_TaskContext\when_cancelling_a_task_after_cancelled_and_completed_callback_registered.cs" />

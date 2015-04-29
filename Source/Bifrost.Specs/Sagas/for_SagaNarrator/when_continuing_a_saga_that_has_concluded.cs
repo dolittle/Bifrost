@@ -27,7 +27,7 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
 
         Because of = () => exception = Catch.Exception(() => narrator.Continue(saga_id));
 
-        It should_throw_an_invalid_saga_state_transition_exception = () => exception.ShouldBeOfType<InvalidSagaStateTransitionException>();
+        It should_throw_an_invalid_saga_state_transition_exception = () => exception.ShouldBeOfExactType<InvalidSagaStateTransitionException>();
         It should_not_have_called_the_on_continue_method = () => saga.OnContinueCalled.ShouldEqual(0);
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 
 namespace Bifrost.FluentValidation.Specs.Commands.for_CommandInputValidator
 {
+    [Subject(typeof(CommandInputValidator<>))]
     public class when_validating_a_valid_command : given.a_command_input_validator
     {
         static IEnumerable<ValidationResult> results;

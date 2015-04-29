@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Events.for_EventStream
                              Exception = Catch.Exception(() => EventStream.Append(new List<IEvent>() { firstEvent, eventOutOfSequence }));
                          };
 
-        It should_throw_an_event_out_of_sequence_exception = () => Exception.ShouldBeOfType<EventOutOfSequenceException>();
+        It should_throw_an_event_out_of_sequence_exception = () => Exception.ShouldBeOfExactType<EventOutOfSequenceException>();
     }
 }

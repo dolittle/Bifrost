@@ -14,6 +14,6 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
                              exception = Catch.Exception(() => event_migration_hierarchy_manager.GetLogicalTypeFromName("UnregisteredEvent"));
                          };
 
-        It should_throw_an_unregistered_event_exception = () => exception.ShouldBeOfType(typeof(UnregisteredEventException));
+        It should_throw_an_unregistered_event_exception = () => exception.ShouldBeOfExactType(typeof(UnregisteredEventException));
     }
 }

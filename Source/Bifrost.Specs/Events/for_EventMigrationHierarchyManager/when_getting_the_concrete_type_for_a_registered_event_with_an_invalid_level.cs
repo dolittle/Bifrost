@@ -16,9 +16,9 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
         };
 
         It should_throw_a_migration_level_out_of_range_exception_when_the_migration_level_has_not_been_reached =
-            () => exception_when_level_does_not_exist.ShouldBeOfType(typeof(MigrationLevelOutOfRangeException));
+            () => exception_when_level_does_not_exist.ShouldBeOfExactType(typeof(MigrationLevelOutOfRangeException));
 
         It should_throw_a_migration_level_out_of_range_exception_when_the_migration_level_is_not_valid =
-            () => exception_when_level_is_invalid.ShouldBeOfType(typeof(MigrationLevelOutOfRangeException));
+            () => exception_when_level_is_invalid.ShouldBeOfExactType(typeof(MigrationLevelOutOfRangeException));
     }
 }

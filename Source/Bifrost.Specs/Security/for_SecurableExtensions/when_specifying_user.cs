@@ -14,7 +14,7 @@ namespace Bifrost.Specs.Security.for_SecurableExtensions
 
         Because of = () => actor = securable.User();
 
-        It should_return_an_user_actor_builder = () => actor.ShouldBeOfType<UserSecurityActor>();
-        It should_add_actor_to_securable = () => securable.Actors.First().ShouldBeOfType<UserSecurityActor>();
+        It should_return_an_user_actor_builder = () => actor.ShouldBeOfExactType<UserSecurityActor>();
+        It should_add_actor_to_securable = () => securable.Actors.First().ShouldBeOfExactType<UserSecurityActor>();
     }
 }

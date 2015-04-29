@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Commands.for_CommandSecurityExtensions
 
         Because of = () => target.InstanceOf<SimpleCommand>(t => securable = t);
 
-        It should_add_a_type_securable = () => target.Securables.First().ShouldBeOfType<TypeSecurable>();
+        It should_add_a_type_securable = () => target.Securables.First().ShouldBeOfExactType<TypeSecurable>();
         It should_set_the_type_on_the_securable = () => ((TypeSecurable)target.Securables.First()).Type.ShouldEqual(typeof(SimpleCommand));
         It should_continue_the_fluent_interface_with_type_securable_builder = () => securable.ShouldNotBeNull();
     }

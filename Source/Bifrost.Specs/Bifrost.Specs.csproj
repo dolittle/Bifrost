@@ -495,6 +495,9 @@
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_null_passed_as_broken_rules.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_with_one_broken_rule.cs" />
     <Compile Include="Read\Validation\for_QueryValidationResult\when_asking_for_success_on_result_without_any_broken_rules.cs" />
+    <Compile Include="Reflection\for_Proxying\TypeWithProperties.cs" />
+    <Compile Include="Reflection\for_Proxying\when_building_class_with_properties_from_other_type.cs" />
+    <Compile Include="Reflection\for_Proxying\when_building_interface_with_properties_from_other_type.cs" />
     <Compile Include="Rules\for_BrokenRuleReason\when_creating.cs" />
     <Compile Include="Rules\for_RuleContext\when_failing_with_two_callbacks_registered.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />

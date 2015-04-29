@@ -9,6 +9,6 @@ namespace Bifrost.Specs.Events.for_EventStoreChangeManager
 
         Because of = () => thrown_exception = Catch.Exception(() => event_store_change_manager.Register(typeof(string)));
 
-        It should_throw_argument_exception = () => thrown_exception.ShouldBeOfType<ArgumentException>();
+        It should_throw_argument_exception = () => thrown_exception.ShouldBeOfExactType<ArgumentException>();
     }
 }

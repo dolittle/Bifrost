@@ -15,6 +15,6 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
 		                                                        type_discoverer_mock.Setup(t => t.FindSingle<ISingleInterface>()).Returns((Type)null);
 		                                                        Instance = type_importer.Import<ISingleInterface>();
 		                                                    });
-		It should_throw_an_ArgumentException = () => Exception.ShouldBeOfType<ArgumentException>();
+        It should_throw_an_ArgumentException = () => Exception.ShouldBeOfExactType<ArgumentException>();
 	}
 }

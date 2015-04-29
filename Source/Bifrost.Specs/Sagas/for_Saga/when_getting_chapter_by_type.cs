@@ -23,6 +23,6 @@ namespace Bifrost.Specs.Sagas.for_Saga
 		Because of = () => fetched_chapter = saga.Get<NonTransitionalChapter>();
 
 		It should_return_a_chapter = () => fetched_chapter.ShouldNotBeNull();
-		It should_return_a_chapter_of_correct_type = () => fetched_chapter.ShouldBeOfType<NonTransitionalChapter>();
+        It should_return_a_chapter_of_correct_type = () => fetched_chapter.ShouldBeOfExactType<NonTransitionalChapter>();
 	}
 }

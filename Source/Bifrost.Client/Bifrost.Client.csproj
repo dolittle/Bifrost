@@ -95,8 +95,6 @@
     <Compile Include="Commands\ICommandFor.cs" />
     <Compile Include="Reflection\Interceptor.cs" />
     <Compile Include="Reflection\InvocationHandler.cs" />
-    <Compile Include="Reflection\IProxying.cs" />
-    <Compile Include="Reflection\Proxying.cs" />
     <Compile Include="Reflection\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

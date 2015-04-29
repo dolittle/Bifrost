@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Commands.for_CommandHandlerManager
                              thrown_exception = Catch.Exception(() => manager.Handle(handled_command));
                          };
 
-        It should_throw_unhandled_command_exception = () => thrown_exception.ShouldBeOfType<UnhandledCommandException>();
+        It should_throw_unhandled_command_exception = () => thrown_exception.ShouldBeOfExactType<UnhandledCommandException>();
         It should_have_an_instance_of_the_command_in_the_exception = () => ((UnhandledCommandException) thrown_exception).Command.ShouldEqual(handled_command);
     }
 }

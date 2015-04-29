@@ -13,7 +13,7 @@ namespace Bifrost.Specs.CodeGeneration.JavaScript.for_AssignmentExtensions
             observable = o;
         });
 
-        It should_set_value_to_be_an_observable = () => assignment.Value.ShouldBeOfType<Observable>();
+        It should_set_value_to_be_an_observable = () => assignment.Value.ShouldBeOfExactType<Observable>();
         It should_call_the_callback = () => observable.ShouldNotBeNull();
         It should_pass_the_property_name = () => property_name.ShouldEqual(assignment.Name);
     }

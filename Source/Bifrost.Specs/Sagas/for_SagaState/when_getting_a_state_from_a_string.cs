@@ -28,6 +28,6 @@ namespace Bifrost.Specs.Sagas.for_SagaState
         It should_be_able_to_create_a_begun_state = () => begun.IsBegun.ShouldBeTrue();
         It should_be_able_to_create_a_continuing_state = () => continuing.IsContinuing.ShouldBeTrue();
         It should_be_able_to_create_a_concluded_state = () => concluded.IsConcluded.ShouldBeTrue();
-        It should_get_an_unknown_saga_state_exception_when_the_string_is_not_a_valid_state = () => exception.ShouldBeOfType<UnknownSagaStateException>();
+        It should_get_an_unknown_saga_state_exception_when_the_string_is_not_a_valid_state = () => exception.ShouldBeOfExactType<UnknownSagaStateException>();
     }
 }
