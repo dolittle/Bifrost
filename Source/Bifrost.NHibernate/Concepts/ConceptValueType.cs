@@ -16,14 +16,13 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using Bifrost.Concepts;
 using Bifrost.NHibernate.UserTypes;
 
 
 namespace Bifrost.NHibernate.Concepts
 {
-    public class ConceptValueType<T,U> : ImmutableUserType<T> where U : IEquatable<U> where T : ConceptAs<U>
+    public class ConceptValueType<T,U> : ImmutableUserType<T> where T : ConceptAs<U>
     {
         public ConceptValueType()
         {

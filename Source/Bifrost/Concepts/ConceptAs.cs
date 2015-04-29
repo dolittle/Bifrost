@@ -27,12 +27,17 @@ namespace Bifrost.Concepts
     /// Expresses a Concept as a another type, usually a primitive such as Guid, Int or String
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ConceptAs<T> : IAmValidatable ,IEquatable<ConceptAs<T>> where T : IEquatable<T>
+    public class ConceptAs<T> : IAmValidatable, IEquatable<ConceptAs<T>>
     {
         /// <summary>
         /// The underlying primitive value of this concept
         /// </summary>
         public T Value { get; set; }
+
+        /// <summary>
+        /// The underlying primitive type of this concept.
+        /// </summary>
+        public static Type UnderlyingType { get { return typeof(T); } }
 
 #pragma warning disable 1591 // Xml Comments
         public override string ToString()
