@@ -313,6 +313,8 @@
     <Compile Include="Read\Validation\QueryValidationDescriptors.cs" />
     <Compile Include="Read\Validation\QueryValidationResult.cs" />
     <Compile Include="Read\Validation\QueryValidator.cs" />
+    <Compile Include="Reflection\IProxying.cs" />
+    <Compile Include="Reflection\Proxying.cs" />
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Rules\IRuleBuilder.cs" />
     <Compile Include="Rules\IRuleContext.cs" />
