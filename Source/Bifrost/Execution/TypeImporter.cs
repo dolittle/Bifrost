@@ -17,6 +17,8 @@
 //
 #endregion
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Execution
 {
@@ -46,25 +48,18 @@ namespace Bifrost.Execution
 			try
 			{
 				var types = _typeDiscoverer.FindMultiple<T>();
-				if( types == null )
-				{
-					throw new ArgumentException(
-						string.Format("Can't import type {0}, it was not discovered", typeof(T)));
-				}
-				var instances = new T[types.Length];
-				for (var instanceIndex = 0; instanceIndex < types.Length; instanceIndex++)
-				{
-					instances[instanceIndex] = (T) _container.Get(types[instanceIndex]);
-				}
-
+                ThrowIfTypeCanNotBeImported(typeof(T), types);
+                var instances = types.Select(t => (T)_container.Get(t)).ToArray();
 				return instances;
 			}
 			catch (ArgumentException innerException)
 			{
-				throw new ArgumentException(
-					string.Format("Can't import type {0}, see inner exception for details", typeof(T)), innerException);
+                ThrowUnableToImportType(typeof(T),innerException);
 			}
+            return new T[0];
 		}
+
+
 
 		public T Import<T>()
 		{
@@ -78,16 +73,33 @@ namespace Bifrost.Execution
 				}
 				else
 				{
-					throw new ArgumentException(
-						string.Format("Can't import type {0}, it was not discovered", typeof(T)));
+                    ThrowCanNotBeImported(typeof(T));
 				}
 			}
 			catch (ArgumentException innerException)
 			{
-				throw new ArgumentException(
-					string.Format("Can't import type {0}, see inner exception for details", typeof(T)), innerException);
+                ThrowUnableToImportType(typeof(T), innerException);
 			}
+            return default(T);
 		}
 #pragma warning restore 1591 // Xml Comments
+
+        void ThrowUnableToImportType(Type type, ArgumentException innerException)
+        {
+            throw new ArgumentException(
+                string.Format("Can't import type {0}, see inner exception for details", type), innerException);
+        }
+
+        void ThrowIfTypeCanNotBeImported(Type type, IEnumerable<Type> types)
+        {
+            if (types == null) ThrowCanNotBeImported(type);
+        }
+
+        void ThrowCanNotBeImported(Type type)
+        {
+            throw new ArgumentException(
+                string.Format("Can't import type {0}, it was not discovered", type));
+        }
+
 	}
 }

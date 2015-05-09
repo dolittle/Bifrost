@@ -331,6 +331,13 @@
     <Compile Include="Execution\for_InstancesOf\when_having_multiple_implementations.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
+    <Compile Include="Execution\for_TypeFinder\given\a_type_finder.cs" />
+    <Compile Include="Execution\for_TypeFinder\Stubs.cs" />
+    <Compile Include="Execution\for_TypeFinder\when_finding_types_with_multiple_implementations.cs" />
+    <Compile Include="Execution\for_TypeFinder\when_finding_types_with_multiple_implementations_but_asking_for_a_single.cs" />
+    <Compile Include="Execution\for_TypeFinder\when_finding_types_with_only_one_implementation.cs" />
+    <Compile Include="Execution\for_TypeFinder\when_finding_type_by_name_that_does_not_exist.cs" />
+    <Compile Include="Execution\for_TypeFinder\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_WeakDelegate\ClassWithMethod.cs" />
     <Compile Include="Execution\for_WeakDelegate\DerivedImplementation.cs" />
     <Compile Include="Execution\for_WeakDelegate\Implementation.cs" />
@@ -722,7 +729,6 @@
     <Compile Include="Execution\for_TypeDiscoverer\given\a_type_discoverer.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\Stubs.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_multiple_implementations.cs" />
-    <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_multiple_implementations_but_asking_for_a_single.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_types_with_only_one_implementation.cs" />
     <Compile Include="Execution\for_TypeImporter\given\a_type_importer.cs" />
     <Compile Include="Execution\for_TypeImporter\Stubs.cs" />

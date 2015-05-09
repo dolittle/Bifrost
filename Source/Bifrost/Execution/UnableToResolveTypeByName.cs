@@ -29,7 +29,7 @@ namespace Bifrost.Execution
         /// Initializes an instance of <see cref="UnableToResolveTypeByName"/>
         /// </summary>
         /// <param name="typeName"></param>
-        public UnableToResolveTypeByName(string typeName) : base(string.Format("Unable to resolve '{0}'. More than one type found with the current name'", typeName))
+        public UnableToResolveTypeByName(string typeName) : base(string.Format("Unable to resolve '{0}'.", typeName))
         {
 
         }

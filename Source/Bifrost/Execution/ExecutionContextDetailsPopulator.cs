@@ -16,8 +16,9 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
+using System.Collections.Generic;
+
 namespace Bifrost.Execution
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace Bifrost.Execution
     {
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
-        Type[] _populatorTypes;
+        IEnumerable<Type> _populatorTypes;
 
         /// <summary>
         /// Initializes an instance of <see cref="ExecutionContextDetailsPopulator"/>

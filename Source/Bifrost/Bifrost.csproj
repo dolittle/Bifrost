@@ -159,12 +159,14 @@
     <Compile Include="Execution\FileSystem.cs" />
     <Compile Include="Execution\IAssemblyProvider.cs" />
     <Compile Include="Execution\IAssemblyUtility.cs" />
-    <Compile Include="Execution\ICanFilterAssembly.cs" />
+    <Compile Include="Execution\ICanSpecifyAssemblies.cs" />
     <Compile Include="Execution\IAssemblyFilters.cs" />
     <Compile Include="Execution\IExecutionEnvironment.cs" />
     <Compile Include="Execution\IFileSystem.cs" />
     <Compile Include="Execution\InvalidSignatureException.cs" />
     <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
+    <Compile Include="Execution\ITypeFinder.cs" />
+    <Compile Include="Execution\TypeFinder.cs" />
     <Compile Include="Execution\WeakDelegate.cs" />
     <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
     <Compile Include="MissingDefaultConstructorException.cs" />

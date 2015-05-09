@@ -626,6 +626,9 @@
     <Compile Include="..\Bifrost\Execution\ITypeDiscoverer.cs">
       <Link>Execution\ITypeDiscoverer.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\ITypeFinder.cs">
+      <Link>Execution\ITypeFinder.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\ITypeImporter.cs">
       <Link>Execution\ITypeImporter.cs</Link>
     </Compile>
@@ -643,6 +646,9 @@
     </Compile>
     <Compile Include="..\Bifrost\Execution\TypeDiscoverer.cs">
       <Link>Execution\TypeDiscoverer.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Execution\TypeFinder.cs">
+      <Link>Execution\TypeFinder.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Execution\TypeImporter.cs">
       <Link>Execution\TypeImporter.cs</Link>

@@ -16,13 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using System.Reflection;
-using System.Runtime.InteropServices;
+using Bifrost.Configuration.Assemblies;
 
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines something that tell wether or not to filter away an assembly.
+    /// Specifies what assemblies to include
     /// </summary>
     /// <remarks>
     /// Typically used by implementations of <see cref="IAssemblies"/> to 
@@ -30,14 +29,12 @@ namespace Bifrost.Execution
     /// <see cref="ITypeDiscoverer"/> which relies on knowing about assemblies
     /// to be able to discover types.
     /// </remarks>
-    public interface ICanFilterAssembly
+    public interface ICanSpecifyAssemblies
     {
         /// <summary>
-        /// Method that gets called participating in the chain to decide wether or
-        /// not an assembly should be included
+        /// Method that gets called for specifying which assemblies to include or not
         /// </summary>
-        /// <param name="assembly"><see cref="Assembly"/> to check</param>
-        /// <returns>True if it should be included, false if not</returns>
-        bool ShouldInclude(_Assembly assembly);
+        /// <param name="configuration"><see cref="AssembliesConfiguration"/> object to specfiy on</param>
+        void Specify(AssembliesConfiguration configuration);
     }
 }

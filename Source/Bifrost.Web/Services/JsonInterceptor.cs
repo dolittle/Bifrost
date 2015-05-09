@@ -3,13 +3,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Bifrost.Web.Services
 {
     [Singleton]
     public class JsonInterceptor : IJsonInterceptor
     {
-        private readonly Type[] _valueInterceptors;
+        private readonly IEnumerable<Type> _valueInterceptors;
         private readonly IContainer _container;
 
         public JsonInterceptor(ITypeDiscoverer typeDiscoverer, IContainer container)

@@ -42,14 +42,13 @@ namespace Bifrost.Execution
         static List<string> NamespaceStartingWithExclusions = new List<string>();
 
         IAssemblies _assemblies;
+        ITypeFinder _typeFinder;
 
 #if(SILVERLIGHT || WINDOWS_PHONE)
-        Dictionary<string, IDictionary<string, Type>> _types;
+        List<Type> _types;
 #else
-        ConcurrentDictionary<string, IDictionary<string, Type>> _types;
+        ConcurrentBag<Type> _types;
 #endif
-
-        IDictionary<Type, Type[]> _implementingTypes;
 
         /// <summary>
         /// Exclude discovering of types in a specific namespace
@@ -63,17 +62,18 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
         /// </summary>
-        public TypeDiscoverer(IAssemblies assemblies)
+        /// <param name="assemblies"><see cref="IAssemblies"/> for getting assemblies</param>
+        /// <param name="typeFinder"><see cref="ITypeFinder"/> for finding types from all collected types</param>
+        public TypeDiscoverer(IAssemblies assemblies, ITypeFinder typeFinder)
         {
             _assemblies = assemblies;
+            _typeFinder = typeFinder;
 
 #if(SILVERLIGHT)
-            _types = new Dictionary<string, IDictionary<string, Type>>();
+            _types = new List<Type>();
 #else
-            _types = new ConcurrentDictionary<string, IDictionary<string, Type>>();
+            _types = new ConcurrentBag<Type>();
 #endif
-
-            _implementingTypes = new Dictionary<Type, Type[]>();
             CollectTypes();
         }
 
@@ -81,90 +81,41 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public IEnumerable<Type> GetAll()
         {
-            return _types.Values.SelectMany(x => x.Values.ToList());
+            return _types;
         }
 
         public Type FindSingle<T>()
         {
-            var type = FindSingle(typeof(T));
-            return type;
+            return _typeFinder.FindSingle<T>(_types);
         }
 
-        public Type[] FindMultiple<T>()
+        public IEnumerable<Type> FindMultiple<T>()
         {
-            var types = FindMultiple(typeof(T));
-            return types;
+            return _typeFinder.FindMultiple<T>(_types);
         }
 
         public Type FindSingle(Type type)
         {
-            var typesFound = Find(type);
-
-            if (typesFound.Length > 1)
-                throw new MultipleTypesFoundException(string.Format("More than one type found for '{0}'", type.FullName));
-            return typesFound.SingleOrDefault();
+            return _typeFinder.FindSingle(_types, type);
         }
 
-        public Type[] FindMultiple(Type type)
+        public IEnumerable<Type> FindMultiple(Type type)
         {
-            var typesFound = Find(type);
-            return typesFound;
+            return _typeFinder.FindMultiple(_types, type);
         }
 
         public Type FindTypeByFullName(string fullName)
         {
-            if (!_types.ContainsKey(fullName)) return null;
-
-            var match = _types[fullName].Values;
-
-            if (match.Count > 1)
-            {
-                throw new UnableToResolveTypeByName(fullName);
-            }
-
-            return match.First();
+            return _typeFinder.FindTypeByFullName(_types, fullName);
         }
 #pragma warning restore 1591 // Xml Comments
 
-#if(SILVERLIGHT || WINDOWS_PHONE)
 
         void AddTypes(IEnumerable<Type> types)
         {
-            foreach (var type in types)
-            {
-                if (_types.ContainsKey(type.FullName))
-                {
-                    var entry = _types[type.Assembly.FullName];
-                    entry[type.Assembly.FullName] = type;
-                }
-                else
-                {
-                    _types.Add(type.FullName, new Dictionary<string, Type> {{type.Assembly.FullName, type}});
-                }
-            }
+            types.ForEach(_types.Add);
         }
 
-#else
-
-
-        void AddTypes(IEnumerable<Type> types)
-        {
-            foreach (var type in types)
-            {
-                if (!_types.TryAdd(type.FullName, new Dictionary<string, Type> { { type.Assembly.FullName, type } }))
-                {
-                    var entry = _types[type.FullName];
-
-                    lock (entry)
-                    {
-                        entry[type.Assembly.FullName] = type;
-                    }
-                }
-
-            }
-        }
-
-#endif
 
 #if(WINDOWS_PHONE)
         void CollectTypes()
@@ -244,33 +195,6 @@ namespace Bifrost.Execution
         static bool NameStartsWithAnExcludedNamespace(string name)
         {
             return NamespaceStartingWithExclusions.Any(name.StartsWith);
-        }
-
-        Type[] Find(Type type)
-        {
-            Type[] typesFound;
-
-            Func<Type, Type, bool> isAssignableFrom = (t1, t2) => t2.IsAssignableFrom(t1);
-            if (type.IsInterface) isAssignableFrom = (t1, t2) => t1.HasInterface(t2);
-
-            if (!_implementingTypes.TryGetValue(type, out typesFound))
-            {
-                var query = from t in _types.Values.SelectMany(a => a.Values)
-                            where
-                                isAssignableFrom(t,type) &&
-#if(NETFX_CORE)
-                                !t.GetTypeInfo().IsInterface &&
-                                !t.GetTypeInfo().IsAbstract
-#else
-                                !t.IsInterface &&
-                                !t.IsAbstract
-#endif
-                            select t;
-                typesFound = query.ToArray();
-                _implementingTypes[type] = typesFound;
-            }
-
-            return typesFound;
         }
     }
 }

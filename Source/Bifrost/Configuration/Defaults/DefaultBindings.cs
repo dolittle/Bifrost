@@ -51,6 +51,7 @@ namespace Bifrost.Configuration.Defaults
             container.Bind<IAssemblyProvider>(_assemblyProvider);
             container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
+            container.Bind<ITypeFinder>(typeof(TypeFinder), BindingLifecycle.Singleton);
 		}
 #pragma warning restore 1591 // Xml Comments
 	}

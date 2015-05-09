@@ -53,7 +53,7 @@ namespace Bifrost.Execution
 		/// If the base type is an interface, it will look for any types implementing the interface.
 		/// If it is a class, it will find anyone inheriting from that class
 		/// </remarks>
-		Type[] FindMultiple<T>();
+		IEnumerable<Type> FindMultiple<T>();
 
 		/// <summary>
 		/// Find a single implementation of a basetype
@@ -76,7 +76,7 @@ namespace Bifrost.Execution
 		/// If the base type is an interface, it will look for any types implementing the interface.
 		/// If it is a class, it will find anyone inheriting from that class
 		/// </remarks>
-		Type[] FindMultiple(Type type);
+		IEnumerable<Type> FindMultiple(Type type);
 
 	    /// <summary>
 	    /// Find a single type using the full name, without assembly

@@ -18,6 +18,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Execution;
 
 namespace Bifrost.Read
@@ -28,7 +29,7 @@ namespace Bifrost.Read
     public class ReadModelFilters : IReadModelFilters
     {
         IContainer _container;
-        Type[] _filterTypes;
+        IEnumerable<Type> _filterTypes;
 
         /// <summary>
         /// Initializes an instance of <see cref="ReadModelFilters"/>
@@ -45,7 +46,7 @@ namespace Bifrost.Read
 #pragma warning disable 1591
         public IEnumerable<IReadModel> Filter(IEnumerable<IReadModel> readModels)
         {
-            if (_filterTypes.Length == 0) return readModels;
+            if (_filterTypes.Count() == 0) return readModels;
 
             foreach (var filterType in _filterTypes)
             {
