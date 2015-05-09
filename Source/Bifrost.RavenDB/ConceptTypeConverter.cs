@@ -23,7 +23,7 @@ using Bifrost.Extensions;
 
 namespace Bifrost.RavenDB
 {
-    public class ConceptTypeConverter<T,TValue> : ITypeConverter where T : ConceptAs<TValue>, new() where TValue : IEquatable<TValue>
+    public class ConceptTypeConverter<T,TValue> : ITypeConverter where T : ConceptAs<TValue>, new()
     {
         public bool CanConvertFrom(Type sourceType)
         {

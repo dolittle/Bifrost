@@ -35,11 +35,8 @@ namespace Bifrost.JSON.Concepts
                 if (keyType.IsGenericType)
                 {
                     var genericArgumentType = keyType.GetGenericArguments()[0];
-                    if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                    {
-                        var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(keyType);
-                        return isConcept;
-                    }
+                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(keyType);
+                    return isConcept;
                 }
             }
 

@@ -35,7 +35,6 @@ namespace Bifrost.NHibernate.Concepts
         /// <param name="identityPart">Fluent NHibernate IdentityPart</param>
         /// <returns>Fluent NHibernate IdentityPart<</returns>
         public static IdentityPart ConceptOf<T, U>(this IdentityPart identityPart)
-            where U : IEquatable<U>
             where T : ConceptAs<U>
         {
             identityPart.CustomType<ConceptValueType<T,U>>();
@@ -64,7 +63,6 @@ namespace Bifrost.NHibernate.Concepts
         /// <param name="propertyPart">Fluent NHibernate PropertyPart</param>
         /// <returns>Fluent NHibernate PropertyPart<</returns>
         public static PropertyPart ConceptOf<T, U>(this PropertyPart propertyPart)
-            where U : IEquatable<U>
             where T : ConceptAs<U>
         {
             propertyPart.CustomType<ConceptValueType<T,U>>();

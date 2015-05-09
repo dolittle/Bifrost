@@ -63,11 +63,8 @@ namespace Bifrost.RavenDB
             if (t.BaseType != null && t.BaseType.IsGenericType)
             {
                 var genericArgumentType = t.BaseType.GetGenericArguments()[0];
-                if (genericArgumentType.HasInterface(typeof(IEquatable<>)))
-                {
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(t);
-                    return isConcept;
-                }
+                var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(t);
+                return isConcept;
             }
             return false;
         }
