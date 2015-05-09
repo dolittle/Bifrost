@@ -87,7 +87,7 @@ namespace Bifrost.Configuration
 #if(SILVERLIGHT)
             var assemblyProvider = new AssemblyProvider();
 #else
-            var assemblyProvider = new AssemblyProvider(AppDomain.CurrentDomain, new AssemblyFilters(assembliesConfiguration));
+            var assemblyProvider = new AssemblyProvider(AppDomain.CurrentDomain, new AssemblyFilters(assembliesConfiguration), new FileSystem());
 #endif
             var assemblies = assemblyProvider.GetAll(); 
             

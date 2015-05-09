@@ -39,15 +39,20 @@ namespace Bifrost.Execution
         AssemblyComparer comparer = new AssemblyComparer();
         _AppDomain _appDomain;
         IAssemblyFilters _assemblyFilters;
+        IFileSystem _fileSystem;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
         /// </summary>
-        public AssemblyProvider(_AppDomain appDomain, IAssemblyFilters assemblyFilters)
+        /// <param name="appDomain">Currently running <see cref="_AppDomain"/></param>
+        /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
+        /// <param name="fileSystem"><see cref="IFileSystem"/> to use for interacting with the filesystem</param>
+        public AssemblyProvider(_AppDomain appDomain, IAssemblyFilters assemblyFilters, IFileSystem fileSystem)
         {
             _appDomain = appDomain;
             _assemblyFilters = assemblyFilters;
+            _fileSystem = fileSystem;
             appDomain.AssemblyLoad += AssemblyLoaded;
 
             Populate();
@@ -76,8 +81,8 @@ namespace Bifrost.Execution
             var uri = new Uri(codeBase);
             var path = Path.GetDirectoryName(uri.LocalPath);
 
-            IEnumerable<FileInfo> files = new DirectoryInfo(path).GetFiles("*.dll");
-            files.Concat(new DirectoryInfo(path).GetFiles("*.exe"));
+            var files = _fileSystem.GetFilesFrom(path, "*.dll");
+            files.Concat(_fileSystem.GetFilesFrom(path,"*.exe"));
             files = files.Where(AssemblyDetails.IsAssembly);
 
             var currentAssemblies = _appDomain.GetAssemblies().Where(a=>_assemblyFilters.ShouldInclude(a.GetName().Name)).ToList();
