@@ -18,6 +18,8 @@
 #endregion
 using System;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -90,6 +92,16 @@ namespace Bifrost.Execution
             {
                 fs.Close();
             }
+        }
+
+        public AssemblyName GetAssemblyNameForFile(FileInfo fileInfo)
+        {
+            return AssemblyName.GetAssemblyName(fileInfo.FullName);
+        }
+
+        public _Assembly Load(AssemblyName assemblyName)
+        {
+            return Assembly.Load(assemblyName);
         }
 #pragma warning restore 1591 // Xml Comments
     }

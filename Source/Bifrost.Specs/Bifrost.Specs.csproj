@@ -292,6 +292,13 @@
     <Compile Include="Execution\for_any_conventions\SelfBindingConvention.cs" />
     <Compile Include="Execution\for_any_conventions\TypeWithSingletonAttribute.cs" />
     <Compile Include="Execution\for_any_conventions\when_resolving_a_type_that_has_singleton_attribute.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\given\all_dependencies.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\given\an_unitialized_assembly_provider.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\FakeAssembly.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\when_getting_assemblies_with_assembly_from_app_domain_that_should_filter_away.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\when_getting_assemblies_with_dll_assembly_from_file_system_that_should_filter_away.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\when_getting_assemblies_with_dll_assembly_from_file_system_that_should_not_filter_away.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\when_getting_assemblies_with_assembly_from_app_domain_that_should_not_filter_away.cs" />
     <Compile Include="Execution\for_BindingConventionManager\FakeBindingConvention.cs" />
     <Compile Include="Execution\for_BindingConventionManager\given\a_binding_convention_manager.cs" />
     <Compile Include="Execution\for_BindingConventionManager\given\a_binding_convention_manager_with_one_type.cs" />
@@ -808,7 +815,6 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Execution\for_AssemblyProvider\" />
     <Folder Include="Globalization\for_Localizer\given\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />

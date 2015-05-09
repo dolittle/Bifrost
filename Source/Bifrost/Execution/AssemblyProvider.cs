@@ -18,7 +18,6 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -93,14 +92,20 @@ namespace Bifrost.Execution
             files.Concat(_fileSystem.GetFilesFrom(path,"*.exe"));
             files = files.Where(_assemblyUtility.IsAssembly);
 
-            var currentAssemblies = _appDomain.GetAssemblies().Where(a=>_assemblyFilters.ShouldInclude(a.GetName().Name)).ToList();
+            var currentAssemblies = new List<_Assembly>();
+            currentAssemblies.AddRange(
+                _appDomain.GetAssemblies()
+                    .Where(a => _assemblyFilters.ShouldInclude(a.GetName().Name)
+                )
+            );
+
             foreach (var file in files)
             {
                 if (!_assemblyFilters.ShouldInclude(file.Name)) continue;
 
-                var assemblyName = AssemblyName.GetAssemblyName(file.FullName);
+                var assemblyName = _assemblyUtility.GetAssemblyNameForFile(file);
                 if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                    currentAssemblies.Add(Assembly.Load(assemblyName));
+                    currentAssemblies.Add(_assemblyUtility.Load(assemblyName));
             }
 
             var assemblies = currentAssemblies.Distinct(comparer);
