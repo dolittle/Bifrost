@@ -41,6 +41,7 @@ namespace Bifrost.Execution
         IAssemblyFilters _assemblyFilters;
         IFileSystem _fileSystem;
         IExecutionEnvironment _executionEnvironment;
+        IAssemblyUtility _assemblyUtility;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
@@ -50,25 +51,31 @@ namespace Bifrost.Execution
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
         /// <param name="fileSystem"><see cref="IFileSystem"/> to use for interacting with the filesystem</param>
         /// <param name="executionEnvironment"><see cref="IExecutionEnvironment"/> giving us functionality needed from the currently executing environment</param>
-        public AssemblyProvider(_AppDomain appDomain, IAssemblyFilters assemblyFilters, IFileSystem fileSystem, IExecutionEnvironment executionEnvironment)
+        /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
+        public AssemblyProvider(
+            _AppDomain appDomain, 
+            IAssemblyFilters assemblyFilters, 
+            IFileSystem fileSystem, 
+            IExecutionEnvironment executionEnvironment,
+            IAssemblyUtility assemblyUtility)
         {
             _appDomain = appDomain;
             _assemblyFilters = assemblyFilters;
             _fileSystem = fileSystem;
             _executionEnvironment = executionEnvironment;
+            _assemblyUtility = assemblyUtility;
             appDomain.AssemblyLoad += AssemblyLoaded;
 
             Populate();
         }
-
 
 #pragma warning disable 1591 // Xml Comments
         public IObservableCollection<_Assembly> GetAll()
         {
             return _assemblies;
         }
-
 #pragma warning restore 1591 // Xml Comments
+
         void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
         {
             if (args.LoadedAssembly.IsDynamic) return;
@@ -84,7 +91,7 @@ namespace Bifrost.Execution
 
             var files = _fileSystem.GetFilesFrom(path, "*.dll");
             files.Concat(_fileSystem.GetFilesFrom(path,"*.exe"));
-            files = files.Where(AssemblyDetails.IsAssembly);
+            files = files.Where(_assemblyUtility.IsAssembly);
 
             var currentAssemblies = _appDomain.GetAssemblies().Where(a=>_assemblyFilters.ShouldInclude(a.GetName().Name)).ToList();
             foreach (var file in files)

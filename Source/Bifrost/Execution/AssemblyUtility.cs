@@ -22,19 +22,15 @@ using System.IO;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents helpers for getting details about assemblies.
+    /// Represents an implementation of <see cref="IAssemblyUtility"/>
     /// </summary>
-    public class AssemblyDetails
+    public class AssemblyUtility : IAssemblyUtility
     {
-        /// <summary>
-        /// Check if a file is an actual .net assembly
-        /// </summary>
-        /// <param name="file">File to check</param>
-        /// <returns>True if it is, false if not</returns>
-        public static bool IsAssembly(FileInfo file)
+#pragma warning disable 1591 // Xml Comments
+        public bool IsAssembly(FileInfo fileInfo)
         {
             // Borrowed from : http://stackoverflow.com/questions/8593264/determining-if-a-dll-is-a-valid-clr-dll-by-reading-the-pe-directly-64bit-issue
-            var fs = new FileStream(@file.FullName, FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read);
 
             try
             {
@@ -95,6 +91,6 @@ namespace Bifrost.Execution
                 fs.Close();
             }
         }
-
+#pragma warning restore 1591 // Xml Comments
     }
 }
