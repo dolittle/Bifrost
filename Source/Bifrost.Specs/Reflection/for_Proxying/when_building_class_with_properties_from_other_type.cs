@@ -4,6 +4,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Reflection.for_Proxying
 {
+    [Ignore("Work in progress")]
     public class when_building_class_with_properties_from_other_type
     {
         static Proxying proxying;
