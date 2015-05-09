@@ -26,11 +26,15 @@ namespace Bifrost.Specs.Concepts.for_ConceptAs
                 result_of_equality_on_same_value = second_string.Equals(same_value_as_second_string);
 
                 result_of_operator_equality = first_string == second_string;
+#pragma warning disable 1718 // this is the point of the spec - so ignore the warning
                 result_of_operator_equality_on_same_reference = first_string == first_string;
+#pragma warning restore 1718
                 result_of_operator_equality_on_same_value = second_string == same_value_as_second_string;
 
                 result_of_inequality_operator = first_string != second_string;
+#pragma warning disable 1718 // this is the point of the spec - so ignore the warning
                 result_of_inequality_operator_on_same_reference = first_string != first_string;
+#pragma warning restore 1718
                 result_of_inequality_operator_on_same_value = second_string != same_value_as_second_string;
 
                 result_of_equality_on_two_different_concept_types_based_on_same_underlying_type_with_same_values
