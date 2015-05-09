@@ -808,6 +808,7 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Execution\for_AssemblyProvider\" />
     <Folder Include="Globalization\for_Localizer\given\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />

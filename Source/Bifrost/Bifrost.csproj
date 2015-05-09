@@ -155,10 +155,12 @@
     <Compile Include="Execution\AssemblyDetails.cs" />
     <Compile Include="Execution\AssemblyFilters.cs" />
     <Compile Include="Execution\AssemblyProvider.cs" />
+    <Compile Include="Execution\ExecutionEnvironment.cs" />
     <Compile Include="Execution\FileSystem.cs" />
     <Compile Include="Execution\IAssemblyProvider.cs" />
     <Compile Include="Execution\ICanFilterAssembly.cs" />
     <Compile Include="Execution\IAssemblyFilters.cs" />
+    <Compile Include="Execution\IExecutionEnvironment.cs" />
     <Compile Include="Execution\IFileSystem.cs" />
     <Compile Include="Execution\InvalidSignatureException.cs" />
     <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
