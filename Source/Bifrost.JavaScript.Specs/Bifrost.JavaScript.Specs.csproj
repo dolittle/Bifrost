@@ -190,6 +190,7 @@
     <Content Include="Utils\for_StringMapper\when_reverse_resolving_a_string_that_should_match_a_string_with_expansion.js" />
     <Content Include="Utils\for_StringMapper\when_reverse_resolving_a_string_without_any_expansion.js" />
     <Content Include="Utils\for_StringMapper\when_reverse.resolving_an_empty_string.js" />
+    <Content Include="values\for_DateTypeConverter\when_converting_from_a_default_date_string.js" />
     <Content Include="values\for_DateTypeConverter\when_converting_from_a_valid_date_string.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_prefixed_with_letters.js" />
     <Content Include="values\for_NumberTypeConverter\when_converting_from_a_string_with_number_and_postfixed_with_letters.js" />
