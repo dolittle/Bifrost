@@ -1,4 +1,5 @@
-﻿using Bifrost.Configuration;
+﻿using System.Collections.Generic;
+using Bifrost.Configuration;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
@@ -25,6 +26,9 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IExecutionContextConfiguration> execution_context_configuration_mock;
         protected static Mock<ISecurityConfiguration> security_configuration_mock;
         protected static Mock<ITypeImporter> type_importer_mock;
+        protected static Mock<IInstancesOf<ICanConfigure>> configurators_mock;
+        protected static Mock<IInstancesOf<IWantToKnowWhenConfigurationIsDone>> after_configuration_callbacks_mock;
+        
 
         Establish context = () =>
                                 {
@@ -70,6 +74,14 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
                                     container_mock.Setup(c => c.Get<ITypeImporter>()).Returns(type_importer_mock.Object);
 
                                     configure_instance = Configure.With(container_mock.Object, default_conventions_mock.Object, default_bindings_mock.Object, new AssembliesConfiguration(null));
+                                    
+                                    configurators_mock = new Mock<IInstancesOf<ICanConfigure>>();
+                                    configurators_mock.Setup(c => c.GetEnumerator()).Returns(new List<ICanConfigure>().GetEnumerator());
+                                    container_mock.Setup(c => c.Get<IInstancesOf<ICanConfigure>>()).Returns(configurators_mock.Object);
+
+                                    after_configuration_callbacks_mock = new Mock<IInstancesOf<IWantToKnowWhenConfigurationIsDone>>();
+                                    after_configuration_callbacks_mock.Setup(a => a.GetEnumerator()).Returns(new List<IWantToKnowWhenConfigurationIsDone>().GetEnumerator());
+                                    container_mock.Setup(c => c.Get<IInstancesOf<IWantToKnowWhenConfigurationIsDone>>()).Returns(after_configuration_callbacks_mock.Object);
                                 };
     }
 }
