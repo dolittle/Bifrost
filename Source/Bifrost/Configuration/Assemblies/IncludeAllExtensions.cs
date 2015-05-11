@@ -37,9 +37,7 @@ namespace Bifrost.Configuration.Assemblies
         {
             var specification = includeAll.Specification;
             assemblyNames.ForEach(assemblyName => specification = specification.And(new ExceptAssembliesStartingWith(assemblyName)));
-
             includeAll.Specification = specification;
-
             return includeAll;
         }
     }

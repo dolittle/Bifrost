@@ -16,24 +16,21 @@
 // limitations under the License.
 //
 #endregion
-#if(!SILVERLIGHT)
 using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
-using Bifrost.Specifications;
+using Bifrost.Configuration.Assemblies;
 
-namespace Bifrost.Configuration.Assemblies
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a rule builder for building configuration for assemblies and how to include
-    /// or exclude assemblies
+    /// Defines a system that knows about <see cref="ICanSpecifyAssembly"/>
     /// </summary>
-    public interface IAssemblyRuleBuilder
+    public interface IAssemblySpecifiers
     {
         /// <summary>
-        /// Get the specification to use
+        /// Specifies using specifiers found in a specific <see cref="_Assembly"/>
         /// </summary>
-        Specification<string> Specification { get; set; }
+        /// <param name="assembly"><see cref="_Assembly"/> to find specifiers from</param>
+        /// <param name="builder"><see cref="IAssemblyRuleBuilder"/> to use for building</param>
+        void SpecifyUsingSpecifiersFrom(_Assembly assembly, IAssemblyRuleBuilder builder);
     }
 }

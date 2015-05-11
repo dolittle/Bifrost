@@ -16,24 +16,31 @@
 // limitations under the License.
 //
 #endregion
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
+using System;
+using System.Linq;
+using Bifrost.Extensions;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Specifications;
 
-namespace Bifrost.Configuration.Assemblies
+namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a rule builder for building configuration for assemblies and how to include
-    /// or exclude assemblies
+    /// Represents a default <see cref="ICanSpecifyAssemblies">assembly specifier</see> 
     /// </summary>
-    public interface IAssemblyRuleBuilder
+    public class DefaultAssemblySpecifier : ICanSpecifyAssemblies
     {
-        /// <summary>
-        /// Get the specification to use
-        /// </summary>
-        Specification<string> Specification { get; set; }
+#pragma warning disable 1591 // Xml Comments
+        public void Specify(IAssemblyRuleBuilder builder)
+        {
+            var assemblyNamesToIgnore = new[] {
+                "System",
+                "mscorlib",
+                "Microsoft"
+            };
+
+            assemblyNamesToIgnore.ForEach(
+                name => builder.Specification = builder.Specification.And(new ExceptAssembliesStartingWith(name)));
+        }
+#pragma warning restore 1591 // Xml Comments
     }
 }

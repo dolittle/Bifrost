@@ -34,7 +34,7 @@ namespace Bifrost.Execution
         /// <summary>
         /// Method that gets called for specifying which assemblies to include or not
         /// </summary>
-        /// <param name="configuration"><see cref="AssembliesConfiguration"/> object to specfiy on</param>
-        void Specify(AssembliesConfiguration configuration);
+        /// <param name="builder"><see cref="IAssemblyRuleBuilder"/> object to build specification on</param>
+        void Specify(IAssemblyRuleBuilder builder);
     }
 }

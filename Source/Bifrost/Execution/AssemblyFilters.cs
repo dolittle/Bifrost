@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Configuration.Assemblies;
 
 namespace Bifrost.Execution
@@ -42,6 +45,5 @@ namespace Bifrost.Execution
             return _assembliesConfiguration.Specification.IsSatisfiedBy(filename);
         }
 #pragma warning restore 1591 // Xml Comments
-
     }
 }

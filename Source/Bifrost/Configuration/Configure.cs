@@ -83,10 +83,15 @@ namespace Bifrost.Configuration
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
         {
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
-            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
+            
 #if(SILVERLIGHT)
             var assemblyProvider = new AssemblyProvider();
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
 #else
+            var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder());
+            assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly(), assembliesConfigurationBuilder.RuleBuilder);
+
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
             var assemblyProvider = new AssemblyProvider(
                 AppDomain.CurrentDomain, 
                 new AssemblyFilters(assembliesConfiguration), 

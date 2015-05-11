@@ -156,6 +156,18 @@ namespace Bifrost.Execution
 			var assembly = part.Load(info.Stream);
 			AddTypes(assembly.GetTypes());
 		}
+
+        static bool ShouldAddAssembly(string name)
+        {
+            if (NameStartsWithAnExcludedNamespace(name)) return false;
+            return !name.Contains("System.") && !name.Contains("mscorlib");
+        }
+
+        static bool NameStartsWithAnExcludedNamespace(string name)
+        {
+            return NamespaceStartingWithExclusions.Any(name.StartsWith);
+        }
+
 #else
 #if(NETFX_CORE)
 		void CollectTypes()
@@ -166,7 +178,7 @@ namespace Bifrost.Execution
 #else
         void CollectTypes()
         {
-            var assemblies = _assemblies.GetAll().Where(a => ShouldAddAssembly(a.FullName)).ToList();
+            var assemblies = _assemblies.GetAll();
             Parallel.ForEach(assemblies, assembly =>
             {
                 try
@@ -180,21 +192,9 @@ namespace Bifrost.Execution
                 }
 
             });
-
-
         }
 #endif
 #endif
 #endif
-        static bool ShouldAddAssembly(string name)
-        {
-            if (NameStartsWithAnExcludedNamespace(name)) return false;
-            return !name.Contains("System.") && !name.Contains("mscorlib");
-        }
-
-        static bool NameStartsWithAnExcludedNamespace(string name)
-        {
-            return NamespaceStartingWithExclusions.Any(name.StartsWith);
-        }
     }
 }

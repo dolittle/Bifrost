@@ -11,7 +11,7 @@ namespace Bifrost.QuickStart.WPF
     {
         static App()
         {
-            Configure.DiscoverAndConfigure(a => a.IncludeAll().ExceptAssembliesStartingWith("System","Microsoft","mscor","FluentValidation","Ninject"));
+            Configure.DiscoverAndConfigure(a => a.IncludeAll()); //.ExceptAssembliesStartingWith("System","Microsoft","mscor","FluentValidation","Ninject"));
         }
     }
 }

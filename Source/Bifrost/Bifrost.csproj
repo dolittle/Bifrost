@@ -130,12 +130,15 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
+    <Compile Include="Execution\AssemblySpecifiers.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
     <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
     <Compile Include="Configuration\DefaultStorageConfiguration.cs" />
     <Compile Include="Configuration\ExecutionContextConfiguration.cs" />
     <Compile Include="Configuration\FrontendConfiguration.cs" />
+    <Compile Include="Execution\DefaultAssemblySpecifier.cs" />
+    <Compile Include="Execution\IAssemblySpecifiers.cs" />
     <Compile Include="Configuration\ICallContextConfiguration.cs" />
     <Compile Include="Configuration\ICanConfigure.cs" />
     <Compile Include="Configuration\ICanCreateContainer.cs" />
