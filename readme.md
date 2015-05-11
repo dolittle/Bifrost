@@ -1,4 +1,4 @@
-!(Image of build status)[https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true]
+![Image of build status](https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true)
 
 Bifrost is an application development framework promoting good development practices. 
 The backend development is focused on CQRS (Command Query Responsibility Segregation) for promoting Domain Driven Design.
