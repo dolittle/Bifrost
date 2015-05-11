@@ -61,6 +61,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="Commands\CommandForProxies.cs" />
     <Compile Include="Commands\CommandForProxyInterceptor.cs" />
     <Compile Include="Commands\CommandInvocationHandler.cs" />

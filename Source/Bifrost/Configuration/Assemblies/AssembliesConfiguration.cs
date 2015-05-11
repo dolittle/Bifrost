@@ -30,18 +30,20 @@ namespace Bifrost.Configuration.Assemblies
     /// </summary>
     public class AssembliesConfiguration
     {
+        IAssemblyRuleBuilder _assemblyRuleBuilder;
+
         /// <summary>
         /// Initializes a new instance of <see cref="AssembliesConfiguration"/>
         /// </summary>
-        /// <param name="specification"></param>
-        public AssembliesConfiguration(Specification<string> specification)
+        /// <param name="assemblyRuleBuilder"><see cref="IAssemblyRuleBuilder"/> that builds the rules</param>
+        public AssembliesConfiguration(IAssemblyRuleBuilder assemblyRuleBuilder)
         {
-            Specification = specification;
+            _assemblyRuleBuilder = assemblyRuleBuilder;
         }
 
         /// <summary>
         /// Gets the specification used to specifying which assemblies to include
         /// </summary>
-        public Specification<string> Specification { get; private set; }
+        public Specification<string> Specification { get { return _assemblyRuleBuilder.Specification; } }
     }
 }

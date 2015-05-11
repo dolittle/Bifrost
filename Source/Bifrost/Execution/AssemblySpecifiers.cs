@@ -31,18 +31,21 @@ namespace Bifrost.Execution
     public class AssemblySpecifiers : IAssemblySpecifiers
     {
         ITypeFinder _typeFinder;
+        IAssemblyRuleBuilder _assemblyRuleBuilder;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblySpecifiers"/>
         /// </summary>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding types</param>
-        public AssemblySpecifiers(ITypeFinder typeFinder)
+        /// <param name="assemblyRuleBuilder"><see cref="IAssemblyRuleBuilder"/> used for building the rules for assemblies</param>
+        public AssemblySpecifiers(ITypeFinder typeFinder, IAssemblyRuleBuilder assemblyRuleBuilder)
         {
             _typeFinder = typeFinder;
+            _assemblyRuleBuilder = assemblyRuleBuilder;
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public void SpecifyUsingSpecifiersFrom(_Assembly assembly, IAssemblyRuleBuilder builder)
+        public void SpecifyUsingSpecifiersFrom(_Assembly assembly)
         {
             var types = new List<Type>();
             types.AddRange(assembly.GetTypes());
@@ -51,7 +54,7 @@ namespace Bifrost.Execution
             assemblySpecifiers.Where(type => type.HasDefaultConstructor()).ForEach(type =>
             {
                 var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
-                specifier.Specify(builder);
+                specifier.Specify(_assemblyRuleBuilder);
             });
         }
 #pragma warning restore 1591 // Xml Comments

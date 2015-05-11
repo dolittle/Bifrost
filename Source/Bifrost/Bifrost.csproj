@@ -125,6 +125,7 @@
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
     <Compile Include="Configuration\Assemblies\AssembliesConfiguration.cs" />
     <Compile Include="Configuration\Assemblies\AssembliesConfigurationBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\AssemblyRuleBuilderExtensions.cs" />
     <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
     <Compile Include="Configuration\Assemblies\IAssemblyRuleBuilder.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />

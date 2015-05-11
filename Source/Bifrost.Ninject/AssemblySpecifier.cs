@@ -16,29 +16,23 @@
 // limitations under the License.
 //
 #endregion
-using System.Linq;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
-using Bifrost.Specifications;
+using Bifrost.Configuration.Assemblies;
+using Bifrost.Execution;
 
-namespace Bifrost.Configuration.Assemblies
+namespace Bifrost.Ninject
 {
     /// <summary>
-    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
-    /// excluding assembies starting with
+    /// Reperesents an <see cref="ICanSpecifyAssemblies">assembly specifier</see> for client aspects
     /// </summary>
-    public class ExceptAssembliesStartingWith : Specification<string>
+    public class AssemblySpecifier : ICanSpecifyAssemblies
     {
-        /// <summary>
-        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
-        /// </summary>
-        /// <param name="names"></param>
-        public ExceptAssembliesStartingWith(params string[] names)
+#pragma warning disable 1591 // Xml Comments
+        public void Specify(IAssemblyRuleBuilder builder)
         {
-            Predicate = a => !names.Any(n => a.StartsWith(n));
+            builder.ExcludeAssembliesStartingWith(
+                "Ninject"
+            );
         }
+#pragma warning disable 1591 // Xml Comments
     }
 }

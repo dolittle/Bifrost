@@ -39,8 +39,6 @@ namespace Bifrost.Execution
     [Singleton]
     public class TypeDiscoverer : ITypeDiscoverer
     {
-        static List<string> NamespaceStartingWithExclusions = new List<string>();
-
         IAssemblies _assemblies;
         ITypeFinder _typeFinder;
 
@@ -50,14 +48,6 @@ namespace Bifrost.Execution
         ConcurrentBag<Type> _types;
 #endif
 
-        /// <summary>
-        /// Exclude discovering of types in a specific namespace
-        /// </summary>
-        /// <param name="name">Namespace to exclude</param>
-        public static void ExcludeNamespaceStartingWith(string name)
-        {
-            NamespaceStartingWithExclusions.Add(name);
-        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="TypeDiscoverer">TypeDiscoverer</see>
@@ -142,10 +132,7 @@ namespace Bifrost.Execution
 				var parts = Deployment.Current.Parts;
 				foreach (var part in parts)
 				{
-					if( ShouldAddAssembly(part.Source) )
-					{
-						AddTypesFromPart(part);
-					}
+					AddTypesFromPart(part);
 				}
 			}
 		}
@@ -156,18 +143,6 @@ namespace Bifrost.Execution
 			var assembly = part.Load(info.Stream);
 			AddTypes(assembly.GetTypes());
 		}
-
-        static bool ShouldAddAssembly(string name)
-        {
-            if (NameStartsWithAnExcludedNamespace(name)) return false;
-            return !name.Contains("System.") && !name.Contains("mscorlib");
-        }
-
-        static bool NameStartsWithAnExcludedNamespace(string name)
-        {
-            return NamespaceStartingWithExclusions.Any(name.StartsWith);
-        }
-
 #else
 #if(NETFX_CORE)
 		void CollectTypes()

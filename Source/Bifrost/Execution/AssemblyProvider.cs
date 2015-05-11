@@ -41,6 +41,7 @@ namespace Bifrost.Execution
         IFileSystem _fileSystem;
         IExecutionEnvironment _executionEnvironment;
         IAssemblyUtility _assemblyUtility;
+        IAssemblySpecifiers _assemblySpecifiers;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
@@ -51,18 +52,21 @@ namespace Bifrost.Execution
         /// <param name="fileSystem"><see cref="IFileSystem"/> to use for interacting with the filesystem</param>
         /// <param name="executionEnvironment"><see cref="IExecutionEnvironment"/> giving us functionality needed from the currently executing environment</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
+        /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
         public AssemblyProvider(
             _AppDomain appDomain, 
             IAssemblyFilters assemblyFilters, 
             IFileSystem fileSystem, 
             IExecutionEnvironment executionEnvironment,
-            IAssemblyUtility assemblyUtility)
+            IAssemblyUtility assemblyUtility,
+            IAssemblySpecifiers assemblySpecifiers)
         {
             _appDomain = appDomain;
             _assemblyFilters = assemblyFilters;
             _fileSystem = fileSystem;
             _executionEnvironment = executionEnvironment;
             _assemblyUtility = assemblyUtility;
+            _assemblySpecifiers = assemblySpecifiers;
             appDomain.AssemblyLoad += AssemblyLoaded;
 
             Populate();
@@ -99,6 +103,8 @@ namespace Bifrost.Execution
                 )
             );
 
+            currentAssemblies.ForEach(SpecifyRules);
+
             foreach (var file in files)
             {
                 if (!_assemblyFilters.ShouldInclude(file.Name)) continue;
@@ -112,11 +118,36 @@ namespace Bifrost.Execution
             assemblies.ForEach(AddAssembly);
         }
 
+        void SpecifyRules(_Assembly assembly)
+        {
+            _assemblySpecifiers.SpecifyUsingSpecifiersFrom(assembly);
+        }
+
+        void ReapplyFilter()
+        {
+            var assembliesToRemove = _assemblies.Where(a => !_assemblyFilters.ShouldInclude(a.GetName().Name)).ToArray();
+            assembliesToRemove.ForEach((a) =>_assemblies.Remove(a));
+        }
+
+        bool IsAssemblyDynamic(_Assembly assembly)
+        {
+            var module = assembly.GetModules().FirstOrDefault();
+            if (module != null && module.GetType().Name == "InternalModuleBuilder") return true;
+            return false;
+        }
+
+        
+
         void AddAssembly(_Assembly assembly)
         {
             lock (_lockObject)
             {
-                if (!_assemblies.Contains(assembly, comparer)) _assemblies.Add(assembly);
+                if (!_assemblies.Contains(assembly, comparer) && !IsAssemblyDynamic(assembly) )
+                {
+                    _assemblies.Add(assembly);
+                    SpecifyRules(assembly);
+                    ReapplyFilter();
+                }
             }
         }
 

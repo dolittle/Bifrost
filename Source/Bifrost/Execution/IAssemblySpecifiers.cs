@@ -30,7 +30,6 @@ namespace Bifrost.Execution
         /// Specifies using specifiers found in a specific <see cref="_Assembly"/>
         /// </summary>
         /// <param name="assembly"><see cref="_Assembly"/> to find specifiers from</param>
-        /// <param name="builder"><see cref="IAssemblyRuleBuilder"/> to use for building</param>
-        void SpecifyUsingSpecifiersFrom(_Assembly assembly, IAssemblyRuleBuilder builder);
+        void SpecifyUsingSpecifiersFrom(_Assembly assembly);
     }
 }

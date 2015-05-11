@@ -18,7 +18,8 @@ namespace Bifrost.Specs.Execution.for_AssemblyProvider.given
                 assembly_filters_mock.Object,
                 file_system_mock.Object,
                 execution_environment_mock.Object,
-                assembly_utility_mock.Object
+                assembly_utility_mock.Object,
+                assembly_specifiers_mock.Object
             );
         }
 

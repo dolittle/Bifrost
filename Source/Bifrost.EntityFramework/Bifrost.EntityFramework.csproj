@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="Entities\ConfigurationExtensions.cs" />
     <Compile Include="Entities\DbContextExtensions.cs" />
     <Compile Include="Entities\EntityContext.cs" />

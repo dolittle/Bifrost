@@ -68,7 +68,6 @@ namespace Bifrost.Configuration
             container.Bind<IConfigure>(this);
 
             Container = container;
-            ExcludeNamespacesForTypeDiscovery();
 
             defaultBindings.Initialize(Container);
             defaultConventions.Initialize();
@@ -86,18 +85,19 @@ namespace Bifrost.Configuration
             
 #if(SILVERLIGHT)
             var assemblyProvider = new AssemblyProvider();
-            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
 #else
-            var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder());
-            assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly(), assembliesConfigurationBuilder.RuleBuilder);
+            var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
+            assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly());
 
-            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder.Specification);
+            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
             var assemblyProvider = new AssemblyProvider(
                 AppDomain.CurrentDomain, 
                 new AssemblyFilters(assembliesConfiguration), 
                 new FileSystem(), 
                 new ExecutionEnvironment(),
-                new AssemblyUtility());
+                new AssemblyUtility(),
+                assemblySpecifiers);
 #endif
             var assemblies = assemblyProvider.GetAll(); 
             
@@ -274,23 +274,6 @@ namespace Bifrost.Configuration
         {
             var callbacks = Container.Get<IInstancesOf<IWantToKnowWhenConfigurationIsDone>>();
             callbacks.ForEach(c => c.Configured(this));
-        }
-
-        static void ExcludeNamespacesForTypeDiscovery()
-        {
-            // TODO : This is BAD..  Need to move this away, maybe include a list of files some how for all extensions instead!!!!
-            // reason its bad, Core suddenly knows about all extensions and what not.   No Good!
-            TypeDiscoverer.ExcludeNamespaceStartingWith("NHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("FluentNHibernate");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Castle");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("log4net");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Iesi");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Ninject");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("Microsoft");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("AutoMapper");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("SignalR");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("RavenDb");
-            TypeDiscoverer.ExcludeNamespaceStartingWith("MongoDb");
         }
 
         static Type DiscoverCanCreateContainerType(IEnumerable<_Assembly> assemblies)

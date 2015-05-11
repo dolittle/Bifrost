@@ -16,11 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using System.Linq;
-using Bifrost.Extensions;
 using Bifrost.Configuration.Assemblies;
-using Bifrost.Specifications;
 
 namespace Bifrost.Execution
 {
@@ -32,14 +28,11 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public void Specify(IAssemblyRuleBuilder builder)
         {
-            var assemblyNamesToIgnore = new[] {
+            builder.ExcludeAssembliesStartingWith(
                 "System",
                 "mscorlib",
                 "Microsoft"
-            };
-
-            assemblyNamesToIgnore.ForEach(
-                name => builder.Specification = builder.Specification.And(new ExceptAssembliesStartingWith(name)));
+            );
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -58,6 +58,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="Concepts\ConceptSerializationProvider.cs" />
     <Compile Include="Concepts\ConceptSerializer.cs" />
     <Compile Include="ConfigurationExtensions.cs" />

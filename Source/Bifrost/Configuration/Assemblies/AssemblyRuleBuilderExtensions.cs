@@ -16,29 +16,31 @@
 // limitations under the License.
 //
 #endregion
+using System;
+using System.Collections.Generic;
 using System.Linq;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
+using System.Text;
+using System.Threading.Tasks;
 using Bifrost.Specifications;
 
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Rule representing an exception for <see cref="IncludeAllRule"/>, 
-    /// excluding assembies starting with
+    /// Provides extensions for <see cref="IAssemblyRuleBuilder"/>
     /// </summary>
-    public class ExceptAssembliesStartingWith : Specification<string>
+    public static class AssemblyRuleBuilderExtensions
     {
+
         /// <summary>
-        /// Initializes an instance of <see cref="ExceptAssembliesStartingWith"/>
+        /// Excludes specified assemblies
         /// </summary>
-        /// <param name="names"></param>
-        public ExceptAssembliesStartingWith(params string[] names)
+        /// <param name="assemblyBuilder"><see cref="IAssemblyBuilder"/> to build upon</param>
+        /// <param name="names">Names that assemblies should not be starting with</param>
+        /// <returns>Chained <see cref="IAssemblyBuilder"/></returns>
+        public static IAssemblyRuleBuilder ExcludeAssembliesStartingWith(this IAssemblyRuleBuilder assemblyBuilder, params string[] names)
         {
-            Predicate = a => !names.Any(n => a.StartsWith(n));
+            assemblyBuilder.Specification = assemblyBuilder.Specification.And(new ExceptAssembliesStartingWith(names));
+            return assemblyBuilder;
         }
     }
 }
