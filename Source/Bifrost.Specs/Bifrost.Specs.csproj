@@ -292,6 +292,7 @@
     <Compile Include="Execution\for_any_conventions\SelfBindingConvention.cs" />
     <Compile Include="Execution\for_any_conventions\TypeWithSingletonAttribute.cs" />
     <Compile Include="Execution\for_any_conventions\when_resolving_a_type_that_has_singleton_attribute.cs" />
+    <Compile Include="Execution\for_AssemblyProvider\FakeModule.cs" />
     <Compile Include="Execution\for_AssemblyProvider\given\all_dependencies.cs" />
     <Compile Include="Execution\for_AssemblyProvider\given\an_unitialized_assembly_provider.cs" />
     <Compile Include="Execution\for_AssemblyProvider\FakeAssembly.cs" />

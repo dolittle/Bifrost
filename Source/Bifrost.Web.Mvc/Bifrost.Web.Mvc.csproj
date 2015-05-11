@@ -75,6 +75,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="BifrostTempDataProvider.cs" />
     <Compile Include="Commands\AmbiguousActionException.cs" />
     <Compile Include="Commands\CommandForm.cs" />

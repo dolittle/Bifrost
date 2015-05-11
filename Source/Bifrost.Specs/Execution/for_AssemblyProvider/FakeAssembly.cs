@@ -10,5 +10,10 @@ namespace Bifrost.Specs.Execution.for_AssemblyProvider
         {
             return new AssemblyName(AssemblyNameToReturn);
         }
+
+        public override Module[] GetModules(bool getResourceModules)
+        {
+            return new[] { new FakeModule() };
+        }
     }
 }
