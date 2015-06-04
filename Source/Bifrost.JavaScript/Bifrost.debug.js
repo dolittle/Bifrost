@@ -1609,7 +1609,6 @@ Bifrost.namespace("Bifrost", {
             actualType.prototype = this._super.create(instanceHash, true);
         }
         addMissingDependenciesAsNullFromTypeDefinition(instanceHash, this);
-        var dependencyInstances = resolveDependencyInstances(instanceHash, this);
         var scope = null;
         if( this !== Bifrost.Type ) {
             this.instancesPerScope = this.instancesPerScope || {};
@@ -1622,6 +1621,7 @@ Bifrost.namespace("Bifrost", {
 
         var instance = null;
         if( typeof this.createFunction !== "undefined" ) {
+            var dependencyInstances = resolveDependencyInstances(instanceHash, this);
             instance = this.createFunction(this, dependencyInstances);
         } else {
             instance = new actualType();    
