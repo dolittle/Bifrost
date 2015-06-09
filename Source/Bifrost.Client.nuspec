@@ -20,7 +20,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Bifrost.Client\bin\debug\Bifrost.Client.*" target="lib\net45"/>
+    <file src="Bifrost.Client\bin\debug\Bifrost.Client.*" target="lib\net451"/>
     <!--<file src="Bifrost.Client.WindowsPhone\bin\debug\Bifrost.Client.*" target="lib\wpa"/>-->
 	  <file src="Bifrost.Client\**\*.cs" target="src" />
     <!--<file src="Bifrost.Client.WindowsPhone\**\*.cs" target="src\wpa" />-->

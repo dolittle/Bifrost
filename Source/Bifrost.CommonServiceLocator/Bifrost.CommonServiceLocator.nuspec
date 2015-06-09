@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\Bifrost.CommonServiceLocator.*" target="lib\net45"/>
+    <file src="bin\debug\Bifrost.CommonServiceLocator.*" target="lib\net451"/>
 	<file src="**\*.cs" target="src" />
   </files>
 </package>

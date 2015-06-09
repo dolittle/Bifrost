@@ -22,7 +22,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\Bifrost.DocumentDB.*" target="lib\net45"/>
+    <file src="bin\debug\Bifrost.DocumentDB.*" target="lib\net451"/>
 	<file src="**\*.cs" target="src" />
   </files>
 </package>
