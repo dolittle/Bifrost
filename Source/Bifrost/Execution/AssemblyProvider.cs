@@ -38,7 +38,6 @@ namespace Bifrost.Execution
         AssemblyComparer comparer = new AssemblyComparer();
         _AppDomain _appDomain;
         IAssemblyFilters _assemblyFilters;
-        IFileSystem _fileSystem;
         IExecutionEnvironment _executionEnvironment;
         IAssemblyUtility _assemblyUtility;
         IAssemblySpecifiers _assemblySpecifiers;
@@ -49,21 +48,18 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="appDomain">Currently running <see cref="_AppDomain"/></param>
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
-        /// <param name="fileSystem"><see cref="IFileSystem"/> to use for interacting with the filesystem</param>
         /// <param name="executionEnvironment"><see cref="IExecutionEnvironment"/> giving us functionality needed from the currently executing environment</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
         /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
         public AssemblyProvider(
             _AppDomain appDomain, 
             IAssemblyFilters assemblyFilters, 
-            IFileSystem fileSystem, 
             IExecutionEnvironment executionEnvironment,
             IAssemblyUtility assemblyUtility,
             IAssemblySpecifiers assemblySpecifiers)
         {
             _appDomain = appDomain;
             _assemblyFilters = assemblyFilters;
-            _fileSystem = fileSystem;
             _executionEnvironment = executionEnvironment;
             _assemblyUtility = assemblyUtility;
             _assemblySpecifiers = assemblySpecifiers;
@@ -90,10 +86,8 @@ namespace Bifrost.Execution
 
         void Populate()
         {
-            var path = _executionEnvironment.CodeBase;
+            var files = _executionEnvironment.GetReferencedAssembliesFileInfo();
 
-            var files = _fileSystem.GetFilesFrom(path, "*.dll");
-            files.Concat(_fileSystem.GetFilesFrom(path,"*.exe"));
             files = files.Where(_assemblyUtility.IsAssembly);
 
             var currentAssemblies = new List<_Assembly>();

@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+using System.Collections.Generic;
+using System.IO;
 
 namespace Bifrost.Execution
 {
@@ -25,8 +27,9 @@ namespace Bifrost.Execution
     public interface IExecutionEnvironment
     {
         /// <summary>
-        /// Gets the path for where we are running from - also known as CodeBase
+        /// Gets the paths to assemblies in your environment
         /// </summary>
-        string CodeBase { get; }
+        /// <returns>All assemblies by their paths in the environment</returns>
+        IEnumerable<FileInfo> GetReferencedAssembliesFileInfo();
     }
 }

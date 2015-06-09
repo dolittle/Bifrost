@@ -18,7 +18,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 namespace Bifrost.Execution
 {
@@ -27,23 +29,30 @@ namespace Bifrost.Execution
     /// </summary>
     public class ExecutionEnvironment : IExecutionEnvironment
     {
+        IFileSystem _fileSystem;
+
         /// <summary>
         /// Initializes a new instance of <see cref="ExecutionEnvironment"/>
         /// </summary>
-        public ExecutionEnvironment()
+        /// <param name="fileSystem">The filesystem to use for getting assemblies at locations for the environment</param>
+        public ExecutionEnvironment(IFileSystem fileSystem)
         {
-            SetCodeBaseFromExecutingAssembly();
+            _fileSystem = fileSystem;
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public string CodeBase { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        
 
-        void SetCodeBaseFromExecutingAssembly()
+        public IEnumerable<FileInfo> GetReferencedAssembliesFileInfo()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new Uri(codeBase);
-            CodeBase = Path.GetDirectoryName(uri.LocalPath);
+            var directory = Path.GetDirectoryName(uri.LocalPath);
+
+            var files = _fileSystem.GetFilesFrom(directory, "*.dll");
+            files.Concat(_fileSystem.GetFilesFrom(directory, "*.exe"));
+            return files;
         }
+#pragma warning restore 1591 // Xml Comments
     }
 }

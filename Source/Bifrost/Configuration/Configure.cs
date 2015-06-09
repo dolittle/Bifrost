@@ -79,23 +79,28 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
+#if (SILVERLIGHT)
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
+#else
+        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IExecutionEnvironment environment = null)
+#endif
         {
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
             
-#if(SILVERLIGHT)
+#if (SILVERLIGHT)
             var assemblyProvider = new AssemblyProvider();
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
 #else
             var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly());
 
+            environment = new ExecutionEnvironment(new FileSystem());
+
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
             var assemblyProvider = new AssemblyProvider(
                 AppDomain.CurrentDomain, 
                 new AssemblyFilters(assembliesConfiguration), 
-                new FileSystem(), 
-                new ExecutionEnvironment(),
+                environment,
                 new AssemblyUtility(),
                 assemblySpecifiers);
 #endif
@@ -229,7 +234,7 @@ namespace Bifrost.Configuration
                 () => DefaultStorage.Initialize(Container)
             };
 
-#if(SILVERLIGHT)
+#if (SILVERLIGHT)
             initializers.ForEach(initializer => initializer());
 #else
             Parallel.ForEach(initializers, initializator => initializator());
@@ -281,7 +286,7 @@ namespace Bifrost.Configuration
             Type createContainerType = null;
             foreach (var assembly in assemblies.ToArray())
             {
-#if(NETFX_CORE)
+#if (NETFX_CORE)
                 var type = assembly.DefinedTypes.Select(t => t.AsType()).Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
 #else
                 var types = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer)));

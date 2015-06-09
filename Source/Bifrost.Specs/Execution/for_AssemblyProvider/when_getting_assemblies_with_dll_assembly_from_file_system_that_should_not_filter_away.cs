@@ -25,8 +25,7 @@ namespace Bifrost.Specs.Execution.for_AssemblyProvider
             assembly_name = new AssemblyName(assembly_file_name);
 
             file_info = new FileInfo(assembly_file_name);
-
-            file_system_mock.Setup(f => f.GetFilesFrom(code_base, "*.dll")).Returns(new[] { file_info });
+            execution_environment_mock.Setup(e => e.GetReferencedAssembliesFileInfo()).Returns(new[] { file_info });
             assembly_utility_mock.Setup(a => a.GetAssemblyNameForFile(file_info)).Returns(assembly_name);
             assembly_utility_mock.Setup(a => a.Load(assembly_name)).Returns(assembly);
             assembly_filters_mock.Setup(a => a.ShouldInclude(assembly_file_name)).Returns(true);
