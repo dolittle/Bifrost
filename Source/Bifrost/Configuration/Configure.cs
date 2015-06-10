@@ -94,7 +94,7 @@ namespace Bifrost.Configuration
             var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly());
 
-            environment = new ExecutionEnvironment(new FileSystem());
+            if( environment == null ) environment = new ExecutionEnvironment(new FileSystem());
 
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
             var assemblyProvider = new AssemblyProvider(
