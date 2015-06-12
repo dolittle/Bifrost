@@ -15,7 +15,7 @@
     <copyright>Copyright 2008 - 2015</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="FluentValidation" version="3.4.6.0" />
+      <dependency id="FluentValidation-Signed" version="3.4.6.0" />
       <dependency id="Bifrost" version="$version$" />
     </dependencies>
   </metadata>
