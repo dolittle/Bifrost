@@ -9,6 +9,8 @@ To get an idea of how the framework will help you get up and running fast, have 
 
 # Sponsors
 
+[![Join the chat at https://gitter.im/dolittle/Bifrost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dolittle/Bifrost?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![alt tag](https://raw.github.com/dolittle/Bifrost-Site/master/Sponsors/NDepend.png)](http://www.ndepend.com)
 
 # Site
