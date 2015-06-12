@@ -1,6 +1,8 @@
 ![Image of build status](https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true)
 [![Join the chat at https://gitter.im/dolittle/Bifrost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dolittle/Bifrost?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Issues are being tracked for status over at [Huboard](https://huboard.com/dolittle/Bifrost/)
+
 Bifrost is an application development framework promoting good development practices. 
 The backend development is focused on CQRS (Command Query Responsibility Segregation) for promoting Domain Driven Design.
 
