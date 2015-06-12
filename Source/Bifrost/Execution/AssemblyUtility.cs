@@ -18,7 +18,7 @@
 #endregion
 using System;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
@@ -29,10 +29,10 @@ namespace Bifrost.Execution
     public class AssemblyUtility : IAssemblyUtility
     {
 #pragma warning disable 1591 // Xml Comments
-        public bool IsAssembly(FileInfo fileInfo)
+        public bool IsAssembly(AssemblyInfo assemblyInfo)
         {
             // Borrowed from : http://stackoverflow.com/questions/8593264/determining-if-a-dll-is-a-valid-clr-dll-by-reading-the-pe-directly-64bit-issue
-            var fs = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(assemblyInfo.Path, FileMode.Open, FileAccess.Read);
 
             try
             {
@@ -94,14 +94,11 @@ namespace Bifrost.Execution
             }
         }
 
-        public AssemblyName GetAssemblyNameForFile(FileInfo fileInfo)
+        public bool IsAssemblyDynamic(_Assembly assembly)
         {
-            return AssemblyName.GetAssemblyName(fileInfo.FullName);
-        }
-
-        public _Assembly Load(AssemblyName assemblyName)
-        {
-            return Assembly.Load(assemblyName);
+            var module = assembly.GetModules().FirstOrDefault();
+            if (module != null && module.GetType().Name == "InternalModuleBuilder") return true;
+            return false;
         }
 #pragma warning restore 1591 // Xml Comments
     }

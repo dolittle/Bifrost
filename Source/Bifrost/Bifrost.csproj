@@ -131,6 +131,9 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
+    <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
+    <Compile Include="Execution\AssemblyAdded.cs" />
+    <Compile Include="Execution\AssemblyInfo.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
@@ -139,6 +142,7 @@
     <Compile Include="Configuration\ExecutionContextConfiguration.cs" />
     <Compile Include="Configuration\FrontendConfiguration.cs" />
     <Compile Include="Execution\DefaultAssemblySpecifier.cs" />
+    <Compile Include="Execution\FileSystemAssemblyProvider.cs" />
     <Compile Include="Execution\IAssemblySpecifiers.cs" />
     <Compile Include="Configuration\ICallContextConfiguration.cs" />
     <Compile Include="Configuration\ICanConfigure.cs" />
@@ -159,13 +163,12 @@
     <Compile Include="Execution\AssemblyFilters.cs" />
     <Compile Include="Execution\AssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyUtility.cs" />
-    <Compile Include="Execution\ExecutionEnvironment.cs" />
     <Compile Include="Execution\FileSystem.cs" />
     <Compile Include="Execution\IAssemblyProvider.cs" />
     <Compile Include="Execution\IAssemblyUtility.cs" />
+    <Compile Include="Execution\ICanProvideAssemblies.cs" />
     <Compile Include="Execution\ICanSpecifyAssemblies.cs" />
     <Compile Include="Execution\IAssemblyFilters.cs" />
-    <Compile Include="Execution\IExecutionEnvironment.cs" />
     <Compile Include="Execution\IFileSystem.cs" />
     <Compile Include="Execution\InvalidSignatureException.cs" />
     <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />

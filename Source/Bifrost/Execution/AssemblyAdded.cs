@@ -16,20 +16,14 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines functionality needed from the execution environment
+    /// Gets called when an assembly is added
     /// </summary>
-    public interface IExecutionEnvironment
-    {
-        /// <summary>
-        /// Gets the paths to assemblies in your environment
-        /// </summary>
-        /// <returns>All assemblies by their paths in the environment</returns>
-        IEnumerable<FileInfo> GetReferencedAssembliesFileInfo();
-    }
+    /// <param name="assembly"><see cref="_Assembly"/> that was added</param>
+    public delegate void AssemblyAdded(Assembly assembly);
 }

@@ -16,7 +16,6 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,9 +35,9 @@ namespace Bifrost.Execution
         static object _lockObject = new object();
 
         AssemblyComparer comparer = new AssemblyComparer();
-        _AppDomain _appDomain;
+
+        IEnumerable<ICanProvideAssemblies> _assemblyProviders;
         IAssemblyFilters _assemblyFilters;
-        IExecutionEnvironment _executionEnvironment;
         IAssemblyUtility _assemblyUtility;
         IAssemblySpecifiers _assemblySpecifiers;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
@@ -46,25 +45,22 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
         /// </summary>
-        /// <param name="appDomain">Currently running <see cref="_AppDomain"/></param>
+        /// <param name="assemblyProviders"><see cref="IEnumerable{ICanProvideAssemblies}">Providers</see> to provide assemblies</param>
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
-        /// <param name="executionEnvironment"><see cref="IExecutionEnvironment"/> giving us functionality needed from the currently executing environment</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
         /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
         public AssemblyProvider(
-            _AppDomain appDomain, 
+            IEnumerable<ICanProvideAssemblies> assemblyProviders,
             IAssemblyFilters assemblyFilters, 
-            IExecutionEnvironment executionEnvironment,
             IAssemblyUtility assemblyUtility,
             IAssemblySpecifiers assemblySpecifiers)
         {
-            _appDomain = appDomain;
+            _assemblyProviders = assemblyProviders;
             _assemblyFilters = assemblyFilters;
-            _executionEnvironment = executionEnvironment;
             _assemblyUtility = assemblyUtility;
             _assemblySpecifiers = assemblySpecifiers;
-            appDomain.AssemblyLoad += AssemblyLoaded;
 
+            HookUpAssemblyAddedForProviders();
             Populate();
         }
 
@@ -74,42 +70,32 @@ namespace Bifrost.Execution
             return _assemblies;
         }
 #pragma warning restore 1591 // Xml Comments
-
-        void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
+        void HookUpAssemblyAddedForProviders()
         {
-            if (args.LoadedAssembly.IsDynamic) return;
+            foreach (var provider in _assemblyProviders)
+                provider.AssemblyAdded += AssemblyLoaded;
+        }
 
-            var assemblyFile = new FileInfo(args.LoadedAssembly.Location);
+        void AssemblyLoaded(Assembly assembly)
+        {
+            if (_assemblyUtility.IsAssemblyDynamic(assembly)) return;
+
+            var assemblyFile = new FileInfo(assembly.Location);
             if (!_assemblyFilters.ShouldInclude(assemblyFile.Name)) return;
-            AddAssembly(args.LoadedAssembly);
+            AddAssembly(assembly);
         }
 
         void Populate()
         {
-            var files = _executionEnvironment.GetReferencedAssembliesFileInfo();
-
-            files = files.Where(_assemblyUtility.IsAssembly);
-
-            var currentAssemblies = new List<_Assembly>();
-            currentAssemblies.AddRange(
-                _appDomain.GetAssemblies()
-                    .Where(a => _assemblyFilters.ShouldInclude(a.GetName().Name)
-                )
-            );
-
-            currentAssemblies.ForEach(SpecifyRules);
-
-            foreach (var file in files)
+            foreach (var provider in _assemblyProviders)
             {
-                if (!_assemblyFilters.ShouldInclude(file.Name)) continue;
-
-                var assemblyName = _assemblyUtility.GetAssemblyNameForFile(file);
-                if (!currentAssemblies.Any(assembly => Matches(assemblyName, assembly.GetName())))
-                    currentAssemblies.Add(_assemblyUtility.Load(assemblyName));
+                var assembliesToInclude = provider.AvailableAssemblies.Where(
+                    a => 
+                        _assemblyFilters.ShouldInclude(a.FileName) && 
+                        _assemblyUtility.IsAssembly(a)
+                    );
+                assembliesToInclude.Select(provider.Get).ForEach(AddAssembly);
             }
-
-            var assemblies = currentAssemblies.Distinct(comparer);
-            assemblies.ForEach(AddAssembly);
         }
 
         void SpecifyRules(_Assembly assembly)
@@ -123,20 +109,12 @@ namespace Bifrost.Execution
             assembliesToRemove.ForEach((a) =>_assemblies.Remove(a));
         }
 
-        bool IsAssemblyDynamic(_Assembly assembly)
-        {
-            var module = assembly.GetModules().FirstOrDefault();
-            if (module != null && module.GetType().Name == "InternalModuleBuilder") return true;
-            return false;
-        }
-
-        
-
         void AddAssembly(_Assembly assembly)
         {
             lock (_lockObject)
             {
-                if (!_assemblies.Contains(assembly, comparer) && !IsAssemblyDynamic(assembly) )
+                if (!_assemblies.Contains(assembly, comparer) &&
+                    !_assemblyUtility.IsAssemblyDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
                     SpecifyRules(assembly);
@@ -144,7 +122,6 @@ namespace Bifrost.Execution
                 }
             }
         }
-
 
         bool Matches(AssemblyName a, AssemblyName b)
         {

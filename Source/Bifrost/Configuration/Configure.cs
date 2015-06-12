@@ -82,7 +82,7 @@ namespace Bifrost.Configuration
 #if (SILVERLIGHT)
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
 #else
-        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IExecutionEnvironment environment = null)
+        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IEnumerable<ICanProvideAssemblies> additionalAssemblyProviders = null)
 #endif
         {
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
@@ -94,13 +94,18 @@ namespace Bifrost.Configuration
             var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly());
 
-            if( environment == null ) environment = new ExecutionEnvironment(new FileSystem());
+            var assemblyProviders = new List<ICanProvideAssemblies>
+            {
+                new AppDomainAssemblyProvider(),
+                new FileSystemAssemblyProvider(new FileSystem())
+            };
+
+            if (additionalAssemblyProviders != null) assemblyProviders.AddRange(additionalAssemblyProviders);
 
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
             var assemblyProvider = new AssemblyProvider(
-                AppDomain.CurrentDomain, 
+                assemblyProviders,
                 new AssemblyFilters(assembliesConfiguration), 
-                environment,
                 new AssemblyUtility(),
                 assemblySpecifiers);
 #endif
