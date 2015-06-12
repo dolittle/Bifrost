@@ -79,7 +79,7 @@
                 for (var property in self.target) {
                     if (ko.isObservable(self.target[property]) === true) {
                         hasParameters = true;
-                        var value = self.target[property]();
+                        var value = ko.unwrap(self.target[property]());
                         if (typeof value === "undefined" || value === null) {
                             isSet = false;
                             break;

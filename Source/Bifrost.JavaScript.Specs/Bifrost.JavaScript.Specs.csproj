@@ -166,6 +166,7 @@
     <Content Include="markup\for_ObjectModelElementVisitor\given\an_object_model_element_visitor.js" />
     <Content Include="markup\for_ObjectModelElementVisitor\when_visiting_custom_element.js" />
     <Content Include="navigation\for_NavigationFrame\when_setting_container_and_no_mapping_for_url.js" />
+    <Content Include="read\for_Query\when_asking_if_all_parameters_are_set_and_one_observable_parameter_is_not_set.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_left_becomes_satisfied.js" />
     <Content Include="specifications\for_Or\when_both_sides_are_not_satisfied_but_right_becomes_satisfied.js" />
