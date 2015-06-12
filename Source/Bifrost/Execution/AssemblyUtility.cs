@@ -31,6 +31,8 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public bool IsAssembly(AssemblyInfo assemblyInfo)
         {
+            if (string.IsNullOrEmpty(assemblyInfo.Path)) return true;
+
             // Borrowed from : http://stackoverflow.com/questions/8593264/determining-if-a-dll-is-a-valid-clr-dll-by-reading-the-pe-directly-64bit-issue
             var fs = new FileStream(assemblyInfo.Path, FileMode.Open, FileAccess.Read);
 
