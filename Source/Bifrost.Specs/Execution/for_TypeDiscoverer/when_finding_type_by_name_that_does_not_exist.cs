@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Bifrost.Execution;
-using Machine.Specifications;
+﻿//using System;
+//using System.Collections.Generic;
+//using Bifrost.Execution;
+//using Machine.Specifications;
 
-namespace Bifrost.Specs.Execution.for_TypeDiscoverer
-{
-    [Subject(typeof(TypeDiscoverer))]
-    public class when_finding_type_by_name_that_does_not_exist : given.a_type_discoverer
-    {
-        static Type type_found;
+//namespace Bifrost.Specs.Execution.for_TypeDiscoverer
+//{
+//    [Subject(typeof(TypeDiscoverer))]
+//    public class when_finding_type_by_name_that_does_not_exist : given.a_type_discoverer
+//    {
+//        static Type type_found;
 
-        Establish context = () => type_finder_mock.Setup(t => t.FindTypeByFullName(Moq.It.IsAny<IEnumerable<Type>>(), Moq.It.IsAny<string>())).Returns((Type)null);
+//        Establish context = () => type_finder_mock.Setup(t => t.FindTypeByFullName(Moq.It.IsAny<IEnumerable<Type>>(), Moq.It.IsAny<string>())).Returns((Type)null);
 
-        Because of = () => type_found = type_discoverer.FindTypeByFullName(typeof(Single).FullName + "Blah");
+//        Because of = () => type_found = type_discoverer.FindTypeByFullName(typeof(Single).FullName + "Blah");
 
-        It should_be_null = () => type_found.ShouldBeNull();
-    }
-}
+//        It should_be_null = () => type_found.ShouldBeNull();
+//    }
+//}

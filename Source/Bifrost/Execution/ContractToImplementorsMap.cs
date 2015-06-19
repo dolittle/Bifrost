@@ -49,11 +49,26 @@ namespace Bifrost.Execution
                         !typeInfo.IsSealed;
                 }).AsParallel();
 
+            var implementorQuery = types.Where(
+                type =>
+                {
+                    var typeInfo = type.GetTypeInfo();
+                    return !typeInfo.IsInterface && !typeInfo.IsAbstract;
+                });
+
             contractQuery.ForAll(type => GetImplementingTypesFor(type));
-
-            Parallel.ForEach(_contractsAndImplementors.Keys, contract => CollectImplementors(types, contract));
-
+            Parallel.ForEach(implementorQuery, t => CollectImplementations(t, contractQuery));
             Parallel.ForEach(types, _allTypes.Add);
+        }
+
+        private void CollectImplementations(Type implementor, IEnumerable<Type> contractQuery)
+        {
+            var contracts = implementor.AllBaseAndImplementingTypes().Union(contractQuery);
+            contracts.ForEach(contract =>
+            {
+                var implementorKey = GetKeyFor(implementor);
+                GetImplementingTypesFor(contract)[implementorKey] = implementor;
+            });
         }
 
         public IEnumerable<Type> GetImplementorsFor<T>()
@@ -63,27 +78,11 @@ namespace Bifrost.Execution
 
         public IEnumerable<Type> GetImplementorsFor(Type contract)
         {
+
             var implementingTypes = GetImplementingTypesFor(contract);
             return implementingTypes.Values;
         }
 #pragma warning restore 1591 // Xml Comments
-
-        void CollectImplementors(IEnumerable<Type> types, Type contract)
-        {
-            var implementingTypes = GetImplementingTypesFor(contract);
-            
-            var implementors = types.Where(type => 
-                type.Implements(contract) &&
-                !type.GetTypeInfo().IsInterface &&
-                !type.GetTypeInfo().IsAbstract); //.AsParallel();
-
-            
-            implementors.ForEach(implementor =>
-            {
-                var implementorKey = GetKeyFor(implementor);
-                implementingTypes[implementorKey] = implementor;
-            });
-        }
 
         ConcurrentDictionary<string, Type> GetImplementingTypesFor(Type contract)
         {

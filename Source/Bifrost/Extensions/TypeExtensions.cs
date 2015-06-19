@@ -17,10 +17,9 @@
 //
 #endregion
 using System;
-using System.Reflection;
-using System.Linq;
-using Bifrost.Concepts;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Bifrost.Extensions
 {
@@ -226,6 +225,28 @@ namespace Bifrost.Extensions
         }
 
         /// <summary>
+        /// Check if a type implements an open generic type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="openGenericType"></param>
+        /// <returns></returns>
+        public static bool ImplementsOpenGeneric(this Type type, Type openGenericType)
+        {
+
+#if(SILVERLIGHT)
+            var openGenericTypeInfo = openGenericType;
+            var typeInfo = type;
+#else
+            var openGenericTypeInfo = openGenericType.GetTypeInfo();
+            var typeInfo = type.GetTypeInfo();
+#endif
+
+            return typeInfo.GetInterfaces()
+                .Where(i => i.IsGenericType) // Probably doesn't compile on NETFX_CORE. 
+                .Where(i => i.GetGenericTypeDefinition() == openGenericTypeInfo)
+                .Any();
+        }
+        /// <summary>
         /// Check if a type is a "primitve" type.  This is not just dot net primitives but basic types like string, decimal, datetime,
         /// that are not classified as primitive types.
         /// </summary>
@@ -250,31 +271,38 @@ namespace Bifrost.Extensions
         /// <returns>True if derived, false if not</returns>
         public static bool Implements(this Type type, Type super)
         {
-#if(SILVERLIGHT)
-            var superTypeInfo = super;
-            var typeInfo = type;
-#else
-            var superTypeInfo = super.GetTypeInfo();
-            var typeInfo = type.GetTypeInfo();
-#endif
-            if ( superTypeInfo.IsGenericType ) return superTypeInfo.IsAssignableFrom(type);
-            if (superTypeInfo.IsInterface)
-            {
-                foreach( var @interface in typeInfo.GetInterfaces() ) 
-                {
-#if(SILVERLIGHT)
-                    var interfaceTypeInfo = @interface;
-#else
-                    var interfaceTypeInfo = @interface.GetTypeInfo();
-#endif
-                    if (interfaceTypeInfo.IsGenericType && interfaceTypeInfo.GetGenericTypeDefinition() == super) return true;
-                }
-                return false;
-            }
-            if (typeInfo.BaseType == null || !typeInfo.BaseType.IsGenericType) return false;
-
-            return typeInfo.BaseType.GetGenericTypeDefinition() == super;
-
+            return type.AllBaseAndImplementingTypes().Contains(super);
         }
+
+        /// <summary>
+        /// Returns all base types of a given type, both open and closed generic (if any), including itself.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> AllBaseAndImplementingTypes(this Type type)
+        {
+            return type.BaseTypes()
+                .Concat(type.GetInterfaces())
+                .SelectMany(ThisAndMaybeOpenType);
+        }
+
+	    static IEnumerable<Type> BaseTypes(this Type type)
+	    {
+	        var currentType = type;
+            while (currentType != null)
+	        {
+	            yield return currentType;
+	            currentType = currentType.BaseType;
+	        }
+	    }
+
+	    static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
+	    {
+	        yield return type;
+	        if (type.IsGenericType && !type.ContainsGenericParameters)
+	        {
+	            yield return type.GetGenericTypeDefinition();
+	        }
+	    }
 	}
 }
