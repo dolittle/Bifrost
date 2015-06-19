@@ -60,7 +60,7 @@ namespace Bifrost.Execution
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly => 
                     !assembly.IsDynamic && 
-                    assembly.Location == assemblyInfo.Path).SingleOrDefault();
+                    assembly.GetName().Name == assemblyInfo.Name).SingleOrDefault();
         }
 #pragma warning restore 1591 // Xml Comments
 
