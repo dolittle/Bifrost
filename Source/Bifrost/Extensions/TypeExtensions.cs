@@ -240,5 +240,41 @@ namespace Bifrost.Extensions
 #endif
                     || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type) || type == typeof(decimal);
         }
+
+
+        /// <summary>
+        /// Check if a type implements another type - supporting interfaces, abstract types, with or without generics
+        /// </summary>
+        /// <param name="type">Type to check</param>
+        /// <param name="super">Super / parent type to check against</param>
+        /// <returns>True if derived, false if not</returns>
+        public static bool Implements(this Type type, Type super)
+        {
+#if(SILVERLIGHT)
+            var superTypeInfo = super;
+            var typeInfo = type;
+#else
+            var superTypeInfo = super.GetTypeInfo();
+            var typeInfo = type.GetTypeInfo();
+#endif
+            if ( superTypeInfo.IsGenericType ) return superTypeInfo.IsAssignableFrom(type);
+            if (superTypeInfo.IsInterface)
+            {
+                foreach( var @interface in typeInfo.GetInterfaces() ) 
+                {
+#if(SILVERLIGHT)
+                    var interfaceTypeInfo = @interface;
+#else
+                    var interfaceTypeInfo = @interface.GetTypeInfo();
+#endif
+                    if (interfaceTypeInfo.IsGenericType && interfaceTypeInfo.GetGenericTypeDefinition() == super) return true;
+                }
+                return false;
+            }
+            if (typeInfo.BaseType == null || !typeInfo.BaseType.IsGenericType) return false;
+
+            return typeInfo.BaseType.GetGenericTypeDefinition() == super;
+
+        }
 	}
 }

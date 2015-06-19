@@ -605,6 +605,9 @@
     <Compile Include="..\Bifrost\Execution\IContainer.cs">
       <Link>Execution\IContainer.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Execution\IContractToImplementorsMap.cs">
+      <Link>Execution\IContractToImplementorsMap.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Execution\IExecutionContext.cs">
       <Link>Execution\IExecutionContext.cs</Link>
     </Compile>
@@ -1023,6 +1026,7 @@
     <Compile Include="Dynamic\BindableExpandoType.cs" />
     <Compile Include="Dynamic\BindableExpandoObject.cs" />
     <Compile Include="Execution\AssemblyProvider.cs" />
+    <Compile Include="Execution\ContractToImplementorsMap.cs" />
     <Compile Include="Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\IDependencyPropertySubscription.cs" />

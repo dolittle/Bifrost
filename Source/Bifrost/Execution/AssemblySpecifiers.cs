@@ -17,7 +17,6 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Bifrost.Configuration.Assemblies;
@@ -31,26 +30,26 @@ namespace Bifrost.Execution
     public class AssemblySpecifiers : IAssemblySpecifiers
     {
         ITypeFinder _typeFinder;
+        IContractToImplementorsMap _contractToImplementorsMap;
         IAssemblyRuleBuilder _assemblyRuleBuilder;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblySpecifiers"/>
         /// </summary>
+        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
         /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding types</param>
         /// <param name="assemblyRuleBuilder"><see cref="IAssemblyRuleBuilder"/> used for building the rules for assemblies</param>
-        public AssemblySpecifiers(ITypeFinder typeFinder, IAssemblyRuleBuilder assemblyRuleBuilder)
+        public AssemblySpecifiers(IContractToImplementorsMap contractToImplementorsMap, ITypeFinder typeFinder, IAssemblyRuleBuilder assemblyRuleBuilder)
         {
             _typeFinder = typeFinder;
             _assemblyRuleBuilder = assemblyRuleBuilder;
+            _contractToImplementorsMap = contractToImplementorsMap;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public void SpecifyUsingSpecifiersFrom(_Assembly assembly)
         {
-            var types = new List<Type>();
-            types.AddRange(assembly.GetTypes());
-
-            var assemblySpecifiers = _typeFinder.FindMultiple<ICanSpecifyAssemblies>(types);
+            var assemblySpecifiers = _typeFinder.FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap);
             assemblySpecifiers.Where(type => type.HasDefaultConstructor()).ForEach(type =>
             {
                 var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
@@ -58,6 +57,5 @@ namespace Bifrost.Execution
             });
         }
 #pragma warning restore 1591 // Xml Comments
-
     }
 }

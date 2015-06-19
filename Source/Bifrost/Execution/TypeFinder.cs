@@ -19,9 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if(SILVERLIGHT)
-using System.Windows;
-#endif
 using Bifrost.Extensions;
 
 namespace Bifrost.Execution
@@ -32,62 +29,42 @@ namespace Bifrost.Execution
     public class TypeFinder : ITypeFinder
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type FindSingle<T>(IEnumerable<Type> types)
+        public Type FindSingle<T>(IContractToImplementorsMap types)
         {
             var type = FindSingle(types, typeof(T));
             return type;
         }
 
-        public IEnumerable<Type> FindMultiple<T>(IEnumerable<Type> types)
+        public IEnumerable<Type> FindMultiple<T>(IContractToImplementorsMap types)
         {
             var typesFound = FindMultiple(types, typeof(T));
             return typesFound;
         }
 
-        public Type FindSingle(IEnumerable<Type> types, Type type)
+        public Type FindSingle(IContractToImplementorsMap types, Type type)
         {
-            var typesFound = Find(types, type);
+            var typesFound = types.GetImplementorsFor(type);
             ThrowIfMultipleTypesFound(type, typesFound);
             return typesFound.SingleOrDefault();
         }
 
-        public IEnumerable<Type> FindMultiple(IEnumerable<Type> types, Type type)
+        public IEnumerable<Type> FindMultiple(IContractToImplementorsMap types, Type type)
         {
-            var typesFound = Find(types, type);
+            var typesFound = types.GetImplementorsFor(type);
             return typesFound;
         }
 
-        public Type FindTypeByFullName(IEnumerable<Type> types, string fullName)
+        public Type FindTypeByFullName(IContractToImplementorsMap types, string fullName)
         {
-            var typeFound = types.Where(t => t.FullName == fullName).SingleOrDefault();
+            var typeFound = types.All.Where(t => t.FullName == fullName).SingleOrDefault();
             ThrowIfTypeNotFound(fullName, typeFound);
             return typeFound;
         }
 #pragma warning restore 1591 // Xml Comments
-        Type[] Find(IEnumerable<Type> types, Type type)
+
+        void ThrowIfMultipleTypesFound(Type type, IEnumerable<Type> typesFound)
         {
-            Func<Type, Type, bool> isAssignableFrom = (t1, t2) => t2.IsAssignableFrom(t1);
-            if (type.IsInterface) isAssignableFrom = (t1, t2) => t1.HasInterface(t2);
-
-            var query = types.Where(
-                t=>isAssignableFrom(t,type) &&
-#if(NETFX_CORE)
-                !t.GetTypeInfo().IsInterface &&
-                !t.GetTypeInfo().IsAbstract
-
-#else
-                !t.IsInterface &&
-                !t.IsAbstract
-#endif
-            );
-
-            var typesFound = query.ToArray();
-            return typesFound;
-        }
-
-        void ThrowIfMultipleTypesFound(Type type, Type[] typesFound)
-        {
-            if (typesFound.Length > 1)
+            if (typesFound.Count() > 1)
                 throw new MultipleTypesFoundException(string.Format("More than one type found for '{0}'", type.FullName));
         }
 

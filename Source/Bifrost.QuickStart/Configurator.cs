@@ -3,15 +3,34 @@ using System.Web.Routing;
 using Bifrost.Configuration;
 using Web.Domain.HumanResources.Foos;
 using Bifrost.Web.Services;
+using Bifrost.Read;
+using Web.Read.HumanResources.Employees;
 
 namespace Web
 {
+
+    public class Something : IQueryFor<Employee>
+    {
+
+    }
+
+    public class Implementation : Something
+    {
+
+    }
+
     public class Configurator : ICanConfigure
     {
         public void Configure(IConfigure configure)
         {
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
+
+            var queryFor = typeof(IQueryFor<>);
+            var allEmployees = typeof(Implementation);
+            var interfaces = allEmployees.GetInterfaces();
+            
+
 
             configure
                 .Serialization

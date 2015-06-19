@@ -30,14 +30,16 @@ namespace Bifrost.Configuration.Defaults
 	{
         AssembliesConfiguration _assembliesConfiguration;
         IAssemblyProvider _assemblyProvider;
+        IContractToImplementorsMap _contractToImplentorsMap;
 
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultBindings"/>
         /// </summary>
-        public DefaultBindings(AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
+        public DefaultBindings(AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider, IContractToImplementorsMap contractToImplentorsMap)
         {
             _assembliesConfiguration = assembliesConfiguration;
             _assemblyProvider = assemblyProvider;
+            _contractToImplentorsMap = contractToImplentorsMap;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -46,6 +48,7 @@ namespace Bifrost.Configuration.Defaults
             container.Bind(container);
 #if(!SILVERLIGHT)
             container.Bind<_AppDomain>(AppDomain.CurrentDomain);
+            container.Bind<IContractToImplementorsMap>(_contractToImplentorsMap);
 #endif
             container.Bind<AssembliesConfiguration>(_assembliesConfiguration);
             container.Bind<IAssemblyProvider>(_assemblyProvider);

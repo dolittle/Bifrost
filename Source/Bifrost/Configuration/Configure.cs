@@ -85,14 +85,20 @@ namespace Bifrost.Configuration
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IEnumerable<ICanProvideAssemblies> additionalAssemblyProviders = null)
 #endif
         {
+            IContractToImplementorsMap contractToImplementorsMap;
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
-            
+
+            contractToImplementorsMap = new ContractToImplementorsMap();
 #if (SILVERLIGHT)
             var assemblyProvider = new AssemblyProvider();
             var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
 #else
-            var assemblySpecifiers = new AssemblySpecifiers(new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
-            assemblySpecifiers.SpecifyUsingSpecifiersFrom(Assembly.GetExecutingAssembly());
+
+
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            contractToImplementorsMap.Feed(executingAssembly.GetTypes());
+            var assemblySpecifiers = new AssemblySpecifiers(contractToImplementorsMap, new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
+            assemblySpecifiers.SpecifyUsingSpecifiersFrom(executingAssembly);
 
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
@@ -107,7 +113,8 @@ namespace Bifrost.Configuration
                 assemblyProviders,
                 new AssemblyFilters(assembliesConfiguration), 
                 new AssemblyUtility(),
-                assemblySpecifiers);
+                assemblySpecifiers,
+                contractToImplementorsMap);
 #endif
             var assemblies = assemblyProvider.GetAll(); 
             
@@ -116,7 +123,7 @@ namespace Bifrost.Configuration
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
-            var configure = With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider);
+            var configure = With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider, contractToImplementorsMap);
             configure.EntryAssembly = canCreateContainerType.Assembly;
             configure.Initialize();
             return configure;
@@ -128,10 +135,11 @@ namespace Bifrost.Configuration
         /// <param name="container"><see cref="IContainer"/> to configure with</param>
         /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> to use for providing assemblies</param>
+        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
+        public static Configure With(IContainer container, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider, IContractToImplementorsMap contractToImplementorsMap)
         {
-            return With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider);
+            return With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider, contractToImplementorsMap);
         }
 
         /// <summary>
@@ -141,10 +149,11 @@ namespace Bifrost.Configuration
         /// <param name="defaultObjectLifecycle">Default <see cref="BindingLifecycle"/> for object creation/management</param>
         /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use</param>
         /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> to use for providing assemblies</param>
+        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
         /// <returns>Configuration object to continue configuration on</returns>
-        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider)
+        public static Configure With(IContainer container, BindingLifecycle defaultObjectLifecycle, AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider, IContractToImplementorsMap contractToImplementorsMap)
         {
-            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings(assembliesConfiguration, assemblyProvider), assembliesConfiguration);
+            return With(container, defaultObjectLifecycle, new DefaultConventions(container), new DefaultBindings(assembliesConfiguration, assemblyProvider, contractToImplementorsMap), assembliesConfiguration);
         }
 
         /// <summary>

@@ -40,6 +40,7 @@ namespace Bifrost.Execution
         IAssemblyFilters _assemblyFilters;
         IAssemblyUtility _assemblyUtility;
         IAssemblySpecifiers _assemblySpecifiers;
+        IContractToImplementorsMap _contractToImplementorsMap;
         ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
 
         /// <summary>
@@ -49,16 +50,19 @@ namespace Bifrost.Execution
         /// <param name="assemblyFilters"><see cref="IAssemblyFilters"/> to use for filtering assemblies through</param>
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
         /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
+        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
         public AssemblyProvider(
             IEnumerable<ICanProvideAssemblies> assemblyProviders,
             IAssemblyFilters assemblyFilters, 
             IAssemblyUtility assemblyUtility,
-            IAssemblySpecifiers assemblySpecifiers)
+            IAssemblySpecifiers assemblySpecifiers,
+            IContractToImplementorsMap contractToImplementorsMap)
         {
             _assemblyProviders = assemblyProviders;
             _assemblyFilters = assemblyFilters;
             _assemblyUtility = assemblyUtility;
             _assemblySpecifiers = assemblySpecifiers;
+            _contractToImplementorsMap = contractToImplementorsMap;
 
             HookUpAssemblyAddedForProviders();
             Populate();
@@ -117,6 +121,13 @@ namespace Bifrost.Execution
                     !_assemblyUtility.IsAssemblyDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
+
+                    if (assembly.FullName.Contains("Web"))
+                    {
+                        var i = 0;
+                        i++;
+                    }
+                    _contractToImplementorsMap.Feed(assembly.GetTypes());
                     SpecifyRules(assembly);
                     ReapplyFilter();
                 }
