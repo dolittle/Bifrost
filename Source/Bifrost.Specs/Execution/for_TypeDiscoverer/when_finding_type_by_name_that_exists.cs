@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Bifrost.Execution;
 using Machine.Specifications;
 
@@ -10,7 +9,7 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer
     {
         static Type type_found;
 
-        Establish context = () => type_finder_mock.Setup(t => t.FindTypeByFullName(contract_to_implementors_map_mock.Object, Moq.It.IsAny<string>())).Returns(typeof(Single));
+        Establish context = () => GetMock<ITypeFinder>().Setup(t => t.FindTypeByFullName(Get<IContractToImplementorsMap>(), Moq.It.IsAny<string>())).Returns(typeof(Single));
 
         Because of = () => type_found = type_discoverer.FindTypeByFullName(typeof(Single).FullName);
 

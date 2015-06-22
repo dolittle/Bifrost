@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bifrost.Execution;
+using Bifrost.Testing;
 using Machine.Specifications;
-using Moq;
 
 namespace Bifrost.Specs.Execution.for_TypeFinder.given
 {
-    public class a_type_finder
+    public class a_type_finder : dependency_injection
     {
         protected static TypeFinder type_finder;
         protected static IEnumerable<Type> types;
-        protected static Mock<IContractToImplementorsMap> contract_to_implementors_map_mock;
 
         Establish context = () =>
         {
@@ -22,8 +21,7 @@ namespace Bifrost.Specs.Execution.for_TypeFinder.given
                 typeof(SecondMultiple)
             };
 
-            contract_to_implementors_map_mock = new Mock<IContractToImplementorsMap>();
-            contract_to_implementors_map_mock.SetupGet(c => c.All).Returns(types);
+            GetMock<IContractToImplementorsMap>().SetupGet(c => c.All).Returns(types);
 
             type_finder = new TypeFinder();
         };

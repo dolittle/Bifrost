@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Execution.for_TypeFinder
     {
         static Type type_found;
 
-        Because of = () => type_found = type_finder.FindTypeByFullName(contract_to_implementors_map_mock.Object, typeof(Single).FullName);
+        Because of = () => type_found = type_finder.FindTypeByFullName(Get<IContractToImplementorsMap>(), typeof(Single).FullName);
 
         It should_not_return_null = () => type_found.ShouldNotBeNull();
         It should_return_the_correct_type = () => type_found.ShouldEqual(typeof(Single));

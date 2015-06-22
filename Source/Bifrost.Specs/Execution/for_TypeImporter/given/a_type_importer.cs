@@ -1,20 +1,16 @@
 ﻿using Bifrost.Execution;
+using Bifrost.Testing;
 using Machine.Specifications;
-using Moq;
 
 namespace Bifrost.Specs.Execution.for_TypeImporter.given
 {
-	public class a_type_importer
-	{
-		protected static TypeImporter type_importer;
-		protected static Mock<ITypeDiscoverer> type_discoverer_mock;
-	    protected static Mock<IContainer> container_mock;
+    public class a_type_importer : dependency_injection
+    {
+        protected static TypeImporter type_importer;
 
-		Establish context = () =>
-		                    	{
-									container_mock = new Mock<IContainer>();
-									type_discoverer_mock = new Mock<ITypeDiscoverer>();
-									type_importer = new TypeImporter(container_mock.Object,type_discoverer_mock.Object);
-		                    	};
-	}
+        Establish context = () =>
+        {
+            type_importer = Get<TypeImporter>();
+        };
+    }
 }

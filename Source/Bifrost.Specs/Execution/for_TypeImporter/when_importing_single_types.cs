@@ -9,11 +9,11 @@ namespace Bifrost.Specs.Execution.for_TypeImporter
         static object instance;
 
         Because of = () =>
-                         {
-                             type_discoverer_mock.Setup(t => t.FindSingle<ISingleInterface>()).Returns(typeof (SingleClass));
-                             container_mock.Setup(c => c.Get(typeof (SingleClass))).Returns(new SingleClass());
-                             instance = type_importer.Import<ISingleInterface>();
-                         };
+        {
+            GetMock<ITypeDiscoverer>().Setup(t => t.FindSingle<ISingleInterface>()).Returns(typeof (SingleClass));
+            GetMock<IContainer>().Setup(c => c.Get(typeof (SingleClass))).Returns(new SingleClass());
+            instance = type_importer.Import<ISingleInterface>();
+        };
 
         It should_not_return_null = () => instance.ShouldNotBeNull();
         It should_return_expected_type = () => instance.ShouldBeOfExactType<SingleClass>();

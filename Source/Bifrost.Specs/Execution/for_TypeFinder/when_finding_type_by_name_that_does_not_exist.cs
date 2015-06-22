@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Execution.for_TypeFinder
     {
         static Exception exception;
 
-        Because of = () => exception = Catch.Exception(() => type_finder.FindTypeByFullName(contract_to_implementors_map_mock.Object, typeof(Single).FullName + "Blah"));
+        Because of = () => exception = Catch.Exception(() => type_finder.FindTypeByFullName(Get<IContractToImplementorsMap>(), typeof(Single).FullName + "Blah"));
 
         It should_be_throw_unable_to_resolve_type_by_name = () => exception.ShouldBeOfExactType<UnableToResolveTypeByName>();
     }
