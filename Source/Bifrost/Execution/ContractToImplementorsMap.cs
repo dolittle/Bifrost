@@ -32,11 +32,10 @@ namespace Bifrost.Execution
     public class ContractToImplementorsMap : IContractToImplementorsMap
     {
         ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>> _contractsAndImplementors = new ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>>();
-        List<Type> _allTypes = new List<Type>();
-
+        ConcurrentDictionary<Type, Type> _allTypes = new ConcurrentDictionary<Type, Type>();
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<Type> All { get { lock (_allTypes) return _allTypes; } }
+        public IEnumerable<Type> All { get { return _allTypes.Keys; } }
 
         public void Feed(IEnumerable<Type> types)
         {
@@ -55,29 +54,26 @@ namespace Bifrost.Execution
             return implementingTypes.Values;
         }
 #pragma warning restore 1591 // Xml Comments
+
         void AddTypesToAllTypes(IEnumerable<Type> types)
         {
-            lock (_allTypes) _allTypes.AddRange(types.Where(type => !_allTypes.Contains(type)));
+            types.ForEach(type => _allTypes[type] = type);
         }
 
         void MapTypes(IEnumerable<Type> types)
         {
-            var implementors = types.Where(
-                            type =>
-                            {
-                                var typeInfo = type.GetTypeInfo();
-                                return !typeInfo.IsInterface && !typeInfo.IsAbstract;
-                            });
+            var implementors = types.Where(IsImplementation);
             Parallel.ForEach(implementors, implementor =>
             {
-                var bases = implementor.AllBaseAndImplementingTypes();
-                bases.ForEach(contract =>
-                {
-                    var implementorKey = GetKeyFor(implementor);
-                    var implementingTypes = GetImplementingTypesFor(contract);
-                    implementingTypes[implementorKey] = implementor;
-                });
+                var baseAndImplementingTypes = implementor.AllBaseAndImplementingTypes();
+                baseAndImplementingTypes.ForEach(contract => GetImplementingTypesFor(contract)[GetKeyFor(implementor)] = implementor);
             });
+        }
+
+        bool IsImplementation(Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+            return !typeInfo.IsInterface && !typeInfo.IsAbstract;
         }
 
         ConcurrentDictionary<string, Type> GetImplementingTypesFor(Type contract)
