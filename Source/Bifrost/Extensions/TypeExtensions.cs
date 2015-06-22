@@ -284,7 +284,7 @@ namespace Bifrost.Extensions
             return type.BaseTypes()
                 .Concat(type.GetInterfaces())
                 .SelectMany(ThisAndMaybeOpenType)
-                .Where(t=>t != type && type != typeof(Object));
+                .Where(t=>t != type && t != typeof(Object));
         }
 
 	    static IEnumerable<Type> BaseTypes(this Type type)
