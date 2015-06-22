@@ -1,17 +1,19 @@
-﻿//using System;
-//using Bifrost.Execution;
-//using Machine.Specifications;
+﻿using System;
+using Bifrost.Execution;
+using Machine.Specifications;
 
-//namespace Bifrost.Specs.Execution.for_TypeFinder
-//{
-//    [Subject(typeof(TypeFinder))]
-//    public class when_finding_types_with_only_one_implementation : given.a_type_finder
-//    {
-//        static Type type_found;
+namespace Bifrost.Specs.Execution.for_TypeFinder
+{
+    [Subject(typeof(TypeFinder))]
+    public class when_finding_types_with_only_one_implementation : given.a_type_finder
+    {
+        static Type type_found;
 
-//        Because of = () => type_found = type_finder.FindSingle<ISingle>(types);
+        Establish context = () => contract_to_implementors_map_mock.Setup(c => c.GetImplementorsFor(typeof(ISingle))).Returns(new[] { typeof(Single) });
 
-//        It should_not_return_null = () => type_found.ShouldNotBeNull();
-//        It should_return_correct_implementation_when = () => type_found.ShouldEqual(typeof (Single));
-//    }
-//}
+        Because of = () => type_found = type_finder.FindSingle<ISingle>(contract_to_implementors_map_mock.Object);
+
+        It should_not_return_null = () => type_found.ShouldNotBeNull();
+        It should_return_correct_implementation_when = () => type_found.ShouldEqual(typeof(Single));
+    }
+}
