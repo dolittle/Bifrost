@@ -40,35 +40,11 @@ namespace Bifrost.Execution
 
         public void Feed(IEnumerable<Type> types)
         {
-            var contractQuery = types.Where(
-                type => {
-                    var typeInfo = type.GetTypeInfo();
-                    return
-                        typeInfo.IsInterface ||
-                        typeInfo.IsAbstract &&
-                        !typeInfo.IsSealed;
-                }).AsParallel();
+            AddTypesToAllTypes(types);
 
-            var implementorQuery = types.Where(
-                type =>
-                {
-                    var typeInfo = type.GetTypeInfo();
-                    return !typeInfo.IsInterface && !typeInfo.IsAbstract;
-                });
-
-            contractQuery.ForAll(type => GetImplementingTypesFor(type));
-            Parallel.ForEach(implementorQuery, t => CollectImplementations(t, contractQuery));
-            Parallel.ForEach(types, _allTypes.Add);
-        }
-
-        private void CollectImplementations(Type implementor, IEnumerable<Type> contractQuery)
-        {
-            var contracts = implementor.AllBaseAndImplementingTypes().Union(contractQuery);
-            contracts.ForEach(contract =>
-            {
-                var implementorKey = GetKeyFor(implementor);
-                GetImplementingTypesFor(contract)[implementorKey] = implementor;
-            });
+            var contractQuery = GetContractQueryFor(types);
+            var implementorQuery = Implementations;
+            Parallel.ForEach(contractQuery, contract => CollectImplementationsFor(implementorQuery, contract));
         }
 
         public IEnumerable<Type> GetImplementorsFor<T>()
@@ -78,19 +54,73 @@ namespace Bifrost.Execution
 
         public IEnumerable<Type> GetImplementorsFor(Type contract)
         {
-
             var implementingTypes = GetImplementingTypesFor(contract);
             return implementingTypes.Values;
         }
 #pragma warning restore 1591 // Xml Comments
+        void AddTypesToAllTypes(IEnumerable<Type> types)
+        {
+            Parallel.ForEach(types, type =>
+            {
+                if (!_allTypes.Contains(type)) _allTypes.Add(type);
+            });
+        }
+
+        IEnumerable<Type> GetContractQueryFor(IEnumerable<Type> types)
+        {
+            var contractQuery = types.Where(
+                type =>
+                {
+                    var typeInfo = type.GetTypeInfo();
+                    return
+                        typeInfo.IsInterface ||
+                        typeInfo.IsAbstract &&
+                        !typeInfo.IsSealed;
+                });
+            return contractQuery;
+        }
+
+        void CollectImplementationsFor(IEnumerable<Type> implementorQuery, Type contract)
+        {
+            var implementors = implementorQuery.Where(implementor => implementor.Implements(contract));
+            implementors.ForEach(implementor =>
+            {
+                var implementorKey = GetKeyFor(implementor);
+                GetImplementingTypesFor(contract)[implementorKey] = implementor;
+            });
+        }
+
+        IEnumerable<Type> Implementations
+        {
+            get
+            {
+                return _allTypes.Where(
+                    type =>
+                    {
+                        var typeInfo = type.GetTypeInfo();
+                        return !typeInfo.IsInterface && !typeInfo.IsAbstract;
+                    });
+            }
+        }
+
+        void CollectImplementations(Type implementor, IEnumerable<Type> contractQuery)
+        {
+            var contracts = implementor.AllBaseAndImplementingTypes().Union(contractQuery);
+            contracts.ForEach(contract =>
+            {
+                var implementorKey = GetKeyFor(implementor);
+                GetImplementingTypesFor(contract)[implementorKey] = implementor;
+            });
+        }
 
         ConcurrentDictionary<string, Type> GetImplementingTypesFor(Type contract)
         {
-            lock (_contractsAndImplementors)
-            {
-                var implementingTypes = _contractsAndImplementors.GetOrAdd(contract, (key) => new ConcurrentDictionary<string, Type>());
-                return implementingTypes;
-            }
+            var isNew = false;
+            if (!_contractsAndImplementors.ContainsKey(contract)) isNew = true;
+            var implementingTypes = _contractsAndImplementors.GetOrAdd(contract, (key) => new ConcurrentDictionary<string, Type>());
+
+            if (isNew) CollectImplementationsFor(Implementations, contract);
+            return implementingTypes;
         }
 
         string GetKeyFor(Type type)
