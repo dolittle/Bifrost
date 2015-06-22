@@ -34,8 +34,5 @@ namespace Bifrost.Specs.Extensions.for_TypeExtensions
         It should_implement_equatable_of_concept_as_guid = () => concept_implements_equatable_of_concept_as_guid.ShouldBeTrue();
 
         It should_implement_equatable = () => concept_implements_equatable.ShouldBeTrue();
-
-        // Maybe not?
-        It should_implement_object = () => concept_implements_object.ShouldBeTrue();
     }
 }
