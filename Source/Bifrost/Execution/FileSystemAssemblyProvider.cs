@@ -40,7 +40,7 @@ namespace Bifrost.Execution
             var codeBase = typeof(FileSystemAssemblyProvider).Assembly.GetName().CodeBase;
             var uri = new Uri(codeBase);
 
-            var assemblyFileInfo = new FileInfo(uri.AbsolutePath);
+            var assemblyFileInfo = new FileInfo(uri.LocalPath);
 
             var assemblyFiles = fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.dll").ToList();
             assemblyFiles.AddRange(fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.exe"));
