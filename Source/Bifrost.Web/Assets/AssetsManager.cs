@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Bifrost.Configuration;
 using Bifrost.Execution;
 
 namespace Bifrost.Web.Assets
@@ -28,7 +29,7 @@ namespace Bifrost.Web.Assets
     public class AssetsManager : IAssetsManager
     {
         Dictionary<string, List<string>> _assetsByExtension = new Dictionary<string, List<string>>();
-
+        
         public AssetsManager()
         {
             Initialize();
@@ -67,12 +68,16 @@ namespace Bifrost.Web.Assets
 
         void Initialize()
         {
+            var configurator = Bifrost.Configuration.Configure.Instance.Container.Get<IConfigure>();
             var root = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 var relativePath = FormatPath(file.Replace(root, string.Empty));
-                AddAsset(relativePath);
+                
+                if (!configurator.Assets.PathsToExclude.Any(x=>relativePath.StartsWith(x))) { 
+                    AddAsset(relativePath);
+                }
             }
 
         }

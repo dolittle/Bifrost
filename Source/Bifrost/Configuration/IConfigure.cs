@@ -19,6 +19,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using Bifrost.Assets;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
@@ -111,11 +112,16 @@ namespace Bifrost.Configuration
         /// Gets the configuration for assemblies and how they are treated
         /// </summary>
         AssembliesConfiguration Assemblies { get; }
-		
-		/// <summary>
-		/// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
-		/// </summary>
-		CultureInfo Culture { get; set; }
+        
+        /// <summary>
+        /// Gets the configuration for assets and how they are treated
+        /// </summary>
+        AssetsConfiguration Assets { get; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
+        /// </summary>
+        CultureInfo Culture { get; set; }
 
 		/// <summary>
 		/// Gets or sets the <see cref="CultureInfo">UI culture</see> to use in Bifrost

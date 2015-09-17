@@ -35,6 +35,7 @@ using System.Runtime.InteropServices;
 using Windows.Storage;
 #endif
 using System.Threading.Tasks;
+using Bifrost.Assets;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -58,11 +59,12 @@ namespace Bifrost.Configuration
         public static Configure Instance { get; private set; }
 
 
-        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration)
+        Configure(IContainer container, BindingLifecycle defaultLifecycle,  IDefaultConventions defaultConventions, IDefaultBindings defaultBindings, AssembliesConfiguration assembliesConfiguration, AssetsConfiguration assetsConfiguration)
         {
             SystemName = "[Not Set]";
 
             AssembliesConfiguration = assembliesConfiguration;
+            AssetsConfiguration = assetsConfiguration;
 
             container.DefaultLifecycle = defaultLifecycle;
             container.Bind<IConfigure>(this);
@@ -205,7 +207,8 @@ namespace Bifrost.Configuration
         public IContainer Container { get; private set; }
         public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
-        public AssembliesConfiguration AssembliesConfiguration { get; private set; }
+        public AssetsConfiguration Assets { get; private set; }
+        public AssetsConfiguration AssetsConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
         public IEventsConfiguration Events { get; private set; }
