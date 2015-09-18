@@ -114,6 +114,7 @@
     <Compile Include="Commands\ICommandContextConnectionManager.cs" />
     <Compile Include="Commands\TypePropertyExtender.cs" />
     <Compile Include="Commands\UnknownCommandContextException.cs" />
+    <Compile Include="Configuration\AssetsConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationRoute.cs" />
     <Compile Include="Configuration\ConfigurationRouteHandler.cs" />
     <Compile Include="Configuration\ConfigurationRouteHttpHandler.cs" />

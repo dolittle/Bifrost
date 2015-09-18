@@ -16,11 +16,14 @@
 // limitations under the License.
 //
 #endregion
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
+using System.Web.Hosting;
+using Bifrost.Configuration;
 using Bifrost.Execution;
+using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web.Assets
 {
@@ -28,11 +31,12 @@ namespace Bifrost.Web.Assets
     public class AssetsManager : IAssetsManager
     {
         Dictionary<string, List<string>> _assetsByExtension = new Dictionary<string, List<string>>();
-
-        public AssetsManager()
+        private WebConfiguration _webConfiguration;
+        
+        public AssetsManager(WebConfiguration webConfiguration)
         {
+            _webConfiguration = webConfiguration;
             Initialize();
-
         }
 
         public IEnumerable<string> GetFilesForExtension(string extension)
@@ -67,12 +71,15 @@ namespace Bifrost.Web.Assets
 
         void Initialize()
         {
-            var root = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+            var root = HostingEnvironment.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 var relativePath = FormatPath(file.Replace(root, string.Empty));
-                AddAsset(relativePath);
+                
+                if (!_webConfiguration.Assets.PathsToExclude.Any(relativePath.StartsWith)) { 
+                    AddAsset(relativePath);
+                }
             }
 
         }
