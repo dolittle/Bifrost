@@ -17,29 +17,33 @@
 //
 #endregion
 
+using System.Collections.Generic;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 
 namespace Bifrost.Web.Configuration
 {
-    public class WebConfiguration : IFrontendTargetConfiguration
+    /// <summary>
+    /// Represents the configuration for Assets
+    /// </summary>
+    public class AssetsConfiguration: IFrontendTargetConfiguration
     {
-        public WebConfiguration(NamespaceMapper namespaceMapper)
-        {
-            Assets = new AssetsConfiguration();
-            ScriptsToInclude = new ScriptsToInclude();
-            PathsToNamespaces = new PathToNamespaceMappers();
-            NamespaceMapper = namespaceMapper;
-        }
+        /// <summary>
+        /// List of paths to be excluded from assets evaluation
+        /// </summary>
+        public IList<string> PathsToExclude { get; set; }
 
-        public AssetsConfiguration Assets { get; set; }
-        public ScriptsToInclude ScriptsToInclude { get; set; }
-        public PathToNamespaceMappers PathsToNamespaces { get; set; }
-        public NamespaceMapper NamespaceMapper { get; set; }
-        public bool ApplicationRouteCached { get; set; }
+        /// <summary>
+        /// Holds configuration for assets
+        /// </summary>
+        public AssetsConfiguration()
+        {
+            PathsToExclude = new List<string>();
+        }
 
         public void Initialize(IContainer container)
         {
+            
         }
     }
 }
