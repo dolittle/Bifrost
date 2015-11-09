@@ -1,5 +1,9 @@
-![Image of build status](https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true)
+[![nuget][nuget-badge]][nuget-url] ![Image of build status](https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true)
 [![Join the chat at https://gitter.im/dolittle/Bifrost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dolittle/Bifrost?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+ [nuget-badge]: https://img.shields.io/badge/nuget-v5.3.0-blue.svg
+ [nuget-url]: https://www.nuget.org/packages/bifrost
+
 
 Issues are being tracked for status over at [Huboard](https://huboard.com/dolittle/Bifrost/)
 
