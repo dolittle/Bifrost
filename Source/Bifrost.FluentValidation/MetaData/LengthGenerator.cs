@@ -6,19 +6,19 @@ namespace Bifrost.FluentValidation.MetaData
 {
     /// <summary>
     /// Represents the generater that can generate a <see cref="Length"/> rule from
-    /// a <see cref="LengthValidator"/>
+    /// an <see cref="ILengthValidator"/>
     /// </summary>
     public class LengthGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(LengthValidator) }; } }
+        public Type[] From { get { return new[] { typeof(ILengthValidator) }; } }
 
         public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {
             return new Length
                 {
-                    Min = ((LengthValidator)propertyValidator).Min,
-                    Max = ((LengthValidator)propertyValidator).Max,
+                    Min = ((ILengthValidator)propertyValidator).Min,
+                    Max = ((ILengthValidator)propertyValidator).Max,
                     Message = propertyValidator.GetErrorMessageFor(propertyName)
                 };
         }
