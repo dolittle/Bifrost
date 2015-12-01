@@ -1,6 +1,8 @@
-﻿namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
+﻿using Bifrost.Commands;
+
+namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
-    public class ObjectForValidation
+    public class CommandForValidation : Command
     {
         public const string SomeStringName = "someString";
         public const string SomeIntName = "someInt";

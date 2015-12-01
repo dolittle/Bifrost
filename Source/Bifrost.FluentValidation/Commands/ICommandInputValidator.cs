@@ -16,16 +16,16 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
+using Bifrost.Validation;
+using FluentValidation;
 
 namespace Bifrost.FluentValidation.Commands
 {
     /// <summary>
     /// Defines a marker interface for input level validator for a <see cref="ICommand"/>
     /// </summary>
-    public interface ICommandInputValidator
+    public interface ICommandInputValidator : ICanValidate, IValidator
     {
     }
 }

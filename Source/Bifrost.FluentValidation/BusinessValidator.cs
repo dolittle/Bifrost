@@ -17,12 +17,8 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using Bifrost.Extensions;
-using Bifrost.Validation;
 using FluentValidation;
 using FluentValidation.Internal;
 using FluentValidation.Results;
@@ -48,22 +44,17 @@ namespace Bifrost.FluentValidation
         }
 
         /// <summary>
-        /// Defines a validation rule for a specify property.
+        /// Defines a concept validation rule for a specify property.
         /// </summary>
         /// <example>
-        /// RuleFor(x => x.Surname)...
+        /// RuleForConcept(x => x.Surname)...
         /// </example>
         /// <typeparam name="TProperty">The type of property being validated</typeparam>
         /// <param name="expression">The expression representing the property to validate</param>
         /// <returns>an IRuleBuilder instance on which validators can be defined</returns>
         public IRuleBuilderInitial<T, TProperty> RuleForConcept<TProperty>(Expression<Func<T, TProperty>> expression)
         {
-            if(expression == null)
-                throw new ArgumentException("Cannot pass null to RuleForConcept");
-            var rule = PropertyRule.Create<T, TProperty>(expression, (Func<CascadeMode>)(() => this.CascadeMode));
-            rule.PropertyName = FromExpression(expression)??typeof(TProperty).Name;
-            this.AddRule((IValidationRule)rule);
-            return (IRuleBuilderInitial<T, TProperty>)new RuleBuilder<T, TProperty>(rule);
+            return this.AddRuleForConcept(expression);
         }
         
         /// <summary>
@@ -100,18 +91,6 @@ namespace Bifrost.FluentValidation
                 }).ToList();
 
             return new ValidationResult(cleanedErrors);
-        }
-
-        static string FromExpression(LambdaExpression expression)
-        {
-            var stack = new Stack<string>();
-            for (var memberExpression = ExpressionExtensions.Unwrap(expression.Body);
-                    memberExpression != null;
-                    memberExpression = ExpressionExtensions.Unwrap(memberExpression.Expression))
-            {
-                stack.Push(memberExpression.Member.Name);
-            }
-            return string.Join(".", stack.ToArray());
         }
 
         static string CleanPropertyName(string propertyName)

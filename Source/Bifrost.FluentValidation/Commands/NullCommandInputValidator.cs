@@ -16,10 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
-using Bifrost.Validation;
 
 namespace Bifrost.FluentValidation.Commands
 {
@@ -29,19 +26,7 @@ namespace Bifrost.FluentValidation.Commands
     /// <remarks>
     /// Always returns an empty validation result collection.
     /// </remarks>
-    public class NullCommandInputValidator : ICanValidate<ICommand>, ICommandInputValidator
+    public class NullCommandInputValidator : CommandInputValidator<ICommand>
     {
-#pragma warning disable 1591 // Xml Comments
-        public IEnumerable<ValidationResult> ValidateFor(ICommand command)
-        {
-            return new ValidationResult[0];
-        }
-
-        public IEnumerable<ValidationResult> ValidateFor(object target)
-        {
-            return new ValidationResult[0];
-        }
-#pragma warning restore 1591 // Xml Comments
-
     }
 }

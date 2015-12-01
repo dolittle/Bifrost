@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -13,8 +13,8 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
         static IEnumerable<ValidationResult> input_validation_errors;
         static CommandValidationResult result;
         static Mock<ICommand> command_mock;
-        static Mock<ICanValidate> command_input_validator_mock;
-        static Mock<ICanValidate> command_validator_mock;
+        static Mock<ICommandInputValidator> command_input_validator_mock;
+        static Mock<ICommandBusinessValidator> command_business_validator_mock;
 
         Establish context = () =>
         {
@@ -25,8 +25,8 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
                                           };
 
             command_mock = new Mock<ICommand>();
-            command_input_validator_mock = new Mock<ICanValidate>();
-            command_validator_mock = new Mock<ICanValidate>();
+            command_input_validator_mock = new Mock<ICommandInputValidator>();
+            command_business_validator_mock = new Mock<ICommandBusinessValidator>();
 
             command_input_validator_mock.Setup(iv => iv.ValidateFor(command_mock.Object)).Returns(input_validation_errors);
 
@@ -37,6 +37,6 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 
         It should_have_failed_validations = () => result.ValidationResults.ShouldNotBeEmpty();
         It should_have_all_the_failed_input_validations = () => result.ValidationResults.ShouldContainOnly(input_validation_errors);
-        It should_not_have_validated_the_command_business_rules = () => command_validator_mock.VerifyAll();
+        It should_not_have_validated_the_command_business_rules = () => command_business_validator_mock.VerifyAll();
     }
 }

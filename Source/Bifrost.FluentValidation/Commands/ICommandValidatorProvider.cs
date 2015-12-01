@@ -18,7 +18,6 @@
 #endregion
 using System;
 using Bifrost.Commands;
-using Bifrost.Validation;
 
 namespace Bifrost.FluentValidation.Commands
 {
@@ -32,27 +31,27 @@ namespace Bifrost.FluentValidation.Commands
         /// </summary>
         /// <param name="command">Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICanValidate GetInputValidatorFor(ICommand command);
+        ICommandInputValidator GetInputValidatorFor(ICommand command);
 
         /// <summary>
         /// Retrieves an business-rule validator specific to the command
         /// </summary>
         /// <param name="command">Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICanValidate GetBusinessValidatorFor(ICommand command);
+        ICommandBusinessValidator GetBusinessValidatorFor(ICommand command);
 
         /// <summary>
         /// Retrieves an input validator specific to the command type
         /// </summary>
         /// <param name="type">Type of the Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICanValidate GetInputValidatorFor(Type type);
+        ICommandInputValidator GetInputValidatorFor(Type type);
 
         /// <summary>
         /// Retrieves an business-rule validator specific to the command type
         /// </summary>
         /// <param name="commandType">Type of the Command to be validates</param>
         /// <returns>Returns specific validator or a NullValidator if no validator is available</returns>
-        ICanValidate GetBusinessValidatorFor(Type commandType);
+        ICommandBusinessValidator GetBusinessValidatorFor(Type commandType);
     }
 }

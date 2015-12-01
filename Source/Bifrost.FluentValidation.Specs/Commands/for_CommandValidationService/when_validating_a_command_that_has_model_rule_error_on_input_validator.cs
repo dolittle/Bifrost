@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Bifrost.Commands;
-using Bifrost.Validation;
+using Bifrost.FluentValidation.Commands;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -14,12 +14,12 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
 
         static CommandValidationResult result;
         static Mock<ICommand>   command_mock;
-        static Mock<ICanValidate> command_input_validator_mock;
+        static Mock<ICommandInputValidator> command_input_validator_mock;
 
         Establish context = () =>
         {
             command_mock = new Mock<ICommand>();
-            command_input_validator_mock = new Mock<ICanValidate>();
+            command_input_validator_mock = new Mock<ICommandInputValidator>();
             command_input_validator_mock.Setup(c => c.ValidateFor(command_mock.Object)).Returns(new[] {
                 new ValidationResult(ErrorMessage,new[] { ModelRule<object>.ModelRulePropertyName })
             });

@@ -126,16 +126,16 @@
     <Compile Include="MetaData\for_RequiredGenerator\when_generating_from_not_null.cs" />
     <Compile Include="ConceptAsStringValidator.cs" />
     <Compile Include="MetaData\for_ValidationMetaDataGenerator\given\a_validation_meta_data_generator_with_common_rules.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidation.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedObjectForValidationValidator.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectForValidation.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectForValidationValidator.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectWithConcept.cs" />
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\ObjectWithConceptValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedCommandForValidation.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\NestedCommandForValidationValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\CommandForValidation.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\CommandForValidationValidator.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\CommandWithConcept.cs" />
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\CommandWithConceptValidator.cs" />
     <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating_for_an_object_with_concept_on_it_and_a_model_rule.cs">
+    <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating_for_a_command_with_concept_on_it_and_a_model_rule.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MetaData\for_ValidationMetaDataGenerator\when_generating_for_nested_properties.cs">

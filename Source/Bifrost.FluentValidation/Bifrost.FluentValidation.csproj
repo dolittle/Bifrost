@@ -95,6 +95,7 @@
     <Compile Include="NameResolvers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValidatorWithDynamicState.cs" />
+    <Compile Include="AbstractValidatorExtensions.cs" />
     <Compile Include="RuleBuilderExtensions.cs" />
     <Compile Include="Sagas\ChapterValidation.cs" />
     <Compile Include="Sagas\ChapterValidationService.cs" />
