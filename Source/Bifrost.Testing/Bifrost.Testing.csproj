@@ -64,6 +64,7 @@
     <Compile Include="Fakes\Concepts\ConceptAsLong.cs" />
     <Compile Include="Fakes\Concepts\ConceptAsString.cs" />
     <Compile Include="Fakes\Configuration\EntityContextConfiguration.cs" />
+    <Compile Include="Fakes\Configuration\TestInstancesOf.cs" />
     <Compile Include="Fakes\Domain\AnotherStatefulAggregatedRoot.cs" />
     <Compile Include="Fakes\Domain\StatefulAggregatedRoot.cs" />
     <Compile Include="Fakes\Domain\StatelessAggregatedRoot.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Fakes\Security\MySecurityAction.cs" />
     <Compile Include="Fakes\Security\SecurityDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
