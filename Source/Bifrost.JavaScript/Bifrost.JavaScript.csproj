@@ -91,6 +91,7 @@
     <Content Include="types\TypeInfo.js" />
     <Content Include="utils\configurator.js" />
     <Content Include="validation\length.js" />
+    <Content Include="validation\notNull.js" />
     <Content Include="values\Binding.js" />
     <Content Include="values\StringTypeConverter.js" />
     <Content Include="values\DateFormatter.js" />

@@ -23,17 +23,17 @@ using FluentValidation.Validators;
 namespace Bifrost.FluentValidation.MetaData
 {
     /// <summary>
-    /// Represents the generater that can generate a <see cref="Required"/> rule from
-    /// an <see cref="INotEmptyValidator"/>
+    /// Represents the generater that can generate a <see cref="NotNull"/> rule from
+    /// an <see cref="INotNullValidator"/>
     /// </summary>
-    public class RequiredGenerator : ICanGenerateRule
+    public class NotNullGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(INotEmptyValidator) }; } }
+        public Type[] From { get { return new[] { typeof(INotNullValidator) }; } }
 
         public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {
-            return new Required
+            return new NotNull
             {
                 Message = propertyValidator.GetErrorMessageFor(propertyName)
             };

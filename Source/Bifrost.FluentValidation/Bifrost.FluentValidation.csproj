@@ -89,6 +89,7 @@
     <Compile Include="MetaData\LessThanOrEqualGenerator.cs" />
     <Compile Include="MetaData\PropertyValidatorMessageFormattingExtensions.cs" />
     <Compile Include="MetaData\RegexGenerator.cs" />
+    <Compile Include="MetaData\NotNullGenerator.cs" />
     <Compile Include="MetaData\RequiredGenerator.cs" />
     <Compile Include="MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="ModelRule.cs" />
