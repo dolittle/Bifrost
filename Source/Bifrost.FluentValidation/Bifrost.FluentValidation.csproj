@@ -69,6 +69,7 @@
     <Compile Include="Commands\ICommandValidatorProvider.cs" />
     <Compile Include="Commands\NullCommandBusinessValidator.cs" />
     <Compile Include="Commands\NullCommandInputValidator.cs" />
+    <Compile Include="ComposedValidatorDescriptor.cs" />
     <Compile Include="ComposedValidator.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="ConventionValidatorFactory.cs" />
