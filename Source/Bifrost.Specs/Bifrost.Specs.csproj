@@ -378,6 +378,9 @@
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_through_indexer_after_creation.cs" />
     <Compile Include="Execution\for_WriteOnceExpandoObject\when_setting_values_to_the_dictionary_after_creation.cs" />
     <Compile Include="Dynamic\for_DynamicHelpers\when_populating_from_anonymous_object.cs" />
+    <Compile Include="Extensions\for_CollectionExtensions\when_combining_many_lookups.cs" />
+    <Compile Include="Extensions\for_CollectionExtensions\when_combining_one_lookup.cs" />
+    <Compile Include="Extensions\for_CollectionExtensions\when_combining_no_lookups.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_representation_of_a_guid_to_a_guid.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_representation_of_a_guid_to_a_guid_concept.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_representation_of_a_long_to_a_long.cs" />

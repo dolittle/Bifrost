@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Bifrost.Extensions;
 using FluentValidation;
 using FluentValidation.Validators;
 
@@ -37,11 +38,9 @@ namespace Bifrost.FluentValidation
         /// </summary>
         public ILookup<string, IPropertyValidator> GetMembersWithValidators()
         {
-            // Combining multiple lookups into one
             return _registeredDescriptors
-                .SelectMany(d => d.GetMembersWithValidators())
-                .SelectMany(lookup => lookup.Select(value => new { lookup.Key, Value = value }))
-                .ToLookup(x => x.Key, x => x.Value);
+                .Select(d => d.GetMembersWithValidators())
+                .Combine();
         }
 
         /// <summary>
