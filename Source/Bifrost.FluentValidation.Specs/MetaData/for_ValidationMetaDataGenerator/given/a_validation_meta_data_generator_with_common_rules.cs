@@ -19,6 +19,7 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
                 new EmailGenerator(),
                 new LessThanGenerator(),
                 new GreaterThanGenerator(),
+                new NotNullGenerator(),
             }.AsInstancesOf();
 
             command_validator_provider_mock = new Mock<ICommandValidatorProvider>();

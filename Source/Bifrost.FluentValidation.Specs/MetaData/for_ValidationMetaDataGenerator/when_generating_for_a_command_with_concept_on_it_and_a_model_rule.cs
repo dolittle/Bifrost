@@ -22,7 +22,7 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
 
         It should_have_required_for_string_concept = () => result["stringConcept"]["required"].ShouldNotBeNull();
         It should_have_required_for_long_concept = () => result["longConcept"]["required"].ShouldNotBeNull();
-        It should_have_required_for_non_concept = () => result["nonConceptObject"]["required"].ShouldNotBeNull();
+        It should_have_required_for_non_concept = () => result["nonConceptObject"]["notNull"].ShouldNotBeNull();
         It should_not_have_any_model_rules = () => result.Properties.Keys.Any(k => k.Contains(ModelRule<string>.ModelRulePropertyName.ToCamelCase())).ShouldBeFalse();
     }
 }
