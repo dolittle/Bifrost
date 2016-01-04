@@ -30,10 +30,8 @@ namespace Bifrost.Web
         public void Specify(IAssemblyRuleBuilder builder)
         {
             builder.ExcludeAssembliesStartingWith(
-                "Antlr3",
                 "Owin",
-                "WebActivator",
-                "WebGrease"
+                "WebActivator"
             );
         }
 #pragma warning disable 1591 // Xml Comments

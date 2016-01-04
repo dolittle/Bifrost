@@ -15,7 +15,6 @@
     <copyright>Copyright 2008 - 2015</copyright>
     <tags>MVVM LOB CQRS</tags>
     <dependencies>
-      <dependency id="Antlr" version="3.5.0.2"/>
       <dependency id="jQuery" version="2.1.3"/>
       <dependency id="knockoutjs" version="3.2.0"/>
       <dependency id="LessMsbuildTasks" version="1.0.7"/>
@@ -30,7 +29,6 @@
       <dependency id="Newtonsoft.Json" version="6.0.8"/>
       <dependency id="Owin" version="1.0"/>
       <dependency id="WebActivatorEx" version="2.0.6"/>
-      <dependency id="WebGrease" version="1.6.0"/>
       <dependency id="Bifrost" version="$version$" />
       <dependency id="Bifrost.JS" version="$version$" />
     </dependencies>
