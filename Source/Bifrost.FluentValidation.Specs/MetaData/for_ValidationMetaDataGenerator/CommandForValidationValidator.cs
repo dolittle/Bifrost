@@ -1,8 +1,9 @@
-﻿using FluentValidation;
+﻿using Bifrost.FluentValidation.Commands;
+using FluentValidation;
 
 namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
-    public class ObjectForValidationValidator : BusinessValidator<ObjectForValidation>
+    public class CommandForValidationValidator : CommandInputValidator<CommandForValidation>
     {
         public const string NotEmptyErrorMessage = "Should not be empty";
         public const string EmailAddressErrorMessage = "Not a valid email";
@@ -13,7 +14,7 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
         public const string LessThanErrorMessage = "Should be less than";
         public const string GreaterThanErrorMessage = "Should be greater than";
 
-        public ObjectForValidationValidator()
+        public CommandForValidationValidator()
         {
             RuleFor(o => o.SomeString)
                 .NotEmpty()

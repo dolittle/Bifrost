@@ -23,6 +23,7 @@ using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.FluentValidation.Commands;
 using Bifrost.Validation.MetaData;
 using FluentValidation;
 using FluentValidation.Validators;
@@ -34,34 +35,19 @@ namespace Bifrost.FluentValidation.MetaData
     /// </summary>
     public class ValidationMetaDataGenerator : ICanGenerateValidationMetaData
     {
-        ITypeDiscoverer _typeDiscoverer;
-        IContainer _container;
-
-        Dictionary<Type, ICanGenerateRule> _generatorsByType = new Dictionary<Type, ICanGenerateRule>();
-        Dictionary<Type, IEnumerable<Type>> _inputValidatorsByType = new Dictionary<Type, IEnumerable<Type>>();
-
+        ICommandValidatorProvider _validatorProvider;
+        Dictionary<Type, ICanGenerateRule> _generatorsByType;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ValidationMetaDataGenerator"/>
         /// </summary>
-        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering generators</param>
-        /// <param name="container"><see cref="IContainer"/> to use for activation of generators</param>
-        public ValidationMetaDataGenerator(ITypeDiscoverer typeDiscoverer, IContainer container)
+        /// <param name="ruleGenerators">The known instances of generators.</param>
+        /// <param name="validatorProvider">The provider of command input validators.</param>
+        public ValidationMetaDataGenerator(IInstancesOf<ICanGenerateRule> ruleGenerators, ICommandValidatorProvider validatorProvider)
         {
-            _typeDiscoverer = typeDiscoverer;
-            _container = container;
-
-            var inputValidatorsByType = typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
-                                                .Where(t => typeof(IValidator).IsAssignableFrom(t))
-                                                .GroupBy(t=>t.BaseType.GetGenericArguments()[0]);
-
-            foreach (var inputValidatorByType in inputValidatorsByType)
-            {
-                _inputValidatorsByType[inputValidatorByType.Key] = inputValidatorByType.ToList();
-            }
-            PopulateGenerators();
+            _validatorProvider = validatorProvider;
+            _generatorsByType = Generators(ruleGenerators);
         }
-
 
 #pragma warning disable 1591 // Xml Comments
 
@@ -69,14 +55,8 @@ namespace Bifrost.FluentValidation.MetaData
         {
             var metaData = new TypeMetaData();
 
-            if (_inputValidatorsByType.ContainsKey(typeForValidation))
-            {
-                foreach (var inputValidatorType in _inputValidatorsByType[typeForValidation])
-                {
-                    var validator = _container.Get(inputValidatorType) as IValidator;
-                    GenerateForValidator(validator, metaData, string.Empty);
-                }
-            }
+            var validator = _validatorProvider.GetInputValidatorFor(typeForValidation);
+            GenerateForValidator(validator, metaData, string.Empty);
 
             return metaData;
         }
@@ -106,7 +86,7 @@ namespace Bifrost.FluentValidation.MetaData
                         }
                         else if (validator is IPropertyValidator)
                         {
-                            GenerateFor(metaData, currentKey, validator as IPropertyValidator);
+                            GenerateFor(metaData, currentKey, validator);
                         }
                     }
                 }
@@ -157,17 +137,13 @@ namespace Bifrost.FluentValidation.MetaData
             }
         }
 
-        void PopulateGenerators()
+        Dictionary<Type, ICanGenerateRule> Generators(IInstancesOf<ICanGenerateRule> ruleGenerators)
         {
-            var generatorTypes = _typeDiscoverer.FindMultiple<ICanGenerateRule>();
-            foreach (var generatorType in generatorTypes)
-            {
-                var generator = _container.Get(generatorType) as ICanGenerateRule;
-                foreach (var validatorType in generator.From)
-                {
-                    _generatorsByType[validatorType] = generator;
-                }
-            }
+            return (
+                from generator in ruleGenerators
+                from type in generator.From
+                select new {generator, type})
+                .ToDictionary(d => d.type, d => d.generator);
         }
 
         PropertyInfo GetPropertyInfo(Type type, string name)

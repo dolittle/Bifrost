@@ -82,6 +82,7 @@
 @depends validation/validationSummaryFor.js
 @depends validation/validationMessageFor.js
 @depends validation/validation.js
+@depends validation/notNull.js
 @depends validation/required.js
 @depends validation/length.js
 @depends validation/minLength.js

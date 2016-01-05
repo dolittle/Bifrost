@@ -69,6 +69,7 @@
     <Compile Include="Commands\ICommandValidatorProvider.cs" />
     <Compile Include="Commands\NullCommandBusinessValidator.cs" />
     <Compile Include="Commands\NullCommandInputValidator.cs" />
+    <Compile Include="ComposedValidatorDescriptor.cs" />
     <Compile Include="ComposedValidator.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="ConventionValidatorFactory.cs" />
@@ -89,12 +90,14 @@
     <Compile Include="MetaData\LessThanOrEqualGenerator.cs" />
     <Compile Include="MetaData\PropertyValidatorMessageFormattingExtensions.cs" />
     <Compile Include="MetaData\RegexGenerator.cs" />
+    <Compile Include="MetaData\NotNullGenerator.cs" />
     <Compile Include="MetaData\RequiredGenerator.cs" />
     <Compile Include="MetaData\ValidationMetaDataGenerator.cs" />
     <Compile Include="ModelRule.cs" />
     <Compile Include="NameResolvers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValidatorWithDynamicState.cs" />
+    <Compile Include="AbstractValidatorExtensions.cs" />
     <Compile Include="RuleBuilderExtensions.cs" />
     <Compile Include="Sagas\ChapterValidation.cs" />
     <Compile Include="Sagas\ChapterValidationService.cs" />

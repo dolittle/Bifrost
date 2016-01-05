@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Bifrost.Extensions
 {
@@ -38,6 +37,21 @@ namespace Bifrost.Extensions
         {
             foreach (var item in enumerable)
                 action(item);
+        }
+
+        /// <summary>
+        /// Combines multiple lookups into a single lookup
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys</typeparam>
+        /// <typeparam name="TElement">The type of the elements</typeparam>
+        /// <param name="lookups">A collection of lookups to combine</param>
+        /// <returns>A single lookup which takes a key into all values with this key in all incoming lookups</returns>
+        public static ILookup<TKey, TElement> Combine<TKey, TElement>(this IEnumerable<ILookup<TKey, TElement>> lookups)
+        {
+            return lookups
+                .SelectMany(l => l)
+                .SelectMany(l => l.Select(value => new {l.Key, Value = value}))
+                .ToLookup(x => x.Key, x => x.Value);
         }
     }
 }

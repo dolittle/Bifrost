@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Bifrost.Commands;
-using System.Linq;
-using FluentValidation;
-using Bifrost.Extensions;
 using Bifrost.Validation;
+using FluentValidation;
 
 namespace Bifrost.FluentValidation.Commands
 {
     /// <summary>
     /// Represents a command business validator that is constructed from discovered rules.
     /// </summary>
-    public class ComposedCommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandInputValidator where T : class, ICommand
+    public class ComposedCommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
     {
         /// <summary>
         /// Instantiates an Instance of a <see cref="ComposedCommandBusinessValidator{T}"/>

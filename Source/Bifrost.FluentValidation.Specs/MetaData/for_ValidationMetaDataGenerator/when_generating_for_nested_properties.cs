@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Bifrost.Validation.MetaData;
 using Machine.Specifications;
-using Bifrost.Validation.MetaData;
 
 namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerator
 {
     public class when_generating_for_nested_properties : given.a_validation_meta_data_generator_with_common_rules
     {
-        static NestedObjectForValidationValidator nestedValidator;
-        static ObjectForValidationValidator objectValidator;
         static TypeMetaData meta_data;
         static string someObjectStringValue;
         static string someIntValue;
@@ -15,19 +12,16 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
 
         Establish context = () =>
         {
+            firstLevelStringValue = NestedCommandForValidation.FirstLevelStringName;
+            someObjectStringValue = NestedCommandForValidation.SomeObjectName + "." + CommandForValidation.SomeStringName;
+            someIntValue = NestedCommandForValidation.SomeObjectName + "." + CommandForValidation.SomeIntName;
 
-            firstLevelStringValue = NestedObjectForValidation.FirstLevelStringName;
-            someObjectStringValue = NestedObjectForValidation.SomeObjectName + "." + ObjectForValidation.SomeStringName;
-            someIntValue = NestedObjectForValidation.SomeObjectName + "." + ObjectForValidation.SomeIntName;
-
-            objectValidator = new ObjectForValidationValidator();
-            nestedValidator = new NestedObjectForValidationValidator(objectValidator);
-
-            container_mock.Setup(c => c.Get(typeof(ObjectForValidationValidator))).Returns(objectValidator);
-            container_mock.Setup(c => c.Get(typeof(NestedObjectForValidationValidator))).Returns(nestedValidator);
+            command_validator_provider_mock
+                .Setup(m => m.GetInputValidatorFor(typeof(NestedCommandForValidation)))
+                .Returns(new NestedCommandForValidationValidator(new CommandForValidationValidator()));
         };
 
-        Because of = () => meta_data = generator.GenerateFor(typeof(NestedObjectForValidation));
+        Because of = () => meta_data = generator.GenerateFor(typeof(NestedCommandForValidation));
 
         It should_return_meta_data = () => meta_data.ShouldNotBeNull();
 
@@ -36,15 +30,15 @@ namespace Bifrost.FluentValidation.Specs.MetaData.for_ValidationMetaDataGenerato
 
         It should_have_required_for_first_level_string = () => meta_data[firstLevelStringValue]["required"].ShouldNotBeNull();
         It should_have_required_for_some_object_value = () => meta_data[someObjectStringValue]["required"].ShouldNotBeNull();
-        It should_have_required_for_string_with_correct_message = () => meta_data[someObjectStringValue]["required"].Message.ShouldEqual(ObjectForValidationValidator.NotEmptyErrorMessage);
+        It should_have_required_for_string_with_correct_message = () => meta_data[someObjectStringValue]["required"].Message.ShouldEqual(CommandForValidationValidator.NotEmptyErrorMessage);
 
         It should_have_email_for_string = () => meta_data[someObjectStringValue]["email"].ShouldNotBeNull();
-        It should_have_email_for_string_with_correct_message = () => meta_data[someObjectStringValue]["email"].Message.ShouldEqual(ObjectForValidationValidator.EmailAddressErrorMessage);
+        It should_have_email_for_string_with_correct_message = () => meta_data[someObjectStringValue]["email"].Message.ShouldEqual(CommandForValidationValidator.EmailAddressErrorMessage);
 
         It should_have_less_than_for_int = () => meta_data[someIntValue]["lessThan"].ShouldNotBeNull();
-        It should_have_less_than_for_int_with_correct_message = () => meta_data[someIntValue]["lessThan"].Message.ShouldEqual(ObjectForValidationValidator.LessThanErrorMessage);
+        It should_have_less_than_for_int_with_correct_message = () => meta_data[someIntValue]["lessThan"].Message.ShouldEqual(CommandForValidationValidator.LessThanErrorMessage);
 
         It should_have_greater_than_for_int = () => meta_data[someIntValue]["greaterThan"].ShouldNotBeNull();
-        It should_have_greater_than_for_int_with_correct_message = () => meta_data[someIntValue]["greaterThan"].Message.ShouldEqual(ObjectForValidationValidator.GreaterThanErrorMessage);
+        It should_have_greater_than_for_int_with_correct_message = () => meta_data[someIntValue]["greaterThan"].Message.ShouldEqual(CommandForValidationValidator.GreaterThanErrorMessage);
     }
 }

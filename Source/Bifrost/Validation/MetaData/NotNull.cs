@@ -16,16 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using Bifrost.Commands;
-using Bifrost.Validation;
-using FluentValidation;
-
-namespace Bifrost.FluentValidation.Commands
+namespace Bifrost.Validation.MetaData
 {
     /// <summary>
-    /// Defines a marker interface for input level validator for a <see cref="ICommand"/>
+    /// Represents the metadata for the NotNull rule
     /// </summary>
-    public interface ICommandInputValidator : ICanValidate, IValidator
+    public class NotNull : Rule
     {
     }
 }

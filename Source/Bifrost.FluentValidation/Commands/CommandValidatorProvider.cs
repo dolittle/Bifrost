@@ -36,8 +36,6 @@ namespace Bifrost.FluentValidation.Commands
         static Type _commandInputValidatorType = typeof (ICommandInputValidator);
         static Type _commandBusinessValidatorType = typeof (ICommandBusinessValidator);
         static Type _validatesType = typeof (ICanValidate<>);
-        static Type _inputValidatorType = typeof (InputValidator<>);
-        static Type _businessValidatorType = typeof (BusinessValidator<>);
 
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
@@ -68,17 +66,17 @@ namespace Bifrost.FluentValidation.Commands
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public ICanValidate GetInputValidatorFor(ICommand command)
+        public ICommandInputValidator GetInputValidatorFor(ICommand command)
         {
             return GetInputValidatorFor(command.GetType());
         }
 
-        public ICanValidate GetBusinessValidatorFor(ICommand command)
+        public ICommandBusinessValidator GetBusinessValidatorFor(ICommand command)
         {
             return GetBusinessValidatorFor(command.GetType());
         }
 
-        public ICanValidate GetBusinessValidatorFor(Type commandType)
+        public ICommandBusinessValidator GetBusinessValidatorFor(Type commandType)
         {
             if (!typeof (ICommand).IsAssignableFrom(commandType))
                 return _nullCommandBusinessValidator;
@@ -87,14 +85,14 @@ namespace Bifrost.FluentValidation.Commands
             _businessCommandValidators.TryGetValue(commandType, out registeredBusinessValidatorType);
 
             if (registeredBusinessValidatorType != null)
-                return _container.Get(registeredBusinessValidatorType) as ICanValidate;
+                return _container.Get(registeredBusinessValidatorType) as ICommandBusinessValidator;
 
             var typesAndDiscoveredValidators = GetValidatorsFor(commandType, _dynamicallyDiscoveredBusinessValidators);
 
             return BuildDynamicallyDiscoveredBusinessValidator(commandType, typesAndDiscoveredValidators);
         }
 
-        public ICanValidate GetInputValidatorFor(Type commandType)
+        public ICommandInputValidator GetInputValidatorFor(Type commandType)
         {
             if (!typeof(ICommand).IsAssignableFrom(commandType))
                 return _nullCommandInputValidator;
@@ -103,7 +101,7 @@ namespace Bifrost.FluentValidation.Commands
             _inputCommandValidators.TryGetValue(commandType, out registeredInputValidatorType);
 
             if (registeredInputValidatorType != null)
-                return _container.Get(registeredInputValidatorType) as ICanValidate;
+                return _container.Get(registeredInputValidatorType) as ICommandInputValidator;
 
             var typesAndDiscoveredValidators = GetValidatorsFor(commandType, _dynamicallyDiscoveredInputValidators);
 
@@ -129,7 +127,7 @@ namespace Bifrost.FluentValidation.Commands
             return commandPropertyTypes;
         }
 
-        ICanValidate BuildDynamicallyDiscoveredInputValidator(Type commandType, IDictionary<Type,IEnumerable<Type>> typeAndAssociatedValidatorTypes)
+        ICommandInputValidator BuildDynamicallyDiscoveredInputValidator(Type commandType, IDictionary<Type,IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
             var closedValidatorType = typeof(ComposedCommandInputValidator<>).MakeGenericType(typeArgs);
@@ -142,10 +140,10 @@ namespace Bifrost.FluentValidation.Commands
                     propertyTypeAndValidatorInstances.Add(key, validatorTypes.Select(v => _container.Get(v) as IValidator).ToArray());
                     
             }
-            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICanValidate;
+            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICommandInputValidator;
         }
 
-        ICanValidate BuildDynamicallyDiscoveredBusinessValidator(Type commandType, IDictionary<Type, IEnumerable<Type>> typeAndAssociatedValidatorTypes)
+        ICommandBusinessValidator BuildDynamicallyDiscoveredBusinessValidator(Type commandType, IDictionary<Type, IEnumerable<Type>> typeAndAssociatedValidatorTypes)
         {
             Type[] typeArgs = { commandType };
             var closedValidatorType = typeof(ComposedCommandBusinessValidator<>).MakeGenericType(typeArgs);
@@ -158,7 +156,7 @@ namespace Bifrost.FluentValidation.Commands
                     propertyTypeAndValidatorInstances.Add(key, validatorTypes.Select(v => _container.Get(v) as IValidator).ToArray());
 
             }
-            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICanValidate;
+            return Activator.CreateInstance(closedValidatorType, propertyTypeAndValidatorInstances) as ICommandBusinessValidator;
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -186,8 +184,8 @@ namespace Bifrost.FluentValidation.Commands
             var commandInputValidators = _typeDiscoverer.FindMultiple(_commandInputValidatorType);
             var commandBusinessValidators = _typeDiscoverer.FindMultiple(_commandBusinessValidatorType);
 
-            commandInputValidators.ForEach(type => RegisterCommandValidator(type, _commandInputValidatorType));
-            commandBusinessValidators.ForEach(type => RegisterCommandValidator(type, _commandBusinessValidatorType));
+            commandInputValidators.ForEach(type => RegisterCommandValidator(type, _inputCommandValidators));
+            commandBusinessValidators.ForEach(type => RegisterCommandValidator(type, _businessCommandValidators));
         }
 
         void InitializeDynamicValidators()
@@ -198,18 +196,14 @@ namespace Bifrost.FluentValidation.Commands
             var inputValidators = _typeDiscoverer.FindMultiple(typeof(IValidateInput<>))
                 .Where(t => t != typeof(InputValidator<>) && t != typeof(ComposedCommandInputValidator<>));
             var businessValidators = _typeDiscoverer.FindMultiple(typeof(IValidateBusinessRules<>))
-                .Where(t => t != typeof(BusinessValidator<>) && t != typeof(ComposedCommandInputValidator<>));
+                .Where(t => t != typeof(BusinessValidator<>) && t != typeof(ComposedCommandBusinessValidator<>));
 
-            inputValidators.ForEach(type => RegisterValidator(type, _inputValidatorType));
-            businessValidators.ForEach(type => RegisterValidator(type, _businessValidatorType));
+            inputValidators.ForEach(type => RegisterValidator(type, _dynamicallyDiscoveredInputValidators));
+            businessValidators.ForEach(type => RegisterValidator(type, _dynamicallyDiscoveredBusinessValidators));
         }
 
-        void RegisterCommandValidator(Type typeToRegister, Type registerFor)
+        void RegisterCommandValidator(Type typeToRegister, IDictionary<Type, Type> validatorRegistry)
         {
-            var validatorRegistry = registerFor == _commandInputValidatorType
-                                        ? _inputCommandValidators
-                                        : _businessCommandValidators;
-
             var commandType = GetCommandType(typeToRegister);
 
             if (commandType == null || 
@@ -220,12 +214,8 @@ namespace Bifrost.FluentValidation.Commands
             validatorRegistry.Add(commandType, typeToRegister);
         }
 
-        void RegisterValidator(Type typeToRegister, Type registerFor)
+        void RegisterValidator(Type typeToRegister, IDictionary<Type, List<Type>> validatorRegistry)
         {
-            var validatorRegistry = registerFor == _inputValidatorType
-                                        ? _dynamicallyDiscoveredInputValidators
-                                        : _dynamicallyDiscoveredBusinessValidators;
-
             var validatedType = GetValidatedType(typeToRegister);
 
             if (validatedType == null || validatedType.IsInterface || validatedType.IsAPrimitiveType())

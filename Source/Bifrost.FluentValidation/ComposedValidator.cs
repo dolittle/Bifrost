@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
@@ -21,6 +20,14 @@ namespace Bifrost.FluentValidation
         public ComposedValidator(IEnumerable<IValidator> validators)
         {
             registeredValidators.AddRange(validators);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="T:FluentValidation.IValidatorDescriptor"/> that can be used to obtain metadata about the current validator.
+        /// </summary>
+        public override IValidatorDescriptor CreateDescriptor()
+        {
+            return new ComposedValidatorDescriptor(registeredValidators.Select(m => m.CreateDescriptor()));
         }
 
         /// <summary>
