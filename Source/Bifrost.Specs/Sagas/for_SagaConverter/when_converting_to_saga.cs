@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
-using Bifrost.Serialization;
+using Bifrost.Testing.Fakes.Sagas;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_SagaConverter
@@ -15,8 +14,8 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter
 
 		It should_not_be_null = () => saga.ShouldNotBeNull();
         It should_be_correct_saga_type = () => saga.ShouldBeOfExactType<SagaWithOneChapterProperty>();
-		It should_deserialize_saga = () => serializer_mock.Verify(s => s.FromJson(typeof(SagaWithOneChapterProperty), Moq.It.IsAny<string>(), Moq.It.IsAny<SerializationOptions>()));
-		It should_deserialize_chapter = () => serializer_mock.Verify(s => s.FromJson(Moq.It.IsAny<List<ChapterHolder>>(), Moq.It.IsAny<string>(), Moq.It.IsAny<SerializationOptions>()));
+		It should_deserialize_saga = () => serializer_mock.Verify(s => s.FromJson(typeof(SagaWithOneChapterProperty), Moq.It.IsAny<string>(), Moq.It.IsAny<SagaSerializationOptions>()));
+		It should_deserialize_chapter = () => serializer_mock.Verify(s => s.FromJson(Moq.It.IsAny<List<ChapterHolder>>(), Moq.It.IsAny<string>()));
 		It should_have_one_chapter_in_saga = () => saga.Chapters.Count().ShouldEqual(1);
 		It should_have_a_simple_chapter = () => saga.Chapters.First().ShouldBeOfExactType<SimpleChapter>();
 		It should_set_current_chapter = () => saga.CurrentChapter.ShouldNotBeNull();

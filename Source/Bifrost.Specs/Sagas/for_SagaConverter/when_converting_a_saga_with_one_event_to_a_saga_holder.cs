@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bifrost.Events;
 using Bifrost.Sagas;
-using Bifrost.Serialization;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_SagaConverter
@@ -12,6 +11,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter
 
 		Because of = () => saga_holder = saga_converter.ToSagaHolder(saga);
 
-		It should_serialize_uncommitted_events = () => serializer_mock.Verify(s=>s.ToJson(Moq.It.IsAny<IEnumerable<IEvent>>(), Moq.It.IsAny<SerializationOptions>()));
+		It should_serialize_uncommitted_events = () => serializer_mock.Verify(s=>s.ToJson(Moq.It.IsAny<IEnumerable<IEvent>>()));
 	}
 }

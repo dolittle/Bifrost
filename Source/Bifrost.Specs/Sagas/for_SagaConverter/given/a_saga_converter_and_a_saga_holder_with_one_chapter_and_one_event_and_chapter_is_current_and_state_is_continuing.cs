@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bifrost.Events;
 using Bifrost.Execution;
-using Bifrost.Testing.Fakes.Events;
-using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
+using Bifrost.Testing.Fakes.Events;
+using Bifrost.Testing.Fakes.Sagas;
 using Machine.Specifications;
 using Moq;
 
@@ -51,12 +50,11 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
 		                    		expected_saga = new SagaWithOneChapterProperty();
 
 		                    		container_mock.Setup(c => c.Get(typeof (SagaWithOneChapterProperty))).Returns(expected_saga);
-									serializer_mock.Setup(s => s.FromJson(typeof(SagaWithOneChapterProperty), Moq.It.IsAny<string>(), Moq.It.IsAny<SerializationOptions>())).Returns(expected_saga);
+									serializer_mock.Setup(s => s.FromJson(typeof(SagaWithOneChapterProperty), Moq.It.IsAny<string>(), Moq.It.IsAny<SagaSerializationOptions>())).Returns(expected_saga);
 		                    		serializer_mock.Setup(
 		                    			s =>
-		                    			s.FromJson(Moq.It.IsAny<List<ChapterHolder>>(), Moq.It.IsAny<string>(),
-		                    			           Moq.It.IsAny<SerializationOptions>())).Callback(
-		                    			           	(object obj, string json, SerializationOptions o) =>
+		                    			s.FromJson(Moq.It.IsAny<List<ChapterHolder>>(), Moq.It.IsAny<string>())).Callback(
+		                    			           	(object obj, string json) =>
 		                    			           	((List<ChapterHolder>)obj).Add(chapter_holder));
 		                    		container_mock.Setup(c => c.Get(typeof (SimpleChapter))).Returns(new SimpleChapter());
 

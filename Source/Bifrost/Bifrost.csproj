@@ -342,6 +342,9 @@
     <Compile Include="Rules\RuleContext.cs" />
     <Compile Include="Rules\RuleContextFail.cs" />
     <Compile Include="Rules\RuleContexts.cs" />
+    <Compile Include="Sagas\SagaSerializationOptions.cs" />
+    <Compile Include="Serialization\ISerializationOptions.cs" />
+    <Compile Include="Serialization\SerializationOptionFlags.cs" />
     <Compile Include="Specifications\And.cs" />
     <Compile Include="Specifications\CompositeRule.cs" />
     <Compile Include="Specifications\Is.cs" />

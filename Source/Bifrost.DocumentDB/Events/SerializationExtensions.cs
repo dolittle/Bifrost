@@ -30,7 +30,7 @@ namespace Bifrost.DocumentDB.Events
     /// </summary>
     public static class SerializationExtensions
     {
-        internal static SerializationOptions SerializationOptions = new SerializationOptions { UseCamelCase = true };
+        internal static ISerializationOptions CamelCaseOptions = SerializationOptions.CamelCase;
 
         /// <summary>
         /// Deserialize from a document
@@ -45,7 +45,7 @@ namespace Bifrost.DocumentDB.Events
             stream.Position = 0;
             var reader = new StreamReader(stream);
             var jsonAsString = reader.ReadToEnd();
-            var deserialized = (T)serializer.FromJson(typeof(T), jsonAsString, SerializationOptions);
+            var deserialized = (T)serializer.FromJson(typeof(T), jsonAsString, CamelCaseOptions);
             return deserialized;
         }
     }

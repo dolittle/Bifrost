@@ -68,8 +68,7 @@ namespace Bifrost.Web.Mvc
             if (serializedTempData == null)
                 return new Dictionary<string, object>();
 
-            return _serializer.FromJson<Dictionary<string, object>>(serializedTempData,
-                                                                    new SerializationOptions {IncludeTypeNames = true});
+            return _serializer.FromJson<Dictionary<string, object>>(serializedTempData, SerializationOptions.IncludeTypeNames);
         }
 
         public void SaveTempData(ControllerContext controllerContext, IDictionary<string, object> values)
@@ -95,7 +94,7 @@ namespace Bifrost.Web.Mvc
 
             if (hasValues)
             {
-                var serializedTempData = _serializer.ToJson(values, new SerializationOptions {IncludeTypeNames = true});
+                var serializedTempData = _serializer.ToJson(values, SerializationOptions.IncludeTypeNames);
                 session[TEMP_DATA_SESSION_STATE_KEY] = serializedTempData;
                 return;
             }
