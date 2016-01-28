@@ -905,8 +905,8 @@
     <Compile Include="..\Bifrost\Serialization\SerializationOptions.cs">
       <Link>Serialization\SerializationOptions.cs</Link>
     </Compile>
-    <Compile Include="..\Bifrost\Serialization\SerializationOptionsFlags.cs">
-      <Link>Serialization\SerializationOptionsFlags.cs</Link>
+    <Compile Include="..\Bifrost\Serialization\SerializationOptionFlags.cs">
+      <Link>Serialization\SerializationOptionFlags.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Specifications\And.cs">
       <Link>Specifications\And.cs</Link>
