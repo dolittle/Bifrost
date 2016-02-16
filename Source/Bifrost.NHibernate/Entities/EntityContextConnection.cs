@@ -26,32 +26,45 @@ using NHibernate;
 
 namespace Bifrost.NHibernate.Entities
 {
-	public class EntityContextConnection : IEntityContextConnection, IConnection
-	{
-		public ISessionFactory SessionFactory { get; private set; }
-		public FluentConfiguration FluentConfiguration { get; private set; }
-		public global::NHibernate.Cfg.Configuration Configuration { get; private set; }
+    public class EntityContextConnection : IEntityContextConnection, IConnection
+    {
+        public ISessionFactory SessionFactory { get; private set; }
+        public FluentConfiguration FluentConfiguration { get; }
+        public global::NHibernate.Cfg.Configuration Configuration { get; private set; }
 
         public EntityContextConnection()
         {
             FluentConfiguration = Fluently.Configure();
         }
 
-        void DiscoverClassMapsAndAddAssemblies(ITypeDiscoverer typeDiscoverer, MappingConfiguration mappings)
+        static void DiscoverClassMapsAndAddAssemblies(
+            IAssemblies assemblies,
+            ITypeDiscoverer typeDiscoverer,
+            MappingConfiguration mappings)
         {
-            var assemblies = typeDiscoverer.FindMultiple(typeof(IMappingProvider)).Select(t => t.Assembly).Distinct();
-            foreach (var assembly in assemblies)
+            var assembliesWithFluentMappings = typeDiscoverer
+                .FindMultiple(typeof(IMappingProvider))
+                .Select(t => t.Assembly)
+                .Distinct();
+            foreach (var assembly in assembliesWithFluentMappings)
             {
                 mappings.FluentMappings.AddFromAssembly(assembly).Conventions.Add(DefaultLazy.Never(), AutoImport.Never());
+            }
+
+            var assembliesWithHbmMappings = assemblies
+                .GetAll()
+                .Where(a => a.GetManifestResourceNames().Any(s => s.EndsWith(".hbm.xml")));
+            foreach (var assembly in assembliesWithHbmMappings)
+            {
                 mappings.HbmMappings.AddFromAssembly(assembly);
             }
-                
         }
 
         public void Initialize(IContainer container)
         {
+            var assemblies = container.Get<IAssemblies>();
             var typeDiscoverer = container.Get<ITypeDiscoverer>();
-            FluentConfiguration.Mappings(m => DiscoverClassMapsAndAddAssemblies(typeDiscoverer, m));
+            FluentConfiguration.Mappings(m => DiscoverClassMapsAndAddAssemblies(assemblies, typeDiscoverer, m));
             Configuration = FluentConfiguration.BuildConfiguration();
             SessionFactory = Configuration.BuildSessionFactory();
         }
