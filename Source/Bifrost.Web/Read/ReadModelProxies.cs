@@ -16,35 +16,37 @@ namespace Bifrost.Web.Read
 {
     public class ReadModelProxies : IProxyGenerator
     {
-       
-        ITypeDiscoverer _typeDiscoverer;
-        ICodeGenerator _codeGenerator;
-        WebConfiguration _configuration;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly ICodeGenerator _codeGenerator;
+        readonly WebConfiguration _configuration;
 
-        public ReadModelProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
+        public ReadModelProxies(
+            ITypeDiscoverer typeDiscoverer,
+            ICodeGenerator codeGenerator,
+            WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _codeGenerator = codeGenerator;
             _configuration = configuration;
         }
 
+        string ClientNamespace(string @namespace)
+        {
+            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.READ;
+        }
+
         public string Generate()
         {
-            var typesByNamespace = _typeDiscoverer.FindMultiple<IReadModel>().GroupBy(t => t.Namespace);
-
+            var typesByNamespace = _typeDiscoverer
+                .FindMultiple<IReadModel>()
+                .OrderBy(t => t.FullName)
+                .GroupBy(t => ClientNamespace(t.Namespace))
+                .OrderBy(n => n.Key);
             var result = new StringBuilder();
-
-            Namespace currentNamespace;
-            Namespace globalRead = _codeGenerator.Namespace(Namespaces.READ);
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
-                else
-                    currentNamespace = globalRead;
-
-
+                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
                 foreach (var type in @namespace)
                 {
                     var name = type.Name.ToCamelCase();
@@ -69,10 +71,9 @@ namespace Bifrost.Web.Read
                                         .WithReadModelConvenienceFunctions(type));
                 }
 
-                if (currentNamespace != globalRead)
-                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
-            result.Append(_codeGenerator.GenerateFrom(globalRead));
+
             return result.ToString();
         }
     }

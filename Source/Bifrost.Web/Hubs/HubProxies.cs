@@ -16,9 +16,9 @@ namespace Bifrost.Web.Hubs
 {
     public class HubProxies : IProxyGenerator
     {
-        ITypeDiscoverer _typeDiscoverer;
-        ICodeGenerator _codeGenerator;
-        WebConfiguration _configuration;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly ICodeGenerator _codeGenerator;
+        readonly WebConfiguration _configuration;
 
         public HubProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
@@ -27,22 +27,23 @@ namespace Bifrost.Web.Hubs
             _configuration = configuration;
         }
 
+        string ClientNamespace(string @namespace)
+        {
+            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.HUBS;
+        }
 
         public string Generate()
         {
-            var typesByNamespace = _typeDiscoverer.FindMultiple<Hub>().GroupBy(t=>t.Namespace);
+            var typesByNamespace = _typeDiscoverer
+                .FindMultiple<Hub>()
+                .OrderBy(t => t.FullName)
+                .GroupBy(t => ClientNamespace(t.Namespace))
+                .OrderBy(n => n.Key);
             var result = new StringBuilder();
-
-            Namespace currentNamespace;
-            Namespace globalHubs = _codeGenerator.Namespace(Namespaces.HUBS);
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
-                else
-                    currentNamespace = globalHubs;
-
+                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
                 foreach (var type in @namespace)
                 {
                     if (type.IsGenericType) continue;
@@ -60,12 +61,8 @@ namespace Bifrost.Web.Hubs
                         );
                 }
 
-                if (currentNamespace != globalHubs)
-                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
-
-
+                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
-            result.Append(_codeGenerator.GenerateFrom(globalHubs));
 
             return result.ToString();
         }

@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+
+using System;
 using System.Linq;
 using System.Text;
 using Bifrost.CodeGeneration;
@@ -39,26 +41,28 @@ namespace Bifrost.Web.Commands
             _commandSecurityManager = commandSecurityManager;
         }
 
+        string ClientNamespace(string @namespace)
+        {
+            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.COMMANDS;
+        }
+
         public string Generate()
         {
-            var typesByNamespace = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !CommandProxies._namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t => t.Namespace);
+            var typesByNamespace = _typeDiscoverer
+                .FindMultiple<ICommand>()
+                .Where(t => !t.IsGenericType)
+                .Where(t => !CommandProxies.NamespacesToExclude.Any(t.Namespace.StartsWith))
+                .OrderBy(t => t.FullName)
+                .GroupBy(t => ClientNamespace(t.Namespace))
+                .OrderBy(n => n.Key);
             var result = new StringBuilder();
-
-            Namespace currentNamespace;
-            Namespace globalCommands = _codeGenerator.Namespace(Namespaces.COMMANDS);
 
             foreach (var @namespace in typesByNamespace)
             {
-                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
-                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
-                else
-                    currentNamespace = globalCommands;
-
+                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
                 foreach (var type in @namespace)
                 {
-                    if (type.IsGenericType) continue;
-
-                    var command = _container.Get(type) as ICommand;
+                    var command = Activator.CreateInstance(type) as ICommand;
                     var authorizationResult = _commandSecurityManager.Authorize(command);
                     var name = string.Format("{0}SecurityContext",type.Name.ToCamelCase());
                     currentNamespace.Content.Assign(name)
@@ -76,11 +80,10 @@ namespace Bifrost.Web.Commands
                             );
 
                 }
-                if (currentNamespace != globalCommands)
-                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+
+                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
-            result.Append(_codeGenerator.GenerateFrom(globalCommands));
-            
+
             return result.ToString();
         }
     }
