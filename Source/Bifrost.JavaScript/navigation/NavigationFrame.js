@@ -27,17 +27,6 @@
 
         this.setCurrentUriFromCurrentLocation = function () {
             var state = self.history.getState();
-
-            /*
-            if (state.url.indexOf("/?") > 0) {
-                if (state.url.indexOf("/?") == state.url.length - 2) {
-                    state.url = state.url.replace("/?", "");
-                } else {
-                    state.url = state.url.replace("/?", "?");
-                }
-                History.pushState(state.data, state.title, state.url);
-            }*/
-
             var uri = Bifrost.Uri.create(state.url);
             self.setCurrentUri(uri.path);
         };

@@ -109,9 +109,6 @@ namespace Bifrost.Values
 		{
 			AddAttributeToType<XmlRootAttribute>(typeBuilder,
 				new Dictionary<string, object>() { { "ElementName", type.Name } });
-			/*
-			AddAttributeToType<DataContractAttribute>(typeBuilder,
-				new Dictionary<string, object>() { { "Name", type.Name } });*/
 		}
 
 		private static void AddAttributeToType<T>(TypeBuilder typeBuilder, IDictionary<string, object> propertiesWithValues)

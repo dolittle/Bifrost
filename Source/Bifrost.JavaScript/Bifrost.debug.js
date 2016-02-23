@@ -4127,24 +4127,6 @@ if (typeof ko !== 'undefined') {
                 command = value;
             }
             ko.applyBindingsToNode(element, { click: function() {
-                // TODO: Investigate further - idea was to support a "context-sensitive" way of dynamically inserting 
-                // parameters before execution of the command
-                /*
-                if( !contextBound ) {
-                    command.parameters = command.parameters || {};					
-                    for( var parameter in command.parameters ) {
-                        if( viewModel.hasOwnProperty(parameter) ) {
-                            var parameterValue = viewModel[parameter];
-                            if( ko.isObservable(command.parameters[parameter]) ) {
-                                command.parameters[parameter](parameterValue);
-                            } else {
-                                command.parameters[parameter] = parameterValue;								
-                            }
-                        }
-                    }
-                }
-                */
-    
                 command.execute();
             }}, viewModel);
         }
@@ -6881,40 +6863,7 @@ Bifrost.namespace("Bifrost.markup", {
 });
 Bifrost.namespace("Bifrost.markup", {
     propertyExpander: Bifrost.Singleton(function (valueProviderParser) {
-
         this.expand = function (element, target) {
-
-            /*, typeConverters*/
-            /*
-            var propertySplit = element.localName.split(".");
-            if (propertySplit.length > 2) {
-                throw Bifrost.markup.MultiplePropertyReferencesNotAllowed.create({ tagName: name });
-            }
-
-            if (propertySplit.length === 2) {
-                if (!Bifrost.isNullOrUndefined(element.parentElement)) {
-                    var parentName = element.parentElement.localName.toLowerCase();
-
-                    if (parentName !== propertySplit[0]) {
-                        throw Bifrost.markup.ParentTagNameMismatched.create({ tagName: name, parentTagName: parentName });
-                    }
-                }
-            }
-
-            if (!Bifrost.isNullOrUndefined(element.parentElement)) {
-                propertySplit = element.parentElement.localName.split(".");
-                if (propertySplit.length === 2) {
-                    var propertyName = propertySplit[1];
-                    if (!Bifrost.isNullOrUndefined(element.parentElement.__objectModelNode)) {
-                        if (ko.isObservable(element.parentElement.__objectModelNode[propertyName])) {
-                            element.parentElement.__objectModelNode[propertyName](instance);
-                        } else {
-                            element.parentElement.__objectModelNode[propertyName] = instance;
-                        }
-                    }
-                }
-            }*/
-
             for (var attributeIndex = 0; attributeIndex < element.attributes.length; attributeIndex++) {
                 var name = element.attributes[attributeIndex].localName;
                 var value = element.attributes[attributeIndex].value;
@@ -6923,29 +6872,6 @@ Bifrost.namespace("Bifrost.markup", {
                     if (valueProviderParser.hasValueProvider(value)) {
                         valueProviderParser.parseFor(target, name, value);
                     }
-
-                    /*
-                    var targetValue = target[name];
-                    if (ko.isObservable(targetValue)) {
-                        targetValue(value);
-                    } else {
-                        target[name] = value;
-                    }
-                    */
-
-                    /*
-                    var targetType = typeof targetValue;
-                    if (ko.isObservable(targetValue)) {
-                        targetType = typeof targetValue();
-                    }
-
-                    var convertedValue = typeConverters.convert(targetType, value);
-                    if (ko.isObservable(targetValue)) {
-                        targetValue(convertedValue);
-                    } else {
-                        target[name] = convertedValue;
-                    }
-                    */
                 }
             }
         };
@@ -8436,17 +8362,6 @@ Bifrost.namespace("Bifrost.navigation", {
 
         this.setCurrentUriFromCurrentLocation = function () {
             var state = self.history.getState();
-
-            /*
-            if (state.url.indexOf("/?") > 0) {
-                if (state.url.indexOf("/?") == state.url.length - 2) {
-                    state.url = state.url.replace("/?", "");
-                } else {
-                    state.url = state.url.replace("/?", "?");
-                }
-                History.pushState(state.data, state.title, state.url);
-            }*/
-
             var uri = Bifrost.Uri.create(state.url);
             self.setCurrentUri(uri.path);
         };
@@ -9000,48 +8915,6 @@ Bifrost.namespace("Bifrost.values", {
         var result = valuePipeline.getValueForView(element, value);
         oldSetHtml(element, result);
     };
-
-    /*
-    Bifrost.values.valuePipeline.getValueForView = function (element, bindingHandlerName, value) {
-        var result = valuePipeline.getValueForView(element, bindingHandlerName, value);
-        return result;
-    }
-
-    var complexExpressionCharacters = [";", "+", "-", "(", ")", "'"];
-    function isComplexExpression(expression) {
-        for (var charIndex = 0; charIndex < expression.length; charIndex++) {
-            for (var complexCharIndex = 0; complexCharIndex < complexExpressionCharacters.length; complexCharIndex++) {
-                if (expression[charIndex] == complexExpressionCharacters[complexCharIndex]) return true;
-            }
-        }
-        
-        return false;
-    }
-
-    var oldWriteValueToProperty = ko.expressionRewriting.writeValueToProperty;
-    ko.expressionRewriting.writeValueToProperty = function (property, allBindings, key, value, checkIfDifferent) {
-        value = valuePipeline.getValueForProperty(property, value);
-        return oldWriteValueToProperty(property, allBindings, key, value, checkIfDifferent);
-    };
-
-    var oldPreProcessBindings = ko.expressionRewriting.preProcessBindings;
-    ko.expressionRewriting.preProcessBindings = function (bindingsStringOrKeyValueArray, bindingOptions) {
-        var bindings = ko.expressionRewriting.parseObjectLiteral(bindingsStringOrKeyValueArray);
-        var bindingString = "";
-        bindings.forEach(function (binding) {
-            var bindingHandler = binding.key;
-            var expression = binding.value;
-            var rewrittenExpression = expression;
-            if (!isComplexExpression(expression) && expression[0] != '{') {
-                rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, '"+bindingHandler+"', " + expression + ")";
-            }
-            if( bindingString !== "" ) bindingString = bindingString +", ";
-            bindingString = bindingString + bindingHandler + ":" + rewrittenExpression;
-        });
-
-        var result = oldPreProcessBindings(bindingString, bindingOptions);
-        return result;
-    };*/
 })();
 Bifrost.namespace("Bifrost.values", {
     ValueProvider: Bifrost.Type.extend(function () {
