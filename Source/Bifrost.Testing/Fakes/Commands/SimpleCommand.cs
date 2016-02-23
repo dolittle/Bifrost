@@ -5,16 +5,7 @@ namespace Bifrost.Testing.Fakes.Commands
 {
     public class SimpleCommand : ICommand
     {
-        public SimpleCommand() : this(Guid.NewGuid())
-        {
-        }
-
-        public SimpleCommand(Guid id)
-        {
-            Id = id;
-        }
-
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string SomeString { get; set; }
 

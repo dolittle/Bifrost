@@ -1,4 +1,3 @@
-using System;
 using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Validation;
 using Machine.Specifications;
@@ -13,7 +12,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandBusinessValidator.g
         Establish context = () =>
                                 {
                                     simple_command_business_validator = new SimpleCommandBusinessValidator();
-                                    simple_command = new SimpleCommand(Guid.NewGuid());
+                                    simple_command = new SimpleCommand();
                                 };
     }
 
@@ -25,7 +24,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandBusinessValidator.g
         Establish context = () =>
         {
             simple_command_business_validator = new SimpleCommandInputValidatorWithRuleset();
-            simple_command = new SimpleCommand(Guid.NewGuid());
+            simple_command = new SimpleCommand();
         };
     }
 }
