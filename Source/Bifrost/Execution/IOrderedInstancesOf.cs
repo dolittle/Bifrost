@@ -8,11 +8,11 @@ namespace Bifrost.Execution
 {
     /// <summary>
     /// Defines something that can discover types and give instance of these types
-    /// when enumerated over
+    /// in a predefined order when enumerated over.
     /// </summary>
-    /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface</typeparam>
-    public interface IInstancesOf<out T> : IEnumerable<T>
-        where T : class
+    /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface.</typeparam>
+    /// <remarks>Enumeration will throw a <see cref="CyclicDependencyException"/> if cycles are detected.</remarks>
+    public interface IOrderedInstancesOf<out T> : IEnumerable<T> where T : class
     {
     }
 }
