@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Conventions;
+
 namespace Bifrost.Events
 {
     /// <summary>
@@ -9,7 +11,10 @@ namespace Bifrost.Events
     /// </summary>
     /// <typeparam name="TIn">Older generation of the <see cref="IEvent">Event</see> to migrate from</typeparam>
     /// <typeparam name="TOut">Newer generation of the <see cref="IEvent">Event</see> to migrate to</typeparam>
-    public interface IEventMigrator<in TIn, out TOut> where TIn : IEvent where TOut : IEvent
+    /// <remarks>
+    /// Types inheriting from this interface will be automatically registered.
+    /// </remarks>
+    public interface IEventMigrator<in TIn, out TOut> : IConvention where TIn : IEvent where TOut : IEvent
     {
         /// <summary>
         /// Migrates from the incoming <see cref="IEvent">Event</see> to the outgoing <see cref="IEvent">Event</see>

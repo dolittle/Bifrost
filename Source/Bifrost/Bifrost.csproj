@@ -54,6 +54,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="CodeGeneration\CodeGenerator.cs" />
     <Compile Include="CodeGeneration\CodeWriter.cs" />

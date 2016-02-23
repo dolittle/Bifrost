@@ -100,7 +100,7 @@
     <Compile Include="PropertyValidatorWithDynamicState.cs" />
     <Compile Include="AbstractValidatorExtensions.cs" />
     <Compile Include="RuleBuilderExtensions.cs" />
-    <Compile Include="Sagas\ChapterValidation.cs" />
+    <Compile Include="Sagas\ChapterValidator.cs" />
     <Compile Include="Sagas\ChapterValidationService.cs" />
     <Compile Include="Sagas\ChapterValidatorProvider.cs" />
     <Compile Include="Sagas\IChapterValidator.cs" />

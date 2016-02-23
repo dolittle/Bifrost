@@ -80,7 +80,7 @@ namespace Bifrost.Read
                 var providerResult = ExecuteOnProvider(provider, actualQuery, paging);
                 result.TotalItems = providerResult.TotalItems;
                 var readModels = providerResult.Items as IEnumerable<IReadModel>;
-                result.Items = _filters.Filter(readModels);
+                result.Items = readModels != null ? _filters.Filter(readModels) : providerResult.Items;
             }
             catch (TargetInvocationException ex)
             {

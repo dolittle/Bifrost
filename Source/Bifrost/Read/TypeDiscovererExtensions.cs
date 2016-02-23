@@ -21,12 +21,12 @@ namespace Bifrost.Read
         /// <returns>the type if found, <see cref="UnknownQueryException" /> if not found or type is not a query</returns>
         public static Type GetQueryTypeByName(this ITypeDiscoverer typeDiscoverer, string fullName)
         {
-            var commandType = typeDiscoverer.FindTypeByFullName(fullName);
+            var queryType = typeDiscoverer.FindTypeByFullName(fullName);
 
-            if (commandType == null || !commandType.HasInterface(typeof(IQueryFor<>)))
+            if (queryType == null || !queryType.HasInterface(typeof(IQuery)))
                 throw new UnknownQueryException(fullName);
 
-            return commandType;
+            return queryType;
         }
 
         /// <summary>
@@ -37,12 +37,12 @@ namespace Bifrost.Read
         /// <returns>the type if found, <see cref="UnknownReadModelOfException" /> if not found or type is not a readmodelof</returns>
         public static Type GetReadModelOfTypeByName(this ITypeDiscoverer typeDiscoverer, string fullName)
         {
-            var commandType = typeDiscoverer.FindTypeByFullName(fullName);
+            var readModelOfType = typeDiscoverer.FindTypeByFullName(fullName);
 
-            if (commandType == null || !commandType.HasInterface(typeof(IReadModelOf<>)))
+            if (readModelOfType == null || !readModelOfType.HasInterface(typeof(IReadModelOf<>)))
                 throw new UnknownReadModelOfException(fullName);
 
-            return commandType;
+            return readModelOfType;
         }
     }
 }

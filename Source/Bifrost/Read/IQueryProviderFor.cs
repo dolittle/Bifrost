@@ -2,12 +2,18 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Conventions;
+
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a provider that can deal with a query for
+    /// Defines a provider that can deal with a query for <typeparamref name="T"/>.
     /// </summary>
-    public interface IQueryProviderFor<T>
+    /// <remarks>
+    /// Types inheriting from this interface will be automatically registered and called whenever a <see cref="IQuery"/>
+    /// with a Query property of type <typeparamref name="T"/> is encountered.
+    /// </remarks>
+    public interface IQueryProviderFor<T> : IConvention
     {
         /// <summary>
         /// Execute a query 

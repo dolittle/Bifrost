@@ -2,16 +2,15 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace Bifrost.Read
+namespace Bifrost.Conventions
 {
     /// <summary>
-    /// Defines a query for an unspecified type, but typically an <see cref="IReadModel"/>.
+    /// Marker interface for Bifrost conventions.
     /// </summary>
     /// <remarks>
-    /// Implementing types must define a Query property with a getter having a return type that is supported by
-    /// an implementation of <see cref="IQueryProviderFor{T}"/>.
+    /// For discoverability, interfaces used for Convention over Configuration should inherit from this interface.
     /// </remarks>
-    public interface IQuery
+    public interface IConvention
     {
     }
 }

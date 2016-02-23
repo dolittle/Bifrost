@@ -4,13 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.CodeGeneration.JavaScript;
+using Bifrost.Conventions;
 
 namespace Bifrost.Web.Commands
 {
     /// <summary>
-    /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands
+    /// Defines the extender for properties on commands - a visitor that can take part of the proxy generation of properties on commands.
     /// </summary>
-    public interface ICanExtendCommandProperty
+    public interface ICanExtendCommandProperty : IConvention
     {
         /// <summary>
         /// Extend a given property
