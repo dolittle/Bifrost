@@ -109,7 +109,6 @@
     <Content Include="extensions\HTMLCollectionExtensions.js" />
     <Content Include="extensions\HTMLElementExtensions.js" />
     <Content Include="extensions\NodeListExtensions.js" />
-    <Content Include="index.html" />
     <Content Include="interaction\CommandOperation.js" />
     <Content Include="interaction\VisualState.js" />
     <Content Include="interaction\VisualStateAction.js" />
@@ -219,7 +218,9 @@
     <Content Include="views\pathResolvers.js" />
     <Content Include="views\viewModelLoader.js" />
     <Content Include="views\viewModelTypes.js" />
-    <EmbeddedResource Include="Bifrost.debug.js" />
+    <EmbeddedResource Include="Bifrost.debug.js">
+      <DependentUpon>Bifrost.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Bifrost.js" />
     <Content Include="commands\bindingHandlers.js" />
     <Content Include="commands\Command.js" />
@@ -296,11 +297,37 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>cd $(ProjectDir)
-$(ProjectDir)..\..\tools\hlin\hlin /d=Bifrost.js /t=Bifrost.debug.js</PreBuildEvent>
-  </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- Custom task to bundle together files -->
+  <UsingTask TaskName="Bundle" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <InputFilename ParameterType="System.String" Required="true" />
+      <OutputFilename ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Linq" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+            var keyword = "@depends";
+            var directory = Path.GetDirectoryName(InputFilename);
+            Func<string, string> maybeAddNewline = s => s.EndsWith(Environment.NewLine) ? s : s + Environment.NewLine;
+            File.WriteAllText(
+                OutputFilename,
+                string.Join("",
+                    File.ReadAllLines(InputFilename)
+                        .Where(l => l.StartsWith(keyword))
+                        .Select(l => l.Substring(keyword.Length).Trim())
+                        .Select(l => Path.Combine(directory, l))
+                        .Select(File.ReadAllText)
+                        .Select(maybeAddNewline)));
+          ]]></Code>
+    </Task>
+  </UsingTask>
+  <Target Name="CreateBifrostDebug" Inputs="@(Content)" Outputs="Bifrost.debug.js" BeforeTargets="BeforeBuild">
+    <Bundle InputFilename="$(ProjectDir)Bifrost.js" OutputFilename="$(ProjectDir)Bifrost.debug.js" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
