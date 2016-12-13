@@ -36,6 +36,12 @@ function loadHubs() {
     document.body.appendChild(script);
 }
 
+Bifrost.namespace("Bifrost.hubs", {
+    Hub: Bifrost.Type.extend(function () {
+
+    })
+});
+
 //require(["jquery", "knockout"], function () {
     //require(["signalr", "order!noext!signalr/hubs", "jquery.history"], function () {
         //require(["knockout.mapping", "bifrost", "knockout.plugins"], function () {

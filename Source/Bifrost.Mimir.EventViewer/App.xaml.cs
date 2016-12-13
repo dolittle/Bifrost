@@ -17,7 +17,9 @@
 //
 #endregion
 using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace Bifrost.Mimir.EventViewer
 {
@@ -30,12 +32,19 @@ namespace Bifrost.Mimir.EventViewer
             this.Exit += this.Application_Exit;
             this.UnhandledException += this.Application_UnhandledException;
 
+            
+
             InitializeComponent();
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             this.RootVisual = new MainPage();
+            var root = RootVisual as MainPage;
+            if (root != null)
+            {
+                root.Language = XmlLanguage.GetLanguage(CultureInfo.InvariantCulture.Name);
+            }
         }
 
         private void Application_Exit(object sender, EventArgs e)

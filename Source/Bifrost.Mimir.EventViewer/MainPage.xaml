@@ -22,6 +22,7 @@
     
     <Grid x:Name="LayoutRoot" Background="White">
 
+        
         <pivot:PivotViewer x:Name="_pivotViewer" ItemsSource="{Binding Events}">
             <pivot:PivotViewer.ItemTemplates>
                 <pivot:PivotViewerItemTemplate>
@@ -64,5 +65,6 @@
             </pivot:PivotViewer.PivotProperties>
 
         </pivot:PivotViewer>
+        
     </Grid>
 </UserControl>
