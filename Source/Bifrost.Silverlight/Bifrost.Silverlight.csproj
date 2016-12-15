@@ -704,6 +704,9 @@
     <Compile Include="..\Bifrost\Sagas\Chapter.cs">
       <Link>Sagas\Chapter.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Sagas\SagaSerializationOptions.cs">
+      <Link>Sagas\SagaSerializationOptions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Sagas\ChapterAlreadyExistException.cs">
       <Link>Sagas\ChapterAlreadyExistException.cs</Link>
     </Compile>
@@ -896,8 +899,14 @@
     <Compile Include="..\Bifrost\Serialization\ISerializer.cs">
       <Link>Serialization\ISerializer.cs</Link>
     </Compile>
+    <Compile Include="..\Bifrost\Serialization\ISerializationOptions.cs">
+      <Link>Serialization\ISerializationOptions.cs</Link>
+    </Compile>
     <Compile Include="..\Bifrost\Serialization\SerializationOptions.cs">
       <Link>Serialization\SerializationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Bifrost\Serialization\SerializationOptionFlags.cs">
+      <Link>Serialization\SerializationOptionFlags.cs</Link>
     </Compile>
     <Compile Include="..\Bifrost\Specifications\And.cs">
       <Link>Specifications\And.cs</Link>

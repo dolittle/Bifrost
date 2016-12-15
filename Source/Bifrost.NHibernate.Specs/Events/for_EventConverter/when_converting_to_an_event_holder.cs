@@ -1,7 +1,6 @@
 ﻿using System;
-using Bifrost.Testing.Fakes.Events;
 using Bifrost.NHibernate.Events;
-using Bifrost.Serialization;
+using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.NHibernate.Specs.Events.for_EventConverter
@@ -26,6 +25,6 @@ namespace Bifrost.NHibernate.Specs.Events.for_EventConverter
         It should_have_the_same_aggregate_id = () => holder.AggregateId.ShouldEqual(aggregate_id);
         It should_have_the_same_caused_by = () => holder.CausedBy.ShouldEqual(caused_by);
         It should_have_the_same_origin = () => holder.Origin.ShouldEqual(origin);
-        It should_serialize_the_event = () => serializer_mock.Verify(s => s.ToJson(@event, Moq.It.IsAny<SerializationOptions>()), Moq.Times.Once());
+        It should_serialize_the_event = () => serializer_mock.Verify(s => s.ToJson(@event), Moq.Times.Once());
     }
 }

@@ -29,7 +29,7 @@ namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
                                     http_context_mock.SetupGet(hc => hc.Session).Returns(http_session_mock.Object);
                                     controller_context_mock = new Mock<ControllerContext>();
                                     controller_context_mock.SetupGet(cc => cc.HttpContext).Returns(http_context_mock.Object);
-                                    serializer_mock.Setup(s => s.FromJson<Dictionary<string, object>>(serialized_temp_data, Moq.It.IsAny<SerializationOptions>())).Returns(temp_data_dictionary);
+                                    serializer_mock.Setup(s => s.FromJson<Dictionary<string, object>>(serialized_temp_data, SerializationOptions.IncludeTypeNames)).Returns(temp_data_dictionary);
                                 };
 
         Because of = () => temp_data =  temp_data_provider.LoadTempData(controller_context_mock.Object);

@@ -28,7 +28,7 @@ namespace Bifrost.Web.Mvc.Specs.for_BifrostTempDataProvider
                                     http_context_mock.SetupGet(hc => hc.Session).Returns(http_session_mock.Object);
                                     controller_context_mock = new Mock<ControllerContext>();
                                     controller_context_mock.SetupGet(cc => cc.HttpContext).Returns(http_context_mock.Object);
-                                    serializer_mock.Setup(s => s.ToJson(temp_data_dictionary, Moq.It.IsAny<SerializationOptions>())).Returns(serialized_temp_data);
+                                    serializer_mock.Setup(s => s.ToJson(temp_data_dictionary, SerializationOptions.IncludeTypeNames)).Returns(serialized_temp_data);
                                 };
 
         Because of = () => temp_data_provider.SaveTempData(controller_context_mock.Object, temp_data_dictionary);

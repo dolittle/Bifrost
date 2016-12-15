@@ -69,7 +69,7 @@ namespace Bifrost.DocumentDB.Events
                 .CreateDocumentQuery(_collection.SelfLink).Where(d => d.Id == subscription.Id.ToString()).ToArray()
                 .SingleOrDefault(d => d.Id == subscription.Id.ToString());
 
-            using (var stream = _serializer.ToJsonStream(subscription, SerializationExtensions.SerializationOptions))
+            using (var stream = _serializer.ToJsonStream(subscription, SerializationExtensions.CamelCaseOptions))
             {
                 if (document != null)
                 {

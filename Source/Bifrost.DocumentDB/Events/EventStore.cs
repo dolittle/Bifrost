@@ -71,7 +71,7 @@ namespace Bifrost.DocumentDB.Events
 
             foreach( var @event in uncommittedEventStream )
             {
-                var serialized = _serializer.ToJson(@event, SerializationExtensions.SerializationOptions);
+                var serialized = _serializer.ToJson(@event, SerializationExtensions.CamelCaseOptions);
                 _client
                     .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
                     .ContinueWith(t => @event.Id = t.Result)

@@ -33,30 +33,8 @@ namespace Bifrost.Sagas
     /// Represents a <see cref="ISagaConverter"/>
     /// </summary>
 	public class SagaConverter : ISagaConverter
-	{
-#if(NETFX_CORE)
-		static readonly string[] SagaProperties = typeof(ISaga).GetTypeInfo().DeclaredProperties.Select(t => t.Name).ToArray();
-#else
-		static readonly string[] SagaProperties = typeof(ISaga).GetProperties().Select(t => t.Name).ToArray();
-#endif
-
-        static readonly SerializationOptions SerializationOptions =
-			new SerializationOptions
-				{
-					ShouldSerializeProperty = (t, p) =>
-					                          	{
-					                          		if (typeof (ISaga)
-#if(NETFX_CORE)
-                                                            .GetTypeInfo().IsAssignableFrom(t.GetTypeInfo())
-#else
-                                                            .IsAssignableFrom(t)
-#endif
-                                                        )
-					                          			return !SagaProperties.Any(sp => sp == p);
-
-					                          		return true;
-					                          	}
-				};
+    {
+        private static readonly ISerializationOptions SagaSerializationOptions = new SagaSerializationOptions();
 
 		readonly IContainer _container;
 		readonly ISerializer _serializer;
@@ -88,7 +66,7 @@ namespace Bifrost.Sagas
 			if (string.IsNullOrEmpty(sagaHolder.SerializedSaga))
 				saga = _container.Get(type) as ISaga;
 			else
-				saga = (ISaga) _serializer.FromJson(type,sagaHolder.SerializedSaga, SerializationOptions);
+				saga = (ISaga) _serializer.FromJson(type,sagaHolder.SerializedSaga, SagaSerializationOptions);
 
 			saga.Id = sagaHolder.Id;
 			saga.Partition = sagaHolder.Partition;
@@ -123,7 +101,7 @@ namespace Bifrost.Sagas
 			sagaHolder.Key = saga.Key;
 			sagaHolder.Partition = saga.Partition;
 		    sagaHolder.State = saga.CurrentState.ToString();
-			sagaHolder.SerializedSaga = _serializer.ToJson(saga, SerializationOptions);
+			sagaHolder.SerializedSaga = _serializer.ToJson(saga, SagaSerializationOptions);
 			sagaHolder.UncommittedEvents = _serializer.ToJson(saga.GetUncommittedEvents());
 
 			var chapterHolders = (from c in saga.Chapters

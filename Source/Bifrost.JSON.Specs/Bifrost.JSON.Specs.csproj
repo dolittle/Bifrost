@@ -81,6 +81,7 @@
     <Compile Include="Serialization\for_Serializer\when_deserializing_type_with_an_interface_property_and_json_contains_type_reference.cs" />
     <Compile Include="Serialization\for_Serializer\when_deserialzing_a_type_with_concepts.cs" />
     <Compile Include="Serialization\for_Serializer\when_deserialzing_a_type_with_nested_concepts.cs" />
+    <Compile Include="Serialization\for_Serializer\when_serializing_a_dictionary.cs" />
     <Compile Include="Serialization\for_Serializer\when_serializing_a_concept.cs" />
     <Compile Include="Serialization\for_Serializer\when_serializing_type_with_an_interface_property_and_instance_set_to_implementation.cs" />
     <Compile Include="Serialization\for_SerializerContractResolver\given\a_saga_contract_resolver.cs" />
