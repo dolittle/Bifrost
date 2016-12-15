@@ -16,13 +16,8 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using System.Linq;
 using System.Web;
-using System.Web.Optimization;
 using System.Web.Routing;
-using Bifrost.Configuration;
-using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web
 {
@@ -50,9 +45,6 @@ namespace Bifrost.Web
         {
             get 
             {
-                var bundles = BundleTable.Bundles.GetRegisteredBundles();
-                var currentRequestPath = _actualHttpContext.Server.MapPath(_actualHttpContext.Request.Path).ToLowerInvariant();
-                if (bundles.Any(b => _actualHttpContext.Server.MapPath(b.Path).ToLowerInvariant() == currentRequestPath)) return true;
                 return RouteTable.Routes.GetRouteData(new HttpContextWrapper(_actualHttpContext)) != null;
             }
         }
