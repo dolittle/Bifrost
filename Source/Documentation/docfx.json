@@ -1,0 +1,73 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Bifrost/*.csproj",
+            "Bifrost.Client/*.csproj",
+            "Bifrost.DocumentDB/*.csproj",
+            "Bifrost.EntityFramework/*.csproj",
+            "Bifrost.FluentValidation/*.csproj",
+            "Bifrost.NHibernate/*.csproj",
+            "Bifrost.Ninject/*.csproj",
+            "Bifrost.Oracle/*.csproj",
+            "Bifrost.RavenDB/*.csproj",
+            "Bifrost.SimpleInjector/*.csproj",
+            "Bifrost.StructureMap/*.csproj",
+            "Bifrost.Web/*.csproj",
+            "Bifrost.Windsor/*.csproj"
+          ],
+          "cwd": "../"
+        }
+      ],
+      "dest": "obj/api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml"
+        ],
+        "cwd": "."
+      },
+      {
+        "files": [
+          "api/*.md",
+          "articles/**.md",
+          "Frontend/**.md",
+          "toc.yml",
+          "*.md",
+          "**.yml"
+        ],
+        "cwd": "../../Documentation"
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "*.jpg",
+          "*.png"
+        ],
+        "cwd": "../../Documentation"
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "apidoc/**.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      }
+    ],
+    "dest": "_site",
+    "template": [
+      "default",
+      "../../Documentation/Template"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1663A5F5-14BA-4FDD-8D0D-B80996A32623}"
 EndProject
@@ -118,6 +118,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.QuickStart.WPF", "..\Bifrost.QuickStart.WPF\Bifrost.QuickStart.WPF.csproj", "{98284AAA-8606-4918-852D-C332E25265C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.EntityFramework", "..\Bifrost.EntityFramework\Bifrost.EntityFramework.csproj", "{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "..\Documentation\Documentation.csproj", "{ABE43D11-EDD0-41DB-B8D1-99258384CD68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -786,6 +788,25 @@ Global
 		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|x64.ActiveCfg = Release|Any CPU
 		{4D449212-B4E6-4D79-9E7D-CB43D8C2D51F}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|ARM.Build.0 = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|x64.Build.0 = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Debug|x86.Build.0 = Debug|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|ARM.Build.0 = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x64.Build.0 = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
