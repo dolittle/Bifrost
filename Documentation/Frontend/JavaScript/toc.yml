@@ -1,0 +1,12 @@
+- name: Getting started
+  href: getting_started.md
+- name: Commands
+  href: commands.md
+- name: Interaction
+  items:
+  - name: Operations
+    href: Interaction/operations.md
+  - name: Triggers
+    href: Interaction/triggers.md
+  - name: Visual States
+    href: Interaction/visualStates.md

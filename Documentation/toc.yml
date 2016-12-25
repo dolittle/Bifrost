@@ -1,0 +1,7 @@
+- name: Articles
+  href: articles/
+- name: API Documentation
+  href: obj/api/
+  homepage: api/
+- name: Frontend
+  href: Frontend/
