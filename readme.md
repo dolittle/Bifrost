@@ -1,6 +1,6 @@
 ![Bifrost Logo](Media/Logo/logo_128x128.png)
 
-## Documentation can be found [here](https://dolittle.github.io/bifrost) ![Image of documentation build status](https://ci.appveyor.com/api/projects/status/1gou8eihwqyeu48w?svg=true)
+## Documentation can be found [here](https://dolittle.github.io/bifrost) - build status: ![Image of documentation build status](https://ci.appveyor.com/api/projects/status/1gou8eihwqyeu48w?svg=true)
 
 
 [![NuGet](https://img.shields.io/nuget/v/Bifrost.svg)]() ![Image of build status](https://ci.appveyor.com/api/projects/status/0gh6jddpkh2h8n4e?svg=true)
