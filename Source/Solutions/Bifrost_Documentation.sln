@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client", "..\Bifros
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "..\Documentation\Documentation.csproj", "{ABE43D11-EDD0-41DB-B8D1-99258384CD68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Ninject", "..\Bifrost.Ninject\Bifrost.Ninject.csproj", "{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,26 @@ Global
 		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x64.Build.0 = Release|Any CPU
 		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABE43D11-EDD0-41DB-B8D1-99258384CD68}.Release|x86.Build.0 = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|x64.Build.0 = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|ARM.Build.0 = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x64.Build.0 = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
