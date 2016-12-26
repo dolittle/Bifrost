@@ -1,22 +1,46 @@
 {
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Bifrost/*.csproj",
+            "Bifrost.Client/*.csproj",
+            "Bifrost.Content/*.csproj",
+            "Bifrost.FluentValidation/*.csproj",
+            "Bifrost.Web/*.csproj"
+          ],
+          "src": "../"
+        }
+      ],
+      "dest": "obj/api"
+    }
+  ],
   "build": {
     "content": [
+      {
+        "files": [ "api/**.yml" ],
+        "cwd": "obj"
+      },
       {
         "files": "release_notes.md",
         "src": "../../"
       },
       {
         "files": [
-          "index.md"
+          "api/*.md",
+          "Tutorials/**.{md,yml}",
+          "Backend/**.{md,yml}",
+          "Frontend/**.{md,yml}",
+          "*.{md,yml}"
         ],
-        "cwd": "../../Documentation"
+        "src": "../../Documentation"
       }
     ],
     "resource": [
       {
         "files": [
-          "*.jpg",
-          "*.png"
+          "**/*.{jpg,png}"
         ],
         "src": "../../Documentation/"
       }

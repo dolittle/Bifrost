@@ -132,6 +132,7 @@
     <Content Include="LessMsbuildTasks.txt" />
     <Content Include="packages.config" />
     <Content Include="docfx.json" />
+    <Content Include="docfx - Copy.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
