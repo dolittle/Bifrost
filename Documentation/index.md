@@ -4,7 +4,6 @@ documentType: index
 ---
 
 <div class="hero">
-
     <div class="wrap">
         <img src="logo.png">
         <div class="minitext">
