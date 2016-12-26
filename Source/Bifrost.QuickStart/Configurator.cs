@@ -5,6 +5,8 @@ using Web.Domain.HumanResources.Foos;
 using Bifrost.Web.Services;
 using Bifrost.Read;
 using Web.Read.HumanResources.Employees;
+using Bifrost.Sagas;
+using Bifrost.FluentValidation.Sagas;
 
 namespace Web
 {
@@ -25,12 +27,14 @@ namespace Web
         {
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
+            var sagasPath = HttpContext.Current.Server.MapPath("~/App_Data/Sagas");
 
             var queryFor = typeof(IQueryFor<>);
             var allEmployees = typeof(Implementation);
             var interfaces = allEmployees.GetInterfaces();
-            
 
+            configure.Container.Bind<IChapterValidationService>(typeof(ChapterValidationService));
+            configure.Sagas.LibrarianType = typeof(SagaLibrarian);
 
             configure
                 .Serialization
@@ -50,6 +54,7 @@ namespace Web
                     // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
                     //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                     
+
                 .DefaultStorage
                     //.UsingEntityFramework(e => e.WithConnectionString(@"Data Source=(LocalDB)\v11.0;AttachDbFileName=|DataDirectory|\Database.mdf;Initial Catalog=Database;Integrated Security=True"))
                     .UsingFiles(entitiesPath)
