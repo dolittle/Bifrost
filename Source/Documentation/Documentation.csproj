@@ -22,6 +22,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <RestorePackages>true</RestorePackages>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -115,6 +116,7 @@
     <Error Condition="!Exists('..\Solutions\packages\docfx.console.2.9.3\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Solutions\packages\docfx.console.2.9.3\build\docfx.console.targets'))" />
   </Target>
   <Import Project="..\Solutions\packages\docfx.console.2.9.3\build\docfx.console.targets" Condition="Exists('..\Solutions\packages\docfx.console.2.9.3\build\docfx.console.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

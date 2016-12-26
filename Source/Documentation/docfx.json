@@ -6,17 +6,9 @@
           "files": [
             "Bifrost/*.csproj",
             "Bifrost.Client/*.csproj",
-            "Bifrost.DocumentDB/*.csproj",
-            "Bifrost.EntityFramework/*.csproj",
+            "Bifrost.Content/*.csproj",
             "Bifrost.FluentValidation/*.csproj",
-            "Bifrost.NHibernate/*.csproj",
-            "Bifrost.Ninject/*.csproj",
-            "Bifrost.Oracle/*.csproj",
-            "Bifrost.RavenDB/*.csproj",
-            "Bifrost.SimpleInjector/*.csproj",
-            "Bifrost.StructureMap/*.csproj",
             "Bifrost.Web/*.csproj",
-            "Bifrost.Windsor/*.csproj"
           ],
           "cwd": "../"
         }

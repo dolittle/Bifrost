@@ -1,4 +1,5 @@
-﻿using Bifrost.Security;
+﻿using Bifrost.Commands;
+using Bifrost.Security;
 
 namespace Web.Domain.HumanResources.Employees
 {
@@ -6,7 +7,7 @@ namespace Web.Domain.HumanResources.Employees
     {
         public SecurityDescriptor()
         {
-            //When.Handling().Commands().InstanceOf<RegisterEmployee>(s => s.User().MustBeInRole("Create"));
+            When.Handling().Commands().InstanceOf<RegisterEmployee>(s => s.User().MustBeInRole("Create"));
         }
     }
 }
