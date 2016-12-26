@@ -4504,14 +4504,28 @@ Bifrost.namespace("Bifrost.commands", {
             properties: {}
         };
 
+        /**
+         * Adds a failed callback
+         * @param {function} - Callback to add
+         */
         this.failed = function (callback) {
             self.failedCallbacks.push(callback);
             return self;
         };
+
+        /**
+         * Adds a succeeded callback
+         * @param {function} - Callback to add
+         */
         this.succeeded = function (callback) {
             self.succeededCallbacks.push(callback);
             return self;
         };
+
+        /**
+         * Adds a completed callback
+         * @param {function} - Callback to add
+         */
         this.completed = function (callback) {
             self.completedCallbacks.push(callback);
             return self;

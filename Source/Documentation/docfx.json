@@ -8,7 +8,7 @@
             "Bifrost.Client/*.csproj",
             "Bifrost.Content/*.csproj",
             "Bifrost.FluentValidation/*.csproj",
-            "Bifrost.Web/*.csproj",
+            "Bifrost.Web/*.csproj"
           ],
           "cwd": "../"
         }
@@ -27,7 +27,9 @@
       {
         "files": [
           "api/*.md",
-          "articles/**.md",
+          "Articles/**.md",
+          "Tutorials/**.md",
+          "Backend/**.md",
           "Frontend/**.md",
           "toc.yml",
           "*.md",
