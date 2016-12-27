@@ -27,6 +27,10 @@
         "src": "../../"
       },
       {
+        "files": "CODE_OF_CONDUCT.md",
+        "src": "../../"
+      },
+      {
         "files": "LICENSE",
         "src": "../../"
       },
