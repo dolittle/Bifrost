@@ -1,3 +1,10 @@
+---
+title: About Debugging
+description: Learn how to debug into the Bifrost source code
+keywords: .NET
+author: einari
+---
+
 # Debugging
 
 If you want to debug into the Bifrost source code from Visual Studio you need the symbols downloaded locally
