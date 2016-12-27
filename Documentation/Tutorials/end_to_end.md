@@ -355,30 +355,30 @@ in as a parameter. There can only be one handle method in the system per command
 In the domain project, lets add a class called CommandHandlers next to the command and the
 validators and the aggregate. Make it look like below:
 
-	using Bifrost.Commands;
-	using Bifrost.Domain;
+    using Bifrost.Commands;
+    using Bifrost.Domain;
 
-	namespace Domain.HumanResources.Employees
-	{
-		public class CommandHandlers : IHandleCommands
-		{
-			IAggregateRootRepository<Employee> _repository;
+    namespace Domain.HumanResources.Employees
+    {
+        public class CommandHandlers : IHandleCommands
+        {
+            IAggregateRootRepository<Employee> _repository;
 
-			public CommandHandlers(IAggregateRootRepository<Employee> repository)
-			{
-				_repository = repository;
-			}
+            public CommandHandlers(IAggregateRootRepository<Employee> repository)
+            {
+                _repository = repository;
+            }
 
-			public void Handle(RegisterEmployee command)
-			{
-				var employee = _repository.Get(Guid.NewGuid());
-				employee.Register(
-					command.SocialSecurityNumber,
-					command.FirstName,
-					command.LastName);
-			}
-		}
-	}
+            public void Handle(RegisterEmployee command)
+            {
+                var employee = _repository.Get(Guid.NewGuid());
+                employee.Register(
+                    command.SocialSecurityNumber,
+                    command.FirstName,
+                    command.LastName);
+            }
+        }
+    }
 
 ### CommandCoordinator
 
@@ -407,19 +407,19 @@ as a readmodel, and we have a marker interface called IReadModel.
 Lets go into the Read project and recreate the bounded context and the module structure; 
 HumanResources.Employees. Add a class called Employee and make it look like below:
 
-	using System;
-	using Bifrost.Read;
+    using System;
+    using Bifrost.Read;
 
-	namespace Read.HumanResources.Employees
-	{
-		public class Employee : IReadModel
-		{
-			public Guid Id { get; set; }
-			public SocialSecurityNumber	SocialSecurityNumber { get; set; }
-			public string FirstName { get; set; }
-			public string LastName { get; set; }
-		}
-	}
+    namespace Read.HumanResources.Employees
+    {
+        public class Employee : IReadModel
+        {
+            public Guid Id { get; set; }
+            public SocialSecurityNumber	SocialSecurityNumber { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+        }
+    }
 
 ### Event processor
 
@@ -432,36 +432,36 @@ you want to process as a parameter. You can have multiple of these Process() met
 system responding differently to the event coming through. For instance, you could have one
 subscriber that would deal with the data change that the event causes and another dealing with
 sending an email or similiar, and they would be separated out in different files blissfully 
-unaware of the other subscribers existense. 
+unaware of the other subscribers existense.
 
 
-	using Bifrost.Events;
-	using Bifrost.Read;
-	using Events.HumanResources.Employees;
+    using Bifrost.Events;
+    using Bifrost.Read;
+    using Events.HumanResources.Employees;
 
-	namespace Read.HumanResources.Employees
-	{
-		public class EventSubscribers : IProcessEvents
-		{
-			IReadModelRepositoryFor<Employee> _repository;
+    namespace Read.HumanResources.Employees
+    {
+        public class EventSubscribers : IProcessEvents
+        {
+            IReadModelRepositoryFor<Employee> _repository;
 
-			public EventSubscribers(IReadModelRepositoryFor<Employee> repository)
-			{
-				_repository = repository;
-			}
+            public EventSubscribers(IReadModelRepositoryFor<Employee> repository)
+            {
+                _repository = repository;
+            }
 
-			public void Process(EmployeeRegistered @event)
-			{
-				_repository.Insert(new Employee
-				{
-					Id = @event.EventSourceId,
-					SocialSecurityNumber = @event.SocialSecurityNumber,
-					FirstName = @event.FirstName,
-					LastName = @event.LastName
-				});
-			}
-		}
-	}
+            public void Process(EmployeeRegistered @event)
+            {
+                _repository.Insert(new Employee
+                {
+                    Id = @event.EventSourceId,
+                    SocialSecurityNumber = @event.SocialSecurityNumber,
+                    FirstName = @event.FirstName,
+                    LastName = @event.LastName
+                });
+            }
+        }
+    }
 
 ### Query
 
@@ -472,36 +472,37 @@ All one needs to do then is to implement the IQueryFor<> generic interface and i
 the query. The reasoning behind this model is to move the concerns of the client away
 from the server, so typically paging and similar things is not something you have to
 concern yourself about - Bifrost will amend this information to the IQueryable<> that you
-return. 
+return.
 
 In the Read project inside the Employees folder, add a class called AllEmployees and
 make it look like below:
 
-	using Bifrost.Read;
+    using Bifrost.Read;
 
-	namespace Read.HumanResources.Employees
-	{
-		public class AllEmployees : IQueryFor<Employee>
-		{
-			IReadModelRepositoryFor<Employee> _repository:
-			
-			public AllEmployees(IReadModelRepositoryFor<Employee> repository)
-			{
-				_repository = repository;
-			}
+    namespace Read.HumanResources.Employees
+    {
+        public class AllEmployees : IQueryFor<Employee>
+        {
+            IReadModelRepositoryFor<Employee> _repository:
 
-			public IQueryable<Employee> Query 
-			{
-				get 
-				{
-					return _repository.Query;
-				}
-			}
-		}
-	}
+            public AllEmployees(IReadModelRepositoryFor<Employee> repository)
+            {
+                _repository = repository;
+            }
+
+            public IQueryable<Employee> Query
+            {
+                get
+                {
+                    return _repository.Query;
+                }
+            }
+        }
+    }
 
 
 ## Going back up into the frontend
+
 With all the artifacts we now in C#, Bifrost produces a set of proxies at runtime that the JavaScript can take advantage of.
 
 ### ViewModel
@@ -510,15 +511,15 @@ Remember the ViewModel that we put in, not very exciting - in fact, nothing happ
 With everything in place now we can basically start taking dependencies into the viewmodel and use data-binding
 to hook it all up in the view.
 
-Lets modify the viewmodel to look like this: 
+Lets modify the viewmodel to look like this:
 
-	Bifrost.namespace("Features.Employees", {
-		register: Bifrost.Type.extend(function(registerEmployee, allEmployees) {
-			var self = this;
-			this.register = registerEmployee;
-			this.employees = allEmployees.all();
-		})
-	});
+    Bifrost.namespace("Features.Employees", {
+        register: Bifrost.Type.extend(function(registerEmployee, allEmployees) {
+            var self = this;
+            this.register = registerEmployee;
+            this.employees = allEmployees.all();
+        })
+    });
 
 Basically what we`ve done now is to take a dependency on the command we created and the query we created.
 Bifrost generates a proxy for these and you can just use them directly like above. Inside Bifrost there sits
