@@ -1,7 +1,7 @@
 - name: Articles
-  href: articles/
+  href: Articles/
 - name: Tutorials
-  href: tutorials/
+  href: Tutorials/
 - name: API Documentation
   href: obj/api/
   homepage: api/
