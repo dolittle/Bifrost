@@ -14,8 +14,8 @@ In Bifrost this is formalized through something called ``IExecutionContext``.
 
 ## Taking it as a dependency
 
-To get the current execution context, you can either take a dependency directly to an interface
-called IExecutionContext.
+You can take a dependency directly to the ``IExecutionContext`` on the constructor of any types
+resolved by the IOC.
 
     using Bifrost.Execution;
 
