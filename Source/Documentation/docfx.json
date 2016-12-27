@@ -29,6 +29,7 @@
       {
         "files": [
           "api/*.md",
+          "Articles/**.{md,yml}",
           "Tutorials/**.{md,yml}",
           "Backend/**.{md,yml}",
           "Frontend/**.{md,yml}",
