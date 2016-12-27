@@ -14,7 +14,7 @@ title: Welcome to Bifrost
            shift in thinking that can take LOB applications to the Cloud.
         </div>
         <div class="buttons-unit-small">
-            <a class="version-link" href="../release_notes.md">Release Notes</a><span>|</span><a class="github-link" href="https://github.com/dolittle/bifrost">View on Github</a>
+            <a class="version-link" href="../release_notes.md">Release Notes</a><span>|</span><a class="github-link" href="https://github.com/dolittle/bifrost">View on Github</a><span>|</span><a class="github-link" href="../LICENSE">MIT License</a>
         </div>        
         <div class="buttons-unit">
             <a href="Tutorials/getting_started.md" class="button">Getting Started</a>
