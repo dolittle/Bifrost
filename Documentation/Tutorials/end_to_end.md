@@ -1,7 +1,7 @@
 # The Goal
 
 The purpose of this tutorial is to take you through the entire stack of Bifrost, all the steps you need
-and can do to successfully build software using Bifrost. The philosophy behind Bifrost is somewhat 
+and can do to successfully build software using Bifrost. The philosophy behind Bifrost is somewhat
 different than what you find in more established architectures. For instance, you'll hardly see any
 talk about data and doing good old CRUD (Create Read Update Delete), instead we talk about behaviors
 and their consequences which in most cases result in data being generated, but not necessarily.
@@ -10,15 +10,15 @@ Another good point is that we don't necessarily believe in the one size fits all
 data in a system. Some data is best suited to sit inside a relational database, while some might be
 better off in a document based, and many times its perfectly fine to have it be directly generated
 to a static file sitting on the file system. Also, any combinations are also in many cases valid.
-This opens for a few opportunities of focusing in on every feature of your software instead of 
-looking at it as a whole and trying to optimize for the edge cases; leave the edge cases behind 
+This opens for a few opportunities of focusing in on every feature of your software instead of
+looking at it as a whole and trying to optimize for the edge cases; leave the edge cases behind
 and model them explicitly when needed.
 
 Building software is hard, and trying to focus on an entire application all the time really does not
 make any sense in our oppinion. Instead we believe that applications are actually composed of smaller
 more focused applications brought together in a bigger setting. When approaching software in this
 manner you end up with code that is more decoupled, more maintainable and less prone to errors and
-regression. 
+regression.
 
 ## The user story
 
@@ -33,9 +33,9 @@ but rather try to capture the process of creating an end to end feature from the
 ### Projects
 
 The way we recommend working is to have multiple projects that are focused on the different parts.
-With separating it out and be very clear what their purpose is, we believe you end up with 
+With separating it out and be very clear what their purpose is, we believe you end up with
 something that is more maintainable and easy to understand were to put things.
-So, lets get started by setting up a couple of projects. We're going to need the following C# class 
+So, lets get started by setting up a couple of projects. We're going to need the following C# class
 library projects:
 
 * Concepts
@@ -47,7 +47,7 @@ Once you've created the projects some of these projects will need to reference s
 The Domain and the Read project should have a reference to the Concepts and the Events projects.
 The Events project represents the contract between the Domain and the Read side.
 
-For the client that we are going to make, we will be needing a totally empty ASP.net project 
+For the client that we are going to make, we will be needing a totally empty ASP.net project
 without any files in it, except for Web.config.
 
 Name the project "Web".
@@ -57,20 +57,24 @@ Name the project "Web".
 Bifrost is available on Nuget, so we will be using Nuget to pull down Bifrost and any dependencies
 it has.
 
-For the Concepts, Domain, Events and Read projects, we need to add a dependency only to Bifrost, 
+For the Concepts, Domain, Events and Read projects, we need to add a dependency only to Bifrost,
 the core part:
 
+```PowerShell
     PM> Install-Package Bifrost
+```
 
 
 For the Web project we will need more, as we are going to have to configure things. Bifrost has support
 for all kinds of combinations of IOC containers, database choices and so forth, but for this tutorial
-we will be very specific and use a set of extensions to Bifrost that we have neatly packed into a 
+we will be very specific and use a set of extensions to Bifrost that we have neatly packed into a
 Nuget package called Bifrost.Defaults.
 
 So select the Web project and do:
 
+```PowerShell
     PM> Install-Package Bifrost.Defaults
+```
 
 What this does is setup Bifrost with Ninject as IOC Container, RavenDB embedded and SignalR.
 It also configures Bifrost to treat this as a single page application and adds an HTML file that
@@ -81,7 +85,7 @@ just sets up Bifrost for you to start working with it.
 We're fond of doing top-down development, starting in the frontend and move downwards.
 
 The feature we're going to create is going to be the registration of Employees.
-Inside your web project, add a folder called Features and inside it add another folder called Employees. 
+Inside your web project, add a folder called Features and inside it add another folder called Employees.
 Now we're going to add the view for the registration. Add an HTML file called register.html inside the
 Employees folder. We're going to add some HTML within the body tag in the newly created file.
 
@@ -126,8 +130,8 @@ C# code.
 
 ## Domain
 
-The domain is were you define your systems behaviors, and its what represents the vocabulary of your system, 
-the verbs and the nouns. We will be structuring our domain according to principles found in 
+The domain is were you define your systems behaviors, and its what represents the vocabulary of your system,
+the verbs and the nouns. We will be structuring our domain according to principles found in
 [Domain Driven Design](http://en.wikipedia.org/wiki/Domain-driven_design).
 
 ### Bounded Contexts
@@ -135,8 +139,8 @@ the verbs and the nouns. We will be structuring our domain according to principl
 A bounded context is a context that contains its own vocabulary or own representations of elements found in
 the domain in your particular system. For instance if you were doing an e-commerce solution, something that
 tends to show up is the term product. But in most places within an e-commerce business, product is hardly
-used by the people in the different bounded contexts. Take the warehouse, they do not see products but 
-rather the boxes and the characteristics of those boxes such as dimensions and weight, while the name of 
+used by the people in the different bounded contexts. Take the warehouse, they do not see products but
+rather the boxes and the characteristics of those boxes such as dimensions and weight, while the name of
 the product inside the box is irrelevant to them. Another bounded context in e-commerce would be the
 purchasing department were they see other aspects of the product, they are mostly interested in margins
 and other economical data. While for the user hitting the e-commerce site, they are interested in a lot of
@@ -148,9 +152,9 @@ For this tutorial we will have one bounded context, its going to be called "Huma
 ### Modules
 
 Within a bounded context, we talk about modules. These are more technical in nature. Its a way of grouping
-relevant elements within a bounded context together. Take the e-commerce example, anything related to 
+relevant elements within a bounded context together. Take the e-commerce example, anything related to
 Products within a bounded context could for instance be put into a module with the name of Products.
-We consider Modules as optional, but helpful in structuring an application. One of the things that we 
+We consider Modules as optional, but helpful in structuring an application. One of the things that we
 highly recommend to do is to not try to make one big application, but rather see them as many small ones
 and compose them together. Modules is part of this fragmentation and helps focusing on decoupling your
 software.
@@ -194,7 +198,7 @@ the underlying type; string, to the concept itself. The other implicit operator 
 ### Command
 
 A command represents the behavior you want to happen in your system. It represents the intent of the user
-and is optimized for one purpose and the idea is to not reuse commands across the system. 
+and is optimized for one purpose and the idea is to not reuse commands across the system.
 With a command, one can also express so much more than just what it is doing, but also the why, its
 all just a question of how you name the command. And don't be afraid to dive in and make many commands
 that effectively is doing the same thing, remember that inheritance is fine and you can have a base
@@ -254,13 +258,13 @@ RegisterEmployeeInputValidator and make it look like below:
 
 ### Business validation
 
-Business validation is the next step after basic input validation has been executed. 
+Business validation is the next step after basic input validation has been executed.
 You would normally use business validation to perform more complex scenarios and things
 that are more cross cutting within the command and not necessarily linked to a property.
-Instead of using the RuleFor() method, you might find the ModelRule() method more 
+Instead of using the RuleFor() method, you might find the ModelRule() method more
 convenient in this.
 
-Business validators tend to be more involved than property level, they can access 
+Business validators tend to be more involved than property level, they can access
 resources like the database or similar to get to their validation.
 
 For now, business validation is not something we will be performing at this stage. But
@@ -297,7 +301,7 @@ on the event. This is due to the fact that we want to keep our events as simple 
 This because of serialization, persistence and in general avoid potential problems with
 versioning of types and such. So only primitives for this particular part.
 
-Recreate the bounded context and module structure in the Events project and add the 
+Recreate the bounded context and module structure in the Events project and add the
 EmployeeRegistered class into the Employees module and make it look like this:
 
 ```cs
@@ -327,10 +331,10 @@ implementing a private On() method that takes in the event it wants to respond t
 
 The aggregate should be modelled as a transaction, any invariants that are related to each
 other and goes together as a transaction should be kept together. This is very different
-from more traditional ways of modelling a domain were a transaction is just whatever 
+from more traditional ways of modelling a domain were a transaction is just whatever
 change you are doing.
 
-Going back in the Domain project in the HumanResources and Employees folder, add a class 
+Going back in the Domain project in the HumanResources and Employees folder, add a class
 called Employee, it should look like below:
 
 ```cs
@@ -362,8 +366,8 @@ called Employee, it should look like below:
 
 ### Command Handler
 
-All we've done now is introduce a command, some validation, an event and an aggregate that 
-can apply the event. But we haven't added any code that can handle the command. 
+All we've done now is introduce a command, some validation, an event and an aggregate that
+can apply the event. But we haven't added any code that can handle the command.
 CommandHandlers are responsible for taking a command and performing the necessary actions
 in the domain. Implementing command handlers is very easy, all one has to do is create a class
 and stick a marker interface called IHandleCommands in there and just start implementing by
@@ -404,7 +408,7 @@ validators and the aggregate. Make it look like below:
 
 In Bifrost sits an entry point for commands, this is the place that all commands go through.
 Using the entire stack of Bifrost, you don't necessarily see this system.
-The CommandCoordinator is responsible for coordinating the pipeline of a command, the unit of 
+The CommandCoordinator is responsible for coordinating the pipeline of a command, the unit of
 work in which a command lives in. The unit of work is called CommandContext and is unique
 for every command instance that goes through the system. At the very end of such a unit of
 work, Bifrost commits any events that was applied during the unit of work. This is similar
@@ -415,16 +419,16 @@ to a transaction.
 From the CommandCoordinator comes an object containing information about the result of handling
 a command; CommandResult. In this you'll find details about validation, possible exceptions,
 security rules that might have been broken and such. It does not hold details about what happened
-in any event subscribers as they are not part of the unit of work of a command, but can be 
+in any event subscribers as they are not part of the unit of work of a command, but can be
 asynchronously processed.
 
 ### ReadModel
 
 Now that we've taken care of business and applied events, we must look at the consequences of
 this. Lets start with the end result, the data what we will have. In Bifrost we refer to this
-as a readmodel, and we have a marker interface called IReadModel. 
+as a readmodel, and we have a marker interface called ``IReadModel``.
 
-Lets go into the Read project and recreate the bounded context and the module structure; 
+Lets go into the Read project and recreate the bounded context and the module structure;
 HumanResources.Employees. Add a class called Employee and make it look like below:
 
 ```cs
@@ -453,7 +457,7 @@ IProcessEvents and implement a public method called Process() taking the specifi
 you want to process as a parameter. You can have multiple of these Process() methods around the
 system responding differently to the event coming through. For instance, you could have one
 subscriber that would deal with the data change that the event causes and another dealing with
-sending an email or similiar, and they would be separated out in different files blissfully 
+sending an email or similiar, and they would be separated out in different files blissfully
 unaware of the other subscribers existense.
 
 
@@ -491,7 +495,7 @@ unaware of the other subscribers existense.
 
 In order to get the data out, Bifrost comes with a formalization of querying that we
 will be using. The formalization involves creating a class representing the different
-queries one needs with the name of the class giving away the name of the query. 
+queries one needs with the name of the class giving away the name of the query.
 All one needs to do then is to implement the IQueryFor<> generic interface and implement
 the query. The reasoning behind this model is to move the concerns of the client away
 from the server, so typically paging and similar things is not something you have to
@@ -533,7 +537,7 @@ With all the artifacts we now in C#, Bifrost produces a set of proxies at runtim
 
 ### ViewModel
 
-Remember the ViewModel that we put in, not very exciting - in fact, nothing happening in it at all. 
+Remember the ViewModel that we put in, not very exciting - in fact, nothing happening in it at all.
 With everything in place now we can basically start taking dependencies into the viewmodel and use data-binding
 to hook it all up in the view.
 
@@ -581,13 +585,13 @@ Going into the view file, we need to make it look like this:
 ```
 
 What the above alteration has done is to add binding of the values on the commands into the inputs.
-In addition we add validation messages using a binding handler that comes with Bifrost called 
-"validationMessageFor" which points to the same values as its input is bound to. 
-The button gets bound up using another binding handler from Bifrost; command, and is bound 
+In addition we add validation messages using a binding handler that comes with Bifrost called
+"validationMessageFor" which points to the same values as its input is bound to.
+The button gets bound up using another binding handler from Bifrost; command, and is bound
 directly to the command sitting on the viewmodel.
 
 The app should now be capable of executing the command and have all validation hooked up automatically.
-You can confirm this by not entering anything into the fields and clicking the button should 
+You can confirm this by not entering anything into the fields and clicking the button should
 yield the error messages in the client. If you use rules that can only be run on the server,
 the error messages will still propagate into the client.
 
