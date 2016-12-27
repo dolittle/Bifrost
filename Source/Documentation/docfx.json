@@ -27,6 +27,10 @@
         "src": "../../"
       },
       {
+        "files": "LICENSE",
+        "src": "../../"
+      },
+      {
         "files": [
           "api/*.md",
           "Articles/**.{md,yml}",
