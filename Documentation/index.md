@@ -5,7 +5,7 @@ title: Welcome to Bifrost
 <div class="hero">
    <div class="wrap">
         <img src="logo.png">
-        <div class="minitext">
+        <div>
            Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality,
            code quality or scalability. Embracing the concepts of Domain Driven Design, it helps developers and other stakeholders
            focus on business need and business value, rather than on the more technical aspects of the solution. Built from the ground up,

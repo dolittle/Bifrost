@@ -10,6 +10,7 @@ button, a, .btn-primary {
   color: #90ABB9;
 }
 .hero {
+  /*
     color: #C1D38B;
     background-color: #385361;
     background-image: -webkit-gradient(linear,left bottom,right top,color-stop(0%,#000),color-stop(100%,#385361));
@@ -19,7 +20,7 @@ button, a, .btn-primary {
     background-image: -o-linear-gradient(45deg,#000 0,#385361 100%);
     background-image: linear-gradient(45deg,#000 0,#385361 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000', endColorstr='#385361', GradientType=1);
-
+*/
 }
 .hero strong {
     color: #e7e7e7;
@@ -29,7 +30,7 @@ button, a, .btn-primary {
     background: #6E8B60;
 }
 .buttons-unit .button:active {
-    background: #A27865;
+    background: #4e6543;
 }
 .toc .nav > li.active > a, .affix ul > li.active > a, .affix ul > li.active > a:before {
   color: #6E8B60
