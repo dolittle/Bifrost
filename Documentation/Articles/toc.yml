@@ -8,3 +8,7 @@
   href: principals.md
 - name: Tenants
   href: tenants.md
+- name: Type Discovery
+  href: type_discovery.md
+- name: Conventions
+  href: conventions.md
