@@ -527,7 +527,7 @@ make it look like below:
 ```
 
 
-## Going back up into the frontend
+## Going back up to the frontend
 
 With all the artifacts we now in C#, Bifrost produces a set of proxies at runtime that the JavaScript can take advantage of.
 
