@@ -1,5 +1,7 @@
 - name: Overview
   href: overview.md
+- name: Contributing
+  href: contributing.md
 - name: Debugging
   href: debugging.md
 - name: Execution Context
