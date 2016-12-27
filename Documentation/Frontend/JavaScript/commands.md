@@ -11,7 +11,7 @@ A command can also have authorization and validation rules associated with it.
 ## Proxy generation
 
 For C# developers, there are automatically generated proxies of commands, security and validation related to the command.
-These can be taken as dependencies on constructors of types. Read more about [dependency injection](../dependencyInjection.md) in Bifrost.
+These can be taken as dependencies on constructors of types. Read more about [dependency injection](dependencyInjection.md) in Bifrost.
 
 Commands can be created manually in the client code if one wants to. It is not required to go through proxy generation. 
 Please read more in the 
