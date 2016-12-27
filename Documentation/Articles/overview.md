@@ -15,8 +15,20 @@ related to a typical system arise in the maintenance phase. This means that we s
 in a way that makes the maintenance phase as easy as possible.
 
 The goal of Bifrost is to help make this better. By focusing on well established software patterns and practices,
-and sticking to them without compromise, we believe this is possible. Bifrost embraces a set of practices described 
+and sticking to them without compromise, we believe this is possible. Bifrost embraces a set of practices described
 in this article and tries to adhere to them fully.
+
+## Decoupling & Microservices
+
+At the heart of Bifrost sits the notion of decoupling. Making small focused lego pieces that can be assembled together
+in any way one wants to. This is at the core of what is referred to as [Microservices](https://en.wikipedia.org/wiki/Microservices).
+The ability to break up the software into smaller more digestable components that makes our software in fact much easier
+to understand and maintain. When writing software in a decoupled manner, one gets the opportunity of composing it back
+together however one sees fit. You could compose it back in one application running inside a single process, or you could
+spread it across a cluster. It really is a deployment choice once the software is giving you this freedom.
+When it is broken up you get the benefit of scaling each individual piece on its own, rather than scaling the monolith
+equally across a number of machines. This gives a higher density, better resource utilization and ultimately better cost
+control.
 
 ## SOLID
 
@@ -34,13 +46,34 @@ in this article and tries to adhere to them fully.
 
 ## Cross Cutting Concerns
 
-## Convention over Configuration
+## Conventions over Configuration
+
+For a team to deliver consistency in the codebase, one should aim for a recipe that makes it easy to the right thing and
+hard to the wrong thing. Having conventions to govern the recipe forces the team to deliver in one way. Bifrost is highly
+focused around the concept of conventions in place for things, rather than having to configure thing. The conventions instead
+are configurable. Since things are discovered and one does not need to configure everything, we adhere more easier to the
+Open / Closed principle as mentioned earlier. Meaning that we don't have to open up code to get new things in place, it will
+be discovered by how the conventions are and configured.
+
+The simplest example of a convention in play in Bifrost is during initialization, Bifrost will configure whatever [IOC container](https://en.wikipedia.org/wiki/Inversion_of_control)
+you have hooked with conventions. One default convention plays a part here saying that an interface named ``IFoo``will be bound to ``Foo``
+as long as they both sit in the same namespace. You'll see this throughout Bifrost internally as well, for instance ``ICommandCoordinator`` is 
+bound to ``CommandCoordinator``.
+
+Other good examples of conventions in Bifrost is in the Web frontend where one can specify a particular *View* to be loaded and it will
+automatically look for a *ViewModel* with the same name but instead of *.html* as extension, it looks for *.js*.
+
+The conventions at play are described throughout the documentation when it is relevant.
 
 ### Discovery
 
+In order for all the conventions described above to work, Bifrost is heavily relying on different types of discovering mechanisms.
+For the C# code the discovery is all about types. It relies on being able to discover concrete types, but also implementations of interfaces.
+Through this it can find the things it needs. You can read more about the type discovery mechanism [here](../Backend/type_discovery.md).
+
+## Automated testing
+
 ## CQRS
-
-
 
 ## Model View View Model
 
@@ -93,9 +126,9 @@ With the artifacts found in Bifrost and more separation in place with CQRS, the 
 
 You can read more details about the MVVM pattern [here](https://en.wikipedia.org/wiki/Model–view–viewmodel).
 
-## Automated testing
-
 
 ## Full Pipeline
+
+Below is the full pipeline of Bifrost when utilizing all its capabilities.
 
 ![Bifrost Pipeline](images/full_pipeline.png)
