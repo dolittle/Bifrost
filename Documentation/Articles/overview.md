@@ -67,9 +67,18 @@ It is the thing that describes the users intent. You can read more about them [h
 In the Bifrost JavaScript frontend however, the type of properties found with the XAML platforms
 can also be found here. Read more about the frontend commands [here](../Frontend/JavaScript/commands.md).
 
-
-
 ### Binding
+
+Part of connecting the View with the ViewModel and enabling it to observe it is the concept of binding.
+Binding sits between the View and the ViewModel and can with some implementations even understand when values change
+and automatically react to the change. In XAML, this is accomplished through implementing interfaces like [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx)
+and [INotifyCollectionChanged](https://msdn.microsoft.com/en-us/library/system.collections.specialized.inotifycollectionchanged(v=vs.110).aspx)
+for collections.
+
+Bifrost have full client support for both XAML based clients and also for JavaScript / Web based.
+For XAML and what is supported, read more in detail [here](../Frontend/XAML).
+For the JavaScript support, Bifrost has been built on top of [Knockout](http://knockoutjs.com) that provides ``obervable()`` and ``observableArray()``.
+Read more about the JavaScript support [here](../Frontend/JavaScript).
 
 
 ### Figures
