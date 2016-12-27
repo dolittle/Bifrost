@@ -1,5 +1,7 @@
 - name: Getting started
   href: getting_started.md
+- name: Proxy Generation
+  href: proxy_generation.md
 - name: Commands
   href: commands.md
 - name: Interaction

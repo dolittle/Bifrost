@@ -1,3 +1,10 @@
+---
+title: About Commands
+description: Learn about Commands and how to leverage them in the frontend
+keywords: JavaScript
+author: einari
+---
+
 # Commands
 
 Commands represent the users intent and also the actual transactional boundaries in the system rather than arbitrary technical transactions.
@@ -11,11 +18,9 @@ A command can also have authorization and validation rules associated with it.
 ## Proxy generation
 
 For C# developers, there are automatically generated proxies of commands, security and validation related to the command.
-These can be taken as dependencies on constructors of types. Read more about [dependency injection](../dependencyInjection.md) in Bifrost.
+These can be taken as dependencies on constructors of types. Read more about [dependency injection](dependency_injection.md) in Bifrost.
 
-Commands can be created manually in the client code if one wants to. It is not required to go through proxy generation. 
-Please read more in the 
-
+Commands can be created manually in the client code if one wants to. It is not required to go through proxy generation.
 
 ## Authorization
 
@@ -32,7 +37,7 @@ that is authenticated. The authorization is applied on the server side using sec
 
 As with authorization, commands can hold metadata from validators, but it will only hold for those rules that has a client side implementation of it.
 
-### Relevant properties
+### Properties
 
 | Property          | Type     | Observable | Description                                                                  |
 | ----------------- | -------- | ---------- | ---------------------------------------------------------------------------- |
@@ -41,8 +46,7 @@ As with authorization, commands can hold metadata from validators, but it will o
 
 ## Properties, populating and tracking changes
 
-The properties on a command is also part of the proxy generation. 
-
+The properties on a command is also part of the proxy generation.
 
 By default all properties on a command once generated through the proxy generation will hold a default value.
 In many cases you want to relate a command to data coming from an existing [ReadModel](../readModel.md) or other source.
@@ -53,9 +57,9 @@ This initial population of state allows for tracking any changes the user does a
 You will also find that this information is propagated into the [region](../regions.md) in which the command is being used and also
 then available to any parent region up the chain.
 
-### Relevant Methods
+### Methods
 
-### Relevant properties
+### properties
 
 | Property         | Type    | Observable | Description                                                    |
 | ---------------- | ------- | ---------- | -------------------------------------------------------------- |
@@ -65,10 +69,10 @@ then available to any parent region up the chain.
 
 ## Execution
 
-If any of the previously described conditions are not met, the command is not allowed to execute. 
+If any of the previously described conditions are not met, the command is not allowed to execute.
 Code and UI can access this information and use it to reflect this to user for instance.
 
-### Relevant properties
+### properties
 
 | Property     | Type    | Observable | Description                                       |
 | ------------ | ------- | ---------- | ------------------------------------------------- |
@@ -86,3 +90,5 @@ Code and UI can access this information and use it to reflect this to user for i
 ### completed
 
 ## Advanced
+
+## Samples
