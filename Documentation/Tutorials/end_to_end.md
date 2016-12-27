@@ -85,6 +85,7 @@ Inside your web project, add a folder called Features and inside it add another 
 Now we're going to add the view for the registration. Add an HTML file called register.html inside the
 Employees folder. We're going to add some HTML within the body tag in the newly created file.
 
+```html
     <fieldset>
         <strong>First Name</strong>
         <input type="text" />
@@ -100,18 +101,23 @@ Employees folder. We're going to add some HTML within the body tag in the newly 
 
         <button>Register</button>
     </fieldset>
+```
 
 Now we're going to add a viewmodel that will be associated with your feature.
 
+```js
     Bifrost.namespace("Features.Employees", {
         register: Bifrost.Type.extend(function() {
         })
     });
+```
 
 In the index.html file sitting at the root of your Web project, go and add the following within the body 
 tag:
 
+```html
     <div data-view="Employees/register"></div>
+```
 
 Running your application with index.html as your startup page now should show the registration page you created.
 For now we're going to leave it at that. We will revisit this when we have the necessary bits ready in the
@@ -165,6 +171,7 @@ assigned at birth.
 Inside the Concept project create a folder called Persons. 
 Add a new class inside the new folder called SocialSecurityNumber.
 
+```cs
     using Bifrost.Concepts;
 
     namespace Concepts.Persons
@@ -177,6 +184,7 @@ Add a new class inside the new folder called SocialSecurityNumber.
             }
         }
     }
+```
 
 The concept can now be used and be capable of going back and forth from primitives, something you'll see
 be handy when we get to applying events. We only need to implement the implicit operator for going from
@@ -196,6 +204,7 @@ you want to happen in the system, so we model it so.
 
 For our tutorial we will not be all too creative, we will simply be adding a RegisterEmployee command.
 
+```cs
     using Bifrost.Commands;
     using Concepts.Persons;
 
@@ -208,6 +217,7 @@ For our tutorial we will not be all too creative, we will simply be adding a Reg
             public string LastName { get; set; }
         }
     }
+```
 
 ### Input validation
 
@@ -219,6 +229,7 @@ clientside validators.
 Lets start by adding an Input validator for our command. Add a file next to the command called
 RegisterEmployeeInputValidator and make it look like below:
 
+```cs
     using Bifrost.Validation;
     using FluentValidation;
 
@@ -239,6 +250,7 @@ RegisterEmployeeInputValidator and make it look like below:
             }
         }
     }
+```
 
 ### Business validation
 
@@ -254,6 +266,7 @@ resources like the database or similar to get to their validation.
 For now, business validation is not something we will be performing at this stage. But
 the way you would write one is very similar to that of an input validator:
 
+```cs
     using Bifrost.Validation;
     using FluentValidation;
 
@@ -264,6 +277,7 @@ the way you would write one is very similar to that of an input validator:
         {
         }
     }
+```
 
 
 ### Security
@@ -286,6 +300,7 @@ versioning of types and such. So only primitives for this particular part.
 Recreate the bounded context and module structure in the Events project and add the 
 EmployeeRegistered class into the Employees module and make it look like this:
 
+```cs
     using System;
     using Bifrost.Events;
 
@@ -300,6 +315,7 @@ EmployeeRegistered class into the Employees module and make it look like this:
             public string LastName { get; set; }
         }
     }
+```
 
 ### Aggregate Root
 
@@ -317,6 +333,7 @@ change you are doing.
 Going back in the Domain project in the HumanResources and Employees folder, add a class 
 called Employee, it should look like below:
 
+```cs
     using System;
     using Bifrost.Domain;
     using Events.HumanResources.Employee;
@@ -341,6 +358,7 @@ called Employee, it should look like below:
             }
         }
     }
+```
 
 ### Command Handler
 
@@ -355,6 +373,7 @@ in as a parameter. There can only be one handle method in the system per command
 In the domain project, lets add a class called CommandHandlers next to the command and the
 validators and the aggregate. Make it look like below:
 
+```cs
     using Bifrost.Commands;
     using Bifrost.Domain;
 
@@ -379,6 +398,7 @@ validators and the aggregate. Make it look like below:
             }
         }
     }
+```
 
 ### CommandCoordinator
 
@@ -407,6 +427,7 @@ as a readmodel, and we have a marker interface called IReadModel.
 Lets go into the Read project and recreate the bounded context and the module structure; 
 HumanResources.Employees. Add a class called Employee and make it look like below:
 
+```cs
     using System;
     using Bifrost.Read;
 
@@ -420,6 +441,7 @@ HumanResources.Employees. Add a class called Employee and make it look like belo
             public string LastName { get; set; }
         }
     }
+```
 
 ### Event processor
 
@@ -435,6 +457,7 @@ sending an email or similiar, and they would be separated out in different files
 unaware of the other subscribers existense.
 
 
+```cs
     using Bifrost.Events;
     using Bifrost.Read;
     using Events.HumanResources.Employees;
@@ -462,6 +485,7 @@ unaware of the other subscribers existense.
             }
         }
     }
+```
 
 ### Query
 
@@ -477,6 +501,7 @@ return.
 In the Read project inside the Employees folder, add a class called AllEmployees and
 make it look like below:
 
+```cs
     using Bifrost.Read;
 
     namespace Read.HumanResources.Employees
@@ -499,6 +524,7 @@ make it look like below:
             }
         }
     }
+```
 
 
 ## Going back up into the frontend
@@ -513,6 +539,7 @@ to hook it all up in the view.
 
 Lets modify the viewmodel to look like this:
 
+```js
     Bifrost.namespace("Features.Employees", {
         register: Bifrost.Type.extend(function(registerEmployee, allEmployees) {
             var self = this;
@@ -520,6 +547,7 @@ Lets modify the viewmodel to look like this:
             this.employees = allEmployees.all();
         })
     });
+```
 
 Basically what we`ve done now is to take a dependency on the command we created and the query we created.
 Bifrost generates a proxy for these and you can just use them directly like above. Inside Bifrost there sits
@@ -531,6 +559,7 @@ commands and queries coming from proxies.
 Now that we have that we can go ahead and modify the view to be take advantage of the command and the query.
 Going into the view file, we need to make it look like this:
 
+```html
     <fieldset>
         <strong>First Name</strong>
         <input type="text" data-bind="value: register.firstName" />
@@ -549,6 +578,7 @@ Going into the view file, we need to make it look like this:
 
         <button data-bind="command: register">Register</button>
     </fieldset>
+```
 
 What the above alteration has done is to add binding of the values on the commands into the inputs.
 In addition we add validation messages using a binding handler that comes with Bifrost called 
@@ -566,6 +596,7 @@ the error messages will still propagate into the client.
 Now that we are firing off commands, we want to be able to actually show the data this produced.
 In our view we just add the following below the fieldset.
 
+```html
     <table>
         <thead>
             <tr>
@@ -582,5 +613,6 @@ In our view we just add the following below the fieldset.
             </tr>
         </tbody>
     </table>
+```
 
 This should now be showing the result.
