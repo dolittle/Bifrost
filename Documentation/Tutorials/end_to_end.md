@@ -172,8 +172,9 @@ For this particular tutorial we will be needing one Concept. We are working with
 employees that we are going to register, a natural key that represent a person is the social security number
 assigned at birth.
 
-Inside the Concept project create a folder called Persons. 
+Inside the Concept project create a folder called Persons.
 Add a new class inside the new folder called SocialSecurityNumber.
+
 
 ```cs
     using Bifrost.Concepts;
