@@ -1,27 +1,37 @@
 # Overview
 
-Bifrost targets the line of business type of application development. This space has very often requirements that
+Bifrost targets the line of business type of application development. In this space there are very often requirements that
 are somewhat different than making other types of applications. Unlike creating a web page with content, line of business
 applications has more advanced business logic and rules associated with it. In addition, most line of business applications
-tend to live for a long time once they are being used by users. Rewrites are often seldom in this space, as it involves a lot of
-work to capture existing features and domain logic in a new implementation. This often means that one needs to think more
+tend to live for a long time once they are being used by users. Big rewrites are often not an option, as it involves a lot of
+work to capture existing features and domain logic in a new implementation. This means that one needs to think more
 about the maintainability of the product. In addition to this, in a fast moving world, code needs to built in a way that
 allows for rapidly adapting to new requirements. It truly can be a life/death situation for a company if the company is
 not able to adapt to market changes, competitors or users wanting new features. Traditional techniques for building software
-has issues related to this - by design. N-tier architecture tends to mix concerns and responsibilities and thus leading to
+have issues related to this. N-tier architecture tends to mix concerns and responsibilities and thus leading to
 software that is hard to maintain. According [Fred Brooks](https://en.wikipedia.org/wiki/Fred_Brooks) and
 ["The Mythical Man-Month"](https://en.wikipedia.org/wiki/The_Mythical_Man-Month), 90% of the cost
 related to a typical system arise in the maintenance phase. This means that we should aim towards building our systems
 in a way that makes the maintenance phase as easy as possible.
 
-The goal of Bifrost is to help make this better. By focusing on well established software patterns and practices,
-and sticking to them without compromise, we believe this is possible. Bifrost embraces a set of practices described
-in this article and tries to adhere to them fully.
+The goal of Bifrost is to help make this better by focusing on bringing together good software patterns and practices,
+and sticking to them without compromise. Bifrost embraces a set of practices described in this article and aims to adhere
+to them fully.
+
+## History
+
+The project got started in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
+between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
+From the beginning the project evolved through the needs we saw when consulting for different companies. Amongst these were [Komplett](https://www.komplett.no).
+A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).
+From 2012 to 2015 it got further developed @ Statoil and their needs for a critical LOB application; ProCoSys.
+The result of this is that Statoil continued the work and created their own [fork](https://github.com/ProCoSys/Bifrost)
+and have gone their own path with it.
 
 ## Domain Driven Design
 
-Bifrost set out to embrace [Domain Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) and its concepts from
-day one. The reason for this is that part of modelling a system is understanding the domain that the system is targetting and
+Bifrost got from the beginning set to embrace [Domain Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) and
+its concepts from. The reason for this is that part of modelling a system is understanding the domain that the system is targetting and
 understanding the vocabulary used by the domain experts in that domain and then be able to model exactly this.
 DDD is all about getting to a ubiquitous language that all team members use and understand.
 
