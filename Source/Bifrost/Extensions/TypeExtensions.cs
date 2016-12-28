@@ -44,7 +44,9 @@ namespace Bifrost.Extensions
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
-            return typeInfoType.GetRuntimeFields().Where(f => f.Name == "Instance" && f.IsStatic && f.IsPublic).Single().GetValue(null) as ITypeInfo;
+            var instanceField = typeInfoType.GetTypeInfo().GetField("Instance", BindingFlags.Public | BindingFlags.Static);
+            var typeInfo =  instanceField.GetValue(null) as ITypeInfo;
+            return typeInfo;
         }
 #pragma warning restore 1591 // Xml Comments
 
