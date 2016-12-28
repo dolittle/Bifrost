@@ -4,13 +4,5 @@
   href: contributing.md
 - name: Debugging
   href: debugging.md
-- name: Execution Context
-  href: execution_context.md
-- name: Principals
-  href: principals.md
-- name: Tenants
-  href: tenants.md
-- name: Type Discovery
-  href: type_discovery.md
 - name: Conventions
   href: conventions.md
