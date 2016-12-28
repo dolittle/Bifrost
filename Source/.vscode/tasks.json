@@ -8,7 +8,7 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": ["-f","netstandard1.6" ],
+            "args": ["Console/" ],
             "isBuildCommand": true,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"
