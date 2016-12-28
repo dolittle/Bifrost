@@ -54,8 +54,20 @@
         "src": "../../Documentation/"
       }
     ],
-    "overwrite": "apispec/*.md",
+    "overwrite": [
+      {
+        "files": [ "apispec/*.md" ],
+        "src": "../../Documentation/"
+      }
+    ],
     "dest": "_site",
+    "globalMetadata": {
+      "_gitContribute": {
+        "repo": "https://github.com/dolittle/bifrost",
+        "branch": "master"
+      },
+      "_appFooter": "Copyright © 2008-2017 Dolittle"
+    },
     "template": [
       "default",
       "../../Documentation/Template/"
