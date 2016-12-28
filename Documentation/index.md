@@ -5,13 +5,8 @@ title: Welcome to Bifrost
 <div class="hero">
    <div class="wrap">
         <img src="logo.png">
-        <div>
-           Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality,
-           code quality or scalability. Embracing the concepts of Domain Driven Design, it helps developers and other stakeholders
-           focus on business need and business value, rather than on the more technical aspects of the solution. Built from the ground up,
-           it both embodies as well as encourages best quality engineering practises such as the SOLID principles, Convention Over Configuration
-           and Separation of Concerns. Utilising CQRS, it fits perfectly with the ideas and promises of microservices and promotes the paradigm
-           shift in thinking that can take LOB applications to the Cloud.
+        <div class="minitext">
+          Solid. Deliver business value. Productivity.
         </div>
         <br>
         <div class="buttons-unit-small">
@@ -28,6 +23,16 @@ title: Welcome to Bifrost
             <a href="Tutorials/getting_started.md" class="button">Getting Started</a>
             <a href="Tutorials/quickstart.md" class="button">Get started with the Quickstart</a>
         </div>
+        <hr>
+        <div>
+           Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality,
+           code quality or scalability. Embracing the concepts of Domain Driven Design, it helps developers and other stakeholders
+           focus on business need and business value, rather than on the more technical aspects of the solution. Built from the ground up,
+           it both embodies as well as encourages best quality engineering practises such as the SOLID principles, Convention Over Configuration
+           and Separation of Concerns. Utilising CQRS, it fits perfectly with the ideas and promises of microservices and promotes the paradigm
+           shift in thinking that can take LOB applications to the Cloud.
+        </div>
+        
     </div>
 </div>
 <!--
