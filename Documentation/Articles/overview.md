@@ -279,17 +279,17 @@ Divide only by the tier the artifacts belong to. See Example below.
     +-- Bounded Context 1
     |   +-- Module 1
     |   +---- Feature 1
-    |   |     + View.html
-    |   |     + ViewModel.js
-    |   |     + Styles.css
-    |   |     + SomeRestAPI.cs
-    |   |     + SomeSignalRHub.cs
+    |   |     | View.html
+    |   |     | ViewModel.js
+    |   |     | Styles.css
+    |   |     | SomeRestAPI.cs
+    |   |     | SomeSignalRHub.cs
     |   +---- Feature 2
-    |   |     + View.html
-    |   |     + ViewModel.js
-    |   |     + Styles.css
-    |   |     + SomeRestAPI.cs
-    |   |     + SomeSignalRHub.cs
+    |   |     | View.html
+    |   |     | ViewModel.js
+    |   |     | Styles.css
+    |   |     | SomeRestAPI.cs
+    |   |     | SomeSignalRHub.cs
     +-- Bounded Context 2
     ...
 
@@ -299,22 +299,23 @@ Divide only by the tier the artifacts belong to. See Example below.
     +-- Bounded Context 1
     |   +-- Module 1
     |   +---- Feature 1
-    |   |     + Command.cs
-    |   |     + CommandInputValidator.cs
-    |   |     + CommandBusinessValidator.cs
-    |   |     + CommandHandler.cs
-    |   |     + SecurityDescriptor.cs
-    |   |     + AggregateRoot.cs
-    |   |     + Service.cs
+    |   |     | Command.cs
+    |   |     | CommandInputValidator.cs
+    |   |     | CommandBusinessValidator.cs
+    |   |     | CommandHandler.cs
+    |   |     | SecurityDescriptor.cs
+    |   |     | CommandHandler.cs
+    |   |     | AggregateRoot.cs
+    |   |     | Service.cs
     |   +---- Feature 2
-    |   |     + Command.cs
-    |   |     + CommandInputValidator.cs
-    |   |     + CommandBusinessValidator.cs
-    |   |     + CommandHandler.cs
-    |   |     + SecurityDescriptor.cs
-    |   |     + CommandHandler.cs
-    |   |     + AggregateRoot.cs
-    |   |     + Service.cs
+    |   |     | Command.cs
+    |   |     | CommandInputValidator.cs
+    |   |     | CommandBusinessValidator.cs
+    |   |     | CommandHandler.cs
+    |   |     | SecurityDescriptor.cs
+    |   |     | CommandHandler.cs
+    |   |     | AggregateRoot.cs
+    |   |     | Service.cs
     +-- Bounded Context 2
     ...
 
@@ -323,9 +324,9 @@ Divide only by the tier the artifacts belong to. See Example below.
     +-- Bounded Context 1
     |   +-- Module 1
     |   +---- Feature 1
-    |   |     + Event.cs
+    |   |     | Event.cs
     |   +---- Feature 2
-    |   |     + Event.cs
+    |   |     | Event.cs
     +-- Bounded Context 2
     ...
 
@@ -334,19 +335,19 @@ Divide only by the tier the artifacts belong to. See Example below.
     +-- Bounded Context 1
     |   +-- Module 1
     |   +---- Feature 1
-    |   |     + ReadModel.cs
-    |   |     + Query.cs
-    |   |     + QueryValidator.cs
-    |   |     + SecurityDescriptor.cs
-    |   |     + AggregateRoot.cs
-    |   |     + Service.cs
+    |   |     | ReadModel.cs
+    |   |     | Query.cs
+    |   |     | QueryValidator.cs
+    |   |     | SecurityDescriptor.cs
+    |   |     | AggregateRoot.cs
+    |   |     | Service.cs
     |   +---- Feature 2
-    |   |     + ReadModel.cs
-    |   |     + Query.cs
-    |   |     + QueryValidator.cs
-    |   |     + SecurityDescriptor.cs
-    |   |     + AggregateRoot.cs
-    |   |     + Service.cs
+    |   |     | ReadModel.cs
+    |   |     | Query.cs
+    |   |     | QueryValidator.cs
+    |   |     | SecurityDescriptor.cs
+    |   |     | AggregateRoot.cs
+    |   |     | Service.cs
     +-- Bounded Context 2
     ...
 
