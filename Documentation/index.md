@@ -35,7 +35,6 @@ title: Welcome to Bifrost
            and Separation of Concerns. Utilising CQRS, it fits perfectly with the ideas and promises of microservices and promotes the paradigm
            shift in thinking that can take LOB applications to the Cloud.
         </div>
-        
     </div>
 </div>
 <!--
