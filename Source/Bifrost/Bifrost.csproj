@@ -14,7 +14,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <NoWarn>1584, 1574</NoWarn>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -132,7 +132,6 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
-    <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />
@@ -506,6 +505,7 @@
     <Compile Include="Validation\Rules\GreaterThanOrEqual.cs" />
     <Compile Include="Validation\Rules\GreaterThan.cs" />
     <Compile Include="Validation\Rules\Email.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Validation\ValidationRules.cs" />
     <Compile Include="Validation\ValueRule.cs" />
     <Compile Include="Validation\ValueTypeMismatch.cs" />
@@ -541,11 +541,6 @@
     <Compile Include="Events\MethodEventArguments.cs" />
     <Compile Include="Events\MethodEventFactory.cs" />
     <Compile Include="Events\UncommittedEventStream.cs" />
-    <Compile Include="ExceptionStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ExceptionStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="Commands\CommandCoordinator.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\IHandleCommands.cs" />
@@ -567,13 +562,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="ExceptionStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Bifrost.nuspec" />
+    <None Include="project.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

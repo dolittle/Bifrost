@@ -26,12 +26,11 @@ namespace Bifrost.Validation
             ErrorMessage = errorMessage;
             MemberNames = memberNames;
         }
-        
+
 
         /// <summary>
         /// Gets the error message for the validation.
         /// </summary>
-        /// <returns>The error message for the validation./returns>
         public string ErrorMessage { get; private set; }
 
         /// <summary>
