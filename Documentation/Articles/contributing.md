@@ -32,7 +32,7 @@ Bifrost is hosted on [GitHub](http://github.com) [here](http://github.com/dolitt
 
 ## Contributing code and content
 
-> ![Note]
+> [!Note]
 > As of 28th of December 2016:
 
 Bifrost has been submitted for review to .NET Foundation - if it is accepted, you will need to sign a
