@@ -31,6 +31,9 @@ TestResults/*
 NDependOut
 _site
 
+*.lock.json
+
+
 # OS generated files #
 ######################
 .DS_Store
