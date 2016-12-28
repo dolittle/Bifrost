@@ -16,8 +16,8 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Dynamic;
 
 namespace Bifrost.Dynamic
@@ -36,7 +36,7 @@ namespace Bifrost.Dynamic
         {
             var expando = new ExpandoObject();
 
-            foreach (var property in source.GetType().GetProperties())
+            foreach (var property in source.GetType().GetTypeInfo().GetProperties())
                 ((IDictionary<string,object>)expando)[property.Name] = property.GetValue(source, null);
 
             return expando;

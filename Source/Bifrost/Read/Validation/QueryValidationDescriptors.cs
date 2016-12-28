@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 
@@ -39,7 +40,7 @@ namespace Bifrost.Read.Validation
         {
             var descriptors = typeDiscoverer.FindMultiple(typeof(QueryValidationDescriptorFor<>)).Where(d => d != typeof(QueryValidationDescriptorFor<>));
             descriptors.ForEach(d => {
-                var queryType = d.BaseType.GetGenericArguments()[0];
+                var queryType = d.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
                 var descriptor = container.Get(d) as IQueryValidationDescriptor;
                 _descriptors[queryType] = descriptor;
             });

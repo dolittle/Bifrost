@@ -16,9 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Security.Principal;
-using System.Threading;
 
 namespace Bifrost.Security
 {
@@ -30,11 +28,7 @@ namespace Bifrost.Security
 #pragma warning disable 1591 // Xml Comments
         public IPrincipal Resolve()
         {
-#if(SILVERLIGHT)
-            throw new NotImplementedException();
-#else
-            return Thread.CurrentPrincipal;
-#endif
+            return GenericPrincipal.Current;
         }
 #pragma warning restore 1591 // Xml Comments
     }

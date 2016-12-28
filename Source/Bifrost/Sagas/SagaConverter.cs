@@ -23,9 +23,7 @@ using System.Linq;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Serialization;
-#if(NETFX_CORE)
 using System.Reflection;
-#endif
 
 namespace Bifrost.Sagas
 {
@@ -34,11 +32,7 @@ namespace Bifrost.Sagas
     /// </summary>
 	public class SagaConverter : ISagaConverter
 	{
-#if(NETFX_CORE)
 		static readonly string[] SagaProperties = typeof(ISaga).GetTypeInfo().DeclaredProperties.Select(t => t.Name).ToArray();
-#else
-		static readonly string[] SagaProperties = typeof(ISaga).GetProperties().Select(t => t.Name).ToArray();
-#endif
 
         static readonly SerializationOptions SerializationOptions =
 			new SerializationOptions
@@ -46,11 +40,7 @@ namespace Bifrost.Sagas
 					ShouldSerializeProperty = (t, p) =>
 					                          	{
 					                          		if (typeof (ISaga)
-#if(NETFX_CORE)
                                                             .GetTypeInfo().IsAssignableFrom(t.GetTypeInfo())
-#else
-                                                            .IsAssignableFrom(t)
-#endif
                                                         )
 					                          			return !SagaProperties.Any(sp => sp == p);
 

@@ -16,8 +16,8 @@
 // limitations under the License.
 //
 #endregion
-using System;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Security;
 
@@ -34,7 +34,7 @@ namespace Bifrost.Configuration
             var typeDiscoverer = container.Get<ITypeDiscoverer>();
 
             var resolverType = typeof(DefaultPrincipalResolver);
-            var resolverTypes = typeDiscoverer.FindMultiple<ICanResolvePrincipal>().Where(t => t.Assembly != typeof(SecurityConfiguration).Assembly);
+            var resolverTypes = typeDiscoverer.FindMultiple<ICanResolvePrincipal>().Where(t => t.GetTypeInfo().Assembly != typeof(SecurityConfiguration).GetTypeInfo().Assembly);
             if (resolverTypes.Count() > 1) throw new MultiplePrincipalResolversFound();
             if (resolverTypes.Count() == 1) resolverType = resolverTypes.First();
 

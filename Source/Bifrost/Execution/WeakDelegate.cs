@@ -37,7 +37,7 @@ namespace Bifrost.Execution
         public WeakDelegate(Delegate @delegate)
         {
             _target = new WeakReference(@delegate.Target);
-            _method = @delegate.Method;
+            _method = @delegate.GetMethodInfo();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Bifrost.Execution
 
             for (var argumentIndex = 0; argumentIndex < arguments.Length; argumentIndex++)
             {
-                if (!parameters[argumentIndex].ParameterType.IsAssignableFrom(arguments[argumentIndex].GetType())) throw new InvalidSignatureException(_method);
+                if (!parameters[argumentIndex].ParameterType.GetTypeInfo().IsAssignableFrom(arguments[argumentIndex].GetType())) throw new InvalidSignatureException(_method);
             }
         }
     }

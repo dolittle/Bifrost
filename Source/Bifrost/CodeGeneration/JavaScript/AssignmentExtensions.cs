@@ -17,7 +17,7 @@
 //
 #endregion
 using System;
-using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Extensions;
 
 namespace Bifrost.CodeGeneration.JavaScript
@@ -145,7 +145,7 @@ namespace Bifrost.CodeGeneration.JavaScript
         {
             if( type == typeof(Guid) )
                 return assignment.WithGuidEmpty();
-            else if (type.IsValueType)
+            else if (type.GetTypeInfo().IsValueType)
             {
                 if (type.IsNumericType())
                     return assignment.WithDefaultNumericValue(type);

@@ -22,9 +22,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-#if(NETFX_CORE)
-using Windows.Storage;
-#endif
 using System.Threading.Tasks;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Execution;
@@ -70,30 +67,20 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-#if (SILVERLIGHT)
-        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback=null)
-#else
         public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IEnumerable<ICanProvideAssemblies> additionalAssemblyProviders = null)
-#endif
         {
             IContractToImplementorsMap contractToImplementorsMap;
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
 
             contractToImplementorsMap = new ContractToImplementorsMap();
-#if (SILVERLIGHT)
-            var assemblyProvider = new AssemblyProvider();
-            var assembliesConfiguration = new AssembliesConfiguration(assembliesConfigurationBuilder.RuleBuilder);
-#else
-
-
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssembly = typeof(Configure).GetTypeInfo().Assembly;
             contractToImplementorsMap.Feed(executingAssembly.GetTypes());
             var assemblySpecifiers = new AssemblySpecifiers(contractToImplementorsMap, new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(executingAssembly);
 
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
-                new AppDomainAssemblyProvider(),
+                //new AppDomainAssemblyProvider(),
                 new FileSystemAssemblyProvider(new FileSystem())
             };
 
@@ -106,7 +93,7 @@ namespace Bifrost.Configuration
                 new AssemblyUtility(),
                 assemblySpecifiers,
                 contractToImplementorsMap);
-#endif
+
             var assemblies = assemblyProvider.GetAll(); 
             
             var canCreateContainerType = DiscoverCanCreateContainerType(assemblies);
@@ -115,7 +102,7 @@ namespace Bifrost.Configuration
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
             var configure = With(container, BindingLifecycle.Transient, assembliesConfiguration, assemblyProvider, contractToImplementorsMap);
-            configure.EntryAssembly = canCreateContainerType.Assembly;
+            configure.EntryAssembly = canCreateContainerType.GetTypeInfo().Assembly;
             configure.Initialize();
             return configure;
         }
@@ -291,13 +278,7 @@ namespace Bifrost.Configuration
             Type createContainerType = null;
             foreach (var assembly in assemblies.ToArray())
             {
-#if (NETFX_CORE)
                 var type = assembly.DefinedTypes.Select(t => t.AsType()).Where(t => t.HasInterface(typeof(ICanCreateContainer))).SingleOrDefault();
-#else
-                var types = assembly.GetTypes().Where(t => t.HasInterface(typeof(ICanCreateContainer)));
-                var type = types.SingleOrDefault();
-                var a = types.ToArray();
-#endif
                 if (type != null)
                 {
                     ThrowIfAmbiguousMatchFoundForCanCreateContainer(createContainerType);

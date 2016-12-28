@@ -44,11 +44,7 @@ namespace Bifrost.Extensions
         static ITypeInfo GetTypeInfo(Type type)
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
-#if(NETFX_CORE)
             return typeInfoType.GetRuntimeFields().Where(f => f.Name == "Instance" && f.IsStatic && f.IsPublic).Single().GetValue(null) as ITypeInfo;
-#else
-            return typeInfoType.GetField("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as ITypeInfo;
-#endif
         }
 #pragma warning restore 1591 // Xml Comments
 
@@ -59,11 +55,7 @@ namespace Bifrost.Extensions
         /// <returns>True if there is an attribute, false if not</returns>
         public static bool HasAttribute<T>(this Type type) where T : Attribute
         {
-#if(NETFX_CORE)
             var attributes = type.GetTypeInfo().GetCustomAttributes(typeof(T), false).ToArray();
-#else
-            var attributes = type.GetCustomAttributes(typeof(T), false);
-#endif
             return attributes.Length == 1;
         }
 
@@ -74,11 +66,7 @@ namespace Bifrost.Extensions
         /// <returns>True if type is nullable, false if not</returns>
         public static bool IsNullable(this Type type)
         {
-#if(NETFX_CORE)
             return (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
-#else
-            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
-#endif
         }
 
         /// <summary>
@@ -130,11 +118,7 @@ namespace Bifrost.Extensions
         /// <returns>true if it has a non default constructor, false if not</returns>
         public static bool HasNonDefaultConstructor(this Type type)
         {
-#if(NETFX_CORE)
             return type.GetTypeInfo().DeclaredConstructors.Any(c => c.GetParameters().Length > 0);
-#else
-            return type.GetConstructors().Any(c => c.GetParameters().Length > 0);
-#endif
         }
 
 
@@ -145,11 +129,7 @@ namespace Bifrost.Extensions
         /// <returns>The default <see cref="ConstructorInfo"/></returns>
         public static ConstructorInfo GetDefaultConstructor(this Type type)
         {
-#if(NETFX_CORE)
             return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length == 0).Single();
-#else
-            return type.GetConstructors().Where(c => c.GetParameters().Length == 0).Single();
-#endif
         }
 
         /// <summary>
@@ -159,11 +139,7 @@ namespace Bifrost.Extensions
         /// <returns>The <see cref="ConstructorInfo"/> for the constructor</returns>
         public static ConstructorInfo GetNonDefaultConstructor(this Type type)
         {
-#if(NETFX_CORE)
             return type.GetTypeInfo().DeclaredConstructors.Where(c => c.GetParameters().Length > 0).Single();
-#else
-            return type.GetConstructors().Where(c => c.GetParameters().Length > 0).Single();
-#endif
         }
 
 
@@ -187,11 +163,7 @@ namespace Bifrost.Extensions
         /// <returns>True if the type implements the interface, false if not</returns>
         public static bool HasInterface(this Type type, Type interfaceType)
         {
-#if(NETFX_CORE)
             var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => t.FullName == interfaceType.FullName).Count() == 1;
-#else
-            var hasInterface = type.GetInterface(interfaceType.FullName, false) != null;
-#endif
             return hasInterface;
         }
 
@@ -206,20 +178,12 @@ namespace Bifrost.Extensions
             var typeToCheck = type;
             while (typeToCheck != null && typeToCheck != typeof(object))
             {
-#if(NETFX_CORE)
                 var currentType = typeToCheck.GetTypeInfo().IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
-#else
-                var currentType = typeToCheck.IsGenericType ? typeToCheck.GetGenericTypeDefinition() : typeToCheck;
-#endif
                 if (openGenericType == currentType)
                 {
                     return true;
                 }
-#if(NETFX_CORE)
                 typeToCheck = typeToCheck.GetTypeInfo().BaseType;
-#else
-                typeToCheck = typeToCheck.BaseType;
-#endif
             }
             return false;
         }
@@ -232,18 +196,12 @@ namespace Bifrost.Extensions
         /// <returns></returns>
         public static bool ImplementsOpenGeneric(this Type type, Type openGenericType)
         {
-
-#if(SILVERLIGHT)
-            var openGenericTypeInfo = openGenericType;
-            var typeInfo = type;
-#else
             var openGenericTypeInfo = openGenericType.GetTypeInfo();
             var typeInfo = type.GetTypeInfo();
-#endif
-
+            
             return typeInfo.GetInterfaces()
-                .Where(i => i.IsGenericType) // Probably doesn't compile on NETFX_CORE. 
-                .Where(i => i.GetGenericTypeDefinition() == openGenericTypeInfo)
+                .Where(i => i.GetTypeInfo().IsGenericType) 
+                .Where(i => i.GetTypeInfo().GetGenericTypeDefinition().GetTypeInfo() == openGenericTypeInfo)
                 .Any();
         }
         /// <summary>
@@ -254,11 +212,7 @@ namespace Bifrost.Extensions
         /// <returns>True if a "primitive"</returns>
         public static bool IsAPrimitiveType(this Type type)
         {
-#if(NETFX_CORE)
             return type.GetTypeInfo().IsPrimitive 
-#else
-            return type.IsPrimitive 
-#endif
                     || type.IsNullable() || AdditionalPrimitiveTypes.Contains(type) || type == typeof(decimal);
         }
 
@@ -282,7 +236,7 @@ namespace Bifrost.Extensions
         public static IEnumerable<Type> AllBaseAndImplementingTypes(this Type type)
         {
             return type.BaseTypes()
-                .Concat(type.GetInterfaces())
+                .Concat(type.GetTypeInfo().GetInterfaces())
                 .SelectMany(ThisAndMaybeOpenType)
                 .Where(t=>t != type && t != typeof(Object));
         }
@@ -293,14 +247,14 @@ namespace Bifrost.Extensions
             while (currentType != null)
 	        {
 	            yield return currentType;
-	            currentType = currentType.BaseType;
+                currentType = currentType.GetTypeInfo().BaseType;
 	        }
 	    }
 
 	    static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
 	    {
 	        yield return type;
-	        if (type.IsGenericType && !type.ContainsGenericParameters)
+	        if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().ContainsGenericParameters)
 	        {
 	            yield return type.GetGenericTypeDefinition();
 	        }

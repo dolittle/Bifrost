@@ -18,10 +18,8 @@
 #endregion
 
 using System;
-#if(NETFX_CORE)
 using System.Linq;
 using System.Reflection;
-#endif
 
 namespace Bifrost.Execution
 {
@@ -54,11 +52,7 @@ namespace Bifrost.Execution
 		/// </remarks>
         protected BindingLifecycle GetScopeForTarget(Type targetType)
 		{
-#if(NETFX_CORE)
             var attributes = targetType.GetTypeInfo().GetCustomAttributes(typeof(SingletonAttribute), false).ToArray();
-#else
-            var attributes = targetType.GetCustomAttributes(typeof(SingletonAttribute), false);
-#endif
             return attributes.Length == 1 ? BindingLifecycle.Singleton : DefaultScope;
 		}
 	}

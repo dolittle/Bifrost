@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Threading;
+using System.Globalization;
 using Bifrost.Configuration;
 using Bifrost.Security;
 using Bifrost.Tenancy;
@@ -53,7 +53,7 @@ namespace Bifrost.Execution
         {
             var executionContext = new ExecutionContext(
                 _principalResolver.Resolve(),
-                Thread.CurrentThread.CurrentCulture,
+                CultureInfo.CurrentCulture,
                 _detailsPopulator.Populate,
                 _configure.SystemName);
 

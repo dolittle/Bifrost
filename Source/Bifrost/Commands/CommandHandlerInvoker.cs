@@ -69,21 +69,12 @@ namespace Bifrost.Commands
 		/// </remarks>
 		public void Register(Type handlerType)
 		{
-#if(NETFX_CORE)
             var allMethods = handlerType.GetRuntimeMethods().Where(m => m.IsPublic || !m.IsStatic);
-#else
-            var allMethods = handlerType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-#endif
-
             var query = from m in allMethods
                         where m.Name.Equals(HandleMethodName) &&
                               m.GetParameters().Length == 1 &&
                               typeof(ICommand)
-#if(NETFX_CORE)
                                 .GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())
-#else
-                                .IsAssignableFrom(m.GetParameters()[0].ParameterType)
-#endif
                         select m;
 
             foreach (var method in query)

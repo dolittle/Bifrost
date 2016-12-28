@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Principal;
-using System.Threading;
 
 namespace Bifrost.Principal
 {
@@ -44,11 +43,8 @@ namespace Bifrost.Principal
         {
             if (_principals.Count > 0)
                 return _principals.Peek();
-#if(NETFX_CORE || SILVERLIGHT)
-            throw new NotImplementedException();
-#else
-            return Thread.CurrentPrincipal;
-#endif
+
+            return GenericPrincipal.Current;
         }
 
         /// <summary>

@@ -18,9 +18,7 @@
 #endregion
 using System;
 using Bifrost.Extensions;
-#if(NETFX_CORE)
 using System.Reflection;
-#endif
 
 namespace Bifrost.Concepts
 {

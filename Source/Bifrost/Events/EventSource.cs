@@ -144,13 +144,13 @@ namespace Bifrost.Events
         void ThrowIfStateful()
         {
             if (!this.IsStateless())
-                throw new InvalidFastForwardException(ExceptionStrings.CannotFastForwardStatefulEventSource);
+                throw new InvalidFastForwardException("Cannot fast forward stateful event source");
         }
 
         void ThrowIfNotInitialVersion()
         {
             if (!Version.Equals(EventSourceVersion.Zero))
-                throw new InvalidFastForwardException(ExceptionStrings.CannotFastForwardEventSourceThatIsNotInitialVersion);
+                throw new InvalidFastForwardException("Cannot fast forward event source that is not an initial version");
         }
     }
 }

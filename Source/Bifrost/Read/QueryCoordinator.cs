@@ -128,7 +128,7 @@ namespace Bifrost.Read
 
         PropertyInfo GetQueryPropertyFromQuery(IQuery query)
         {
-            var property = query.GetType().GetProperty(QueryPropertyName, BindingFlags.Public | BindingFlags.Instance);
+            var property = query.GetType().GetTypeInfo().GetProperty(QueryPropertyName, BindingFlags.Public | BindingFlags.Instance);
             return property;
         }
 
@@ -148,15 +148,15 @@ namespace Bifrost.Read
 
         QueryProviderResult ExecuteOnProvider(object provider, object query, PagingInfo paging)
         {
-            var method = provider.GetType().GetMethod(ExecuteMethodName);
+            var method = provider.GetType().GetTypeInfo().GetMethod(ExecuteMethodName);
             var result = method.Invoke(provider, new[] { query, paging }) as QueryProviderResult;
             return result;
         }
 
         Type GetQueryTypeFrom(Type type)
         {
-            var queryProviderForType = type.GetInterface(typeof(IQueryProviderFor<>).FullName);
-            var queryType = queryProviderForType.GetGenericArguments()[0];
+            var queryProviderForType = type.GetTypeInfo().GetInterface(typeof(IQueryProviderFor<>).FullName);
+            var queryType = queryProviderForType.GetTypeInfo().GetGenericArguments()[0];
             return queryType;
         }
 
@@ -166,7 +166,7 @@ namespace Bifrost.Read
                 return _queryProviderTypesPerTargetType[type];
             else
             {
-                var interfaces = type.GetInterfaces();
+                var interfaces = type.GetTypeInfo().GetInterfaces();
                 foreach (var @interface in interfaces)
                 {
                     type = GetActualProviderTypeFrom(@interface);

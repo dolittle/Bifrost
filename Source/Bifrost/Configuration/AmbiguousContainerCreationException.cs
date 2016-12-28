@@ -28,6 +28,6 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Initializes a new instance of <see cref="AmbiguousContainerCreationException"/>
         /// </summary>
-        public AmbiguousContainerCreationException() : base(ExceptionStrings.AmbiguousContainerCreationException) { }
+        public AmbiguousContainerCreationException() : base("Multiple implementations of ICanCreateContainer was found") { }
     }
 }

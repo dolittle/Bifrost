@@ -41,13 +41,9 @@ namespace Bifrost.Concepts
 
         static Type GetPrimitiveType(Type type)
         {
-#if(NETFX_CORE)
-            var typeProperty = type.GetTypeInfo().GetRuntimeProperty("UnderlyingType");
-#else
-            var typeProperty = type.GetProperty("UnderlyingType",
-                BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-#endif
-            return typeProperty != null ? (Type) typeProperty.GetValue(null) : null;
+            throw new NotImplementedException();
+            //var typeProperty = type.GetTypeInfo().GetRuntimeProperty("UnderlyingType");
+            //return typeProperty != null ? (Type) typeProperty.GetValue(null) : null;
         }
     }
 }

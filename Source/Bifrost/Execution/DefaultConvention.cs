@@ -68,21 +68,13 @@ namespace Bifrost.Execution
 			if (serviceName.StartsWith("I"))
 			{
 				var instanceName = string.Format("{0}.{1}", service.Namespace, serviceName.Substring(1));
-#if(NETFX_CORE)
                 var serviceInstanceType = service.GetTypeInfo().Assembly.GetType(instanceName);
-#else
-				var serviceInstanceType = service.Assembly.GetType(instanceName);
-#endif
                 if (null != serviceInstanceType &&
                     IsAssignableFrom(service,serviceInstanceType) &&
                     !HasMultipleImplementationInSameNamespace(service) &&
                     !serviceInstanceType.HasAttribute<IgnoreDefaultConventionAttribute>())
 				{
-#if(NETFX_CORE)
                     if (serviceInstanceType.GetTypeInfo().IsAbstract) return null;
-#else
-					if (serviceInstanceType.IsAbstract ) return null;
-#endif
 
 					return serviceInstanceType;
 				}
@@ -93,11 +85,7 @@ namespace Bifrost.Execution
         static bool HasMultipleImplementationInSameNamespace(Type service)
         {
             var implementationsCount = service
-#if(NETFX_CORE)
                 .GetTypeInfo().Assembly.DefinedTypes.Select(t => t.AsType())
-#else
-                .Assembly.GetTypes()
-#endif
                 .Where(t => !string.IsNullOrEmpty(t.Namespace) && t.Namespace.Equals(service.Namespace))
                 .Where(t => t.HasInterface(service)).Count();
             return implementationsCount > 1;
@@ -106,20 +94,12 @@ namespace Bifrost.Execution
         static bool IsAssignableFrom(Type service, Type serviceInstanceType)
         {
             var isAssignable = service
-#if(NETFX_CORE)
                 .GetTypeInfo().IsAssignableFrom(serviceInstanceType.GetTypeInfo());
-#else
-                .IsAssignableFrom(serviceInstanceType);
-#endif
             if (isAssignable)
                 return true;
 
             isAssignable = serviceInstanceType
-#if(NETFX_CORE)
                                     .GetTypeInfo().ImplementedInterfaces
-#else
-                                    .GetInterfaces()
-#endif
                 .Where(t =>
                 t.Name == service.Name &&
                 t.Namespace == service.Namespace).Count() == 1;

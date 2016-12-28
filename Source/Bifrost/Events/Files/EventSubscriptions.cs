@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
@@ -77,7 +78,7 @@ namespace Bifrost.Events.Files
                 subscription.Owner = Type.GetType(holder.Owner);
                 subscription.EventType = Type.GetType(holder.EventType);
                 subscription.EventName = holder.EventName;
-                subscription.Method = subscription.Owner.GetMethod(Bifrost.Events.ProcessMethodInvoker.ProcessMethodName, new Type[] { subscription.EventType });
+                subscription.Method = subscription.Owner.GetTypeInfo().GetMethod(Bifrost.Events.ProcessMethodInvoker.ProcessMethodName, new Type[] { subscription.EventType });
                 subscriptions.Add(subscription);
             }
 
@@ -93,8 +94,8 @@ namespace Bifrost.Events.Files
             {
                 Id = subscription.Id.ToString(),
                 LastEventId = subscription.LastEventId,
-                Owner = string.Format("{0}.{1}, {2}", subscription.Owner.Namespace, subscription.Owner.Name, subscription.Owner.Assembly.GetName().Name),
-                EventType = string.Format("{0}.{1}, {2}", subscription.EventType.Namespace, subscription.EventType.Name, subscription.EventType.Assembly.GetName().Name),
+                Owner = string.Format("{0}.{1}, {2}", subscription.Owner.Namespace, subscription.Owner.Name, subscription.Owner.GetTypeInfo().Assembly.GetName().Name),
+                EventType = string.Format("{0}.{1}, {2}", subscription.EventType.Namespace, subscription.EventType.Name, subscription.EventType.GetTypeInfo().Assembly.GetName().Name),
                 EventName = subscription.EventName
             };
 

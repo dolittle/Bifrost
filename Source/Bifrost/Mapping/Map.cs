@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using Bifrost.Extensions;
 
 namespace Bifrost.Mapping
@@ -65,7 +66,7 @@ namespace Bifrost.Mapping
 
         void AddDefaultPropertyMaps()
         {
-            typeof(TSource).GetProperties().ForEach(p => AddPropertyMap(p).Strategy = new SourcePropertyMappingStrategy(p));
+            typeof(TSource).GetTypeInfo().GetProperties().ForEach(p => AddPropertyMap(p).Strategy = new SourcePropertyMappingStrategy(p));
         }
 
         PropertyMap<TSource, TTarget> AddPropertyMap(System.Reflection.PropertyInfo propertyInfo)

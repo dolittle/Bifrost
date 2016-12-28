@@ -43,9 +43,9 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns><see cref="Container"/> to keep building on</returns>
         public static Container WithObservablePropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Func<PropertyInfo, bool> propertyVisitor = null, Action<Assignment> assignmentVisitor = null, ObservableVisitor observableVisitor = null)
         {
-            var properties = type.GetProperties();
+            var properties = type.GetTypeInfo().GetProperties();
             if (excludePropertiesFrom != null)
-                properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
+                properties = properties.Where(p => !excludePropertiesFrom.GetTypeInfo().GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
             if (propertyVisitor != null)
                 properties = properties.Where(propertyVisitor).ToArray();
@@ -66,9 +66,9 @@ namespace Bifrost.CodeGeneration.JavaScript
         /// <returns><see cref="Container"/> to keep building on</returns>
         public static Container WithPropertiesFrom(this Container container, Type type, Type excludePropertiesFrom = null, Action<Assignment> assignmentVisitor = null)
         {
-            var properties = type.GetProperties();
+            var properties = type.GetTypeInfo().GetProperties();
             if (excludePropertiesFrom != null)
-                properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
+                properties = properties.Where(p => !excludePropertiesFrom.GetTypeInfo().GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 
             AddPropertiesFromType(container, properties, assignmentVisitor);
 
@@ -110,7 +110,7 @@ namespace Bifrost.CodeGeneration.JavaScript
                 {
                     var objectLiteral = new ObjectLiteral();
                     assignment.Value = objectLiteral;
-                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor);
+                    AddPropertiesFromType(objectLiteral, property.PropertyType.GetTypeInfo().GetProperties(), assignmentVisitor);
                 }
 
                 if (assignmentVisitor != null) assignmentVisitor(assignment);
@@ -142,7 +142,7 @@ namespace Bifrost.CodeGeneration.JavaScript
                 {
                     var objectLiteral = new ObjectLiteral();
                     assignment.Value = objectLiteral;
-                    AddObservablePropertiesFromType(objectLiteral, property.PropertyType.GetProperties(), assignmentVisitor, observableVisitor);
+                    AddObservablePropertiesFromType(objectLiteral, property.PropertyType.GetTypeInfo().GetProperties(), assignmentVisitor, observableVisitor);
                 }
 
                 if (assignmentVisitor != null) assignmentVisitor(assignment);
@@ -155,7 +155,7 @@ namespace Bifrost.CodeGeneration.JavaScript
 
         static bool IsEnum(this PropertyInfo property)
         {
-            return property.PropertyType.IsEnum;
+            return property.PropertyType.GetTypeInfo().IsEnum;
         }
 
         static bool IsEnumerable(this PropertyInfo property)
@@ -182,7 +182,7 @@ namespace Bifrost.CodeGeneration.JavaScript
 
         static bool HasPrimitiveDefaultValue(this PropertyInfo property)
         {
-            return property.PropertyType.IsValueType ||
+            return property.PropertyType.GetTypeInfo().IsValueType ||
                     property.PropertyType == typeof(string) ||
                     property.PropertyType == typeof(Type) ||
                     property.PropertyType == typeof(MethodInfo) ||
@@ -191,7 +191,7 @@ namespace Bifrost.CodeGeneration.JavaScript
 
         static bool IsObservable(this PropertyInfo property)
         {
-            return property.PropertyType.IsValueType ||
+            return property.PropertyType.GetTypeInfo().IsValueType ||
                     property.PropertyType == typeof(string) ||
                     property.PropertyType == typeof(Type) ||
                     property.PropertyType == typeof(MethodInfo) ||

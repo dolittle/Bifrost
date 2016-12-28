@@ -17,10 +17,7 @@
 //
 #endregion
 using System;
-#if(NETFX_CORE)
 using System.Reflection;
-#endif
-using Bifrost.Extensions;
 
 namespace Bifrost.Concepts
 {
@@ -39,10 +36,8 @@ namespace Bifrost.Concepts
         {
             var instance = Activator.CreateInstance(type);
             var val = new object();
-#if(NETFX_CORE)
 
-#else
-            var valueProperty = type.GetProperty("Value");
+            var valueProperty = type.GetTypeInfo().GetProperty("Value");
 
             var genericArgumentType = GetPrimitiveTypeConceptIsBasedOn(type);
             if (genericArgumentType == typeof (Guid))
@@ -69,7 +64,7 @@ namespace Bifrost.Concepts
                 val = Convert.ChangeType(val, genericArgumentType, null);
 
             valueProperty.SetValue(instance, val, null);
-#endif
+
             return instance;
         }
 
@@ -79,11 +74,7 @@ namespace Bifrost.Concepts
         }
         static bool IsPrimitive(Type type)
         {
-#if(NETFX_CORE)
             return type.GetTypeInfo().IsPrimitive || type == typeof(decimal);
-#else
-            return type.IsPrimitive || type == typeof(decimal);
-#endif
         }
     }
 }

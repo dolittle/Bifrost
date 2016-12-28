@@ -70,7 +70,7 @@ namespace Bifrost.Commands
         {
             if (!HasCurrent)
             {
-                throw new InvalidOperationException(ExceptionStrings.CommandNotEstablished);
+                throw new InvalidOperationException("Command not established");
             }
             return CurrentContext;
         }

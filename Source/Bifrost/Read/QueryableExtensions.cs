@@ -34,7 +34,7 @@ namespace Bifrost.Read
 
         static QueryableExtensions()
         {
-            var queryableMethods = typeof(System.Linq.Queryable).GetMethods(BindingFlags.Public | BindingFlags.Static);
+            var queryableMethods = typeof(System.Linq.Queryable).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static);
 
             _countMethod = queryableMethods.Where(m => m.Name == "Count" && m.GetParameters().Length == 1).First();
             _skipMethod = queryableMethods.Where(m => m.Name == "Skip").First();

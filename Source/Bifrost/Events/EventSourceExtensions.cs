@@ -42,19 +42,11 @@ namespace Bifrost.Events
                                                                    var parameters = m.GetParameters();
                                                                    if (parameters.Length != 1)
                                                                        return false;
-#if(NETFX_CORE)
                                                                    
                                                                    return typeof(IEvent).GetTypeInfo().IsAssignableFrom(parameters.Single().ParameterType.GetTypeInfo());
-#else
-                                                                   return typeof(IEvent).IsAssignableFrom(parameters.Single().ParameterType);
-#endif
                                                                };
 
-#if(NETFX_CORE)
                 var methods = eventSourceType.GetTypeInfo().DeclaredMethods.Where(m => m.Name.Equals("Handle") && hasEventParameter(m));
-#else
-                var methods = eventSourceType.GetMethods(BindingFlags.NonPublic|BindingFlags.Instance).Where(m => m.Name.Equals("On") && hasEventParameter(m));
-#endif
                 foreach (var method in methods)
                     MethodsPerEventType[method.GetParameters()[0].ParameterType] = method;
             }
@@ -65,11 +57,7 @@ namespace Bifrost.Events
         {
             var methods = typeof(EventSourceHandleMethods<>)
                               .MakeGenericType(eventSourceType)
-#if(NETFX_CORE)
                               .GetRuntimeField("MethodsPerEventType")
-#else
-                              .GetField("MethodsPerEventType", BindingFlags.Public | BindingFlags.Static)
-#endif
                               .GetValue(null) as Dictionary<Type, MethodInfo>;
             return methods;
 

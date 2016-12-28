@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System;
+using System.Reflection;
 using Bifrost.Execution;
 
 namespace Bifrost.Diagnostics
@@ -58,7 +58,7 @@ namespace Bifrost.Diagnostics
             {
                 var rule = (dynamic)_container.Get(ruleType);
 
-                var typeForRule = ruleType.GetInterface(typeof(ITypeRuleFor<>).Name).GetGenericArguments()[0];
+                var typeForRule = ruleType.GetTypeInfo().GetInterface(typeof(ITypeRuleFor<>).Name).GetTypeInfo().GetGenericArguments()[0];
                 var types = _typeDiscoverer.FindMultiple(typeForRule);
                 foreach (var type in types)
                 {

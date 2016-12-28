@@ -17,25 +17,18 @@
 //
 #endregion
 using System;
-using System.Reflection;
-using Bifrost.Diagnostics;
 
-namespace Bifrost.Commands.Diagnostics
+namespace Bifrost
 {
     /// <summary>
-    /// Represents a rule that will check if a <see cref="ICommand"/> has too many properties
+    /// The exception that is thrown when a type is missing a default constructor and one is required
     /// </summary>
-    public class TooManyPropertiesRule : ITypeRuleFor<ICommand>
+    public class MissingDefaultConstructorException : ArgumentException
     {
-#pragma warning disable 1591 // Xml Comments
-        public void Validate(Type type, IProblems problems)
-        {
-            if (type == typeof(ICommand) || type == typeof(Command))
-                return;
-
-            if (type.GetTypeInfo().GetProperties().Length > 10)
-                problems.Report(ProblemTypes.TooManyProperties, CommandProblemMetaData.From(type));
-        }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Initializes an instance of <see cref="MissingDefaultConstructorException"/>
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> that is missing a constructor</param>
+        public MissingDefaultConstructorException(Type type) : base(string.Format("Type '{0}' is missing a default constructor and one is required", type.FullName)) { }
     }
 }

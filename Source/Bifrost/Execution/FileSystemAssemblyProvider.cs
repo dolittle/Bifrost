@@ -36,7 +36,7 @@ namespace Bifrost.Execution
         /// <param name="fileSystem"></param>
         public FileSystemAssemblyProvider(IFileSystem fileSystem)
         {
-            var codeBase = typeof(FileSystemAssemblyProvider).Assembly.GetName().CodeBase;
+            var codeBase = typeof(FileSystemAssemblyProvider).GetTypeInfo().Assembly.CodeBase;
             var uri = new Uri(codeBase);
 
             var assemblyFileInfo = new FileInfo(uri.LocalPath);
@@ -54,7 +54,7 @@ namespace Bifrost.Execution
 
         public Assembly Get(AssemblyInfo assemblyInfo)
         {
-            return Assembly.LoadFile(assemblyInfo.Path);
+            return Assembly.Load(new AssemblyName(assemblyInfo.Name));
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -16,8 +16,7 @@
 // limitations under the License.
 //
 #endregion
-
-using System.Threading;
+using System.Globalization;
 using Bifrost.Configuration;
 
 namespace Bifrost.Globalization
@@ -32,16 +31,16 @@ namespace Bifrost.Globalization
 		{
 			var scope = LocalizationScope.FromCurrentThread();
 
-			Thread.CurrentThread.CurrentCulture = Configure.Instance.Culture;
-			Thread.CurrentThread.CurrentUICulture = Configure.Instance.UICulture;
+			CultureInfo.CurrentCulture = Configure.Instance.Culture;
+			CultureInfo.CurrentUICulture = Configure.Instance.UICulture;
 
 			return scope;
 		}
 
 		public void EndScope(LocalizationScope scope)
 		{
-			Thread.CurrentThread.CurrentCulture = scope.Culture;
-			Thread.CurrentThread.CurrentUICulture = scope.UICulture;
+			CultureInfo.CurrentCulture = scope.Culture;
+			CultureInfo.CurrentUICulture = scope.UICulture;
         }
 #pragma warning restore 1591 // Xml Comments
     }

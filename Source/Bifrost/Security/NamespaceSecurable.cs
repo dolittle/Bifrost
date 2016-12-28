@@ -45,11 +45,7 @@ namespace Bifrost.Security
         public override bool CanAuthorize(object actionToAuthorize)
         {
             return actionToAuthorize != null && actionToAuthorize.GetType().Namespace.StartsWith(Namespace,
-#if(NETFX_CORE)
                 StringComparison.Ordinal);
-#else
-                StringComparison.InvariantCulture);
-#endif
         }
 #pragma warning restore 1591
     }

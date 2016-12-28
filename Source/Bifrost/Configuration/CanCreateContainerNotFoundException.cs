@@ -28,6 +28,6 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Initializes an instance of <see cref="CanCreateContainerNotFoundException"/>
         /// </summary>
-        public CanCreateContainerNotFoundException() : base(ExceptionStrings.CanCreateContainerNotFoundException) { }
+        public CanCreateContainerNotFoundException() : base("Couldn't discover an implementation of 'ICanCreateContainer'") { }
     }
 }

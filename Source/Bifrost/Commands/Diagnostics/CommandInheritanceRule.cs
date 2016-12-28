@@ -17,8 +17,10 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Diagnostics;
 using Bifrost.Extensions;
+
 
 namespace Bifrost.Commands.Diagnostics
 {
@@ -30,9 +32,9 @@ namespace Bifrost.Commands.Diagnostics
 #pragma warning disable 1591 // Xml Comments
         public void Validate(Type type, IProblems problems)
         {
-            var implementsInterface = type.HasInterface<ICommand>() && type.BaseType == typeof(Object);
+            var implementsInterface = type.HasInterface<ICommand>() && type.GetTypeInfo().BaseType == typeof(Object);
 
-            if (!implementsInterface && type.BaseType != typeof(Command))
+            if (!implementsInterface && type.GetTypeInfo().BaseType != typeof(Command))
                 problems.Report(ProblemTypes.CommandInheritance, CommandProblemMetaData.From(type));
         }
 #pragma warning restore 1591 // Xml Comments

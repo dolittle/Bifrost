@@ -19,7 +19,6 @@
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Threading;
 
 namespace Bifrost.Reflection
 {
@@ -38,10 +37,9 @@ namespace Bifrost.Reflection
         {
             var dynamicAssemblyName = CreateUniqueName(DynamicAssemblyName);
             var dynamicModuleName = CreateUniqueName(DynamicModuleName);
-            var appDomain = Thread.GetDomain();
             var assemblyName = new AssemblyName(dynamicAssemblyName);
-            DynamicAssembly = appDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            DynamicModule = DynamicAssembly.DefineDynamicModule(dynamicModuleName, true);
+            DynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            DynamicModule = DynamicAssembly.DefineDynamicModule(dynamicModuleName);
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -49,7 +47,7 @@ namespace Bifrost.Reflection
         {
             var typeBuilder = DefineInterface(type);
 
-            foreach (var property in type.GetProperties())
+            foreach (var property in type.GetTypeInfo().GetProperties())
             {
                 var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
                 var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Abstract | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
@@ -58,7 +56,7 @@ namespace Bifrost.Reflection
                 propertyBuilder.SetSetMethod(setMethodBuilder);
             }
 
-            var interfaceForType = typeBuilder.CreateType();
+            var interfaceForType = typeBuilder.CreateTypeInfo().AsType();
             return interfaceForType;
         }
 
@@ -67,7 +65,7 @@ namespace Bifrost.Reflection
         {
             var typeBuilder = DefineClass(type);
 
-            foreach (var property in type.GetProperties())
+            foreach (var property in type.GetTypeInfo().GetProperties())
             {
                 var propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.None, property.PropertyType, new Type[0]);
                 var getMethodBuilder = typeBuilder.DefineMethod("get_" + property.Name, MethodAttributes.Public | MethodAttributes.Virtual, property.PropertyType, new Type[0]);
@@ -76,7 +74,7 @@ namespace Bifrost.Reflection
                 propertyBuilder.SetSetMethod(setMethodBuilder);
             }
 
-            var classForType = typeBuilder.CreateType();
+            var classForType = typeBuilder.CreateTypeInfo().AsType();
             return classForType;
         }
 

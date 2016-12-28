@@ -18,9 +18,7 @@
 #endregion
 using System;
 using System.Linq;
-#if(NETFX_CORE)
 using System.Reflection;
-#endif
 
 namespace Bifrost.Sagas
 {
@@ -63,11 +61,7 @@ namespace Bifrost.Sagas
         {
             var targetTransitionType = typeof (ICanTransitionTo<>).MakeGenericType(toChapterType);
             return fromChapterType
-#if(NETFX_CORE)
                 .GetTypeInfo().ImplementedInterfaces
-#else
-                .GetInterfaces()
-#endif
                 .Where(t => t == targetTransitionType).SingleOrDefault() != null;
         }
     }

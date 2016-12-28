@@ -63,20 +63,12 @@ namespace Bifrost.Events
 
         static Dictionary<Type, MethodInfo> GetHandleMethods(Type typeWithHandleMethods)
 		{
-#if(NETFX_CORE)
             var allMethods = typeWithHandleMethods.GetRuntimeMethods().Where(m => !m.IsStatic || m.IsPublic);
-#else
-            var allMethods = typeWithHandleMethods.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-#endif
             var query = from m in allMethods
 			            where m.Name.Equals(ProcessMethodName) &&
 			                  m.GetParameters().Length == 1 &&
 			                  typeof(IEvent)
-#if(NETFX_CORE)
                                 .GetTypeInfo().IsAssignableFrom(m.GetParameters()[0].ParameterType.GetTypeInfo())
-#else
-                                .IsAssignableFrom(m.GetParameters()[0].ParameterType)
-#endif
 			            select m;
 
 			return query.ToDictionary(m => m.GetParameters()[0].ParameterType);

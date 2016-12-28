@@ -114,19 +114,12 @@ namespace Bifrost.Concepts
 
             while (t != typeof(object))
             {
-#if(NETFX_CORE)
                 var typeInfo = t.GetTypeInfo();
                 
                 fields.AddRange(typeInfo.DeclaredFields.Where(f=>f.IsPublic&&f.IsPrivate&&!f.IsStatic));
                 var fieldInfoCache = typeInfo.DeclaredFields.Single(f => f.Name == "_fields");
                 fields.Remove(fieldInfoCache);
                 t = typeInfo.BaseType;
-#else
-                fields.AddRange(t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
-                var fieldInfoCache = t.GetField("_fields", BindingFlags.Instance | BindingFlags.NonPublic);
-                fields.Remove(fieldInfoCache);
-                t = t.BaseType;
-#endif
             }
             return fields;
         }

@@ -135,7 +135,7 @@ namespace Bifrost.Entities.Files
 
         object GetIdFrom(T entity)
         {
-            var propertyInfo = typeof(T).GetProperty("Id", BindingFlags.Public|BindingFlags.Instance);
+            var propertyInfo = typeof(T).GetTypeInfo().GetProperty("Id", BindingFlags.Public|BindingFlags.Instance);
             if (propertyInfo == null) throw new ArgumentException(string.Format("Entity of type '{0}' does not have an Id property holding the unique Id of the entity. The File provider is very simple and only supports this as a scenario, it is a demo provider not meant for use in production", typeof(T).FullName));
 
             return propertyInfo.GetValue(entity);
