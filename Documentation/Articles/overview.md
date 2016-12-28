@@ -9,7 +9,7 @@ about the maintainability of the product. In addition to this, in a fast moving 
 allows for rapidly adapting to new requirements. It truly can be a life/death situation for a company if the company is
 not able to adapt to market changes, competitors or users wanting new features. Traditional techniques for building software
 have issues related to this. N-tier architecture tends to mix concerns and responsibilities and thus leading to
-software that is hard to maintain. According [Fred Brooks](https://en.wikipedia.org/wiki/Fred_Brooks) and
+software that is hard to maintain. According to [Fred Brooks](https://en.wikipedia.org/wiki/Fred_Brooks) and
 ["The Mythical Man-Month"](https://en.wikipedia.org/wiki/The_Mythical_Man-Month), 90% of the cost
 related to a typical system arise in the maintenance phase. This means that we should aim towards building our systems
 in a way that makes the maintenance phase as easy as possible.
@@ -26,7 +26,7 @@ From the beginning the project evolved through the needs we saw when consulting 
 A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).
 From 2012 to 2015 it got further developed @ Statoil and their needs for a critical LOB application; ProCoSys.
 The result of this is that Statoil continued the work and created their own [fork](https://github.com/ProCoSys/Bifrost)
-and have gone their own path with it.
+and have gone their own path with it and use it on the ProCoSys project on a day to day basis.
 
 ## Domain Driven Design
 
