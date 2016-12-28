@@ -65,7 +65,7 @@ namespace Bifrost.Ninject
 
         public bool HasBindingFor(Type type)
         {
-            return Kernel.GetBindings(type).Count() != 0;
+            return ((IKernelConfiguration)Kernel).GetBindings(type).Count() != 0;
         }
 
         public bool HasBindingFor<T>()

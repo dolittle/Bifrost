@@ -27,10 +27,9 @@ namespace Bifrost.Ninject
     {
         public static void LoadAllModules(this IKernel kernel)
         {
-            var typeDiscoverer = kernel.Get<ITypeDiscoverer>();
-            var assemblies = typeDiscoverer.FindMultiple<NinjectModule>().Select(t => t.Assembly).Distinct();
-            if( assemblies.Count() > 0 )
-                kernel.Load(assemblies);
+            var typeImporter = kernel.Get<ITypeImporter>();
+            var modules = typeImporter.ImportMany<NinjectModule>();
+            if( modules.Count() > 0 ) kernel.Load(modules);
         }
     }
 }

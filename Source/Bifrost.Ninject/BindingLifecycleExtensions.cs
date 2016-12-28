@@ -19,7 +19,7 @@
 
 using Bifrost.Execution;
 using Ninject.Syntax;
-#if(!SILVERLIGHT)
+#if(FALSE)
 using Ninject.Web.Common;
 #endif
 
@@ -44,16 +44,15 @@ namespace Bifrost.Ninject
 				case BindingLifecycle.Singleton:
 					syntax.InSingletonScope();
 					break;
-
-#if(!SILVERLIGHT)
+#if(false)
 				case BindingLifecycle.Request:
 					syntax.InRequestScope();
 					break;
-#endif
+
 				case BindingLifecycle.Thread:
 					syntax.InThreadScope();
 					break;
-
+#endif			
 				case BindingLifecycle.Transient:
 					syntax.InTransientScope();
 					break;
