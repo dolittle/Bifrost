@@ -93,8 +93,8 @@ namespace Bifrost.Events.Files
                     Event = _serializer.ToJson(@event)
                 });
 
-
-                File.WriteAllText(string.Format("{0}\\{1}.{2}",eventPath,@event.Version.Commit, @event.Version.Sequence), json);
+                var path = Path.Combine(eventPath,$"{@event.Version.Commit}.{@event.Version.Sequence}");
+                File.WriteAllText(path, json);
             }
 
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
@@ -105,7 +105,8 @@ namespace Bifrost.Events.Files
         int GetNextEventId()
         {
             var id = 0;
-            var idFile = string.Format("{0}\\LastEventId", _configuration.Path);
+            
+            var idFile = Path.Combine(_configuration.Path, "LastEventID");
 
             if (File.Exists(idFile))
             {

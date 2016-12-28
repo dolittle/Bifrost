@@ -88,7 +88,7 @@ namespace Bifrost.Events.Files
         public void Save(EventSubscription subscription)
         {
             var path = GetPathForSubscriptions();
-            var file = string.Format("{0}\\{1}.{2}.{3}", path, subscription.Owner.Namespace, subscription.Owner.Name, subscription.EventName);
+            var file = Path.Combine(path,$"{subscription.Owner.Namespace}.{subscription.Owner.Name}.{subscription.EventName}");
 
             var holder = new EventSubscriptionHolder
             {
