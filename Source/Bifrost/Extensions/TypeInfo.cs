@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Bifrost.Extensions
@@ -35,9 +36,13 @@ namespace Bifrost.Extensions
         TypeInfo()
         {
             var type = typeof(T); 
+            var typeInfo = type.GetTypeInfo();
+
+            var defaultConstructor = typeInfo.DeclaredConstructors.Any(c=>c.GetParameters().Length == 0);
+            
             HasDefaultConstructor = 
-                type.GetTypeInfo().IsValueType ||
-                type.HasDefaultConstructor();
+                typeInfo.IsValueType ||
+                defaultConstructor;
         }
 
 #pragma warning disable 1591 // Xml Comments
