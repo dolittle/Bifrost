@@ -30,7 +30,7 @@ namespace Bifrost.JSON.Serialization
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(MethodInfo).IsAssignableFrom(objectType);
+            return typeof(MethodInfo).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -56,7 +56,7 @@ namespace Bifrost.JSON.Serialization
 
                 var typeName = string.Format("{0}, {1}", className, assemblyName);
                 var type = Type.GetType(typeName);
-                var method = type.GetMethods().Where(m => m.Name.Equals(name) && DoesSignatureMatch(m, parameterTypeStrings)).SingleOrDefault();
+                var method = type.GetTypeInfo().GetMethods().Where(m => m.Name.Equals(name) && DoesSignatureMatch(m, parameterTypeStrings)).SingleOrDefault();
                 return method;
             }
             catch {

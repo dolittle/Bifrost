@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Serialization;
@@ -42,7 +42,7 @@ namespace Bifrost.JSON.Serialization
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> to use for creating instances of types</param>
         /// <param name="options"><see cref="SerializationOptions"/> to use during resolving</param>
-		public SerializerContractResolver(IContainer container, SerializationOptions options) : base(true)
+		public SerializerContractResolver(IContainer container, SerializationOptions options) 
 		{
 			_container = container;
 			_options = options;
@@ -68,7 +68,7 @@ namespace Bifrost.JSON.Serialization
 			var contract = base.ResolveContract(type);
 		
 			if (contract is JsonObjectContract && 
-                !type.IsValueType &&
+				!type.GetTypeInfo().IsValueType &&
                 !type.HasDefaultConstructor())
 			{
 				var defaultCreator = contract.DefaultCreator;

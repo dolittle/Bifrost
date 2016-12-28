@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -65,12 +66,12 @@ namespace Bifrost.JSON.Serialization
                     
                     if(type.IsConcept())
                     {
-                        var genericArgumentType = type.BaseType.GetGenericArguments()[0];
+                        var genericArgumentType = type.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
                         var value = serializer.Deserialize(reader, genericArgumentType);
                         return ConceptFactory.CreateConceptInstance(type, value);
                     } 
 
-                    if (type.IsValueType ||
+                    if (type.GetTypeInfo().IsValueType ||
                         type.HasInterface<IEnumerable>())
                         instance = serializer.Deserialize(reader, type);
                     else
@@ -162,7 +163,7 @@ namespace Bifrost.JSON.Serialization
             var parameters = constructor.GetParameters();
             var parameterInstances = new List<object>();
 
-            var toObjectMethod = typeof(JToken).GetMethod("ToObject", new Type[0]);
+            var toObjectMethod = typeof(JToken).GetTypeInfo().GetMethod("ToObject", new Type[0]);
 
             foreach (var parameter in parameters)
             {

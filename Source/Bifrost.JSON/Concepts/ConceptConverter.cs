@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Newtonsoft.Json;
@@ -46,7 +47,7 @@ namespace Bifrost.JSON.Concepts
 
         public override void WriteJson(JsonWriter writer, object concept, JsonSerializer serializer)
         {
-            var value = concept.GetType().GetProperty("Value").GetValue(concept, null);
+            var value = concept.GetType().GetTypeInfo().GetProperty("Value").GetValue(concept, null);
             writer.WriteValue(value);
         }
     }

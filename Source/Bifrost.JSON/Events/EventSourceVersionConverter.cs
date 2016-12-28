@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Events;
 using Newtonsoft.Json;
 
@@ -26,7 +27,7 @@ namespace Bifrost.JSON.Events
     {
         public override bool CanConvert(Type objectType)
         {
-            return typeof(EventSourceVersion).IsAssignableFrom(objectType);
+            return typeof(EventSourceVersion).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

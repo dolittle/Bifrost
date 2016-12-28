@@ -17,11 +17,12 @@
 //
 #endregion
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Newtonsoft.Json;
-using System.Collections;
 
 namespace Bifrost.JSON.Concepts
 {
@@ -29,13 +30,13 @@ namespace Bifrost.JSON.Concepts
     {
         public override bool CanConvert(Type objectType)
         {
-            if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.IsGenericType ) 
+            if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.GetTypeInfo().IsGenericType ) 
             {
-                var keyType = objectType.GetGenericArguments()[0].BaseType;
-                if (keyType.IsGenericType)
+                var keyType = objectType.GetTypeInfo().GetGenericArguments()[0].GetTypeInfo().BaseType;
+                if (keyType.GetTypeInfo().IsGenericType)
                 {
-                    var genericArgumentType = keyType.GetGenericArguments()[0];
-                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).IsAssignableFrom(keyType);
+                    var genericArgumentType = keyType.GetTypeInfo().GetGenericArguments()[0];
+                    var isConcept = typeof(ConceptAs<>).MakeGenericType(genericArgumentType).GetTypeInfo().IsAssignableFrom(keyType);
                     return isConcept;
                 }
             }
@@ -48,14 +49,14 @@ namespace Bifrost.JSON.Concepts
             if (reader.TokenType == JsonToken.Null)
                 return null;
 
-            var keyType = objectType.GetGenericArguments()[0];
-            var keyValueType = keyType.BaseType.GetGenericArguments()[0];
-            var valueType = objectType.GetGenericArguments()[1];
+            var keyType = objectType.GetTypeInfo().GetGenericArguments()[0];
+            var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
+            var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
             var intermediateDictionaryType = typeof(Dictionary<,>).MakeGenericType(typeof(string), valueType);
             var intermediateDictionary = (IDictionary)Activator.CreateInstance(intermediateDictionaryType);
             serializer.Populate(reader, intermediateDictionary);
 
-            var valueProperty = keyType.GetProperty("Value");
+            var valueProperty = keyType.GetTypeInfo().GetProperty("Value");
             var finalDictionary = (IDictionary)Activator.CreateInstance(objectType);
             foreach (DictionaryEntry pair in intermediateDictionary)
             {
@@ -77,12 +78,12 @@ namespace Bifrost.JSON.Concepts
             var dictionary = value as IDictionary;
 
             var objectType = value.GetType();
-            var keyType = objectType.GetGenericArguments()[0];
-            var keyValueType = keyType.BaseType.GetGenericArguments()[0];
-            var valueType = objectType.GetGenericArguments()[1];
+            var keyType = objectType.GetTypeInfo().GetGenericArguments()[0];
+            var keyValueType = keyType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
+            var valueType = objectType.GetTypeInfo().GetGenericArguments()[1];
             var intermediateDictionaryType = typeof(Dictionary<,>).MakeGenericType(typeof(string), valueType);
             var intermediateDictionary = (IDictionary)Activator.CreateInstance(intermediateDictionaryType);
-            var valueProperty = keyType.GetProperty("Value");
+            var valueProperty = keyType.GetTypeInfo().GetProperty("Value");
 
             foreach (DictionaryEntry pair in dictionary)
             {
