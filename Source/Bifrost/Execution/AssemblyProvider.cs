@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Bifrost.Collections;
 using Bifrost.Extensions;
 
@@ -41,7 +40,7 @@ namespace Bifrost.Execution
         IAssemblyUtility _assemblyUtility;
         IAssemblySpecifiers _assemblySpecifiers;
         IContractToImplementorsMap _contractToImplementorsMap;
-        ObservableCollection<_Assembly> _assemblies = new ObservableCollection<_Assembly>();
+        ObservableCollection<Assembly> _assemblies = new ObservableCollection<Assembly>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
@@ -69,7 +68,7 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IObservableCollection<_Assembly> GetAll()
+        public IObservableCollection<Assembly> GetAll()
         {
             return _assemblies;
         }
@@ -102,7 +101,7 @@ namespace Bifrost.Execution
             }
         }
 
-        void SpecifyRules(_Assembly assembly)
+        void SpecifyRules(Assembly assembly)
         {
             _assemblySpecifiers.SpecifyUsingSpecifiersFrom(assembly);
         }
@@ -113,7 +112,7 @@ namespace Bifrost.Execution
             assembliesToRemove.ForEach((a) =>_assemblies.Remove(a));
         }
 
-        void AddAssembly(_Assembly assembly)
+        void AddAssembly(Assembly assembly)
         {
             lock (_lockObject)
             {

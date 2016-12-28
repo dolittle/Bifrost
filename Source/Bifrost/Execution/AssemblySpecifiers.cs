@@ -18,7 +18,7 @@
 #endregion
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Reflection;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Extensions;
 
@@ -47,7 +47,7 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public void SpecifyUsingSpecifiersFrom(_Assembly assembly)
+        public void SpecifyUsingSpecifiersFrom(Assembly assembly)
         {
             var assemblySpecifiers = _typeFinder.FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap);
             assemblySpecifiers.Where(type => type.HasDefaultConstructor()).ForEach(type =>

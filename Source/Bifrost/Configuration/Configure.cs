@@ -22,15 +22,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-
-#if(SILVERLIGHT)
-using System.Windows;
-using _Assembly = System.Reflection.Assembly;
-#else
-using System.Runtime.InteropServices;
-#endif
-
-
 #if(NETFX_CORE)
 using Windows.Storage;
 #endif
@@ -295,7 +286,7 @@ namespace Bifrost.Configuration
             callbacks.ForEach(c => c.Configured(this));
         }
 
-        static Type DiscoverCanCreateContainerType(IEnumerable<_Assembly> assemblies)
+        static Type DiscoverCanCreateContainerType(IEnumerable<Assembly> assemblies)
         {
             Type createContainerType = null;
             foreach (var assembly in assemblies.ToArray())

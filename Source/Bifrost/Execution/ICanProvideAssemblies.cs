@@ -17,7 +17,7 @@
 //
 #endregion
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace Bifrost.Execution
 {
@@ -42,6 +42,6 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="assemblyInfo"><see cref="AssemblyInfo"/> for the assembly</param>
         /// <returns>Loaded <see cref="_Assembly"/></returns>
-        _Assembly Get(AssemblyInfo assemblyInfo);
+        Assembly Get(AssemblyInfo assemblyInfo);
     }
 }

@@ -18,11 +18,7 @@
 #endregion
 using System.Collections.Generic;
 using System.Linq;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
+using System.Reflection;
 
 namespace Bifrost.Execution
 {
@@ -33,7 +29,7 @@ namespace Bifrost.Execution
     public class Assemblies : IAssemblies
     {
         IAssemblyProvider _assemblyProvider;
-        IEnumerable<_Assembly> _assemblies;
+        IEnumerable<Assembly> _assemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Assemblies"/>
@@ -45,12 +41,12 @@ namespace Bifrost.Execution
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<_Assembly> GetAll()
+        public IEnumerable<Assembly> GetAll()
         {
             return _assemblies;
         }
 
-        public _Assembly GetWithFullName(string fullName)
+        public Assembly GetWithFullName(string fullName)
         {
             var query = from a in _assemblies
                         where a.FullName == fullName
@@ -60,7 +56,7 @@ namespace Bifrost.Execution
             return assembly;
         }
 
-        public _Assembly GetWithName(string name)
+        public Assembly GetWithName(string name)
         {
             var query = from a in _assemblies
                         where a.FullName.Contains(name)

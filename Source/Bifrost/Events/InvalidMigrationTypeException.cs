@@ -17,7 +17,6 @@
 //
 #endregion
 using System;
-using System.Runtime.Serialization;
 
 namespace Bifrost.Events
 {
@@ -47,16 +46,5 @@ namespace Bifrost.Events
         /// <param name="innerException">Inner Exception</param>
         public InvalidMigrationTypeException(string message, Exception innerException) : base(message,innerException)
         { }
-
-#if(!SILVERLIGHT && !NETFX_CORE)
-        /// <summary>
-        /// Initializes a <see cref="InvalidMigrationTypeException">InvalidMigrationTypeException</see> for serialization
-        /// </summary>
-        /// <param name="serializationInfo">Serialization Info</param>
-        /// <param name="streamingContext">Streaming Context</param>
-        protected InvalidMigrationTypeException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo,streamingContext)
-        {}
-#endif
-    }
+}
 }

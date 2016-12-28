@@ -16,9 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using Bifrost.Commands;
 
 namespace Bifrost.Validation
 {

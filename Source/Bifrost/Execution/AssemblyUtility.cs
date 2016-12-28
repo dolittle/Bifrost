@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
@@ -96,7 +97,7 @@ namespace Bifrost.Execution
             }
         }
 
-        public bool IsAssemblyDynamic(_Assembly assembly)
+        public bool IsAssemblyDynamic(Assembly assembly)
         {
             var module = assembly.GetModules().FirstOrDefault();
             if (module != null && module.GetType().Name == "InternalModuleBuilder") return true;

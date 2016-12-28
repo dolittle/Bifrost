@@ -16,14 +16,8 @@
 // limitations under the License.
 //
 #endregion
-
 using System.Collections.Generic;
 using System.Reflection;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
 
 namespace Bifrost.Execution
 {
@@ -36,20 +30,20 @@ namespace Bifrost.Execution
         /// Gets all assemblies for current application
         /// </summary>
         /// <returns>Array of assemblies</returns>
-        IEnumerable<_Assembly> GetAll();
+        IEnumerable<Assembly> GetAll();
 
         /// <summary>
         /// Gets an assembly for the current application by its fully qualified name 
         /// </summary>
         /// <param name="fullName">Fully qualified name of the assembly</param>
         /// <returns>Instance of the assembly, null if it was not found</returns>
-        _Assembly GetWithFullName(string fullName);
+        Assembly GetWithFullName(string fullName);
 
         /// <summary>
         /// Gets an assembly based upon a friendly name of the assembly
         /// </summary>
         /// <param name="name">Name to get with</param>
         /// <returns>Instance of the assembly, null if it was not found</returns>
-        _Assembly GetWithName(string name);
+        Assembly GetWithName(string name);
     }
 }

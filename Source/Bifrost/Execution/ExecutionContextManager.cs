@@ -16,9 +16,6 @@
 // limitations under the License.
 //
 #endregion
-using System;
-using System.Runtime.Remoting.Messaging;
-using System.Threading;
 
 namespace Bifrost.Execution
 {

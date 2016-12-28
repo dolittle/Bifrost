@@ -16,9 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -46,6 +44,6 @@ namespace Bifrost.Execution
         /// easier. Turns out however that the implementation <see cref="Assembly"/> has pretty much everything
         /// virtual.
         /// </remarks>
-        bool IsAssemblyDynamic(_Assembly assembly);
+        bool IsAssemblyDynamic(Assembly assembly);
     }
 }

@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -53,7 +52,7 @@ namespace Bifrost.Execution
 
         public IEnumerable<AssemblyInfo> AvailableAssemblies { get; private set; }
 
-        public _Assembly Get(AssemblyInfo assemblyInfo)
+        public Assembly Get(AssemblyInfo assemblyInfo)
         {
             return Assembly.LoadFile(assemblyInfo.Path);
         }

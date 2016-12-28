@@ -16,12 +16,7 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Generic;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
+using System.Reflection;
 using Bifrost.Collections;
 
 namespace Bifrost.Execution
@@ -35,6 +30,6 @@ namespace Bifrost.Execution
         /// Get all the <see cref="_Assembly">assemblies</see> that can be provided
         /// </summary>
         /// <returns><see cref="IEnumerable{_Assembly}">Assemblies</see> provided</returns>
-        IObservableCollection<_Assembly> GetAll();
+        IObservableCollection<Assembly> GetAll();
     }
 }
