@@ -18,6 +18,9 @@ title: Welcome to Bifrost
             <span>|</span>
             <a class="github-link" href="../CODE_OF_CONDUCT.md">Code of conduct</a>
         </div>        
+        <div class="buttons-unit-small">
+            <a class="version-link" href="Articles/overview.md">Get an overview of it all</a>
+        </div>
         <br>
         <div class="buttons-unit">
             <a href="Tutorials/getting_started.md" class="button">Getting Started</a>
