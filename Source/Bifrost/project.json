@@ -11,7 +11,9 @@
   "dependencies": {
   },
   "runtimes": {
-    "win": {}
+    "win": {},
+    "osx": {},
+    "ubuntu": {}
   },
   "frameworks": {
     "net461":  {},
