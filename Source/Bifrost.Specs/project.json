@@ -21,14 +21,10 @@
     "dotnet-test-mspec": "*",
     "moq": "4.6.38-alpha"
   },
-  "runtimes": {
-    "win": {},
-    "osx": {},
-    "ubuntu": {}
-  },
   "frameworks": {
-    "net461": {},
-    "netstandard1.6": {}
+    "netcoreapp1.1": {
+      "imports": "dnxcore50"
+    }
   },
   "testRunner": "mspec"
 }
