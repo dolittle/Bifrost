@@ -5,15 +5,9 @@
   },
   "dependencies": {
     "Bifrost": "1.0.0-*",
-    "newtonsoft.json": "9.0.1"
-  },
-  "runtimes": {
-    "win": {},
-    "osx": {},
-    "ubuntu": {}
+    "Newtonsoft.Json": "9.0.1"
   },
   "frameworks": {
-    "net461": {},
     "netstandard1.6": {}
   }
 }
