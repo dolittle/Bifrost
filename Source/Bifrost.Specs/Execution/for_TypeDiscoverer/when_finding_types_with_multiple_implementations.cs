@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer
     {
         static IEnumerable<Type> types_found;
 
-        Establish context = () => type_finder_mock.Setup(t => t.FindMultiple<IMultiple>(contract_to_implementors_map_mock.Object)).Returns(new[] { typeof(FirstMultiple), typeof(SecondMultiple) });
+        Establish context = () => GetMock<ITypeFinder>().Setup(t => t.FindMultiple<IMultiple>(Get<IContractToImplementorsMap>())).Returns(new[] { typeof(FirstMultiple), typeof(SecondMultiple) });
 
         Because of = () => types_found = type_discoverer.FindMultiple<IMultiple>();
 

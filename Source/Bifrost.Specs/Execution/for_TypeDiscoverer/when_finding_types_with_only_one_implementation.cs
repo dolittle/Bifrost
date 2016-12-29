@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Bifrost.Execution;
 using Machine.Specifications;
 
@@ -10,7 +9,7 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer
     {
         static Type typeFound;
 
-        Establish context = () => type_finder_mock.Setup(t => t.FindSingle<ISingle>(contract_to_implementors_map_mock.Object)).Returns(typeof(Single));
+        Establish context = () => GetMock<ITypeFinder>().Setup(t => t.FindSingle<ISingle>(Get<IContractToImplementorsMap>())).Returns(typeof(Single));
 
         Because we_find_single = () => typeFound = type_discoverer.FindSingle<ISingle>();
 

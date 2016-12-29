@@ -338,7 +338,6 @@
     <Compile Include="Execution\for_DefaultConvention\when_resolving_an_interface_with_an_implementation_following_convention_with_a_singleton_attribute.cs" />
     <Compile Include="Execution\for_ExecutionContextDetailsPopulator\when_populating_and_two_populators_exist.cs" />
     <Compile Include="Execution\for_ExecutionContextFactory\when_creating.cs" />
-    <Compile Include="Execution\for_ExecutionContextManager\given\all_dependencies.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\given\an_execution_context_manager.cs" />
     <Compile Include="Execution\for_ExecutionContextManager\when_getting_current_twice.cs" />
     <Compile Include="Execution\for_InstancesOf\IAmAnInterface.cs" />

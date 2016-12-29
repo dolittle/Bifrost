@@ -1,4 +1,5 @@
 ﻿using System;
+using Bifrost.Execution;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Execution.for_BindingConventionManager.given
@@ -8,9 +9,9 @@ namespace Bifrost.Specs.Execution.for_BindingConventionManager.given
         protected static Type service_type;
 
         Establish context = () =>
-                                {
-                                    service_type = typeof (IService);
-                                    type_discoverer_mock.Setup(t => t.GetAll()).Returns(new[] {service_type});
-                                };
+        {
+            service_type = typeof (IService);
+            GetMock<ITypeDiscoverer>().Setup(t => t.GetAll()).Returns(new[] {service_type});
+        };
     }
 }

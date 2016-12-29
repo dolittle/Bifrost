@@ -9,9 +9,9 @@ namespace Bifrost.Specs.Execution.for_TypeFinder
     {
         static Exception exception;
 
-        Establish context = () => contract_to_implementors_map_mock.Setup(c => c.GetImplementorsFor(typeof(IMultiple))).Returns(new[] { typeof(FirstMultiple), typeof(SecondMultiple) });
+        Establish context = () => GetMock<IContractToImplementorsMap>().Setup(c => c.GetImplementorsFor(typeof(IMultiple))).Returns(new[] { typeof(FirstMultiple), typeof(SecondMultiple) });
 
-        Because of = () => exception = Catch.Exception(() => type_finder.FindSingle<IMultiple>(contract_to_implementors_map_mock.Object));
+        Because of = () => exception = Catch.Exception(() => type_finder.FindSingle<IMultiple>(Get<IContractToImplementorsMap>()));
 
         It should_throw_a_multiple_types_found_exception = () => exception.ShouldBeOfExactType<MultipleTypesFoundException>();
     }
