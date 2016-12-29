@@ -19,6 +19,7 @@
     "net461":  {},
     "netstandard1.6": {
       "dependencies": {
+        "NETStandard.Library": "1.6",
         "Microsoft.CSharp": "4.3.0",
         "System.Security.Principal": "4.3.0",
         "System.Dynamic.Runtime": "4.3.0",
@@ -28,7 +29,7 @@
         "System.Threading.Tasks.Parallel": "4.3.0",
         "System.Globalization": "4.3.0",
         "System.Linq.Queryable": "4.3.0",
-        "System.Security.Claims": "4.3.0"
+        "System.Security.Claims": "4.3.0",
       }
     }
   }
