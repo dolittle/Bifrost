@@ -6,7 +6,7 @@ title: Welcome to Bifrost
    <div class="wrap">
         <img src="logo.png">
         <div class="minitext">
-          Solid. Deliver business value. Productivity.
+          Solid. Business value. Productivity.
         </div>
         <br>
         <div class="buttons-unit-small">
