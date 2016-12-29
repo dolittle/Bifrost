@@ -80,6 +80,7 @@ namespace Bifrost.Configuration
 
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
+                //new DefaultAssemblyProvider()
                 //new AppDomainAssemblyProvider(),
                 new FileSystemAssemblyProvider(new FileSystem())
             };
