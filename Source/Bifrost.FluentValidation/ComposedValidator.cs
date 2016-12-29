@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
+using FluentValidation.Validators;
 
 namespace Bifrost.FluentValidation
 {

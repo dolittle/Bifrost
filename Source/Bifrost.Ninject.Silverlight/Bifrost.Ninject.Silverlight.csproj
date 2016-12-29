@@ -74,12 +74,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.Silverlight\Bifrost.Silverlight.csproj">
-      <Project>{1426A0C9-0445-4E65-839B-1B3A1BAECDB7}</Project>
-      <Name>Bifrost.Silverlight</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

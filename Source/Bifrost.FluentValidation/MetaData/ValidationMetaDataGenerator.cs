@@ -102,6 +102,8 @@ namespace Bifrost.FluentValidation.MetaData
                 currentKey = parentKey;
             else
                 currentKey = string.IsNullOrEmpty(parentKey) ? member.Key : string.Format("{0}.{1}", parentKey, member.Key.ToCamelCase());
+
+            if (currentKey.EndsWith(".")) currentKey = currentKey.Substring(0, currentKey.Length - 1);
             return currentKey;
         }
 
@@ -111,11 +113,18 @@ namespace Bifrost.FluentValidation.MetaData
 
             if (genericArguments.Length == 1)
             {
-                var type = isModelRule ? genericArguments[0] : GetPropertyInfo(genericArguments[0], member.Key).PropertyType;
+                // TODO: This is probably needed because of a bug in FluentValidation. 
+                //       At least it seems like that. It seems there is some static cached state. 
+                //       It works fine in isolated tests - but running the whole battery 
+                //       makes this fail if we take out the "Value" name forcing
+                var memberKey = member.Key;
+                if (memberKey == string.Empty) memberKey = "Value";
+
+                var type = isModelRule ? genericArguments[0] : GetPropertyInfo(genericArguments[0], memberKey).PropertyType;
                 isConcept = type.IsConcept();
             }
-
-            var childValidator = (validator as ChildValidatorAdaptor).Validator;
+            var propertyValidatorContext = new PropertyValidatorContext(new ValidationContext(null), null, null);
+            var childValidator = (validator as ChildValidatorAdaptor).GetValidator(propertyValidatorContext);
             GenerateForValidator(childValidator, metaData, currentKey, isConcept, isModelRule);
         }
 

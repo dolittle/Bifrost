@@ -28,7 +28,7 @@ namespace Bifrost.FluentValidation.MetaData
     public class RegexGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(IRegularExpressionValidator) }; } }
+        public Type[] From { get { return new[] { typeof(IRegularExpressionValidator), typeof(RegularExpressionValidator) }; } }
 
         public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {

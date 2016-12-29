@@ -107,16 +107,6 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.JSON.Silverlight\Bifrost.JSON.Silverlight.csproj">
-      <Project>{fe9cd87a-e785-49b7-9bc2-2b76526a2d49}</Project>
-      <Name>Bifrost.JSON.Silverlight</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Silverlight\Bifrost.Silverlight.csproj">
-      <Project>{1426a0c9-0445-4e65-839b-1b3a1baecdb7}</Project>
-      <Name>Bifrost.Silverlight</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Event.png" />
   </ItemGroup>
   <ItemGroup>

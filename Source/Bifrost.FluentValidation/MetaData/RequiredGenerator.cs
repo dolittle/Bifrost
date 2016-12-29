@@ -29,7 +29,7 @@ namespace Bifrost.FluentValidation.MetaData
     public class RequiredGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(INotEmptyValidator) }; } }
+        public Type[] From { get { return new[] { typeof(INotEmptyValidator), typeof(NotEmptyValidator) }; } }
 
         public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {

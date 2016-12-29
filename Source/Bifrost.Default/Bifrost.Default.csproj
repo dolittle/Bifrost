@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -22,6 +22,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,9 +44,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=3.4.6.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\FluentValidation-Signed.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -68,17 +69,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solutions\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    <Reference Include="Ninject, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\Solutions\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -132,36 +129,20 @@
       <Name>Bifrost.FluentValidation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
-      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
+      <Project>{db77eb6a-db79-4839-ab30-90593bce470f}</Project>
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
-      <Project>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</Project>
+      <Project>{3ee03158-1be0-470c-85fb-e673cd5fc9e1}</Project>
       <Name>Bifrost.Ninject</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
-      <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>
+      <Project>{0a748bd3-97dd-4c57-8069-4e36656c0a1a}</Project>
       <Name>Bifrost.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
-      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
+      <Project>{fb310720-cd89-44b6-bd54-7861f65d8466}</Project>
       <Name>Bifrost</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Domain\Bifrost.Mimir.Domain.csproj">
-      <Project>{48AFEFD5-2AC8-472C-95A7-78147B255236}</Project>
-      <Name>Bifrost.Mimir.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Events\Bifrost.Mimir.Events.csproj">
-      <Project>{3E9048BC-11C1-4278-ACBF-2B0DBE7EF9F4}</Project>
-      <Name>Bifrost.Mimir.Events</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Read\Bifrost.Mimir.Read.csproj">
-      <Project>{0527B124-4719-4358-9214-83858E0353DB}</Project>
-      <Name>Bifrost.Mimir.Read</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Mimir.Web\Bifrost.Mimir.Web.csproj">
-      <Project>{94792675-44A2-4DD8-8CF2-1771787A097C}</Project>
-      <Name>Bifrost.Mimir.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

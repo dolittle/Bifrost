@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.FluentValidation.Commands;
+using Bifrost.Validation;
 using Machine.Specifications;
 
 namespace Bifrost.FluentValidation.Specs.Commands.for_ComposedCommandBusinessValidator

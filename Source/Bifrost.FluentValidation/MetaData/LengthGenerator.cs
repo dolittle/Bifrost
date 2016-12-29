@@ -11,7 +11,7 @@ namespace Bifrost.FluentValidation.MetaData
     public class LengthGenerator : ICanGenerateRule
     {
 #pragma warning disable 1591 // Xml Comments
-        public Type[] From { get { return new[] { typeof(ILengthValidator) }; } }
+        public Type[] From { get { return new[] { typeof(ILengthValidator), typeof(LengthValidator) }; } }
 
         public Rule GeneratorFrom(string propertyName, IPropertyValidator propertyValidator)
         {

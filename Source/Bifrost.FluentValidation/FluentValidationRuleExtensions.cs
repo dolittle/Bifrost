@@ -1,5 +1,6 @@
 ﻿using Bifrost.Validation;
 using FluentValidation;
+using FluentValidation.Validators;
 
 namespace Bifrost.FluentValidation
 {
@@ -21,7 +22,7 @@ namespace Bifrost.FluentValidation
 #pragma warning disable 0618
             return ruleBuilder
                 .NotNull()
-                .SetValidator(validator)
+                //.SetValidator(validator)
                 .WithName(name);
 #pragma warning restore 0618
         }

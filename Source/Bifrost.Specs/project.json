@@ -14,21 +14,21 @@
     }
   },
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.1.0"
-    },
     "Bifrost": "1.0.0-*",
     "Bifrost.Testing": "1.0.0-*",
     "Machine.Specifications": "0.11.0",
     "Machine.Specifications.Should": "0.11.0",
     "dotnet-test-mspec": "*",
-    "moq.netcore": "4.4.0-beta8"
+    "moq": "4.6.38-alpha"
+  },
+  "runtimes": {
+    "win": {},
+    "osx": {},
+    "ubuntu": {}
   },
   "frameworks": {
-    "netcoreapp1.1": {
-      "imports": "dnxcore50"
-    }
+    "net461": {},
+    "netstandard1.6": {}
   },
   "testRunner": "mspec"
 }

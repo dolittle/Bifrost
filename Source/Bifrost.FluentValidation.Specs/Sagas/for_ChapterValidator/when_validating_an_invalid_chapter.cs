@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Bifrost.FluentValidation.Sagas;
+using Bifrost.Validation;
 using Machine.Specifications;
 
 namespace Bifrost.FluentValidation.Specs.Sagas.for_ChapterValidator

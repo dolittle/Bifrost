@@ -17,9 +17,9 @@
 //
 #endregion
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Execution;
 using Bifrost.Sagas;
+using Bifrost.Validation;
 
 namespace Bifrost.FluentValidation.Sagas
 {

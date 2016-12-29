@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Bifrost.Commands;
+﻿using Bifrost.Commands;
+using Bifrost.Validation;
 using Machine.Specifications;
 
 namespace Bifrost.Client.Specs.Commands.for_CommandProxyInstance

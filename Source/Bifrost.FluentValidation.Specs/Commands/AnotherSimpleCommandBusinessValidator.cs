@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.FluentValidation.Commands;
+using Bifrost.Validation;
 
 namespace Bifrost.Testing.Fakes.Commands
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Bifrost.Commands;
 using Bifrost.Validation;
 using FluentValidation;
+using FluentValidation.Validators;
 
 namespace Bifrost.FluentValidation.Commands
 {
