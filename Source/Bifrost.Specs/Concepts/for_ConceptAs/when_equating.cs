@@ -12,8 +12,6 @@ namespace Bifrost.Specs.Concepts.for_ConceptAs
         static bool result_of_operator_equality_on_same_reference;
         static bool result_of_equality_on_same_value;
         static bool result_of_operator_equality_on_same_value;
-        static bool result_of_equality_against_null;
-        static bool result_of_operator_equality_against_null;
         static bool result_of_inequality_operator;
         static bool result_of_inequality_operator_on_same_reference;
         static bool result_of_inequality_operator_on_same_value;

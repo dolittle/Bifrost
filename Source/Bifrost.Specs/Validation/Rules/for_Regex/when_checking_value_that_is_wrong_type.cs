@@ -12,7 +12,6 @@ namespace Bifrost.Specs.Validation.Rules.for_Regex
     {
         static Regex rule;
         static Mock<IRuleContext> rule_context_mock;
-        static Exception exception;
 
         Establish context = () => 
         {

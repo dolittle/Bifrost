@@ -12,8 +12,6 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
         static SagaWithOneChapterProperty saga;
         static IChapter chapter;
         static SagaConclusion conclusion;
-        static Exception thrown_exception;
-
         Establish context = () =>
                                 {
                                     chapter = new SimpleChapter();

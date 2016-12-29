@@ -12,8 +12,6 @@ namespace Bifrost.Specs.Validation.Rules.for_GreaterThanOrEqual
     {
         static GreaterThanOrEqual<double> rule;
         static Mock<IRuleContext> rule_context_mock;
-        static Exception exception;
-
         Establish context = () => 
         {
             rule = new GreaterThanOrEqual<double>(null, 42.0);

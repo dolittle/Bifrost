@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
-
 
 namespace Bifrost.Testing.Exceptions
 {
@@ -19,10 +17,5 @@ namespace Bifrost.Testing.Exceptions
             : base(message, inner)
         {
         }
-
-        protected CommandScenarioNotRunException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-    }
+   }
 }

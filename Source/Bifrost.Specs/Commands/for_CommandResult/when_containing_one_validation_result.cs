@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Machine.Specifications;
 using Bifrost.Commands;
-using System.ComponentModel.DataAnnotations;
+using Bifrost.Validation;
 
 namespace Bifrost.Specs.Commands.for_CommandResult
 {
@@ -19,9 +19,9 @@ namespace Bifrost.Specs.Commands.for_CommandResult
         It should_not_be_valid = () => result.Invalid.ShouldBeTrue();
         It should_not_be_successful = () => result.Success.ShouldBeFalse();
         It should_have_only_the_command_validation_message_in_all_validation_errors = () =>
-                                                                                                                                                    {
-                                                                                                                                                        result.AllValidationMessages.Count().ShouldEqual(1);
-                                                                                                                                                        result.AllValidationMessages.First().ShouldEqual(error_message);
-                                                                                                                                                    };
+                                                                                                {
+                                                                                                    result.AllValidationMessages.Count().ShouldEqual(1);
+                                                                                                    result.AllValidationMessages.First().ShouldEqual(error_message);
+                                                                                                };
     }
 }

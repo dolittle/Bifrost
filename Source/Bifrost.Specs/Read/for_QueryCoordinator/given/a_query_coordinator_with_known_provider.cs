@@ -9,7 +9,6 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator.given
     public class a_query_coordinator_with_known_provider : a_query_coordinator
     {
         protected static Mock<IQueryProviderFor<QueryType>> query_provider_mock;
-        protected static QueryCoordinator coordinator;
         protected static Type provider_type;
 
         Establish context = () =>

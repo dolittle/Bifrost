@@ -14,7 +14,6 @@ namespace Bifrost.Specs.Validation.Rules.for_Required
     {
         static Required rule;
         static Mock<IRuleContext> rule_context_mock;
-        static Exception exception;
 
         Establish context = () =>
         {

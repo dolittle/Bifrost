@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Threading;
 using Bifrost.Security;
 using Machine.Specifications;
 
@@ -15,7 +14,7 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
 
         Establish context = () =>
         {
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(""), new string[0]);
+            GenericPrincipal.ClaimsPrincipalSelector = () =>  new GenericPrincipal(new GenericIdentity(""), new string[0]);
         };
 
         Because of = () =>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using Bifrost.Commands;
 using Machine.Specifications;
 using It = Machine.Specifications.It;

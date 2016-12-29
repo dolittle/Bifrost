@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Bifrost.Commands;
+using Bifrost.Validation;
 using Machine.Specifications;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bifrost.Specs.Commands.for_CommandResult
 {
@@ -22,9 +22,9 @@ namespace Bifrost.Specs.Commands.for_CommandResult
         It should_not_be_valid = () => result.Invalid.ShouldBeTrue();
         It should_not_be_successful = () => result.Success.ShouldBeFalse();
         It should_have_only_the_validation_result_in_all_validation_errors = () =>
-                                                                                                                            {
-                                                                                                                                result.AllValidationMessages.Count().ShouldEqual(1);
-                                                                                                                                result.AllValidationMessages.First().ShouldEqual(error_message);
-                                                                                                                            };
+                                                                                    {
+                                                                                        result.AllValidationMessages.Count().ShouldEqual(1);
+                                                                                        result.AllValidationMessages.First().ShouldEqual(error_message);
+                                                                                    };
     }
 }

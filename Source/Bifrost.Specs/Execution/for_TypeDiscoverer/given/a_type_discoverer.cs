@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
@@ -11,7 +9,7 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer.given
     public class a_type_discoverer
     {
         protected static TypeDiscoverer type_discoverer;
-        protected static Mock<_Assembly> assembly_mock;
+        protected static Mock<Assembly> assembly_mock;
         protected static Type[] types;
 
         protected static Mock<IAssemblies> assemblies_mock;
@@ -28,7 +26,7 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer.given
                                         typeof(SecondMultiple)
                                     };
 
-                                    assembly_mock = new Mock<_Assembly>();
+                                    assembly_mock = new Mock<Assembly>();
                                     assembly_mock.Setup(a => a.GetTypes()).Returns(types);
                                     assembly_mock.Setup(a => a.FullName).Returns("A.Full.Name");
 

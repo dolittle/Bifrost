@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationManager.given
         protected static Mock<IContainer> container_mock;
         protected static EventMigratorManager event_migrator_manager;
 
-        protected Establish context = () =>
+        Establish context = () =>
                                 {
                                     event_source_id = Guid.NewGuid();
                                     source_event = new SimpleEvent(event_source_id);

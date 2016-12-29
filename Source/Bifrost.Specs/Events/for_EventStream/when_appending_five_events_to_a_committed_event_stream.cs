@@ -8,9 +8,9 @@ namespace Bifrost.Specs.Events.for_EventStream
 {
     public class when_appending_five_events_to_a_committed_event_stream : given.an_empty_committed_event_stream
     {
-        private static List<IEvent> Events;
+        static List<IEvent> Events;
 
-        private Establish context =
+        Establish context =
             () =>
                 {
                     Events = new List<IEvent>();
@@ -22,9 +22,11 @@ namespace Bifrost.Specs.Events.for_EventStream
                     } 
                 };
 
-        private Because of = () => EventStream.Append(Events);
+        Because of = () => EventStream.Append(Events);
 
-        private Behaves_like<an_event_stream_with_five_events_appended> an_event_stream;
+#pragma warning disable 0169
+        Behaves_like<an_event_stream_with_five_events_appended> an_event_stream;
+#pragma warning restore 0169        
 
     }
 }

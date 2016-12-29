@@ -25,7 +25,7 @@ namespace Bifrost.Specs.Execution.for_ExecutionContextFactory
 
         Establish context = () => 
         {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("nb-NO");
+            CultureInfo.CurrentCulture = new CultureInfo("nb-NO");
 
             principal = new GenericPrincipal(new GenericIdentity("Hello"),new string[0]);
             identity_resolver_mock = new Mock<ICanResolvePrincipal>();
@@ -48,7 +48,7 @@ namespace Bifrost.Specs.Execution.for_ExecutionContextFactory
         It should_create_an_instance = () => instance.ShouldNotBeNull();
         It should_create_with_the_resolved_identity = () => instance.Principal.ShouldEqual(principal);
         It should_populate_details = () => details_populator_mock.Verify(d => d.Populate(instance, Moq.It.IsAny<DynamicObject>()), Times.Once());
-        It should_be_initialized_with_the_current_threads_culture = () => instance.Culture.ShouldEqual(Thread.CurrentThread.CurrentCulture);
+        It should_be_initialized_with_the_current_threads_culture = () => instance.Culture.ShouldEqual(CultureInfo.CurrentCulture);
         It should_be_initialized_with_the_configured_system_name = () => instance.System.ShouldEqual("Something");
         It should_be_initialized_with_the_current_tenant = () => instance.Tenant.ShouldEqual(tenant_mock.Object);
     }

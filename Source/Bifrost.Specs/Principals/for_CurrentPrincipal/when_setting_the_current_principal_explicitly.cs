@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using Bifrost.Principal;
 using Bifrost.Time;
 using Machine.Specifications;
 

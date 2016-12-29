@@ -1,5 +1,6 @@
 using System;
 using Bifrost.Sagas;
+using Bifrost.Extensions;
 
 namespace Bifrost.Testing.Fakes.Sagas
 {
@@ -17,7 +18,7 @@ namespace Bifrost.Testing.Fakes.Sagas
 
         public SagaWithOneChapterProperty(params IChapter[] chapters)
         {
-            Array.ForEach(chapters, AddChapter);
+            chapters.ForEach(AddChapter);
         }
 
         public override void OnBegin()

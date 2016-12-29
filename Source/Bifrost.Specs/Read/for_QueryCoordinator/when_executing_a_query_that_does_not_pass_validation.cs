@@ -10,7 +10,6 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
         static QueryForKnownProvider query;
         static PagingInfo paging;
         static QueryResult result;
-        static QueryValidationResult validation_result;
 
         Establish context = () =>
         {

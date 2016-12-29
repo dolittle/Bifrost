@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Globalization;
@@ -32,7 +33,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
             expected_subscription = new EventSubscription 
             {
                 Owner = typeof(SomeEventSubscriber),
-                Method = typeof(SomeEventSubscriber).GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { typeof(SomeEvent) }),
+                Method = typeof(SomeEventSubscriber).GetTypeInfo().GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { typeof(SomeEvent) }),
                 EventType = typeof(SomeEvent),
                 EventName = typeof(SomeEvent).Name
             };

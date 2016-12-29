@@ -1,5 +1,4 @@
 ﻿using System.Security.Principal;
-using System.Threading;
 using Bifrost.Security;
 using Machine.Specifications;
 
@@ -12,7 +11,7 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
 
         Establish context = () =>
             {
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(""), new[] { Testing.Fakes.Security.SecurityDescriptor.NAMESPACE_ROLE });
+                GenericPrincipal.ClaimsPrincipalSelector = () => new GenericPrincipal(new GenericIdentity(""), new[] { Testing.Fakes.Security.SecurityDescriptor.NAMESPACE_ROLE });
             };
 
         Because of = () => authorize_descriptor_result = security_descriptor.Authorize(command_that_has_namespace_rule);

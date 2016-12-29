@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
-using Bifrost.Time;
 using Bifrost.Globalization;
 
 namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
@@ -37,7 +37,7 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager.given
                 EventType = event_type,
                 EventName = event_type.Name,
                 Owner = event_subscriber_type,
-                Method = event_subscriber_type.GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { event_type }),
+                Method = event_subscriber_type.GetTypeInfo().GetMethod(ProcessMethodInvoker.ProcessMethodName, new[] { event_type }),
                 LastEventId = 0
             };
             event_subscriptions_mock.Setup(e => e.GetAll()).Returns(new[] { subscription });

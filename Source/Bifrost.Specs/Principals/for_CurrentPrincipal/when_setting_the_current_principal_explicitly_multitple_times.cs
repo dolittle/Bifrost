@@ -39,7 +39,7 @@ namespace Bifrost.Specs.Principals.for_CurrentPrincipal
                              current_principal_after_first_explicit_set_removed = Principal.CurrentPrincipal.Get();
                          };
 
-        It should_return_the_actual_principal_before_being_set = () => current_principal_before_explicit_set.ShouldEqual(Thread.CurrentPrincipal);
+        It should_return_the_actual_principal_before_being_set = () => current_principal_before_explicit_set.ShouldEqual(GenericPrincipal.Current);
         It should_return_the_explicitly_set_principal_for_the_correct_scope_on_each_request = () =>
                                                                                                     {
                                                                                                         current_principal_after_first_explicit_set.ShouldEqual(first_explicitly_set_principal);
@@ -51,7 +51,7 @@ namespace Bifrost.Specs.Principals.for_CurrentPrincipal
                                                                                                      current_principal_after_third_explicit_set_removed.ShouldEqual(second_explicitly_set_principal);
                                                                                                      current_principal_after_second_explicit_set_removed.ShouldEqual(first_explicitly_set_principal);
                                                                                                  };
-        It should_revert_to_the_current_thread_principal_when_all_scopes_have_exited = () => current_principal_after_first_explicit_set_removed.ShouldEqual(Thread.CurrentPrincipal);
+        It should_revert_to_the_current_thread_principal_when_all_scopes_have_exited = () => current_principal_after_first_explicit_set_removed.ShouldEqual(GenericPrincipal.Current);
 
     }
 }

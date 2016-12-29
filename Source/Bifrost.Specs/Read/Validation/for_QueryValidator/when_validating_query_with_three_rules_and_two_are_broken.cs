@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Read.Validation;
 using Bifrost.Rules;
 using Bifrost.Validation;
@@ -28,7 +29,7 @@ namespace Bifrost.Specs.Read.Validation.for_QueryValidator
         Establish context = () =>
         {
             query = new SomeQuery();
-            var property = typeof(SomeQuery).GetProperty("SomeArgument");
+            var property = typeof(SomeQuery).GetTypeInfo().GetProperty("SomeArgument");
 
             first_rule_broken = new Mock<IValueRule>();
             first_rule_broken.SetupGet(r => r.Property).Returns(property);

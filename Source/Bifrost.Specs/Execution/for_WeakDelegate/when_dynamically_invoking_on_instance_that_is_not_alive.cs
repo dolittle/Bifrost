@@ -22,7 +22,7 @@ namespace Bifrost.Specs.Execution.for_WeakDelegate
         {
             weak_delegate = setup();
             GC.Collect(0, GCCollectionMode.Forced, true);
-            GC.WaitForFullGCComplete();
+            GC.WaitForPendingFinalizers();
         };
 
         Because of = () => exception = Catch.Exception(() => weak_delegate.DynamicInvoke("Something", 42.42));

@@ -1,7 +1,5 @@
-﻿using System;
-using Bifrost.Read;
+﻿using Bifrost.Read;
 using Machine.Specifications;
-using Moq;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Read.for_QueryCoordinator

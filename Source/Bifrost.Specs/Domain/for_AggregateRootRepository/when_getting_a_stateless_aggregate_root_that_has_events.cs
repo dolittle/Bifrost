@@ -11,7 +11,6 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         static Guid aggregated_root_id = Guid.NewGuid();
         static Guid event_id = Guid.NewGuid();
         static SimpleStatelessAggregateRoot stateless_aggregated_root;
-        static CommittedEventStream event_stream;
         static EventSourceVersion expected_version;
         static EventSourceVersion version_of_last_event;
 

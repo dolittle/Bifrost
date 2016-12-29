@@ -11,9 +11,7 @@ namespace Bifrost.Specs.Time.for_SystemClock
         static readonly DateTime explicitly_set_datetime = new DateTime(2010, 1, 1);
         static DateTime current_time_before_explicit_set;
         static DateTime current_time;
-        static DateTime current_utc_time;
         static DateTime current_time_after_wait;
-        static DateTime current_utc_time_after_wait;
         static DateTime current_time_after_explicit_set_removed;
 
         Because of = () =>

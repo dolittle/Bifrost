@@ -6,7 +6,6 @@ namespace Bifrost.Specs.Concepts.for_Value
     {
         static int first_hashcode;
         static int second_hashcode;
-        static string serialized;
 
         Because of = () =>
             {

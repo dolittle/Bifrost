@@ -2,7 +2,6 @@
 using System.Linq;
 using Bifrost.Validation;
 using Machine.Specifications;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bifrost.Specs.Commands.for_CommandValidators.given
 {

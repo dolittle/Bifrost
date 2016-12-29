@@ -18,7 +18,10 @@ namespace Bifrost.Specs.Events.for_EventStream
 
         Because of = () => EventStream.Append(new List<IEvent>() { Event });
 
+#pragma warning disable 0169
         Behaves_like<an_event_stream_with_one_event_appended> an_event_stream;
+#pragma warning restore 0169
+        
 
     }
 }

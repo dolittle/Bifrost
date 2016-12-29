@@ -11,7 +11,6 @@ namespace Bifrost.Specs.Validation.Rules.for_NotNull
     {
         static NotNull rule;
         static Mock<IRuleContext> rule_context_mock;
-        static Exception exception;
 
         Establish context = () =>
         {
