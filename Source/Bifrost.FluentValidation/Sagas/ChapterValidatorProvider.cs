@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Sagas;
 using Bifrost.Extensions;
@@ -92,18 +93,18 @@ namespace Bifrost.FluentValidation.Sagas
         {
             var chapterType = GetChapterType(typeToRegister);
 
-            if (chapterType == null || chapterType.IsInterface)
+            if (chapterType == null || chapterType.GetTypeInfo().IsInterface)
                 return;
             _validators.Add(chapterType, typeToRegister);
         }
 
         Type GetChapterType(Type typeToRegister)
         {
-            var types = from interfaceType in typeToRegister.GetInterfaces()
-                        where interfaceType.IsGenericType
-                        let baseInterface = interfaceType.GetGenericTypeDefinition()
+            var types = from interfaceType in typeToRegister.GetTypeInfo().GetInterfaces()
+                        where interfaceType.GetTypeInfo().IsGenericType
+                        let baseInterface = interfaceType.GetTypeInfo().GetGenericTypeDefinition()
                         where baseInterface == _validatesType
-                        select interfaceType.GetGenericArguments().FirstOrDefault();
+                        select interfaceType.GetTypeInfo().GetGenericArguments().FirstOrDefault();
 
             return types.FirstOrDefault();
         }

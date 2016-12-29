@@ -43,7 +43,7 @@ namespace Bifrost.FluentValidation
 
         static ModelRule()
         {
-            InternalProperty = typeof(ModelRule<T>).GetProperty(ModelRulePropertyName);
+            InternalProperty = typeof(ModelRule<T>).GetTypeInfo().GetProperty(ModelRulePropertyName);
         }
 
         /// <summary>

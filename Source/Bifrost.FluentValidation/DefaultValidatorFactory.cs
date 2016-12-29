@@ -19,11 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.FluentValidation.Sagas;
-using Bifrost.Validation;
 using FluentValidation;
 
 namespace Bifrost.FluentValidation
@@ -73,11 +73,11 @@ namespace Bifrost.FluentValidation
                 t =>
                     !t.HasInterface<ICommandInputValidator>() &&
                     !t.HasInterface<ICommandBusinessValidator>() &&
-                    !t.BaseType.Name.Equals(typeof(ChapterValidator<>).Name)
+                    !t.GetTypeInfo().BaseType.Name.Equals(typeof(ChapterValidator<>).Name)
                     );
             foreach (var validatorType in validatorTypes)
             {
-                var genericArguments = validatorType.BaseType.GetGenericArguments();
+                var genericArguments = validatorType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments();
                 if (genericArguments.Length == 1)
                 {
                     var targetType = genericArguments[0];

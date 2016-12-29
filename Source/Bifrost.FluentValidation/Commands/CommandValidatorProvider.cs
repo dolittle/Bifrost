@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -78,7 +79,7 @@ namespace Bifrost.FluentValidation.Commands
 
         public ICommandBusinessValidator GetBusinessValidatorFor(Type commandType)
         {
-            if (!typeof (ICommand).IsAssignableFrom(commandType))
+            if (!typeof (ICommand).GetTypeInfo().IsAssignableFrom(commandType))
                 return _nullCommandBusinessValidator;
 
             Type registeredBusinessValidatorType;
@@ -94,7 +95,7 @@ namespace Bifrost.FluentValidation.Commands
 
         public ICommandInputValidator GetInputValidatorFor(Type commandType)
         {
-            if (!typeof(ICommand).IsAssignableFrom(commandType))
+            if (!typeof(ICommand).GetTypeInfo().IsAssignableFrom(commandType))
                 return _nullCommandInputValidator;
 
             Type registeredInputValidatorType;
@@ -122,7 +123,7 @@ namespace Bifrost.FluentValidation.Commands
 
         IEnumerable<Type> GetTypesFromCommand(Type commandType)
         {
-            var commandPropertyTypes = commandType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+            var commandPropertyTypes = commandType.GetTypeInfo().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
                                             .Where(p => !p.PropertyType.IsAPrimitiveType()).Select(p => p.PropertyType).Distinct();
             return commandPropertyTypes;
         }
@@ -207,7 +208,7 @@ namespace Bifrost.FluentValidation.Commands
             var commandType = GetCommandType(typeToRegister);
 
             if (commandType == null || 
-                commandType.IsInterface ||
+                commandType.GetTypeInfo().IsInterface ||
                 validatorRegistry.ContainsKey(commandType))
                 return;
 
@@ -218,7 +219,7 @@ namespace Bifrost.FluentValidation.Commands
         {
             var validatedType = GetValidatedType(typeToRegister);
 
-            if (validatedType == null || validatedType.IsInterface || validatedType.IsAPrimitiveType())
+            if (validatedType == null || validatedType.GetTypeInfo().IsInterface || validatedType.IsAPrimitiveType())
                 return;
 
             if (validatorRegistry.ContainsKey(validatedType))
@@ -233,13 +234,13 @@ namespace Bifrost.FluentValidation.Commands
 
         Type GetCommandType(Type typeToRegister)
         {
-            var types = from interfaceType in typeToRegister
+            var types = from interfaceType in typeToRegister.GetTypeInfo()
                                     .GetInterfaces()
-                        where interfaceType
+                        where interfaceType.GetTypeInfo()
                                     .IsGenericType
                         let baseInterface = interfaceType.GetGenericTypeDefinition()
                         where baseInterface == _validatesType
-                        select interfaceType
+                        select interfaceType.GetTypeInfo()
                                     .GetGenericArguments()
                             .FirstOrDefault();
 
@@ -255,9 +256,9 @@ namespace Bifrost.FluentValidation.Commands
 
         Type GetGenericParameterType(Type typeToQuery, Type genericInterfaceType)
         {
-            return (from @interface in typeToQuery.GetInterfaces() 
-                    where @interface.IsGenericType && @interface.GetGenericTypeDefinition() == genericInterfaceType 
-                    select @interface.GetGenericArguments()[0]).FirstOrDefault();
+            return (from @interface in typeToQuery.GetTypeInfo().GetInterfaces() 
+                    where @interface.GetTypeInfo().IsGenericType && @interface.GetTypeInfo().GetGenericTypeDefinition() == genericInterfaceType 
+                    select @interface.GetTypeInfo().GetGenericArguments()[0]).FirstOrDefault();
         }
     }
 }

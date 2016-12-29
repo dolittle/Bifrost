@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Reflection;
 using Bifrost.Execution;
 using FluentValidation;
 
@@ -42,7 +43,7 @@ namespace Bifrost.FluentValidation
         {
             var type = typeof(T);
             var validatorTypeName = string.Format("{0}Validator", type.Name);
-            var validatorType = type.Assembly.GetType(validatorTypeName);
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
             var validator = _container.Get(validatorType) as IValidator<T>;
             return validator;
         }
@@ -50,7 +51,7 @@ namespace Bifrost.FluentValidation
         public IValidator GetValidator(Type type)
         {
             var validatorTypeName = string.Format("{0}.{1}Validator", type.Namespace, type.Name);
-            var validatorType = type.Assembly.GetType(validatorTypeName);
+            var validatorType = type.GetTypeInfo().Assembly.GetType(validatorTypeName);
             if (null != validatorType)
             {
                 var validator = _container.Get(validatorType) as IValidator;

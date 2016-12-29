@@ -75,7 +75,7 @@ namespace Bifrost.FluentValidation
             if (modelType == targetType)
                 return model;
 
-            var properties = modelType.GetProperties();
+            var properties = modelType.GetTypeInfo().GetProperties();
             foreach (var property in properties)
             {
                 var propertyValue = property.GetValue(model, null);

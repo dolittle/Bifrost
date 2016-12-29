@@ -86,12 +86,12 @@ namespace Bifrost.FluentValidation
 
         static bool IsModelRule(MemberInfo memberInfo)
         {
-            return memberInfo.ReflectedType.IsModelRuleProperty() || memberInfo.DeclaringType.IsModelRuleProperty();
+            return memberInfo.DeclaringType.IsModelRuleProperty();
         }
 
         static bool IsConcept(MemberInfo memberInfo)
         {
-            return memberInfo.ReflectedType.IsConcept() || memberInfo.DeclaringType.IsConcept();
+            return memberInfo.DeclaringType.IsConcept();
         }
     }
 }

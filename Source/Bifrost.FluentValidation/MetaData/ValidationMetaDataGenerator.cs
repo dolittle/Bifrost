@@ -65,7 +65,7 @@ namespace Bifrost.FluentValidation.MetaData
         void GenerateForValidator(IValidator inputValidator, TypeMetaData metaData, string parentKey, bool isParentConcept = false, bool isParentModelRule = false)
         {
             var inputValidatorType = inputValidator.GetType();
-            var genericArguments = inputValidatorType.BaseType.GetGenericArguments();
+            var genericArguments = inputValidatorType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments();
 
             var descriptor = inputValidator.CreateDescriptor();
             var members = descriptor.GetMembersWithValidators();
@@ -133,7 +133,7 @@ namespace Bifrost.FluentValidation.MetaData
             var validatorType = validator.GetType();
             var types = new List<Type>();
             types.Add(validatorType);
-            types.AddRange(validatorType.GetInterfaces());
+            types.AddRange(validatorType.GetTypeInfo().GetInterfaces());
             foreach (var type in types)
             {
                 if (_generatorsByType.ContainsKey(type))
@@ -157,7 +157,7 @@ namespace Bifrost.FluentValidation.MetaData
 
         PropertyInfo GetPropertyInfo(Type type, string name)
         {
-            return type.GetProperty(name);
+            return type.GetTypeInfo().GetProperty(name);
         }
     }
 }

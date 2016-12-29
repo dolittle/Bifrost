@@ -24,7 +24,7 @@ namespace Bifrost.FluentValidation
         public static IEnumerable<ValidationResult> ValidateFor(this ICanValidate validator, object target, string ruleSet, bool includeDefaultRuleset = true)
         {
             var rulesets = includeDefaultRuleset ? "default," + ruleSet : ruleSet;
-            var method = validator.GetType().GetMethods().First(m => m.Name == "ValidateFor" && m.GetParameters().Count() == 2);
+            var method = validator.GetType().GetTypeInfo().GetMethods().First(m => m.Name == "ValidateFor" && m.GetParameters().Count() == 2);
             //var genericMethod = method.MakeGenericMethod(target.GetType());
             return (IEnumerable<ValidationResult>)method.Invoke(validator, new[] { target, rulesets });
         }

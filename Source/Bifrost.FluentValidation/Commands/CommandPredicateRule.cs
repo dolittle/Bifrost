@@ -35,7 +35,7 @@ namespace Bifrost.FluentValidation.Commands
     public class CommandPredicateRule<T> : PropertyRule
         where T:ICommand
     {
-        static MemberInfo IdProperty = typeof(ICommand).GetProperty("Id");
+        static MemberInfo IdProperty = typeof(ICommand).GetTypeInfo().GetProperty("Id");
         static Func<object, object> IdFunc;
         static Expression<Func<ICommand, Guid>> IdFuncExpression;
 

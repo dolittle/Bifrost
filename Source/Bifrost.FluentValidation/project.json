@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "Bifrost": "1.0.0-*",
+    "FluentValidation": "6.4.0-beta9"
+  },
+  "frameworks": {
+    "netstandard1.6": {}
+  }
+}
