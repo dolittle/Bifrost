@@ -131,30 +131,21 @@ namespace Bifrost.Events
 
         static Type GetMigrationFromType(Type migrationType)
         {
-            var types = from interfaceType in migrationType
-                                    .GetTypeInfo().ImplementedInterfaces
-                        where interfaceType
-                                    .GetTypeInfo().IsGenericType
-                        let baseInterface = interfaceType.GetGenericTypeDefinition()
-                        where baseInterface == typeof(IAmNextGenerationOf<>)
-                        select interfaceType
-                                    .GetTypeInfo().GenericTypeParameters
-                            .First();
+            var @interface = migrationType.GetTypeInfo().ImplementedInterfaces.Where(i => 
+                i.GetTypeInfo().IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(IAmNextGenerationOf<>)
+            ).Last();
 
-            return types.Last();
+            var type = @interface.GetTypeInfo().GenericTypeArguments.First();
+            return type;
         }
 
         static bool ImplementsMigrationInterface(Type migrationType)
         {
-            var types = from interfaceType in migrationType
-                                    .GetTypeInfo().ImplementedInterfaces
-                        where interfaceType
-                                    .GetTypeInfo().IsGenericType
-                        let baseInterface = interfaceType.GetGenericTypeDefinition()
-                        where baseInterface == typeof(IAmNextGenerationOf<>)
-                        select interfaceType;
-
-            return types.FirstOrDefault() != null;
+            return migrationType.GetTypeInfo().ImplementedInterfaces.Where(i => 
+                i.GetTypeInfo().IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(IAmNextGenerationOf<>)
+            ).FirstOrDefault() != null;
         }
 
         static void ThrowInvalidMigrationTypeException(Type expected, Type actual, Exception innerException)

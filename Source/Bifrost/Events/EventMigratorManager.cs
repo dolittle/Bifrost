@@ -34,9 +34,9 @@ namespace Bifrost.Events
     [Singleton]
     public class EventMigratorManager : IEventMigratorManager
     {
-        private readonly ITypeDiscoverer _typeDiscoverer;
+        readonly ITypeDiscoverer _typeDiscoverer;
         readonly IContainer _container;
-        private readonly Dictionary<Type, Type> _migratorTypes;
+        readonly Dictionary<Type, Type> _migratorTypes;
 
         /// <summary>
         /// Initializes an instance of <see cref="EventMigratorManager">EventMigratorManager</see>
@@ -77,7 +77,7 @@ namespace Bifrost.Events
             _migratorTypes.Add(sourceType, migratorType);
         }
 
-        private void Initialize()
+        void Initialize()
         {
             var migratorTypes = _typeDiscoverer.FindMultiple(typeof(IEventMigrator<,>));
             foreach (var migrator in migratorTypes)
@@ -86,19 +86,15 @@ namespace Bifrost.Events
             }
         }
 
-        private static Type GetSourceType(Type migratorType)
+        static Type GetSourceType(Type migratorType)
         {
-            var types = from interfaceType in migratorType
-                                    .GetTypeInfo().ImplementedInterfaces
-                         where interfaceType
-                                    .GetTypeInfo().IsGenericType
-                         let baseInterface = interfaceType.GetGenericTypeDefinition()
-                         where baseInterface == typeof(IEventMigrator<,>)
-                         select interfaceType
-                            .GetTypeInfo().GenericTypeParameters
-                            .First();
+            var @interface = migratorType.GetTypeInfo().ImplementedInterfaces.Where(i => 
+                i.GetTypeInfo().IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(IEventMigrator<,>)
+            ).First();
 
-            return types.First();
+            var type = @interface.GetTypeInfo().GenericTypeArguments.First();
+            return type;
         }
 
     }

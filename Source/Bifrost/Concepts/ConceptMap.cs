@@ -41,9 +41,21 @@ namespace Bifrost.Concepts
 
         static Type GetPrimitiveType(Type type)
         {
-            throw new NotImplementedException();
-            //var typeProperty = type.GetTypeInfo().GetRuntimeProperty("UnderlyingType");
-            //return typeProperty != null ? (Type) typeProperty.GetValue(null) : null;
+            var conceptType = type;
+            for(;;) 
+            {
+                if( conceptType == typeof(ConceptAs<>) ) break;
+                var typeProperty = conceptType.GetTypeInfo().GetProperty("UnderlyingType");
+                if( typeProperty != null ) {
+                    var underlyingType = (Type) typeProperty.GetValue(null);
+                    return underlyingType;
+                }
+                if( conceptType == typeof(object)) break;
+
+                conceptType = conceptType.GetTypeInfo().BaseType;
+            }
+
+            return null;
         }
     }
 }

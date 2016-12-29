@@ -46,7 +46,7 @@ namespace Bifrost.Events
                                                                    return typeof(IEvent).GetTypeInfo().IsAssignableFrom(parameters.Single().ParameterType.GetTypeInfo());
                                                                };
 
-                var methods = eventSourceType.GetTypeInfo().DeclaredMethods.Where(m => m.Name.Equals("Handle") && hasEventParameter(m));
+                var methods = eventSourceType.GetTypeInfo().GetMethods(BindingFlags.NonPublic|BindingFlags.Instance).Where(m => m.Name.Equals("On") && hasEventParameter(m));
                 foreach (var method in methods)
                     MethodsPerEventType[method.GetParameters()[0].ParameterType] = method;
             }

@@ -34,8 +34,8 @@ namespace Bifrost.Events
     [Singleton]
     public class EventMigrationHierarchyManager : IEventMigrationHierarchyManager
     {
-        private readonly IEventMigrationHierarchyDiscoverer _eventMigrationHierarchyDiscoverer;
-        private readonly IEnumerable<EventMigrationHierarchy> _hierarchies;
+        readonly IEventMigrationHierarchyDiscoverer _eventMigrationHierarchyDiscoverer;
+        readonly IEnumerable<EventMigrationHierarchy> _hierarchies;
 
         /// <summary>
         /// Initializes an instance of <see cref="EventMigrationHierarchyManager">EventMigrationHierarchyManager</see>
@@ -96,10 +96,9 @@ namespace Bifrost.Events
 
             return hierarchy.LogicalEvent;
         }
-
 #pragma warning restore 1591 // Xml Comments
 
-        private EventMigrationHierarchy GetHierarchyForLogicalType(Type logicalEvent)
+        EventMigrationHierarchy GetHierarchyForLogicalType(Type logicalEvent)
         {
             var hierarchy = _hierarchies.Where(hal => hal.LogicalEvent == logicalEvent).FirstOrDefault();
 

@@ -100,30 +100,6 @@ namespace Bifrost.Concepts
             return true;
         }
 
-        IEnumerable<FieldInfo> GetFields()
-        {
-            if (!_fields.Any())
-                 _fields = new List<FieldInfo>(BuildFieldCollection());
-            return _fields;
-        }
-
-        IEnumerable<FieldInfo> BuildFieldCollection()
-        {
-            var t = typeof(T);
-            var fields = new List<FieldInfo>();
-
-            while (t != typeof(object))
-            {
-                var typeInfo = t.GetTypeInfo();
-                
-                fields.AddRange(typeInfo.DeclaredFields.Where(f=>f.IsPublic&&f.IsPrivate&&!f.IsStatic));
-                var fieldInfoCache = typeInfo.DeclaredFields.Single(f => f.Name == "_fields");
-                fields.Remove(fieldInfoCache);
-                t = typeInfo.BaseType;
-            }
-            return fields;
-        }
-
         /// <summary>
         /// Equates two objects to check that they are equal
         /// </summary>
@@ -162,7 +138,31 @@ namespace Bifrost.Concepts
             return sb.ToString();
         }
 
-        static string RemoveBackingAutoBackingFieldPropertyName(string fieldName)
+        IEnumerable<FieldInfo> GetFields()
+        {
+            if (!_fields.Any())
+                 _fields = new List<FieldInfo>(BuildFieldCollection());
+            return _fields;
+        }
+
+        IEnumerable<FieldInfo> BuildFieldCollection()
+        {
+            var t = typeof(T);
+            var fields = new List<FieldInfo>();
+
+            while (t != typeof(object))
+            {
+                var typeInfo = t.GetTypeInfo();
+                
+                fields.AddRange(typeInfo.GetFields(BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance));
+                var fieldInfoCache = typeInfo.GetField("_fields");
+                fields.Remove(fieldInfoCache);
+                t = typeInfo.BaseType;
+            }
+            return fields;
+        }
+
+        string RemoveBackingAutoBackingFieldPropertyName(string fieldName)
         {
             var field = fieldName.TrimStart('<');
             return field.Replace(@">k__BackingField", String.Empty);
