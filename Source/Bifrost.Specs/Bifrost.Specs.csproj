@@ -834,7 +834,6 @@
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

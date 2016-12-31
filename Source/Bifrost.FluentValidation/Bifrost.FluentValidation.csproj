@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Bifrost.FluentValidation.nuspec" />
-    <None Include="packages.config" />
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

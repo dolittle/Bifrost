@@ -157,9 +157,6 @@
     <Compile Include="Sagas\SimpleChapterValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
       <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
       <Name>Bifrost.FluentValidation</Name>
@@ -173,7 +170,9 @@
       <Name>Bifrost</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="project.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
