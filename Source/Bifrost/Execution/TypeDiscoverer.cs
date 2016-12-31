@@ -87,10 +87,6 @@ namespace Bifrost.Execution
         void CollectTypes()
         {
             var assemblies = _assemblies.GetAll();
-#if(SILVERLIGHT)
-            foreach (var assembly in assemblies)
-                _contractToImplementorsMap.Feed(assembly.GetTypes());
-#else
             Parallel.ForEach(assemblies, assembly =>
             {
                 try
@@ -103,7 +99,6 @@ namespace Bifrost.Execution
                         Debug.WriteLine(string.Format("Failed to load: {0} {1}", loaderException.Source, loaderException.Message));
                 }
             });
-#endif
         }
     }
 }

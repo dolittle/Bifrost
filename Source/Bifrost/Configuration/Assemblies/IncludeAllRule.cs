@@ -17,11 +17,6 @@
 //
 #endregion
 using System.Reflection;
-#if(!SILVERLIGHT)
-using System.Runtime.InteropServices;
-#else
-using _Assembly = System.Reflection.Assembly;
-#endif
 using Bifrost.Specifications;
 
 namespace Bifrost.Configuration.Assemblies

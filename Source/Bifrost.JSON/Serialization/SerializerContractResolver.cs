@@ -50,8 +50,6 @@ namespace Bifrost.JSON.Serialization
 
 
 #pragma warning disable 1591 // Xml Comments
-        // Todo : figure out why Silverlight doesn't have this - vital for serialization
-#if(!SILVERLIGHT)
 		protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
 		{
 			var properties = base.CreateProperties(type, memberSerialization);
@@ -60,8 +58,6 @@ namespace Bifrost.JSON.Serialization
 
 			return properties;
 		}
-
-#endif
 
         public override JsonContract ResolveContract(Type type)
 		{
