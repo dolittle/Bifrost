@@ -6,17 +6,7 @@
 
 ## Documentation can be found [here](https://dolittle.github.io/bifrost) - build status: ![Image of documentation build status](https://ci.appveyor.com/api/projects/status/1gou8eihwqyeu48w?svg=true)
 
-
-
-Issues are being tracked for status over at [Huboard](https://huboard.com/dolittle/Bifrost/)
-
-
-Bifrost is an application development framework promoting good development practices. 
-The backend development is focused on CQRS (Command Query Responsibility Segregation) for promoting Domain Driven Design.
-
-The fronted development is focused on MVVM (Model View ViewModel) for promoting better separation.
-
-To get an idea of how the framework will help you get up and running fast, have a look here : http://vimeo.com/30971308
+Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability. Embracing the concepts of Domain Driven Design, it helps developers and other stakeholders focus on business need and business value, rather than on the more technical aspects of the solution. Built from the ground up, it both embodies as well as encourages best quality engineering practises such as the SOLID principles, Convention Over Configuration and Separation of Concerns. Utilising CQRS, it fits perfectly with the ideas and promises of microservices and promotes the paradigm shift in thinking that can take LOB applications to the Cloud.
 
 # Sponsors
 
@@ -26,12 +16,4 @@ To get an idea of how the framework will help you get up and running fast, have 
 For more details, samples, documentation, please go to the official [site](https://dolittle.github.io/bifrost)
 
 # Contributing
-### We'd love to accept your pull-request! 
-Check out the github [issue-list](https://github.com/dolittle/Bifrost/issues) to see if there's anything you could contribute to. Also, look into the coding standard section below if you're interested in contributing.
-
-### Coding standard
-Try to follow the general style of naming and structure that's already in place in the solution. For a more extensive guide, have a look at our [contributing page](http://bifrost.dolittle.com/tutorials)
-
-### Testing
-We expect any code going through to a pull request to be tested.
-All our testing is done through MSpec specifications (C#), or JasmineBDD (JavaScript). 
+Learn how you can contribute [here](https://dolittle.github.io/bifrost/Articles/contributing.html)
