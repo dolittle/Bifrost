@@ -1,0 +1,94 @@
+Microsoft (R) Build Engine version 14.0.25420.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 31/12/16 16:46:00.
+The target "_ConvertPdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,37)" does not exist in the project, and will be ignored.
+The target "_CollectPdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,70)" does not exist in the project, and will be ignored.
+The target "_CollectMdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,38)" does not exist in the project, and will be ignored.
+The target "_CopyMdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,71)" does not exist in the project, and will be ignored.
+Project "C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "bin\Debug\".
+  Creating directory "obj\Debug\".
+The target "_ConvertPdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,37)" does not exist in the project, and will be ignored.
+The target "_CollectPdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,70)" does not exist in the project, and will be ignored.
+The target "_CollectMdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,38)" does not exist in the project, and will be ignored.
+The target "_CopyMdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,71)" does not exist in the project, and will be ignored.
+The target "_ConvertPdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,37)" does not exist in the project, and will be ignored.
+The target "_CollectPdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (34,70)" does not exist in the project, and will be ignored.
+The target "_CollectMdbFiles" listed in a BeforeTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,38)" does not exist in the project, and will be ignored.
+The target "_CopyMdbFiles" listed in an AfterTargets attribute at "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets (41,71)" does not exist in the project, and will be ignored.
+Project "C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (1) is building "C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj" (2) on node 1 (default targets).
+Project "C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj" (2) is building "C:\Projects\Bifrost\Source\Bifrost\Bifrost.csproj" (3) on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+CopyFilesToOutputDirectory:
+  Bifrost -> C:\Projects\Bifrost\Source\Bifrost\bin\Debug\Bifrost.dll
+C:\Projects\Bifrost\Source\Bifrost\Bifrost.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost\Bifrost.csproj]
+Done Building Project "C:\Projects\Bifrost\Source\Bifrost\Bifrost.csproj" (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+CopyFilesToOutputDirectory:
+  Bifrost.Ninject -> C:\Projects\Bifrost\Source\Bifrost.Ninject\bin\Debug\Bifrost.Ninject.dll
+C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj]
+Done Building Project "C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj" (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+  C:\Program Files (x86)\MSBuild\14.0\bin\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /warn:4 /highentropyva+ /reference:C:\Projects\Bifrost\Source\Bifrost\bin\Debug\Bifrost.dll /reference:C:\Projects\Bifrost\Source\Bifrost.Ninject\bin\Debug\Bifrost.Ninject.dll /reference:C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.Clr4.dll /reference:C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.dll /reference:C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.Should.0.7.2\lib\net45\Machine.Specifications.Should.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.CSharp.dll" /reference:C:\Projects\Bifrost\Source\Solutions\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\mscorlib.dll" /reference:C:\Projects\Bifrost\Source\Solutions\packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.DataSetExtensions.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.Linq.dll" /debug- /filealign:512 /optimize- /out:obj\Debug\Bifrost.Ninject.Specs.dll /ruleset:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\\Rule Sets\MinimumRecommendedRules.ruleset" /subsystemversion:6.00 /target:library /utf8output for_KernelExtensions\FirstModule.cs for_KernelExtensions\given\a_kernel_and_a_type_discoverer.cs for_KernelExtensions\SecondModule.cs for_KernelExtensions\when_loading_all_modules_and_there_is_no_assemblies.cs for_KernelExtensions\when_loading_all_modules_and_there_are_two_modules_in_one_assembly.cs Properties\AssemblyInfo.cs "C:\Users\einari\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs"
+  Using shared compilation with compiler from directory: C:\Program Files (x86)\MSBuild\14.0\bin
+for_KernelExtensions\given\a_kernel_and_a_type_discoverer.cs(12,31): warning CS0618: 'IKernel' is obsolete: 'Use IKernelConfiguration and IReadonlyKernel' [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+for_KernelExtensions\given\a_kernel_and_a_type_discoverer.cs(17,36): warning CS0618: 'IKernel' is obsolete: 'Use IKernelConfiguration and IReadonlyKernel' [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+_CopyFilesMarkedCopyLocal:
+  Copying file from "C:\Projects\Bifrost\Source\Bifrost\bin\Debug\Bifrost.dll" to "bin\Debug\Bifrost.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Bifrost.Ninject\bin\Debug\Bifrost.Ninject.dll" to "bin\Debug\Bifrost.Ninject.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.Clr4.dll" to "bin\Debug\Machine.Specifications.Clr4.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.dll" to "bin\Debug\Machine.Specifications.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Machine.Specifications.Should.0.7.2\lib\net45\Machine.Specifications.Should.dll" to "bin\Debug\Machine.Specifications.Should.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll" to "bin\Debug\Moq.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll" to "bin\Debug\Ninject.dll".
+  Copying file from "C:\Projects\Bifrost\Source\Bifrost.Ninject\bin\Debug\Bifrost.Ninject.pdb" to "bin\Debug\Bifrost.Ninject.pdb".
+  Copying file from "C:\Projects\Bifrost\Source\Bifrost\bin\Debug\Bifrost.pdb" to "bin\Debug\Bifrost.pdb".
+  Copying file from "C:\Projects\Bifrost\Source\Bifrost\bin\Debug\Bifrost.xml" to "bin\Debug\Bifrost.xml".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Moq.4.2.1409.1722\lib\net40\Moq.xml" to "bin\Debug\Moq.xml".
+  Copying file from "C:\Projects\Bifrost\Source\Solutions\packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.xml" to "bin\Debug\Ninject.xml".
+_CopyAppConfigFile:
+  Copying file from "app.config" to "bin\Debug\Bifrost.Ninject.Specs.dll.config".
+CopyFilesToOutputDirectory:
+  Copying file from "obj\Debug\Bifrost.Ninject.Specs.dll" to "bin\Debug\Bifrost.Ninject.Specs.dll".
+  Bifrost.Ninject.Specs -> C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\bin\Debug\Bifrost.Ninject.Specs.dll
+C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+Done Building Project "C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (default targets).
+
+Build succeeded.
+
+"C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (default target) (1) ->
+"C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj" (default target) (2) ->
+"C:\Projects\Bifrost\Source\Bifrost\Bifrost.csproj" (default target) (3) ->
+(EmitMSBuildWarning target) -> 
+  C:\Projects\Bifrost\Source\Bifrost\Bifrost.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost\Bifrost.csproj]
+
+
+"C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (default target) (1) ->
+"C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj" (default target) (2) ->
+  C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost.Ninject\Bifrost.Ninject.csproj]
+
+
+"C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (default target) (1) ->
+(CoreCompile target) -> 
+  for_KernelExtensions\given\a_kernel_and_a_type_discoverer.cs(12,31): warning CS0618: 'IKernel' is obsolete: 'Use IKernelConfiguration and IReadonlyKernel' [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+  for_KernelExtensions\given\a_kernel_and_a_type_discoverer.cs(17,36): warning CS0618: 'IKernel' is obsolete: 'Use IKernelConfiguration and IReadonlyKernel' [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+
+
+"C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj" (default target) (1) ->
+(EmitMSBuildWarning target) -> 
+  C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.nuget.targets(4,5): warning : Packages containing MSBuild targets and props files cannot be fully installed in projects targeting multiple frameworks. The MSBuild targets and props files have been ignored. [C:\Projects\Bifrost\Source\Bifrost.Ninject.Specs\Bifrost.Ninject.Specs.csproj]
+
+    5 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.56
