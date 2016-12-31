@@ -2,19 +2,10 @@
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": false,
-    "compile": {
-      "exclude": [
-        "Execution/for_TypeImporter"
-      ],
-      "excludeFiles": [
-        "Events/MethodEventArgumentsSpecs.cs",
-        "Events/MethodEventFactorySpecs.cs"
-      ]
-    }
   },
   "dependencies": {
-    "Bifrost": "1.0.0-*",
     "Bifrost.Testing": "1.0.0-*",
+    "Bifrost.Ninject": "1.0.0-*",
     "Machine.Specifications": "0.11.0",
     "Machine.Specifications.Should": "0.11.0",
     "dotnet-test-mspec": "*",

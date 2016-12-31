@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
@@ -26,7 +27,7 @@ namespace Bifrost.JSON.Specs.Serialization.for_SerializerContractResolver
                                                    Id = saga_id,
                                                    SomeOtherThing = new SomeOtherThing() {Id = conflicting_id.ToString()}
                                                };
-                                    saga_properties = typeof(ISaga).GetProperties().Select(t => t.Name).ToArray();
+                                    saga_properties = typeof(ISaga).GetTypeInfo().GetProperties().Select(t => t.Name).ToArray();
                                 };
 
         Because of = () =>

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Collections.Generic;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
+using Ninject.Modules;
 
 namespace Bifrost.Ninject.Specs.for_KernelExtensions
 {
@@ -10,6 +11,6 @@ namespace Bifrost.Ninject.Specs.for_KernelExtensions
     {
         Because of = () => kernel_mock.Object.LoadAllModules();
 
-        It should_not_result_in_loading_any_assemblies = () => kernel_mock.Verify(k => k.Load(Moq.It.IsAny<IEnumerable<Assembly>>()), Times.Never());
+        It should_not_result_in_loading_any_modules = () => kernel_mock.Verify(k => k.Load(Moq.It.IsAny<IEnumerable<INinjectModule>>()), Times.Never());
     }
 }

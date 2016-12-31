@@ -7,7 +7,11 @@
     "Bifrost": "1.0.0-*",
     "moq": "4.6.38-alpha"
   },
+  "runtimes": {
+    "win": { }
+  }, 
   "frameworks": {
+    "net461": {},
     "netstandard1.6": {
       "dependencies": {
         "NETStandard.Library": "1.6"

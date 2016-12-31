@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
 using Machine.Specifications;
@@ -22,7 +23,7 @@ namespace Bifrost.JSON.Specs.Serialization.for_SerializerContractResolver
                                                 SomeInt = 42,
                                                 SomeDouble = 42.42d
                                                };
-                                    saga_properties = typeof (ISaga).GetProperties().Select(t => t.Name).ToArray();
+                                    saga_properties = typeof (ISaga).GetTypeInfo().GetProperties().Select(t => t.Name).ToArray();
                                 };
 
         Because of = () =>

@@ -7,7 +7,11 @@
     "Bifrost": "1.0.0-*",
     "Ninject": "4.0.0-beta-0134"
   },
+  "runtimes": {
+    "win": {}
+  },
   "frameworks": {
+    "net461": {},
     "netstandard1.6": {}
   }
 }

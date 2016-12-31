@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Sagas;
 using Bifrost.Serialization;
@@ -10,14 +11,14 @@ namespace Bifrost.JSON.Specs.Serialization.for_SerializerContractResolver.given
 {
 	public class a_serializer_contract_resolver_that_ignores_saga_properties
 	{
-		static readonly string[] SagaProperties = typeof(ISaga).GetProperties().Select(t => t.Name).ToArray();
+		static readonly string[] SagaProperties = typeof(ISaga).GetTypeInfo().GetProperties().Select(t => t.Name).ToArray();
 
 		static readonly SerializationOptions serialization_options =
 			new SerializationOptions
 			{
 				ShouldSerializeProperty = (t, p) =>
 				{
-					if (typeof(ISaga).IsAssignableFrom(t))
+					if (typeof(ISaga).GetTypeInfo().IsAssignableFrom(t))
 						return !SagaProperties.Any(sp => sp == p);
 
 					return true;

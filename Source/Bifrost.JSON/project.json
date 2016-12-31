@@ -7,7 +7,11 @@
     "Bifrost": "1.0.0-*",
     "Newtonsoft.Json": "9.0.1"
   },
+  "runtimes": {
+    "win": { }
+  },
   "frameworks": {
+    "net461": {},
     "netstandard1.6": {}
   }
 }
