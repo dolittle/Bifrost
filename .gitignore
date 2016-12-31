@@ -32,6 +32,8 @@ NDependOut
 _site
 
 *.lock.json
+*.nuget.targets
+*.nuget.props
 
 
 # OS generated files #
