@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Security.Principal;
 using Bifrost.Commands;
-using Bifrost.Concepts;
 using Bifrost.Configuration;
 using Bifrost.Domain;
 using Bifrost.Events;
@@ -10,7 +9,6 @@ using Bifrost.Execution;
 using Bifrost.Security;
 using Bifrost.FluentValidation.Commands;
 using FluentValidation;
-using Ninject;
 
 namespace ConsoleApplication
 {
@@ -104,9 +102,6 @@ namespace ConsoleApplication
             var command = new MyCommand();
             command.Something = "Hello";
             var result = commandCoordinator.Handle(command);
-
-
-
-        }
+       }
     }
 }
