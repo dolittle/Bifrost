@@ -44,7 +44,7 @@
     <Compile Include="for_KernelExtensions\given\a_kernel_and_a_type_importer.cs" />
     <Compile Include="for_KernelExtensions\SecondModule.cs" />
     <Compile Include="for_KernelExtensions\when_loading_all_modules_and_there_is_no_assemblies.cs" />
-    <Compile Include="for_KernelExtensions\when_loading_all_modules_and_there_are_two_modules_in_one_assembly.cs" />
+    <Compile Include="for_KernelExtensions\when_loading_all_modules_and_there_are_two_modules_in_the_assembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
