@@ -13,7 +13,7 @@ init:
     @echo "TagName: " %APPVEYOR_REPO_TAG_NAME%
     @echo "BuildVersion: " %APPVEYOR_BUILD_VERSION%
 
-    appveyor UpdateBuild -Version "1.0.0-beta-%build%
+    @echo appveyor UpdateBuild -Version "1.0.0-beta-%build%
     
 before_build:
 - ps: >-
