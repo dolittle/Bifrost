@@ -52,6 +52,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
+      <Project>{47835de6-fa79-4888-83b6-f6891891cbb0}</Project>
+      <Name>Bifrost.Testing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
       <Project>{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}</Project>
       <Name>Bifrost.Ninject</Name>
