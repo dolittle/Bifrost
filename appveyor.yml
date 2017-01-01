@@ -8,10 +8,6 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}-beta-{build}'
-init:
-- ps: >-
-  Update-AppveyorBuild -Version "1.0.0-beta-{build}"
-  
 before_build:
 - ps: >-
     Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
