@@ -16,7 +16,7 @@ init:
     
 before_build:
 - ps: >-
-    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
+    $ENV:APPVEYOR_BUILD_FOLDER\Source\Solutions\.nuget\NuGet.exe restore $ENV:APPVEYOR_BUILD_FOLDER\Source\Solutions\Bifrost_All.sln
 
     Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
         $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
@@ -30,6 +30,18 @@ before_build:
 build:
   project: Source\Solutions\Bifrost_All.sln
   verbosity: minimal
+
+after_build:
+- ps: >-
+    $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
+    $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
+
+    mkdir $ENV:APPVEYOR_BUILD_FOLDER\artifacts
+
+    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
+      dotnet pack $_.FullName -c Release -o $ENV:APPVEYOR_BUILD_FOLDER\artifacts --version-suffix=$revision
+    }
+
 test:
   assemblies: '**\*.specs.dll'
 after_test:
