@@ -16,7 +16,7 @@ init:
     
 before_build:
 - ps: >-
-    $ENV:APPVEYOR_BUILD_FOLDER\Source\Solutions\.nuget\NuGet.exe restore $ENV:APPVEYOR_BUILD_FOLDER\Source\Solutions\Bifrost_All.sln
+    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
 
     Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
         $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
