@@ -35,6 +35,8 @@ _site
 *.nuget.targets
 *.nuget.props
 
+.vs
+
 
 # OS generated files #
 ######################
