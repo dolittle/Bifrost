@@ -16,7 +16,7 @@ init:
     appveyor UpdateBuild -Version "1.0.0-beta-%build%
     
 before_build:
-- cmd: >-
+- ps: >-
     %APPVEYOR_BUILD_FOLDER%\Source\Solutions\.nuget\NuGet.exe restore %APPVEYOR_BUILD_FOLDER%\Source\Solutions\Bifrost_All.sln
 
     Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse -File -Filter project.json | ForEach-Object {
