@@ -10,9 +10,9 @@ assembly_info:
   assembly_informational_version: '{version}-beta-{build}'
 init:
 - ps: >-
-    Update-AppveyorBuild -Version "1.0.0-beta-{build}"
-    "TagName : '$ENV:APPVEYOR_REPO_TAG_NAME'"
-    "Version : '$ENV:APPVEYOR_BUILD_VERSION'"
+    Update-AppveyorBuild -Version "1.0.0-beta-$version"
+    Write-Host "TagName : '$ENV:APPVEYOR_REPO_TAG_NAME'"
+    Write-Host "Version : '$ENV:APPVEYOR_BUILD_VERSION'"
     
 before_build:
 - ps: >-
