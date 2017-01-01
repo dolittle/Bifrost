@@ -17,15 +17,20 @@ init:
     
 before_build:
 - ps: >-
-    %APPVEYOR_BUILD_FOLDER%\Source\Solutions\.nuget\NuGet.exe restore %APPVEYOR_BUILD_FOLDER%\Source\Solutions\Bifrost_All.sln
+    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
 
-    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse -File -Filter project.json | ForEach-Object {
-        $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
+    Get-ChildItem -Path ./ -Directory -Filter Bifrost* | ForEach-Object {
+        Write-Host $_
 
-        if($jsonFile.version)
-        {
-            $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
-            $jsonFile | ConvertTo-Json -Depth 100 | Out-File $_.FullName -Encoding utf8
+        Get-ChildItem -Path $_ -Filter project.json | ForEach-Object {
+            Write-Host $_
+            $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
+
+            if($jsonFile.version)
+            {
+                $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
+                $jsonFile | ConvertTo-Json -Depth 100 | Out-File $_.FullName -Encoding utf8
+            }
         }
     }
 
