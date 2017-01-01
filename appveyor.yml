@@ -1,0 +1,44 @@
+version: 1.1.0-beta-{build}
+pull_requests:
+  do_not_increment_build_number: true
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\*AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}-beta-{build}'
+init:
+- ps: >-
+  Update-AppveyorBuild -Version "1.0.0-beta-{build}"
+  
+before_build:
+- ps: >-
+    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
+
+    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
+        $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
+        if($jsonFile.version)
+        {
+            $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
+            $jsonFile | ConvertTo-Json -Depth 999 | Out-File $_.FullName
+        }
+    }
+
+build:
+  project: Source\Solutions\Bifrost_All.sln
+  verbosity: minimal
+test:
+  assemblies: '**\*.specs.dll'
+after_test:
+- cmd: >-
+    cd Build
+
+    RunJavascriptSpecs.cmd
+deploy: off
+notifications:
+- provider: Webhook
+  url: https://api.flowdock.com/v1/messages/team_inbox/e6bed33e94122a4d5cadc246ffaf1e9e
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
