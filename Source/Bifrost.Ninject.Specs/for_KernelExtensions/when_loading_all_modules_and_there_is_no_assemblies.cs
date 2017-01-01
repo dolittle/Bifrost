@@ -7,7 +7,7 @@ using Ninject.Modules;
 
 namespace Bifrost.Ninject.Specs.for_KernelExtensions
 {
-    public class when_loading_all_modules_and_there_is_no_assemblies : given.a_kernel_and_a_type_discoverer
+    public class when_loading_all_modules_and_there_is_no_assemblies : given.a_kernel_and_a_type_importer
     {
         Because of = () => kernel_mock.Object.LoadAllModules();
 
