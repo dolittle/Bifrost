@@ -9,21 +9,24 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}-beta-{build}'
 init:
-- ps: >-
-    Write-Host "TagName : "+$ENV:APPVEYOR_REPO_TAG_NAME
-    Write-Host "Version : "+$ENV:APPVEYOR_BUILD_VERSION
-    Update-AppveyorBuild -Version "1.0.0-beta-$version"    
+- cmd: >-
+    @echo "TagName: " %APPVEYOR_REPO_TAG_NAME%
+    @echo "BuildVersion: " %APPVEYOR_BUILD_VERSION%
+
+    appveyor UpdateBuild -Version "1.0.0-beta-%build%
     
 before_build:
-- ps: >-
-    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
+- cmd: >-
+    %APPVEYOR_BUILD_FOLDER%\Source\Solutions\.nuget\NuGet.exe restore %APPVEYOR_BUILD_FOLDER%\Source\Solutions\Bifrost_All.sln
 
-    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
+    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse -File -Filter project.json | ForEach-Object {
+        Write-Host $_.FullName
         $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
+
         if($jsonFile.version)
         {
             $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
-            $jsonFile | ConvertTo-Json -Depth 999 | Out-File $_.FullName
+            $jsonFile | ConvertTo-Json -Depth 100 | Out-File $_.FullName -Encoding utf8
         }
     }
 
