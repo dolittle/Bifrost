@@ -1,8 +1,14 @@
 - name: Overview
   href: overview.md
 - name: Contributing
-  href: contributing.md
+  items:
+  - name: General
+    href: contributing.md
+  - name: C# Coding Styles
+    href: csharp_coding_styles.md
 - name: Debugging
   href: debugging.md
 - name: Conventions
   href: conventions.md
+- name: Versioning
+  href: versioning.md
