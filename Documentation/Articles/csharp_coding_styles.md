@@ -1,7 +1,7 @@
 # C# Coding Styles
 
-This guide is not a guideline but should be considered the coding standard for the project and
-is subject to automated verification during automated builds and also part of codereviews of
+This is the to be considered the coding standard for Bifrost and is subject to automated
+verification during automated builds and also part of codereviews such as those done for
 pull requests.
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
@@ -15,11 +15,19 @@ It is assumed that all code written is adhering to the patterns & practices desc
 
 ## Compactness
 
-## Modifiers
+In general, code should be compact in the sense that any "noise" of language artifacts or similar
+that aren't really needed **SHALL NOT** be used. This to increase readability, not decrease it.
+Things that are implicit, **SHALL** be left implicit and not turned into explicits.
 
-### this
+## Keywords
 
-The *this* modifier **SHALL NOT** be used.
+### Use of `var`
+
+Types are implicitly provided by the compiler and considered noise during declaration.
+If one feel the need for explicitly declaring variables with their type, it is often a
+symptom of something else being wrong - such as large methods that you can't get a feel
+for straight away. This is most likely breaking the Single Responsibility Pattern.
+You **MUST** use `var` and let the compiler infer the type implicitly.
 
 ### Private members
 
@@ -35,13 +43,18 @@ public class SomeClass
 }
 ```
 
+### this
+
+Explicit use of *this* **SHALL NOT** be used. With the convention for prefixing private members,
+the differentiation is clear.
+
 ## Prefixes and postfixes
 
 A very common thing in naming is to include pre/post fixes that describes the technical implementation
 or even the pattern that is being used in the implementation. This does not serve as useful information.
 Examples of this is `Manager`, `Helper`, `Repository`, `Controller` and more (e.g. `EmployeeRepository`).
-You **SHALL NOT** pre or postfix, but rather come up with a name that describes what it is.
-Take `EmployeeRepository`sample, the postfix `Repository` is not useful for the consumer; 
+You **SHOULD NOT** pre or postfix, but rather come up with a name that describes what it is.
+Take `EmployeeRepository`sample, the postfix `Repository` is not useful for the consumer;
 a better name would be `Employees`.
 
 ## Member variables
@@ -64,7 +77,32 @@ All files **MUST** contain *only* one type.
 
 ## Class naming
 
+Naming of classes **SHALL** be unambiguous and by name tell exactly what it is providing.
+Example:
+
+```csharp
+// Coordinates uncommitted event streams
+public class UncommittedEventStreamCoordinator {}
+```
+
 ## Interface naming
+
+Its been a common naming strategy to include `I`in front of any `interface`.
+Prefixing with `I`can have other meaning as well, such as the actual word "I".
+This can give better naming to interfaces and better meaning to names.
+
+Examples:
+
+```csharp
+// Implemented by types that can provide configuration
+public interface ICanConfigure {}
+
+// Implemented by a type that can provide a container instance
+public interface ICanCreateContainer
+````
+
+You **SHOULD** try look for this way of naming, as it provides a whole new level
+of meaning to the code.
 
 ## Private methods
 
