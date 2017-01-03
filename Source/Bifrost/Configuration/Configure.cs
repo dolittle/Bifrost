@@ -80,10 +80,13 @@ namespace Bifrost.Configuration
 
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
+#if(NET461)
+                new AppDomainAssemblyProvider(),
+#endif
                 //new DefaultAssemblyProvider()
-                //new AppDomainAssemblyProvider(),
                 new FileSystemAssemblyProvider(new FileSystem())
             };
+
 
             if (additionalAssemblyProviders != null) assemblyProviders.AddRange(additionalAssemblyProviders);
 
