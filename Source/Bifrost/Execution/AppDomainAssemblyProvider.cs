@@ -16,9 +16,11 @@
 // limitations under the License.
 //
 #endregion
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Bifrost.Execution
 {
@@ -33,7 +35,6 @@ namespace Bifrost.Execution
         public AppDomainAssemblyProvider()
         {
             AppDomain.CurrentDomain.AssemblyLoad += AssemblyLoaded;
-
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -65,6 +66,7 @@ namespace Bifrost.Execution
 
         void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
         {
+
             AssemblyAdded(args.LoadedAssembly);
         }
     }
