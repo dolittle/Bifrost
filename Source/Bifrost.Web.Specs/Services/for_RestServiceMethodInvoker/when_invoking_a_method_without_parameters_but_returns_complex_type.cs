@@ -1,7 +1,7 @@
 ﻿using System;
+using Bifrost.Serialization;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
-using Bifrost.Serialization;
 
 namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
 {
@@ -29,7 +29,7 @@ namespace Bifrost.Web.Specs.Services.for_RestServiceMethodInvoker
                 DoubleValue = expected_double
             };
             service_instance.NoInputComplexOutputReturn = expected_result;
-            serializer_mock.Setup(s => s.ToJson(expected_result, Moq.It.IsAny<SerializationOptions>())).Returns(json);
+            serializer_mock.Setup(s => s.ToJson(expected_result, SerializationOptions.CamelCase)).Returns(json);
         };
 
         Because of = () => result = invoker.Invoke(base_url, service_instance, uri, parameters);
