@@ -27,22 +27,24 @@ namespace Bifrost.Execution
     public class DefaultCallContext : ICallContext
     {
         [ThreadStatic]
-        static Dictionary<string, object> _data = new Dictionary<string, object>();
+        static Dictionary<string, object> _data;
+
+        static Dictionary<string, object> Data => _data ?? (_data = new Dictionary<string, object>());
 
 #pragma warning disable 1591 // Xml Comments
         public bool HasData(string key)
         {
-            return _data.ContainsKey(key);
+            return Data.ContainsKey(key);
         }
 
         public T GetData<T>(string key)
         {
-            return (T)_data[key];
+            return (T)Data[key];
         }
 
         public void SetData(string key, object data)
         {
-            _data[key] = data;
+            Data[key] = data;
         }
 #pragma warning restore 1591 // Xml Comments
     }
