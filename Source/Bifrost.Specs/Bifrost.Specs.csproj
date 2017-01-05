@@ -311,6 +311,7 @@
     <Compile Include="Execution\for_ContractToImplementorsMap\ImplementationOfInterface.cs" />
     <Compile Include="Execution\for_ContractToImplementorsMap\when_asking_for_implementors_of_type_by_generic_without_implementors.cs" />
     <Compile Include="Execution\for_ContractToImplementorsMap\when_asking_for_implementors_of_type_without_implementors.cs" />
+    <Compile Include="Execution\for_DefaultCallContext\when_setting_data_from_different_threads.cs" />
     <Compile Include="Execution\for_DefaultCallContext\when_setting_data.cs" />
     <Compile Include="Execution\for_DefaultConvention\SomethingWithMultipleImplementationsSecond.cs" />
     <Compile Include="Execution\for_DefaultConvention\SomethingWithMultipleImplementations.cs" />
