@@ -37,6 +37,8 @@ _site
 
 .vs
 
+*.fsx_*
+
 
 # OS generated files #
 ######################
