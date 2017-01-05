@@ -49,12 +49,15 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public void SpecifyUsingSpecifiersFrom(Assembly assembly)
         {
-            var assemblySpecifiers = _typeFinder.FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap);
-            assemblySpecifiers.Where(type => type.HasDefaultConstructor()).ForEach(type =>
-            {
-                var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
-                specifier.Specify(_assemblyRuleBuilder);
-            });
+            _typeFinder
+                .FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap)
+                .Where(t => t.Assembly.FullName == assembly.FullName)
+                .Where(type => type.HasDefaultConstructor())
+                .ForEach(type =>
+                {
+                    var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
+                    specifier.Specify(_assemblyRuleBuilder);
+                });
         }
 #pragma warning restore 1591 // Xml Comments
     }
