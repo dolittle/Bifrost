@@ -35,18 +35,18 @@ namespace Bifrost.JSON.Serialization
     {
 
         readonly IContainer _container;
-		readonly SerializationOptions _options;
+        readonly ISerializationOptions _options;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SerializerContractResolver"/>
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> to use for creating instances of types</param>
-        /// <param name="options"><see cref="SerializationOptions"/> to use during resolving</param>
-		public SerializerContractResolver(IContainer container, SerializationOptions options) 
-		{
-			_container = container;
-			_options = options;
-		}
+        /// <param name="options"><see cref="ISerializationOptions"/> to use during resolving</param>
+        public SerializerContractResolver(IContainer container, ISerializationOptions options)
+        {
+            _container = container;
+            _options = options;
+        }
 
 
 #pragma warning disable 1591 // Xml Comments
@@ -91,8 +91,11 @@ namespace Bifrost.JSON.Serialization
         protected override string ResolvePropertyName(string propertyName)
         {
             var result = base.ResolvePropertyName(propertyName);
-            if (_options != null && _options.UseCamelCase)
+            if (_options != null && _options.Flags.HasFlag(SerializationOptionsFlags.UseCamelCase))
+            {
                 result = result.ToCamelCase();
+            }
+
             return result;
         }
 #pragma warning restore 1591 // Xml Comments

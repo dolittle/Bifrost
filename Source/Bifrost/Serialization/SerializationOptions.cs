@@ -23,21 +23,51 @@ namespace Bifrost.Serialization
     /// <summary>
     /// Represents the options for serialization
     /// </summary>
-	public class SerializationOptions
-	{
-        /// <summary>
-        /// A func that gets called during serialization of properties to decide 
-        /// </summary>
-		public Func<Type, string, bool>	ShouldSerializeProperty = (t, p) => true;
+    public class SerializationOptions : ISerializationOptions
+    {
+        static readonly SerializationOptions DefaultOptions = new SerializationOptions(SerializationOptionsFlags.None);
+        static readonly SerializationOptions CamelCaseOptions = new SerializationOptions(SerializationOptionsFlags.UseCamelCase);
+        static readonly SerializationOptions IncludeTypeNamesOptions = new SerializationOptions(SerializationOptionsFlags.IncludeTypeNames);
 
         /// <summary>
-        /// Gets or sets wether or not to use camel case for naming of properties
+        /// Gets the default serialization options that will serialize all properties without any special flags.
         /// </summary>
-        public bool UseCamelCase { get; set; }
+        public static ISerializationOptions Default { get { return DefaultOptions; } }
 
         /// <summary>
-        /// Gets or sets wether or not to include type names during serialization
+        /// Gets the camel case serialization options that will serialize all properties using camel case.
         /// </summary>
-        public bool IncludeTypeNames { get; set; }
-	}
+        public static ISerializationOptions CamelCase { get { return CamelCaseOptions; } }
+
+        /// <summary>
+        /// Gets the type names serialization options that will serialize all properties including type names.
+        /// </summary>
+        public static ISerializationOptions IncludeTypeNames { get { return IncludeTypeNamesOptions; } }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="SerializationOptions"/>
+        /// </summary>
+        /// <param name="flags">The serialization flags</param>
+        /// <remarks>
+        /// All instances of this class or subclasses must be immutable, because mapping from
+        /// serialization options to contract resolvers are cached for performance reasons.
+        /// </remarks>
+        protected SerializationOptions(SerializationOptionsFlags flags)
+        {
+            Flags = flags;
+        }
+
+        /// <summary>
+        /// Will always return true
+        /// </summary>
+        public virtual bool ShouldSerializeProperty(Type type, string propertyName)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the serialization flags
+        /// </summary>
+        public SerializationOptionsFlags Flags { get; private set; }
+    }
 }

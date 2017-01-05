@@ -30,7 +30,7 @@ namespace Bifrost.DocumentDB.Events
     /// </summary>
     public static class SerializationExtensions
     {
-        internal static SerializationOptions SerializationOptions = new SerializationOptions { UseCamelCase = true };
+        internal static ISerializationOptions SerializationOptions = Serialization.SerializationOptions.CamelCase;
 
         /// <summary>
         /// Deserialize from a document

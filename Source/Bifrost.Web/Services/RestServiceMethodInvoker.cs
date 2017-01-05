@@ -19,12 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Bifrost.Serialization;
-using System.ComponentModel;
 
 namespace Bifrost.Web.Services
 {
@@ -55,7 +55,7 @@ namespace Bifrost.Web.Services
             var values = GetParameterValues(inputParameters, method);
             var result = method.Invoke(instance, values);
 
-            var serializedResult = _serializer.ToJson(result, new SerializationOptions { UseCamelCase = true });
+            var serializedResult = _serializer.ToJson(result, SerializationOptions.CamelCase);
 
             serializedResult = _jsonInterceptor.Intercept(serializedResult);
 
