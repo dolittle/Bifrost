@@ -1,4 +1,5 @@
-#r "Source/Solutions/packages/FAKE/tools/FakeLib.dll" // include Fake lib
+#I "Source/Solutions/packages/FAKE/tools/"
+#r "FakeLib.dll" // include Fake lib
 #r "Source/Solutions/packages/FAKE/FSharp.Data/lib/net40/FSharp.Data.dll" 
 open Fake
 open Fake.RestorePackageHelper
@@ -11,8 +12,9 @@ open FSharp.Data.JsonExtensions
 open FSharp.Data.HttpRequestHeaders
 
 // https://github.com/krauthaufen/DevILSharp/blob/master/build.fsx
-
 let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*-*(\d+)*", RegexOptions.Compiled)
+
+
 type BuildVersion(major:int, minor:int, patch: int, build:int, preString:string, release:bool) =
     let major = major
     let minor = minor
@@ -34,6 +36,12 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preString:string,
                 sprintf "%d.%d.%d+%d" major minor patch build
         else
             sprintf "%d.%d.%d-%s+%d" major minor patch preString build
+
+    member this.IsPre with get() : bool = preString.Length > 0
+
+
+    member this.DoesMajorMinorPatchMatch(other:BuildVersion) =
+        other.Major = major && other.Minor = minor && other.Patch = patch
 
     new (versionAsString:string) =
         BuildVersion(versionAsString,0,false)
@@ -82,14 +90,37 @@ let getLatestNuGetVersion =
 
 let versionFromGitTag = getVersionFromGitTag
 let lastNuGetVersion = getLatestNuGetVersion
+let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
+let solutionFile = "./Source/Solutions/Bifrost_All.sln"
+
+// Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
+let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPre && lastNuGetVersion.IsPre)
 
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
+printfn "Version Same : %b" sameVersion
+printfn "Release Build : %b" isReleaseBuild
 
-
+//*****************************************************************************
+//* Restore Packages
+//*****************************************************************************
 Target "RestorePackages" (fun _ ->
     trace "Restore packages"
+
+    solutionFile
+     |> RestoreMSSolutionPackages (fun p ->
+         { p with
+             OutputPath = "./Source/Solutions/packages"
+             Retries = 4 })    
 )
+
+//*****************************************************************************
+//* Build
+//*****************************************************************************
+Target "Build" <| fun _ ->
+    !!solutionFile
+    |> MSBuildRelease "" "Rebuild"
+    |> ignore
 
 Target "Test" (fun _ ->
     trace "Testing stuff..."
@@ -99,13 +130,13 @@ Target "Deploy" (fun _ ->
     trace "Heavy deploy action"
 )
 
-
-
-
+// ******** Pre Info 
+// Get Build Number from BuildServer
 // Get Version from Git Tag
-
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
 
+
+// ******** BUILD:
 // Restore packages
 
 // If tag is not a release tag - Append build number
@@ -133,10 +164,13 @@ Target "Deploy" (fun _ ->
 // Push changes to Documentation Repository
 
 
-"Test" // define the dependencies
-   ==> "Deploy"
+Target "BuildRelease" DoNothing
+
+
+// Build pipeline
+"RestorePackages" ==> "Build" ==> "BuildRelease"
 
 Target "All" DoNothing
-"RestorePackages" ==> "All"
+"BuildRelease" ==> "All"
 
 Run "All"
