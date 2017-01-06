@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Bifrost.Mapping;
 using Bifrost.Serialization;
 
 namespace Bifrost.Entities.Files
@@ -20,7 +19,6 @@ namespace Bifrost.Entities.Files
     {
         EntityContextConnection _connection;
         ISerializer _serializer;
-        IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
@@ -28,11 +26,10 @@ namespace Bifrost.Entities.Files
         /// <param name="connection">Connection to use</param>
         /// <param name="serializer">Serializer used for serialization</param>
         /// <param name="mapper">Mapper to deal with mapping</param>
-        public EntityContext(EntityContextConnection connection, ISerializer serializer, IMapper mapper)
+        public EntityContext(EntityContextConnection connection, ISerializer serializer)
         {
             _connection = connection;
             _serializer = serializer;
-            _mapper = mapper;
         }
 
 

@@ -14,7 +14,6 @@ namespace Bifrost.Execution
     [Singleton]
     public class Assemblies : IAssemblies
     {
-        IAssemblyProvider _assemblyProvider;
         IEnumerable<Assembly> _assemblies;
 
         /// <summary>
@@ -22,7 +21,6 @@ namespace Bifrost.Execution
         /// </summary>
         public Assemblies(IAssemblyProvider assemblyProvider)
         {   
-            _assemblyProvider = assemblyProvider;
             _assemblies = assemblyProvider.GetAll();
         }
 
