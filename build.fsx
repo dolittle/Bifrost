@@ -5,40 +5,42 @@ open Fake
 open Fake.RestorePackageHelper
 open Fake.Git
 open System
+open System.IO
 open System.Linq
 open System.Text.RegularExpressions
 open FSharp.Data
 open FSharp.Data.JsonExtensions
 open FSharp.Data.HttpRequestHeaders
+open Fake.FileSystemHelper
+open Fake.ProcessHelper
+open AssemblyInfoFile
 
 // https://github.com/krauthaufen/DevILSharp/blob/master/build.fsx
-let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*-*(\d+)*", RegexOptions.Compiled)
+// http://blog.2mas.xyz/take-control-of-your-build-ci-and-deployment-with-fsharp-fake/
 
-
-type BuildVersion(major:int, minor:int, patch: int, build:int, preString:string, release:bool) =
+let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*[+-]*(\d+)*", RegexOptions.Compiled)
+type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:string, release:bool) =
     let major = major
     let minor = minor
     let patch = patch
-    let preString = preString
+    let preReleaseString = preReleaseString
 
     member this.Major with get() = major
     member this.Minor with get() = minor
     member this.Patch with get() = patch
     member this.Build with get() = build
-    member this.PreString with get() = preString
+    member this.PreReleaseString with get() = preReleaseString
 
     member this.AsString() : string = 
-        trace preString
-        if String.IsNullOrEmpty(preString)  then
+        if String.IsNullOrEmpty(preReleaseString)  then
             if release then 
                 sprintf "%d.%d.%d" major minor patch
             else 
-                sprintf "%d.%d.%d+%d" major minor patch build
+                sprintf "%d.%d.%d-%d" major minor patch build
         else
-            sprintf "%d.%d.%d-%s+%d" major minor patch preString build
+            sprintf "%d.%d.%d-%s-%d" major minor patch preReleaseString build
 
-    member this.IsPre with get() : bool = preString.Length > 0
-
+    member this.IsPreRelease with get() : bool = preReleaseString.Length > 0
 
     member this.DoesMajorMinorPatchMatch(other:BuildVersion) =
         other.Major = major && other.Minor = minor && other.Patch = patch
@@ -59,7 +61,7 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preString:string,
             else
                 BuildVersion(major,minor,patch,build,"",release)
         else 
-            failwithf "Unable to resolve version tag"
+            failwithf "Unable to resolve version"
             BuildVersion(0,0,0,0,"",false)
 
 let getLatestTag repositoryDir =
@@ -72,8 +74,6 @@ let getVersionFromGitTag =
     let gitVersionTag = getLatestTag "./"
     new BuildVersion("1.1.0-beta", 123, true)
 
-// https://api.nuget.org/v3/registration1/bifrost/index.json
-// https://fsharp.github.io/FSharp.Data/library/JsonProvider.html
 let getLatestNuGetVersion =
     trace "Get latest NuGet version"
 
@@ -87,17 +87,42 @@ let getLatestNuGetVersion =
     
     new BuildVersion(version)
 
+//*****************************************************************************
+//* Globals
+//*****************************************************************************
+
+let company = "Dolittle"
+let copyright = "(C) 2008 - 2017 Dolittle"
+let trademark = ""
+
+let sourceDirectory = sprintf "%s/Source" __SOURCE_DIRECTORY__
+let artifactsDirectory = sprintf "%s/artifacts" __SOURCE_DIRECTORY__
+let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
+
+let projectDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
+                        |> Array.filter(fun d -> d.Name.Contains("Spec") = false )
+
+let projectJsonFiles = projectDirectories 
+                        |> Array.map(fun d -> filesInDirMatching "project.json" d)
+                        |> Array.concat
+
+let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
+let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
 let versionFromGitTag = getVersionFromGitTag
 let lastNuGetVersion = getLatestNuGetVersion
 let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
+// Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
+let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPreRelease && lastNuGetVersion.IsPreRelease)
+
+let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
+
 let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 
-// Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
-let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPre && lastNuGetVersion.IsPre)
 
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
+printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
 
@@ -105,13 +130,11 @@ printfn "Release Build : %b" isReleaseBuild
 //* Restore Packages
 //*****************************************************************************
 Target "RestorePackages" (fun _ ->
-    trace "Restore packages"
-
     solutionFile
      |> RestoreMSSolutionPackages (fun p ->
          { p with
              OutputPath = "./Source/Solutions/packages"
-             Retries = 4 })    
+             Retries = 4 })
 )
 
 //*****************************************************************************
@@ -122,55 +145,90 @@ Target "Build" <| fun _ ->
     |> MSBuildRelease "" "Rebuild"
     |> ignore
 
-Target "Test" (fun _ ->
-    trace "Testing stuff..."
+//*****************************************************************************
+//* Update project json files with correct version
+//*****************************************************************************
+Target "UpdateVersionOnProjectJsonFiles" <| fun _ ->
+    for file in projectJsonFiles do printfn "Project : %s" (file.ToString())
+
+//*****************************************************************************
+//* Update Assembly Info files with correct information
+//*****************************************************************************
+Target "UpdateAssemblyInfoFiles" (fun _ ->
+    let version = sprintf "%d.%d.%d.%d" buildVersion.Major buildVersion.Minor buildVersion.Patch buildVersion.Build
+    CreateCSharpAssemblyInfoWithConfig "Source/Common/CommonAssemblyInfo.cs" [
+        Attribute.Company company
+        Attribute.Copyright copyright
+        Attribute.Trademark trademark
+        Attribute.Version version
+        Attribute.FileVersion version 
+    ] <| AssemblyInfoFileConfig(false)
 )
 
-Target "Deploy" (fun _ ->
-    trace "Heavy deploy action"
+//*****************************************************************************
+//* Update project json files with correct version
+//*****************************************************************************
+Target "UpdateVersionOnBuildServer" (fun _ ->
+    trace "Update"
+    // https://www.appveyor.com/docs/environment-variables/
+    // https://www.appveyor.com/docs/build-worker-api/#update-build-details
 )
+
+
+Target "PackageForNuGet" (fun _ ->
+    for file in projectJsonFiles do 
+        let allArgs = sprintf "pack '%s' -OutputDirectory '%s' -Version '%s' -Symbols" (file.ToString()) nugetDirectory (buildVersion.AsString())
+        ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs)
+
+)
+
+//*****************************************************************************
+//* Machine Specifications
+//*****************************************************************************
+Target "MSpec" <| fun _ ->
+    trace "Testing stuff..."
+
+
 
 // ******** Pre Info 
 // Get Build Number from BuildServer
 // Get Version from Git Tag
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
+// If tag is not a release tag - Append build number
 
 
 // ******** BUILD:
 // Restore packages
-
-// If tag is not a release tag - Append build number
-
 // Update Project.JSON files with correct version number
-
 // Create Assembly Version from Tag + Build Number
-
 // Update Assembly Info
-
 // Build
-
 // Run MSpec Specs
-
 // If daily or alpha or beta - create nuget packages
-
 //     If daily and not alpha or beta -> Deploy to MyGet
-
 //     Else deploy to NuGet
-
 // Clone Documentation Repository
-
 // DocFX for documentation -> Into Documentation repository
-
 // Push changes to Documentation Repository
 
 
-Target "BuildRelease" DoNothing
-
-
 // Build pipeline
+Target "BuildRelease" DoNothing
 "RestorePackages" ==> "Build" ==> "BuildRelease"
 
+// Specs pipeline
+Target "Specs" DoNothing
+"MSpec" ==> "Specs"
+
+// Package pipline
+Target "Package" DoNothing
+"UpdateVersionOnProjectJsonFiles" ==> "UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
+
 Target "All" DoNothing
-"BuildRelease" ==> "All"
+"UpdateVersionOnBuildServer" ==> "All"
+//"BuildRelease" ==> "All"
+// "Specs" ==> "All"
+"Package" ==> "All"
+
 
 Run "All"
