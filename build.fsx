@@ -228,6 +228,12 @@ Target "BuildRelease" DoNothing
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
 
+Target "BuildAndPackage" DoNothing
+"BuildRelease" ==> "Package" ==> "BuildAndPackage"
+
+// Target "Deploy" DoNothing
+
+
 // after_test:
 //  - cmd: >-
 //    cd .\Build
@@ -235,4 +241,4 @@ Target "Package" DoNothing
 
 //Run "BuildRelease"
 
-RunTargetOrDefault "BuildRelease"
+RunTargetOrDefault "BuildAndPackage"

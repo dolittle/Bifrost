@@ -2,11 +2,11 @@ version: 1.1.0-{build}
 pull_requests:
   do_not_increment_build_number: true
 build_script:
-  - cmd: .\build.cmd BuildRelease
+  - cmd: .\build.cmd BuildAndPackage
 test:
   assemblies: 'Source\**\*.Specs.dll'
 deploy: off
 on_success:
-  - cmd: .\build.cmd Package
+  - cmd: echo "Hello world"
 artifacts:
   - path: artifacts\**\*
