@@ -31,8 +31,6 @@ namespace Bifrost.Execution
             assemblyFiles.AddRange(fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.exe"));
 
             AvailableAssemblies = assemblyFiles.Select(file => new AssemblyInfo(Path.GetFileNameWithoutExtension(file.FullName), file.FullName));
-            
-            foreach( var assembly in AvailableAssemblies ) AssemblyAdded(assembly);
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -42,7 +40,9 @@ namespace Bifrost.Execution
 
         public Assembly Get(AssemblyInfo assemblyInfo)
         {
-            return Assembly.Load(new AssemblyName(assemblyInfo.Name));
+            var assembly = Assembly.Load(new AssemblyName(assemblyInfo.Name));
+            AssemblyAdded(assembly);
+            return assembly;
         }
 #pragma warning restore 1591 // Xml Comments
     }
