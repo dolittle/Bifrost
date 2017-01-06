@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
@@ -132,6 +132,7 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
+    <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />

@@ -6,10 +6,19 @@ using Moq;
 
 namespace Bifrost.Specs.Execution.for_TypeDiscoverer.given
 {
+#if(NET461)
+    public class FakeAssembly : Assembly {}
+
+#endif
+
     public class a_type_discoverer
     {
         protected static TypeDiscoverer type_discoverer;
+#if (NET461)
+        protected static Mock<FakeAssembly> assembly_mock;
+#else
         protected static Mock<Assembly> assembly_mock;
+#endif
         protected static Type[] types;
 
         protected static Mock<IAssemblies> assemblies_mock;
@@ -27,8 +36,11 @@ namespace Bifrost.Specs.Execution.for_TypeDiscoverer.given
                                     };
 
 
-                                    
+#if (NET461)
+                                    assembly_mock = new Mock<FakeAssembly>();
+#else
                                     assembly_mock = new Mock<Assembly>();
+#endif
                                     assembly_mock.Setup(a => a.GetTypes()).Returns(types);
                                     assembly_mock.Setup(a => a.FullName).Returns("A.Full.Name");
 

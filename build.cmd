@@ -25,7 +25,6 @@ copy %CACHED_NUGET%\.nuget\nuget.exe > nul
 
 %NUGET_DIR%\NuGet.exe update -self
 
-
 pushd %~dp0
 
 %NUGET_DIR%\NuGet.exe update -self
@@ -33,14 +32,6 @@ pushd %~dp0
 %NUGET_DIR%\NuGet.exe install FAKE -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 4.16.1
 %NUGET_DIR%\NuGet.exe install FSharp.Data -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.3.2
 
-%NUGET_DIR%\NuGet.exe install NUnit.Console -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 3.2.1
-%NUGET_DIR%\NuGet.exe install xunit.runner.console -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.0.0
-%NUGET_DIR%\NuGet.exe install NBench.Runner -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 0.3.3
-%NUGET_DIR%\NuGet.exe install Microsoft.SourceBrowser -OutputDirectory %PACKAGE_DIR% -ExcludeVersion
-
-if not exist src\packages\SourceLink.Fake\tools\SourceLink.fsx (
-  %NUGET_DIR%\nuget.exe install SourceLink.Fake -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR% -ExcludeVersion
-)
 rem cls
 
 set encoding=utf-8
