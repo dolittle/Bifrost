@@ -2,7 +2,7 @@ version: 1.1.0-{build}
 pull_requests:
   do_not_increment_build_number: true
 build_script:
-  - cmd: .\build.cmd Build
+  - cmd: .\build.cmd BuildRelease
 test:
   assemblies: 'Source\**\*.Specs.dll'
 deploy: off
