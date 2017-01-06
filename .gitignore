@@ -39,6 +39,7 @@ _site
 
 *.fsx_*
 
+artifacts
 
 # OS generated files #
 ######################

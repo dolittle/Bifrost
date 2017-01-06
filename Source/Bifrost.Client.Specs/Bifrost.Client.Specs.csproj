@@ -111,7 +111,6 @@
     <Compile Include="Messaging\for_Messenger\SomeOtherMessage.cs" />
     <Compile Include="Messaging\for_Messenger\when_publishing_message_with_two_subscribers_for_different_messages.cs" />
     <Compile Include="Messaging\for_Messenger\when_publishing_message_with_two_subscribers.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\for_Interceptor\InterceptorWithHandler.cs" />
     <Compile Include="Reflection\for_Interceptor\InterceptorWithoutHandlers.cs" />
     <Compile Include="Reflection\for_Interceptor\when_intercepting_without_handlers.cs" />

@@ -14,6 +14,7 @@ open FSharp.Data.JsonExtensions
 open FSharp.Data.HttpRequestHeaders
 open Fake.FileSystemHelper
 open Fake.ProcessHelper
+open Fake.MSBuildHelper
 open AssemblyInfoFile
 
 // https://github.com/krauthaufen/DevILSharp/blob/master/build.fsx
@@ -150,9 +151,19 @@ Target "RestorePackages" (fun _ ->
 //* Build
 //*****************************************************************************
 Target "Build" <| fun _ ->
-    !!solutionFile
-    |> MSBuildRelease "" "Rebuild"
-    |> ignore
+    let buildMode = getBuildParamOrDefault "buildMode" "Release"
+    let setParams defaults =
+        { defaults with
+            Verbosity = Some MSBuildVerbosity.Minimal
+            Properties =
+                [
+                    "Optimize", "True"
+                ]
+        }
+
+    build setParams solutionFile
+        |> DoNothing
+
 
 //*****************************************************************************
 //* Update Assembly Info files with correct information
@@ -180,7 +191,7 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
-        let allArgs = sprintf "pack '%s' -OutputDirectory '%s' -Version '%s' -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
+        let allArgs = sprintf "pack %s -OutputDirectory %s -Version %s -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
         trace allArgs
         ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs) |> ignore
 
@@ -195,8 +206,6 @@ Target "MSpec" (fun _ ->
         trace allArgs
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )    
-
-
 
 // ******** Pre Info 
 // Get Build Number from BuildServer
