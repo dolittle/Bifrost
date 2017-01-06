@@ -7,7 +7,6 @@ test:
   assemblies: 'Source\**\*.Specs.dll'
 after_test:
 - cmd: >-
-    cd %APPVEYOR_BUILD_FOLDER%\Build
-    echo %APPVEYOR_BUILD_FOLDER%\Build
+    cd .\Build
     RunJavascriptSpecs.cmd
 deploy: off
