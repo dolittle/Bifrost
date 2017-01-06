@@ -5,10 +5,6 @@ build_script:
   - cmd: .\build.cmd Build
 test:
   assemblies: 'Source\**\*.Specs.dll'
-after_test:
-  - cmd: >-
-    cd .\Build
-    RunJavascriptSpecs.cmd
 deploy: off
 on_success:
   - cmd: .\build.cmd Package
