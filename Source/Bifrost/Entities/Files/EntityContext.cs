@@ -25,7 +25,6 @@ namespace Bifrost.Entities.Files
         /// </summary>
         /// <param name="connection">Connection to use</param>
         /// <param name="serializer">Serializer used for serialization</param>
-        /// <param name="mapper">Mapper to deal with mapping</param>
         public EntityContext(EntityContextConnection connection, ISerializer serializer)
         {
             _connection = connection;
