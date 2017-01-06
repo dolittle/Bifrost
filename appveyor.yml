@@ -1,65 +1,12 @@
-version: 1.1.0-beta-{build}
+version: 1.1.0-{build}
 pull_requests:
   do_not_increment_build_number: true
-configuration: Release
-assembly_info:
-  patch: true
-  file: '**\*AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}-beta-{build}'
-init:
-- cmd: >-
-    @echo "TagName: " %APPVEYOR_REPO_TAG_NAME%
-    @echo "BuildVersion: " %APPVEYOR_BUILD_VERSION%
-
-    @echo appveyor UpdateBuild -Version "1.0.0-beta-%build%
-    
-before_build:
-- ps: >-
-    Source\Solutions\.nuget\NuGet.exe restore Source\Solutions\Bifrost_All.sln
-
-    Get-ChildItem -Path ./ -Directory -Filter Bifrost* | ForEach-Object {
-        Write-Host $_
-
-        Get-ChildItem -Path $_ -Filter project.json | ForEach-Object {
-            Write-Host $_
-            $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
-
-            if($jsonFile.version)
-            {
-                $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
-                $jsonFile | ConvertTo-Json -Depth 100 | Out-File $_.FullName -Encoding utf8
-            }
-        }
-    }
-
-build:
-  project: Source\Solutions\Bifrost_All.sln
-  verbosity: minimal
-
-after_build:
-- ps: >-
-    $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
-    $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
-
-    mkdir $ENV:APPVEYOR_BUILD_FOLDER\artifacts
-
-    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
-      dotnet pack $_.FullName -c Release -o $ENV:APPVEYOR_BUILD_FOLDER\artifacts --version-suffix=$revision
-    }
-
+build_script:
+- cmd: .\build.cmd
 test:
-  assemblies: '**\*.specs.dll'
+  assemblies: 'Source\**\*.specs.dll'
 after_test:
 - cmd: >-
     cd Build
-
     RunJavascriptSpecs.cmd
 deploy: off
-notifications:
-- provider: Webhook
-  url: https://api.flowdock.com/v1/messages/team_inbox/e6bed33e94122a4d5cadc246ffaf1e9e
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true

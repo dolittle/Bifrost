@@ -1,6 +1,7 @@
 #I "Source/Solutions/packages/FAKE/tools/"
-#r "FakeLib.dll" // include Fake lib
-#r "Source/Solutions/packages/FAKE/FSharp.Data/lib/net40/FSharp.Data.dll" 
+#I "Source/Solutions/packages/FAKE/FSharp.Data/lib/net40"
+#r "FakeLib.dll"
+#r "FSharp.Data.dll" 
 open Fake
 open Fake.RestorePackageHelper
 open Fake.Git
@@ -178,9 +179,10 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 
 
 Target "PackageForNuGet" (fun _ ->
-    for file in projectJsonFiles do 
-        let allArgs = sprintf "pack '%s' -OutputDirectory '%s' -Version '%s' -Symbols" (file.ToString()) nugetDirectory (buildVersion.AsString())
-        ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs)
+    for file in projectJsonFiles do
+        let allArgs = sprintf "pack '%s' -OutputDirectory '%s' -Version '%s' -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
+        trace allArgs
+        ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs) |> ignore
 
 )
 
@@ -189,8 +191,9 @@ Target "PackageForNuGet" (fun _ ->
 //*****************************************************************************
 Target "MSpec" (fun _ ->
     for file in specProjectJsonFiles do
-        let allArgs = sprintf "test %s" (file.ToString())
-        ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+        let allArgs = sprintf "test %s" file.FullName
+        trace allArgs
+        ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )    
 
 
@@ -229,9 +232,9 @@ Target "Package" DoNothing
 
 Target "All" DoNothing
 //"UpdateVersionOnBuildServer" ==> "All"
-//"BuildRelease" ==> "All"
-"Specs" ==> "All"
-//"Package" ==> "All"
+"BuildRelease" ==> "All"
+//"Specs" ==> "All"
+"Package" ==> "All"
 
 
 Run "All"
