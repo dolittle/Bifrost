@@ -106,6 +106,14 @@ let projectJsonFiles = projectDirectories
                         |> Array.map(fun d -> filesInDirMatching "project.json" d)
                         |> Array.concat
 
+let specDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
+                        |> Array.filter(fun d -> d.Name.Contains("Spec") )
+
+let specProjectJsonFiles = specDirectories 
+                        |> Array.map(fun d -> filesInDirMatching "project.json" d)
+                        |> Array.concat
+                        
+
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
@@ -146,12 +154,6 @@ Target "Build" <| fun _ ->
     |> ignore
 
 //*****************************************************************************
-//* Update project json files with correct version
-//*****************************************************************************
-Target "UpdateVersionOnProjectJsonFiles" <| fun _ ->
-    for file in projectJsonFiles do printfn "Project : %s" (file.ToString())
-
-//*****************************************************************************
 //* Update Assembly Info files with correct information
 //*****************************************************************************
 Target "UpdateAssemblyInfoFiles" (fun _ ->
@@ -185,8 +187,11 @@ Target "PackageForNuGet" (fun _ ->
 //*****************************************************************************
 //* Machine Specifications
 //*****************************************************************************
-Target "MSpec" <| fun _ ->
-    trace "Testing stuff..."
+Target "MSpec" (fun _ ->
+    for file in specProjectJsonFiles do
+        let allArgs = sprintf "test %s" (file.ToString())
+        ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+)    
 
 
 
@@ -199,9 +204,7 @@ Target "MSpec" <| fun _ ->
 
 // ******** BUILD:
 // Restore packages
-// Update Project.JSON files with correct version number
-// Create Assembly Version from Tag + Build Number
-// Update Assembly Info
+// Create Assembly Version from Tag + Build Number -> Update Assembly Info
 // Build
 // Run MSpec Specs
 // If daily or alpha or beta - create nuget packages
@@ -222,13 +225,13 @@ Target "Specs" DoNothing
 
 // Package pipline
 Target "Package" DoNothing
-"UpdateVersionOnProjectJsonFiles" ==> "UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
+"UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
 
 Target "All" DoNothing
-"UpdateVersionOnBuildServer" ==> "All"
+//"UpdateVersionOnBuildServer" ==> "All"
 //"BuildRelease" ==> "All"
-// "Specs" ==> "All"
-"Package" ==> "All"
+"Specs" ==> "All"
+//"Package" ==> "All"
 
 
 Run "All"
