@@ -23,6 +23,8 @@ mono $NUGET_PATH/NuGet.exe update -self
 
 mono $NUGET_PATH/NuGet.exe install FAKE -OutputDirectory $PACKAGES_PATH -ExcludeVersion -Version 4.16.1
 
+mono $NUGET_PATH/NuGet.exe install FSharp.Data -OutputDirectory $PACKAGES_PATH/FAKE -ExcludeVersion -Version 2.3.2
+
 mono $NUGET_PATH/NuGet.exe install xunit.runner.console -OutputDirectory $PACKAGES_PATH/FAKE -ExcludeVersion -Version 2.0.0
 mono $NUGET_PATH/NuGet.exe install NUnit.Console -OutputDirectory $PACKAGES_PATH/FAKE -ExcludeVersion -Version 3.2.1
 
