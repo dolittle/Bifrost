@@ -189,23 +189,15 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 )
 
 
+//*****************************************************************************
+//* Package all projects for NuGet
+//*****************************************************************************
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
         let allArgs = sprintf "pack %s -OutputDirectory %s -Version %s -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
         trace allArgs
         ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs) |> ignore
-
 )
-
-//*****************************************************************************
-//* Machine Specifications
-//*****************************************************************************
-Target "MSpec" (fun _ ->
-    for file in specProjectJsonFiles do
-        let allArgs = sprintf "test %s" file.FullName
-        trace allArgs
-        ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
-)    
 
 // ******** Pre Info 
 // Get Build Number from BuildServer
@@ -239,11 +231,6 @@ Target "Specs" DoNothing
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
 
-Target "All" DoNothing
-//"UpdateVersionOnBuildServer" ==> "All"
-"BuildRelease" ==> "All"
-//"Specs" ==> "All"
-"Package" ==> "All"
-
-
-Run "All"
+Target "Build" DoNothing
+//"UpdateVersionOnBuildServer" ==> "Build"
+"BuildRelease" ==> "Build"
