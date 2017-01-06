@@ -330,7 +330,6 @@
     <Compile Include="Execution\for_InstancesOf\OneImplementation.cs" />
     <Compile Include="Execution\for_InstancesOf\SecondImplementation.cs" />
     <Compile Include="Execution\for_InstancesOf\when_having_multiple_implementations.cs" />
-    <Compile Include="Execution\for_TypeDiscoverer\FakeAssembly.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_TypeFinder\given\a_type_finder.cs" />
