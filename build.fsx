@@ -233,3 +233,6 @@ Target "Package" DoNothing
 //    cd .\Build
 //    RunJavascriptSpecs.cmd
 
+//Run "BuildRelease"
+
+RunTargetOrDefault "BuildRelease"
