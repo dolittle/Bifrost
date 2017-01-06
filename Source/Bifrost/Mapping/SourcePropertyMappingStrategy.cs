@@ -14,15 +14,12 @@ namespace Bifrost.Mapping
     /// </remarks>
     public class SourcePropertyMappingStrategy : IPropertyMappingStrategy
     {
-        PropertyInfo _propertyInfo;
-
         /// <summary>
         /// Initializes a new instance of <see cref="SourcePropertyMappingStrategy"/>
         /// </summary>
         /// <param name="propertyInfo"><see cref="PropertyInfo"/> to base it from</param>
         public SourcePropertyMappingStrategy(PropertyInfo propertyInfo)
         {
-            _propertyInfo = propertyInfo;
         }
 
 #pragma warning disable 1591 // Xml Comments
