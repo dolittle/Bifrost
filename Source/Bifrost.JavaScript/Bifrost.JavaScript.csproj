@@ -299,7 +299,7 @@
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- Custom task to bundle together files -->
-  <UsingTask TaskName="Bundle" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+  <UsingTask TaskName="Bundle" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" Condition=" '$(OS)' == 'Windows_NT' ">
     <ParameterGroup>
       <InputFilename ParameterType="System.String" Required="true" />
       <OutputFilename ParameterType="System.String" Required="true" />
@@ -325,7 +325,7 @@
           ]]></Code>
     </Task>
   </UsingTask>
-  <Target Name="CreateBifrostDebug" Inputs="@(Content)" Outputs="Bifrost.debug.js" BeforeTargets="BeforeBuild">
+  <Target Name="CreateBifrostDebug" Inputs="@(Content)" Outputs="Bifrost.debug.js" BeforeTargets="BeforeBuild" Condition=" '$(OS)' == 'Windows_NT' ">
     <Bundle InputFilename="$(ProjectDir)Bifrost.js" OutputFilename="$(ProjectDir)Bifrost.debug.js" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -357,8 +357,8 @@
     <None Include="jshint.conf" />
     <None Include="merge.cmd" />
   </ItemGroup>
-  <UsingTask AssemblyFile="$(SolutionDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" />
+  <UsingTask AssemblyFile="$(SolutionDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" Condition=" '$(OS)' == 'Windows_NT' " />
   <Target Name="BeforeBuild">
-    <JSLintTask SourceDirectory="$(ProjectDir)" SettingsFile="$(ProjectDir)jshint.conf" UseHint="true" />
+    <JSLintTask SourceDirectory="$(ProjectDir)" SettingsFile="$(ProjectDir)jshint.conf" UseHint="true" Condition=" '$(OS)' == 'Windows_NT' "/>
   </Target>
 </Project>
