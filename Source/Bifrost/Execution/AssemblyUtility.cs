@@ -14,6 +14,7 @@ namespace Bifrost.Execution
     public class AssemblyUtility : IAssemblyUtility
     {
 #pragma warning disable 1591 // Xml Comments
+#pragma warning disable 0219 // Unused variables
         public bool IsAssembly(AssemblyInfo assemblyInfo)
         {
             if (string.IsNullOrEmpty(assemblyInfo.Path)) return true;
@@ -81,6 +82,7 @@ namespace Bifrost.Execution
         {
             return assembly.IsDynamic;
         }
+#pragma warning restore 0219 // Unused variables        
 #pragma warning restore 1591 // Xml Comments
     }
 }
