@@ -1,5 +1,28 @@
 {
   "version": "1.0.0-*",
+  "copyright": "Copyright 2008 - 2017 Dolittle",
+  "authors": [
+    "all contributors"
+  ],
+  "description": "Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.",
+  "packOptions": {
+    "owners": [
+      "Dolittle"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/dolittle/bifrost"
+    },
+    "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/release_notes.md",
+    "licenseUrl": "https://github.com/dolittle/Bifrost/blob/master/LICENSE",
+    "iconUrl": "https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png",
+    "tags": [
+      "MVVM",
+      "SOLID",
+      "CQRS",
+      "LOB"
+    ]
+  },
   "buildOptions": {
     "debugType": "portable"
   },
