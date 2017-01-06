@@ -223,10 +223,6 @@ Target "PackageForNuGet" (fun _ ->
 Target "BuildRelease" DoNothing
 "RestorePackages" ==> "Build" ==> "BuildRelease"
 
-// Specs pipeline
-Target "Specs" DoNothing
-"MSpec" ==> "Specs"
-
 // Package pipline
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
@@ -234,3 +230,8 @@ Target "Package" DoNothing
 Target "Build" DoNothing
 //"UpdateVersionOnBuildServer" ==> "Build"
 "BuildRelease" ==> "Build"
+
+// after_test:
+//  - cmd: >-
+//    cd .\Build
+//    RunJavascriptSpecs.cmd
