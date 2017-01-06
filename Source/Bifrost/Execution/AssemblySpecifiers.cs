@@ -37,7 +37,7 @@ namespace Bifrost.Execution
         {
             _typeFinder
                 .FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap)
-                .Where(t => t.Assembly.FullName == assembly.FullName)
+                .Where(t => t.GetTypeInfo().Assembly.FullName == assembly.FullName)
                 .Where(type => type.HasDefaultConstructor())
                 .ForEach(type =>
                 {
