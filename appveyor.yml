@@ -4,9 +4,10 @@ pull_requests:
 build_script:
 - cmd: .\build.cmd
 test:
-  assemblies: 'Source\**\*.specs.dll'
+  assemblies: 'Source\**\*.Specs.dll'
 after_test:
 - cmd: >-
     cd %APPVEYOR_BUILD_FOLDER%\Build
+    echo %APPVEYOR_BUILD_FOLDER%\Build
     RunJavascriptSpecs.cmd
 deploy: off
