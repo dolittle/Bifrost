@@ -3,18 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
-using SimpleInjector;
-using SimpleInjector.Extensions;
-using SimpleInjector.Extensions.Decorators;
-using SimpleInjector.Advanced;
-using SimpleInjector.Advanced.Internal;
-using SimpleInjector.Diagnostics;
-using SimpleInjector.Integration.Web;
-using IContainer = Bifrost.Execution.IContainer;
-using System;
-using System.Collections.Generic;
 
 namespace Bifrost.SimpleInjector
 {
@@ -26,7 +17,8 @@ namespace Bifrost.SimpleInjector
         {
             _container = container;
         }
-        public BindingLifecycle DefaultLifecycle { get; set; }
+
+        public virtual BindingLifecycle DefaultLifecycle => BindingLifecycle.Transient;
 
         public T Get<T>()
         {
@@ -41,7 +33,10 @@ namespace Bifrost.SimpleInjector
             }
             catch
             {
-                if (!optional) throw;
+                if (!optional)
+                {
+                    throw;
+                }
             }
 
             return default(T);
@@ -52,7 +47,7 @@ namespace Bifrost.SimpleInjector
             return _container.GetInstance(type);
         }
 
-        public object Get(Type type, bool optional = false)
+        public object Get(Type type, bool optional)
         {
             try
             {
@@ -60,7 +55,10 @@ namespace Bifrost.SimpleInjector
             }
             catch
             {
-                if (!optional) throw;
+                if (!optional)
+                {
+                    throw;
+                }
             }
 
             return null;
@@ -95,12 +93,12 @@ namespace Bifrost.SimpleInjector
 
         public void Bind(Type service, Func<Type> resolveCallback)
         {
-            _container.Register(service, resolveCallback);
+            _container.Register(service, resolveCallback, DefaultLifecycle);
         }
 
         public void Bind<T>(Func<Type> resolveCallback)
         {
-            _container.Register(typeof(T), resolveCallback);
+            _container.Register(typeof(T), resolveCallback, DefaultLifecycle);
         }
 
         public void Bind(Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
@@ -121,27 +119,27 @@ namespace Bifrost.SimpleInjector
 
         public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            _container.Register(service, () => resolveCallback(service));
+            _container.Register(service, resolveCallback, DefaultLifecycle);
         }
 
         public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
         {
-            _container.Register<T>(resolveCallback, lifecycle);
+            _container.Register(resolveCallback, lifecycle);
         }
 
         public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
-            throw new NotImplementedException();
+            _container.Register(service, resolveCallback, lifecycle);
         }
 
         public void Bind<T>(Type type)
         {
-            _container.Register(typeof(T), () => type);
+            _container.Register(typeof(T), () => type, DefaultLifecycle);
         }
 
         public void Bind(Type service, Type type)
         {
-            _container.Register(service, () => type);
+            _container.Register(service, () => type, DefaultLifecycle);
         }
 
         public void Bind<T>(Type type, BindingLifecycle lifecycle)

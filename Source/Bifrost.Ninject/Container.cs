@@ -21,7 +21,9 @@ namespace Bifrost.Ninject
             _boundServices = new List<Type>();
         }
 
-        public IKernel Kernel { get; private set; }
+        public virtual BindingLifecycle DefaultLifecycle => BindingLifecycle.Transient;
+
+        public IKernel Kernel { get; }
 
         public T Get<T>()
         {
@@ -91,14 +93,12 @@ namespace Bifrost.Ninject
 
         public void Bind<T>(Type type)
         {
-            Kernel.Bind<T>().To(type);
-            _boundServices.Add(typeof(T));
+            Bind<T>(type, DefaultLifecycle);
         }
 
         public void Bind(Type service, Type type)
         {
-            Kernel.Bind(service).To(type);
-            _boundServices.Add(service);
+            Bind(service, type, DefaultLifecycle);
         }
 
         public void Bind<T>(Type type, BindingLifecycle lifecycle)
@@ -128,14 +128,12 @@ namespace Bifrost.Ninject
 
         public void Bind<T>(Func<T> resolveCallback)
         {
-            Kernel.Bind<T>().ToMethod(c => resolveCallback());
-            _boundServices.Add(typeof(T));
+            Bind(resolveCallback, DefaultLifecycle);
         }
 
         public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            Kernel.Bind(service).ToMethod(c => resolveCallback(c.Request.Service));
-            _boundServices.Add(service);
+            Bind(service, resolveCallback, DefaultLifecycle);
         }
 
         public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
@@ -149,7 +147,5 @@ namespace Bifrost.Ninject
             Kernel.Bind(service).ToMethod(c => resolveCallback(c.Request.Service)).WithLifecycle(lifecycle);
             _boundServices.Add(service);
         }
-
-        public BindingLifecycle DefaultLifecycle { get; set; }
     }
 }

@@ -17,14 +17,22 @@ namespace Bifrost.SimpleInjector
             Func<Type> typeResolver = () => { return resolveCallback.Invoke().GetType(); };
             container.Register(typeof(T), typeResolver, lifecycle);
         }
+
         public static void Register<T>(this global::SimpleInjector.Container container, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             container.Register(typeof(T), resolveCallback, lifecycle);
         }
+
         public static void Register(this global::SimpleInjector.Container container, Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             var lifestyle = ResolveLifestyle(lifecycle);
             container.Register(service, resolveCallback, lifestyle);
+        }
+
+        public static void Register(this global::SimpleInjector.Container container, Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
+        {
+            var lifestyle = ResolveLifestyle(lifecycle);
+            container.Register(service, () => resolveCallback, lifestyle);
         }
 
         private static Lifestyle ResolveLifestyle(BindingLifecycle lifecycle)
