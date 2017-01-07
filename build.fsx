@@ -227,13 +227,14 @@ Target "BuildRelease" DoNothing
 
 // Package pipline
 Target "Package" DoNothing
-"UpdateAssemblyInfoFiles" ==> "PackageForNuGet" ==> "Package"
+"UpdateAssemblyInfoFiles" ==> "Package"
+"PackageForNuGet" ==> "Package"
 
 Target "BuildAndPackage" DoNothing
-"BuildRelease" ==> "Package" ==> "BuildAndPackage"
+"BuildRelease" ==> "BuildAndPackage"
+"Package" ==> "BuildAndPackage"
 
 // Target "Deploy" DoNothing
-
 
 // after_test:
 //  - cmd: >-
