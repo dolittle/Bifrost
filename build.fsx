@@ -125,17 +125,18 @@ let lastNuGetVersion = getLatestNuGetVersion
 let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
 let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPreRelease && lastNuGetVersion.IsPreRelease)
+System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then "true" else "false")
 
 let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
-
 let solutionFile = "./Source/Solutions/Bifrost_All.sln"
-
 
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
 printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
+
+
 
 //*****************************************************************************
 //* Restore Packages
