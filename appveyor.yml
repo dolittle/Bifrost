@@ -7,10 +7,11 @@ test:
   assemblies: 'Source\**\*.Specs.dll'
 after_test:
   - cmd: >-
-    echo "Current directory is: "
+    echo "Current directory is:"
     cd 
 deploy: off
 on_success:
-  - cmd: echo "Hello world"
+  - cmd: >-
+    echo "Hello world"
 artifacts:
   - path: artifacts\**\*
