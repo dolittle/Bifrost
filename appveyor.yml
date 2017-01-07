@@ -5,11 +5,6 @@ build_script:
 - cmd: .\build.cmd BuildAndPackage
 test:
   assemblies: 'Source\**\*.Specs.dll'
-after_test:
-- cmd:
-    cd .\Build
-    cd
-    RunJavascriptSpecs.cmd
 deploy: off
 artifacts:
 - path: artifacts\nuget\*
