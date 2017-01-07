@@ -8,8 +8,5 @@ test:
 after_test:
   - cmd: cd
 deploy: off
-on_success:
-  - cmd: >-
-    echo "Hello world"
 artifacts:
   - path: artifacts\**\*
