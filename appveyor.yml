@@ -8,11 +8,12 @@ test:
 after_test:
 - cmd:
     cd .\Build
+    cd
     RunJavascriptSpecs.cmd
 deploy: off
 artifacts:
 - path: artifacts\nuget\*
-  name: NuGet Packages
+  name: nuget
 on_success:
 - cmd: >-
     msbuild Source\Documentation\Documentation.csproj /verbosity:minimal
