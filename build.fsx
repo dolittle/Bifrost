@@ -200,6 +200,10 @@ Target "PackageForNuGet" (fun _ ->
         ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs) |> ignore
 )
 
+Target "JavaScriptSpecs" (fun _ ->
+    ProcessHelper.Shell.Exec("RunJavascriptSpecs.cmd", dir="./Build") |> ignore
+)
+
 // ******** Pre Info 
 // Get Build Number from BuildServer
 // Get Version from Git Tag
