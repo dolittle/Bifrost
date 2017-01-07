@@ -184,9 +184,9 @@ Target "UpdateAssemblyInfoFiles" (fun _ ->
 //* Update project json files with correct version
 //*****************************************************************************
 Target "UpdateVersionOnBuildServer" (fun _ ->
-    trace "Update"
-    // https://www.appveyor.com/docs/environment-variables/
-    // https://www.appveyor.com/docs/build-worker-api/#update-build-details
+    if( appveyor ) then
+        let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
+        ProcessHelper.Shell.Exec("appveyor", args=allArgs) |> ignore
 )
 
 
@@ -196,7 +196,6 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
         let allArgs = sprintf "pack %s -OutputDirectory %s -Version %s -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
-        trace allArgs
         ProcessHelper.Shell.Exec("./Source/Solutions/.nuget/NuGet.exe", args=allArgs) |> ignore
 )
 
