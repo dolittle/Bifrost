@@ -6,9 +6,7 @@ build_script:
 test:
   assemblies: 'Source\**\*.Specs.dll'
 after_test:
-  - cmd: >-
-    echo "Current directory is:"
-    cd 
+  - cmd: cd
 deploy: off
 on_success:
   - cmd: >-
