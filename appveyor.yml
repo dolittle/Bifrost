@@ -13,7 +13,7 @@ deploy: off
 artifacts:
 - path: artifacts\nuget\*
   name: NuGet Packages
-after_build:
+on_success:
 - cmd: >-
     msbuild Source\Documentation\Documentation.csproj /verbosity:minimal
     git clone https://github.com/dolittle/dolittle.github.io.git
