@@ -221,8 +221,9 @@ Target "PackageForNuGet" (fun _ ->
 
 // Build pipeline
 Target "BuildRelease" DoNothing
-//"UpdateVersionOnBuildServer" ==> "Build"
-"RestorePackages" ==> "Build" ==> "BuildRelease"
+"UpdateVersionOnBuildServer" ==> "BuildRelease"
+"RestorePackages" ==> "BuildRelease"
+"Build" ==> "BuildRelease"
 
 // Package pipline
 Target "Package" DoNothing
