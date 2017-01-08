@@ -98,6 +98,8 @@ let company = "Dolittle"
 let copyright = "(C) 2008 - 2017 Dolittle"
 let trademark = ""
 
+let solutionFile = "./Source/Solutions/Bifrost_All.sln"
+
 let sourceDirectory = sprintf "%s/Source" __SOURCE_DIRECTORY__
 let artifactsDirectory = sprintf "%s/artifacts" __SOURCE_DIRECTORY__
 let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
@@ -118,6 +120,8 @@ let specProjectJsonFiles = specDirectories
                         
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
+
+// Versioning related
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
@@ -129,16 +133,18 @@ let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPreRelease && lastN
 System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then "true" else "false")
 
 let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
-let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 
+// Package related
 let nugetPath = "./Source/Solutions/.nuget/NuGet.exe"
 let nugetUrl = "https://www.nuget.org/api/v2/package"
 let mygetUrl = "https://www.myget.org/F/bifrost/api/v2/package"
 let nugetKey = System.Environment.GetEnvironmentVariable("NUGET_KEY")
 let mygetKey = System.Environment.GetEnvironmentVariable("MYGET_KEY")
 
+// Documentation related
 let documentationUser = System.Environment.GetEnvironmentVariable("DOCS_USER")
 let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOKEN")
+let documentationSolutionFile = "Source/Solutions/Bifrost_Documentation.sln"
 
 printfn "<----------------------- BUILD DETAILS ----------------------->"
 printfn "Git Version : %s" (versionFromGitTag.AsString())
@@ -244,6 +250,12 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
     if String.IsNullOrEmpty(documentationUser) then
         trace "Skipping building and publishing documentation - user not set"
     else
+        documentationSolutionFile
+         |> RestoreMSSolutionPackages (fun p ->
+             { p with
+                 OutputPath = "./Source/Solutions/packages"
+                 Retries = 4 })
+
         let buildMode = getBuildParamOrDefault "buildMode" "Release"
         let setParams defaults =
             { defaults with
@@ -254,7 +266,7 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
                     ]
             }
 
-        build setParams "Source/Solutions/Bifrost_Documentation.sln"
+        build setParams documentationSolutionFile
             |> DoNothing
 
         let siteDir = "dolittle.github.io"
