@@ -72,10 +72,11 @@ let getLatestTag repositoryDir =
     if error <> "" then failwithf "git describe failed: %s" error
     msg |> Seq.head
 
-let getVersionFromGitTag =
+let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
     let gitVersionTag = getLatestTag "./"
-    new BuildVersion("1.1.0-beta", 123, true)
+    tracef "Git tag version : %s" gitVersionTag
+    new BuildVersion(gitVersionTag, buildNumber, true)
 
 let getLatestNuGetVersion =
     trace "Get latest NuGet version"
@@ -89,6 +90,7 @@ let getLatestNuGetVersion =
     let version = (catalogEntry?version.AsString())
     
     new BuildVersion(version)
+    
 
 //*****************************************************************************
 //* Globals
@@ -125,7 +127,7 @@ let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVar
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
-let versionFromGitTag = getVersionFromGitTag
+let versionFromGitTag = getVersionFromGitTag buildNumber 
 let lastNuGetVersion = getLatestNuGetVersion
 let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
