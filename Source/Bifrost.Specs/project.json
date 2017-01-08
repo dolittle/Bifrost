@@ -1,4 +1,4 @@
-{
+﻿{
   "buildOptions": {
     "debugType": "portable",
     "emitEntryPoint": false,
@@ -15,18 +15,20 @@
   "dependencies": {
     "Bifrost": "1.0.0-*",
     "Bifrost.Testing": "1.0.0-*",
+    "dotnet-test-mspec": "*",
     "Machine.Specifications": "0.11.0",
     "Machine.Specifications.Should": "0.11.0",
-    "dotnet-test-mspec": "*",
     "moq": "4.6.38-alpha"
   },
   "runtimes": {
-    "win": { }
+    "win": {}
   },
   "frameworks": {
     "net461": {
       "buildOptions": {
-        "define": [ "NET461" ]
+        "define": [
+          "NET461"
+        ]
       }
     },
     "netcoreapp1.1": {
