@@ -33,7 +33,7 @@
             "bin/**/*.*",
             "obj/**/*.*",
             "Properties/AssemblyInfo.cs",
-            "packages.config"
+            "project.json"
         ]
     },
     "dependencies": {
