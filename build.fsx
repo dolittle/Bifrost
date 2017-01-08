@@ -130,12 +130,16 @@ System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then
 let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
 let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 
+let documentationUser = System.Environment.GetEnvironmentVariable("DOCS_USER")
+let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOKEN")
+
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
 printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
 
+printfn "Documentation User : %s" documentationUser
 
 
 //*****************************************************************************
