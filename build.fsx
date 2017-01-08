@@ -215,10 +215,11 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 //*****************************************************************************
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
-        let buildArgs = sprintf "build %s" file.FullName
-        ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
+        let buildArgs = sprintf "build %s --no-incremental" file.FullName
         let message = sprintf "**** BUILDING : %s *****" buildArgs
         trace message
+        ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
+        trace "**** BUILDING DONE ****"
         let allArgs = sprintf "pack %s -OutputDirectory %s -Version %s -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
         ProcessHelper.Shell.Exec(nugetPath, args=allArgs) |> ignore
 )
