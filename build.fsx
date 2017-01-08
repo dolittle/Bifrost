@@ -139,7 +139,8 @@ printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
 
-printfn "Documentation User : %s" documentationUser
+let l = sprintf "Documentation User : %s" documentationUser
+trace l
 
 
 //*****************************************************************************
