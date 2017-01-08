@@ -254,7 +254,7 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
                     ]
             }
 
-        build setParams "Source\Documentation\Documentation.csproj"
+        build setParams "Source/Solutions/Bifrost_Documentation.sln"
             |> DoNothing
 
         let siteDir = "dolittle.github.io"
@@ -271,6 +271,7 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         
         FileHelper.DeleteDir siteDir
 )
+
 
 //*****************************************************************************
 //* Deploy to NuGet if release mode
