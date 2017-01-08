@@ -133,14 +133,15 @@ let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 let documentationUser = System.Environment.GetEnvironmentVariable("DOCS_USER")
 let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOKEN")
 
+printfn "<----------------------- BUILD DETAILS ----------------------->"
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
 printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
+printfn "Documentation User : %s" documentationUser
+printfn "<----------------------- BUILD DETAILS ----------------------->"
 
-let l = sprintf "Documentation User : %s" documentationUser
-trace l
 
 
 //*****************************************************************************
@@ -265,9 +266,12 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
 // Build
 // Run MSpec Specs
 // Run JavaScript Specs
+//
 // If daily or alpha or beta - create nuget packages
 //     If daily and not alpha or beta -> Deploy to MyGet
 //     Else deploy to NuGet
+// Note: Deploy package only if it is a release build or build parameter saying it should publish package
+//
 // Clone Documentation Repository
 // DocFX for documentation -> Into Documentation repository
 // Push changes to Documentation Repository
@@ -294,5 +298,7 @@ Target "All" DoNothing
 "Specifications" ==> "All"
 "Package" ==> "All"
 "GenerateAndPublishDocumentation" ==> "All"
+
+
 
 RunTargetOrDefault "All"
