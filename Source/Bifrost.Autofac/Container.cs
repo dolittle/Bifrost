@@ -192,7 +192,7 @@ namespace Bifrost.Autofac
         {
             Update(x =>
                 {
-                    if (type.IsGenericType)
+                    if (type.GetTypeInfo().IsGenericType)
                     {
                         x.RegisterGeneric(type).PerLifeStyle(lifecycle).As(service);
                     }
