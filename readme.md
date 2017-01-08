@@ -4,7 +4,7 @@
 
 ![Bifrost Logo](Media/Logo/logo_128x128.png)
 
-## Documentation can be found [here](https://dolittle.github.io/bifrost) - build status: ![Image of documentation build status](https://ci.appveyor.com/api/projects/status/1gou8eihwqyeu48w?svg=true)
+## Documentation can be found [here](https://dolittle.github.io/bifrost)
 
 Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability. Embracing the concepts of Domain Driven Design, it helps developers and other stakeholders focus on business need and business value, rather than on the more technical aspects of the solution. Built from the ground up, it both embodies as well as encourages best quality engineering practises such as the SOLID principles, Convention Over Configuration and Separation of Concerns. Utilising CQRS, it fits perfectly with the ideas and promises of microservices and promotes the paradigm shift in thinking that can take LOB applications to the Cloud.
 
