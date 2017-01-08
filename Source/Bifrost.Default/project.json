@@ -24,6 +24,18 @@
     "buildOptions": {
         "debugType": "portable"
     },
+    "publishOptions": {
+        "include": "**/*.*",
+        "exclude": [
+            "Web.Debug.config",
+            "Web.Release.config",
+            "Web.config",
+            "bin/**/*.*",
+            "obj/**/*.*",
+            "Properties/AssemblyInfo.cs",
+            "packages.config"
+        ]
+    },
     "dependencies": {
         "Bifrost": "1.0.0-*",
         "Bifrost.JSON": "1.0.0-*",
