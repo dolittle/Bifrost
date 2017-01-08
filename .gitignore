@@ -41,6 +41,8 @@ _site
 
 artifacts
 
+log.txt
+
 # OS generated files #
 ######################
 .DS_Store
