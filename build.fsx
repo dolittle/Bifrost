@@ -216,8 +216,8 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
 
-        let restoerArgs = sprintf "restore %s" file.FullName
-        let restoreMessage = sprintf "**** Restoring for : %s *****" buildArgs
+        let restoreArgs = sprintf "restore %s" file.FullName
+        let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
         trace restoreMessage
         ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
         trace "**** RESTORING DONE ****"
