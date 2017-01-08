@@ -212,9 +212,10 @@ namespace Bifrost.Autofac
         {
             var builder = new ContainerBuilder();
             action.Invoke(builder);
+#pragma warning disable 0618
             builder.Update(_container);
+#pragma warning restore 0618
         }
-
 
         object ResolveUnregistered(Type type)
         {
