@@ -21,7 +21,14 @@
             "SOLID",
             "CQRS",
             "LOB"
-        ]
+        ],
+        "files": {
+            "mappings": {
+                "src/": [
+                    "**/*.cs"
+                ]
+            }
+        }
     },
     "buildOptions": {
         "debugType": "portable",
