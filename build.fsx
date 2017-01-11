@@ -133,9 +133,8 @@ let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
 let projectDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
                         |> Array.filter(fun d -> d.Name.Contains("Spec") = false )
 
-let projectJsonFiles = projectDirectories 
-                        |> Array.map(fun d -> filesInDirMatching "project.json" d)
-                        |> Array.concat
+let projectJsonFiles = File.ReadAllLines "projects.txt"
+                        |> Array.map(fun f -> new FileInfo(sprintf "./Source/%s/project.json" f))
 
 let specDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
                         |> Array.filter(fun d -> d.Name.Contains("Spec") )

@@ -1,0 +1,9 @@
+Bifrost
+Bifrost.Autofac
+Bifrost.JSON
+Bifrost.Ninject
+Bifrost.FluentValidation
+Bifrost.Web
+Bifrost.Default
+Bifrost.QuickStart
+Bifrost.Testing
