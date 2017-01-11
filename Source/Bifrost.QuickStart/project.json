@@ -23,6 +23,9 @@
       "LOB"
     ],
     "files": {
+      "exclude": [
+        "bin/**/*.*"
+      ],
       "mappings": {
         "Content/": {
           "include": "**/*.*",
