@@ -48,12 +48,6 @@
       <HintPath>..\Solutions\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\Solutions\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\Solutions\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
@@ -165,6 +159,7 @@
     <EmbeddedResource Include="Scripts\jquery-2.1.3.js" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.min.js" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="project.json" />
     <None Include="Web.config.transform" />
     <Content Include="Scripts\bootstrap.js" />
     <EmbeddedResource Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -192,7 +187,6 @@
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />
-    <Compile Include="Read\HumanResources\Employees\EmployeeTypeConfiguration.cs" />
     <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -209,14 +203,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bifrost.DocumentDB\Bifrost.DocumentDB.csproj">
-      <Project>{8db73e9b-8ae1-4341-8df8-469c578a150d}</Project>
-      <Name>Bifrost.DocumentDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.EntityFramework\Bifrost.EntityFramework.csproj">
-      <Project>{4d449212-b4e6-4d79-9e7d-cb43d8c2d51f}</Project>
-      <Name>Bifrost.EntityFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
       <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
       <Name>Bifrost.FluentValidation</Name>
@@ -229,17 +215,9 @@
       <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bifrost.MongoDb\Bifrost.MongoDB.csproj">
-      <Project>{63bbc1f3-e5e0-4902-badf-1589f91c0bea}</Project>
-      <Name>Bifrost.MongoDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bifrost.Ninject\Bifrost.Ninject.csproj">
       <Project>{3ee03158-1be0-470c-85fb-e673cd5fc9e1}</Project>
       <Name>Bifrost.Ninject</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
-      <Project>{cb331526-55bf-4887-a0d8-ee721b7fcdd7}</Project>
-      <Name>Bifrost.RavenDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bifrost.Web\Bifrost.Web.csproj">
       <Project>{0A748BD3-97DD-4C57-8069-4E36656C0A1A}</Project>

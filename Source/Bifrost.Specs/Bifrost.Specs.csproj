@@ -372,7 +372,11 @@
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_representation_of_a_long_to_a_long_concept.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_camel_casing_to_pascal_casing.cs" />
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_pascal_casing_to_camel_casing.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\ClassImplementingGenericInterface.cs" />
     <Compile Include="Extensions\for_TypeExtensions\ConceptType.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\IInterfaceWithGenericArguments.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\SomeObject.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_asking_type_if_implements_generic_interface_without_specifying_generic_arguments.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_what_concept_type_implements.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_if_non_nullable_type_is_nullable.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_a_type_that_is_not_a_concept_if_is_a_concept.cs" />
