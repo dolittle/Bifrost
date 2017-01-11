@@ -48,7 +48,10 @@
     }
   },
   "buildOptions": {
-    "debugType": "portable"
+    "debugType": "portable",
+    "compile": {
+      "exclude": "**/*.cs"
+    }
   },
   "publishOptions": {},
   "dependencies": {
