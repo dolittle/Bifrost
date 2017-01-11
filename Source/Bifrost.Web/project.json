@@ -33,7 +33,16 @@
         }
     },
     "buildOptions": {
-        "debugType": "portable"
+        "debugType": "portable",
+        "embed": {
+            "include": [
+                "Visualizer/**/*",
+                "Styles/**/*",
+                "img/**/*",
+                "font/**/*",
+                "css/**/*"
+            ]
+        }
     },
     "dependencies": {
         "Bifrost": "1.0.0-*",
