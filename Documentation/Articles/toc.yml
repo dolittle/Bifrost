@@ -6,6 +6,8 @@
     href: contributing.md
   - name: C# Coding Styles
     href: csharp_coding_styles.md
+  - name: C# Specifications
+    href: csharp_specifications.md
 - name: Debugging
   href: debugging.md
 - name: Conventions
