@@ -13,7 +13,7 @@
 * NullReferenceException in DefaultCallContext ([#665](https://github.com/dolittle/Bifrost/issues/665), [#706](https://github.com/dolittle/Bifrost/issues/706))
 * Bifrost.debug.js created using an MSBuild task ([#707](https://github.com/dolittle/Bifrost/issues/707))
 * Only call implementations of ICanSpecifyAssemblies once per assembly ([#666](https://github.com/dolittle/Bifrost/issues/666))
-* Discover HBM mappings automatically (#664)
+* Discover HBM mappings automatically ([#664](https://github.com/dolittle/Bifrost/issues/664))
 * Compliance with Newtonsoft.JSON guidelines for caching ([#676](https://github.com/dolittle/Bifrost/issues/676))
 * Removed Oracle EventStore support
 * Removed Microsoft Unity support
