@@ -68,9 +68,31 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
             BuildVersion(0,0,0,0,"",false)
 
 let getLatestTag repositoryDir =
-    let _,msg,error = runGitCommand repositoryDir "describe --tag --abbrev=0"
-    if error <> "" then failwithf "git describe failed: %s" error
-    msg |> Seq.head
+    let startInfo = new System.Diagnostics.ProcessStartInfo("git")
+    startInfo.Arguments <- "describe --tag --abbrev=0"
+    startInfo.RedirectStandardInput <- true
+    startInfo.RedirectStandardOutput <- true
+    startInfo.RedirectStandardError <- true
+    startInfo.UseShellExecute <- false
+    startInfo.CreateNoWindow <- true
+
+    use proc = new System.Diagnostics.Process(StartInfo = startInfo)
+    proc.Start() |> ignore
+    let result = proc.StandardOutput.ReadToEnd()
+    proc.WaitForExit()
+    if proc.ExitCode <> 0 then 
+        failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
+
+    printfn "%s" result
+
+    result
+    
+
+    
+
+//    let _,msg,error = runGitCommand repositoryDir "describe --tag --abbrev=0"
+//   if error <> "" then failwithf "git describe failed: %s" error
+//    msg |> Seq.head
 
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
