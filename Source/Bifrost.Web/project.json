@@ -1,7 +1,9 @@
 {
     "version": "1.0.0-*",
     "copyright": "Copyright 2008 - 2017 Dolittle",
-    "authors": ["all contributors"],
+    "authors": [
+        "all contributors"
+    ],
     "description": "Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.",
     "packOptions": {
         "owners": [
@@ -36,30 +38,34 @@
     "dependencies": {
         "Bifrost": "1.0.0-*",
         "Bifrost.JSON": "1.0.0-*",
-        "Antlr": "3.4.1.9004",
-        "Newtonsoft.Json": "9.0.1",
-        "Microsoft.AspNet.SignalR.Core": "2.2.0",
-        "Microsoft.AspNet.SignalR.SystemWeb": "2.2.0",
-        "Microsoft.AspNet.Web.Optimization": "1.1.3",
-        "Microsoft.Owin": "3.0.0",
-        "Microsoft.Owin.Host.SystemWeb": "3.0.0",
-        "Microsoft.Owin.Security": "3.0.0",
-        "Microsoft.Web.Infrastructure": "1.0.0",
-        "Owin": "1.0",
-        "WebActivatorEx": "2.0.6",
-        "WebGrease": "1.6.0"
+        "Newtonsoft.Json": "9.0.1"
     },
     "runtimes": {
         "win": {}
     },
     "frameworks": {
-      "net461": {
-        "buildOptions": {
-          "define":  ["NET461"]
-        },
-
-        "dependencies": {
+        "net461": {
+            "buildOptions": {
+                "define": [
+                    "NET461"
+                ]
+            },
+            "frameworkAssemblies": {
+                "System.Web": ""
+            },
+            "dependencies": {
+                "Antlr": "3.4.1.9004",
+                "Microsoft.AspNet.SignalR.Core": "2.2.0",
+                "Microsoft.AspNet.SignalR.SystemWeb": "2.2.0",
+                "Microsoft.AspNet.Web.Optimization": "1.1.3",
+                "Microsoft.Owin": "3.0.0",
+                "Microsoft.Owin.Host.SystemWeb": "3.0.0",
+                "Microsoft.Owin.Security": "3.0.0",
+                "Microsoft.Web.Infrastructure": "1.0.0",
+                "Owin": "1.0",
+                "WebActivatorEx": "2.0.6",
+                "WebGrease": "1.6.0"
+            }
         }
-      }
     }
 }
