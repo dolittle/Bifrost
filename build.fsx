@@ -391,6 +391,9 @@ Target "Specifications" DoNothing
 Target "Deploy" DoNothing
 "DeployNugetPackages" ==> "Deploy"
 
+Target "BuildAndSpecs" DoNothing
+"BuildRelease" => "BuildAndSpecs"
+"Specifications" => "BuildAndSpecs"
 
 Target "All" DoNothing
 "BuildRelease" ==> "All"
