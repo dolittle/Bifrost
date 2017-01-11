@@ -21,16 +21,7 @@
             "SOLID",
             "CQRS",
             "LOB"
-        ],
-        "files": {
-            "mappings": {
-                "lib/net461": {
-                    "include": [
-                        "bin\\Debug\\Bifrost.Web.dll"
-                    ]
-                }
-            }
-        }
+        ]
     },
     "buildOptions": {
         "debugType": "portable",
