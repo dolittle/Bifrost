@@ -75,10 +75,13 @@ let getLatestTag repositoryDir =
     startInfo.RedirectStandardError <- true
     startInfo.UseShellExecute <- false
     startInfo.CreateNoWindow <- true
+    
 
     use proc = new System.Diagnostics.Process(StartInfo = startInfo)
     proc.Start() |> ignore
-    let result = proc.StandardOutput.ReadToEnd()
+
+    let reader = new System.IO.StreamReader(proc.StandardOutput.BaseStream, System.Text.Encoding.UTF8)
+    let result = reader.ReadToEnd()
     proc.WaitForExit()
     if proc.ExitCode <> 0 then 
         failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
