@@ -21,22 +21,31 @@
             "SOLID",
             "CQRS",
             "LOB"
-        ]
+        ],
+        "files": {
+            "mappings": {
+                "Content/": {
+                    "include": "**/*.*",
+                    "exclude": [
+                        "bin/**/*.*",
+                        "obj/**/*.*",
+                        "*.csproj"
+                    ],
+                    "excludeFiles": [
+                        "Web.Debug.config",
+                        "Web.Release.config",
+                        "Web.config",
+                        "Properties/AssemblyInfo.cs",
+                        "project.json",
+                        "project.lock.json",
+                        "Web.config.transform"
+                    ]
+                }
+            }
+        }
     },
     "buildOptions": {
         "debugType": "portable"
-    },
-    "publishOptions": {
-        "include": "**/*.*",
-        "exclude": [
-            "Web.Debug.config",
-            "Web.Release.config",
-            "Web.config",
-            "bin/**/*.*",
-            "obj/**/*.*",
-            "Properties/AssemblyInfo.cs",
-            "project.json"
-        ]
     },
     "dependencies": {
         "Bifrost": "1.0.0-*",
