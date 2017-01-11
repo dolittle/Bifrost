@@ -64,7 +64,7 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
             else
                 BuildVersion(major,minor,patch,build,"",release)
         else 
-            failwithf "Unable to resolve version"
+            failwithf "Unable to resolve version from '%s'" versionAsString
             BuildVersion(0,0,0,0,"",false)
 
 let getLatestTag repositoryDir =
@@ -91,6 +91,30 @@ let getLatestNuGetVersion =
     
     new BuildVersion(version)
     
+let updateProjectJsonFile(file:FileInfo, version:BuildVersion) =
+    tracef "Update version and dependency versions for '%s'" file.FullName
+    let json = JsonValue.Load file.FullName
+    
+    let rec fixVersion json =
+        match json with
+        | JsonValue.String _ | JsonValue.Boolean _ | JsonValue.Float _ | JsonValue.Number _ | JsonValue.Null -> json
+        | JsonValue.Record properties -> 
+            properties 
+            |> Array.map (fun (key, value) -> key,
+                if key.StartsWith("Bifrost") || key.Equals("version") then 
+                    (version.AsString()) |> JsonValue.String
+                else
+                    fixVersion value
+                )
+            |> JsonValue.Record
+        | JsonValue.Array array ->
+            array
+            |> Array.map fixVersion
+            |> JsonValue.Array
+
+    let fixedJson = fixVersion json
+    File.WriteAllText(file.FullName, sprintf "%O" fixedJson)
+
 
 //*****************************************************************************
 //* Globals
@@ -119,7 +143,6 @@ let specDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*"
 let specProjectJsonFiles = specDirectories 
                         |> Array.map(fun d -> filesInDirMatching "project.json" d)
                         |> Array.concat
-                        
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
 
@@ -158,7 +181,6 @@ printfn "Documentation User : %s" documentationUser
 printfn "<----------------------- BUILD DETAILS ----------------------->"
 
 
-
 //*****************************************************************************
 //* Restore Packages
 //*****************************************************************************
@@ -189,6 +211,16 @@ Target "Build" <| fun _ ->
 
 
 //*****************************************************************************
+//* Update project json files with correct version
+//*****************************************************************************
+Target "UpdateVersionOnBuildServer" (fun _ ->
+    if( appveyor ) then
+        let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
+        ProcessHelper.Shell.Exec("appveyor", args=allArgs) |> ignore
+)
+
+
+//*****************************************************************************
 //* Update Assembly Info files with correct information
 //*****************************************************************************
 Target "UpdateAssemblyInfoFiles" (fun _ ->
@@ -202,15 +234,16 @@ Target "UpdateAssemblyInfoFiles" (fun _ ->
     ] <| AssemblyInfoFileConfig(false)
 )
 
-//*****************************************************************************
-//* Update project json files with correct version
-//*****************************************************************************
-Target "UpdateVersionOnBuildServer" (fun _ ->
-    if( appveyor ) then
-        let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
-        ProcessHelper.Shell.Exec("appveyor", args=allArgs) |> ignore
-)
 
+//*****************************************************************************
+//* Update project.json files with correct version and all Bifrost dependencies
+//* to be the same version as well. Since we're in one project, we deploy 
+//* all the packages in this repository at once
+//*****************************************************************************
+Target "UpdateProjectJsonFiles" (fun _ ->
+    for file in projectJsonFiles do
+        updateProjectJsonFile(file, buildVersion)
+)
 
 //*****************************************************************************
 //* Package all projects for NuGet
@@ -228,8 +261,8 @@ Target "PackageForNuGet" (fun _ ->
         trace message
         ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
         trace "**** BUILDING DONE ****"
-        let allArgs = sprintf "pack %s -OutputDirectory %s -Version %s -Symbols" file.FullName nugetDirectory (buildVersion.AsString())
-        ProcessHelper.Shell.Exec(nugetPath, args=allArgs) |> ignore
+        let allArgs = sprintf "pack %s --output %s" file.FullName nugetDirectory
+        ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )
 
 
@@ -322,7 +355,6 @@ Target "DeployNugetPackages" (fun _ ->
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
 // If tag is not a release tag - Append build number
 
-
 // ******** BUILD:
 // Restore packages
 // Create Assembly Version from Tag + Build Number -> Update Assembly Info
@@ -339,7 +371,6 @@ Target "DeployNugetPackages" (fun _ ->
 // DocFX for documentation -> Into Documentation repository
 // Push changes to Documentation Repository
 
-
 // Build pipeline
 Target "BuildRelease" DoNothing
 "UpdateVersionOnBuildServer" ==> "BuildRelease"
@@ -349,6 +380,7 @@ Target "BuildRelease" DoNothing
 // Package pipeline
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "Package"
+"UpdateProjectJsonFiles" ==> "Package"
 "PackageForNuGet" ==> "Package"
 
 // Specifications pipeline
