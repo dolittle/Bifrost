@@ -3,5 +3,9 @@ language: csharp
 mono:
   - 4.6.2
 
+os:
+  - linux
+  - osx
+
 script:
   - ./build.sh BuildAndSpecs
