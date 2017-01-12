@@ -10,6 +10,8 @@
     href: csharp_specifications.md
   - name: JavaScript Specifications
     href: javascript_specifications.md
+  - name: Runtime Exceptions
+    href: runtime_exceptions.md
   - name: Issues
     href: issues.md
 - name: Debugging
