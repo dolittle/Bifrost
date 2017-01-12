@@ -40,8 +40,7 @@
             "Web.config",
             "Properties/AssemblyInfo.cs",
             "project.json",
-            "project.lock.json",
-            "Web.config.transform"
+            "project.lock.json"
           ]
         }
       }
