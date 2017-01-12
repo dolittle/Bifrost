@@ -13,6 +13,6 @@ There is no need for **null** in most cases. If you have something that is optio
 for wether or not its provided. First of all, be explicit about what your dependencies are. A method should have overloads
 without the parameters that are optional. For implementations that are optional, provide a *NullImplementation* as the
 default instead. A good example of this is inside Bifrost you have the option of using an
-[IEventStore](../../api/Bifrost.Events.IEventStore.md) which then has a default [NullEventStore](../../api/Bifrost.Events.NullEventStore.md)
+[IEventStore](../../api/Bifrost.Events.IEventStore.html) which then has a default [NullEventStore](../../api/Bifrost.Events.NullEventStore.html)
 implementation set as default during configuration. This makes program flow better and no need for dealing with exceptions
 such as the [NullReferenceException](https://msdn.microsoft.com/en-us/library/system.nullreferenceexception(v=vs.110).aspx)
