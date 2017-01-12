@@ -94,6 +94,10 @@ namespace Web
                         w.PathsToNamespaces.Add("/**/", @namespace);
                         w.PathsToNamespaces.Add("", baseNamespace);
 
+                        // Normally you would use the base namespace - but since the demo code is written for a specific namespace
+                        // all the conventions in Bifrost won't work.
+                        baseNamespace = "Web";
+
                         w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Domain.**.", baseNamespace));
                         w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Read.**.", baseNamespace));
                         w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.**.", baseNamespace));
