@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Web;
 using Bifrost.Configuration;
@@ -71,11 +72,18 @@ namespace Bifrost.Web.Configuration
 
         string GetResource(string name)
         {
-            var stream = typeof(ConfigurationRouteHttpHandler).Assembly.GetManifestResourceStream(name);
-            var bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            var content = UTF8Encoding.UTF8.GetString(bytes);
-            return content;
+            try
+            {
+                var stream = typeof(ConfigurationRouteHttpHandler).Assembly.GetManifestResourceStream(name);
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                var content = UTF8Encoding.UTF8.GetString(bytes);
+                return content;
+            } catch
+            {
+                Debug.Write($"Couldn't get the resource '{name}'");
+                throw;
+            }
         }
 
         void InitializeIfNotInitialized()
