@@ -8,6 +8,8 @@
     href: csharp_coding_styles.md
   - name: C# Specifications
     href: csharp_specifications.md
+  - name: Issues
+    href: issues.md
 - name: Debugging
   href: debugging.md
 - name: Conventions
