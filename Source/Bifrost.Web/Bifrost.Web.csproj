@@ -146,6 +146,10 @@
     <Compile Include="Read\ReadModelProxies.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj">
+      <Project>{15567d0a-4daf-49cd-9f8f-4fa94ad889d3}</Project>
+      <Name>Bifrost.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj">
       <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
       <Name>Bifrost</Name>
@@ -155,16 +159,12 @@
       <Name>Bifrost.JSON</Name>
     </ProjectReference>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="font\SegoeUI.ttf" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Bifrost.Web.nuspec" />
-    <EmbeddedResource Include="..\Bifrost.JavaScript\Bifrost.debug.js">
-      <Link>Scripts\Bifrost.debug.js</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="Visualizer\SegoeUI.ttf" />
     <DotLess Include="Styles\bifrost.less" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.min.map" />
@@ -304,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LessMsbuildTasks.txt" />
+    <EmbeddedResource Include="Scripts\Bifrost.debug.js" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.js" />
     <EmbeddedResource Include="Scripts\jquery-2.1.3.min.js" />
@@ -313,4 +314,7 @@
     <EmbeddedResource Include="Scripts\knockout-3.2.0.js" />
   </ItemGroup>
   <Import Project="..\Solutions\packages\LessMsbuildTasks.1.0.7\tools\LessCompiler.targets" Condition="Exists('..\Solutions\packages\LessMsbuildTasks.1.0.7\tools\LessCompiler.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>copy $(ProjectDir)..\Bifrost.JavaScript\Bifrost.debug.js $(ProjectDir)Scripts\Bifrost.debug.js /y</PreBuildEvent>
+  </PropertyGroup>
 </Project>
