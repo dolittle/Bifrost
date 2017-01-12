@@ -14,6 +14,8 @@
     href: runtime_exceptions.md
   - name: Issues
     href: issues.md
+  - name: Copyright Header
+    href: copyright_header.md
 - name: Debugging
   href: debugging.md
 - name: Conventions
