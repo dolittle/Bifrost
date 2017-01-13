@@ -4,7 +4,7 @@
 | Source | Version |
 | ------ | ------- |
 | NuGet | [![NuGet](https://img.shields.io/nuget/v/Bifrost.svg)](https://www.nuget.org/packages?q=bifrost) |
-| MyGet | [![MyGet](https://img.shields.io/myget/bifrost/vpre/Bifrost.svg)](https://www.myget.org/feed/Packages/bifrost)
+| MyGet | [![MyGet](https://img.shields.io/myget/bifrost/vpre/Bifrost.svg)](https://www.myget.org/gallery/bifrost)
 
 | Platform | Build Status |
 | -------- | ------ |
