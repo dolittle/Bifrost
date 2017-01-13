@@ -80,7 +80,7 @@ Nuget package called Bifrost.Defaults.
 So select the Web project and do:
 
 ```PowerShell
-    PM> Install-Package Bifrost.Defaults
+    PM> Install-Package Bifrost.Default
 ```
 
 What this does is setup Bifrost with Ninject as IOC Container, RavenDB embedded and SignalR.
