@@ -117,17 +117,16 @@ Employees folder. We're going to add some HTML within the body tag in the newly 
 Now we're going to add a viewmodel that will be associated with your feature.
 
 ```js
-    Bifrost.namespace("Features.Employees", {
+    Bifrost.namespace("HumanResources.Employees", {
         register: Bifrost.Type.extend(function() {
         })
     });
 ```
 
-In the index.html file sitting at the root of your Web project, go and add the following within the body 
-tag:
+In the index.html file sitting at the root of your Web project, go and add the following within the body tag:
 
 ```html
-    <div data-view="Employees/register"></div>
+    <div data-view="HumanResources/Employees/register"></div>
 ```
 
 Running your application with index.html as your startup page now should show the registration page you created.
@@ -448,7 +447,7 @@ HumanResources.Employees. Add a class called Employee and make it look like belo
         public class Employee : IReadModel
         {
             public Guid Id { get; set; }
-            public SocialSecurityNumber	SocialSecurityNumber { get; set; }
+            public SocialSecurityNumber SocialSecurityNumber { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
         }
@@ -552,7 +551,7 @@ to hook it all up in the view.
 Lets modify the viewmodel to look like this:
 
 ```js
-    Bifrost.namespace("Features.Employees", {
+    Bifrost.namespace("HumanResources.Employees", {
         register: Bifrost.Type.extend(function(registerEmployee, allEmployees) {
             var self = this;
             this.register = registerEmployee;
