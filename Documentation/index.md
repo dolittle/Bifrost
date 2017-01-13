@@ -17,7 +17,7 @@ author: einari
             <span>|</span>
             <a class="github-link" href="https://github.com/dolittle/bifrost">View on Github</a>
             <span>|</span>
-            <a class="github-link" href="../LICENSE">MIT License</a>
+            <a class="github-link" href="https://github.com/dolittle/Bifrost/blob/master/LICENSE">MIT License</a>
             <span>|</span>
             <a class="github-link" href="../CODE_OF_CONDUCT.md">Code of conduct</a>
         </div>        
