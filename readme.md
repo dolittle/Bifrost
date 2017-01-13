@@ -1,6 +1,16 @@
-[![NuGet](https://img.shields.io/nuget/v/Bifrost.svg)]() ![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/93saivbkl94plciv?svg=true) [![Travis Build Status](https://travis-ci.org/dolittle/Bifrost.svg?branch=master)](https://travis-ci.org/dolittle/Bifrost)
 [![Join the chat at https://gitter.im/dolittle/Bifrost](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dolittle/Bifrost?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Stories in Ready](https://badge.waffle.io/dolittle/Bifrost.png?label=ready&title=Ready)](http://waffle.io/dolittle/Bifrost)
+
+| Source | Version |
+| ------ | ------- |
+| NuGet | [![NuGet](https://img.shields.io/nuget/v/Bifrost.svg)](https://www.nuget.org/packages?q=bifrost) |
+| MyGet | [![MyGet](https://img.shields.io/myget/bifrost/vpre/Bifrost.svg)](https://www.myget.org/gallery/bifrost)
+
+| Platform | Build Status |
+| -------- | ------ |
+| Windows | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/93saivbkl94plciv?svg=true)](https://ci.appveyor.com/project/Dolittle/bifrost-7c2cn) | 
+| Linux / macOS | [![Travis Build Status](https://travis-ci.org/dolittle/Bifrost.svg?branch=master)](https://travis-ci.org/dolittle/Bifrost) |
+
 
 ![Bifrost Logo](Media/Logo/logo_128x128.png)
 

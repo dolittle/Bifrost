@@ -33,6 +33,21 @@ Markdown can be written using the simplest of editors (Pico, Nano, Notepad), but
 great value and guides you through giving you feedback on errors. Editors like [Visual Studio Code](http://code.visualstudio.com/)
 and [Sublime Text](http://sublimetext.com) comes highly recommended.
 
+### Highlighting - notes
+
+Sometimes you need to highlight something with a note. You **MUST** use the following type:
+
+```markdown
+> [!Note]
+> Notes can have [links](https://github.com/dolittle/bifrost) and **formatting**
+```
+
+this results in:
+
+> [!Note]
+> Notes can have [links](https://github.com/dolittle/bifrost) and **formatting**
+
+
 ### Metadata
 
 All files **MUST** have a metadata header at the top of the file following the following format:
@@ -45,6 +60,9 @@ keywords: Contributing
 author: einari (your GitHub accountname)
 ---
 ```
+
+Some of this metadata gets put into the generated HTML file and some of it is used for indexing and
+other purposes and for future expansion.
 
 ## File names
 

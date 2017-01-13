@@ -385,3 +385,12 @@ luxury of running it scaled out in any way; nor should you, after all you don't 
 do you know the performance characteristics of your system, therefor you should probably just deploy it in such a way that it runs
 as a single process on a single server and scale out when needed. It is all about providing the capability when needed, build the
 system in a way that makes this possible. This is what Bifrost aims at making simple without compromise.
+
+[Einar Ingebrigtsen](https://github.com/einari) has created a video for [The Code Lab](http://thecodelab.tv) that explains architecture for Microservices, touching
+on most of the concepts described in this article:
+
+<div class="video">
+    <figure>
+        <iframe width="640" height="480" src="//www.youtube.com/embed/ewn0fhK2sA4" frameborder="0" allowfullscreen></iframe>
+    </figure>
+</div>
