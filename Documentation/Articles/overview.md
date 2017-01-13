@@ -1,3 +1,10 @@
+---
+title: General Overview
+description: Learn about all the background and thinking behind Bifrost 
+keywords: Overview
+author: einari
+---
+
 # Overview
 
 Bifrost targets the line of business type of application development. In this space there are very often requirements that
@@ -20,7 +27,7 @@ to them fully.
 
 ## History
 
-The project got started in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
+The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
 between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
 From the beginning the project evolved through the needs we saw when consulting for different companies. Amongst these were [Komplett](https://www.komplett.no).
 A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).

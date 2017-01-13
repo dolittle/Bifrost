@@ -7,6 +7,10 @@ author: einari
 
 # Documentation
 
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+“RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in
+[RFC 2119](https://tools.ietf.org/html/rfc2119).
+
 Documentation is a key success factor for adoption. This document describes the requirements for documentation.
 
 ## API Documentation
@@ -50,6 +54,7 @@ with underscore **_** instead. For instance: [*csharp_coding_styles.md*](chsarp_
 ## DocFX
 
 For processing all the documentation we're using [DocFX](http://dotnet.github.io/docfx/).
-It takes the API documentation and all the markdown articles and genereates HTML for us and it gets published.
+It takes the API documentation and all the markdown articles and genereates HTML for us and it gets published during
+the continuous build running.
 
 ** More details to come **.
