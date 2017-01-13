@@ -1,26 +1,13 @@
 ﻿using System.Web;
 using System.Web.Routing;
 using Bifrost.Configuration;
-using Web.Domain.HumanResources.Foos;
-using Bifrost.Web.Services;
-using Bifrost.Read;
-using Web.Read.HumanResources.Employees;
-using Bifrost.Sagas;
 using Bifrost.FluentValidation.Sagas;
+using Bifrost.Sagas;
+using Bifrost.Web.Services;
+using Web.Domain.HumanResources.Foos;
 
 namespace Web
 {
-
-    public class Something : IQueryFor<Employee>
-    {
-
-    }
-
-    public class Implementation : Something
-    {
-
-    }
-
     public class Configurator : ICanConfigure
     {
         public void Configure(IConfigure configure)
@@ -28,10 +15,6 @@ namespace Web
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
             var sagasPath = HttpContext.Current.Server.MapPath("~/App_Data/Sagas");
-
-            var queryFor = typeof(IQueryFor<>);
-            var allEmployees = typeof(Implementation);
-            var interfaces = allEmployees.GetInterfaces();
 
             configure.Container.Bind<IChapterValidationService>(typeof(ChapterValidationService));
             configure.Sagas.LibrarianType = typeof(SagaLibrarian);
@@ -88,15 +71,18 @@ namespace Web
                         #endregion
 
                         var baseNamespace = global::Bifrost.Configuration.Configure.Instance.EntryAssembly.GetName().Name;
+
+                        // Normally you would use the base namespace from the assembly - but since the demo code is written for a specific namespace
+                        // all the conventions in Bifrost won't work.
+                        // Recommend reading up on the namespacing and conventions related to it:
+                        // https://dolittle.github.io/bifrost/Frontend/JavaScript/namespacing.html
+                        baseNamespace = "Web";
+
                         var @namespace = string.Format("{0}.**.", baseNamespace);
 
                         w.PathsToNamespaces.Add("**/", @namespace);
                         w.PathsToNamespaces.Add("/**/", @namespace);
                         w.PathsToNamespaces.Add("", baseNamespace);
-
-                        // Normally you would use the base namespace - but since the demo code is written for a specific namespace
-                        // all the conventions in Bifrost won't work.
-                        baseNamespace = "Web";
 
                         w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Domain.**.", baseNamespace));
                         w.NamespaceMapper.Add(string.Format("{0}.**.", baseNamespace), string.Format("{0}.Read.**.", baseNamespace));
