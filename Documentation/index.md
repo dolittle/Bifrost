@@ -1,5 +1,8 @@
 ---
 title: Welcome to Bifrost
+description: This is the landing page of Bifrost
+keywords: Home
+author: einari
 ---
 
 <div class="hero">
