@@ -596,6 +596,9 @@ Going into the view file, we need to make it look like this:
     </fieldset>
 ```
 
+You might notice that naming is slightly different from the client JavaScript code to the C# code,
+varying on casing. Bifrost adhers to what is expected in the different spaces, read more [here](conventions.md).
+
 What the above alteration has done is to add binding of the values on the commands into the inputs.
 In addition we add validation messages using a binding handler that comes with Bifrost called
 "validationMessageFor" which points to the same values as its input is bound to.
