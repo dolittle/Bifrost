@@ -83,7 +83,7 @@ So select the Web project and do:
     PM> Install-Package Bifrost.Default
 ```
 
-What this does is setup Bifrost with Ninject as IOC Container, RavenDB embedded and SignalR.
+What this does is setup Bifrost with Ninject as IOC Container, Newtonsoft JSON, FluentValidation and SignalR.
 It also configures Bifrost to treat this as a single page application and adds an HTML file that
 just sets up Bifrost for you to start working with it.
 
