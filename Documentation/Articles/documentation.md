@@ -46,6 +46,9 @@ author: einari (your GitHub accountname)
 ---
 ```
 
+Some of this metadata gets put into the generated HTML file and some of it is used for indexing and
+other purposes and for future expansion.
+
 ## File names
 
 All files should be lower cased. In case of multiple words and concepts that would be in codefiles **CamelCase** you **MUST** seperate
