@@ -43,6 +43,9 @@ artifacts
 
 log.txt
 
+Source/Console/Events
+Source/EConsol/Entities
+
 # OS generated files #
 ######################
 .DS_Store
