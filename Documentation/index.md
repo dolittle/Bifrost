@@ -26,8 +26,8 @@ author: einari
         </div>
         <br>
         <div class="buttons-unit">
-            <a href="Tutorials/getting_started.md" class="button">Getting Started</a>
             <a href="Tutorials/quickstart.md" class="button">Get started with the Quickstart</a>
+            <a href="Tutorials/end_to_end.md" class="button">Getting Started</a>
         </div>
         <hr>
         <div>
