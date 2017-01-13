@@ -1,3 +1,10 @@
+---
+title: About versioning
+description: Learn about how Bifrost is versioned
+keywords: General
+author: einari
+---
+
 # Versioning
 
 Bifrost follows the [Semantic Versioning](https://semver.org) versioning scheme.

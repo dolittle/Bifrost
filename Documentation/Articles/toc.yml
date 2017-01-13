@@ -16,6 +16,8 @@
     href: issues.md
   - name: Copyright Header
     href: copyright_header.md
+  - name: Documentation
+    href: documentation.md
 - name: Debugging
   href: debugging.md
 - name: Conventions

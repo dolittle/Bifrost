@@ -1,4 +1,15 @@
+---
+title: About contributing
+description: Learn about how to contribute
+keywords: Contributing
+author: einari
+---
+
 # Contributing to Bifrost
+
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+“RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in
+[RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 You can contribute through the [issue list](https://github.com/dolittle/Bifrost/issues) or discussing issues in the list.
 If you want to contribute with code, you can submit a pull request with your changes.

@@ -4,6 +4,16 @@
   href: proxy_generation.md
 - name: Commands
   href: commands.md
+- name: Read Models
+  href: readModel.md
+- name: Namespacing
+  href: namespacing.md
+- name: Mapping
+  href: mapping.md
+- name: Messenger
+  href: messenger.md
+- name: Navigation
+  href: navigation.md
 - name: Interaction
   items:
   - name: Operations
