@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 1.1.1
+
+* Releasing all the projects - not just the core Bifrost project
+* Clean up QuickStart [#736](https://github.com/dolittle/Bifrost/issues/736)
+* Create contribution guideline for documentation [#689](https://github.com/dolittle/Bifrost/issues/689)
+* Detailed coding guidelines for C# [#688](https://github.com/dolittle/Bifrost/issues/688)
+* Issues guideline [#712](https://github.com/dolittle/Bifrost/issues/712)
+* Create a travis build [#710](https://github.com/dolittle/Bifrost/issues/) for cross platform - needs more work - it is failing right now
+* Put in place editor.config file [#709](https://github.com/dolittle/Bifrost/issues/709)
+
 ## Version 1.1.0
 
 * Targetting .NET 4.6.1 as a minimum for desktop framework
