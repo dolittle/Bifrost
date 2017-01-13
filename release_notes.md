@@ -2,7 +2,7 @@
 
 ## Version 1.1.0
 
-* Targetting .NET 4.6.1 as a minimum for desktop framework ()
+* Targetting .NET 4.6.1 as a minimum for desktop framework
 * Targetting .NET Standard 1.6 - capable of running on .NET Core 1.x
 * Silverlight support removed
 * Mimir has been removed as it was not maintained - it will come back in a new form
