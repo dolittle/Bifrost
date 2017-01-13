@@ -10,6 +10,7 @@
     "Bifrost.JSON": "1.0.0-*",
     "Bifrost.Testing": "1.0.0-*",
     "Bifrost.FluentValidation": "1.0.0-*",
+    "Bifrost.RabbitMQ": "1.0.0-*",
     "Ninject": "4.0.0-beta-0134",
     "Newtonsoft.Json": "9.0.1",
     "FluentValidation": "6.4.0-beta9"
