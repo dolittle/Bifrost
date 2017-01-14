@@ -4,7 +4,6 @@ using System;
 using Moq;
 using It = Machine.Specifications.It;
 
-
 namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator
 {
     [Subject(typeof(UncommittedEventStream))]
@@ -24,6 +23,6 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator
         Because of = () => coordinator.Commit(uncommitted_event_stream);
 
         It should_insert_event_stream_into_repository = () => event_store_mock.Verify(e => e.Commit(uncommitted_event_stream), Times.Once());
-        It should_delegate_coordination_of_the_committed_event_stream = () => committed_event_stream_coordinator_mock.Verify(c => c.Handle(committed_event_stream), Times.Once());
+        It should_send_the_committed_event_stream = () => committed_event_stream_sender_mock.Verify(c => c.Send(committed_event_stream), Times.Once());
     }
 }

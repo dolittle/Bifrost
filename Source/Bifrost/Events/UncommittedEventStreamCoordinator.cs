@@ -10,19 +10,19 @@ namespace Bifrost.Events
     public class UncommittedEventStreamCoordinator : IUncommittedEventStreamCoordinator
     {
         IEventStore _eventStore;
-        ICommittedEventStreamCoordinator _committedEventStreamCoordinator;
+        ICanSendCommittedEventStream _committedEventStreamSender;
 
         /// <summary>
         /// Initializes an instance of a <see cref="UncommittedEventStreamCoordinator"/>
         /// </summary>
         /// <param name="eventStore"><see cref="IEventStore"/> to use for saving the events</param>
-        /// <param name="committedEventStreamCoordinator"><see cref="ICommittedEventStreamCoordinator"/> coordinate the <see cref="CommittedEventStream"/></param>
+        /// <param name="committedEventStreamSender"><see cref="ICommittedEventStreamSender"/> send the <see cref="CommittedEventStream"/></param>
         public UncommittedEventStreamCoordinator(
             IEventStore eventStore,
-            ICommittedEventStreamCoordinator committedEventStreamCoordinator)
+            ICanSendCommittedEventStream committedEventStreamSender)
         {
             _eventStore = eventStore;
-            _committedEventStreamCoordinator = committedEventStreamCoordinator;
+            _committedEventStreamSender = committedEventStreamSender;
         }
 
 
@@ -30,7 +30,7 @@ namespace Bifrost.Events
         public void Commit(UncommittedEventStream uncommittedEventStream)
         {
             var committedEventStream = _eventStore.Commit(uncommittedEventStream);
-            _committedEventStreamCoordinator.Handle(committedEventStream);
+            _committedEventStreamSender.Send(committedEventStream);
         }
 #pragma warning restore 1591 // Xml Comments
     }

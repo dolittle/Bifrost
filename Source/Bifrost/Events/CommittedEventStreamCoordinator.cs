@@ -9,20 +9,13 @@ namespace Bifrost.Events
     /// </summary>
     public class CommittedEventStreamCoordinator : ICommittedEventStreamCoordinator
     {
-        ICanSendCommittedEventStream _committedEventStreamSender;
-
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStreamCoordinator"/>
         /// </summary>
-        public CommittedEventStreamCoordinator(ICanSendCommittedEventStream committedEventStreamSender)
+        public CommittedEventStreamCoordinator()
         {
-            _committedEventStreamSender = committedEventStreamSender;
         }
 
-        /// <inheritdoc/>
-        public void Handle(CommittedEventStream committedEventStream)
-        {
-            _committedEventStreamSender.Send(committedEventStream);
-        }
+        
     }
 }

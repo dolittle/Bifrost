@@ -7,6 +7,6 @@ namespace Bifrost.Specs.Events.for_CommittedEventStreamCoordinator.given
     {
         protected static CommittedEventStreamCoordinator committed_event_stream_coordinator;
 
-        Establish context = () => committed_event_stream_coordinator = new CommittedEventStreamCoordinator(committed_event_stream_sender_mock.Object);
+        Establish context = () => committed_event_stream_coordinator = new CommittedEventStreamCoordinator();
     }
 }

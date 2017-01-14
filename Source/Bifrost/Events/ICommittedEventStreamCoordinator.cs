@@ -9,10 +9,5 @@ namespace Bifrost.Events
     /// </summary>
     public interface ICommittedEventStreamCoordinator
     {
-        /// <summary>
-        /// Handles coordination of a <see cref="CommittedEventStream"/>
-        /// </summary>
-        /// <param name="committedEventStream"><see cref="CommittedEventStream"/> to coordinate</param>
-        void Handle(CommittedEventStream committedEventStream);
     }
 }

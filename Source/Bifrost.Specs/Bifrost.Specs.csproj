@@ -231,7 +231,6 @@
     <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\a_committed_event_stream_coordinator.cs" />
-    <Compile Include="Events\for_CommittedEventStreamCoordinator\when_handling_committed_event_stream.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
