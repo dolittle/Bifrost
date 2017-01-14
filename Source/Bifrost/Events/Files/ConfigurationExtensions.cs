@@ -21,9 +21,9 @@ namespace Bifrost.Configuration
         /// <returns>Chained <see cref="IConfigure"/> for fluent configuration</returns>
         public static IConfigure UsingFiles(this IEventsConfiguration eventsConfiguration, string path)
         {
-            eventsConfiguration.EventStoreType = typeof(EventStore);
-            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
-            eventsConfiguration.UncommittedEventStreamCoordinatorType = typeof(UncommittedEventStreamCoordinator);
+            eventsConfiguration.EventStore = typeof(EventStore);
+            eventsConfiguration.EventSubscriptions = typeof(EventSubscriptions);
+            eventsConfiguration.UncommittedEventStreamCoordinator = typeof(UncommittedEventStreamCoordinator);
 
             if (!Path.IsPathRooted(path))
                 path = Path.Combine(Directory.GetCurrentDirectory(), path);

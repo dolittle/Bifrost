@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -132,6 +132,18 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
+    <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
+    <Compile Include="Events\CommittedEventStreamReceived.cs" />
+    <Compile Include="Events\ConfigurationExcentions.cs" />
+    <Compile Include="Events\ICanReceiveCommittedEventStream.cs" />
+    <Compile Include="Events\ICanSendCommittedEventStream.cs" />
+    <Compile Include="Events\ICommittedEventStreamCoordinator.cs" />
+    <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
+    <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
+    <Compile Include="Events\InProcess\CommittedEventStreamSender.cs" />
+    <Compile Include="Events\InProcess\ICommittedEventStreamBridge.cs" />
+    <Compile Include="Events\NullCommittedEventStreamSender.cs" />
+    <Compile Include="Events\NullCommittedEventStreamReceiver.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
@@ -211,18 +223,13 @@
     <Compile Include="Entities\NullEntityContext.cs" />
     <Compile Include="Entities\NullEntityContextConfiguration.cs" />
     <Compile Include="Entities\NullEntityContextConnection.cs" />
-    <Compile Include="Events\AsynchronousUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\Files\ConfigurationExtensions.cs" />
     <Compile Include="Events\EventExtensions.cs" />
-    <Compile Include="Events\EventStoreChangeManager.cs" />
     <Compile Include="Events\EventSubscription.cs" />
     <Compile Include="Events\EventSubscriptionManager.cs" />
     <Compile Include="Events\Files\EventStore.cs" />
     <Compile Include="Events\Files\EventStoreConfiguration.cs" />
     <Compile Include="Events\Files\EventSubscriptions.cs" />
-    <Compile Include="Events\IEventStoreChangeListener.cs" />
-    <Compile Include="Events\IEventStoreChangeManager.cs" />
-    <Compile Include="Events\IEventStoreChangeNotifier.cs" />
     <Compile Include="Events\IEventSubscriptionManager.cs" />
     <Compile Include="Events\IEventSubscriptions.cs" />
     <Compile Include="Events\InvalidFastForwardException.cs" />
@@ -442,11 +449,11 @@
     <Compile Include="Configuration\Configure.cs" />
     <Compile Include="Configuration\Defaults\DefaultBindings.cs" />
     <Compile Include="Configuration\Defaults\DefaultConventions.cs" />
-    <Compile Include="Configuration\EventsConfiguration.cs" />
+    <Compile Include="Events\EventsConfiguration.cs" />
     <Compile Include="Configuration\ICommandsConfiguration.cs" />
     <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
     <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
-    <Compile Include="Configuration\IEventsConfiguration.cs" />
+    <Compile Include="Events\IEventsConfiguration.cs" />
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />

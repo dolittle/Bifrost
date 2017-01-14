@@ -229,6 +229,10 @@
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_that_has_events.cs" />
     <Compile Include="Dynamic\for_DynamicExtensions\ObjectWithProperties.cs" />
     <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
+    <Compile Include="Events\for_CommittedEventStreamCoordinator\given\all_dependencies.cs" />
+    <Compile Include="Events\for_CommittedEventStreamCoordinator\given\a_committed_event_stream_coordinator.cs" />
+    <Compile Include="Events\for_CommittedEventStreamCoordinator\when_handling_committed_event_stream.cs" />
+    <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
     <Compile Include="Events\for_EventExtensions\when_marking_two_events_with_command_details.cs" />
@@ -244,11 +248,6 @@
     <Compile Include="Events\for_EventSource\when_fast_fowarding_a_stateless_aggregate_root_that_is_the_initial_version.cs" />
     <Compile Include="Events\for_EventSource\when_getting_the_on_method_on_an_event_source_for_an_event.cs" />
     <Compile Include="Events\for_EventSource\when_reapplying_a_stream_on_a_stateless_event_source.cs" />
-    <Compile Include="Events\for_EventStoreChangeManager\EventStoreChangeNotifier.cs" />
-    <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_manager_with_one_notifier_registered.cs" />
-    <Compile Include="Events\for_EventStoreChangeManager\given\an_event_store_change_notifier.cs" />
-    <Compile Include="Events\for_EventStoreChangeManager\when_notifying_changes_with_one_notifier.cs" />
-    <Compile Include="Events\for_EventStoreChangeManager\when_registering_a_notifier_that_does_not_implement_the_notifier_interface.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\EventSubscriberForTwoEvents.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\SomeOtherEvent.cs" />
     <Compile Include="Events\for_EventSubscriptionManager\when_getting_available_subscriptions_and_one_is_in_repository_and_in_running_process.cs" />
@@ -273,6 +272,9 @@
     <Compile Include="Events\for_ProcessMethodInvoker\TypeWithSimpleEventProcessMethod.cs" />
     <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_handle_a_given_event.cs" />
     <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_not_handle_a_given_event.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamSender\given\all_dependencies.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamSender\given\a_committed_event_stream_sender.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamSender\when_sending_comitted_event_stream.cs" />
     <Compile Include="Execution\for_any_conventions\SelfBindingConvention.cs" />
     <Compile Include="Execution\for_any_conventions\TypeWithSingletonAttribute.cs" />
     <Compile Include="Execution\for_any_conventions\when_resolving_a_type_that_has_singleton_attribute.cs" />

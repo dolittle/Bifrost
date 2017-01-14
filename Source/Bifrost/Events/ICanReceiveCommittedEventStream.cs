@@ -5,15 +5,13 @@
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Defines a notifier for notifying when changes occur on an <see cref="IEventStore"/>
+    /// Defines something that is capable of receiving <see cref="CommittedEventStream"/>
     /// </summary>
-    public interface IEventStoreChangeNotifier
+    public interface ICanReceiveCommittedEventStream
     {
         /// <summary>
-        /// Notify changes for a <see cref="IEventStore"/>
+        /// Event that fires when a new <see cref="CommittedEventStream"/> is received
         /// </summary>
-        /// <param name="eventStore"><see cref="IEventStore"/> to notify for</param>
-        /// <param name="streamOfEvents"><see cref="EventStream"/> with events to notify for</param>
-        void Notify(IEventStore eventStore, EventStream streamOfEvents);
+        event CommittedEventStreamReceived Received;
     }
 }

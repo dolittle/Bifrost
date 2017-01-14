@@ -5,10 +5,8 @@
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Defines a listener for changes occuring on a <see cref="IEventStore"/>
+    /// Represents a delegete for dealing with a received <see cref="CommittedEventStream"/> 
     /// </summary>
-    public interface IEventStoreChangeListener
-    {
-
-    }
+    /// <param name="committedEventStream"><see cref="CommittedEventStream"/> that was received</param>
+    public delegate void CommittedEventStreamReceived(CommittedEventStream committedEventStream);
 }

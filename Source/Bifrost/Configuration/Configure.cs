@@ -13,6 +13,7 @@ using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Diagnostics;
 using Bifrost.Configuration.Assemblies;
+using Bifrost.Events;
 
 namespace Bifrost.Configuration
 {

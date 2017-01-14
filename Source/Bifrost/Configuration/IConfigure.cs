@@ -5,6 +5,7 @@
 using System.Globalization;
 using System.Reflection;
 using Bifrost.Configuration.Assemblies;
+using Bifrost.Events;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration

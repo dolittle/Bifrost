@@ -2,6 +2,7 @@
 using Bifrost.Configuration;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
+using Bifrost.Events;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;

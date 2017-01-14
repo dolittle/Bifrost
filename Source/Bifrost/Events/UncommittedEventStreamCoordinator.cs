@@ -10,24 +10,19 @@ namespace Bifrost.Events
     public class UncommittedEventStreamCoordinator : IUncommittedEventStreamCoordinator
     {
         IEventStore _eventStore;
-        IEventStoreChangeManager _eventStoreChangeManager;
-        IEventSubscriptionManager _eventSubscriptionManager;
-
+        ICommittedEventStreamCoordinator _committedEventStreamCoordinator;
 
         /// <summary>
         /// Initializes an instance of a <see cref="UncommittedEventStreamCoordinator"/>
         /// </summary>
         /// <param name="eventStore"><see cref="IEventStore"/> to use for saving the events</param>
-        /// <param name="eventStoreChangeManager"><see cref="IEventStoreChangeManager"/> to notify about changes</param>
-        /// <param name="eventSubscriptionManager"><see cref="IEventSubscriptionManager"/> to process subscriptions</param>
+        /// <param name="committedEventStreamCoordinator"><see cref="ICommittedEventStreamCoordinator"/> coordinate the <see cref="CommittedEventStream"/></param>
         public UncommittedEventStreamCoordinator(
             IEventStore eventStore,
-            IEventStoreChangeManager eventStoreChangeManager,
-            IEventSubscriptionManager eventSubscriptionManager)
+            ICommittedEventStreamCoordinator committedEventStreamCoordinator)
         {
             _eventStore = eventStore;
-            _eventStoreChangeManager = eventStoreChangeManager;
-            _eventSubscriptionManager = eventSubscriptionManager;
+            _committedEventStreamCoordinator = committedEventStreamCoordinator;
         }
 
 
@@ -35,8 +30,7 @@ namespace Bifrost.Events
         public void Commit(UncommittedEventStream uncommittedEventStream)
         {
             var committedEventStream = _eventStore.Commit(uncommittedEventStream);
-            _eventSubscriptionManager.Process(committedEventStream);
-            _eventStoreChangeManager.NotifyChanges(_eventStore, committedEventStream);
+            _committedEventStreamCoordinator.Handle(committedEventStream);
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -3,8 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Bifrost.Configuration;
 
-namespace Bifrost.Configuration
+namespace Bifrost.Events
 {
 	/// <summary>
 	/// Defines the configuration for events
@@ -14,22 +15,26 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Gets or sets the type of <see cref="IUncommittedEventStreamCoordinator"/> used for coordinating events that will be committed
         /// </summary>
-        Type UncommittedEventStreamCoordinatorType { get; set; }
+        Type UncommittedEventStreamCoordinator { get; set; }
 
         /// <summary>
         /// Gets or sets the type of <see cref="IEventStore"/> to use for handling events
         /// </summary>
-        Type EventStoreType { get; set; }
+        Type EventStore { get; set; }
 
         /// <summary>
         /// Gets or sets the type of <see cref="IEventSubscriptions"/> to use for handling event subscriptions
         /// </summary>
-        Type EventSubscriptionsType { get; set; }
+        Type EventSubscriptions { get; set; }
 
         /// <summary>
-        /// Add a <see cref="IEventStoreChangeNotifier"/> type for the configuration
+        /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling sending of <see cref="CommittedEventStream"/>
         /// </summary>
-        /// <param name="type"></param>
-        void AddEventStoreChangeNotifier(Type type);
+        Type CommittedEventStreamSender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling receiving of <see cref="CommittedEventStream"/>
+        /// </summary>
+        Type CommittedEventStreamReceiver { get; set; }
     }
 }
