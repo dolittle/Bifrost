@@ -9,3 +9,6 @@ os:
 
 script:
   - ./build.sh BuildAndSpecs
+  
+notifications:
+  email: false
