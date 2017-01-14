@@ -272,6 +272,9 @@
     <Compile Include="Events\for_ProcessMethodInvoker\TypeWithSimpleEventProcessMethod.cs" />
     <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_handle_a_given_event.cs" />
     <Compile Include="Events\for_ProcessMethodInvoker\when_invoking_on_an_instance_that_can_not_handle_a_given_event.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamReceiver\given\all_dependencies.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamReceiver\given\a_committed_event_stream_receiver.cs" />
+    <Compile Include="Events\InProcess\for_CommittedEventStreamReceiver\when_committed_event_stream_is_received.cs" />
     <Compile Include="Events\InProcess\for_CommittedEventStreamSender\given\all_dependencies.cs" />
     <Compile Include="Events\InProcess\for_CommittedEventStreamSender\given\a_committed_event_stream_sender.cs" />
     <Compile Include="Events\InProcess\for_CommittedEventStreamSender\when_sending_comitted_event_stream.cs" />
