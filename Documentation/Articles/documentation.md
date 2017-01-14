@@ -22,6 +22,12 @@ All pubic APIs **MUST** be documented.
 All C# files **MUST** be documented using the XML documentation as defined [here](https://msdn.microsoft.com/en-us/library/b2s063f7.aspx).
 A tutorial can also be found [here](https://msdn.microsoft.com/en-us/library/aa288481(v=vs.71).aspx).
 
+For inheritance in documentation, you can use the [`<ineritdoc/>`](https://ewsoftware.github.io/XMLCommentsGuide/html/86453FFB-B978-4A2A-9EB5-70E118CA8073.htm).
+
+> [!Note]
+> This is relying on support in [DocFX](http://dotnet.github.io/docfx/).
+> Which seems to be [coming](https://github.com/dotnet/docfx/pull/1178)
+
 ### JavaScript
 
 ** WORK IN PROGRESS **
