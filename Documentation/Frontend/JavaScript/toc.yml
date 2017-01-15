@@ -52,3 +52,16 @@
     href: Interaction/triggers.md
   - name: Visual States
     href: Interaction/visualStates.md
+- name: DOM
+  items:
+  - name: Element Visitors
+    href: element_visitors.md
+  - name: UI Element
+    href: ui_element.md
+  - name: Attached Property
+    href: attached_property.md
+  - name: Binding Context
+    href: binding_context.md
+  - name: Controls
+    href: controls.md
+
