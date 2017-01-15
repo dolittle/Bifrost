@@ -6,3 +6,7 @@ author: einari
 ---
 
 # Regions
+
+## Inheritance
+
+## Region Descriptors
