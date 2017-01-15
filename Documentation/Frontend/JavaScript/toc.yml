@@ -14,6 +14,36 @@
   href: messenger.md
 - name: Navigation
   href: navigation.md
+- name: Query
+  href: query.md
+- name: Read Models
+  href: read_model.md
+- name: Regions
+  href: regions.md
+- name: Services
+  href: services.md
+- name: Tasks
+  href: tasks.md    
+- name: Validation
+  href: validation.md
+- name: View Models
+  href: view_models.md
+- name: Views
+  href: views.md
+- name: Values
+  items: 
+  - name: Binding
+    href: Values/binding.md
+  - name: formatter
+    href: Values/formatter.md
+  - name: Value Consumer
+    href: Values/value_consumer.md
+  - name: Value Provider
+    href: Values/value_provider.md
+  - name: Value Converter
+    href: Values/value_converter.md
+  - name: Type Converter
+    href: Values/type_converter.md  
 - name: Interaction
   items:
   - name: Operations
