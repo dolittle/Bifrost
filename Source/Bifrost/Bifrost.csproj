@@ -134,7 +134,6 @@
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
-    <Compile Include="Events\ConfigurationExcentions.cs" />
     <Compile Include="Events\ICanReceiveCommittedEventStream.cs" />
     <Compile Include="Events\ICanSendCommittedEventStream.cs" />
     <Compile Include="Events\ICommittedEventStreamCoordinator.cs" />
@@ -449,11 +448,11 @@
     <Compile Include="Configuration\Configure.cs" />
     <Compile Include="Configuration\Defaults\DefaultBindings.cs" />
     <Compile Include="Configuration\Defaults\DefaultConventions.cs" />
-    <Compile Include="Events\EventsConfiguration.cs" />
+    <Compile Include="Configuration\EventsConfiguration.cs" />
     <Compile Include="Configuration\ICommandsConfiguration.cs" />
     <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
     <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
-    <Compile Include="Events\IEventsConfiguration.cs" />
+    <Compile Include="Configuration\IEventsConfiguration.cs" />
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />

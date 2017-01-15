@@ -9,5 +9,9 @@ namespace Bifrost.Events
     /// </summary>
     public interface ICommittedEventStreamCoordinator
     {
+        /// <summary>
+        /// Initialize the coordinator
+        /// </summary>
+        void Initialize();
     }
 }

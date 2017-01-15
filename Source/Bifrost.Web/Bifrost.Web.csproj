@@ -79,9 +79,6 @@
     <Compile Include="Configuration\ScriptsToInclude.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Commands\CommandSecurityProxies.cs" />
-    <Compile Include="Events\CommandCoordinatorEvents.cs" />
-    <Compile Include="Events\EventStoreChangeNotifier.cs" />
-    <Compile Include="Events\ICommandCoordinatorEvents.cs" />
     <Compile Include="Hubs\HubCodeGenerationExtensions.cs" />
     <Compile Include="Hubs\HubProxies.cs" />
     <Compile Include="Security\SecurityRoute.cs" />
