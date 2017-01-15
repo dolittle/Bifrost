@@ -5,7 +5,7 @@
 using System;
 using Bifrost.Configuration;
 
-namespace Bifrost.Events
+namespace Bifrost.Configuration
 {
 	/// <summary>
 	/// Defines the configuration for events

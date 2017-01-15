@@ -4,9 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Configuration;
+using Bifrost.Events;
+using Bifrost.Events.InProcess;
 using Bifrost.Execution;
 
-namespace Bifrost.Events
+namespace Bifrost.Configuration
 {
     /// <summary>
     /// Represents an implementation of <see cref="IEventsConfiguration"/>
@@ -48,6 +50,8 @@ namespace Bifrost.Events
             container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
             container.Bind<IEventStore>(EventStore, BindingLifecycle.Singleton);
             container.Bind<IEventSubscriptions>(EventSubscriptions, BindingLifecycle.Singleton);
+
+            container.Get<ICommittedEventStreamCoordinator>().Initialize();
 
             if (EntityContextConfiguration != null)
             {
