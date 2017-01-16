@@ -10,6 +10,30 @@ author: einari
 The quickstart is a [NuGet](https://nuget.org) package that sets you with a sample building on Bifrost.
 With the quickstart you get a Web based project that showcases Bifrost in an [end-to-end](end_to_end.md) scenario.
 
+> [!Note]
+> Bifrost is currently dependending on pre-release versions of some of its dependencies (Ninject & FluentValidation)
+> Due to Bifrost being marked as a release package, NuGet inside Visual Studio will complain and not install correctly.
+> This experience is not the same using the dotnet CLI and project.json.
+>
+> In order for you to get things running, you need to explicitly install the FluentValidation and Ninject parts before
+> the quickstart package.
+>
+> ![Ninject PreRelease](quickstart_images/ninject_prerelease.png)
+>
+> Or through the package manager console:
+>
+>```PowerShell
+>    PM> Install-Package Ninject -version 4.0.0-beta-0134
+>```
+>
+> ![FluentValidation PreRelease](quickstart_images/fluentvalidation_prerelease.png)
+>
+> Or through the package manager console:
+>
+>```PowerShell
+>    PM> Install-Package FluentValidation -version 6.4.0-beta-9
+>```
+
 ## Step by Step
 
 > [!Note]
