@@ -72,5 +72,5 @@ to and when not executed represents a possible change.
 | hasChanges                | Boolean  | X          | Returns wether or not there are any commands with changes or any operations scheduled in the region or any sub region |
 | isExecuting               | Boolean  | X          | Returns wether or not there are any commands in the region or any sub region executing |
 | isComposing               | Boolean  | X          | Returns wether or not composition tasks in the region or any sub region is being performed |
-| isLoading                 | Boolean  | X          | Returns wether or not there is a loading task running in the region or any sub region |
+| isLoading                 | Boolean  | X          | Returns wether or not there is a loading task running, for instance queries loading data in the region or any sub region |
 | isBusy                    | Boolean  | X          | An aggregate of isLoading, isComposing and isExecuting |
