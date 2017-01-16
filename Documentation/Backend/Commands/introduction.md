@@ -37,5 +37,5 @@ with the optional parameters.  It is **recommended** that you use [Concepts](../
 validation.
 
 > [!Note]  
-> For JavaScript, proxy representations can be used for the commands, read more about the mechanism [here](../Backend/proxy_generation).
+> For JavaScript, proxy representations can be used for the commands, read more about the mechanism [here](../../Frontend/JavaScript/proxy_generation.md).
 
