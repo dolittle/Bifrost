@@ -12,12 +12,16 @@ A region is a logical grouping of a [view](views.md) and a [view model](view_mod
 All regions are implicitly created during compositions, Bifrost manages creation and
 lifecycle of them.
 
+![Region Overview](images/region_overview.png)
+
 ## Hierarchy
 
 A region can have child regions. The region will be aware of any of the child
 regions properties and respond to their changes recursively. This allows for checking
 things like validation without having knowledge about the concrete different regions.
-[Commands](commands.md)
+The region will aggregate information about what is going on in the region or any of
+sub regions. Later in this article you'll see an overview of properties you can use
+from the region.
 
 ## Inheritance
 
@@ -45,6 +49,13 @@ Bifrost.namespace("BoundedContext.Feature", {
 });
 ```
 
+## Operations
+
+Bifrost has the concept of [operations](Interaction/operations.md). Basically an encapsulation
+of work that the user wants performed. The operations are aggregated into the region they belong
+to and when not executed represents a possible change.
+
+
 ## Properties
 
 | Property                  | Type     | Observable | Description |
@@ -54,12 +65,12 @@ Bifrost.namespace("BoundedContext.Feature", {
 | parent                    | Region   | X          | Parent region |
 | isValid                   | Boolean  | X          | Returns validation related to any commands in the hierarchy |
 | validationMessages        | String[] | X          | Array of any validation messages|
-| canCommandsExwecute       | Boolean  | X          | Returns wether or not all the commands are capable of executing |
-| areCommandsAuthorized     | Boolean  | X          | |
-| commandsHaveChanges       | Boolean  | X          | |
-| areCommandsReadyToExecute | Boolean  | X          | |
-| hasChanges                | Boolean  | X          | |
-| isExecuting               | Boolean  | X          | |
-| isComposing               | Boolean  | X          | |
-| isLoading                 | Boolean  | X          | |
-| isBusy                    | Boolean  | X          | |
+| canCommandsExwecute       | Boolean  | X          | Returns wether or not all the commands in the region or any sub region are capable of executing |
+| areCommandsAuthorized     | Boolean  | X          | Returns wether or not all the commands in the region or any sub region are authorized |
+| commandsHaveChanges       | Boolean  | X          | Returns wether or not any of the commands in the region or any sub region are authorized |
+| areCommandsReadyToExecute | Boolean  | X          | Returns wether or not all the commands in the region or any sub region are ready to execute |
+| hasChanges                | Boolean  | X          | Returns wether or not there are any commands with changes or any operations scheduled in the region or any sub region |
+| isExecuting               | Boolean  | X          | Returns wether or not there are any commands in the region or any sub region executing |
+| isComposing               | Boolean  | X          | Returns wether or not composition tasks in the region or any sub region is being performed |
+| isLoading                 | Boolean  | X          | Returns wether or not there is a loading task running in the region or any sub region |
+| isBusy                    | Boolean  | X          | An aggregate of isLoading, isComposing and isExecuting |
