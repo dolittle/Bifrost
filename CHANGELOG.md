@@ -1,5 +1,9 @@
 # Release Notes
 
+## Version 1.1.2
+
+* No changes - just fingertrouble when releasing 1.1.1
+
 ## Version 1.1.1
 
 * Releasing all the projects - not just the core Bifrost project
