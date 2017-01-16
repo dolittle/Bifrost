@@ -13,7 +13,7 @@
             "type": "git",
             "url": "https://github.com/dolittle/bifrost"
         },
-        "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/release_notes.md",
+        "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md",
         "licenseUrl": "https://github.com/dolittle/Bifrost/blob/master/LICENSE",
         "iconUrl": "https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png",
         "tags": [

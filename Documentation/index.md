@@ -13,7 +13,7 @@ author: einari
         </div>
         <br>
         <div class="buttons-unit-small">
-            <a class="version-link" href="../release_notes.md">Release Notes</a>
+            <a class="version-link" href="../CHANGELOG.md">Release Notes</a>
             <span>|</span>
             <a class="github-link" href="https://github.com/dolittle/bifrost">View on Github</a>
             <span>|</span>
