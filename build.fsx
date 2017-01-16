@@ -270,11 +270,10 @@ Target "UpdateProjectJsonFiles" (fun _ ->
 )
 
 //*****************************************************************************
-//* Package all projects for NuGet
+//* Build all .NET Core projects
 //*****************************************************************************
-Target "PackageForNuGet" (fun _ ->
+Target "DotNetCoreBuild" (fun _ ->
     for file in projectJsonFiles do
-
         let restoreArgs = sprintf "restore %s" file.FullName
         let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
         trace restoreMessage
@@ -285,6 +284,30 @@ Target "PackageForNuGet" (fun _ ->
         trace message
         ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
         trace "**** BUILDING DONE ****"
+)
+
+//*****************************************************************************
+//* Run .NET CLI Test
+//*****************************************************************************
+Target "DotNetTest" (fun _ ->
+    for file in specProjectJsonFiles do
+        let restoreArgs = sprintf "restore %s" file.FullName
+        let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
+        trace restoreMessage
+        ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
+        trace "**** RESTORING DONE ****"
+        let testArgs = sprintf "test -f \"netcoreapp1.1\" %s" file.FullName
+        let testMessage = sprintf "**** Running Specs for : %s *****" testArgs
+        trace testMessage
+        ProcessHelper.Shell.Exec("dotnet", args=testArgs) |> ignore
+        trace "**** Running Specs DONE ****"
+)
+
+//*****************************************************************************
+//* Package all projects for NuGet
+//*****************************************************************************
+Target "PackageForNuGet" (fun _ ->
+    for file in projectJsonFiles do
         let allArgs = sprintf "pack %s --output %s" file.FullName nugetDirectory
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )
@@ -299,7 +322,7 @@ Target "MSpec" (fun _ ->
                     |> String.concat " "
 
     let allArgs = sprintf "%s" specFiles
-    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4"
+    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4.exe"
     ProcessHelper.Shell.Exec(mspec, args=allArgs) |> ignore
 )
 
@@ -405,6 +428,7 @@ Target "BuildRelease" DoNothing
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "Package"
 "UpdateProjectJsonFiles" ==> "Package"
+"DotNetCoreBuild" ==> 
 "PackageForNuGet" ==> "Package"
 
 // Specifications pipeline
@@ -419,6 +443,10 @@ Target "Deploy" DoNothing
 Target "BuildAndSpecs" DoNothing
 "BuildRelease" ==> "BuildAndSpecs"
 "Specifications" ==> "BuildAndSpecs"
+
+Target "DotNetCoreBuildAndSpecs" DoNothing
+"DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
+"DotNetTest" ==> "DotNetCoreBuildAndSpecs"
 
 Target "All" DoNothing
 "BuildRelease" ==> "All"

@@ -8,7 +8,7 @@ os:
   - osx
 
 script:
-  - ./build.sh BuildAndSpecs
+  - ./build.sh DotNetCoreBuildAndSpecs
   
 notifications:
   email: false
