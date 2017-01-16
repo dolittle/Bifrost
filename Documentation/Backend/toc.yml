@@ -16,8 +16,8 @@
     href: Events/event_processor.md
 - name: Aggregate Root
   href: aggregate_root.md
-- name: Concepts
-  href: concepts.md
+- name: Concepts and Value Objects
+  href: concepts_and_value_objects.md
 - name: Security Descriptor
   href: security_descriptor.md
 - name: Assembly Discovery
