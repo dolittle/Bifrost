@@ -1,7 +1,7 @@
 ---
 title: About regions
 description: Learn about how regions work
-keywords: MVVM
+keywords: MVVM, Frontend, JavaScript
 author: einari
 ---
 
