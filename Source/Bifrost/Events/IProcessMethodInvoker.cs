@@ -20,11 +20,11 @@ namespace Bifrost.Events
 		/// </summary>
 		/// <param name="instance">Instance to try to call Handle method on</param>
 		/// <param name="event">The <see cref="IEvent"/> that the Process method should take</param>
-		/// <returns>True if it called the Handle method, false if not</returns>
+		/// <returns>True if it called the Process method, false if not</returns>
 		bool TryProcess(object instance, IEvent @event);
 
 		/// <summary>
-		/// Register a type that should have Handle method(s) in it
+		/// Register a type that should have Process method(s) in it
 		/// </summary>
 		/// <param name="typeWithProcessMethods">Type to register</param>
 		void Register(Type typeWithProcessMethods);

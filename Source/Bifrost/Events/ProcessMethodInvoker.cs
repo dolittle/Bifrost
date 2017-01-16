@@ -19,16 +19,16 @@ namespace Bifrost.Events
         /// </summary>
         public const string ProcessMethodName = "Process";
 
-		readonly Dictionary<Type, Dictionary<Type, MethodInfo>> _typesCommandHandleMethods = new Dictionary<Type, Dictionary<Type, MethodInfo>>();
+		readonly Dictionary<Type, Dictionary<Type, MethodInfo>> _typesWithProcessMethods = new Dictionary<Type, Dictionary<Type, MethodInfo>>();
 
 #pragma warning disable 1591 // Xml Comments
         public bool TryProcess(object instance, IEvent @event)
 		{
 			var instanceType = instance.GetType();
-			if (!_typesCommandHandleMethods.ContainsKey(instanceType))
+			if (!_typesWithProcessMethods.ContainsKey(instanceType))
 				Register(instanceType);
 
-			var handleMethods = _typesCommandHandleMethods[instanceType];
+			var handleMethods = _typesWithProcessMethods[instanceType];
 			Register(instanceType);
 			var commandType = @event.GetType();
 			if (handleMethods.ContainsKey(commandType))
@@ -42,12 +42,12 @@ namespace Bifrost.Events
 
 		public void Register(Type typeWithHandleMethods)
 		{
-			var handleMethods = GetHandleMethods(typeWithHandleMethods);
-			_typesCommandHandleMethods[typeWithHandleMethods] = handleMethods;
+			var handleMethods = GetProcessMethods(typeWithHandleMethods);
+			_typesWithProcessMethods[typeWithHandleMethods] = handleMethods;
 		}
 #pragma warning restore 1591 // Xml Comments
 
-        static Dictionary<Type, MethodInfo> GetHandleMethods(Type typeWithHandleMethods)
+        static Dictionary<Type, MethodInfo> GetProcessMethods(Type typeWithHandleMethods)
 		{
             var allMethods = typeWithHandleMethods.GetRuntimeMethods().Where(m => !m.IsStatic || m.IsPublic);
             var query = from m in allMethods
