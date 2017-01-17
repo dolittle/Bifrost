@@ -279,7 +279,7 @@ Target "DotNetCoreBuild" (fun _ ->
         trace restoreMessage
         ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
         trace "**** RESTORING DONE ****"
-        let buildArgs = sprintf "build %s --no-incremental" file.FullName
+        let buildArgs = sprintf "build -c Release %s --no-incremental" file.FullName
         let message = sprintf "**** BUILDING : %s *****" buildArgs
         trace message
         ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
