@@ -35,12 +35,6 @@ namespace Bifrost.Events
     	void Apply(IEvent @event);
 
 		/// <summary>
-		/// Apply a new event based upon a method to the EventSource. This will applied and added to the <see cref="UncommittedEvents">UncommitedEvents</see>
-		/// </summary>
-		/// <param name="expression">Expression pointing to a method to use for applying the event</param>
-    	void Apply(Expression<Action> expression);
-
-		/// <summary>
 		/// Reapply an event from a stream
 		/// </summary>
 		/// <param name="eventStream">Stream that contains the events to reapply</param>
