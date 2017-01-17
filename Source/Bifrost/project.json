@@ -21,7 +21,14 @@
             "LOB"
         ],
         "files": {
+            "includeFiles": "",
             "mappings": {
+                "lib/net461/": [
+                    "bin/Debug/net461/*.pdb"
+                ],
+                "lib/netstandard1.6/": [
+                    "bin/Debug/netstandard1.6/*.pdb"
+                ],
                 "src/": [
                     "**/*.cs"
                 ]
