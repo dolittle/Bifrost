@@ -67,15 +67,14 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
             failwithf "Unable to resolve version from '%s'" versionAsString
             BuildVersion(0,0,0,0,"",false)
 
-let getLatestTag repositoryDir =
+let performGitCommand arguments =
     let startInfo = new System.Diagnostics.ProcessStartInfo("git")
-    startInfo.Arguments <- "describe --tag --abbrev=0"
+    startInfo.Arguments <- arguments
     startInfo.RedirectStandardInput <- true
     startInfo.RedirectStandardOutput <- true
     startInfo.RedirectStandardError <- true
     startInfo.UseShellExecute <- false
     startInfo.CreateNoWindow <- true
-    
 
     use proc = new System.Diagnostics.Process(StartInfo = startInfo)
     proc.Start() |> ignore
@@ -86,11 +85,12 @@ let getLatestTag repositoryDir =
     if proc.ExitCode <> 0 then 
         failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
 
-    printfn "%s" result
-
     result
     
 
+let getLatestTag repositoryDir =
+    let commitSha = performGitCommand "rev-list --tags --max-count=1"
+    performGitCommand (sprintf "describe --tag %s" commitSha)
     
 
 //    let _,msg,error = runGitCommand repositoryDir "describe --tag --abbrev=0"
