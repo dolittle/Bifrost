@@ -43,6 +43,8 @@ artifacts
 
 log.txt
 
+Source/Console/Events
+
 # OS generated files #
 ######################
 .DS_Store
