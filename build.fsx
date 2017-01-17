@@ -308,7 +308,7 @@ Target "DotNetTest" (fun _ ->
 //*****************************************************************************
 Target "PackageForNuGet" (fun _ ->
     for file in projectJsonFiles do
-        let allArgs = sprintf "pack %s --output %s" file.FullName nugetDirectory
+        let allArgs = sprintf "pack --no-build %s --output %s" file.FullName nugetDirectory
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )
 
