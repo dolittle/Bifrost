@@ -69,7 +69,7 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
 
 let getLatestTag repositoryDir =
     let startInfo = new System.Diagnostics.ProcessStartInfo("git")
-    startInfo.Arguments <- "describe --tag --abbrev=0"
+    startInfo.Arguments <- "describe --tags $(git rev-list --tags --max-count=1)"
     startInfo.RedirectStandardInput <- true
     startInfo.RedirectStandardOutput <- true
     startInfo.RedirectStandardError <- true
