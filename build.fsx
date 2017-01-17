@@ -89,14 +89,9 @@ let performGitCommand arguments =
     
 
 let getLatestTag repositoryDir =
-    let commitSha = performGitCommand "rev-list --tags --max-count=1"
-    performGitCommand (sprintf "describe --tag %s" commitSha)
+    //let commitSha = performGitCommand "rev-list --tags --max-count=1"
+    performGitCommand (sprintf "describe --tag --abbrev=0")
     
-
-//    let _,msg,error = runGitCommand repositoryDir "describe --tag --abbrev=0"
-//   if error <> "" then failwithf "git describe failed: %s" error
-//    msg |> Seq.head
-
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
     let gitVersionTag = getLatestTag "./"
