@@ -25,10 +25,10 @@
         "files": {
             "mappings": {
                 "lib/net461/": [
-                    "bin/Debug/net461/*.pdb"
+                    "bin/Release/net461/*.pdb"
                 ],
                 "lib/netstandard1.6/": [
-                    "bin/Debug/netstandard1.6/*.pdb"
+                    "bin/Release/netstandard1.6/*.pdb"
                 ],
                 "src/": [
                     "**/*.cs"
