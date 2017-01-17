@@ -23,7 +23,7 @@
         "cwd": "obj"
       },
       {
-        "files": "release_notes.md",
+        "files": "CHANGELOG.md",
         "src": "../../"
       },
       {
