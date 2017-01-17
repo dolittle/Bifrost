@@ -5,7 +5,6 @@
 using System;
 using Bifrost.Execution;
 using SimpleInjector;
-using SimpleInjector.Integration.Web;
 
 
 namespace Bifrost.SimpleInjector
@@ -36,8 +35,7 @@ namespace Bifrost.SimpleInjector
                     lifestyle = Lifestyle.Singleton;
                     break;
                 case BindingLifecycle.Request:
-                    lifestyle = new WebRequestLifestyle();
-                    break;
+                    throw new NotImplementedException();
                 case BindingLifecycle.Transient:
                     lifestyle = Lifestyle.Transient;
                     break;
