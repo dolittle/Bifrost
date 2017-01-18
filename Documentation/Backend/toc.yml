@@ -4,6 +4,8 @@
   items:
   - name: Introduction
     href: Commands/introduction.md
+  - name: Command Handlers
+    href: Commands/command_handler.md    
 - name: Events
   items: 
   - name: Introduction
