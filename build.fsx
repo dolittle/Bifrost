@@ -86,7 +86,32 @@ let performGitCommand arguments =
         failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
 
     result
-    
+
+let gitVersion repositoryDir = 
+    let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
+    let arguments = sprintf "%s /output json /showvariable SemVer" repositoryDir
+    let gitVersionExecutable = "Source/Solutions/packages/GitVersion.CommandLine/tools/GitVersion.exe"
+    let processName = if isWindows then gitVersionExecutable else "mono"
+    let fullArguments = if isWindows then arguments else sprintf "%s %s" gitVersionExecutable arguments
+
+    let startInfo = new System.Diagnostics.ProcessStartInfo(processName)
+    startInfo.Arguments <- fullArguments
+    startInfo.RedirectStandardInput <- true
+    startInfo.RedirectStandardOutput <- true
+    startInfo.RedirectStandardError <- true
+    startInfo.UseShellExecute <- false
+    startInfo.CreateNoWindow <- true
+
+    use proc = new System.Diagnostics.Process(StartInfo = startInfo)
+    proc.Start() |> ignore
+
+    let reader = new System.IO.StreamReader(proc.StandardOutput.BaseStream, System.Text.Encoding.UTF8)
+    let result = reader.ReadToEnd()
+    proc.WaitForExit()
+    if proc.ExitCode <> 0 then 
+        failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
+
+    result
 
 let getLatestTag repositoryDir =
     //let commitSha = performGitCommand "rev-list --tags --max-count=1"
@@ -94,7 +119,9 @@ let getLatestTag repositoryDir =
     
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
-    let gitVersionTag = getLatestTag "./"
+
+
+    let gitVersionTag = gitVersion "./"
     tracef "Git tag version : %s" gitVersionTag
     new BuildVersion(gitVersionTag, buildNumber, true)
 

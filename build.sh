@@ -22,6 +22,7 @@ fi
 mono $NUGET_PATH/NuGet.exe update -self
 mono $NUGET_PATH/NuGet.exe install FAKE -OutputDirectory $PACKAGES_PATH -ExcludeVersion -Version 4.16.1
 mono $NUGET_PATH/NuGet.exe install FSharp.Data -OutputDirectory $PACKAGES_PATH/FAKE -ExcludeVersion -Version 2.3.2
+mono $NUGET_PATH/NuGet.exe install GitVersion.CommandLine -OutputDirectory $PACKAGES_PATH -ExcludeVersion -Version 3.6.5
 
 export encoding=utf-8
 
