@@ -4,13 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using Bifrost.Conventions;
 
 namespace Bifrost.Mapping
 {
     /// <summary>
-    /// Defines a map that describes mapping for an object
+    /// Defines a map that describes mapping for an object.
     /// </summary>
-    public interface IMap
+    /// <remarks>
+    /// Types inheriting from this interface will be automatically registered.
+    /// You most likely want to subclass <see cref="Map{TSource,TTarget}"/>.
+    /// </remarks>
+    public interface IMap : IConvention
     {
         /// <summary>
         /// Gets the source type the map is for

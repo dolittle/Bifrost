@@ -2,7 +2,6 @@ describe("when initializing", function () {
     var extension = "";
 
     beforeEach(function () {
-        Bifrost.assetsManager.scripts = undefined;
         Bifrost.namespaces = Bifrost.namespaces || {};
         Bifrost.namespaces.initialize = sinon.stub();
         sinon.stub($, "get", function (url, parameters, callback) {
@@ -14,7 +13,7 @@ describe("when initializing", function () {
 
     afterEach(function () {
         $.get.restore();
-        Bifrost.assetsManager.scripts = undefined;
+        Bifrost.assetsManager.scripts = [];
     });
 
     it("should call server to get assets", function () {
