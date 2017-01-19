@@ -468,9 +468,8 @@ Target "DotNetCoreBuildAndSpecs" DoNothing
 "DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
 "DotNetTest" ==> "DotNetCoreBuildAndSpecs"
 
-Target "All" (fun _ ->
-    Run "BuildAndSpecs"
-    if( currentBranch = "master" ) then Run "PackageAndDeploy"
-)
+Target "All" DoNothing
+"BuildAndSpecs" ==> "All"
+"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master"))
 
 RunTargetOrDefault "All"
