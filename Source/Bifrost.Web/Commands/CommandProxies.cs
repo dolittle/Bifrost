@@ -17,52 +17,48 @@ namespace Bifrost.Web.Commands
 {
     public class CommandProxies : IProxyGenerator
     {
-        internal static List<string> NamespacesToExclude = new List<string>();
+        internal static List<string> _namespacesToExclude = new List<string>();
 
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly ITypeImporter _typeImporter;
-        readonly ICodeGenerator _codeGenerator;
-        readonly WebConfiguration _configuration;
+        ITypeDiscoverer _typeDiscoverer;
+        ITypeImporter _typeImporter;
+        ICodeGenerator _codeGenerator;
+        WebConfiguration _configuration;
 
         public static void ExcludeCommandsStartingWithNamespace(string @namespace)
         {
-            NamespacesToExclude.Add(@namespace);
+            _namespacesToExclude.Add(@namespace);
         }
 
-        public CommandProxies(
-            ITypeDiscoverer typeDiscoverer,
-            ITypeImporter typeImporter,
-            ICodeGenerator codeGenerator,
-            WebConfiguration configuration)
+        public CommandProxies(ITypeDiscoverer typeDiscoverer, ITypeImporter typeImporter, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _typeImporter = typeImporter;
             _codeGenerator = codeGenerator;
+            
             _configuration = configuration;
-        }
-
-        string ClientNamespace(string @namespace)
-        {
-            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.COMMANDS;
         }
 
         public string Generate()
         {
-            var typesByNamespace = _typeDiscoverer
-                .FindMultiple<ICommand>()
-                .Where(t => !t.IsGenericType)
-                .Where(t => !NamespacesToExclude.Any(n => t.Namespace.StartsWith(n)))
-                .OrderBy(t => t.FullName)
-                .GroupBy(t => ClientNamespace(t.Namespace))
-                .OrderBy(n => n.Key);
+            var typesByNamespace = _typeDiscoverer.FindMultiple<ICommand>().Where(t => !_namespacesToExclude.Any(n => t.Namespace.StartsWith(n))).GroupBy(t=>t.Namespace);
             var commandPropertyExtenders = _typeImporter.ImportMany<ICanExtendCommandProperty>();
+
             var result = new StringBuilder();
+
+            Namespace currentNamespace;
+            Namespace globalCommands = _codeGenerator.Namespace(Namespaces.COMMANDS);
 
             foreach (var @namespace in typesByNamespace)
             {
-                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
+                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
+                else
+                    currentNamespace = globalCommands;
+                
                 foreach (var type in @namespace)
                 {
+                    if (type.IsGenericType) continue;
+                    
                     var name = type.Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
@@ -76,15 +72,15 @@ namespace Bifrost.Web.Commands
                                         .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(ICommand), observableVisitor: (propertyName, observable) =>
                                         {
                                             foreach (var commandPropertyExtender in commandPropertyExtenders)
-                                            {
                                                 commandPropertyExtender.Extend(type, propertyName, observable);
-                                            }
                                         }));
                 }
 
-                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+                if (currentNamespace != globalCommands)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
-
+            result.Append(_codeGenerator.GenerateFrom(globalCommands));
+            
             return result.ToString();
         }
     }

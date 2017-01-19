@@ -34,27 +34,35 @@ namespace Bifrost.Web.Commands
             _commandSecurityManager = commandSecurityManager;
         }
 
-        string ClientNamespace(string @namespace)
-        {
-            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.COMMANDS;
-        }
-
         public string Generate()
         {
             var typesByNamespace = _typeDiscoverer
                 .FindMultiple<ICommand>()
-                .Where(t => !t.IsGenericType)
-                .Where(t => !CommandProxies.NamespacesToExclude.Any(t.Namespace.StartsWith))
-                .OrderBy(t => t.FullName)
-                .GroupBy(t => ClientNamespace(t.Namespace))
-                .OrderBy(n => n.Key);
+                .Where(t => !CommandProxies._namespacesToExclude.Any(n => t.Namespace.StartsWith(n)))
+                .GroupBy(t => t.Namespace);
+
             var result = new StringBuilder();
+            var globalCommands = _codeGenerator.Namespace(Namespaces.COMMANDS);
 
             foreach (var @namespace in typesByNamespace)
             {
-                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
+                Namespace currentNamespace;
+                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
+                {
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
+                }
+                else
+                {
+                    currentNamespace = globalCommands;
+                }
+
                 foreach (var type in @namespace)
                 {
+                    if (type.IsGenericType)
+                    {
+                        continue;
+                    }
+
                     var command = Activator.CreateInstance(type) as ICommand;
                     var authorizationResult = _commandSecurityManager.Authorize(command);
                     var name = $"{type.Name.ToCamelCase()}SecurityContext";
@@ -73,9 +81,13 @@ namespace Bifrost.Web.Commands
                         );
                 }
 
-                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+                if (currentNamespace != globalCommands)
+                {
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+                }
             }
 
+            result.Append(_codeGenerator.GenerateFrom(globalCommands));
             return result.ToString();
         }
     }

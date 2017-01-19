@@ -10,8 +10,8 @@ namespace Bifrost.Web.Applications
 {
     public class ApplicationRouteHandler : IRouteHandler
     {
-        readonly string _url;
-        readonly Assembly _assembly;
+        string _url;
+        Assembly _assembly;
         IHttpHandler _httpHandler;
 
         public ApplicationRouteHandler(string url, Assembly assembly)
@@ -22,7 +22,10 @@ namespace Bifrost.Web.Applications
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            return _httpHandler ?? (_httpHandler = new ApplicationRouteHttpHandler(_url, _assembly));
+            if (_httpHandler == null)
+                _httpHandler = new ApplicationRouteHttpHandler(_url, _assembly);
+
+            return _httpHandler;
         }
     }
 }

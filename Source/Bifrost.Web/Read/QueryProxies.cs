@@ -2,8 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Linq;
 using System.Text;
+using System.Linq;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Execution;
@@ -16,37 +16,33 @@ namespace Bifrost.Web.Read
 {
     public class QueryProxies : IProxyGenerator
     {
-        readonly ITypeDiscoverer _typeDiscoverer;
-        readonly ICodeGenerator _codeGenerator;
-        readonly WebConfiguration _configuration;
+        ITypeDiscoverer _typeDiscoverer;
+        ICodeGenerator _codeGenerator;
+        WebConfiguration _configuration;
 
-        public QueryProxies(
-            ITypeDiscoverer typeDiscoverer,
-            ICodeGenerator codeGenerator,
-            WebConfiguration configuration)
+        public QueryProxies(ITypeDiscoverer typeDiscoverer, ICodeGenerator codeGenerator, WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
             _codeGenerator = codeGenerator;
             _configuration = configuration;
         }
 
-        string ClientNamespace(string @namespace)
-        {
-            return _configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace) ?? Namespaces.READ;
-        }
-
         public string Generate()
         {
-            var typesByNamespace = _typeDiscoverer
-                .FindMultiple(typeof(IQueryFor<>))
-                .OrderBy(t => t.FullName)
-                .GroupBy(t => ClientNamespace(t.Namespace))
-                .OrderBy(n => n.Key);
+            var typesByNamespace = _typeDiscoverer.FindMultiple(typeof(IQueryFor<>)).GroupBy(t => t.Namespace);
+
             var result = new StringBuilder();
+
+            Namespace currentNamespace;
+            Namespace globalRead = _codeGenerator.Namespace(Namespaces.READ);
 
             foreach (var @namespace in typesByNamespace)
             {
-                var currentNamespace = _codeGenerator.Namespace(@namespace.Key);
+                if (_configuration.NamespaceMapper.CanResolveToClient(@namespace.Key))
+                    currentNamespace = _codeGenerator.Namespace(_configuration.NamespaceMapper.GetClientNamespaceFrom(@namespace.Key));
+                else
+                    currentNamespace = globalRead;
+
                 foreach (var type in @namespace)
                 {
                     var name = type.Name.ToCamelCase();
@@ -60,14 +56,16 @@ namespace Bifrost.Web.Read
                                         .Property("_name", p => p.WithString(name))
                                         .Property("_generatedFrom", p => p.WithString(type.FullName))
                                         .Property("_readModel", p => p.WithLiteral(currentNamespace.Name + "." + queryForTypeName))
-                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(IQueryFor<>), propertyVisitor: p => p.Name != "Query"));
+                                        .WithObservablePropertiesFrom(type, excludePropertiesFrom: typeof(IQueryFor<>), propertyVisitor: (p) => p.Name != "Query"));
 
                 }
-
-                result.Append(_codeGenerator.GenerateFrom(currentNamespace));
+                if (currentNamespace != globalRead)
+                    result.Append(_codeGenerator.GenerateFrom(currentNamespace));
             }
 
+            result.Append(_codeGenerator.GenerateFrom(globalRead));
             return result.ToString();
         }
+
     }
 }

@@ -2,8 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Web;
 using System.Web.Routing;
+using System.Web;
 
 namespace Bifrost.Web.Configuration
 {
@@ -13,7 +13,10 @@ namespace Bifrost.Web.Configuration
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            return _httpHandler ?? (_httpHandler = new ConfigurationRouteHttpHandler());
+            if (_httpHandler == null)
+                _httpHandler = new ConfigurationRouteHttpHandler();
+
+            return _httpHandler;
         }
     }
 }

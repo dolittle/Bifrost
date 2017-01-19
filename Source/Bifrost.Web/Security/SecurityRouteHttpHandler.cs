@@ -10,7 +10,11 @@ namespace Bifrost.Web.Security
 {
     public class SecurityRouteHttpHandler : IHttpHandler
     {
-        public bool IsReusable => true;
+        public SecurityRouteHttpHandler()
+        {
+        }
+
+        public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
         {
