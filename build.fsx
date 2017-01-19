@@ -254,8 +254,9 @@ Target "Build" <| fun _ ->
 //*****************************************************************************
 Target "UpdateVersionOnBuildServer" (fun _ ->
     if( appveyor ) then
+        tracef "Updating build version for AppVeyor to %s" (buildVersion.AsString())
         let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
-        ProcessHelper.Shell.Exec("appveyor", args=allArgs) |> ignore
+        spawnProcess("appveyor", allArgs) |> ignore
 )
 
 
