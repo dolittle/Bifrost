@@ -5,4 +5,4 @@
 *.gif 	binary
 
 *.cs diff=csharp 
-*.sln text eol=lf
+*.sln text eol=crlf
