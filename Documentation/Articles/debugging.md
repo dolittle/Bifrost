@@ -29,6 +29,10 @@ More resources:
 - [SymbolSource.org](http://www.symbolsource.org)
 - [SymbolSource.org - Configuring Visual Studio](http://www.symbolsource.org/)
 
+## Source + PDB in the packages
+
+All NuGet packages also include a `src/` folder and the PDB files. We build all packages in release mode, but use the `dotnet` CLI option of generating
+PDB files in addition. For some tooling, like [ReSharper](https://www.jetbrains.com/resharper/), it should then use this directly.
 
 ## Get the source code
 
