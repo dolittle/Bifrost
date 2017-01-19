@@ -9,13 +9,13 @@ using System.Reflection;
 
 namespace Bifrost.Events
 {
-	/// <summary>
-	/// Extensions for <see cref="EventSource"/>
-	/// </summary>
+    /// <summary>
+    /// Extensions for <see cref="EventSource"/>
+    /// </summary>
     public static class EventSourceExtensions
-	{
+    {
 #pragma warning disable 1591 // Xml Comments
-		public static class EventSourceHandleMethods<T>
+        public static class EventSourceHandleMethods<T>
         {
             public static readonly Dictionary<Type, MethodInfo> MethodsPerEventType = new Dictionary<Type, MethodInfo>();
 
@@ -53,13 +53,13 @@ namespace Bifrost.Events
 #pragma warning restore 1591 // Xml Comments
 
 
-		/// <summary>
-		/// Get handle method from an <see cref="EventSource"/> for a specific <see cref="IEvent"/>, if any
-		/// </summary>
-		/// <param name="eventSource"><see cref="EventSource"/> to get method from</param>
-		/// <param name="event"><see cref="IEvent"/> to get method for</param>
-		/// <returns><see cref="MethodInfo"/> containing information about the handle method, null if none exists</returns>
-		public static MethodInfo GetOnMethod(this EventSource eventSource, IEvent @event)
+        /// <summary>
+        /// Get handle method from an <see cref="EventSource"/> for a specific <see cref="IEvent"/>, if any
+        /// </summary>
+        /// <param name="eventSource"><see cref="EventSource"/> to get method from</param>
+        /// <param name="event"><see cref="IEvent"/> to get method for</param>
+        /// <returns><see cref="MethodInfo"/> containing information about the handle method, null if none exists</returns>
+        public static MethodInfo GetOnMethod(this EventSource eventSource, IEvent @event)
         {
             var eventType = @event.GetType();
             var handleMethods = GetHandleMethodsFor(eventSource.GetType());

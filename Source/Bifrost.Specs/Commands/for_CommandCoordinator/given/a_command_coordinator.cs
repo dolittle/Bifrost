@@ -6,7 +6,7 @@ using Moq;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
 {
-	public abstract class a_command_coordinator : Globalization.given.a_localizer_mock
+    public abstract class a_command_coordinator : Globalization.given.a_localizer_mock
     {
         protected static CommandCoordinator coordinator;
         protected static Mock<ICommandHandlerManager> command_handler_manager_mock;
@@ -36,7 +36,7 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator.given
                                         command_context_manager_mock.Object,
                                         command_security_manager_mock.Object,
                                         command_validators_mock.Object,
-										localizer_mock.Object
+                                        localizer_mock.Object
                                         );
                                 };
     }

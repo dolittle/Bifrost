@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Defines a generic storage configuration
-	/// </summary>
+    /// <summary>
+    /// Defines a generic storage configuration
+    /// </summary>
     public interface IStorageConfiguration
     {
         /// <summary>

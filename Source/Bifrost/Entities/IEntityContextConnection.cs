@@ -6,15 +6,15 @@ using Bifrost.Execution;
 
 namespace Bifrost.Entities
 {
-	/// <summary>
-	/// Marker interface for connection configuration for <see cref="IEntityContext{T}">entity contexts</see>
-	/// </summary>
-	public interface IEntityContextConnection
-	{
+    /// <summary>
+    /// Marker interface for connection configuration for <see cref="IEntityContext{T}">entity contexts</see>
+    /// </summary>
+    public interface IEntityContextConnection
+    {
         /// <summary>
         /// Initialize the specific EntityContextConnection
         /// </summary>
         /// <param name="container">Container</param>
         void Initialize(IContainer container);
-	}
+    }
 }

@@ -16,14 +16,14 @@ namespace Bifrost.Execution
         /// </summary>
         /// <param name="parameters">Properties to generate the HashCode from.</param>
         /// <returns>Hash Code</returns>
-	    public static int Generate(params object[] parameters)
-	    {
+        public static int Generate(params object[] parameters)
+        {
             //http://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
-		    unchecked
-		    {
-		        return parameters.Where(param => param != null)
+            unchecked
+            {
+                return parameters.Where(param => param != null)
                             .Aggregate(17, (current, param) => current*29 + param.GetHashCode());
-		    }
-	    }
+            }
+        }
     }
 }

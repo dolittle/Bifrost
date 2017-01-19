@@ -48,15 +48,15 @@ namespace Bifrost.ViewModels
         }
 #else
 
-		static IEnumerable<Assembly> CollectAssemblies()
-		{
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-			var query = from a in assemblies
-						where !a.FullName.Contains("System.")
-						select a;
+        static IEnumerable<Assembly> CollectAssemblies()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var query = from a in assemblies
+                        where !a.FullName.Contains("System.")
+                        select a;
 
-			return assemblies;
-		}
+            return assemblies;
+        }
 #endif
 
 

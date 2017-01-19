@@ -10,23 +10,23 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         static CommandResult Result;
         static CommandValidationResult validation_errors;
 
-    	Establish context = () =>
-    	                    	{
+        Establish context = () =>
+                                {
                                     validation_errors = new CommandValidationResult
                                     {
                                         ValidationResults = new ValidationResult[] 
-    	                    		                    	{
-    	                    		                    		new ValidationResult("First validation failure"),
-    	                    		                    		new ValidationResult("Second validation failure")
-    	                    		                    	}
+                                                            {
+                                                                new ValidationResult("First validation failure"),
+                                                                new ValidationResult("Second validation failure")
+                                                            }
                                     };
 
-    	                    		command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(
-    	                    			validation_errors);
-    	                    	};
+                                    command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(
+                                        validation_errors);
+                                };
 
-    	Because of = () => Result = coordinator.Handle(command_mock.Object);
-    	             	
+        Because of = () => Result = coordinator.Handle(command_mock.Object);
+                         
 
         It should_have_validated_the_command = () => command_validators_mock.VerifyAll();
         It should_have_a_result = () => Result.ShouldNotBeNull();

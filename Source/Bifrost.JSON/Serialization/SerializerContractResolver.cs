@@ -36,42 +36,42 @@ namespace Bifrost.JSON.Serialization
 
 
 #pragma warning disable 1591 // Xml Comments
-		protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-		{
-			var properties = base.CreateProperties(type, memberSerialization);
-			if( _options != null )
-				return properties.Where(p => _options.ShouldSerializeProperty(type, p.PropertyName)).ToList();
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var properties = base.CreateProperties(type, memberSerialization);
+            if( _options != null )
+                return properties.Where(p => _options.ShouldSerializeProperty(type, p.PropertyName)).ToList();
 
-			return properties;
-		}
+            return properties;
+        }
 
         public override JsonContract ResolveContract(Type type)
-		{
-			var contract = base.ResolveContract(type);
-		
-			if (contract is JsonObjectContract && 
-				!type.GetTypeInfo().IsValueType &&
+        {
+            var contract = base.ResolveContract(type);
+        
+            if (contract is JsonObjectContract && 
+                !type.GetTypeInfo().IsValueType &&
                 !type.HasDefaultConstructor())
-			{
-				var defaultCreator = contract.DefaultCreator;
-				contract.DefaultCreator = () =>
-				                          	{
-				                          		try
-				                          		{
+            {
+                var defaultCreator = contract.DefaultCreator;
+                contract.DefaultCreator = () =>
+                                              {
+                                                  try
+                                                  {
                                                     // Todo: Structs without default constructor will fail with this and that will then try using the defaultCreator in the catch
-				                          			return _container.Get(type);
-				                          		}
-				                          		catch
-				                          		{
+                                                      return _container.Get(type);
+                                                  }
+                                                  catch
+                                                  {
                                                     if (defaultCreator != null)
                                                         return defaultCreator();
                                                     else
                                                         return null;
-				                          		}
-				                          	};
-			}
+                                                  }
+                                              };
+            }
 
-			return contract;
+            return contract;
         }
 
         protected override string ResolvePropertyName(string propertyName)

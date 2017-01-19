@@ -6,9 +6,9 @@ using System;
 
 namespace Bifrost.Values
 {
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-	public class IgnoreChangesAttribute : Attribute
-	{
-		
-	}
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class IgnoreChangesAttribute : Attribute
+    {
+        
+    }
 }

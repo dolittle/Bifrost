@@ -11,50 +11,50 @@ using Bifrost.Extensions;
 
 namespace Bifrost.Commands
 {
-	/// <summary>
-	/// Represents a <see cref="ICommandHandlerInvoker">ICommandHandlerInvoker</see> for handling
-	/// command handlers that have methods called Handle() and takes specific <see cref="ICommand">commands</see>
-	/// in as parameters
-	/// </summary>
-	[Singleton]
-	public class CommandHandlerInvoker : ICommandHandlerInvoker
-	{
+    /// <summary>
+    /// Represents a <see cref="ICommandHandlerInvoker">ICommandHandlerInvoker</see> for handling
+    /// command handlers that have methods called Handle() and takes specific <see cref="ICommand">commands</see>
+    /// in as parameters
+    /// </summary>
+    [Singleton]
+    public class CommandHandlerInvoker : ICommandHandlerInvoker
+    {
         const string HandleMethodName = "Handle";
 
-		readonly ITypeDiscoverer _discoverer;
-	    readonly IContainer _container;
+        readonly ITypeDiscoverer _discoverer;
+        readonly IContainer _container;
         readonly Dictionary<Type, MethodInfo> _commandHandlers = new Dictionary<Type, MethodInfo>();
-	    bool _initialized;
+        bool _initialized;
 
-	    /// <summary>
-	    /// Initializes a new instance of <see cref="CommandHandlerInvoker">CommandHandlerInvoker</see>
-	    /// </summary>
-	    /// <param name="discoverer">A <see cref="ITypeDiscoverer"/> to use for discovering <see cref="IHandleCommands">command handlers</see></param>
-	    /// <param name="container">A <see cref="IContainer"/> to use for getting instances of objects</param>
-	    public CommandHandlerInvoker(ITypeDiscoverer discoverer, IContainer container)
-		{
-			_discoverer = discoverer;
-		    _container = container;
-	        _initialized = false;
-		}
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandHandlerInvoker">CommandHandlerInvoker</see>
+        /// </summary>
+        /// <param name="discoverer">A <see cref="ITypeDiscoverer"/> to use for discovering <see cref="IHandleCommands">command handlers</see></param>
+        /// <param name="container">A <see cref="IContainer"/> to use for getting instances of objects</param>
+        public CommandHandlerInvoker(ITypeDiscoverer discoverer, IContainer container)
+        {
+            _discoverer = discoverer;
+            _container = container;
+            _initialized = false;
+        }
 
-		private void Initialize()
-		{
-		    var handlers = _discoverer.FindMultiple<IHandleCommands>();
+        private void Initialize()
+        {
+            var handlers = _discoverer.FindMultiple<IHandleCommands>();
             handlers.ForEach(Register);
-		    _initialized = true;
-		}
+            _initialized = true;
+        }
 
-		/// <summary>
-		/// Register a command handler explicitly 
-		/// </summary>
-		/// <param name="handlerType"></param>
-		/// <remarks>
-		/// The registration process will look into the handler and find methods that 
-		/// are called Handle() and takes a command as parameter
-		/// </remarks>
-		public void Register(Type handlerType)
-		{
+        /// <summary>
+        /// Register a command handler explicitly 
+        /// </summary>
+        /// <param name="handlerType"></param>
+        /// <remarks>
+        /// The registration process will look into the handler and find methods that 
+        /// are called Handle() and takes a command as parameter
+        /// </remarks>
+        public void Register(Type handlerType)
+        {
             var allMethods = handlerType.GetRuntimeMethods().Where(m => m.IsPublic || !m.IsStatic);
             var query = from m in allMethods
                         where m.Name.Equals(HandleMethodName) &&
@@ -65,11 +65,11 @@ namespace Bifrost.Commands
 
             foreach (var method in query)
                 _commandHandlers[method.GetParameters()[0].ParameterType] = method;
-		}
+        }
 
 #pragma warning disable 1591 // Xml Comments
-		public bool TryHandle(ICommand command)
-		{
+        public bool TryHandle(ICommand command)
+        {
             if( !_initialized)
                 Initialize();
 
@@ -83,8 +83,8 @@ namespace Bifrost.Commands
                 return true;
             }
 
-		    return false;
-		}
+            return false;
+        }
 #pragma warning restore 1591 // Xml Comments
-	}
+    }
 }

@@ -6,9 +6,9 @@ using System;
 
 namespace Bifrost.Views
 {
-	/// <summary>
-	/// The exception that is thrown when an object does not have Id and a system requires it
-	/// </summary>
+    /// <summary>
+    /// The exception that is thrown when an object does not have Id and a system requires it
+    /// </summary>
     public class ObjectDoesNotHaveIdException : ArgumentException
     {
         

@@ -11,7 +11,7 @@ namespace Bifrost.Configuration.Defaults
     /// Represents a <see cref="IDefaultBindings"/>
     /// </summary>
     public class DefaultBindings : IDefaultBindings
-	{
+    {
         AssembliesConfiguration _assembliesConfiguration;
         IAssemblyProvider _assemblyProvider;
         IContractToImplementorsMap _contractToImplentorsMap;
@@ -27,7 +27,7 @@ namespace Bifrost.Configuration.Defaults
         }
 
 #pragma warning disable 1591 // Xml Comments
-		public void Initialize(IContainer container)
+        public void Initialize(IContainer container)
         {
             container.Bind(container);
             container.Bind<IContractToImplementorsMap>(_contractToImplentorsMap);
@@ -36,7 +36,7 @@ namespace Bifrost.Configuration.Defaults
             container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);
             container.Bind<ITypeFinder>(typeof(TypeFinder), BindingLifecycle.Singleton);
-		}
+        }
 #pragma warning restore 1591 // Xml Comments
-	}
+    }
 }

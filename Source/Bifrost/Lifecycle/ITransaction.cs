@@ -6,19 +6,19 @@ using System;
 
 namespace Bifrost.Lifecycle
 {
-	/// <summary>
-	/// Defines a logical transaction
-	/// </summary>
-	public interface ITransaction : IDisposable
-	{
-		/// <summary>
-		/// Commits the transaction
-		/// </summary>
-		void Commit();
+    /// <summary>
+    /// Defines a logical transaction
+    /// </summary>
+    public interface ITransaction : IDisposable
+    {
+        /// <summary>
+        /// Commits the transaction
+        /// </summary>
+        void Commit();
 
-		/// <summary>
-		/// Rollback to the state before the transaction started
-		/// </summary>
-		void Rollback();
-	}
+        /// <summary>
+        /// Rollback to the state before the transaction started
+        /// </summary>
+        void Rollback();
+    }
 }

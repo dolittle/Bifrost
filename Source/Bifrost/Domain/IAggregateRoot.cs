@@ -7,10 +7,10 @@ using Bifrost.Lifecycle;
 
 namespace Bifrost.Domain
 {
-	/// <summary>
-	/// Defines the very basic functionality needed for an aggregated root
-	/// </summary>
-	public interface IAggregateRoot : IEventSource, ITransaction
-	{
-	}
+    /// <summary>
+    /// Defines the very basic functionality needed for an aggregated root
+    /// </summary>
+    public interface IAggregateRoot : IEventSource, ITransaction
+    {
+    }
 }

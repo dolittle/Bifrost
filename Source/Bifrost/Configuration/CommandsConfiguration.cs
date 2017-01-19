@@ -8,11 +8,11 @@ using Bifrost.Execution;
 
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Represents an implementation of <see cref="ICommandsConfiguration"/>
-	/// </summary>
+    /// <summary>
+    /// Represents an implementation of <see cref="ICommandsConfiguration"/>
+    /// </summary>
     public class CommandsConfiguration : ConfigurationStorageElement, ICommandsConfiguration
-	{
+    {
 #pragma warning disable 1591 // Xml Comments
         public Type CommandCoordinatorType { get; set; }
 

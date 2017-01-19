@@ -14,15 +14,15 @@ namespace Bifrost.Events
     /// </summary>
     public class EventStream : IEnumerable<IEvent>
     {
-		/// <summary>
-		/// Gets a list of all the events in the stream
-		/// </summary>
+        /// <summary>
+        /// Gets a list of all the events in the stream
+        /// </summary>
         protected readonly List<IEvent> Events = new List<IEvent>();
 
-		/// <summary>
-		/// Initializes a new <see cref="EventStream">EventStream</see>
-		/// </summary>
-		/// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
+        /// <summary>
+        /// Initializes a new <see cref="EventStream">EventStream</see>
+        /// </summary>
+        /// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
         public EventStream(Guid eventSourceId)
         {
             EventSourceId = eventSourceId;

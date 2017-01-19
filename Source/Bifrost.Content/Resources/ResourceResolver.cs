@@ -7,8 +7,8 @@ namespace Bifrost.Content.Resources
     /// <summary>
     /// Represents an implementation of <see cref="IResourceResolver"/>
     /// </summary>
-	public class ResourceResolver :  IResourceResolver
-	{
+    public class ResourceResolver :  IResourceResolver
+    {
         /// <summary>
         /// Resolve a string resource based upon name
         /// </summary>
@@ -18,5 +18,5 @@ namespace Bifrost.Content.Resources
         {
             return string.Empty;
         }
-	}
+    }
 }

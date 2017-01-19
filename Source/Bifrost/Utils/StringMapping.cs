@@ -17,7 +17,7 @@ namespace Bifrost.Utils
         const string WildcardExpression = "\\*{2}[//||\\.]";
         const string CombinedExpression = "(" + PlaceholderExpression + ")*(" + WildcardExpression + ")*";
 
-		//static Regex PlaceholderRegex = new Regex(PlaceholderExpression);
+        //static Regex PlaceholderRegex = new Regex(PlaceholderExpression);
         static Regex WildcardRegex = new Regex(WildcardExpression);
         static Regex CombinedRegex = new Regex(CombinedExpression);
 

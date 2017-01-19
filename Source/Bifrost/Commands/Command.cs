@@ -6,21 +6,21 @@ using System;
 
 namespace Bifrost.Commands
 {
-	/// <summary>
-	/// Represents a <see cref="ICommand"/>
-	/// </summary>
+    /// <summary>
+    /// Represents a <see cref="ICommand"/>
+    /// </summary>
     public partial class Command : ICommand
     {
-		/// <summary>
-		/// Initializes a new instance of <see cref="Command"/>
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of <see cref="Command"/>
+        /// </summary>
         public Command()
         {
             Id = Guid.NewGuid();
         }
 
 #pragma warning disable 1591 // Xml Comments
-		public Guid Id { get; set; }
+        public Guid Id { get; set; }
 #pragma warning restore 1591 // Xml Comments
-	}
+    }
 }

@@ -4,14 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Configuration.Defaults
 {
-	/// <summary>
-	/// Defines the default conventions setup
-	/// </summary>
+    /// <summary>
+    /// Defines the default conventions setup
+    /// </summary>
     public interface IDefaultConventions
     {
-		/// <summary>
-		/// Initialize the default conventions
-		/// </summary>
+        /// <summary>
+        /// Initialize the default conventions
+        /// </summary>
         void Initialize();
     }
 }

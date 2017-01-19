@@ -13,20 +13,20 @@ namespace Bifrost.Content.Resources
     [Singleton]
     public class ResourceInterceptor : IInterceptor
     {
-    	readonly IResourceResolver _resolver;
+        readonly IResourceResolver _resolver;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ResourceInterceptor"/>
         /// </summary>
         /// <param name="resolver"></param>
-    	public ResourceInterceptor(IResourceResolver resolver)
-		{
-			_resolver = resolver;
-		}
+        public ResourceInterceptor(IResourceResolver resolver)
+        {
+            _resolver = resolver;
+        }
 
 #pragma warning disable 1591 // Xml Comments
         public virtual void Intercept(IInvocation invocation)
-    	{
+        {
             var resourceName = string.Format("{0}.{1}", invocation.Method.DeclaringType.Name, invocation.Method.Name.Replace("get_", string.Empty));
 
             var value = _resolver.Resolve(resourceName);

@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Domain
 {
-	/// <summary>
-	/// Marker interface for mementos
-	/// </summary>
-	public interface IMemento
-	{
-	}
+    /// <summary>
+    /// Marker interface for mementos
+    /// </summary>
+    public interface IMemento
+    {
+    }
 }

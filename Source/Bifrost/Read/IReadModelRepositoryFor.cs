@@ -29,19 +29,19 @@ namespace Bifrost.Read
         void Insert(T readModel);
 
         /// <summary>
-		/// Update an existing <see cref="IReadModel"/>
+        /// Update an existing <see cref="IReadModel"/>
         /// </summary>
-		/// <param name="readModel"><see cref="IReadModel"/> to update</param>
+        /// <param name="readModel"><see cref="IReadModel"/> to update</param>
         void Update(T readModel);
 
         /// <summary>
-		/// Delete an existing <see cref="IReadModel"/>
+        /// Delete an existing <see cref="IReadModel"/>
         /// </summary>
-		/// <param name="readModel"><see cref="IReadModel"/> to delete</param>
+        /// <param name="readModel"><see cref="IReadModel"/> to delete</param>
         void Delete(T readModel);
 
         /// <summary>
-		/// Get a <see cref="IReadModel"/> by its id
+        /// Get a <see cref="IReadModel"/> by its id
         /// </summary>
         /// <param name="id">Id to lookup</param>
         /// <returns></returns>

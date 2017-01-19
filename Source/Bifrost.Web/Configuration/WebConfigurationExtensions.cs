@@ -10,8 +10,8 @@ using Bifrost.Web.Services;
 
 namespace Bifrost.Configuration
 {
-	public static class WebConfigurationExtensions
-	{
+    public static class WebConfigurationExtensions
+    {
         public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
         {
             var webConfiguration = new WebConfiguration(Configure.Instance.Container.Get<NamespaceMapper>());
@@ -27,11 +27,11 @@ namespace Bifrost.Configuration
             return configuration;
         }
 
-		public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
-		{
-			HttpModule.AddPipe(new SinglePageApplication());
-			return configuration;
-		}
+        public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
+        {
+            HttpModule.AddPipe(new SinglePageApplication());
+            return configuration;
+        }
 
         public static WebConfiguration WithoutJQuery(this WebConfiguration configuration)
         {
@@ -62,6 +62,6 @@ namespace Bifrost.Configuration
             callback(configuration.PathsToNamespaces);
             return configuration;
         }
-	}
+    }
 }
 
