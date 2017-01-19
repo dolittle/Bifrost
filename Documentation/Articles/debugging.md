@@ -29,6 +29,9 @@ More resources:
 - [SymbolSource.org](http://www.symbolsource.org)
 - [SymbolSource.org - Configuring Visual Studio](http://www.symbolsource.org/)
 
+If you're using the pre release - continuously generated NuGet packages on MyGet, you can read more about how to configure
+[MyGets symbol server](http://docs.myget.org/docs/reference/symbols).
+
 ## Source + PDB in the packages
 
 All NuGet packages also include a `src/` folder and the PDB files. We build all packages in release mode, but use the `dotnet` CLI option of generating
