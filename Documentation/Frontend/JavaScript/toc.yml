@@ -5,7 +5,7 @@
 - name: Commands
   href: commands.md
 - name: Read Models
-  href: readModel.md
+  href: read_model.md
 - name: Namespacing
   href: namespacing.md
 - name: Mapping
@@ -16,8 +16,6 @@
   href: navigation.md
 - name: Query
   href: query.md
-- name: Read Models
-  href: read_model.md
 - name: Regions
   href: regions.md
 - name: Services
