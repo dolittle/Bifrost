@@ -49,7 +49,7 @@
   - name: Triggers
     href: Interaction/triggers.md
   - name: Visual States
-    href: Interaction/visualStates.md
+    href: Interaction/visual_states.md
 - name: DOM
   items:
   - name: Element Visitors
