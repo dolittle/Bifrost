@@ -470,6 +470,6 @@ Target "DotNetCoreBuildAndSpecs" DoNothing
 
 Target "All" DoNothing
 "BuildAndSpecs" ==> "All"
-"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master"))
+"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
 
 RunTargetOrDefault "All"
