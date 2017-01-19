@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Bifrost.Execution;
 using System.Collections.Generic;
-using InstanceScope = global::StructureMap.InstanceScope;
+using StructureMap.Pipeline;
 
 namespace Bifrost.StructureMap
 {
@@ -86,71 +86,68 @@ namespace Bifrost.StructureMap
 
 		public void Bind (Type service, Func<Type> resolveCallback)
 		{
-			throw new NotImplementedException();
+            _container.Configure (c=>c.For(service).Use((ctx) => resolveCallback()));
 		}
 
 		public void Bind<T> (Func<Type> resolveCallback)
 		{
-			throw new NotImplementedException ();
+            _container.Configure (c=>c.For<T>().UseInstance(new ConfiguredInstance(resolveCallback())));
+            
 		}
 
 		public void Bind (Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
 		{
-			throw new NotImplementedException ();
+			_container.Configure (c=>c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(new ConfiguredInstance(resolveCallback())));
 		}
 
 		public void Bind<T> (Func<Type> resolveCallback, BindingLifecycle lifecycle)
 		{
-			throw new NotImplementedException ();
+			_container.Configure (c=>c.For<T>().LifecycleIs(GetInstanceScopeFor(lifecycle)).UseInstance(new ConfiguredInstance(resolveCallback())));
 		}
 
 		public void Bind<T> (Type type)
 		{
-			_container.Configure (c=>c.ForRequestedType<T>().TheDefault.Is.Type (type));
+			_container.Configure (c=>c.For<T>().UseInstance(new ConfiguredInstance(type)));
 		}
 
 		public void Bind (Type service, Type type)
 		{
-			_container.Configure (c=>c.ForRequestedType(service).TheDefaultIsConcreteType(type));
+			_container.Configure (c=>c.For(service).Use(type));
 		}
 
 		public void Bind<T> (Type type, BindingLifecycle lifecycle)
 		{
 
-			_container.Configure (c=>c.ForRequestedType<T>().CacheBy(GetInstanceScopeFor(lifecycle)).TheDefault.Is.Type (type));
+            _container.Configure (c=>c.For<T>().LifecycleIs(GetInstanceScopeFor(lifecycle)).UseInstance(new ConfiguredInstance(type)));
 		}
 
 		public void Bind (Type service, Type type, BindingLifecycle lifecycle)
 		{
-			_container.Configure (c=>c.ForRequestedType(service).CacheBy(GetInstanceScopeFor(lifecycle)).TheDefaultIsConcreteType(type));
+			_container.Configure (c=>c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(type));
 		}
 
 		public void Bind<T> (T instance)
 		{
-			_container.Configure (c => c.ForRequestedType<T>().Add(instance));
+            _container.Configure (c => c.For(typeof(T)).Use(new ObjectInstance(instance)));
 		}
 
 		public void Bind (Type service, object instance)
 		{
-			_container.Configure (c => c.ForRequestedType(service).Add (instance));
+			_container.Configure (c => c.For(service).Add (instance));
 		}
 
 
-		InstanceScope GetInstanceScopeFor(BindingLifecycle lifecycle)
+		ILifecycle GetInstanceScopeFor(BindingLifecycle lifecycle)
 		{
 			switch( lifecycle ) 
 			{
-			case BindingLifecycle.Transient:
-			{
-				return InstanceScope.Transient;
-			};
-
-			case BindingLifecycle.Request: return InstanceScope.PerRequest;
-			case BindingLifecycle.Singleton: return InstanceScope.Singleton;
-			case BindingLifecycle.Thread: return InstanceScope.ThreadLocal;
+			case BindingLifecycle.Transient: return new TransientLifecycle();
+            case BindingLifecycle.Request: throw new NotImplementedException();
+			case BindingLifecycle.Singleton: return new SingletonLifecycle();
+			case BindingLifecycle.Thread: return new ThreadLocalStorageLifecycle();
 			}
 
-			return InstanceScope.Transient;
+            return new TransientLifecycle();
 		}
 
 

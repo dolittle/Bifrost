@@ -50,8 +50,8 @@ As with authorization, commands can hold metadata from validators, but it will o
 The properties on a command is also part of the proxy generation.
 
 By default all properties on a command once generated through the proxy generation will hold a default value.
-In many cases you want to relate a command to data coming from an existing [ReadModel](../readModel.md) or other source.
-During initialization of a [ViewModel](../viewModels.md) you would typically connect the command with an external source
+In many cases you want to relate a command to data coming from an existing [ReadModel](../read_model.md) or other source.
+During initialization of a [ViewModel](../view_models.md) you would typically connect the command with an external source
 for automatic population the command with an initial state.
 
 This initial population of state allows for tracking any changes the user does and can be very useful for the user interface.

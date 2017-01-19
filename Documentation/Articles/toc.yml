@@ -6,6 +6,18 @@
     href: contributing.md
   - name: C# Coding Styles
     href: csharp_coding_styles.md
+  - name: C# Specifications
+    href: csharp_specifications.md
+  - name: JavaScript Specifications
+    href: javascript_specifications.md
+  - name: Runtime Exceptions
+    href: runtime_exceptions.md
+  - name: Issues
+    href: issues.md
+  - name: Copyright Header
+    href: copyright_header.md
+  - name: Documentation
+    href: documentation.md
 - name: Debugging
   href: debugging.md
 - name: Conventions

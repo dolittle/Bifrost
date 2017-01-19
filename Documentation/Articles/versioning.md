@@ -1,18 +1,27 @@
+---
+title: About versioning
+description: Learn about how Bifrost is versioned
+keywords: General
+author: einari
+---
+
 # Versioning
 
 Bifrost follows the [Semantic Versioning](https://semver.org) versioning scheme.
 
+Deviation from the standard; due to filesystem limitations, the **+** for build numbers is a **-**.
+
 During building between major versions the versioning pattern is as follows:
 
-`<major>.<minor>.<patch>+<build>`
+`<major>.<minor>.<patch>-<build>`
 
 When approaching end of development for a specific version; alpha version - the pattern is as follows:
 
-`<major>.<minor>.<patch>-alpha+<build>`
+`<major>.<minor>.<patch>-alpha-<build>`
 
 For beta releases, the pattern is as follows.
 
-`<major>.<minor>.<patch>-beta+<build>`
+`<major>.<minor>.<patch>-beta-<build>`
 
 When a major, minor or patch is released, the pattern is as follows.
 

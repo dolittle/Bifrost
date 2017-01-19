@@ -1,0 +1,16 @@
+Bifrost
+Bifrost.JSON
+Bifrost.Autofac
+Bifrost.Ninject
+Bifrost.StructureMap
+Bifrost.SimpleInjector
+Bifrost.DocumentDB
+Bifrost.RavenDB
+Bifrost.MongoDb
+Bifrost.NHibernate
+Bifrost.EntityFramework
+Bifrost.FluentValidation
+Bifrost.Web
+Bifrost.Default
+Bifrost.QuickStart
+Bifrost.Testing

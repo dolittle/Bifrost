@@ -1,5 +1,8 @@
 ---
 title: Welcome to Bifrost
+description: This is the landing page of Bifrost
+keywords: Home
+author: einari
 ---
 
 <div class="hero">
@@ -10,11 +13,11 @@ title: Welcome to Bifrost
         </div>
         <br>
         <div class="buttons-unit-small">
-            <a class="version-link" href="../release_notes.md">Release Notes</a>
+            <a class="version-link" href="../CHANGELOG.md">Release Notes</a>
             <span>|</span>
             <a class="github-link" href="https://github.com/dolittle/bifrost">View on Github</a>
             <span>|</span>
-            <a class="github-link" href="../LICENSE">MIT License</a>
+            <a class="github-link" href="https://github.com/dolittle/Bifrost/blob/master/LICENSE">MIT License</a>
             <span>|</span>
             <a class="github-link" href="../CODE_OF_CONDUCT.md">Code of conduct</a>
         </div>        
@@ -23,8 +26,8 @@ title: Welcome to Bifrost
         </div>
         <br>
         <div class="buttons-unit">
-            <a href="Tutorials/getting_started.md" class="button">Getting Started</a>
             <a href="Tutorials/quickstart.md" class="button">Get started with the Quickstart</a>
+            <a href="Tutorials/end_to_end.md" class="button">Getting Started</a>
         </div>
         <hr>
         <div>

@@ -1,8 +1,22 @@
 # Release Notes
 
+## Version 1.1.2
+
+* No changes - just fingertrouble when releasing 1.1.1
+
+## Version 1.1.1
+
+* Releasing all the projects - not just the core Bifrost project
+* Clean up QuickStart [#736](https://github.com/dolittle/Bifrost/issues/736)
+* Create contribution guideline for documentation [#689](https://github.com/dolittle/Bifrost/issues/689)
+* Detailed coding guidelines for C# [#688](https://github.com/dolittle/Bifrost/issues/688)
+* Issues guideline [#712](https://github.com/dolittle/Bifrost/issues/712)
+* Create a travis build [#710](https://github.com/dolittle/Bifrost/issues/) for cross platform - needs more work - it is failing right now
+* Put in place editor.config file [#709](https://github.com/dolittle/Bifrost/issues/709)
+
 ## Version 1.1.0
 
-* Targetting .NET 4.6.1 as a minimum for desktop framework ()
+* Targetting .NET 4.6.1 as a minimum for desktop framework
 * Targetting .NET Standard 1.6 - capable of running on .NET Core 1.x
 * Silverlight support removed
 * Mimir has been removed as it was not maintained - it will come back in a new form
@@ -13,7 +27,7 @@
 * NullReferenceException in DefaultCallContext ([#665](https://github.com/dolittle/Bifrost/issues/665), [#706](https://github.com/dolittle/Bifrost/issues/706))
 * Bifrost.debug.js created using an MSBuild task ([#707](https://github.com/dolittle/Bifrost/issues/707))
 * Only call implementations of ICanSpecifyAssemblies once per assembly ([#666](https://github.com/dolittle/Bifrost/issues/666))
-* Discover HBM mappings automatically (#664)
+* Discover HBM mappings automatically ([#664](https://github.com/dolittle/Bifrost/issues/664))
 * Compliance with Newtonsoft.JSON guidelines for caching ([#676](https://github.com/dolittle/Bifrost/issues/676))
 * Removed Oracle EventStore support
 * Removed Microsoft Unity support
@@ -232,7 +246,7 @@ In the future there will be other mechanisms as well which would apply better fo
 * Rules namespace holding a specification implementation is now called Specifications both in C# and JavaScript
 * BundleTables routes from System.Web.Optimization are now recognized and will be ignored for the SPA HTTP request handling
 
-## More convenient way to import instances of types - [#534](https://github.com/dolittle/Bifrost/issues/534)
+### More convenient way to import instances of types - [#534](https://github.com/dolittle/Bifrost/issues/534)
 
 In Bifrost we have something called ITypeImporter and ITypeDiscoverer. The importer imports the types as instances, that means the implementation uses the IOC container to resolve an instance when calling the .Import*<>() methods. The discoverer is responsible for just discovering the types when calling the Find*<>() methods and has nothing to do with instances. With this release, we're introducing something that makes this whole thing more explicit, clearer and easier to use. There is now an interface called IInstancesOf<> that you can take a dependency on. The interface inherits IEnumerable<> and as a consequence the implementation InstancesOf<> will do the instantiation when its enumerated. The way you can use this is:
 

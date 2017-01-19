@@ -151,7 +151,7 @@ namespace Bifrost.Extensions
         /// <returns>True if the type implements the interface, false if not</returns>
         public static bool HasInterface(this Type type, Type interfaceType)
         {
-            var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => t.FullName == interfaceType.FullName).Count() == 1;
+            var hasInterface = type.GetTypeInfo().ImplementedInterfaces.Where(t => $"{t.Namespace}.{t.Name}" == $"{interfaceType.Namespace}.{interfaceType.Name}").Count() == 1;
             return hasInterface;
         }
 

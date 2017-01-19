@@ -1,12 +1,19 @@
-# C# Coding Styles
+---
+title: About C# coding styles
+description: Learn about how to write C# in Bifrost
+keywords: Contributing
+author: einari
+---
 
-This is the to be considered the coding standard for Bifrost and is subject to automated
-verification during automated builds and also part of codereviews such as those done for
-pull requests.
+# C# Coding Styles
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
 “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in
 [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
+This is the to be considered the coding standard for Bifrost and is subject to automated
+verification during automated builds and also part of codereviews such as those done for
+pull requests.
 
 ## Patterns & Practices
 

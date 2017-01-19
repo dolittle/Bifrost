@@ -37,13 +37,6 @@ namespace Bifrost.Events
             Apply(@event, true);
         }
 
-        public void Apply(Expression<Action> expression)
-        {
-            var eventToApply = MethodEventFactory.CreateMethodEventFromExpression(Id, expression);
-            Apply(eventToApply);
-
-        }
-
         public virtual void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);

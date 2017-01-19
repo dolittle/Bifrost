@@ -1,3 +1,10 @@
+---
+title: General Overview
+description: Learn about all the background and thinking behind Bifrost 
+keywords: Overview
+author: einari
+---
+
 # Overview
 
 Bifrost targets the line of business type of application development. In this space there are very often requirements that
@@ -20,7 +27,7 @@ to them fully.
 
 ## History
 
-The project got started in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
+The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
 between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
 From the beginning the project evolved through the needs we saw when consulting for different companies. Amongst these were [Komplett](https://www.komplett.no).
 A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).
@@ -378,3 +385,12 @@ luxury of running it scaled out in any way; nor should you, after all you don't 
 do you know the performance characteristics of your system, therefor you should probably just deploy it in such a way that it runs
 as a single process on a single server and scale out when needed. It is all about providing the capability when needed, build the
 system in a way that makes this possible. This is what Bifrost aims at making simple without compromise.
+
+[Einar Ingebrigtsen](https://github.com/einari) has created a video for [The Code Lab](http://thecodelab.tv) that explains architecture for Microservices, touching
+on most of the concepts described in this article:
+
+<div class="video">
+    <figure>
+        <iframe width="640" height="480" src="//www.youtube.com/embed/ewn0fhK2sA4" frameborder="0" allowfullscreen></iframe>
+    </figure>
+</div>

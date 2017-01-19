@@ -6,14 +6,7 @@ using System;
 using System.Linq;
 using Bifrost.Execution;
 using SimpleInjector;
-using SimpleInjector.Extensions;
-using SimpleInjector.Extensions.Decorators;
-using SimpleInjector.Advanced;
-using SimpleInjector.Advanced.Internal;
-using SimpleInjector.Diagnostics;
-using SimpleInjector.Integration.Web;
 using IContainer = Bifrost.Execution.IContainer;
-using System;
 using System.Collections.Generic;
 
 namespace Bifrost.SimpleInjector
@@ -68,7 +61,7 @@ namespace Bifrost.SimpleInjector
 
         public IEnumerable<T> GetAll<T>()
         {
-            return _container.GetAllInstances<T>();
+            return _container.GetAllInstances(typeof(T)) as IEnumerable<T>;
         }
 
         public bool HasBindingFor(Type type)
