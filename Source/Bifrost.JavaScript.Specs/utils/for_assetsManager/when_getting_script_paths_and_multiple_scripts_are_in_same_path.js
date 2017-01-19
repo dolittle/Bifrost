@@ -32,6 +32,7 @@
 
     afterEach(function () {
         $.get.restore();
+        Bifrost.assetsManager.scripts = [];
     });
 
 
