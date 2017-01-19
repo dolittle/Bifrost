@@ -67,8 +67,8 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
             failwithf "Unable to resolve version from '%s'" versionAsString
             BuildVersion(0,0,0,0,"",false)
 
-let performGitCommand arguments =
-    let startInfo = new System.Diagnostics.ProcessStartInfo("git")
+let spawnProcess (processName:string, arguments:string) =
+    let startInfo = new System.Diagnostics.ProcessStartInfo(processName)
     startInfo.Arguments <- arguments
     startInfo.RedirectStandardInput <- true
     startInfo.RedirectStandardOutput <- true
@@ -83,9 +83,12 @@ let performGitCommand arguments =
     let result = reader.ReadToEnd()
     proc.WaitForExit()
     if proc.ExitCode <> 0 then 
-        failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
+        failwith ("Problems spawning ("+processName+") with arguments ("+arguments+"): \r\n" +  proc.StandardError.ReadToEnd())
 
     result
+
+let performGitCommand arguments:string =
+    spawnProcess("git", arguments)
 
 let gitVersion repositoryDir = 
     let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
@@ -94,24 +97,10 @@ let gitVersion repositoryDir =
     let processName = if isWindows then gitVersionExecutable else "mono"
     let fullArguments = if isWindows then arguments else sprintf "%s %s" gitVersionExecutable arguments
 
-    let startInfo = new System.Diagnostics.ProcessStartInfo(processName)
-    startInfo.Arguments <- fullArguments
-    startInfo.RedirectStandardInput <- true
-    startInfo.RedirectStandardOutput <- true
-    startInfo.RedirectStandardError <- true
-    startInfo.UseShellExecute <- false
-    startInfo.CreateNoWindow <- true
+    spawnProcess(processName, fullArguments)
 
-    use proc = new System.Diagnostics.Process(StartInfo = startInfo)
-    proc.Start() |> ignore
-
-    let reader = new System.IO.StreamReader(proc.StandardOutput.BaseStream, System.Text.Encoding.UTF8)
-    let result = reader.ReadToEnd()
-    proc.WaitForExit()
-    if proc.ExitCode <> 0 then 
-        failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
-
-    result
+let getCurrentBranch =
+    performGitCommand("rev-parse --abbrev-ref HEAD").Trim()
 
 let getLatestTag repositoryDir =
     //let commitSha = performGitCommand "rev-list --tags --max-count=1"
@@ -192,6 +181,9 @@ let specProjectJsonFiles = specDirectories
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
 
+
+let currentBranch = getCurrentBranch
+
 // Versioning related
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
@@ -218,6 +210,7 @@ let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOK
 let documentationSolutionFile = "Source/Solutions/Bifrost_Documentation.sln"
 
 printfn "<----------------------- BUILD DETAILS ----------------------->"
+printfn "Git Branch : %s" currentBranch
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
 printfn "Build version : %s" (buildVersion.AsString())
@@ -466,15 +459,18 @@ Target "BuildAndSpecs" DoNothing
 "BuildRelease" ==> "BuildAndSpecs"
 "Specifications" ==> "BuildAndSpecs"
 
+Target "PackageAndDeploy" DoNothing
+"Package" ==> "PackageAndDeploy"
+"GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
+"Deploy" ==> "PackageAndDeploy"
+
 Target "DotNetCoreBuildAndSpecs" DoNothing
 "DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
 "DotNetTest" ==> "DotNetCoreBuildAndSpecs"
 
-Target "All" DoNothing
-"BuildRelease" ==> "All"
-"Specifications" ==> "All"
-"Package" ==> "All"
-"GenerateAndPublishDocumentation" ==> "All"
-"Deploy" ==> "All"
+Target "All" (fun _ ->
+    Run "BuildAndSpecs"
+    if( currentBranch = "master" ) then Run "PackageAndDeploy"
+)
 
 RunTargetOrDefault "All"
