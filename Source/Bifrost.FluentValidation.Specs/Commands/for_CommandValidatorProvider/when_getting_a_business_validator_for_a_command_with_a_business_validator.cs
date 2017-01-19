@@ -1,4 +1,3 @@
-using System;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.Testing.Fakes.Commands;
 using Bifrost.Validation;
@@ -13,7 +12,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider
 
         Establish context = () => container_mock.Setup(c => c.Get(typeof(SimpleCommandBusinessValidator))).Returns(() => new SimpleCommandBusinessValidator());
 
-        Because of = () => business_validator = command_validator_provider.GetBusinessValidatorFor(new SimpleCommand(Guid.NewGuid()));
+        Because of = () => business_validator = command_validator_provider.GetBusinessValidatorFor(new SimpleCommand());
 
         It should_return_the_correct_business_validator = () => business_validator.ShouldBeOfExactType<SimpleCommandBusinessValidator>();
     }

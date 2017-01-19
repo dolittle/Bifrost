@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Events.for_EventExtensions
             new SimpleEvent(Guid.NewGuid()),
         };
 
-        static SimpleCommand command = new SimpleCommand(Guid.NewGuid());
+        static SimpleCommand command = new SimpleCommand();
 
         Because of = () => events.MarkEventsWithCommandDetails(command);
 

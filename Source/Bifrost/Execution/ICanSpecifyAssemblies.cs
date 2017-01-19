@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Bifrost.Configuration.Assemblies;
+using Bifrost.Conventions;
 
 namespace Bifrost.Execution
 {
@@ -14,8 +15,10 @@ namespace Bifrost.Execution
     /// get the correct assemblies located for things like implementations of
     /// <see cref="ITypeDiscoverer"/> which relies on knowing about assemblies
     /// to be able to discover types.
+    /// An application can implement any number of these conventions.
+    /// Implementing classes must have a default constructor.
     /// </remarks>
-    public interface ICanSpecifyAssemblies
+    public interface ICanSpecifyAssemblies : IConvention
     {
         /// <summary>
         /// Method that gets called for specifying which assemblies to include or not

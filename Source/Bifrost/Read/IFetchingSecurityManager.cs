@@ -23,15 +23,7 @@ namespace Bifrost.Read
         /// Authorizes a <see cref="IQuery"/>
         /// </summary>
         /// <param name="query"><see cref="IQuery"/> to authorize</param>
-        /// <returns><see cref="AuthorizationResult"/> that details how the <see cref="IQueryFor{T}"/> was authorized</returns>
+        /// <returns><see cref="AuthorizationResult"/> that details how the <see cref="IQuery"/> was authorized</returns>
         AuthorizationResult Authorize(IQuery query);
-
-        /// <summary>
-        /// Authorizes a <see cref="IQueryFor{T}"/>
-        /// </summary>
-        /// <typeparam name="T">Type of <see cref="IReadModel"/> - typically inferred by usage</typeparam>
-        /// <param name="queryFor"><see cref="IQueryFor{T}"/> to authorize</param>
-        /// <returns><see cref="AuthorizationResult"/> that details how the <see cref="IQueryFor{T}"/> was authorized</returns>
-        AuthorizationResult Authorize<T>(IQueryFor<T> queryFor) where T : IReadModel;
     }
 }
