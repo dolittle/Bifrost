@@ -32,10 +32,10 @@ namespace Bifrost.Specifications
         /// <param name="lhs">The rule being extended</param>
         /// <param name="rhs">The second rule to be merged into the first</param>
         /// <returns>An And{T} rule"></returns>
-		public static Specification<T> And<T>(this Specification<T> rhs, Specification<T> lhs)
-		{
-			return new And<T>(rhs, lhs);
-		}
+        public static Specification<T> And<T>(this Specification<T> rhs, Specification<T> lhs)
+        {
+            return new And<T>(rhs, lhs);
+        }
 
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace Bifrost.Specifications
         /// <param name="lhs">The rule being extended</param>
         /// <param name="rhs">The second rule to be merged into the first</param>
         /// <returns>An Or{T} rule"></returns>
-		public static Specification<T> Or<T>(this Specification<T> rhs, Specification<T> lhs)
-		{
-			return new Or<T>(rhs, lhs);
-		}
+        public static Specification<T> Or<T>(this Specification<T> rhs, Specification<T> lhs)
+        {
+            return new Or<T>(rhs, lhs);
+        }
 
         /// <summary>
         /// Combines two rules into an Or, where the second rule is negated.

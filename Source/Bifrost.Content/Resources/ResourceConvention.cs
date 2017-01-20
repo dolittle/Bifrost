@@ -12,8 +12,8 @@ namespace Bifrost.Content.Resources
     /// <summary>
     /// Represents a <see cref="IBindingConvention"/> that resolves anything implementing <see cref="IHaveResources"/>
     /// </summary>
-	public class ResourceConvention : BaseConvention
-	{
+    public class ResourceConvention : BaseConvention
+    {
         readonly ProxyGenerator _proxyGenerator;
 
         /// <summary>
@@ -29,14 +29,14 @@ namespace Bifrost.Content.Resources
         {
             var hasIStrings = service.HasInterface<IHaveResources>();
                 
-			return hasIStrings;
-		}
+            return hasIStrings;
+        }
 
-		public override void Resolve(IContainer container, Type service)
-		{
-			var interceptor = container.Get<ResourceInterceptor>();
-			var proxy = _proxyGenerator.CreateClassProxy(service, interceptor);
-			container.Bind(service,proxy);
+        public override void Resolve(IContainer container, Type service)
+        {
+            var interceptor = container.Get<ResourceInterceptor>();
+            var proxy = _proxyGenerator.CreateClassProxy(service, interceptor);
+            container.Bind(service,proxy);
         }
 #pragma warning restore 1591 // Xml Comments
     }

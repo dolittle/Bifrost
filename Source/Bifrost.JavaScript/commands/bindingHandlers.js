@@ -25,24 +25,6 @@ if (typeof ko !== 'undefined') {
                 command = value;
             }
             ko.applyBindingsToNode(element, { click: function() {
-                // TODO: Investigate further - idea was to support a "context-sensitive" way of dynamically inserting 
-                // parameters before execution of the command
-                /*
-                if( !contextBound ) {
-                    command.parameters = command.parameters || {};					
-                    for( var parameter in command.parameters ) {
-                        if( viewModel.hasOwnProperty(parameter) ) {
-                            var parameterValue = viewModel[parameter];
-                            if( ko.isObservable(command.parameters[parameter]) ) {
-                                command.parameters[parameter](parameterValue);
-                            } else {
-                                command.parameters[parameter] = parameterValue;								
-                            }
-                        }
-                    }
-                }
-                */
-    
                 command.execute();
             }}, viewModel);
         }

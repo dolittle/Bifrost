@@ -6,7 +6,7 @@
     });
 
     afterEach(function () {
-        Bifrost.assetsManager.scripts = undefined;
+        Bifrost.assetsManager.scripts = [];
     });
 
     it("should return that it has it", function () {

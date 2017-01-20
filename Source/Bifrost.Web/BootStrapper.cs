@@ -19,14 +19,14 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 namespace Bifrost.Web
 {
-	public class BootStrapper
-	{
+    public class BootStrapper
+    {
         static volatile object _lockObject = new object();
-	    static bool _isInitialized;
+        static bool _isInitialized;
 
-		static void PreApplicationStart()
-		{
-			DynamicModuleUtility.RegisterModule(typeof(HttpModule));
+        static void PreApplicationStart()
+        {
+            DynamicModuleUtility.RegisterModule(typeof(HttpModule));
             RouteTable.Routes.Add(new ProxyRoute());
             RouteTable.Routes.Add(new SecurityRoute());
             RouteTable.Routes.Add(new ConfigurationRoute());
@@ -73,6 +73,6 @@ namespace Bifrost.Web
                 assetsManager.AddAsset(formatted);
             }
         }
-	}
+    }
 }
 

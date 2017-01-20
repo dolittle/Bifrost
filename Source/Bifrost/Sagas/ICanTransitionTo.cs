@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Sagas
 {
-	/// <summary>
-	/// Defines a marker interface to allow transitions between chapters
-	/// </summary>
-	/// <typeparam name="T">Type of <see cref="IChapter"/> that can be transitioned to</typeparam>
+    /// <summary>
+    /// Defines a marker interface to allow transitions between chapters
+    /// </summary>
+    /// <typeparam name="T">Type of <see cref="IChapter"/> that can be transitioned to</typeparam>
     public interface ICanTransitionTo<T> where T:IChapter
     {
         

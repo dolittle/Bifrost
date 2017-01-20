@@ -6,9 +6,9 @@ using System;
 
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Defines the configuration for events
-	/// </summary>
+    /// <summary>
+    /// Defines the configuration for events
+    /// </summary>
     public interface IEventsConfiguration : IConfigurationElement
     {
         /// <summary>

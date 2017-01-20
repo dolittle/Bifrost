@@ -186,17 +186,17 @@ namespace Bifrost.Extensions
         }
 
 
-		/// <summary>
-		/// Check if a type implements a specific interface
-		/// </summary>
-		/// <typeparam name="T">Interface to check for</typeparam>
-		/// <param name="type">Type to check</param>
-		/// <returns>True if the type implements the interface, false if not</returns>
-		public static bool HasInterface<T>(this Type type)
-		{
-		    var hasInterface = type.HasInterface(typeof (T));
-			return hasInterface;
-		}
+        /// <summary>
+        /// Check if a type implements a specific interface
+        /// </summary>
+        /// <typeparam name="T">Interface to check for</typeparam>
+        /// <param name="type">Type to check</param>
+        /// <returns>True if the type implements the interface, false if not</returns>
+        public static bool HasInterface<T>(this Type type)
+        {
+            var hasInterface = type.HasInterface(typeof (T));
+            return hasInterface;
+        }
 
         /// <summary>
         /// Check if a type implements a specific interface
@@ -284,23 +284,23 @@ namespace Bifrost.Extensions
                 .Where(t => t != type && t != typeof (object));
         }
 
-	    static IEnumerable<Type> BaseTypes(this Type type)
-	    {
-	        var currentType = type;
+        static IEnumerable<Type> BaseTypes(this Type type)
+        {
+            var currentType = type;
             while (currentType != null)
-	        {
-	            yield return currentType;
+            {
+                yield return currentType;
                 currentType = currentType.GetTypeInfo().BaseType;
-	        }
-	    }
+            }
+        }
 
-	    static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
-	    {
-	        yield return type;
-	        if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().ContainsGenericParameters)
-	        {
-	            yield return type.GetGenericTypeDefinition();
-	        }
-	    }
-	}
+        static IEnumerable<Type> ThisAndMaybeOpenType(Type type)
+        {
+            yield return type;
+            if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().ContainsGenericParameters)
+            {
+                yield return type.GetGenericTypeDefinition();
+            }
+        }
+    }
 }

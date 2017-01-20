@@ -120,5 +120,5 @@ namespace Bifrost.Commands
             return commandResult;
         }
 #pragma warning restore 1591 // Xml Comments
-	}
+    }
 }

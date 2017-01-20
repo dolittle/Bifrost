@@ -13,8 +13,8 @@ namespace Bifrost.Content.Resources
     /// </summary>
     public class ResourcePropertiesResolver : IResourcePropertiesResolver
     {
-		IContainer _container;
-		
+        IContainer _container;
+        
         /// <summary>
         /// Initializes a new instance of <see cref="ResourcePropertiesResolver"/>
         /// </summary>

@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Bifrost.Execution
 {
-	/// <summary>
+    /// <summary>
     /// Represents a <see cref="IAssemblies"/>
     /// </summary>
     [Singleton]

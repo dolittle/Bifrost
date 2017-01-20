@@ -4,14 +4,14 @@ using Moq;
 
 namespace Bifrost.Specs.Globalization.given
 {
-	public class a_localizer_mock
-	{
-		protected static Mock<ILocalizer> localizer_mock;
+    public class a_localizer_mock
+    {
+        protected static Mock<ILocalizer> localizer_mock;
 
-		Establish context = () =>
-		                    	{
-		                    		localizer_mock = new Mock<ILocalizer>();
-		                    		localizer_mock.Setup(l => l.BeginScope()).Returns(LocalizationScope.FromCurrentThread);
-		                    	};
-	}
+        Establish context = () =>
+                                {
+                                    localizer_mock = new Mock<ILocalizer>();
+                                    localizer_mock.Setup(l => l.BeginScope()).Returns(LocalizationScope.FromCurrentThread);
+                                };
+    }
 }

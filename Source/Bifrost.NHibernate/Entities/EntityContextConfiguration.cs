@@ -8,9 +8,9 @@ using Bifrost.Entities;
 
 namespace Bifrost.NHibernate.Entities
 {
-	public class EntityContextConfiguration : IEntityContextConfiguration
-	{
-		public Type EntityContextType { get { return typeof (EntityContext<>); } }
-		public IEntityContextConnection Connection { get; set; }
-	}
+    public class EntityContextConfiguration : IEntityContextConfiguration
+    {
+        public Type EntityContextType { get { return typeof (EntityContext<>); } }
+        public IEntityContextConnection Connection { get; set; }
+    }
 }

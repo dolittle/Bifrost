@@ -7,19 +7,19 @@ using Bifrost.Entities;
 
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Defines a configuration set for an <see cref="IEntityContext{T}">EntityContext</see> implementation
-	/// </summary>
-	public interface IEntityContextConfiguration
-	{
-		/// <summary>
-		/// Gets the EntityContext type
-		/// </summary>
-		Type EntityContextType { get; }
+    /// <summary>
+    /// Defines a configuration set for an <see cref="IEntityContext{T}">EntityContext</see> implementation
+    /// </summary>
+    public interface IEntityContextConfiguration
+    {
+        /// <summary>
+        /// Gets the EntityContext type
+        /// </summary>
+        Type EntityContextType { get; }
 
-		/// <summary>
-		/// Gets or sets the connection information for the entity context
-		/// </summary>
-		IEntityContextConnection Connection { get; set; }
-	}
+        /// <summary>
+        /// Gets or sets the connection information for the entity context
+        /// </summary>
+        IEntityContextConnection Connection { get; set; }
+    }
 }

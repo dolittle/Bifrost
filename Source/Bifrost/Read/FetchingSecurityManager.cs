@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using Bifrost.Security;
 
 namespace Bifrost.Read
@@ -12,7 +11,7 @@ namespace Bifrost.Read
     /// </summary>
     public class FetchingSecurityManager : IFetchingSecurityManager
     {
-        ISecurityManager _securityManager;
+        readonly ISecurityManager _securityManager;
 
         /// <summary>
         /// Initializes a new instance of <see cref="FetchingSecurityManager"/>
@@ -32,11 +31,6 @@ namespace Bifrost.Read
         public AuthorizationResult Authorize(IQuery query)
         {
             return _securityManager.Authorize<Fetching>(query);
-        }
-
-        public AuthorizationResult Authorize<T>(IQueryFor<T> queryFor) where T : IReadModel
-        {
-            return _securityManager.Authorize<Fetching>(queryFor);
         }
 #pragma warning restore 1591 // Xml Comments
     }

@@ -9,13 +9,13 @@ namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 
         static ClassToSerialize instance;
 
-    	Establish context = () =>
-    	                    	{
-    	                    		container_mock.Setup(c => c.Get<ClassToSerialize>()).Returns(new ClassToSerialize());
-    	                    		container_mock.Setup(c => c.Get(Moq.It.IsAny<Type>())).Returns((Type t) => Activator.CreateInstance(t));
-    	                    	};
+        Establish context = () =>
+                                {
+                                    container_mock.Setup(c => c.Get<ClassToSerialize>()).Returns(new ClassToSerialize());
+                                    container_mock.Setup(c => c.Get(Moq.It.IsAny<Type>())).Returns((Type t) => Activator.CreateInstance(t));
+                                };
 
-    	Because of = () => instance = serializer.FromJson<ClassToSerialize>(json);
+        Because of = () => instance = serializer.FromJson<ClassToSerialize>(json);
 
         It should_have_the_property_instance_set_to_instance_of_SomethingImplementation = () => instance.Something.ShouldBeOfExactType<SomethingImplementation>();
     }

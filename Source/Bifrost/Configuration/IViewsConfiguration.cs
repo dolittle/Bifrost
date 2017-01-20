@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Defines the configuration for views
-	/// </summary>
+    /// <summary>
+    /// Defines the configuration for views
+    /// </summary>
     public interface IViewsConfiguration : IConfigurationElement
     {
     }

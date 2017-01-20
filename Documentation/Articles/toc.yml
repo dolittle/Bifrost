@@ -18,6 +18,8 @@
     href: copyright_header.md
   - name: Documentation
     href: documentation.md
+  - name: Editor
+    href: editor.md
 - name: Debugging
   href: debugging.md
 - name: Conventions

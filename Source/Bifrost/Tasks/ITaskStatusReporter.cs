@@ -2,12 +2,14 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Conventions;
+
 namespace Bifrost.Tasks
 {
     /// <summary>
     /// Defines a interface for receiving status reports for tasks
     /// </summary>
-    public interface ITaskStatusReporter
+    public interface ITaskStatusReporter : IConvention
     {
         /// <summary>
         /// Gets called when a task has been started

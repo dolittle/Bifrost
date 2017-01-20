@@ -9,23 +9,23 @@ using FluentValidation;
 
 namespace Bifrost.FluentValidation
 {
-	/// <summary>
-	/// Represents a <see cref="IValidatorFactory"/> that is based on conventions
-	/// </summary>
+    /// <summary>
+    /// Represents a <see cref="IValidatorFactory"/> that is based on conventions
+    /// </summary>
     public class ConventionValidatorFactory : IValidatorFactory
     {
         readonly IContainer _container;
 
-		/// <summary>
-		/// Initializes an instance of <see cref="ConventionValidatorFactory"/>
-		/// </summary>
-		/// <param name="container"><see cref="IContainer"/> to use for getting instances of <see cref="IValidator">validators</see></param>
+        /// <summary>
+        /// Initializes an instance of <see cref="ConventionValidatorFactory"/>
+        /// </summary>
+        /// <param name="container"><see cref="IContainer"/> to use for getting instances of <see cref="IValidator">validators</see></param>
         public ConventionValidatorFactory(IContainer container)
         {
             _container = container;
         }
 #pragma warning disable 1591 // Xml Comments
-		public IValidator<T> GetValidator<T>()
+        public IValidator<T> GetValidator<T>()
         {
             var type = typeof(T);
             var validatorTypeName = string.Format("{0}Validator", type.Name);

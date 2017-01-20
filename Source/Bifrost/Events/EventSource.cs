@@ -68,10 +68,10 @@ namespace Bifrost.Events
             Version = Version.PreviousCommit();
         }
 
-		public void Dispose()
-		{
-			Commit();
-		}
+        public void Dispose()
+        {
+            Commit();
+        }
 
         
 
@@ -79,7 +79,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Get the event source type
         /// </summary>
-		protected virtual Type EventSourceType { get { return GetType(); } }
+        protected virtual Type EventSourceType { get { return GetType(); } }
 
 
         void ReApply(IEvent @event)
@@ -91,7 +91,7 @@ namespace Bifrost.Events
         {
             if (isNew)
             {
-            	@event.EventSource = EventSourceType.AssemblyQualifiedName;
+                @event.EventSource = EventSourceType.AssemblyQualifiedName;
                 UncommittedEvents.Append(@event);
                 Version = Version.NextSequence();
                 @event.Version = Version;

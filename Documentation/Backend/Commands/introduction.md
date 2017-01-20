@@ -32,8 +32,8 @@ you should consider the invariants of your domain and the aggregate root that th
 
 A command **MUST** include all necessary information to perform the action.  These **should** be in the form of parameters on the command object.  
 You **may** include optional parameters, though it is **recommended** that you create multiple commands that represent the different states associated 
-with the optional parameters.  It is **recommended** that you use [Concepts](../concepts_and_value_objects) and 
-[Value Objects](../concepts_and_value_objects) on your commands rather than primitives.  This gives a more expressive command and aids in
+with the optional parameters.  It is **recommended** that you use [Concepts](../concepts_and_value_objects.md) and 
+[Value Objects](../concepts_and_value_objects.md) on your commands rather than primitives.  This gives a more expressive command and aids in
 validation.
 
 > [!Note]  

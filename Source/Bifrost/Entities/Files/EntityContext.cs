@@ -56,16 +56,7 @@ namespace Bifrost.Entities.Files
 
         public void Insert(T entity)
         {
-            /*
-            if (_mapper.CanMap<Document, T>())
-            {
-                var document = _mapper.Map<Document, T>(entity);
-                //Save(document);
-            }
-            else*/
-            {
-                Save(entity);
-            }
+            Save(entity);
         }
 
         public void Update(T entity)

@@ -6,15 +6,15 @@ using System;
 
 namespace Bifrost.Commands
 {
-	/// <summary>
-	/// The exception that is thrown when an expression is not a method call
-	/// </summary>
+    /// <summary>
+    /// The exception that is thrown when an expression is not a method call
+    /// </summary>
     public class ExpressionNotMethodCallException : Exception
     {
-		/// <summary>
-		/// Initializes a new instance of <see cref="ExpressionNotMethodCallException"/>
-		/// </summary>
-		/// <param name="message">Message with details for the exception</param>
+        /// <summary>
+        /// Initializes a new instance of <see cref="ExpressionNotMethodCallException"/>
+        /// </summary>
+        /// <param name="message">Message with details for the exception</param>
         public ExpressionNotMethodCallException(string message) : base(message) {}
     }
 }

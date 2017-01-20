@@ -17,8 +17,8 @@ using System.Windows.Media;
 
 namespace Bifrost.VisualTree
 {
-	public static class VisualTreeExtensions
-	{
+    public static class VisualTreeExtensions
+    {
         public static void RemoveChild(this DependencyObject parent, UIElement child)
         {
             var panel = parent as Panel;

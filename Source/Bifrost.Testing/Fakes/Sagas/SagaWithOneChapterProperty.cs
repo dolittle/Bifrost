@@ -12,9 +12,9 @@ namespace Bifrost.Testing.Fakes.Sagas
 
         public SimpleChapter Simple { get; set; }
 
-	    public SagaWithOneChapterProperty()
-	    {
-	    }
+        public SagaWithOneChapterProperty()
+        {
+        }
 
         public SagaWithOneChapterProperty(params IChapter[] chapters)
         {

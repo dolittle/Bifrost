@@ -10,8 +10,8 @@ namespace Bifrost.EntityFramework.Entities
     /// <summary>
     /// Represents a <see cref="IEntityContextConnection"/> for EntityFramework
     /// </summary>
-	public class EntityContextConnection : IEntityContextConnection
-	{
+    public class EntityContextConnection : IEntityContextConnection
+    {
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContextConnection"/>
         /// </summary>

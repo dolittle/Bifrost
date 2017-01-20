@@ -6,9 +6,9 @@ using System;
 
 namespace Bifrost.Configuration
 {
-	/// <summary>
-	/// Defines configuration for commands
-	/// </summary>
+    /// <summary>
+    /// Defines configuration for commands
+    /// </summary>
     public interface ICommandsConfiguration : IConfigurationElement, IHaveStorage
     {
         /// <summary>

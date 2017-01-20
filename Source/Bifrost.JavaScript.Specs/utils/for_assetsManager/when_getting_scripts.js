@@ -7,7 +7,6 @@
 
     beforeEach(function () {
         nameSpaceInitializedStub = sinon.stub();
-        Bifrost.assetsManager.scripts = undefined;
         Bifrost.namespaces = Bifrost.namespaces || {};
         Bifrost.namespaces.create = function () { return { initialize: nameSpaceInitializedStub }; };
         sinon.stub($, "get", function (url, parameters, callback) {
@@ -24,7 +23,7 @@
 
     afterEach(function () {
         $.get.restore();
-        Bifrost.assetsManager.scripts = undefined;
+        Bifrost.assetsManager.scripts = [];
     });
 
     it("should get scripts", function () {
