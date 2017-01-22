@@ -34,7 +34,7 @@ namespace Bifrost.Events
             _committedEventStreamReceiver.Received += CommittedEventStreamReceived;
         }
 
-        private void CommittedEventStreamReceived(CommittedEventStream committedEventStream)
+        void CommittedEventStreamReceived(CommittedEventStream committedEventStream)
         {
             _eventSubscriptionManager.Process(committedEventStream);
         }
