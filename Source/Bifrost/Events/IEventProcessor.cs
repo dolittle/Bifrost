@@ -9,7 +9,16 @@ namespace Bifrost.Events
     /// </summary>
     public interface IEventProcessor
     {
+        /// <summary>
+        /// Gets the <see cref="EventPath"/> for the <see cref="IEventProcessor"/>
+        /// </summary>
+        EventPath   EventPath { get; }
 
-
+        /// <summary>
+        /// Process an event 
+        /// </summary>
+        /// <param name="event"><see cref="IEvent"/> to process</param>
+        /// <returns><see cref="EventProcessorResult">Result</see> from the processing</returns>
+        EventProcessorResult Process(IEvent @event);
     }
 }
