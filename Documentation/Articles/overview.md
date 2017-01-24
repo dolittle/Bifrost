@@ -43,6 +43,9 @@ In 2015, [Børge Nordli](https://github.com/bnordli) became the primary Bifrost 
 maintaining a [fork](https://github.com/ProCoSys/Bifrost) that was used by the project. Pull Requests from the fork has been
 coming in steadily.
 
+The effort of design and thoughtwork going into the project is a result of great collaboration over the years.
+Not only by the primary maintainers; Michael, Børge and Einar - but all colleagues and other contributors to the project.
+
 ## Domain Driven Design
 
 Bifrost got from the beginning set to embrace [Domain Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) and
