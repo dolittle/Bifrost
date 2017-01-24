@@ -2,17 +2,19 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Collections.Generic;
+using System;
 
-namespace Bifrost.Execution
+namespace Bifrost.Exceptions
 {
     /// <summary>
-    /// Defines something that can discover types and give instance of these types
-    /// when enumerated over
+    /// Publishes exceptions to all <see cref="IExceptionSubscriber"/>s.
     /// </summary>
-    /// <typeparam name="T">Base type to discover for - must be an abstract class or an interface</typeparam>
-    public interface IInstancesOf<out T> : IEnumerable<T>
-        where T : class
+    public interface IExceptionPublisher
     {
+        /// <summary>
+        /// Publishes the exception to all <see cref="IExceptionSubscriber"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        void Publish(Exception exception);
     }
 }

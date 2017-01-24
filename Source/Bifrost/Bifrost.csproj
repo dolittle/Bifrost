@@ -133,7 +133,13 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
+    <Compile Include="Exceptions\ExceptionPublisher.cs" />
+    <Compile Include="Exceptions\IExceptionPublisher.cs" />
+    <Compile Include="Exceptions\IExceptionSubscriber.cs" />
+    <Compile Include="Execution\CyclicDependencyException.cs" />
+    <Compile Include="Execution\OrderAttribute.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
+    <Compile Include="Execution\AfterAttribute.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />
@@ -173,6 +179,8 @@
     <Compile Include="Execution\ICanSpecifyAssemblies.cs" />
     <Compile Include="Execution\IAssemblyFilters.cs" />
     <Compile Include="Execution\IFileSystem.cs" />
+    <Compile Include="Execution\OrderedInstancesOf.cs" />
+    <Compile Include="Execution\IOrderedInstancesOf.cs" />
     <Compile Include="Execution\InvalidSignatureException.cs" />
     <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
     <Compile Include="Execution\ITypeFinder.cs" />

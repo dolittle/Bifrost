@@ -14,18 +14,31 @@ namespace Bifrost.Extensions
     /// </summary>
     public static class TypeExtensions
     {
-        static HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
-            {
-                typeof(decimal),typeof(string),typeof(Guid),typeof(DateTime),typeof(DateTimeOffset),typeof(TimeSpan)
-            }; 
-
-        static HashSet<Type> NumericTypes = new HashSet<Type>
+        static readonly HashSet<Type> AdditionalPrimitiveTypes = new HashSet<Type>
         {
-            typeof(byte), typeof(sbyte),
-            typeof(short), typeof(int), typeof(long),
-            typeof(ushort), typeof(uint), typeof(ulong),
-            typeof(double), typeof(decimal), typeof(Single)
+            typeof (decimal),
+            typeof (string),
+            typeof (Guid),
+            typeof (DateTime),
+            typeof (DateTimeOffset),
+            typeof (TimeSpan)
         };
+
+        static readonly HashSet<Type> NumericTypes = new HashSet<Type>
+        {
+            typeof (byte),
+            typeof (sbyte),
+            typeof (short),
+            typeof (int),
+            typeof (long),
+            typeof (ushort),
+            typeof (uint),
+            typeof (ulong),
+            typeof (double),
+            typeof (decimal),
+            typeof (Single)
+        };
+
 #pragma warning disable 1591 // Xml Comments
         static ITypeInfo GetTypeInfo(Type type)
         {
@@ -37,14 +50,56 @@ namespace Bifrost.Extensions
 #pragma warning restore 1591 // Xml Comments
 
         /// <summary>
-        /// Check if a type has an attribute associated with it
+        /// Check if a type has an attribute associated with it. The inheritance chain is not used to find the attribute.
         /// </summary>
-        /// <typeparam name="T">Type to check</typeparam>
-        /// <returns>True if there is an attribute, false if not</returns>
+        /// <param name="type">The type which is searched for the attributes.</param>
+        /// <typeparam name="T">Type to check.</typeparam>
+        /// <returns>True if there is an attribute, false if not.</returns>
         public static bool HasAttribute<T>(this Type type) where T : Attribute
         {
-            var attributes = type.GetTypeInfo().GetCustomAttributes(typeof(T), false).ToArray();
-            return attributes.Length == 1;
+            return type.HasAttribute<T>(false);
+        }
+
+        /// <summary>
+        /// Check if a type has an attribute associated with it.
+        /// </summary>
+        /// <param name="type">The type which is searched for the attributes.</param>
+        /// <param name="inherit">Specifies whether to search this member's inheritance chain to find the attributes.
+        /// Interfaces will be searched, too.</param>
+        /// <typeparam name="T">Type to check.</typeparam>
+        /// <returns>True if there is an attribute, false if not.</returns>
+        public static bool HasAttribute<T>(this Type type, bool inherit) where T : Attribute
+        {
+            return type.GetAttributes<T>(inherit).Any();
+        }
+
+        /// <summary>Searches and returns attributes. The inheritance chain is not used to find the attributes.</summary>
+        /// <typeparam name="T">The type of attribute to search for.</typeparam>
+        /// <param name="type">The type which is searched for the attributes.</param>
+        /// <returns>Returns all attributes of the given type.</returns>
+        public static IEnumerable<T> GetAttributes<T>(this Type type) where T : Attribute
+        {
+            return type.GetAttributes<T>(false);
+        }
+
+        /// <summary>Searches and returns attributes.</summary>
+        /// <typeparam name="T">The type of attribute to search for.</typeparam>
+        /// <param name="type">The type which is searched for the attributes.</param>
+        /// <param name="inherit">Specifies whether to search this member's inheritance chain to find the attributes.
+        /// Interfaces will be searched, too.</param>
+        /// <returns>Returns all attributes.</returns>
+        public static IEnumerable<T> GetAttributes<T>(this Type type, bool inherit) where T : Attribute
+        {
+            var attributes = type.GetTypeInfo().GetCustomAttributes<T>(inherit);
+            if (inherit)
+            {
+                attributes = attributes.Concat(
+                    type
+                        .GetInterfaces()
+                        .SelectMany(i => i.GetCustomAttributes<T>(false)));
+            }
+
+            return attributes;
         }
 
         /// <summary>
@@ -85,7 +140,7 @@ namespace Bifrost.Extensions
         /// <returns>True if type is a boolean, false if not</returns>
         public static bool IsBoolean(this Type type)
         {
-            return type == typeof (Boolean) || Nullable.GetUnderlyingType(type) == typeof (Boolean);
+            return type == typeof (bool) || Nullable.GetUnderlyingType(type) == typeof (bool);
         }
 
         /// <summary>
@@ -226,7 +281,7 @@ namespace Bifrost.Extensions
             return type.BaseTypes()
                 .Concat(type.GetTypeInfo().GetInterfaces())
                 .SelectMany(ThisAndMaybeOpenType)
-                .Where(t=>t != type && t != typeof(Object));
+                .Where(t => t != type && t != typeof (object));
         }
 
         static IEnumerable<Type> BaseTypes(this Type type)
