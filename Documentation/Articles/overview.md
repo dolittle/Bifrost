@@ -27,11 +27,16 @@ to them fully.
 
 ## History
 
-The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
-between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). The initial thoughts behind the project was to encapsulate
-commonly used building blocks. In 2009, [Michael Smith](https://github.com/smithmx) and [Einar](https://github.com/einari) took the 
-project in a completely different direction after some discovery. In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
+The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out
+to Codeplex in early 2009. Source control History between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). The
+initial thoughts behind the project was to encapsulate commonly used building blocks. In 2009, [Michael Smith](https://github.com/smithmx)
+and [Einar](https://github.com/einari) took the project in a completely different direction after real world experience with 
+traditional n-tier architecture and the discovery of commands. In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
+
 From the beginning the project evolved through the needs we saw when consulting for different companies. Amongst these were [Komplett](https://www.komplett.no).
+It has always had a high focus on delivering the building blocks to be able to deliver the true business value. This has been
+possible by engaging very close with domain experts and developers working on line of business solutions.
+
 A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).
 From 2012 to 2015 it got further developed @ Statoil and their needs for a critical LOB application; ProCoSys.
 In 2015, [Børge Nordli](https://github.com/bnordli) became the primary Bifrost resource @ Statoil and late 2015 he started
