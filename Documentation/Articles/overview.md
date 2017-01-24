@@ -72,11 +72,15 @@ has.
 
 The core principal is to keep the different parts of your system apart and not take any dependency on any other contexts.
 
-### Context map
+All the details about a bounded context should be available in a context map. The context map provides then a highlevel
+overview of the bounded context and its artifacts.
+
+
+### Bounded Context Mediator
 
 At times bounded contexts needs a certain awareness of other contexts. This is often related to data and things that
-the certain context does not own, but needs a relationship to. A context map can then provide a bridge between the
-contexts. This is something that is modelled directly.
+the certain context does not own, but needs a relationship to. A bounded context mediator can then provide a bridge between the
+contexts. This is something that is modelled directly. 
 
 > [!Note]
 > As of December 2016, Bifrost does not have a mechanism for this.
@@ -241,7 +245,7 @@ needed to be written in relation to what is being read and used. The performance
 Most line-of-business applications tend to read a lot more than they write. [CQRS](https://en.wikipedia.org/wiki/Command–query_separation#Command_Query_Responsibility_Segregation)
 talks about totally segregating the read from the write and treat them uniquely.
 One finds [event sourcing](../Backend/Events/event_sourcing.md) often associated with CQRS, something that Bifrost has embraced and helps
-bridge the two sides and stay completely decoupled.
+bridge the two sides and stay completely decoupled. It is an optional part of Bifrost but hightly recommended together with an [event store](../Backend/Events/event_store.md).
 
 ![Simple CQRS Diagram](images/cqrs.png)
 
