@@ -1,28 +1,20 @@
 ﻿using Bifrost.Commands;
 using Machine.Specifications;
-using It = Machine.Specifications.It;
-using Bifrost.Validation;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
 {
     [Subject(typeof(CommandCoordinator))]
     public class when_handling_command_with_success : given.a_command_coordinator
     {
-        static CommandResult Result;
- 
-        Establish context = () =>
-                                {
-                                    var validation_results = new CommandValidationResult();
-                                    command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Returns(validation_results);
-                                };
+        static CommandResult result;
 
-        Because of = () =>
-                         {
-                             Result = coordinator.Handle(command_mock.Object);
-                         };
+        Establish context = () =>
+            command_validators_mock.Setup(cvs => cvs.Validate(command)).Returns(new CommandValidationResult());
+
+        Because of = () => result = coordinator.Handle(command);
 
         It should_have_validated_the_command = () => command_validators_mock.VerifyAll();
-        It should_have_a_result = () => Result.ShouldNotBeNull();
-        It should_have_success_set_to_true = () => Result.Success.ShouldBeTrue();
+        It should_have_a_result = () => result.ShouldNotBeNull();
+        It should_have_success_set_to_true = () => result.Success.ShouldBeTrue();
     }
 }

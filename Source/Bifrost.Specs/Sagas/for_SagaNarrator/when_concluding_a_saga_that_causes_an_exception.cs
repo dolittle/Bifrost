@@ -1,6 +1,6 @@
 ﻿using System;
-using Bifrost.Testing.Fakes.Sagas;
 using Bifrost.Sagas;
+using Bifrost.Testing.Fakes.Sagas;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_SagaNarrator
@@ -11,17 +11,20 @@ namespace Bifrost.Specs.Sagas.for_SagaNarrator
         static SagaWithOneChapterProperty saga;
         static IChapter chapter;
         static SagaConclusion conclusion;
-        
+        static Exception exception;
+
         Establish context = () =>
-                                {
-                                    chapter = new SimpleChapter();
-                                    saga = new SagaWithOneChapterProperty(chapter);
-                                    saga.Begin();
-                                    librarian_mock.Setup(l => l.Close(saga)).Throws(new ArgumentException());
-                                };
+        {
+            chapter = new SimpleChapter();
+            saga = new SagaWithOneChapterProperty(chapter);
+            saga.Begin();
+            exception = new ArgumentException();
+            librarian_mock.Setup(l => l.Close(saga)).Throws(exception);
+        };
 
         Because of = () => conclusion = narrator.Conclude(saga);
 
         It should_have_a_non_successful_conclusion = () => conclusion.Success.ShouldBeFalse();
+        It should_publish_the_exception = () => exception_publisher_mock.Verify(m => m.Publish(exception));
     }
 }

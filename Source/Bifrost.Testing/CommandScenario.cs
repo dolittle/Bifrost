@@ -7,6 +7,7 @@ using System.Security.Principal;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
+using Bifrost.Exceptions;
 using Bifrost.Execution;
 using Bifrost.Globalization;
 using Bifrost.Principal;
@@ -79,7 +80,8 @@ namespace Bifrost.Testing
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
                                         command_validators_mock.Object,
-                                        localizer.Object);
+                                        localizer.Object,
+                                        Mock.Of<IExceptionPublisher>());
 
             null_validator_mock = new Mock<ICanValidate<T>>();
             null_validator = null_validator_mock.Object;
