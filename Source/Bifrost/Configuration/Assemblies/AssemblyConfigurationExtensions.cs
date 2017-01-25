@@ -23,5 +23,18 @@ namespace Bifrost.Configuration.Assemblies
             assembliesConfiguration.Specification = assembliesConfiguration.Specification.Or(new AssembliesStartingWith(names));
             return assembliesConfiguration;
         }
+
+        /// <summary>
+        /// Excludes specified assemblies.
+        /// </summary>
+        /// <param name="assembliesConfiguration"><see cref="IAssembliesConfiguration"/> to build upon.</param>
+        /// <param name="names">Names that assemblies should not be starting with.</param>
+        /// <returns>Chained <see cref="IAssembliesConfiguration"/></returns>
+        public static IAssembliesConfiguration ExcludeAssembliesStartingWith(
+            this IAssembliesConfiguration assembliesConfiguration, params string[] names)
+        {
+            assembliesConfiguration.Specification = assembliesConfiguration.Specification.AndNot(new AssembliesStartingWith(names));
+            return assembliesConfiguration;
+        }
     }
 }
