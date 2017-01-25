@@ -45,19 +45,45 @@ namespace Bifrost.Execution
                 var specified = false;
                 if (MayReferenceICanSpecifyAssemblies(assembly))
                 {
-                    assembly
-                        .GetTypes()
-                        .Where(t => t.GetTypeInfo().GetInterfaces().Contains(typeof(ICanSpecifyAssemblies)))
-                        .Where(t => t.HasDefaultConstructor())
-                        .ForEach(t =>
-                        {
-                            var specifier = Activator.CreateInstance(t) as ICanSpecifyAssemblies;
-                            specifier.Specify(_assembliesConfiguration);
-                            specified = true;
-                        });
+                    try
+                    {
+                        specified = assembly
+                            .GetTypes()
+                            .Where(t => t.GetTypeInfo().GetInterfaces().Contains(typeof(ICanSpecifyAssemblies)))
+                            .Select(SpecifyFrom)
+                            .ToList()
+                            .Count > 0;
+                    }
+                    catch (ReflectionTypeLoadException e)
+                    {
+                        throw new AssemblySpecificationException(
+                            $"Error while reflecting on the types of {assembly.FullName}. Loader exceptions encountered:\n" +
+                            string.Join("\n", e.LoaderExceptions.Select(l => l.Message).Distinct()));
+                    }
                 }
 
                 return specified;
+            }
+        }
+
+        ICanSpecifyAssemblies SpecifyFrom(Type type)
+        {
+            try
+            {
+                var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
+                specifier.Specify(_assembliesConfiguration);
+                return specifier;
+            }
+            catch (MissingMethodException)
+            {
+                throw new AssemblySpecificationException(
+                    $"Could not create instance of type {type.FullName}. It must have a default constructor.");
+            }
+            catch (Exception e)
+            {
+                throw new AssemblySpecificationException(
+                    $"Error while specifying assemblies from {type.FullName}: {e.Message}",
+                    e);
             }
         }
 

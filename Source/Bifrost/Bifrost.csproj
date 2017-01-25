@@ -133,6 +133,7 @@
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
+    <Compile Include="Execution\AssemblySpecificationException.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />
     <Compile Include="Configuration\CallContextConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationStorageElement.cs" />
