@@ -67,43 +67,59 @@ namespace Bifrost.Execution
 
         void AssemblyLoaded(Assembly assembly)
         {
-            if (_assemblyUtility.IsAssemblyDynamic(assembly)) return;
+            if (_assemblyUtility.IsAssemblyDynamic(assembly))
+            {
+                return;
+            }
 
-            var assemblyFile = new FileInfo(assembly.Location);
-            if (!_assemblyFilters.ShouldInclude(assemblyFile.Name)) return;
+            var newSpecifiers = _assemblySpecifiers.SpecifyUsingSpecifiersFrom(assembly);
             AddAssembly(assembly);
+            if (newSpecifiers)
+            {
+                RecalculateAssemblies();
+            }
         }
 
         void Populate()
         {
-            foreach (var provider in _assemblyProviders)
-            {
-                var assembliesToInclude = provider.AvailableAssemblies.Where(
-                    a => 
-                        _assemblyFilters.ShouldInclude(a.FileName) && 
-                        _assemblyUtility.IsAssembly(a)
-                    );
-                assembliesToInclude.Select(provider.Get).ForEach(AddAssembly);
-            }
+            var assemblies = AvailableAssemblies();
+            assemblies.ForEach(a => _assemblySpecifiers.SpecifyUsingSpecifiersFrom(a));
+            assemblies.ForEach(AddAssembly);
         }
 
-        void SpecifyRules(Assembly assembly)
+        IList<Assembly> AvailableAssemblies()
         {
-            _assemblySpecifiers.SpecifyUsingSpecifiersFrom(assembly);
+            return _assemblyProviders
+                .SelectMany(p => p.AvailableAssemblies, (provider, assemblyInfo) => new {provider, assemblyInfo})
+                .GroupBy(pair => pair.assemblyInfo.Name)
+                .Select(group => group.First())
+                .Where(pair => _assemblyUtility.IsAssembly(pair.assemblyInfo))
+                .Select(pair => pair.provider.Get(pair.assemblyInfo))
+                .Where(assembly => !assembly.IsDynamic)
+                .ToList();
+        }
+
+        bool ShouldInclude(Assembly assembly)
+        {
+            return _assemblyFilters.ShouldInclude(new FileInfo(assembly.Location).Name);
         }
 
         void AddAssembly(Assembly assembly)
         {
             lock (_lockObject)
             {
-                if (!_assemblies.Contains(assembly, comparer) &&
-                    !_assemblyUtility.IsAssemblyDynamic(assembly))
+                if (!_assemblies.Contains(assembly, comparer) && ShouldInclude(assembly))
                 {
                     _assemblies.Add(assembly);
                     _contractToImplementorsMap.Feed(assembly.GetTypes());
-                    SpecifyRules(assembly);
                 }
             }
+        }
+
+        void RecalculateAssemblies()
+        {
+            var assemblies = AvailableAssemblies();
+            assemblies.ForEach(AddAssembly);
         }
     }
 }

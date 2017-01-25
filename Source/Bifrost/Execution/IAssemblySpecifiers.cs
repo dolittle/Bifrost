@@ -12,9 +12,10 @@ namespace Bifrost.Execution
     public interface IAssemblySpecifiers
     {
         /// <summary>
-        /// Specifies using specifiers found in a specific <see cref="_Assembly"/>
+        /// Specifies using specifiers found in a specific <see cref="Assembly"/>
         /// </summary>
-        /// <param name="assembly"><see cref="_Assembly"/> to find specifiers from</param>
-        void SpecifyUsingSpecifiersFrom(Assembly assembly);
+        /// <param name="assembly"><see cref="Assembly"/> to find specifiers from</param>
+        /// <returns>Whether any new specifiers was found in the assembly.</returns>
+        bool SpecifyUsingSpecifiersFrom(Assembly assembly);
     }
 }
