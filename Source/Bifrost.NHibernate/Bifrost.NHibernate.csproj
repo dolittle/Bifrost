@@ -52,7 +52,6 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="Concepts\ConceptValueType.cs" />
     <Compile Include="Concepts\MappingExtensions.cs" />
     <Compile Include="Concepts\ConceptAsOracleGuid.cs" />

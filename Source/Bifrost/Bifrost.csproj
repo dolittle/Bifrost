@@ -132,11 +132,7 @@
     <Compile Include="Configuration\Assemblies\AssembliesConfiguration.cs" />
     <Compile Include="Configuration\Assemblies\AssembliesConfigurationBuilder.cs" />
     <Compile Include="Configuration\Assemblies\AssemblyRuleBuilderExtensions.cs" />
-    <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
     <Compile Include="Configuration\Assemblies\IAssemblyRuleBuilder.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
@@ -148,7 +144,6 @@
     <Compile Include="Configuration\ExecutionContextConfiguration.cs" />
     <Compile Include="Configuration\FrontendConfiguration.cs" />
     <Compile Include="Execution\ContractToImplementorsMap.cs" />
-    <Compile Include="Execution\DefaultAssemblySpecifier.cs" />
     <Compile Include="Execution\FileSystemAssemblyProvider.cs" />
     <Compile Include="Execution\IAssemblySpecifiers.cs" />
     <Compile Include="Configuration\ICallContextConfiguration.cs" />

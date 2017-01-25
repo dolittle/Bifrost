@@ -15,19 +15,6 @@ namespace Bifrost.Configuration.Assemblies
         public IAssemblyRuleBuilder RuleBuilder { get; private set; }
 
         /// <summary>
-        /// Include all assemblies with possible exceptions
-        /// </summary>
-        /// <returns>
-        /// Returns the <see cref="IncludeAll">configuration object</see> for the rule
-        /// </returns>
-        public IncludeAll IncludeAll()
-        {
-            var includeAll = new IncludeAll();
-            RuleBuilder = includeAll;
-            return includeAll;
-        }
-
-        /// <summary>
         /// Include no assemblies.
         /// </summary>
         /// <returns>
