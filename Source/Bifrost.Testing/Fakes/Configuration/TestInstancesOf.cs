@@ -4,9 +4,9 @@ using Bifrost.Execution;
 
 namespace Bifrost.Testing.Fakes.Configuration
 {
-    public class TestInstancesOf<T> : IInstancesOf<T> where T : class
+    public class TestInstancesOf<T> : IInstancesOf<T>, IOrderedInstancesOf<T> where T : class
     {
-        IEnumerable<T> _instances;
+        readonly IEnumerable<T> _instances;
 
         public TestInstancesOf(params T[] instances)
         {
