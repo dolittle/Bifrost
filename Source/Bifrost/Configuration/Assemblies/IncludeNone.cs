@@ -3,10 +3,9 @@
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents the <see cref="IAssemblyRuleBuilder">builder</see> for building the <see cref="IncludeNoneRule"/> and
-    /// possible exceptions.
+    /// Represents the <see cref="IAssembliesConfiguration"/> for building the <see cref="IncludeNoneRule"/>.
     /// </summary>
-    public class IncludeNone : IAssemblyRuleBuilder
+    public class IncludeNone : IAssembliesConfiguration
     {
         /// <summary>
         /// Initializes an instance of <see cref="IncludeNone"/>.

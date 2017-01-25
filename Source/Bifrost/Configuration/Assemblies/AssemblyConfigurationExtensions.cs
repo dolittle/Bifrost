@@ -7,20 +7,21 @@ using Bifrost.Specifications;
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Provides extensions for <see cref="IAssemblyRuleBuilder"/>
+    /// Provides extensions for <see cref="IAssembliesConfiguration"/>.
     /// </summary>
-    public static class AssemblyRuleBuilderExtensions
+    public static class AssemblyConfigurationExtensions
     {
         /// <summary>
         /// Includes specified assemblies.
         /// </summary>
-        /// <param name="assemblyBuilder"><see cref="IAssemblyBuilder"/> to build upon.</param>
+        /// <param name="assembliesConfiguration"><see cref="IAssembliesConfiguration"/> to build upon.</param>
         /// <param name="names">Names that assemblies should be starting with.</param>
-        /// <returns>Chained <see cref="IAssemblyBuilder"/></returns>
-        public static IAssemblyRuleBuilder IncludeAssembliesStartingWith(this IAssemblyRuleBuilder assemblyBuilder, params string[] names)
+        /// <returns>Chained <see cref="IAssembliesConfiguration"/></returns>
+        public static IAssembliesConfiguration IncludeAssembliesStartingWith(
+            this IAssembliesConfiguration assembliesConfiguration, params string[] names)
         {
-            assemblyBuilder.Specification = assemblyBuilder.Specification.And(new AssembliesStartingWith(names));
-            return assemblyBuilder;
+            assembliesConfiguration.Specification = assembliesConfiguration.Specification.Or(new AssembliesStartingWith(names));
+            return assembliesConfiguration;
         }
     }
 }

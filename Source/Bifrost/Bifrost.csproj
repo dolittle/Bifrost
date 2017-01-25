@@ -56,7 +56,6 @@
     </Compile>
     <Compile Include="Configuration\Assemblies\AssembliesStartingWith.cs" />
     <Compile Include="Configuration\Assemblies\IncludeNone.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeNoneExtensions.cs" />
     <Compile Include="Configuration\Assemblies\IncludeNoneRule.cs" />
     <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="AssemblySpecifier.cs" />
@@ -129,10 +128,8 @@
     <Compile Include="Concurrency\IScheduler.cs" />
     <Compile Include="Concurrency\Scheduler.cs" />
     <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
-    <Compile Include="Configuration\Assemblies\AssembliesConfiguration.cs" />
-    <Compile Include="Configuration\Assemblies\AssembliesConfigurationBuilder.cs" />
-    <Compile Include="Configuration\Assemblies\AssemblyRuleBuilderExtensions.cs" />
-    <Compile Include="Configuration\Assemblies\IAssemblyRuleBuilder.cs" />
+    <Compile Include="Configuration\Assemblies\AssemblyConfigurationExtensions.cs" />
+    <Compile Include="Configuration\Assemblies\IAssembliesConfiguration.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />

@@ -95,7 +95,7 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Gets the configuration for assemblies and how they are treated
         /// </summary>
-        AssembliesConfiguration Assemblies { get; }
+        IAssembliesConfiguration Assemblies { get; }
         
         /// <summary>
         /// Gets or sets the <see cref="CultureInfo">culture</see> to use in Bifrost
