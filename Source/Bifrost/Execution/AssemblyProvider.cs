@@ -106,22 +106,12 @@ namespace Bifrost.Execution
                     !_assemblyUtility.IsAssemblyDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
-
-                    if (assembly.FullName.Contains("Web"))
-                    {
-                        var i = 0;
-                        i++;
-                    }
                     _contractToImplementorsMap.Feed(assembly.GetTypes());
                     SpecifyRules(assembly);
+                    // TODO: This is not needed when assemblies become opt-in.
                     ReapplyFilter();
                 }
             }
-        }
-
-        bool Matches(AssemblyName a, AssemblyName b)
-        {
-            return a.ToString() == b.ToString();
         }
     }
 }

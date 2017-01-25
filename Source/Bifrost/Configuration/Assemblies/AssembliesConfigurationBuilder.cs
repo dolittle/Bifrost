@@ -14,7 +14,6 @@ namespace Bifrost.Configuration.Assemblies
         /// </summary>
         public IAssemblyRuleBuilder RuleBuilder { get; private set; }
 
-
         /// <summary>
         /// Include all assemblies with possible exceptions
         /// </summary>
@@ -26,6 +25,19 @@ namespace Bifrost.Configuration.Assemblies
             var includeAll = new IncludeAll();
             RuleBuilder = includeAll;
             return includeAll;
+        }
+
+        /// <summary>
+        /// Include no assemblies.
+        /// </summary>
+        /// <returns>
+        /// Returns the <see cref="IncludeNone">configuration object</see> for the rule.
+        /// </returns>
+        public IncludeNone IncludeNone()
+        {
+            var includeNone = new IncludeNone();
+            RuleBuilder = includeNone;
+            return includeNone;
         }
     }
 }
