@@ -10,6 +10,8 @@
   items: 
   - name: Introduction
     href: Events/introduction.md
+  - name: Event
+    href: Events/event.md
   - name: Event Sourcing
     href: Events/event_sourcing.md
   - name: Event Store
