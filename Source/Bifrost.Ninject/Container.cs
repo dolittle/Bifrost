@@ -8,6 +8,7 @@ using System.Linq;
 using Bifrost.Execution;
 using Ninject;
 using Ninject.Parameters;
+using Ninject.Planning.Bindings;
 
 namespace Bifrost.Ninject
 {
@@ -51,7 +52,14 @@ namespace Bifrost.Ninject
 
         public bool HasBindingFor(Type type)
         {
-            return ((IKernelConfiguration)Kernel).GetBindings(type).Count() != 0;
+            IEnumerable<IBinding> bindings;
+#if (NET461)
+            bindings = Kernel.GetBindings(type);
+#else
+
+            bindings = ((IKernelConfiguration)Kernel).GetBindings(type);
+#endif
+            return bindings.Count() != 0;
         }
 
         public bool HasBindingFor<T>()
