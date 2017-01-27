@@ -24,5 +24,7 @@
   href: debugging.md
 - name: Conventions
   href: conventions.md
+- name: Convention over Configuration
+  href: convention_over_configuration.md
 - name: Versioning
   href: versioning.md
