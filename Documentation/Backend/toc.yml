@@ -16,6 +16,10 @@
     href: Events/event_store.md
   - name: Event Processor
     href: Events/event_processor.md
+- name: Read
+  items:
+  - name: Read Model
+    href: Read/read_model.md    
 - name: Aggregate Root
   href: aggregate_root.md
 - name: Concepts and Value Objects
