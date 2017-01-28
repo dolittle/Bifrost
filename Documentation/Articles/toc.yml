@@ -1,5 +1,7 @@
 - name: Overview
   href: overview.md
+- name: Getting Started
+  href: getting_started.md
 - name: Contributing
   items:
   - name: General
