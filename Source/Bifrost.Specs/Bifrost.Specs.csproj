@@ -327,6 +327,12 @@
     <Compile Include="Execution\for_InstancesOf\OneImplementation.cs" />
     <Compile Include="Execution\for_InstancesOf\SecondImplementation.cs" />
     <Compile Include="Execution\for_InstancesOf\when_having_multiple_implementations.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\given\an_ordered_instances_of.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\when_instances_are_ordered.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\when_instances_are_ordered_incorrectly.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\when_instances_have_circular_dependencies.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\when_instances_have_dependencies.cs" />
+    <Compile Include="Execution\for_OrderedInstancesOf\when_there_are_no_instances.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_does_not_exist.cs" />
     <Compile Include="Execution\for_TypeDiscoverer\when_finding_type_by_name_that_exists.cs" />
     <Compile Include="Execution\for_TypeFinder\given\a_type_finder.cs" />
@@ -375,6 +381,10 @@
     <Compile Include="Extensions\for_StringExtensions\when_converting_a_string_with_pascal_casing_to_camel_casing.cs" />
     <Compile Include="Extensions\for_TypeExtensions\ClassImplementingGenericInterface.cs" />
     <Compile Include="Extensions\for_TypeExtensions\ConceptType.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\Custom1Attribute.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\Custom2Attribute.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_getting_attributes.cs" />
+    <Compile Include="Extensions\for_TypeExtensions\when_checking_if_types_have_attribute.cs" />
     <Compile Include="Extensions\for_TypeExtensions\IInterfaceWithGenericArguments.cs" />
     <Compile Include="Extensions\for_TypeExtensions\SomeObject.cs" />
     <Compile Include="Extensions\for_TypeExtensions\when_asking_type_if_implements_generic_interface_without_specifying_generic_arguments.cs" />
