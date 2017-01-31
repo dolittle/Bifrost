@@ -51,8 +51,6 @@ namespace Bifrost.Configuration
             container.Bind<IEventStore>(EventStore, BindingLifecycle.Singleton);
             container.Bind<IEventSubscriptions>(EventSubscriptions, BindingLifecycle.Singleton);
 
-            container.Get<ICommittedEventStreamCoordinator>().Initialize();
-
             if (EntityContextConfiguration != null)
             {
                 EntityContextConfiguration.BindEntityContextTo<IEvent>(container);
