@@ -41,7 +41,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
@@ -54,6 +54,15 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Application\ApplicationResourceIdentifierFor.cs" />
+    <Compile Include="Application\ApplicationResources.cs" />
+    <Compile Include="Application\IApplicationResourceName.cs" />
+    <Compile Include="Application\IApplicationLocation.cs" />
+    <Compile Include="Application\IApplicationLocationName.cs" />
+    <Compile Include="Application\IApplicationResource.cs" />
+    <Compile Include="Application\IApplicationResources.cs" />
+    <Compile Include="Application\IBelongToAnApplicationLocationTypeOf.cs" />
+    <Compile Include="Application\ICanHaveApplicationLocationsOfType.cs" />
     <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="CodeGeneration\CodeGenerator.cs" />
     <Compile Include="CodeGeneration\CodeWriter.cs" />
@@ -132,24 +141,25 @@
     <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
     <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
-    <Compile Include="Domain\BoundedContext.cs" />
-    <Compile Include="Domain\BoundedContextName.cs" />
-    <Compile Include="Domain\Feature.cs" />
-    <Compile Include="Domain\ModuleAlreadyAddedToBoundedContext.cs" />
-    <Compile Include="Domain\SubFeatureAlreadyAddedToFeature.cs" />
-    <Compile Include="Domain\FeatureAlreadyAddedToModule.cs" />
-    <Compile Include="Domain\IBoundedContext.cs" />
-    <Compile Include="Domain\IFeature.cs" />
-    <Compile Include="Domain\IModule.cs" />
-    <Compile Include="Domain\ISubFeature.cs" />
-    <Compile Include="Domain\Module.cs" />
-    <Compile Include="Domain\ModuleName.cs" />
-    <Compile Include="Domain\FeatureName.cs" />
-    <Compile Include="Domain\SubFeature.cs" />
+    <Compile Include="Application\BoundedContext.cs" />
+    <Compile Include="Application\BoundedContextName.cs" />
+    <Compile Include="Application\Feature.cs" />
+    <Compile Include="Application\ModuleAlreadyAddedToBoundedContext.cs" />
+    <Compile Include="Application\SubFeatureAlreadyAddedToFeature.cs" />
+    <Compile Include="Application\FeatureAlreadyAddedToModule.cs" />
+    <Compile Include="Application\IBoundedContext.cs" />
+    <Compile Include="Application\IFeature.cs" />
+    <Compile Include="Application\IModule.cs" />
+    <Compile Include="Application\ISubFeature.cs" />
+    <Compile Include="Application\Module.cs" />
+    <Compile Include="Application\ModuleName.cs" />
+    <Compile Include="Application\FeatureName.cs" />
+    <Compile Include="Application\SubFeature.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
+    <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
-    <Compile Include="Events\EventPath.cs" />
-    <Compile Include="Events\IEventProcessorResult.cs" />
+    <Compile Include="Events\EventProcessingStatus.cs" />
+    <Compile Include="Events\IEventProcessingResult.cs" />
     <Compile Include="Events\EventProcessorResult.cs" />
     <Compile Include="Events\EventProcessors.cs" />
     <Compile Include="Events\ICanProvideEventProcessors.cs" />
@@ -158,7 +168,7 @@
     <Compile Include="Events\ICommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\IEventDescription.cs" />
     <Compile Include="Events\IEventProcessor.cs" />
-    <Compile Include="Events\IEventProcessorResults.cs" />
+    <Compile Include="Events\IEventProcessingResults.cs" />
     <Compile Include="Events\IEventProcessors.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
@@ -439,6 +449,19 @@
     <Compile Include="Services\InvokeService.cs" />
     <Compile Include="Services\ServiceSecurityExtensions.cs" />
     <Compile Include="Services\ServiceSecurityTarget.cs" />
+    <Compile Include="Strings\FixedStringSegmentBuilder.cs" />
+    <Compile Include="Strings\ISegment.cs" />
+    <Compile Include="Strings\ISegmentBuilder.cs" />
+    <Compile Include="Strings\IStringFormat.cs" />
+    <Compile Include="Strings\IStringFormatBuilder.cs" />
+    <Compile Include="Strings\IFixedStringSegmentBuilder.cs" />
+    <Compile Include="Strings\NullSegment.cs" />
+    <Compile Include="Strings\NullSegmentBuilder.cs" />
+    <Compile Include="Strings\Segment.cs" />
+    <Compile Include="Strings\SegmentOccurence.cs" />
+    <Compile Include="Strings\StringFormat.cs" />
+    <Compile Include="Strings\StringFormatBuilder.cs" />
+    <Compile Include="Strings\FixedStringSegment.cs" />
     <Compile Include="Tasks\ITaskScheduler.cs" />
     <Compile Include="Tasks\ITaskManager.cs" />
     <Compile Include="Tasks\ITaskRepository.cs" />
