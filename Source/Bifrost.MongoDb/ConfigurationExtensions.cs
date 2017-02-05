@@ -12,8 +12,8 @@ namespace Bifrost.Configuration
     {
         public static IConfigure UsingMongoDB(this IEventsConfiguration eventsConfiguration, Action<EventStorageConfiguration> configureCallback)
         {
-            eventsConfiguration.EventStoreType = typeof(EventStore);
-            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
+            eventsConfiguration.EventStore = typeof(EventStore);
+            eventsConfiguration.EventSubscriptions = typeof(EventSubscriptions);
             var configuration = new EventStorageConfiguration();
             configureCallback(configuration);
             Configure.Instance.Container.Bind<EventStorageConfiguration>(configuration);

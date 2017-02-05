@@ -13,8 +13,8 @@ namespace Bifrost.Configuration
     {
         public static IConfigure UsingRavenDB(this IEventsConfiguration eventsConfiguration, Action<RegularEventStoreConfiguration> configureCallback)
         {
-            eventsConfiguration.EventStoreType = typeof(EventStore);
-            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
+            eventsConfiguration.EventStore = typeof(EventStore);
+            eventsConfiguration.EventSubscriptions = typeof(EventSubscriptions);
             
             var configuration = new RegularEventStoreConfiguration();
             configureCallback(configuration);
