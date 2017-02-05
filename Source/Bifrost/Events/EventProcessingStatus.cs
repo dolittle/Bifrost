@@ -5,9 +5,13 @@
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Defines the result from an <see cref="IEventProcessor"/>
+    /// Represents the status of an <see cref="IEventProcessor"/>
     /// </summary>
-    public interface IEventProcessorResult
+    public enum EventProcessingStatus
     {
+        /// <summary>
+        /// The state an <see cref="IEventProcessor"/> is in when it has processed successfully
+        /// </summary>
+        Successful
     }
 }

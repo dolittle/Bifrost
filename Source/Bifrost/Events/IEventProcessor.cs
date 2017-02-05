@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Application;
+
 namespace Bifrost.Events
 {
     /// <summary>
@@ -10,15 +12,15 @@ namespace Bifrost.Events
     public interface IEventProcessor
     {
         /// <summary>
-        /// Gets the <see cref="EventPath"/> for the <see cref="IEventProcessor"/>
+        /// Gets the <see cref="ApplicationResourceIdentifierFor"/> for the <see cref="IEventProcessor"/>
         /// </summary>
-        EventPath   EventPath { get; }
+        ApplicationResourceIdentifierFor<IEvent>   Identifier { get; } 
 
         /// <summary>
         /// Process an event 
         /// </summary>
         /// <param name="event"><see cref="IEvent"/> to process</param>
         /// <returns><see cref="EventProcessorResult">Result</see> from the processing</returns>
-        EventProcessorResult Process(IEvent @event);
+        IEventProcessingResult Process(IEvent @event);
     }
 }

@@ -13,7 +13,7 @@
         /// Process an <see cref="IEvent">event</see>
         /// </summary>
         /// <param name="event"><see cref="IEvent">Event</see> to process</param>
-        /// <returns><see cref="IEventProcessorResults">Results</see> from processing</returns>
-        IEventProcessorResults Process(IEvent @event);
+        /// <returns><see cref="IEventProcessingResults">Results</see> from processing</returns>
+        IEventProcessingResults Process(IEvent @event);
     }
 }

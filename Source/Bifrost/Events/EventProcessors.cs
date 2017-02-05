@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Bifrost.Application;
 using Bifrost.Execution;
 
 namespace Bifrost.Events
@@ -13,9 +14,21 @@ namespace Bifrost.Events
     [Singleton]
     public class EventProcessors : IEventProcessors
     {
-        /// <inheritdoc/>
-        public IEventProcessorResults Process(IEvent @event)
+        IApplicationResources _applicationResources;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="applicationResources"></param>
+        public EventProcessors(IApplicationResources applicationResources)
         {
+            _applicationResources = applicationResources;
+        }
+
+        /// <inheritdoc/>
+        public IEventProcessingResults Process(IEvent @event)
+        {
+            var identifier = _applicationResources.Identify(@event);
             throw new NotImplementedException();
         }
     }
