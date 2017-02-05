@@ -104,9 +104,6 @@
     <Compile Include="Configuration\when_adding_a_namespace_mapping.cs" />
     <Compile Include="Configuration\when_getting_the_client_namespace_from_the_server_namespace.cs" />
     <Compile Include="Configuration\when_getting_the_server_type_from_the_client_namespace.cs" />
-    <Compile Include="Events\for_CommandCoordinatorEvents\given\a_command_coordinator_events.cs" />
-    <Compile Include="Events\for_CommandCoordinatorEvents\when_events_are_processed_for_a_non_existing_command_context.cs" />
-    <Compile Include="Events\for_EventStoreChangeNotifier\when_notifying_with_three_events_from_two_different_command_contexts.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_an_empty_request_string_and_no_extension.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\given\a_single_page_application_and_a_web_context_with_default_routes.cs" />
     <Compile Include="Pipeline\for_SinglePageApplication\when_processing_before_with_only_a_slash_in_request_string_and_no_extension.cs" />
