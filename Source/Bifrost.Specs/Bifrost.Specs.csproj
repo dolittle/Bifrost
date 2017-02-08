@@ -673,9 +673,9 @@
     <Compile Include="Security\for_UserSecurityActorExtensions\when_user_must_be_in_role.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_matchable_string_that_only_has_one_occurrence_segment.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_only_second_string_matching.cs" />
-    <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_recursed_matching_segment_and_unmatched_string_in_the_middle.cs" />
+    <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_recurring_matching_segment_and_unmatched_string_in_the_middle.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_single_string_that_should_not_match.cs" />
-    <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_recursed_matching_segment.cs" />
+    <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_recurring_matching_segment.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_single_string_that_should_match.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\given\an_empty_string_format_builder.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_building_fixed_string_depending_on_previous_segment.cs" />
@@ -687,6 +687,8 @@
     <Compile Include="Strings\for_StringFormatBuilder\when_building_with_two_variable_strings.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_building_with_two_fixed_strings.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_building_single_occurrenced_fixed_string.cs" />
+    <Compile Include="Strings\for_VariableStringSegment\when_matching_multiple_strings_with_recurring_occurence_for_segment.cs" />
+    <Compile Include="Strings\for_VariableStringSegment\when_matching_multiple_strings_with_only_one_occurence_for_segment.cs" />
     <Compile Include="Tasks\for_TaskManager\when_starting_and_it_gets_done.cs" />
     <Compile Include="Tasks\for_TaskManager\when_progress_is_made_on_started_task.cs" />
     <Compile Include="Tasks\for_TaskRepository\when_deleting_task_by_id.cs" />
