@@ -25,6 +25,9 @@ namespace Bifrost.Strings
         public bool Optional { get; protected set; }
 
         /// <inheritdoc/>
+        public abstract bool Fixed { get; }
+
+        /// <inheritdoc/>
         public abstract ISegmentMatch Match(IEnumerable<string> input);
     }
 }

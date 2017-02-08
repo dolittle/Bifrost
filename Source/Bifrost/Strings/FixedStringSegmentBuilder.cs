@@ -97,7 +97,7 @@ namespace Bifrost.Strings
                 parent: _parent,
                 children: _children,
                 optional: _optional,
-                occurrences: SegmentOccurence.Recurse,
+                occurrences: SegmentOccurence.Recurring,
                 dependingOnPrevious: _dependingOnPrevious);
         }
 

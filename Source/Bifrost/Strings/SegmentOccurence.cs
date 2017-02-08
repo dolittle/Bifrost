@@ -11,8 +11,8 @@
         Single,
 
         /// <summary>
-        /// Recursed number of instances
+        /// Recurring unspecified number of times after each other
         /// </summary>
-        Recurse
+        Recurring
     }
 }

@@ -14,6 +14,6 @@ namespace Bifrost.Specs.Strings.for_StringFormatBuilder
 
         Because of = () => string_format = resulting_builder.Build();
 
-        It should_hold_a_recursed_segment = () => ((FixedStringSegment) string_format.Segments.First()).Occurrences.ShouldEqual(SegmentOccurence.Recurse);
+        It should_hold_a_recursed_segment = () => ((FixedStringSegment) string_format.Segments.First()).Occurrences.ShouldEqual(SegmentOccurence.Recurring);
     }
 }

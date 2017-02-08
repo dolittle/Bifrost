@@ -32,6 +32,17 @@ namespace Bifrost.Strings
         IEnumerable<ISegment> Children { get; }
 
         /// <summary>
+        /// Gets wether or not the segment is fixed and then acts as a divider
+        /// </summary>
+        /// <remarks>
+        /// Fixed segments in a string represents a divider. Between dividers other
+        /// types of segments, such as the <see cref="VariableStringSegment"/> can typically be 
+        /// matched with a reccuring occurence. Without dividers, these strings would with reccurrence
+        /// in some cases match all strings - as they are considered variables
+        /// </remarks>
+        bool Fixed { get; }
+
+        /// <summary>
         /// Run matching against a set of strings
         /// </summary>
         /// <param name="input">An <see cref="IEnumerable{T}"/> to do a match for</param>

@@ -35,6 +35,9 @@ namespace Bifrost.Strings
             Children = children;
         }
 
+        /// <inheritdoc/>
+        public override bool Fixed => true;
+
         /// <summary>
         /// Gets the expected <see cref="string"/>
         /// </summary>
@@ -57,9 +60,8 @@ namespace Bifrost.Strings
             else
             {
                 var inputAsArray = input.ToArray();
-                matchAndAdd(inputAsArray[0]);
-                if( inputAsArray.Length > 1)
-                    for( var inputIndex=1; inputIndex<inputAsArray.Length-1; inputIndex++ )
+                if( matchAndAdd(inputAsArray[0]) && inputAsArray.Length > 1)
+                    for( var inputIndex=1; inputIndex<inputAsArray.Length; inputIndex++ )
                         if (!matchAndAdd(inputAsArray[inputIndex])) break;
             }
 

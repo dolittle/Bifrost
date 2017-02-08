@@ -34,6 +34,9 @@ namespace Bifrost.Strings
             Children = children;
         }
 
+        /// <inheritdoc/>
+        public override bool Fixed => false;
+
         /// <summary>
         /// Gets the expected <see cref="string"/>
         /// </summary>
