@@ -10,24 +10,24 @@ namespace Bifrost.Strings
     /// <summary>
     /// Represents a <see cref="ISegment"/> for an arbitrary string
     /// </summary>
-    public class FixedStringSegment : Segment
+    public class VariableStringSegment : Segment
     {
         /// <summary>
         /// Initializes a new instance <see cref="FixedStringSegment"/>
         /// </summary>
-        /// <param name="string">The <see cref="string"/> to expect</param>
+        /// <param name="variableName">The variable name to expect</param>
         /// <param name="optional">Wether or not if the segment is optional</param>
         /// <param name="occurrences">Occurrences of the segment</param>
         /// <param name="parent">Parent <see cref="ISegment"/></param>
         /// <param name="children"><see cref="IEnumerable{ISegment}">Children</see></param>
-        public FixedStringSegment(
-            string @string, 
+        public VariableStringSegment(
+            string variableName, 
             bool optional, 
             SegmentOccurence occurrences, 
             ISegment parent, 
             IEnumerable<ISegment> children)
         {
-            String = @string;
+            VariableName = variableName;
             Optional = optional;
             Occurrences = occurrences;
             Parent = parent;
@@ -37,7 +37,7 @@ namespace Bifrost.Strings
         /// <summary>
         /// Gets the expected <see cref="string"/>
         /// </summary>
-        public string String { get; }
+        public string VariableName { get; }
 
         /// <inheritdoc/>
         public override ISegmentMatch Match(IEnumerable<string> input)

@@ -61,5 +61,29 @@ namespace Bifrost.Strings
                 _segments.Concat(new[] { builder })
             );
         }
+
+        /// <inheritdoc/>
+        public IStringFormatBuilder VariableString(string @string)
+        {
+            return VariableString(@string, f => f);
+        }
+
+        /// <inheritdoc/>
+        public IStringFormatBuilder VariableString(string @string, Func<IVariableStringSegmentBuilder, IVariableStringSegmentBuilder> callback)
+        {
+            var parentBuilder = _segments.Count() > 0 ? _segments.Last() : new NullSegmentBuilder();
+
+            IVariableStringSegmentBuilder builder = new VariableStringSegmentBuilder(
+                @string,
+                parent: parentBuilder,
+                children: new ISegmentBuilder[0]
+            );
+
+            builder = callback(builder);
+            return new StringFormatBuilder(
+                _segments.Concat(new[] { builder })
+            );
+        }
+
     }
 }

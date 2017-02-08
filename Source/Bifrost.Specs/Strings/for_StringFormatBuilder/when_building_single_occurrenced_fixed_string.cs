@@ -4,7 +4,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Strings.for_StringFormatBuilder
 {
-    public class when_building_with_one_string_segment : given.an_empty_string_format_builder
+    public class when_building_single_occurrenced_fixed_string : given.an_empty_string_format_builder
     {
         const string fixed_string = "Fixed String";
         static IStringFormatBuilder resulting_builder;

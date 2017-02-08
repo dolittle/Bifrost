@@ -8,11 +8,11 @@ using System.Linq;
 namespace Bifrost.Strings
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IFixedStringSegmentBuilder"/>
+    /// Represents an implementation of <see cref="IVariableStringSegmentBuilder"/>
     /// </summary>
-    public class FixedStringSegmentBuilder : IFixedStringSegmentBuilder
+    public class VariableStringSegmentBuilder : IVariableStringSegmentBuilder
     {
-        string _string;
+        string _variableName;
         bool _optional;
         SegmentOccurence _occurences;
         bool _dependingOnPrevious;
@@ -21,23 +21,23 @@ namespace Bifrost.Strings
 
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FixedStringSegmentBuilder"/>
+        /// Initializes a new instance of <see cref="VariableStringSegmentBuilder"/>
         /// </summary>
-        /// <param name="string">Fixed string we're building for</param>
+        /// <param name="variableName">Variable string we're building for</param>
         /// <param name="parent">Parent <see cref="ISegmentBuilder"/></param>
         /// <param name="children"><see cref="IEnumerable{ISegmentBuilder}">Children</see></param>
         /// <param name="optional">Wether or not its optional</param>
         /// <param name="occurrences">Number of occurrences</param>
         /// <param name="dependingOnPrevious">Wether or not it depends on previous segment</param>
-        public FixedStringSegmentBuilder(
-            string @string,
+        public VariableStringSegmentBuilder(
+            string variableName,
             ISegmentBuilder parent,
             IEnumerable<ISegmentBuilder> children,
             bool optional=false, 
             SegmentOccurence occurrences=SegmentOccurence.Single, 
             bool dependingOnPrevious=false)
         {
-            _string = @string;
+            _variableName = variableName;
             _optional = optional;
             _occurences = occurrences;
             _dependingOnPrevious = dependingOnPrevious;
@@ -52,10 +52,10 @@ namespace Bifrost.Strings
         public bool DependsOnPrevious => _dependingOnPrevious;
 
         /// <inheritdoc/>
-        public FixedStringSegment Build()
+        public VariableStringSegment Build()
         {
-            var segment = new FixedStringSegment(
-                @string:_string, 
+            var segment = new VariableStringSegment(
+                variableName:_variableName, 
                 optional:_optional, 
                 occurrences:_occurences,
                 parent:_parent?.Build(),
@@ -65,11 +65,11 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IFixedStringSegmentBuilder DependingOnPrevious()
+        public IVariableStringSegmentBuilder DependingOnPrevious()
         {
             _parent.AddChild(this);
-            return new FixedStringSegmentBuilder(
-                @string: _string,
+            return new VariableStringSegmentBuilder(
+                variableName: _variableName,
                 parent: _parent,
                 children: _children,
                 optional: _optional,
@@ -78,10 +78,10 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IFixedStringSegmentBuilder Optional()
+        public IVariableStringSegmentBuilder Optional()
         {
-            return new FixedStringSegmentBuilder(
-                @string:_string,
+            return new VariableStringSegmentBuilder(
+                variableName: _variableName,
                 parent: _parent,
                 children: _children,
                 optional:true, 
@@ -90,10 +90,10 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IFixedStringSegmentBuilder Recurse()
+        public IVariableStringSegmentBuilder Recurse()
         {
-            return new FixedStringSegmentBuilder(
-                @string: _string,
+            return new VariableStringSegmentBuilder(
+                variableName: _variableName,
                 parent: _parent,
                 children: _children,
                 optional: _optional,
@@ -102,10 +102,10 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IFixedStringSegmentBuilder Single()
+        public IVariableStringSegmentBuilder Single()
         {
-            return new FixedStringSegmentBuilder(
-                @string: _string,
+            return new VariableStringSegmentBuilder(
+                variableName: _variableName,
                 parent: _parent,
                 children: _children,
                 optional: _optional,

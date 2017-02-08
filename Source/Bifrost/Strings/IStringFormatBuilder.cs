@@ -31,5 +31,20 @@ namespace Bifrost.Strings
         /// <param name="callback">Callback to build the <see cref="FixedStringSegment"/> with a <see cref="IFixedStringSegmentBuilder"/></param>
         /// <returns></returns>
         IStringFormatBuilder FixedString(string @string, Func<IFixedStringSegmentBuilder, IFixedStringSegmentBuilder> callback);
+
+        /// <summary>
+        /// Adds a <see cref="VariableStringSegment">Variable string segment</see> to the <see cref="IStringFormat"/>
+        /// </summary>
+        /// <param name="variableName">The Variable string</param>
+        /// <returns><see cref="IStringFormatBuilder"/> to continue building on</returns>
+        IStringFormatBuilder VariableString(string variableName);
+
+        /// <summary>
+        /// Adds a <see cref="VariableStringSegment">Variable string segment</see> to the <see cref="IStringFormat"/>
+        /// </summary>
+        /// <param name="variableName">The Variable string</param>
+        /// <param name="callback">Callback to build the <see cref="VariableStringSegment"/> with a <see cref="IVariableStringSegmentBuilder"/></param>
+        /// <returns></returns>
+        IStringFormatBuilder VariableString(string variableName, Func<IVariableStringSegmentBuilder, IVariableStringSegmentBuilder> callback);
     }
 }

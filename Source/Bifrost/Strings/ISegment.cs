@@ -30,5 +30,12 @@ namespace Bifrost.Strings
         /// Gets any child <see cref="ISegment"/> that depends on this to exist
         /// </summary>
         IEnumerable<ISegment> Children { get; }
+
+        /// <summary>
+        /// Run matching against a set of strings
+        /// </summary>
+        /// <param name="input">An <see cref="IEnumerable{T}"/> to do a match for</param>
+        /// <returns><see cref="ISegmentMatch"/> with any matches</returns>
+        ISegmentMatch Match(IEnumerable<string> input);
     }
 }

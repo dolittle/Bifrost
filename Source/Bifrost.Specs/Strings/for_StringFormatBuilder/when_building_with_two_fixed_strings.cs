@@ -4,7 +4,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Strings.for_StringFormatBuilder
 {
-    public class when_building_with_two_string_segments : given.an_empty_string_format_builder
+    public class when_building_with_two_fixed_strings : given.an_empty_string_format_builder
     {
         const string first_fixed_string = "First Fixed String";
         const string second_fixed_string = "Second Fixed String";
