@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Strings
 {
@@ -42,7 +43,28 @@ namespace Bifrost.Strings
         /// <inheritdoc/>
         public override ISegmentMatch Match(IEnumerable<string> input)
         {
-            throw new NotImplementedException();
+            var matches = new List<string>();
+            var matchAndAdd = new Func<string, bool>((string s) => {
+                if (s == String)
+                {
+                    matches.Add(s);
+                    return true;
+                }
+                else return false;
+            });
+
+            if (Occurrences == SegmentOccurence.Single) matchAndAdd(input.First());
+            else
+            {
+                var inputAsArray = input.ToArray();
+                matchAndAdd(inputAsArray[0]);
+                if( inputAsArray.Length > 1)
+                    for( var inputIndex=1; inputIndex<inputAsArray.Length-1; inputIndex++ )
+                        if (!matchAndAdd(inputAsArray[inputIndex])) break;
+            }
+
+            var match = new SegmentMatch(this, matches);
+            return match;
         }
     }
 }
