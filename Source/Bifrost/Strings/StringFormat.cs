@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Strings
 {
@@ -27,7 +28,7 @@ namespace Bifrost.Strings
 
             /*
             format
-                .String(SegmentOccurence.Single)
+                .String(s => s.Single())
                 .BoundedContext()
                 .Module()
                 .Feature()
@@ -48,7 +49,25 @@ namespace Bifrost.Strings
         /// <inheritdoc/>
         public ISegmentMatches Match(string stringToMatch)
         {
-            throw new NotImplementedException();
+            var matches = new List<ISegmentMatch>();
+            var strings = stringToMatch.Split(Separators);
+
+            var currentIndex = 0;
+            foreach( var segment in Segments )
+            {
+                var length = strings.Length - currentIndex;
+                var stringSegments = new string[length];
+                Array.Copy(strings, currentIndex, stringSegments, 0, length);
+                var match = segment.Match(stringSegments);
+                if (match.HasMatch)
+                {
+                    matches.Add(match);
+                    currentIndex += match.Values.Count();
+                }
+            }
+
+            var segmentMatches = new SegmentMatches(matches);
+            return segmentMatches;
         }
 
         void ThrowIfMissingSeparators(char[] separators)

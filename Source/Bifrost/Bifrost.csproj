@@ -453,6 +453,7 @@
     <Compile Include="Strings\ISegmentMatches.cs" />
     <Compile Include="Strings\MissingSeparator.cs" />
     <Compile Include="Strings\SegmentMatch.cs" />
+    <Compile Include="Strings\SegmentMatches.cs" />
     <Compile Include="Strings\VariableStringSegmentBuilder.cs" />
     <Compile Include="Strings\IFixedStringSegmentBuilder.cs" />
     <Compile Include="Strings\VariableStringSegment.cs" />

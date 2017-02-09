@@ -690,6 +690,8 @@
     <Compile Include="Strings\for_StringFormatBuilder\when_creating_with_segments_without_separators.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_creating_without_separators.cs" />
     <Compile Include="Strings\for_StringFormat\when_creating_without_separators.cs" />
+    <Compile Include="Strings\for_StringFormat\when_matching_string_with_two_segments_that_should_match_an_optional_recurring_variable_segment_in_format.cs" />
+    <Compile Include="Strings\for_StringFormat\when_matching_string_with_one_segment_that_should_match_an_optional_single_fixed_segment_in_format.cs" />
     <Compile Include="Strings\for_VariableStringSegment\when_matching_multiple_strings_with_recurring_occurence_for_segment.cs" />
     <Compile Include="Strings\for_VariableStringSegment\when_matching_multiple_strings_with_only_one_occurence_for_segment.cs" />
     <Compile Include="Tasks\for_TaskManager\when_starting_and_it_gets_done.cs" />
