@@ -90,7 +90,7 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IFixedStringSegmentBuilder Recurse()
+        public IFixedStringSegmentBuilder Recurring()
         {
             return new FixedStringSegmentBuilder(
                 @string: _string,

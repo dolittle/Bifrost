@@ -90,7 +90,7 @@ namespace Bifrost.Strings
         }
 
         /// <inheritdoc/>
-        public IVariableStringSegmentBuilder Recurse()
+        public IVariableStringSegmentBuilder Recurring()
         {
             return new VariableStringSegmentBuilder(
                 variableName: _variableName,

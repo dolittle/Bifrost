@@ -19,7 +19,7 @@ namespace Bifrost.Strings
         /// Expect to find multiple instances of this <see cref="VariableStringSegment"/>
         /// </summary>
         /// <returns><see cref="IVariableStringSegmentBuilder"/> to continue to build on</returns>
-        IVariableStringSegmentBuilder Recurse();
+        IVariableStringSegmentBuilder Recurring();
 
         /// <summary>
         /// Mark <see cref="VariableStringSegment"/> as optional

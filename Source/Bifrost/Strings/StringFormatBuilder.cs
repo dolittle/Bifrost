@@ -13,13 +13,17 @@ namespace Bifrost.Strings
     /// </summary>
     public class StringFormatBuilder : IStringFormatBuilder
     {
+        char[] _separators;
         IEnumerable<ISegmentBuilder> _segments;
 
         /// <summary>
         /// Initializes a new instance of <see cref="StringFormatBuilder"/>
         /// </summary>
-        public StringFormatBuilder()
+        /// <param name="separators">Separator characters for segments - must be at least one</param>
+        public StringFormatBuilder(params char[] separators)
         {
+            ThrowIfMissingSeparators(separators);
+            _separators = separators;
             _segments = new ISegmentBuilder[0];
         }
 
@@ -27,8 +31,11 @@ namespace Bifrost.Strings
         /// Initializes a new instance of <see cref="StringFormatBuilder"/>
         /// </summary>
         /// <param name="segments"><see cref="IEnumerable{ISegment}">Segments</see> to build from</param>
-        public StringFormatBuilder(IEnumerable<ISegmentBuilder> segments)
+        /// <param name="separators">Separator characters for segments - must be at least one</param>
+        public StringFormatBuilder(IEnumerable<ISegmentBuilder> segments, params char[] separators)
         {
+            ThrowIfMissingSeparators(separators);
+            _separators = separators;
             _segments = segments;
         }
 
@@ -36,7 +43,7 @@ namespace Bifrost.Strings
         public IStringFormat Build()
         {
             var segmentsWithoutParentDependency = _segments.Where(s => !s.DependsOnPrevious);
-            return new StringFormat(segmentsWithoutParentDependency.Select(s => s.Build()));
+            return new StringFormat(segmentsWithoutParentDependency.Select(s => s.Build()), _separators);
         }
 
         /// <inheritdoc/>
@@ -85,5 +92,10 @@ namespace Bifrost.Strings
             );
         }
 
+
+        void ThrowIfMissingSeparators(char[] separators)
+        {
+            if (separators.Length == 0) throw new MissingSeparator();
+        }
     }
 }

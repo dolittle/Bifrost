@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Strings.for_StringFormatBuilder
         static IStringFormatBuilder resulting_builder;
         static IStringFormat string_format;
 
-        Establish context = () => resulting_builder = builder.FixedString(fixed_string, f => f.Recurse());
+        Establish context = () => resulting_builder = builder.FixedString(fixed_string, f => f.Recurring());
 
         Because of = () => string_format = resulting_builder.Build();
 
