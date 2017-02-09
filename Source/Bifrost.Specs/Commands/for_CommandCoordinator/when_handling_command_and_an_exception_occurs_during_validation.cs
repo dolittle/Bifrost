@@ -1,5 +1,6 @@
 ﻿using System;
 using Bifrost.Commands;
+using Bifrost.Exceptions;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Commands.for_CommandCoordinator
@@ -11,15 +12,16 @@ namespace Bifrost.Specs.Commands.for_CommandCoordinator
         static Exception exception;
 
         Establish context = () =>
-            {
-                exception = new Exception();
-                command_validators_mock.Setup(cvs => cvs.Validate(command_mock.Object)).Throws(exception);
-            };
+        {
+            exception = new Exception();
+            command_validators_mock.Setup(cvs => cvs.Validate(command)).Throws(exception);
+        };
 
-        Because of = () => result = coordinator.Handle(command_mock.Object);
+        Because of = () => result = coordinator.Handle(command);
 
         It should_have_authorized_the_command = () => command_security_manager_mock.VerifyAll();
         It should_have_exception_in_result = () => result.Exception.ShouldEqual(exception);
         It should_have_success_set_to_false = () => result.Success.ShouldBeFalse();
+        It should_have_published_the_exception = () => exception_publisher_mock.Verify(m => m.Publish(exception));
     }
 }

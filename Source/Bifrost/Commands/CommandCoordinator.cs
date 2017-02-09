@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
+using Bifrost.Exceptions;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
 using Bifrost.Sagas;
@@ -20,7 +21,7 @@ namespace Bifrost.Commands
         readonly ICommandValidators _commandValidationService;
         readonly ICommandSecurityManager _commandSecurityManager;
         readonly ILocalizer _localizer;
-
+        readonly IExceptionPublisher _exceptionPublisher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandCoordinator">CommandCoordinator</see>
@@ -30,29 +31,32 @@ namespace Bifrost.Commands
         /// <param name="commandSecurityManager">A <see cref="ICommandSecurityManager"/> for dealing with security and commands</param>
         /// <param name="commandValidators">A <see cref="ICommandValidators"/> for validating a <see cref="ICommand"/> before handling</param>
         /// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
+        /// <param name="exceptionPublisher">An <see cref="IExceptionPublisher"/> to send exceptions to</param>
         public CommandCoordinator(
             ICommandHandlerManager commandHandlerManager,
             ICommandContextManager commandContextManager,
             ICommandSecurityManager commandSecurityManager,
             ICommandValidators commandValidators,
-            ILocalizer localizer)
+            ILocalizer localizer,
+            IExceptionPublisher exceptionPublisher)
         {
             _commandHandlerManager = commandHandlerManager;
             _commandContextManager = commandContextManager;
             _commandSecurityManager = commandSecurityManager;
             _commandValidationService = commandValidators;
             _localizer = localizer;
+            _exceptionPublisher = exceptionPublisher;
         }
 
 #pragma warning disable 1591 // Xml Comments
         public CommandResult Handle(ISaga saga, ICommand command)
         {
-            return Handle(_commandContextManager.EstablishForSaga(saga,command), command);
+            return Handle(_commandContextManager.EstablishForSaga(saga, command), command);
         }
 
         public CommandResult Handle(ICommand command)
         {
-            return Handle( _commandContextManager.EstablishForCommand(command),command);
+            return Handle(_commandContextManager.EstablishForCommand(command), command);
         }
 
         CommandResult Handle(ITransaction transaction, ICommand command)
@@ -85,12 +89,14 @@ namespace Bifrost.Commands
                         }
                         catch (TargetInvocationException ex)
                         {
+                            _exceptionPublisher.Publish(ex);
                             commandResult.Exception = ex.InnerException;
                             transaction.Rollback();
                         }
-                        catch (Exception exception)
+                        catch (Exception ex)
                         {
-                            commandResult.Exception = exception;
+                            _exceptionPublisher.Publish(ex);
+                            commandResult.Exception = ex;
                             transaction.Rollback();
                         }
                     }
@@ -102,14 +108,16 @@ namespace Bifrost.Commands
             }
             catch (TargetInvocationException ex)
             {
+                _exceptionPublisher.Publish(ex);
                 commandResult.Exception = ex.InnerException;
             }
             catch (Exception ex)
             {
+                _exceptionPublisher.Publish(ex);
                 commandResult.Exception = ex;
             }
 
-            return commandResult;            
+            return commandResult;
         }
 #pragma warning restore 1591 // Xml Comments
     }
