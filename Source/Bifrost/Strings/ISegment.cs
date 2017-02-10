@@ -19,7 +19,7 @@ namespace Bifrost.Strings
         /// <summary>
         /// Gets the number of instances for the segment
         /// </summary>
-        SegmentOccurence Occurrences { get; } 
+        SegmentOccurrence Occurrences { get; } 
 
         /// <summary>
         /// Gets wether or not the <see cref="ISegment">segment</see>

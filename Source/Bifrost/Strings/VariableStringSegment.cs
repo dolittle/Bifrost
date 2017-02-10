@@ -24,7 +24,7 @@ namespace Bifrost.Strings
         public VariableStringSegment(
             string variableName, 
             bool optional, 
-            SegmentOccurence occurrences, 
+            SegmentOccurrence occurrences, 
             ISegment parent, 
             IEnumerable<ISegment> children)
         {
@@ -47,7 +47,7 @@ namespace Bifrost.Strings
         public override ISegmentMatch Match(IEnumerable<string> input)
         {
             var matches = new List<string>();
-            if (Occurrences == SegmentOccurence.Single) matches.Add(input.First());
+            if (Occurrences == SegmentOccurrence.Single) matches.Add(input.First());
             else matches.AddRange(input);
 
             var match = new SegmentMatch(this, matches);

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines number of <see cref="ISegment"/> instances
     /// </summary>
-    public enum SegmentOccurence
+    public enum SegmentOccurrence
     {
         /// <summary>
         /// Single instances

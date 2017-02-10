@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Strings.for_StringFormat
                     new FixedStringSegment(
                         fixed_string,
                         true,
-                        SegmentOccurence.Single,
+                        SegmentOccurrence.Single,
                         new NullSegment(),
                         new ISegment[0])
                 },'.');

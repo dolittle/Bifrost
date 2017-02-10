@@ -19,7 +19,7 @@ namespace Bifrost.Strings
         public IEnumerable<ISegment> Children { get; protected set; }
 
         /// <inheritdoc/>
-        public SegmentOccurence Occurrences { get; protected set; }
+        public SegmentOccurrence Occurrences { get; protected set; }
 
         /// <inheritdoc/>
         public bool Optional { get; protected set; }

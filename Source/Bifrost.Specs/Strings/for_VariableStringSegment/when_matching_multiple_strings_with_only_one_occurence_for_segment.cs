@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Strings.for_VariableStringSegment
         static VariableStringSegment segment;
         static ISegmentMatch result;
 
-        Establish context = () => segment = new VariableStringSegment(variable_name, false, SegmentOccurence.Single, new NullSegment(), new ISegment[0]);
+        Establish context = () => segment = new VariableStringSegment(variable_name, false, SegmentOccurrence.Single, new NullSegment(), new ISegment[0]);
 
         Because of = () => result = segment.Match(new[] { matching_string, matching_string });
 

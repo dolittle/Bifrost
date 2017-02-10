@@ -24,7 +24,7 @@ namespace Bifrost.Strings
         public FixedStringSegment(
             string @string, 
             bool optional, 
-            SegmentOccurence occurrences, 
+            SegmentOccurrence occurrences, 
             ISegment parent, 
             IEnumerable<ISegment> children)
         {
@@ -56,7 +56,7 @@ namespace Bifrost.Strings
                 else return false;
             });
 
-            if (Occurrences == SegmentOccurence.Single) matchAndAdd(input.First());
+            if (Occurrences == SegmentOccurrence.Single) matchAndAdd(input.First());
             else
             {
                 var inputAsArray = input.ToArray();

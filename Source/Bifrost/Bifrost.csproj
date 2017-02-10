@@ -466,7 +466,7 @@
     <Compile Include="Strings\NullSegment.cs" />
     <Compile Include="Strings\NullSegmentBuilder.cs" />
     <Compile Include="Strings\Segment.cs" />
-    <Compile Include="Strings\SegmentOccurence.cs" />
+    <Compile Include="Strings\SegmentOccurrence.cs" />
     <Compile Include="Strings\StringFormat.cs" />
     <Compile Include="Strings\StringFormatBuilder.cs" />
     <Compile Include="Strings\FixedStringSegment.cs" />

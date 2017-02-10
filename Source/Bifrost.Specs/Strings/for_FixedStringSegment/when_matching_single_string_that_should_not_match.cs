@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Strings.for_FixedStringSegment
         static FixedStringSegment segment;
         static ISegmentMatch result;
 
-        Establish context = () => segment = new FixedStringSegment(string_to_match, false, SegmentOccurence.Single, new NullSegment(), new ISegment[0]);
+        Establish context = () => segment = new FixedStringSegment(string_to_match, false, SegmentOccurrence.Single, new NullSegment(), new ISegment[0]);
 
         Because of = () => result = segment.Match(new[] { unmatched_string });
 

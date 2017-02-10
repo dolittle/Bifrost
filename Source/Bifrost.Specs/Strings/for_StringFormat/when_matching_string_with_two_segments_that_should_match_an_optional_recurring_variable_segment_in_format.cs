@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Strings.for_StringFormat
                     new VariableStringSegment(
                         variable_string,
                         true,
-                        SegmentOccurence.Recurring,
+                        SegmentOccurrence.Recurring,
                         new NullSegment(),
                         new ISegment[0])
                 }, '.');

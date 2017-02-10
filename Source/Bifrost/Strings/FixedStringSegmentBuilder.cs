@@ -14,7 +14,7 @@ namespace Bifrost.Strings
     {
         string _string;
         bool _optional;
-        SegmentOccurence _occurences;
+        SegmentOccurrence _occurences;
         bool _dependingOnPrevious;
         ISegmentBuilder _parent;
         List<ISegmentBuilder> _children = new List<ISegmentBuilder>();
@@ -34,7 +34,7 @@ namespace Bifrost.Strings
             ISegmentBuilder parent,
             IEnumerable<ISegmentBuilder> children,
             bool optional=false, 
-            SegmentOccurence occurrences=SegmentOccurence.Single, 
+            SegmentOccurrence occurrences=SegmentOccurrence.Single, 
             bool dependingOnPrevious=false)
         {
             _string = @string;
@@ -97,7 +97,7 @@ namespace Bifrost.Strings
                 parent: _parent,
                 children: _children,
                 optional: _optional,
-                occurrences: SegmentOccurence.Recurring,
+                occurrences: SegmentOccurrence.Recurring,
                 dependingOnPrevious: _dependingOnPrevious);
         }
 
@@ -109,7 +109,7 @@ namespace Bifrost.Strings
                 parent: _parent,
                 children: _children,
                 optional: _optional,
-                occurrences: SegmentOccurence.Single,
+                occurrences: SegmentOccurrence.Single,
                 dependingOnPrevious: _dependingOnPrevious);
         }
 

@@ -18,7 +18,7 @@ namespace Bifrost.Strings
         public bool Fixed => true;
 
         /// <inheritdoc/>
-        public SegmentOccurence Occurrences { get; }
+        public SegmentOccurrence Occurrences { get; }
 
         /// <inheritdoc/>
         public bool Optional { get; }

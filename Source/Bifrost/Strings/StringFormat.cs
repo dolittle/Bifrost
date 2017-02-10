@@ -52,22 +52,52 @@ namespace Bifrost.Strings
             var matches = new List<ISegmentMatch>();
             var strings = stringToMatch.Split(Separators);
 
-            var currentIndex = 0;
-            foreach( var segment in Segments )
+            var segments = Segments.ToArray();
+            var currentStringIndex = 0;
+            var currentSegmentIndex = 0;
+
+            while( currentSegmentIndex < segments.Length )
             {
-                var length = strings.Length - currentIndex;
-                var stringSegments = new string[length];
-                Array.Copy(strings, currentIndex, stringSegments, 0, length);
-                var match = segment.Match(stringSegments);
+                var segment = segments[currentSegmentIndex];
+                var length = strings.Length - currentStringIndex;
+                if (length <= 0) break;
+
+                if (!segment.Fixed && currentSegmentIndex < segments.Length - 1)
+                {
+                    var nextSegment = segments[currentSegmentIndex + 1];
+                    if (nextSegment.Fixed)
+                    {
+                        for (var i = currentStringIndex; i < strings.Length; i++)
+                        {
+                            var nextMatch = MatchStrings(strings, currentStringIndex+1, segment, length-1);
+                            if( nextMatch.HasMatch )
+                                length = strings.Length - (currentStringIndex + 1);
+
+                        }
+                    }
+                }
+
+                if (length <= 0) break;
+
+                var match = MatchStrings(strings, currentStringIndex, segment, length);
                 if (match.HasMatch)
                 {
                     matches.Add(match);
-                    currentIndex += match.Values.Count();
+                    currentStringIndex += match.Values.Count();
                 }
+                currentSegmentIndex++;
             }
 
             var segmentMatches = new SegmentMatches(matches);
             return segmentMatches;
+        }
+
+        ISegmentMatch MatchStrings(string[] strings, int currentStringIndex, ISegment segment, int length)
+        {
+            var stringSegmentsToMatch = new string[length];
+            Array.Copy(strings, currentStringIndex, stringSegmentsToMatch, 0, length);
+            var match = segment.Match(stringSegmentsToMatch);
+            return match;
         }
 
         void ThrowIfMissingSeparators(char[] separators)
