@@ -2910,6 +2910,7 @@ Bifrost.namespace("Bifrost.hubs", {
         };
     })
 });
+
 Bifrost.dependencyResolvers.hub = {
     canResolve: function (namespace, name) {
         if (typeof hubs !== "undefined") {
@@ -3719,6 +3720,7 @@ Bifrost.namespace("Bifrost.validation", {
     })
 });
 
+
 Bifrost.namespace("Bifrost.validation", {
     required: Bifrost.validation.Rule.extend(function () {
         this.validate = function (value) {
@@ -3726,6 +3728,7 @@ Bifrost.namespace("Bifrost.validation", {
         };
     })
 });
+
 
 Bifrost.namespace("Bifrost.validation", {
     length: Bifrost.validation.Rule.extend(function () {

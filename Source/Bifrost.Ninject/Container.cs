@@ -56,7 +56,6 @@ namespace Bifrost.Ninject
 #if (NET461)
             bindings = Kernel.GetBindings(type);
 #else
-
             bindings = ((IKernelConfiguration)Kernel).GetBindings(type);
 #endif
             return bindings.Count() != 0;
