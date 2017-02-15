@@ -12,7 +12,7 @@ namespace Bifrost.FluentValidation.Commands
     /// <remarks>
     /// Always returns an empty validation result collection.
     /// </remarks>
-    public class NullCommandBusinessValidator : CommandBusinessValidator<ICommand>
+    public class NullCommandBusinessValidator<T> : CommandBusinessValidator<T> where T : class, ICommand
     {
     }
 }
