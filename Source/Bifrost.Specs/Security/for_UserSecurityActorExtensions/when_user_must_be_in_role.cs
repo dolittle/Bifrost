@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Machine.Specifications;
 using Bifrost.Security;
+using Moq;
+using It = Machine.Specifications.It;
 
 
 namespace Bifrost.Specs.Security.for_UserSecurityActorExtensions
@@ -9,7 +11,7 @@ namespace Bifrost.Specs.Security.for_UserSecurityActorExtensions
     {
         static UserSecurityActor    actor;
 
-        Establish context = () => actor = new UserSecurityActor();
+        Establish context = () => actor = new UserSecurityActor(Mock.Of<ICanResolvePrincipal>());
 
         Because of = () => actor.MustBeInRole("Something");
 

@@ -9,14 +9,14 @@ namespace Bifrost.Security
     /// </summary>
     public class RoleRule : ISecurityRule
     {
-        UserSecurityActor _userToAuthorize;
+        IUserSecurityActor _userToAuthorize;
 
         /// <summary>
         /// Initializes a new instance of <see cref="RoleRule"/>
         /// </summary>
         /// <param name="userToAuthorize">The <see cref="UserSecurityActor" /> to check the role against.</param>
         /// <param name="role">The role to check for</param>
-        public RoleRule(UserSecurityActor userToAuthorize, string role)
+        public RoleRule(IUserSecurityActor userToAuthorize, string role)
         {
             _userToAuthorize = userToAuthorize;
             Role = role;

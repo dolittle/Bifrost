@@ -433,8 +433,6 @@
     <Compile Include="Mapping\for_PropertyMapExtensions\when_specifying_to_property.cs" />
     <Compile Include="Mapping\for_TargetPropertyMappingStrategy\Target.cs" />
     <Compile Include="Mapping\for_TargetPropertyMappingStrategy\when_performing.cs" />
-    <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly.cs" />
-    <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly_multitple_times.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_query.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_read_model_of.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\given\a_fetching_security_manager.cs" />
