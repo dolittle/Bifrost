@@ -63,19 +63,7 @@ namespace Bifrost.Strings
                 if (length <= 0) break;
 
                 if (!segment.Fixed && currentSegmentIndex < segments.Length - 1)
-                {
-                    var nextSegment = segments[currentSegmentIndex + 1];
-                    if (nextSegment.Fixed)
-                    {
-                        for (var i = currentStringIndex; i < strings.Length; i++)
-                        {
-                            var nextMatch = MatchStrings(strings, currentStringIndex+1, segment, length-1);
-                            if( nextMatch.HasMatch )
-                                length = strings.Length - (currentStringIndex + 1);
-
-                        }
-                    }
-                }
+                    length = FindNextStop(strings, segments, currentStringIndex, currentSegmentIndex, segment, length);
 
                 if (length <= 0) break;
 
@@ -91,6 +79,23 @@ namespace Bifrost.Strings
 
             var segmentMatches = new SegmentMatches(matches);
             return segmentMatches;
+        }
+
+        int FindNextStop(string[] strings, ISegment[] segments, int currentStringIndex, int currentSegmentIndex, ISegment segment, int length)
+        {
+            var nextSegment = segments[currentSegmentIndex + 1];
+            if (nextSegment.Fixed)
+            {
+                for (var i = currentStringIndex; i < strings.Length; i++)
+                {
+                    var nextMatch = MatchStrings(strings, currentStringIndex + 1, segment, length - 1);
+                    if (nextMatch.HasMatch)
+                        length = strings.Length - (currentStringIndex + 1);
+
+                }
+            }
+
+            return length;
         }
 
         ISegmentMatch MatchStrings(string[] strings, int currentStringIndex, ISegment segment, int length)
