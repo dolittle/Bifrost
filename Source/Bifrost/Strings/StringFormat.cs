@@ -83,6 +83,7 @@ namespace Bifrost.Strings
                 if (match.HasMatch)
                 {
                     matches.Add(match);
+                    matches.AddRange(match.Children);
                     currentStringIndex += match.Values.Count();
                 }
                 currentSegmentIndex++;
