@@ -830,11 +830,6 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Globalization\for_Localizer\given\" />
-    <Folder Include="Security\for_SecurityActorExtensions\" />
-    <Folder Include="Security\for_SecurityDescriptorBuilder\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
