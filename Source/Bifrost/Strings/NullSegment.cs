@@ -29,7 +29,7 @@ namespace Bifrost.Strings
         /// <inheritdoc/>
         public ISegmentMatch Match(IEnumerable<string> input)
         {
-            return new SegmentMatch(this, new string[0]);
+            return new SegmentMatch(this, new string[0], new ISegmentMatch[0]);
         }
     }
 }

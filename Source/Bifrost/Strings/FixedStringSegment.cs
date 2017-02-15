@@ -47,7 +47,8 @@ namespace Bifrost.Strings
         public override ISegmentMatch Match(IEnumerable<string> input)
         {
             var matches = new List<string>();
-            var matchAndAdd = new Func<string, bool>((string s) => {
+            var matchAndAdd = new Func<string, bool>((string s) =>
+            {
                 if (s == String)
                 {
                     matches.Add(s);
@@ -60,13 +61,35 @@ namespace Bifrost.Strings
             else
             {
                 var inputAsArray = input.ToArray();
-                if( matchAndAdd(inputAsArray[0]) && inputAsArray.Length > 1)
-                    for( var inputIndex=1; inputIndex<inputAsArray.Length; inputIndex++ )
+                if (matchAndAdd(inputAsArray[0]) && inputAsArray.Length > 1)
+                    for (var inputIndex = 1; inputIndex < inputAsArray.Length; inputIndex++)
                         if (!matchAndAdd(inputAsArray[inputIndex])) break;
             }
 
-            var match = new SegmentMatch(this, matches);
-            return match;
+            IEnumerable<ISegmentMatch> matchesFromChildren = new ISegmentMatch[0];
+            if( Optional == true || matches.Count > 0 )
+                matchesFromChildren = MatchChildren(input, matches);
+
+            var segmentMatch = new SegmentMatch(this, matches, matchesFromChildren);
+            return segmentMatch;
+        }
+
+        IEnumerable<ISegmentMatch> MatchChildren(IEnumerable<string> input, IEnumerable<string> matches)
+        {
+            var matchesFromChildren = new List<ISegmentMatch>();
+            var remainderToMatch = input.Skip(matches.Count());
+            foreach (var child in Children)
+            {
+                if (remainderToMatch.Count() == 0) break;
+                var match = child.Match(remainderToMatch);
+                if (match.HasMatch)
+                {
+                    matchesFromChildren.Add(match);
+                    remainderToMatch = remainderToMatch.Skip(match.Values.Count());
+                }
+            }
+
+            return matchesFromChildren;
         }
     }
 }

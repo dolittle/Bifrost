@@ -25,5 +25,10 @@ namespace Bifrost.Strings
         /// Gets the values associated with the match
         /// </summary>
         IEnumerable<string> Values { get; }
+
+        /// <summary>
+        /// Gets any child matches
+        /// </summary>
+        IEnumerable<ISegmentMatch> Children { get; }
     }
 }

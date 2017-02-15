@@ -17,10 +17,12 @@ namespace Bifrost.Strings
         /// </summary>
         /// <param name="source"><see cref="ISegment"/> as source of the match</param>
         /// <param name="values"><see cref="IEnumerable{T}">strings</see> matched</param>
-        public SegmentMatch(ISegment source, IEnumerable<string> values)
+        /// <param name="children"><see cref="IEnumerable{T}">Children</see> that was mathched</param>
+        public SegmentMatch(ISegment source, IEnumerable<string> values, IEnumerable<ISegmentMatch> children)
         {
             Source = source;
             Values = values.ToArray();
+            Children = children;
         }
 
         /// <inheritdoc/>
@@ -31,5 +33,9 @@ namespace Bifrost.Strings
 
         /// <inheritdoc/>
         public IEnumerable<string> Values { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<ISegmentMatch> Children { get; }
+
     }
 }
