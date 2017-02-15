@@ -30,6 +30,7 @@ namespace Bifrost.Specs.Strings.for_VariableStringSegment
         Because of = () => result = segment.Match(new[] { first_string_to_match, second_string_to_match, third_string_to_match });
 
         It should_consider_it_a_match = () => result.HasMatch.ShouldBeTrue();
+        It should_hold_the_variable_name_as_identifier = () => result.Identifier.ShouldEqual(variable_name);
         It should_have_three_values = () => result.Values.Count().ShouldEqual(3);
         It should_not_match_the_first_child = () => first_child_segment_mock.Verify(c => c.Match(Moq.It.IsAny<IEnumerable<string>>()), Times.Never());
         It should_not_match_the_second_child = () => second_child_segment_mock.Verify(c => c.Match(Moq.It.IsAny<IEnumerable<string>>()), Times.Never());

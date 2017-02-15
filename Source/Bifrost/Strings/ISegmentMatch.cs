@@ -12,6 +12,11 @@ namespace Bifrost.Strings
     public interface ISegmentMatch
     {
         /// <summary>
+        /// Gets the string identifying the <see cref="ISegmentMatch"/>
+        /// </summary>
+        string Identifier { get; }
+
+        /// <summary>
         /// Gets wether or not there was a match
         /// </summary>
         bool HasMatch { get; }

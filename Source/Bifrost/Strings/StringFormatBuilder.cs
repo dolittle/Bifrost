@@ -65,7 +65,8 @@ namespace Bifrost.Strings
 
             builder = callback(builder);
             return new StringFormatBuilder(
-                _segments.Concat(new[] { builder })
+                _segments.Concat(new[] { builder }),
+                _separators
             );
         }
 
@@ -88,7 +89,8 @@ namespace Bifrost.Strings
 
             builder = callback(builder);
             return new StringFormatBuilder(
-                _segments.Concat(new[] { builder })
+                _segments.Concat(new[] { builder }),
+                _separators
             );
         }
 

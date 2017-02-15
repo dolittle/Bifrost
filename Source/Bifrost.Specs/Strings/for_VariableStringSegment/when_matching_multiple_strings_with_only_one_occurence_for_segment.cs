@@ -17,6 +17,7 @@ namespace Bifrost.Specs.Strings.for_VariableStringSegment
         Because of = () => result = segment.Match(new[] { matching_string, matching_string });
 
         It should_consider_it_a_match = () => result.HasMatch.ShouldBeTrue();
+        It should_hold_the_variable_name_as_identifier = () => result.Identifier.ShouldEqual(variable_name);
         It should_have_one_matching_value = () => result.Values.Count().ShouldEqual(1);
         It should_have_the_matching_string_as_value = () => result.Values.First().ShouldEqual(matching_string);
         It should_have_segment_as_source = () => result.Source.ShouldEqual(segment);

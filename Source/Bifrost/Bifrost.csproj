@@ -451,9 +451,11 @@
     <Compile Include="Services\ServiceSecurityTarget.cs" />
     <Compile Include="Strings\ISegmentMatch.cs" />
     <Compile Include="Strings\ISegmentMatches.cs" />
+    <Compile Include="Strings\IStringFormatParser.cs" />
     <Compile Include="Strings\MissingSeparator.cs" />
     <Compile Include="Strings\SegmentMatch.cs" />
     <Compile Include="Strings\SegmentMatches.cs" />
+    <Compile Include="Strings\StringFormatParser.cs" />
     <Compile Include="Strings\VariableStringSegmentBuilder.cs" />
     <Compile Include="Strings\IFixedStringSegmentBuilder.cs" />
     <Compile Include="Strings\VariableStringSegment.cs" />

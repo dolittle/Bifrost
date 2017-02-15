@@ -48,8 +48,8 @@ namespace Bifrost.Specs.Strings.for_FixedStringSegment
 
         It should_consider_it_a_match = () => result.HasMatch.ShouldBeTrue();
         It should_have_no_values = () => result.Values.Count().ShouldEqual(0);      
-        It should_match_the_three_last_strings_with_the_first_child = () => first_child_segment_mock.Verify(f => f.Match(new[] { first_string_to_match, second_string_to_match, third_string_to_match }));
-        It should_match_the_two_last_strings_with_the_second_child = () => second_child_segment_mock.Verify(f => f.Match(new[] { second_string_to_match, third_string_to_match }));
+        It should_match_the_three_last_strings_with_the_first_child = () => first_child_segment_mock.Verify(f => f.Match(new[] { unmatched_string, first_string_to_match, second_string_to_match, third_string_to_match }));
+        It should_match_the_two_last_strings_with_the_second_child = () => second_child_segment_mock.Verify(f => f.Match(new[] { first_string_to_match, second_string_to_match, third_string_to_match }));
         It should_have_two_children = () => result.Children.Count().ShouldEqual(2);
     }
 }

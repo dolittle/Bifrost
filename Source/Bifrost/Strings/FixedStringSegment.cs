@@ -70,7 +70,7 @@ namespace Bifrost.Strings
             if( Optional == true || matches.Count > 0 )
                 matchesFromChildren = MatchChildren(input, matches);
 
-            var segmentMatch = new SegmentMatch(this, matches, matchesFromChildren);
+            var segmentMatch = new SegmentMatch(String, this, matches, matchesFromChildren);
             return segmentMatch;
         }
 

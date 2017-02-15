@@ -46,6 +46,7 @@ namespace Bifrost.Specs.Strings.for_FixedStringSegment
         Because of = () => result = segment.Match(new[] { first_string_to_match, second_string_to_match, third_string_to_match });
 
         It should_consider_it_a_match = () => result.HasMatch.ShouldBeTrue();
+        It sould_hold_the_string_as_identifier = () => result.Identifier.ShouldEqual(first_string_to_match);
         It should_have_one_value = () => result.Values.Count().ShouldEqual(1);      
         It should_match_the_two_last_strings_with_the_first_child = () => first_child_segment_mock.Verify(f => f.Match(new[] { second_string_to_match, third_string_to_match }));
         It should_match_the_last_strings_with_the_second_child = () => second_child_segment_mock.Verify(f => f.Match(new[] { third_string_to_match }));

@@ -25,7 +25,6 @@ namespace Bifrost.Strings
             Segments = segments;
             Separators = separators;
 
-
             /*
             format
                 .String(s => s.Single())
@@ -37,7 +36,23 @@ namespace Bifrost.Strings
                     .Optional()
                     .DependingOnPrevious()
                 )
+
+
+                StringFormat.From("/./{BoundedContext}.(Module).(Feature).(SubFeature)*")
             */
+        }
+
+        /// <summary>
+        /// Build a <see cref="IStringFormat"/> 
+        /// </summary>
+        /// <param name="builderCallback"></param>
+        /// <param name="separators">Separators that separates strings - at least one</param>
+        /// <returns><see cref="IStringFormat"/> representing the format</returns>
+        public static IStringFormat Build(Action<IStringFormatBuilder> builderCallback, params char[] separators)
+        {
+            var builder = new StringFormatBuilder(separators);
+            builderCallback(builder);
+            return builder.Build();
         }
 
         /// <inheritdoc/>

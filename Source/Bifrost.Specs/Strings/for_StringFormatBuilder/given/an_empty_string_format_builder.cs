@@ -7,6 +7,6 @@ namespace Bifrost.Specs.Strings.for_StringFormatBuilder.given
     {
         protected static StringFormatBuilder builder;
 
-        Establish context = () => builder = new StringFormatBuilder();
+        Establish context = () => builder = new StringFormatBuilder('.');
     }
 }

@@ -56,7 +56,7 @@ namespace Bifrost.Strings
             }
             else matches.AddRange(input);
 
-            var match = new SegmentMatch(this, matches, matchesFromChildren);
+            var match = new SegmentMatch(VariableName, this, matches, matchesFromChildren);
             return match;
         }
 
