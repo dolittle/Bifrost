@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Routing;
+using Bifrost.Application;
 using Bifrost.Configuration;
 using Bifrost.FluentValidation.Sagas;
 using Bifrost.Sagas;
+using Bifrost.Strings;
 using Bifrost.Web.Services;
+using Web.Domain.HumanResources.Employees;
 using Web.Domain.HumanResources.Foos;
 
 namespace Web
@@ -20,7 +23,24 @@ namespace Web
             configure.Container.Bind<IChapterValidationService>(typeof(ChapterValidationService));
             configure.Sagas.LibrarianType = typeof(SagaLibrarian);
 
+            var format = Bifrost.Strings.StringFormat.Parse("[.]Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*");
+            var type = typeof(RegisterEmployee);
+            var match = format.Match(type.Namespace);
+
+            var d = match.AsDictionary();
+
+            var boundedContext = new BoundedContext(d["BoundedContext"].Single());
+            var module = new Module(boundedContext, d["Module"].Single());
+            var feature = new Feature(module, d["Feature"].Single());
+
             configure
+                .Application(a => a.Structure(s => s
+                        .Include("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Include("Web.Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Include("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Include("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                    )
+                )
                 .Serialization
                     .UsingJson()
                 .Events

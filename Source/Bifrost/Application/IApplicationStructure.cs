@@ -2,16 +2,20 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
+using Bifrost.Strings;
+
 namespace Bifrost.Application
 {
     /// <summary>
-    /// Defines a resource within the application
+    /// Defines an application structure
     /// </summary>
-    public interface IApplicationResource
+    public interface IApplicationStructure
     {
         /// <summary>
-        /// Gets the <see cref="ApplicationResourceName">name</see> of the resource
+        /// Gets the different <see cref="IStringFormat"/> representing the allowed structures of the 
+        /// application
         /// </summary>
-        ApplicationResourceName Name { get; }
+        IEnumerable<IStringFormat>  StructureFormats { get; }
     }
 }

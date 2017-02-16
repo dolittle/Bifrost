@@ -9,18 +9,25 @@ namespace Bifrost.Application
     /// <summary>
     /// 
     /// </summary>
-    public class ApplicationResourceIdentifierFor<T>
+    public class ApplicationResourceIdentifier
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ApplicationResourceIdentifierFor{T}"/>
+        /// Initializes a new instance of <see cref="ApplicationResourceIdentifier"/>
         /// </summary>
+        /// <param name="application"><see cref="IApplication"/> the resource belongs to</param>
         /// <param name="locationSegments"><see cref="IApplicationLocation">Location</see> segments for the <see cref="IApplicationResource"/></param>
         /// <param name="resource"><see cref="IApplicationResource">Resource</see> the identifier is for</param>
-        public ApplicationResourceIdentifierFor(IEnumerable<IApplicationLocation> locationSegments, IApplicationResource resource)
+        public ApplicationResourceIdentifier(IApplication application, IEnumerable<IApplicationLocation> locationSegments, IApplicationResource resource)
         {
+            Application = application;
             LocationSegments = locationSegments;
             Resource = resource;
         }
+
+        /// <summary>
+        /// Gets the <see cref="IApplication"/> the resource belongs to
+        /// </summary>
+        public IApplication Application { get; }
 
         /// <summary>
         /// Gets the segments representing the full <see cref="IApplicationLocation">location</see>

@@ -54,15 +54,25 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Application\ApplicationResourceIdentifierFor.cs" />
+    <Compile Include="Application\ApplicationName.cs" />
+    <Compile Include="Application\ApplicationResource.cs" />
+    <Compile Include="Application\ApplicationResourceIdentifier.cs" />
+    <Compile Include="Application\ApplicationResourceName.cs" />
     <Compile Include="Application\ApplicationResources.cs" />
+    <Compile Include="Application\ConfigurationExtensions.cs" />
+    <Compile Include="Application\IApplication.cs" />
+    <Compile Include="Application\IApplicationConfiguration.cs" />
+    <Compile Include="Application\IApplicationConfigurationBuilder.cs" />
     <Compile Include="Application\IApplicationResourceName.cs" />
     <Compile Include="Application\IApplicationLocation.cs" />
     <Compile Include="Application\IApplicationLocationName.cs" />
     <Compile Include="Application\IApplicationResource.cs" />
     <Compile Include="Application\IApplicationResources.cs" />
+    <Compile Include="Application\IApplicationStructure.cs" />
+    <Compile Include="Application\IApplicationStructureConfigurationBuilder.cs" />
     <Compile Include="Application\IBelongToAnApplicationLocationTypeOf.cs" />
     <Compile Include="Application\ICanHaveApplicationLocationsOfType.cs" />
+    <Compile Include="Application\UnableToIdentifyApplicationResource.cs" />
     <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="CodeGeneration\CodeGenerator.cs" />
     <Compile Include="CodeGeneration\CodeWriter.cs" />
@@ -456,6 +466,7 @@
     <Compile Include="Strings\MissingSeparators.cs" />
     <Compile Include="Strings\SegmentMatch.cs" />
     <Compile Include="Strings\SegmentMatches.cs" />
+    <Compile Include="Strings\SegmentMatchesExtensions.cs" />
     <Compile Include="Strings\StringFormatParser.cs" />
     <Compile Include="Strings\VariableStringSegmentBuilder.cs" />
     <Compile Include="Strings\IFixedStringSegmentBuilder.cs" />

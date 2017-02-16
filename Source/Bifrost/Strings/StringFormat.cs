@@ -24,22 +24,6 @@ namespace Bifrost.Strings
 
             Segments = segments;
             Separators = separators;
-
-            /*
-            format
-                .String(s => s.Single())
-                .BoundedContext()
-                .Module()
-                .Feature()
-                .SubFeature(f => f
-                    .Recurring()
-                    .Optional()
-                    .DependingOnPrevious()
-                )
-
-
-                StringFormat.From("/./{BoundedContext}.(Module).(Feature).(SubFeature)*")
-            */
         }
 
         /// <summary>
@@ -53,6 +37,21 @@ namespace Bifrost.Strings
             var builder = new StringFormatBuilder(separators);
             builderCallback(builder);
             return builder.Build();
+        }
+
+        /// <summary>
+        /// Build a <see cref="IStringFormat"/> from a string
+        /// </summary>
+        /// <param name="format">Format of the string</param>
+        /// <returns><see cref="IStringFormat"/> representing the format</returns>
+        /// <remarks>
+        /// See <see cref="IStringFormatParser"/> for more details on format
+        /// </remarks>
+        public static IStringFormat Parse(string format)
+        {
+            var parser = new StringFormatParser();
+            var stringFormat = parser.Parse(format);
+            return stringFormat;
         }
 
         /// <inheritdoc/>

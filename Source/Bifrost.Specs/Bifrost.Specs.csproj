@@ -54,6 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\for_ApplicationResources\given\all_dependencies.cs" />
+    <Compile Include="Application\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
+    <Compile Include="Application\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_and_module.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_module_and_feature.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_module_feature_and_subfeature.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_with_structure_format_that_does_not_match.cs" />
+    <Compile Include="Application\for_ApplicationResources\when_identifying_without_structure_formats.cs" />
     <Compile Include="CodeGeneration\for_CodeGenerator\when_generating_from_a_language_element.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\when_assigning_with_observable_with_callback.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\given\an_assignment.cs" />
@@ -680,6 +689,7 @@
     <Compile Include="Strings\for_FixedStringSegment\when_matching_single_string_that_should_not_match.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_multiple_strings_with_recurring_matching_segment.cs" />
     <Compile Include="Strings\for_FixedStringSegment\when_matching_single_string_that_should_match.cs" />
+    <Compile Include="Strings\for_SegmentMatchesExtensions\when_converting_matches_with_three_segment_matches.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\given\an_empty_string_format_builder.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_building_fixed_string_depending_on_previous_segment.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_building_optional_variable_string.cs" />

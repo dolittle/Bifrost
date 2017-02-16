@@ -5,13 +5,9 @@
 namespace Bifrost.Application
 {
     /// <summary>
-    /// Defines a resource within the application
+    /// Defines the configuration for an application
     /// </summary>
-    public interface IApplicationResource
+    public interface IApplicationConfiguration
     {
-        /// <summary>
-        /// Gets the <see cref="ApplicationResourceName">name</see> of the resource
-        /// </summary>
-        ApplicationResourceName Name { get; }
     }
 }

@@ -12,9 +12,8 @@ namespace Bifrost.Application
         /// <summary>
         /// Identify a resource
         /// </summary>
-        /// <typeparam name="T">Any type that there might be a resource map for</typeparam>
         /// <param name="resource">Resource to identify</param>
-        /// <returns><see cref="ApplicationResourceIdentifierFor{T}"/> identifying the reosource</returns>
-        ApplicationResourceIdentifierFor<T> Identify<T>(T resource);
+        /// <returns><see cref="ApplicationResourceIdentifier"/> identifying the resource</returns>
+        ApplicationResourceIdentifier Identify(object resource);
     }
 }
