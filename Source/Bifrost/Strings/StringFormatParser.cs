@@ -31,72 +31,80 @@ namespace Bifrost.Strings
                 var optional = false;
                 var dependingOnPrevious = false;
                 var recurring = false;
-                var prefixesMatch = _prefixesExpression.Match(stringSegment);
-                for( var prefixGroupIndex=1; prefixGroupIndex<prefixesMatch.Groups.Count; prefixGroupIndex++)
-                {
-                    var prefixGroup = prefixesMatch.Groups[prefixGroupIndex];
-                    actualStringSegment = actualStringSegment.Substring(prefixGroup.Value.Length);
+                HandlePrefixes(ref actualStringSegment, out optional, out dependingOnPrevious);
 
-                    switch( prefixGroup.Value )
-                    {
-                        case "-": optional = true; break;
-                        case "^": dependingOnPrevious = true; break;
-                    }
-                }
-
-                if (actualStringSegment.EndsWith("*"))
+                if (IsStringRecurring(actualStringSegment))
                 {
                     actualStringSegment = actualStringSegment.Substring(0, actualStringSegment.Length - 1);
                     recurring = true;
                 }
 
-                if( actualStringSegment.StartsWith("{") && actualStringSegment.EndsWith("}") )
+                if (IsVariableSegment(actualStringSegment))
                 {
                     actualStringSegment = actualStringSegment.Substring(1, actualStringSegment.Length - 2);
-
-                    builder = builder.VariableString(actualStringSegment, (IVariableStringSegmentBuilder variableStringBuilder) =>
-                    {
-                        if (optional) variableStringBuilder = variableStringBuilder.Optional();
-                        if (dependingOnPrevious) variableStringBuilder = variableStringBuilder.DependingOnPrevious();
-                        if (recurring) variableStringBuilder = variableStringBuilder.Recurring();
-                        return variableStringBuilder;
-                    });
-
+                    builder = BuildVariableStringSegment(builder, actualStringSegment, optional, dependingOnPrevious, recurring);
                 }
                 else
-                {
-
-                    builder = builder.FixedString(actualStringSegment, (IFixedStringSegmentBuilder fixedStringBuilder) =>
-                    {
-                        if (optional) fixedStringBuilder = fixedStringBuilder.Optional();
-                        if (dependingOnPrevious) fixedStringBuilder = fixedStringBuilder.DependingOnPrevious();
-                        if (recurring) fixedStringBuilder = fixedStringBuilder.Recurring();
-                        return fixedStringBuilder;
-                    });
-                }
+                    builder = BuildFixedStringSegment(builder, actualStringSegment, optional, dependingOnPrevious, recurring);
 
             }
 
             return builder.Build();
-
-
-            // Get separators
-
-            // Split segments based on separators
-
-            // Check if segment is a Variable or Fixed string
-
-            // Check for prefixes 
-            //   - optional
-            //   ^ depending on previous
-
-            // Check for postfixes
-            //   * recurring
-
-            throw new NotImplementedException();
         }
 
-        private static void ThrowIfMissingSeparators(string format, Match separatorsMatch)
+        bool IsVariableSegment(string actualStringSegment)
+        {
+            return actualStringSegment.StartsWith("{") && actualStringSegment.EndsWith("}");
+        }
+
+        private void HandlePrefixes(ref string stringSegment, out bool optional, out bool dependingOnPrevious)
+        {
+            optional = false;
+            dependingOnPrevious = false;
+
+            var prefixesMatch = _prefixesExpression.Match(stringSegment);
+            for (var prefixGroupIndex = 1; prefixGroupIndex < prefixesMatch.Groups.Count; prefixGroupIndex++)
+            {
+                var prefixGroup = prefixesMatch.Groups[prefixGroupIndex];
+                stringSegment = stringSegment.Substring(prefixGroup.Value.Length);
+                switch (prefixGroup.Value)
+                {
+                    case "-": optional = true; break;
+                    case "^": dependingOnPrevious = true; break;
+                }
+            }
+        }
+
+
+        bool IsStringRecurring(string segment)
+        {
+            return segment.EndsWith("*");
+        }
+
+        IStringFormatBuilder BuildFixedStringSegment(IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
+        {
+            builder = builder.FixedString(actualStringSegment, (IFixedStringSegmentBuilder fixedStringBuilder) =>
+            {
+                if (optional) fixedStringBuilder = fixedStringBuilder.Optional();
+                if (dependingOnPrevious) fixedStringBuilder = fixedStringBuilder.DependingOnPrevious();
+                if (recurring) fixedStringBuilder = fixedStringBuilder.Recurring();
+                return fixedStringBuilder;
+            });
+            return builder;
+        }
+
+        IStringFormatBuilder BuildVariableStringSegment(IStringFormatBuilder builder, string actualStringSegment, bool optional, bool dependingOnPrevious, bool recurring)
+        {
+            return builder.VariableString(actualStringSegment, (IVariableStringSegmentBuilder variableStringBuilder) =>
+            {
+                if (optional) variableStringBuilder = variableStringBuilder.Optional();
+                if (dependingOnPrevious) variableStringBuilder = variableStringBuilder.DependingOnPrevious();
+                if (recurring) variableStringBuilder = variableStringBuilder.Recurring();
+                return variableStringBuilder;
+            });
+        }
+
+        void ThrowIfMissingSeparators(string format, Match separatorsMatch)
         {
             if (!separatorsMatch.Success) throw new MissingSeparatorsInFormatString(format);
         }
