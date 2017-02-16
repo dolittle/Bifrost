@@ -452,7 +452,8 @@
     <Compile Include="Strings\ISegmentMatch.cs" />
     <Compile Include="Strings\ISegmentMatches.cs" />
     <Compile Include="Strings\IStringFormatParser.cs" />
-    <Compile Include="Strings\MissingSeparator.cs" />
+    <Compile Include="Strings\MissingSeparatorsInFormatString.cs" />
+    <Compile Include="Strings\MissingSeparators.cs" />
     <Compile Include="Strings\SegmentMatch.cs" />
     <Compile Include="Strings\SegmentMatches.cs" />
     <Compile Include="Strings\StringFormatParser.cs" />

@@ -9,11 +9,11 @@ namespace Bifrost.Strings
     /// <summary>
     /// Gets thrown when separators are not specified
     /// </summary>
-    public class MissingSeparator : ArgumentException
+    public class MissingSeparators : ArgumentException
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="MissingSeparator"/>
+        /// Initializes a new instance of <see cref="MissingSeparators"/>
         /// </summary>
-        public MissingSeparator() : base("You must specify at least one separator") { }
+        public MissingSeparators() : base("You must specify at least one separator") { }
     }
 }

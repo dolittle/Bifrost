@@ -692,6 +692,17 @@
     <Compile Include="Strings\for_StringFormatBuilder\when_building_single_occurrenced_fixed_string.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_creating_with_segments_without_separators.cs" />
     <Compile Include="Strings\for_StringFormatBuilder\when_creating_without_separators.cs" />
+    <Compile Include="Strings\for_StringFormatParser\given\a_string_format_parser.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_without_separators.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_optional_variable_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_recurring_variable_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_variable_segment_followed_by_a_variable_depending_on_previous.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_variable_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_recurring_fixed_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_fixed_segment_followed_by_a_fixed_depending_on_previous.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_optional_fixed_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_fixed_segment.cs" />
+    <Compile Include="Strings\for_StringFormatParser\when_parsing_with_two_separator_characters.cs" />
     <Compile Include="Strings\for_StringFormat\when_creating_without_separators.cs" />
     <Compile Include="Strings\for_StringFormat\when_matching_string_with_four_segments_that_should_match_an_fixed_optional_then_recurring_optional_variable_then_fixed_optional_segment_in_format.cs" />
     <Compile Include="Strings\for_StringFormat\when_matching_three_strings_with_one_segment_with_two_children_that_should_match.cs" />

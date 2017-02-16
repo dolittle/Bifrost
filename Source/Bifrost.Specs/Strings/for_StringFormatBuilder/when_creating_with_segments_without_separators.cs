@@ -10,6 +10,6 @@ namespace Bifrost.Specs.Strings.for_StringFormatBuilder
 
         Because of = () => exception = Catch.Exception(() => new StringFormatBuilder(new ISegmentBuilder[] { new NullSegmentBuilder() }));
 
-        It should_throw_missing_separators = () => exception.ShouldBeOfExactType<MissingSeparator>();
+        It should_throw_missing_separators = () => exception.ShouldBeOfExactType<MissingSeparators>();
     }
 }

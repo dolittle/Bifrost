@@ -97,7 +97,7 @@ namespace Bifrost.Strings
 
         void ThrowIfMissingSeparators(char[] separators)
         {
-            if (separators.Length == 0) throw new MissingSeparator();
+            if (separators.Length == 0) throw new MissingSeparators();
         }
     }
 }
