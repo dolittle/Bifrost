@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Bifrost.Application
 {
     /// <summary>
-    /// 
+    /// Represents an identifier for <see cref="IApplicationResource">resources</see> in an <see cref="IApplication"/>
     /// </summary>
     public class ApplicationResourceIdentifier
     {
