@@ -17,15 +17,15 @@ namespace Bifrost.Application
         ApplicationName Name { get; }
 
         /// <summary>
-        /// Build <see cref="IApplicationStructure"/> for the <see cref="IApplication"/>
+        /// Build <see cref="IApplicationStructureConfigurationBuilder"/> for the <see cref="IApplication"/>
         /// </summary>
         /// <param name="structureConfigurationBuilder"></param>
         IApplicationConfigurationBuilder Structure(Func<IApplicationStructureConfigurationBuilder, IApplicationStructureConfigurationBuilder> structureConfigurationBuilder);
 
         /// <summary>
-        /// Builds the <see cref="IApplicationConfiguration"/>
+        /// Builds the <see cref="IApplication"/>
         /// </summary>
-        /// <returns>A built version of the <see cref="IApplicationConfigurationBuilder"/></returns>
-        IApplicationConfiguration Build();
+        /// <returns>A built version of the <see cref="IApplication"/></returns>
+        IApplication Build();
     }
 }

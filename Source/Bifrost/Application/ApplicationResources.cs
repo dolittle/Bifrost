@@ -14,22 +14,22 @@ namespace Bifrost.Application
     public class ApplicationResources : IApplicationResources
     {
         /// <summary>
-        /// The key representing a <see cref="IBoundedContext"/> as part of <see cref="IApplicationStructure"/>
+        /// The key representing a <see cref="IBoundedContext"/> as part of <see cref="IApplicationStructureConfigurationBuilder"/>
         /// </summary>
         public const string BoundedContextKey = "BoundedContext";
 
         /// <summary>
-        /// The key representing a <see cref="IModule"/> as part of <see cref="IApplicationStructure"/>
+        /// The key representing a <see cref="IModule"/> as part of <see cref="IApplicationStructureConfigurationBuilder"/>
         /// </summary>
         public const string ModuleKey = "Module";
 
         /// <summary>
-        /// The key representing a <see cref="IFeature"/> as part of <see cref="IApplicationStructure"/>
+        /// The key representing a <see cref="IFeature"/> as part of <see cref="IApplicationStructureConfigurationBuilder"/>
         /// </summary>
         public const string FeatureKey = "Feature";
 
         /// <summary>
-        /// The key representing a <see cref="ISubFeature"/> as part of <see cref="IApplicationStructure"/>
+        /// The key representing a <see cref="ISubFeature"/> as part of <see cref="IApplicationStructureConfigurationBuilder"/>
         /// </summary>
         public const string SubFeatureKey = "SubFeature";
 

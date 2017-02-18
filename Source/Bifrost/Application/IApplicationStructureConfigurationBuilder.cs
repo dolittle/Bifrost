@@ -43,9 +43,9 @@ namespace Bifrost.Application
         IApplicationStructureConfigurationBuilder Include(string format);
 
         /// <summary>
-        /// Build an <see cref="IApplicationStructure"/>
+        /// Build an <see cref="IApplicationStructureConfigurationBuilder"/>
         /// </summary>
-        /// <returns>A built version of the <see cref="IApplicationStructure"/></returns>
+        /// <returns>A built version of the <see cref="IApplicationStructureConfigurationBuilder"/></returns>
         IApplicationStructure Build();
     }
 }
