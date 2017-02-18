@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 using System.Web.Routing;
-using Bifrost.Application;
+using Bifrost.Applications;
 using Bifrost.Configuration;
 using Bifrost.FluentValidation.Sagas;
 using Bifrost.Sagas;
