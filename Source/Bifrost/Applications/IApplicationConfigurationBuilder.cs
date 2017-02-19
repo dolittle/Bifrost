@@ -7,7 +7,7 @@ using System;
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// Defines a builder for building <see cref="IApplicationConfiguration"/>
+    /// Defines a builder for building <see cref="ApplicationConfiguration"/>
     /// </summary>
     public interface IApplicationConfigurationBuilder
     {

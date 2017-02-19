@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Globalization;
 using System.Reflection;
+using Bifrost.Applications;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Events;
 using Bifrost.Execution;

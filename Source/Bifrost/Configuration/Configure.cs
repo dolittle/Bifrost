@@ -14,6 +14,7 @@ using Bifrost.Extensions;
 using Bifrost.Diagnostics;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Events;
+using Bifrost.Applications;
 
 namespace Bifrost.Configuration
 {
