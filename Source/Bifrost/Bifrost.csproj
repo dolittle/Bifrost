@@ -54,12 +54,14 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\ApplicationConfigurationBuilder.cs" />
     <Compile Include="Applications\ApplicationName.cs" />
     <Compile Include="Applications\ApplicationResource.cs" />
     <Compile Include="Applications\ApplicationResourceIdentifier.cs" />
     <Compile Include="Applications\ApplicationResourceName.cs" />
     <Compile Include="Applications\ApplicationResources.cs" />
+    <Compile Include="Applications\ApplicationStructure.cs" />
     <Compile Include="Applications\ApplicationStructureConfigurationBuilder.cs" />
     <Compile Include="Applications\ConfigurationExtensions.cs" />
     <Compile Include="Applications\IApplication.cs" />

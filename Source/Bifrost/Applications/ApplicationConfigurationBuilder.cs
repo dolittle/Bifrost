@@ -49,7 +49,9 @@ namespace Bifrost.Applications
         /// <inheritdoc/>
         public IApplication Build()
         {
-            throw new NotImplementedException();
+            var applicationStructure = _applicationStructure.Build();
+            var application = new Application(Name, applicationStructure);
+            return application;
         }
     }
 }

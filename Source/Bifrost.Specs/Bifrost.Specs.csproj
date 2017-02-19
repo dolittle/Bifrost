@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_building.cs" />
+    <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_adding_structure.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />
@@ -63,6 +65,9 @@
     <Compile Include="Applications\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_module_feature_and_subfeature.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_with_structure_format_that_does_not_match.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_without_structure_formats.cs" />
+    <Compile Include="Applications\for_ApplicationStructureConfigurationBuilder\when_building_with_two_added_structure_format.cs" />
+    <Compile Include="Applications\for_ApplicationStructure\when_initializing.cs" />
+    <Compile Include="Applications\for_Application\when_initializing.cs" />
     <Compile Include="CodeGeneration\for_CodeGenerator\when_generating_from_a_language_element.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\when_assigning_with_observable_with_callback.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\given\an_assignment.cs" />
