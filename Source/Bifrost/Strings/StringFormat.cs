@@ -82,6 +82,7 @@ namespace Bifrost.Strings
                 if (length <= 0) break;
 
                 var match = MatchStrings(strings, currentStringIndex, segment, length);
+                if (!match.HasMatch && !segment.Optional) return new SegmentMatches(new ISegmentMatch[0]);
                 if (match.HasMatch)
                 {
                     matches.Add(match);
