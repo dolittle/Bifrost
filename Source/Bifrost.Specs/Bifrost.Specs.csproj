@@ -56,6 +56,18 @@
   <ItemGroup>
     <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_building.cs" />
     <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_adding_structure.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_locations.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_applications.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\given\different_identifiers.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\given\same_identifiers.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_with_identifiers_with_different_applications.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_with_identifiers_with_different_locations.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_with_identifiers_with_different_locations.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_with_identifiers_with_different_applications.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_representing_different_resource.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_representing_different_resource.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_representing_same_resource.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_representing_same_resource.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />
@@ -719,6 +731,7 @@
     <Compile Include="Strings\for_StringFormatParser\when_parsing_with_one_fixed_segment.cs" />
     <Compile Include="Strings\for_StringFormatParser\when_parsing_with_two_separator_characters.cs" />
     <Compile Include="Strings\for_StringFormat\when_creating_without_separators.cs" />
+    <Compile Include="Strings\for_StringFormat\when_matching_string_with_four_segments_that_does_not_match_fixed_recurring_then_recurring_optional_variable_then_fixed_optional_segment_in_format.cs" />
     <Compile Include="Strings\for_StringFormat\when_matching_string_with_four_segments_that_should_match_an_fixed_optional_then_recurring_optional_variable_then_fixed_optional_segment_in_format.cs" />
     <Compile Include="Strings\for_StringFormat\when_matching_three_strings_with_one_segment_with_two_children_that_should_match.cs" />
     <Compile Include="Strings\for_StringFormat\when_matching_string_with_two_segments_that_should_match_an_optional_recurring_variable_segment_in_format.cs" />
