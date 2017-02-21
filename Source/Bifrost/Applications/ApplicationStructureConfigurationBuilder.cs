@@ -43,6 +43,7 @@ namespace Bifrost.Applications
         /// <inheritdoc/>
         public IApplicationStructureConfigurationBuilder Include(string format)
         {
+            if( !format.StartsWith("[")) format = $"[.]{format}";
             var formats = new List<IStringFormat>(_structureFormats);
             var parser = new StringFormatParser();
             var stringFormat = parser.Parse(format);
