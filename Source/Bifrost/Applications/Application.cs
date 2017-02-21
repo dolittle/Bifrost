@@ -2,11 +2,14 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
- namespace Bifrost.Applications
+using Bifrost.Execution;
+
+namespace Bifrost.Applications
 {
     /// <summary>
     /// Represents an implementation of <see cref="IApplication"/>
     /// </summary>
+    [IgnoreDefaultConvention]
     public class Application : IApplication
     {
         /// <summary>
