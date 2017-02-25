@@ -1,5 +1,6 @@
 ﻿using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using Bifrost.Security;
 
 namespace Web
@@ -8,7 +9,7 @@ namespace Web
     {
         public IPrincipal Resolve()
         {
-            return Thread.CurrentPrincipal;
+            return HttpContext.Current?.User ?? Thread.CurrentPrincipal;
         }
     }
 }

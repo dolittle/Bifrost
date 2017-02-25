@@ -7,13 +7,13 @@ namespace Bifrost.Specs.Security.for_RoleRule.given
     public class a_rule_role
     {
         protected static string required_role;
-        protected static Mock<UserSecurityActor> user;
+        protected static Mock<IUserSecurityActor> user;
         protected static RoleRule rule;
 
         public a_rule_role()
         {
             required_role = "MY_ROLE";
-            user = new Mock<UserSecurityActor>();
+            user = new Mock<IUserSecurityActor>();
             user.Setup(m => m.IsInRole(It.IsAny<string>())).Returns(false);
             rule = new RoleRule(user.Object,required_role);
         }

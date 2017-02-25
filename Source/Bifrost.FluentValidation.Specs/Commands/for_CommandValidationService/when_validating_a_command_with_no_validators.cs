@@ -14,8 +14,8 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidationService
         Establish context = () =>
                                 {
                                     command_mock = new Mock<ICommand>();
-                                    command_validator_provider_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(() => new NullCommandInputValidator());
-                                    command_validator_provider_mock.Setup(cvs => cvs.GetBusinessValidatorFor(command_mock.Object)).Returns(() => new NullCommandBusinessValidator());
+                                    command_validator_provider_mock.Setup(cvs => cvs.GetInputValidatorFor(command_mock.Object)).Returns(() => new NullCommandInputValidator<ICommand>());
+                                    command_validator_provider_mock.Setup(cvs => cvs.GetBusinessValidatorFor(command_mock.Object)).Returns(() => new NullCommandBusinessValidator<ICommand>());
                                 };
 
         Because of = () => result = command_validation_service.Validate(command_mock.Object);

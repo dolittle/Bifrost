@@ -1,7 +1,9 @@
-﻿/*---------------------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Configuration;
+
 namespace Bifrost.Security
 {
     /// <summary>
@@ -16,7 +18,7 @@ namespace Bifrost.Security
         /// <returns>The <see cref="UserSecurityActor"/></returns>
         public static UserSecurityActor User(this ISecurable securable)
         {
-            var actor = new UserSecurityActor();
+            var actor = new UserSecurityActor(Configure.Instance.Container.Get<ICanResolvePrincipal>());
             securable.AddActor(actor);
             return actor;
         }
