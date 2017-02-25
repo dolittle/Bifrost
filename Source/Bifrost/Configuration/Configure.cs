@@ -8,13 +8,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
+using Bifrost.Diagnostics;
 using Bifrost.Execution;
 using Bifrost.Extensions;
-using Bifrost.Diagnostics;
-using Bifrost.Configuration.Assemblies;
-using Bifrost.Events;
-using Bifrost.Applications;
 
 namespace Bifrost.Configuration
 {
