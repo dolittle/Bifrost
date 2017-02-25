@@ -17,10 +17,16 @@ namespace Bifrost.Applications
         /// </summary>
         public NullApplicationStructure()
         {
-            StructureFormats = new IStringFormat[0];
+            AllStructureFormats = new IStringFormat[0];
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IStringFormat> StructureFormats { get; }
+        public IEnumerable<IStringFormat> AllStructureFormats { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<IStringFormat> GetStructureFormatsForArea(ApplicationArea area)
+        {
+            return new IStringFormat[0];
+        }
     }
 }

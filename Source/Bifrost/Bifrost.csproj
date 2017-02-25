@@ -55,6 +55,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Applications\Application.cs" />
+    <Compile Include="Applications\ApplicationArea.cs" />
+    <Compile Include="Applications\ApplicationAreas.cs" />
     <Compile Include="Applications\ApplicationConfigurationBuilder.cs" />
     <Compile Include="Applications\ApplicationName.cs" />
     <Compile Include="Applications\ApplicationResource.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Applications\ApplicationResourceName.cs" />
     <Compile Include="Applications\ApplicationResources.cs" />
     <Compile Include="Applications\ApplicationStructure.cs" />
+    <Compile Include="Applications\ApplicationStructureBuilderConfigurationExtensions.cs" />
     <Compile Include="Applications\ApplicationStructureConfigurationBuilder.cs" />
     <Compile Include="Applications\ConfigurationExtensions.cs" />
     <Compile Include="Applications\IApplication.cs" />
@@ -173,6 +176,7 @@
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
+    <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
     <Compile Include="Events\IEventProcessingResult.cs" />
     <Compile Include="Events\EventProcessorResult.cs" />
@@ -185,6 +189,7 @@
     <Compile Include="Events\IEventProcessor.cs" />
     <Compile Include="Events\IEventProcessingResults.cs" />
     <Compile Include="Events\IEventProcessors.cs" />
+    <Compile Include="Events\IKnowAboutEventProcessors.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamSender.cs" />

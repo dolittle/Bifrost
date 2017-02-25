@@ -14,6 +14,7 @@ namespace Bifrost.Applications
         /// <summary>
         /// Include a given mapping for structure representation
         /// </summary>
+        /// <param name="area">A unique identifier for the format</param>
         /// <param name="format">Format of the structure</param>
         /// <returns></returns>
         /// <remarks>
@@ -40,7 +41,7 @@ namespace Bifrost.Applications
         /// One format *CAN* include multiple SubFeatures, but only if there is a Feature before in the string format
         /// 
         /// </remarks>
-        IApplicationStructureConfigurationBuilder Include(string format);
+        IApplicationStructureConfigurationBuilder Include(ApplicationArea area, string format);
 
         /// <summary>
         /// Build an <see cref="IApplicationStructureConfigurationBuilder"/>

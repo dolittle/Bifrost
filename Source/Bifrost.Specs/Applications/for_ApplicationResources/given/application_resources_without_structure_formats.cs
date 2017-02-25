@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources.given
         Establish context = () =>
         {
             application_structure = new Mock<IApplicationStructure>();
-            application_structure.SetupGet(a => a.StructureFormats).Returns(new IStringFormat[0]);
+            application_structure.SetupGet(a => a.AllStructureFormats).Returns(new IStringFormat[0]);
 
             application.SetupGet(a => a.Structure).Returns(application_structure.Object);
 

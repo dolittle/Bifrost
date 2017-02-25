@@ -77,8 +77,10 @@
     <Compile Include="Applications\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_module_feature_and_subfeature.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_with_structure_format_that_does_not_match.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_without_structure_formats.cs" />
-    <Compile Include="Applications\for_ApplicationStructureConfigurationBuilder\when_building_with_two_added_structure_format.cs" />
-    <Compile Include="Applications\for_ApplicationStructure\when_initializing.cs" />
+    <Compile Include="Applications\for_ApplicationStructureConfigurationBuilder\when_building_with_two_added_structure_format_with_different_identifiers.cs" />
+    <Compile Include="Applications\for_ApplicationStructure\given\two_areas_with_one_format_in_each.cs" />
+    <Compile Include="Applications\for_ApplicationStructure\when_getting_formats_for_specific_area.cs" />
+    <Compile Include="Applications\for_ApplicationStructure\when_initializing_with_two_structure_formats_with_different_areas.cs" />
     <Compile Include="Applications\for_Application\when_initializing.cs" />
     <Compile Include="CodeGeneration\for_CodeGenerator\when_generating_from_a_language_element.cs" />
     <Compile Include="CodeGeneration\JavaScript\for_AssignmentExtensions\when_assigning_with_observable_with_callback.cs" />

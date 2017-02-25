@@ -12,10 +12,19 @@ namespace Bifrost.Applications
     /// </summary>
     public interface IApplicationStructure
     {
+
+        /// <summary>
+        /// Get all structure formats for specific identifier
+        /// </summary>
+        /// <param name="area"><see cref="ApplicationArea"/> to get for</param>
+        /// <returns><see cref="IEnumerable{T}">String formats</see> for the identifier</returns>
+        IEnumerable<IStringFormat> GetStructureFormatsForArea(ApplicationArea area);
+
+
         /// <summary>
         /// Gets the different <see cref="IStringFormat"/> representing the allowed structures of the 
         /// application
         /// </summary>
-        IEnumerable<IStringFormat>  StructureFormats { get; }
+        IEnumerable<IStringFormat>  AllStructureFormats { get; }
     }
 }

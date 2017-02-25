@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Routing;
+using Bifrost.Applications;
 using Bifrost.Configuration;
 using Bifrost.FluentValidation.Sagas;
 using Bifrost.Sagas;
@@ -21,12 +22,11 @@ namespace Web
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
-                        .Include("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                        .Include("Web.Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                        .Include("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                        .Include("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                    )
-                )
+                        .Domain("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Events("Web.Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Read("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Frontend("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                ))
                 .Serialization
                     .UsingJson()
                 .Events

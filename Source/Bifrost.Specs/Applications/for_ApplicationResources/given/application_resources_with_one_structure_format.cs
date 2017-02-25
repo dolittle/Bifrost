@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources.given
         Establish context = () =>
         {
             string_format = new Mock<IStringFormat>();
-            application_structure.SetupGet(a => a.StructureFormats).Returns(new[] { string_format.Object });
+            application_structure.SetupGet(a => a.AllStructureFormats).Returns(new[] { string_format.Object });
             resources = new ApplicationResources(application.Object);
         };
     }

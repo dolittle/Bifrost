@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Strings;
 
 namespace Bifrost.Applications
@@ -12,16 +13,25 @@ namespace Bifrost.Applications
     /// </summary>
     public class ApplicationStructure : IApplicationStructure
     {
+        IDictionary<ApplicationArea, IEnumerable<IStringFormat>> _structureFormats;
+
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructure"/>
         /// </summary>
         /// <param name="structureFormats"></param>
-        public ApplicationStructure(IEnumerable<IStringFormat> structureFormats)
+        public ApplicationStructure(IDictionary<ApplicationArea, IEnumerable<IStringFormat>> structureFormats)
         {
-            StructureFormats = structureFormats;
+            _structureFormats = structureFormats;
+            AllStructureFormats = structureFormats.Values.SelectMany(x => x);
         }
 
         /// <inheritdoc/>
-        public IEnumerable<IStringFormat> StructureFormats { get; }
+        public IEnumerable<IStringFormat> AllStructureFormats { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<IStringFormat> GetStructureFormatsForArea(ApplicationArea area)
+        {
+            return _structureFormats[area];
+        }
     }
 }

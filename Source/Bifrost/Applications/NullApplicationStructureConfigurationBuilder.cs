@@ -24,7 +24,7 @@ namespace Bifrost.Applications
         }
 
         /// <inheritdoc/>
-        public IApplicationStructureConfigurationBuilder Include(string format)
+        public IApplicationStructureConfigurationBuilder Include(ApplicationArea area, string format)
         {
             return this;
         }

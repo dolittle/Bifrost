@@ -12,7 +12,7 @@ namespace Bifrost.Applications
     /// </summary>
     public class ApplicationStructureConfigurationBuilder : IApplicationStructureConfigurationBuilder
     {
-        IEnumerable<IStringFormat> _structureFormats;
+        IDictionary<ApplicationArea, IEnumerable<IStringFormat>> _structureFormats;
 
 
         /// <summary>
@@ -20,14 +20,14 @@ namespace Bifrost.Applications
         /// </summary>
         public ApplicationStructureConfigurationBuilder()
         {
-            _structureFormats = new IStringFormat[0];
+            _structureFormats = new Dictionary<ApplicationArea, IEnumerable<IStringFormat>>();
         }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationStructureConfigurationBuilder"/>
         /// </summary>
         /// <param name="structureFormats"></param>
-        public ApplicationStructureConfigurationBuilder(IEnumerable<IStringFormat> structureFormats)
+        public ApplicationStructureConfigurationBuilder(IDictionary<ApplicationArea, IEnumerable<IStringFormat>> structureFormats)
         {
             _structureFormats = structureFormats;
         }
@@ -41,14 +41,23 @@ namespace Bifrost.Applications
         }
 
         /// <inheritdoc/>
-        public IApplicationStructureConfigurationBuilder Include(string format)
+        public IApplicationStructureConfigurationBuilder Include(ApplicationArea area, string format)
         {
             if( !format.StartsWith("[")) format = $"[.]{format}";
-            var formats = new List<IStringFormat>(_structureFormats);
+            var formatsByArea = new Dictionary<ApplicationArea, IEnumerable<IStringFormat>>(_structureFormats);
             var parser = new StringFormatParser();
             var stringFormat = parser.Parse(format);
+
+            List<IStringFormat> formats;
+            if (formatsByArea.ContainsKey(area))
+                formats = new List<IStringFormat>(formatsByArea[area]);
+            else
+                formats = new List<IStringFormat>();
+
             formats.Add(stringFormat);
-            var builder = new ApplicationStructureConfigurationBuilder(formats);
+            formatsByArea[area] = formats;
+
+            var builder = new ApplicationStructureConfigurationBuilder(formatsByArea);
             return builder;
         }
     }

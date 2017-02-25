@@ -50,7 +50,7 @@ namespace Bifrost.Applications
             var type = resource.GetType();
             var @namespace = type.Namespace;
 
-            foreach( var format in _application.Structure.StructureFormats )
+            foreach( var format in _application.Structure.AllStructureFormats )
             {
                 var match = format.Match(@namespace);
                 if( match.HasMatches )
