@@ -1,4 +1,5 @@
 using System;
+using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.Testing.Fakes.Commands;
@@ -45,7 +46,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider.g
                                                 {
                                                     typeof(SimpleCommandInputValidator),
                                                     typeof(AnotherSimpleCommandInputValidator),
-                                                    typeof(NullCommandInputValidator)
+                                                    typeof(NullCommandInputValidator<ICommand>)
                                                 }
                                         );
 
@@ -54,7 +55,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider.g
                                                 {
                                                     typeof(SimpleCommandBusinessValidator),
                                                     typeof(AnotherSimpleCommandBusinessValidator),
-                                                    typeof(NullCommandBusinessValidator)
+                                                    typeof(NullCommandBusinessValidator<ICommand>)
                                                 }
                                         );
 
@@ -63,7 +64,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider.g
                                                 {
                                                     typeof(SimpleCommandInputValidator),
                                                     typeof(AnotherSimpleCommandInputValidator),
-                                                    typeof(NullCommandInputValidator)
+                                                    typeof(NullCommandInputValidator<ICommand>)
                                                 }
                                         );
 
@@ -72,7 +73,7 @@ namespace Bifrost.FluentValidation.Specs.Commands.for_CommandValidatorProvider.g
                                                 {
                                                     typeof(SimpleCommandBusinessValidator),
                                                     typeof(AnotherSimpleCommandBusinessValidator),
-                                                    typeof(NullCommandBusinessValidator)
+                                                    typeof(NullCommandBusinessValidator<ICommand>)
                                                 }
                                         );
 

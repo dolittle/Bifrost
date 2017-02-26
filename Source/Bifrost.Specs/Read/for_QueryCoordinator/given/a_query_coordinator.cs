@@ -22,7 +22,8 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator.given
                 container_mock.Object, 
                 fetching_security_manager_mock.Object, 
                 query_validator_mock.Object,
-                read_model_filters_mock.Object);
+                read_model_filters_mock.Object,
+                exception_publisher_mock.Object);
         };
     }
 }

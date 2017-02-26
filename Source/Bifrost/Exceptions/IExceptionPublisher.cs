@@ -2,17 +2,19 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Bifrost.Commands;
+using System;
 
-namespace Bifrost.FluentValidation.Commands
+namespace Bifrost.Exceptions
 {
     /// <summary>
-    /// Represent a null or non-existant validator.
+    /// Publishes exceptions to all <see cref="IExceptionSubscriber"/>s.
     /// </summary>
-    /// <remarks>
-    /// Always returns an empty validation result collection.
-    /// </remarks>
-    public class NullCommandBusinessValidator<T> : CommandBusinessValidator<T> where T : class, ICommand
+    public interface IExceptionPublisher
     {
+        /// <summary>
+        /// Publishes the exception to all <see cref="IExceptionSubscriber"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        void Publish(Exception exception);
     }
 }
