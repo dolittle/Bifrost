@@ -21,7 +21,11 @@
 - name: Read
   items:
   - name: Read Model
-    href: Read/read_model.md    
+    href: Read/read_model.md
+  - name: Queries
+    href: Read/queries.md
+  - name: Read Model Repository
+    href: Read/read_model_repository.md
 - name: Aggregate Root
   href: aggregate_root.md
 - name: Concepts and Value Objects
