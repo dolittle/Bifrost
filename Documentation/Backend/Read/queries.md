@@ -125,9 +125,35 @@ public class MyReadModelFilter : ICanFilterReadModels
 
 ## Security
 
+You secure the read models by adding a security descriptor, similar to how one does with validation in
+a fluent way.
+
+```csharp
+using Bifrost.Security;
+
+public class QuerySecurity : BaseSecurityDescriptor
+{
+    public QuerySecurity()
+    {
+        When
+            .Fetching()
+                .ReadModels()
+                    .InNamespace(
+                        typeof(Employee).Namespace,
+                        s => s.User()
+                                .MustBeInRole("ReadAccess"));
+    }
+}
+```
+
+> [!Note]
+> Support for securing specific read models is on the way. Read more [here](https://github.com/dolittle/Bifrost/issues/786).
+
 ## Proxy Generation
 
 ## QueryCoordinator
+
+## QueryResult
 
 ## Query provider - Extension point
 
