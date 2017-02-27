@@ -9,9 +9,9 @@ namespace Bifrost.Execution
     /// <summary>
     /// Represents a manager for managing the dispatcher in an application
     /// </summary>
-	public class DispatcherManager
-	{
-		static IDispatcher _current;
+    public class DispatcherManager
+    {
+        static IDispatcher _current;
 
         /// <summary>
         /// Gets wether or not the dispatcher has been set
@@ -25,20 +25,20 @@ namespace Bifrost.Execution
         /// <remarks>
         /// Throws an <see cref="ArgumentException"/> when getting and no <see cref="IDispatcher"/> has been set
         /// </remarks>
-		public static IDispatcher Current
-		{
-			get
-			{
-				if( null == _current )
-				{
-					throw new ArgumentException("Current Dispatcher has not been set in DispatcherManager");
-				}
-				return _current;
-			}
-			set
-			{
-				_current = value;
-			}
-		}
-	}
+        public static IDispatcher Current
+        {
+            get
+            {
+                if( null == _current )
+                {
+                    throw new ArgumentException("Current Dispatcher has not been set in DispatcherManager");
+                }
+                return _current;
+            }
+            set
+            {
+                _current = value;
+            }
+        }
+    }
 }

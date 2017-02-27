@@ -58,10 +58,12 @@
     <Compile Include="Commands\CommandValidatorFactory.cs" />
     <Compile Include="Commands\CommandValidatorProvider.cs" />
     <Compile Include="Commands\ComposedCommandBusinessValidator.cs" />
+    <Compile Include="Commands\ComposedCommandRuleBuilder.cs" />
     <Compile Include="Commands\ComposedCommandInputValidator.cs" />
     <Compile Include="Commands\ICommandBusinessValidator.cs" />
     <Compile Include="Commands\ICommandInputValidator.cs" />
     <Compile Include="Commands\ICommandValidatorProvider.cs" />
+    <Compile Include="Commands\IComposedCommandRuleBuilder.cs" />
     <Compile Include="Commands\NullCommandBusinessValidator.cs" />
     <Compile Include="Commands\NullCommandInputValidator.cs" />
     <Compile Include="ComposedValidatorDescriptor.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="PropertyValidatorWithDynamicState.cs" />
     <Compile Include="AbstractValidatorExtensions.cs" />
     <Compile Include="RuleBuilderExtensions.cs" />
-    <Compile Include="Sagas\ChapterValidation.cs" />
+    <Compile Include="Sagas\ChapterValidator.cs" />
     <Compile Include="Sagas\ChapterValidationService.cs" />
     <Compile Include="Sagas\ChapterValidatorProvider.cs" />
     <Compile Include="Sagas\IChapterValidator.cs" />

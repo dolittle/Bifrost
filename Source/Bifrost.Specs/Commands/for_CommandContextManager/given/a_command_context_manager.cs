@@ -7,23 +7,23 @@ using Bifrost.Execution;
 
 namespace Bifrost.Specs.Commands.for_CommandContextManager.given
 {
-	public class a_command_context_manager
-	{
-		protected static CommandContextManager Manager;
+    public class a_command_context_manager
+    {
+        protected static CommandContextManager Manager;
         protected static Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
         protected static Mock<IProcessMethodInvoker> process_method_invoker_mock;
         protected static Mock<ISagaLibrarian> saga_librarian_mock;
         protected static Mock<IExecutionContextManager> execution_context_manager_mock;
         protected static Mock<IEventStore> event_store_mock;
-	    protected static CommandContextFactory factory;
+        protected static CommandContextFactory factory;
 
-		Establish context = () =>
-		                            	{
-											CommandContextManager.ResetContext();
+        Establish context = () =>
+                                        {
+                                            CommandContextManager.ResetContext();
                                             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
-		                            		event_store_mock = new Mock<IEventStore>();
-		                            		process_method_invoker_mock = new Mock<IProcessMethodInvoker>();
-		                            		saga_librarian_mock = new Mock<ISagaLibrarian>();
+                                            event_store_mock = new Mock<IEventStore>();
+                                            process_method_invoker_mock = new Mock<IProcessMethodInvoker>();
+                                            saga_librarian_mock = new Mock<ISagaLibrarian>();
                                             execution_context_manager_mock = new Mock<IExecutionContextManager>();
 
                                             factory = new CommandContextFactory(
@@ -33,7 +33,7 @@ namespace Bifrost.Specs.Commands.for_CommandContextManager.given
                                                 execution_context_manager_mock.Object,
                                                 event_store_mock.Object);
                                            
-		                            		Manager = new CommandContextManager(factory);
-		                            	};
-	}
+                                            Manager = new CommandContextManager(factory);
+                                        };
+    }
 }

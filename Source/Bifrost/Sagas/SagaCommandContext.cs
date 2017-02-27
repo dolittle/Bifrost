@@ -76,11 +76,11 @@ namespace Bifrost.Sagas
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                	events.MarkEventsWithCommandDetails(Command);
+                    events.MarkEventsWithCommandDetails(Command);
                     events.ExpandExecutionContext(ExecutionContext);
                     ProcessEvents(events);
                     _saga.Commit(events);
-					_uncommittedEventStreamCoordinator.Commit(events);
+                    _uncommittedEventStreamCoordinator.Commit(events);
                     trackedObject.Commit();
                     _sagaLibrarian.Catalogue(_saga);
                 }

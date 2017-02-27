@@ -6,11 +6,11 @@ using System;
 
 namespace Bifrost.Domain
 {
-	/// <summary>
-	/// The exception that is thrown when an AggregatedRoot is missing
-	/// </summary>
-	public class MissingAggregateRootException : ArgumentException
-	{
-		
-	}
+    /// <summary>
+    /// The exception that is thrown when an AggregatedRoot is missing
+    /// </summary>
+    public class MissingAggregateRootException : ArgumentException
+    {
+        
+    }
 }

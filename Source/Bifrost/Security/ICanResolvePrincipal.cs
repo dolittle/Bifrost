@@ -3,18 +3,23 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Security.Principal;
+using Bifrost.Conventions;
 
 namespace Bifrost.Security
 {
     /// <summary>
-    /// Defines a resolver for <see cref="IIdentity"/>
+    /// Defines a resolver for <see cref="IPrincipal"/>.
     /// </summary>
-    public interface ICanResolvePrincipal
+    /// <remarks>
+    /// An application may implement this convention once. If it is not implemented,
+    /// the <see cref="DefaultPrincipalResolver"/> is used.
+    /// </remarks>
+    public interface ICanResolvePrincipal : IConvention
     {
         /// <summary>
-        /// Resolve current <see cref="IPrincipal"/>
+        /// Method that is called to resolve current <see cref="IPrincipal"/>.
         /// </summary>
-        /// <returns>The resolved <see cref="IPrincipal"/></returns>
+        /// <returns>The resolved <see cref="IPrincipal"/>.</returns>
         IPrincipal Resolve();
     }
 }

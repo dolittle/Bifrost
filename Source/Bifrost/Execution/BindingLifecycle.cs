@@ -4,29 +4,29 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Execution
 {
-	/// <summary>
-	/// Scope for activation
-	/// </summary>
-	public enum BindingLifecycle
-	{
-		/// <summary>
-		/// Scoped as a singleton within the Ninject kernel
-		/// </summary>
-		Singleton,
+    /// <summary>
+    /// Scope for activation
+    /// </summary>
+    public enum BindingLifecycle
+    {
+        /// <summary>
+        /// Scoped as a singleton within the Ninject kernel
+        /// </summary>
+        Singleton,
 
-		/// <summary>
-		/// Scoped as per request - tied into the current WebRequest
-		/// </summary>
-		Request,
+        /// <summary>
+        /// Scoped as per request - tied into the current WebRequest
+        /// </summary>
+        Request,
 
-		/// <summary>
-		/// Scoped to null
-		/// </summary>
-		Transient,
+        /// <summary>
+        /// Scoped to null
+        /// </summary>
+        Transient,
 
-		/// <summary>
-		/// Scoped to per thread 
-		/// </summary>
-		Thread
-	}
+        /// <summary>
+        /// Scoped to per thread 
+        /// </summary>
+        Thread
+    }
 }

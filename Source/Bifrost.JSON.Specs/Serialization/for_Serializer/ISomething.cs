@@ -1,7 +1,7 @@
 ﻿namespace Bifrost.JSON.Specs.Serialization.for_Serializer
 {
-	public interface ISomething
-	{
-		
-	}
+    public interface ISomething
+    {
+        
+    }
 }

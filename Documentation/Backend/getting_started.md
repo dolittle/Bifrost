@@ -5,4 +5,4 @@ keywords:
 author: einari
 ---
 
-# JavaScript documentation
+# Getting Started

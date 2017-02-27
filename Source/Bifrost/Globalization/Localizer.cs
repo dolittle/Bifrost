@@ -10,23 +10,23 @@ namespace Bifrost.Globalization
     /// <summary>
     /// Represents a <see cref="ILocalizer"/>
     /// </summary>
-	public class Localizer : ILocalizer
+    public class Localizer : ILocalizer
     {
 #pragma warning disable 1591 // Xml Comments
         public LocalizationScope BeginScope()
-		{
-			var scope = LocalizationScope.FromCurrentThread();
+        {
+            var scope = LocalizationScope.FromCurrentThread();
 
-			CultureInfo.CurrentCulture = Configure.Instance.Culture;
-			CultureInfo.CurrentUICulture = Configure.Instance.UICulture;
+            CultureInfo.CurrentCulture = Configure.Instance.Culture;
+            CultureInfo.CurrentUICulture = Configure.Instance.UICulture;
 
-			return scope;
-		}
+            return scope;
+        }
 
-		public void EndScope(LocalizationScope scope)
-		{
-			CultureInfo.CurrentCulture = scope.Culture;
-			CultureInfo.CurrentUICulture = scope.UICulture;
+        public void EndScope(LocalizationScope scope)
+        {
+            CultureInfo.CurrentCulture = scope.Culture;
+            CultureInfo.CurrentUICulture = scope.UICulture;
         }
 #pragma warning restore 1591 // Xml Comments
     }

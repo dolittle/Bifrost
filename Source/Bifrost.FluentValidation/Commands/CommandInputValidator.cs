@@ -13,9 +13,6 @@ namespace Bifrost.FluentValidation.Commands
     /// <summary>
     /// Base class to inherit from for basic input validation of a command.
     /// </summary>
-    /// <remarks>
-    /// Commands inherting from this base class will be automatically registered.
-    /// </remarks>
     /// <typeparam name="T">Concrete type of the Command to validate</typeparam>
     public abstract class CommandInputValidator<T> : InputValidator<T>, ICanValidate<T>, ICommandInputValidator where T : class, ICommand
     {

@@ -23,7 +23,7 @@ namespace Bifrost.Read
         {
             var queryType = typeDiscoverer.FindTypeByFullName(fullName);
 
-            if (queryType == null || !queryType.HasInterface(typeof(IQueryFor<>)))
+            if (queryType == null || !queryType.HasInterface(typeof(IQuery)))
                 throw new UnknownQueryException(fullName);
 
             return queryType;

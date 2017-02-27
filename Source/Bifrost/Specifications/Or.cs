@@ -12,10 +12,10 @@ namespace Bifrost.Specifications
     /// <typeparam name="T">Type that the rule is to be evaluated for.</typeparam>
     /// <remarks>Based on http://bloggingabout.net/blogs/dries/archive/2011/09/29/specification-pattern-continued.aspx </remarks>
     internal class Or<T> : Specification<T>
-	{
-		internal Or(Specification<T> lhs, Specification<T> rhs)
-		{
-			Predicate = lhs.Compose(rhs, Expression.Or).Predicate;
-		}
-	}
+    {
+        internal Or(Specification<T> lhs, Specification<T> rhs)
+        {
+            Predicate = lhs.Compose(rhs, Expression.Or).Predicate;
+        }
+    }
 }

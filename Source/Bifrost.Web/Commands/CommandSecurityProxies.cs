@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using System;
 using System.Linq;
 using System.Text;
@@ -18,26 +17,20 @@ namespace Bifrost.Web.Commands
 {
     public class CommandSecurityProxies : IProxyGenerator
     {
-        ITypeDiscoverer _typeDiscoverer;
-        ITypeImporter _typeImporter;
-        ICodeGenerator _codeGenerator;
-        ICommandSecurityManager _commandSecurityManager;
-        IContainer _container;
-        WebConfiguration _configuration;
+        readonly ITypeDiscoverer _typeDiscoverer;
+        readonly ICodeGenerator _codeGenerator;
+        readonly ICommandSecurityManager _commandSecurityManager;
+        readonly WebConfiguration _configuration;
 
         public CommandSecurityProxies(
-                ITypeDiscoverer typeDiscoverer, 
-                ITypeImporter typeImporter, 
-                ICodeGenerator codeGenerator,
-                ICommandSecurityManager commandSecurityManager,
-                IContainer container,
-                WebConfiguration configuration)
+            ITypeDiscoverer typeDiscoverer,
+            ICodeGenerator codeGenerator,
+            ICommandSecurityManager commandSecurityManager,
+            WebConfiguration configuration)
         {
             _typeDiscoverer = typeDiscoverer;
-            _typeImporter = typeImporter;
             _codeGenerator = codeGenerator;
             _configuration = configuration;
-            _container = container;
             _commandSecurityManager = commandSecurityManager;
         }
 
@@ -64,21 +57,20 @@ namespace Bifrost.Web.Commands
                 {
                     var command = Activator.CreateInstance(type) as ICommand;
                     var authorizationResult = _commandSecurityManager.Authorize(command);
-                    var name = string.Format("{0}SecurityContext",type.Name.ToCamelCase());
+                    var name = $"{type.Name.ToCamelCase()}SecurityContext";
                     currentNamespace.Content.Assign(name)
-                        .WithType(t =>
-                            t.WithSuper("Bifrost.commands.CommandSecurityContext")
-                                .Function
-                                    .Body
-                                        .Variant("self", v => v.WithThis())
-                                        .Access("this", a=>a
-                                            .WithFunctionCall(f => f
-                                                .WithName("isAuthorized")
-                                                .WithParameters(authorizationResult.IsAuthorized.ToString().ToCamelCase())
-                                            )
-                                        )
-                            );
-
+                        .WithType(t => t
+                            .WithSuper("Bifrost.commands.CommandSecurityContext")
+                            .Function
+                            .Body
+                            .Variant("self", v => v.WithThis())
+                            .Access("this", a => a
+                                .WithFunctionCall(f => f
+                                    .WithName("isAuthorized")
+                                    .WithParameters(authorizationResult.IsAuthorized.ToString().ToCamelCase())
+                                )
+                            )
+                        );
                 }
 
                 result.Append(_codeGenerator.GenerateFrom(currentNamespace));

@@ -7,16 +7,16 @@ using Bifrost.Events;
 
 namespace Bifrost.Domain
 {
-	/// <summary>
-	/// Represents the base class used for aggregated roots in your domain
-	/// </summary>
-	public class AggregateRoot : EventSource, IAggregateRoot
-	{
-		/// <summary>
-		/// Initializes a new instance of an <see cref="AggregateRoot">AggregatedRoot</see>
-		/// </summary>
-		/// <param name="id">Id of the AggregatedRoot</param>
-	    protected AggregateRoot(Guid id) : base(id)
-	    {}
-	}
+    /// <summary>
+    /// Represents the base class used for aggregated roots in your domain
+    /// </summary>
+    public class AggregateRoot : EventSource, IAggregateRoot
+    {
+        /// <summary>
+        /// Initializes a new instance of an <see cref="AggregateRoot">AggregatedRoot</see>
+        /// </summary>
+        /// <param name="id">Id of the AggregatedRoot</param>
+        protected AggregateRoot(Guid id) : base(id)
+        {}
+    }
 }

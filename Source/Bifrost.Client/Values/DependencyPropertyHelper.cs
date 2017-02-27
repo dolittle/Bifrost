@@ -17,141 +17,141 @@ using System.Windows;
 
 namespace Bifrost.Values
 {
-	public static class DependencyPropertyHelper
-	{
-		public static readonly DependencyProperty IsInternalSetProperty =
-			DependencyProperty.RegisterAttached("IsInternalSet", typeof(bool), typeof(DependencyPropertyHelper), null);
+    public static class DependencyPropertyHelper
+    {
+        public static readonly DependencyProperty IsInternalSetProperty =
+            DependencyProperty.RegisterAttached("IsInternalSet", typeof(bool), typeof(DependencyPropertyHelper), null);
 
-		public static readonly DependencyProperty IsNotFirstSetProperty =
-			DependencyProperty.RegisterAttached("IsNotFirstSet", typeof (bool), typeof (DependencyPropertyHelper), null);
+        public static readonly DependencyProperty IsNotFirstSetProperty =
+            DependencyProperty.RegisterAttached("IsNotFirstSet", typeof (bool), typeof (DependencyPropertyHelper), null);
 
-		public static void SetIsInternalSet(DependencyObject obj, bool value)
-		{
-			obj.SetValue(IsInternalSetProperty, value);
-		}
+        public static void SetIsInternalSet(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsInternalSetProperty, value);
+        }
 
-		public static bool GetIsInternalSet(DependencyObject obj)
-		{
-			return (bool)obj.GetValue(IsInternalSetProperty);
-		}
+        public static bool GetIsInternalSet(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsInternalSetProperty);
+        }
 
-		public static void SetIsNotFirstSet(DependencyObject obj, bool value)
-		{
-			obj.SetValue(IsNotFirstSetProperty,value);
-		}
+        public static void SetIsNotFirstSet(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsNotFirstSetProperty,value);
+        }
 
-		public static bool GetIsNotFirstSet(DependencyObject obj)
-		{
-			return (bool) obj.GetValue(IsNotFirstSetProperty);
-		}
+        public static bool GetIsNotFirstSet(DependencyObject obj)
+        {
+            return (bool) obj.GetValue(IsNotFirstSetProperty);
+        }
 
 
-		private static PropertyMetadata GetPropertyMetaData(PropertyInfo propertyInfo, object defaultValue)
-		{
-			var propertyMetadata = new PropertyMetadata(defaultValue,
-			                                            (o, e) =>
-			                                            	{
-			                                            		if (GetIsInternalSet(o))
-			                                            		{
-			                                            			return;
-			                                            		}
-			                                            		if (null == e.OldValue || (!e.OldValue.Equals(e.NewValue)||!GetIsNotFirstSet(o)) )
-			                                            		{
-			                                            			SetIsNotFirstSet(o,true);
-			                                            			Action a = () => propertyInfo.SetValue(o, e.NewValue, null);
+        private static PropertyMetadata GetPropertyMetaData(PropertyInfo propertyInfo, object defaultValue)
+        {
+            var propertyMetadata = new PropertyMetadata(defaultValue,
+                                                        (o, e) =>
+                                                            {
+                                                                if (GetIsInternalSet(o))
+                                                                {
+                                                                    return;
+                                                                }
+                                                                if (null == e.OldValue || (!e.OldValue.Equals(e.NewValue)||!GetIsNotFirstSet(o)) )
+                                                                {
+                                                                    SetIsNotFirstSet(o,true);
+                                                                    Action a = () => propertyInfo.SetValue(o, e.NewValue, null);
 
 #if(NETFX_CORE)
                                                                     if (o.Dispatcher.HasThreadAccess) a();
                                                                     else o.Dispatcher.RunIdleAsync(ide => a());
 #else
-			                                            			if (o.Dispatcher.CheckAccess()) a();
-			                                            			else o.Dispatcher.BeginInvoke(a);
+                                                                    if (o.Dispatcher.CheckAccess()) a();
+                                                                    else o.Dispatcher.BeginInvoke(a);
 #endif
-			                                            		}
-			                                            	});
-			return propertyMetadata;
-		}
+                                                                }
+                                                            });
+            return propertyMetadata;
+        }
 
 
-		public static DependencyProperty Register<T, TResult>(Expression<Func<T, TResult>> expression)
-		{
-			return Register<T, TResult>(expression, default(TResult));
-		}
+        public static DependencyProperty Register<T, TResult>(Expression<Func<T, TResult>> expression)
+        {
+            return Register<T, TResult>(expression, default(TResult));
+        }
 
-		public static DependencyProperty Register<T, TResult>(Expression<Func<T, TResult>> expression, TResult defaultValue)
-		{
-			var propertyInfo = expression.GetPropertyInfo();
+        public static DependencyProperty Register<T, TResult>(Expression<Func<T, TResult>> expression, TResult defaultValue)
+        {
+            var propertyInfo = expression.GetPropertyInfo();
 
-			var prop = DependencyProperty.Register(
-				propertyInfo.Name,
-				propertyInfo.PropertyType,
-				typeof(T),
-				GetPropertyMetaData(propertyInfo, defaultValue));
+            var prop = DependencyProperty.Register(
+                propertyInfo.Name,
+                propertyInfo.PropertyType,
+                typeof(T),
+                GetPropertyMetaData(propertyInfo, defaultValue));
 
-			return prop;
-		}
+            return prop;
+        }
 
 
-		private static object GetDependencyPropertyByPropertyName(Type root, string propertyName, out string propertyPath)
-		{
+        private static object GetDependencyPropertyByPropertyName(Type root, string propertyName, out string propertyPath)
+        {
 
-			if (root.Equals(typeof(object)))
-			{
-				propertyPath = string.Empty;
-				return null;
-			}
+            if (root.Equals(typeof(object)))
+            {
+                propertyPath = string.Empty;
+                return null;
+            }
 #if(NETFX_CORE)
             var fields = root.GetTypeInfo().DeclaredFields.Where(f => f.IsStatic && f.IsPublic);
 #else
-			var fields = root.GetFields(BindingFlags.Static | BindingFlags.Public);
+            var fields = root.GetFields(BindingFlags.Static | BindingFlags.Public);
 #endif
-			foreach (var field in fields)
-			{
-				if (field.Name.Contains(propertyName))
-				{
-					var dependencyProperty = field.GetValue(null);
+            foreach (var field in fields)
+            {
+                if (field.Name.Contains(propertyName))
+                {
+                    var dependencyProperty = field.GetValue(null);
 
-					propertyPath = root.Name + "." + propertyName;
+                    propertyPath = root.Name + "." + propertyName;
 
-					return dependencyProperty;
-				}
-			}
+                    return dependencyProperty;
+                }
+            }
 
 #if(NETFX_CORE)
             var baseType = root.GetTypeInfo().BaseType;
 #else
             var baseType = root.BaseType;
 #endif
-			var property = GetDependencyPropertyByPropertyName(baseType, propertyName, out propertyPath);
-			return property;
-		}
+            var property = GetDependencyPropertyByPropertyName(baseType, propertyName, out propertyPath);
+            return property;
+        }
 
 
-		public static DependencyProperty GetDependencyPropertyByPropertyName(FrameworkElement element, string propertyName, out string propertyPath)
-		{
-			var type = element.GetType();
-			var fieldValue = GetDependencyPropertyByPropertyName(type, propertyName, out propertyPath);
+        public static DependencyProperty GetDependencyPropertyByPropertyName(FrameworkElement element, string propertyName, out string propertyPath)
+        {
+            var type = element.GetType();
+            var fieldValue = GetDependencyPropertyByPropertyName(type, propertyName, out propertyPath);
 
-			if (fieldValue is DependencyProperty)
-			{
-				return fieldValue as DependencyProperty;
-			}
-			else
-			{
+            if (fieldValue is DependencyProperty)
+            {
+                return fieldValue as DependencyProperty;
+            }
+            else
+            {
 #if(NETFX_CORE)
                 var property = fieldValue.GetType().GetTypeInfo().DeclaredProperties.Single(p => p.Name == "ActualDependencyProperty");
 #else
-				var property = fieldValue.GetType().GetProperty("ActualDependencyProperty");
+                var property = fieldValue.GetType().GetProperty("ActualDependencyProperty");
 #endif
-				if (null != property)
-				{
-					var actualDependencyProperty = property.GetValue(fieldValue, null) as DependencyProperty;
-					return actualDependencyProperty;
-				}
+                if (null != property)
+                {
+                    var actualDependencyProperty = property.GetValue(fieldValue, null) as DependencyProperty;
+                    return actualDependencyProperty;
+                }
 
 
-			}
-			return null;
-		}
-	}
+            }
+            return null;
+        }
+    }
 }

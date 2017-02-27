@@ -4,13 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
+using Bifrost.Conventions;
 
 namespace Bifrost.Mapping
 {
     /// <summary>
-    /// Defines a mapping target - more specifically you should look at <see cref="IMappingTargetFor"/>
+    /// Defines a mapping target - more specifically you should look at <see cref="IMappingTargetFor{T}"/>.
     /// </summary>
-    public interface IMappingTarget
+    /// <remarks>
+    /// Types inheriting from this interface will be automatically registered.
+    /// You most likely want to subclass <see cref="MappingTargetFor{T}"/>.
+    /// </remarks>
+    public interface IMappingTarget : IConvention
     {
         /// <summary>
         /// Gets the type of target object

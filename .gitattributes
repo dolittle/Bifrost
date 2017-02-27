@@ -1,8 +1,10 @@
 * text eol=lf
 
-*.jpg  	binary
-*.png 	binary
-*.gif 	binary
+*.jpg   binary
+*.png   binary
+*.gif   binary
+*.dll   binary
+*.exe   binary
 
 *.cs diff=csharp 
-*.sln text eol=lf
+*.sln text eol=crlf

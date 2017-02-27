@@ -27,18 +27,10 @@ namespace Bifrost.Web.SignalR
                 catch { }
 
             return service;
-
-            /*
-            if (!IsSignalRInternalType(serviceType))
-            //if( _container.HasBindingFor(serviceType) )
-                return _container.Get(serviceType);
-
-            return base.GetService(serviceType);*/
         }
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            //if (!IsSignalRInternalType(serviceType) )
             if (_container.HasBindingFor(serviceType))
                 return _container.GetAll(serviceType).Concat(base.GetServices(serviceType));
 

@@ -7,9 +7,9 @@ using System.Security.Principal;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
+using Bifrost.Exceptions;
 using Bifrost.Execution;
 using Bifrost.Globalization;
-using Bifrost.Principal;
 using Bifrost.Sagas;
 using Bifrost.Security;
 using Bifrost.Testing.Exceptions;
@@ -39,9 +39,9 @@ namespace Bifrost.Testing
         Mock<ICallContext> call_context_mock;
         IExecutionContextManager execution_context_manager;
         Mock<ICanValidate<T>> null_validator_mock;
-        ICanValidate<T> null_validator;
 
         dynamic command_handler;
+        ICanValidate<T> null_validator;
         ICanValidate<T> input_validator;
         ICanValidate<T> business_validator;
         IPrincipal principal;
@@ -79,7 +79,8 @@ namespace Bifrost.Testing
                                         command_context_manager, 
                                         command_security_manager_mock.Object,
                                         command_validators_mock.Object,
-                                        localizer.Object);
+                                        localizer.Object,
+                                        Mock.Of<IExceptionPublisher>());
 
             null_validator_mock = new Mock<ICanValidate<T>>();
             null_validator = null_validator_mock.Object;
@@ -145,13 +146,12 @@ namespace Bifrost.Testing
         public CommandResult IsHandled(ICommand command)
         {
             if (command_handler == null)
-                throw new Exception("You must specify a command handler before calling CommandIsHandled");
-
-            using(var currentPrincipal = CurrentPrincipal.SetPrincipalTo(principal))
             {
-                result_of_scenario = command_coordinator.Handle(command);
-                return result_of_scenario;
+                throw new Exception("You must specify a command handler before calling CommandIsHandled");
             }
+
+            result_of_scenario = command_coordinator.Handle(command);
+            return result_of_scenario;
         }
 
         void RecordGeneratedEvents(UncommittedEventStream ues)

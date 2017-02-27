@@ -106,6 +106,7 @@
     <Compile Include="Commands\for_CommandHandlerInvoker\Subjects.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_automatically_discovered_command_handlers.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_manually_registered_command_handlers.cs" />
+    <Compile Include="Commands\for_CommandHandlerInvoker\when_receiving_asynchronous_initialization.cs" />
     <Compile Include="Commands\for_CommandHandlerInvoker\when_handling_with_no_command_handlers.cs" />
     <Compile Include="Commands\for_CommandHandlerManager\given\a_command_handler_manager.cs" />
     <Compile Include="Commands\for_CommandHandlerManager\when_handling_a_command_without_a_command_handler.cs" />
@@ -432,8 +433,6 @@
     <Compile Include="Mapping\for_PropertyMapExtensions\when_specifying_to_property.cs" />
     <Compile Include="Mapping\for_TargetPropertyMappingStrategy\Target.cs" />
     <Compile Include="Mapping\for_TargetPropertyMappingStrategy\when_performing.cs" />
-    <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly.cs" />
-    <Compile Include="Principals\for_CurrentPrincipal\when_setting_the_current_principal_explicitly_multitple_times.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_query.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\when_authorizing_a_read_model_of.cs" />
     <Compile Include="Read\for_FetchingSecurityManager\given\a_fetching_security_manager.cs" />
@@ -829,11 +828,6 @@
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
     <Compile Include="Views\Stubs.cs" />
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Globalization\for_Localizer\given\" />
-    <Folder Include="Security\for_SecurityActorExtensions\" />
-    <Folder Include="Security\for_SecurityDescriptorBuilder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="project.json" />

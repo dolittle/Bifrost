@@ -55,11 +55,11 @@ namespace Bifrost.Serialization
         /// <returns><see cref="Stream"/> containing the serialized instance</returns>
         Stream ToJsonStream(object instance, ISerializationOptions options = null);
 
-		/// <summary>
-		/// Deserialize Json into a key/value dictionary
-		/// </summary>
-		/// <param name="json">Json to deserialize</param>
-		/// <returns>A dictionary holding all properties and values in the Json</returns>
-		IDictionary<string, object> GetKeyValuesFromJson(string json);
-	}
+        /// <summary>
+        /// Deserialize Json into a key/value dictionary
+        /// </summary>
+        /// <param name="json">Json to deserialize</param>
+        /// <returns>A dictionary holding all properties and values in the Json</returns>
+        IDictionary<string, object> GetKeyValuesFromJson(string json);
+    }
 }

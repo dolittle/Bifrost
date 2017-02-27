@@ -73,46 +73,4 @@
         var result = valuePipeline.getValueForView(element, value);
         oldSetHtml(element, result);
     };
-
-    /*
-    Bifrost.values.valuePipeline.getValueForView = function (element, bindingHandlerName, value) {
-        var result = valuePipeline.getValueForView(element, bindingHandlerName, value);
-        return result;
-    }
-
-    var complexExpressionCharacters = [";", "+", "-", "(", ")", "'"];
-    function isComplexExpression(expression) {
-        for (var charIndex = 0; charIndex < expression.length; charIndex++) {
-            for (var complexCharIndex = 0; complexCharIndex < complexExpressionCharacters.length; complexCharIndex++) {
-                if (expression[charIndex] == complexExpressionCharacters[complexCharIndex]) return true;
-            }
-        }
-        
-        return false;
-    }
-
-    var oldWriteValueToProperty = ko.expressionRewriting.writeValueToProperty;
-    ko.expressionRewriting.writeValueToProperty = function (property, allBindings, key, value, checkIfDifferent) {
-        value = valuePipeline.getValueForProperty(property, value);
-        return oldWriteValueToProperty(property, allBindings, key, value, checkIfDifferent);
-    };
-
-    var oldPreProcessBindings = ko.expressionRewriting.preProcessBindings;
-    ko.expressionRewriting.preProcessBindings = function (bindingsStringOrKeyValueArray, bindingOptions) {
-        var bindings = ko.expressionRewriting.parseObjectLiteral(bindingsStringOrKeyValueArray);
-        var bindingString = "";
-        bindings.forEach(function (binding) {
-            var bindingHandler = binding.key;
-            var expression = binding.value;
-            var rewrittenExpression = expression;
-            if (!isComplexExpression(expression) && expression[0] != '{') {
-                rewrittenExpression = "Bifrost.values.valuePipeline.getValueForView($element, '"+bindingHandler+"', " + expression + ")";
-            }
-            if( bindingString !== "" ) bindingString = bindingString +", ";
-            bindingString = bindingString + bindingHandler + ":" + rewrittenExpression;
-        });
-
-        var result = oldPreProcessBindings(bindingString, bindingOptions);
-        return result;
-    };*/
 })();

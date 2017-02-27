@@ -7,13 +7,13 @@ namespace Bifrost.Content.Resources
     /// <summary>
     /// Defines the functionality needed by a Resource Resolver
     /// </summary>
-	public interface IResourceResolver
-	{
+    public interface IResourceResolver
+    {
         /// <summary>
         /// Resolve a string resource based upon name
         /// </summary>
         /// <param name="name">Name of resource</param>
         /// <returns>A resolved resource string</returns>
-		string Resolve(string name);
-	}
+        string Resolve(string name);
+    }
 }

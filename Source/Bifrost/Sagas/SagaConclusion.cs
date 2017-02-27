@@ -6,11 +6,11 @@ using Bifrost.Commands;
 
 namespace Bifrost.Sagas
 {
-	/// <summary>
-	/// Represents the conclusion of a saga
-	/// </summary>
-	public class SagaConclusion : CommandResult
-	{
-		
-	}
+    /// <summary>
+    /// Represents the conclusion of a saga
+    /// </summary>
+    public class SagaConclusion : CommandResult
+    {
+        
+    }
 }

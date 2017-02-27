@@ -5,8 +5,12 @@
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Defines a query for a specified type, typically a ReadModel
+    /// Defines a query for an unspecified type, but typically an <see cref="IReadModel"/>.
     /// </summary>
+    /// <remarks>
+    /// Implementing types must define a Query property with a getter having a return type that is supported by
+    /// an implementation of <see cref="IQueryProviderFor{T}"/>.
+    /// </remarks>
     public interface IQuery
     {
     }
