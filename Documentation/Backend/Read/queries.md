@@ -151,15 +151,36 @@ public class QuerySecurity : BaseSecurityDescriptor
 
 ## Proxy Generation
 
-## QueryCoordinator
+All queries written in C# has a JavaScript counterpart when using the proxying.
+Read more about proxy generation [here](../../Frontend/proxy_generation.md).
 
 ## QueryResult
+
+At the top of the pipeline sits the `QueryCoordinator`, this will execute the query and return a
+`QueryResult`object.
+
+| Property         | Type                    | Description                                         |
+| ---------------- | ----------------------- | --------------------------------------------------- |
+| Items            | `IEnumerable`           | Contains the items                                  |
+| TotalItems       | `Integer`               | Total number of items returned                      |
+| QueryName        | `Boolean`               | Name of the query                                   |
+| Exception        | `Exception`             | If there was an exception, this holds the exception |
+| SecurityMessages | `IEnumerable<string>`   | Contains any messages from volated security rules   |
+| Validation       | `QueryValidationResult` | Validation details related to the query             |
+| PassedSecurity   | `Boolean`               | True if passed security                             |
+| Success          | `Boolean`               | True if considered successful                       |
+| Invalid          | `Boolean`               | True if not considered successful                   |
+
 
 ## Query provider - Extension point
 
 ```csharp
 
 ```
+
+## Pipeline
+
+![Query Pipeline](Images/query_pipeline.png)
 
 
 
