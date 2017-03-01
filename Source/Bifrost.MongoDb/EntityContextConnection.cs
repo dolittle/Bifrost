@@ -4,27 +4,33 @@
  *--------------------------------------------------------------------------------------------*/
 using Bifrost.Entities;
 using Bifrost.Execution;
-using Bifrost.MongoDB.Concepts;
+using Bifrost.MongoDb.Concepts;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.MongoDb
 {
     public class EntityContextConnection : IEntityContextConnection
     {
-        public string ConnectionString { get; private set; }
-        public string DatabaseName { get; private set; }
-
-        public MongoServer Server { get; private set; }
-        public MongoDatabase Database { get; private set; }
+        public MongoClient Server { get; private set; }
+        public IMongoDatabase Database { get; private set; }
 
         public EntityContextConnection(EntityContextConfiguration configuration)
         {
-            ConnectionString = configuration.Url;
-            DatabaseName = configuration.DefaultDatabase;
+            var s = MongoClientSettings.FromUrl(new MongoUrl(configuration.Url));
+            if (configuration.UseSSL)
+            {
+                s.UseSsl = true;
+                s.SslSettings = new SslSettings
+                {
+                    EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12,
+                    CheckCertificateRevocation = false
+                };
+            }
 
-            Server = MongoServer.Create(ConnectionString);
-            Database = Server.GetDatabase(DatabaseName);
+            Server = new MongoClient(s);
+            Database = Server.GetDatabase(configuration.DefaultDatabase);
+
             BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
         }
 
