@@ -25,6 +25,6 @@ namespace Bifrost.Specs.Utils.for_StringMapper
 
         Because of = () => result = mapper.Resolve(input);
 
-        It should_return_empty = () => result.ShouldEqual(string.Empty);
+        It should_return_null = () => result.ShouldBeNull();
     }
 }

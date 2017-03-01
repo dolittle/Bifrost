@@ -15,24 +15,16 @@ namespace Bifrost.Utils
         List<IStringMapping> _mappings = new List<IStringMapping>();
 
 #pragma warning disable 1591 // Xml Comments
-        public IEnumerable<IStringMapping> Mappings { get { return _mappings; } }
+        public IEnumerable<IStringMapping> Mappings => _mappings;
 
         public bool HasMappingFor(string input)
         {
-            foreach (var mapping in Mappings)
-                if (mapping.Matches(input))
-                    return true;
-
-            return false;
+            return Mappings.Any(mapping => mapping.Matches(input));
         }
 
         public IStringMapping GetFirstMatchingMappingFor(string input)
         {
-            foreach (var mapping in Mappings)
-                if (mapping.Matches(input))
-                    return mapping;
-
-            return null;
+            return Mappings.FirstOrDefault(mapping => mapping.Matches(input));
         }
 
         public IEnumerable<IStringMapping> GetAllMatchingMappingsFor(string input)
@@ -42,11 +34,7 @@ namespace Bifrost.Utils
 
         public string Resolve(string input)
         {
-            var mapping = GetFirstMatchingMappingFor(input);
-            if (mapping != null)
-                return mapping.Resolve(input);
-
-            return string.Empty;
+            return GetFirstMatchingMappingFor(input)?.Resolve(input);
         }
 
         public void AddMapping(string format, string mappedFormat)
