@@ -40,8 +40,8 @@
         "debugType": "portable"
     },
     "dependencies": {
-        "Bifrost": "1.0.0-*",
-        "mongocsharpdriver": "1.9.2"
+					"Bifrost": "1.0.0-*",
+					"MongoDB.Driver": "2.4.2"
     },
     "runtimes": {
         "win": {}

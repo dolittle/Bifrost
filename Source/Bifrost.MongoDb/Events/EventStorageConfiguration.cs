@@ -4,21 +4,15 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Net;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
     /// <summary>
     /// Represents the configuration for <see cref="EventStore"/>
     /// </summary>
     public class EventStorageConfiguration
     {
-        /// <summary>
-        /// Gets or sets the Url for the mongo server
-        /// </summary>
         public string Url { get; set; }
-
-        /// <summary>
-        /// Gets or sets the default database to use
-        /// </summary>
+        public bool UseSSL { get; set; }
         public string DefaultDatabase { get; set; }
     }
 }

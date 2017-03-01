@@ -7,85 +7,91 @@ using Bifrost.Entities;
 using Bifrost.Concepts;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using MongoDB.Driver.Builders;
+using System.Reflection;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.MongoDb
 {
-    public class EntityContext<T> : IEntityContext<T>
-    {
-        EntityContextConnection _connection;
-        string _collectionName;
-        MongoCollection<T> _collection;
+	public class EntityContext<T> : IEntityContext<T>
+	{
+		EntityContextConnection _connection;
+		string _collectionName;
+		IMongoCollection<T> _collection;
 
-        public EntityContext(EntityContextConnection connection)
-        {
-            _connection = connection;
-            _collectionName = typeof(T).Name;
-            if( !_connection.Database.CollectionExists(_collectionName) )
-                _connection.Database.CreateCollection(_collectionName);
+		public EntityContext(EntityContextConnection connection)
+		{
+			_connection = connection;
+			_collectionName = typeof(T).Name;
 
-            _collection = _connection.Database.GetCollection<T>(_collectionName);
-        }
+			_collection = _connection.Database.GetCollection<T>(_collectionName);
+		}
 
 
-        public IQueryable<T> Entities
-        {
-            get { return _collection.FindAll().AsQueryable(); }
-        }
+		public IQueryable<T> Entities
+		{
+			get { return _collection.AsQueryable<T>(); }
+		}
 
-        public void Attach(T entity)
-        {
-        }
+		public void Attach(T entity)
+		{
+		}
 
-        public void Insert(T entity)
-        {
-            _collection.Insert(entity);
-        }
+		public void Insert(T entity)
+		{
+			_collection.InsertOne(entity);
+		}
 
-        public void Update(T entity)
-        {
-            Save(entity);
-        }
+		public void Update(T entity)
+		{
+			Save(entity);
+		}
 
-        public void Delete(T entity)
-        {
-        }
+		public void Delete(T entity)
+		{
+		}
 
-        public void Save(T entity)
-        {
-            _collection.Save(entity);
-        }
+		public void Save(T entity)
+		{
+			var idProperty = GetIdProperty(entity);
 
-        public void Commit()
-        {
-        }
+			var filter = Builders<T>.Filter.Eq("_id", idProperty.GetValue(entity));
+			_collection.ReplaceOne(filter, entity, new UpdateOptions() { IsUpsert = true });
+		}
 
-        public void Dispose()
-        {
-        }
+		public void Commit()
+		{
+		}
 
+		public void Dispose()
+		{
+		}
 
-        public T GetById<TProperty>(TProperty id)
-        {
-            var objectId = GetObjectId(id);
-            return _collection.FindOneById(objectId);
-        }
-
-        BsonValue GetObjectId<TProperty>(TProperty id)
-        {
-            object idValue = id;
-
-            if (id.IsConcept()) idValue = id.GetConceptValue();
-
-            var idAsValue = BsonValue.Create(idValue);
-            return idAsValue;
-        }
+		PropertyInfo GetIdProperty(T entity)
+		{
+			return typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.Name.ToLowerInvariant() == "id").First();
+		}
 
 
-        public void DeleteById<TProperty>(TProperty id)
-        {
-            var objectId = GetObjectId(id);
-            _collection.Remove(Query.EQ("_id", objectId));
-        }
-    }
+		public T GetById<TProperty>(TProperty id)
+		{
+			var objectId = GetObjectId(id);
+			return _collection.Find(Builders<T>.Filter.Eq("_id", objectId)).FirstOrDefault();
+		}
+
+		BsonValue GetObjectId<TProperty>(TProperty id)
+		{
+			object idValue = id;
+
+			if (id.IsConcept()) idValue = id.GetConceptValue();
+
+			var idAsValue = BsonValue.Create(idValue);
+			return idAsValue;
+		}
+
+
+		public void DeleteById<TProperty>(TProperty id)
+		{
+			var objectId = GetObjectId(id);
+			_collection.DeleteOne(Builders<T>.Filter.Eq("id", objectId));
+		}
+	}
 }

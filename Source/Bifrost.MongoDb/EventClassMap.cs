@@ -5,7 +5,7 @@
 using Bifrost.Events;
 using MongoDB.Bson.Serialization;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.MongoDb
 {
     public class EventClassMap : BsonClassMap<IEvent>
     {
