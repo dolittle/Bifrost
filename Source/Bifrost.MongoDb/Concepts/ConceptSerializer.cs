@@ -100,9 +100,5 @@ namespace Bifrost.MongoDb.Concepts
             else if (underlyingValueType == typeof(decimal))
                 bsonWriter.WriteString(underlyingValue?.ToString() ?? default(decimal).ToString());
         }
-
-        public void SetDocumentId(object document, object id)
-        {
-        }
     }
 }
