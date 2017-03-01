@@ -9,18 +9,18 @@ using System.Reflection;
 using Bifrost.Events;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
+using MongoDB.Bson;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
     public class EventSubscriptions : IEventSubscriptions
     {
         const string CollectionName = "EventSubscriptions";
 
         EventStorageConfiguration _configuration;
-        MongoServer _server;
-        MongoDatabase _database;
-        MongoCollection<EventSubscription> _collection;
+        MongoClient _server;
+        IMongoDatabase _database;
+        IMongoCollection<EventSubscription> _collection;
 
         static EventSubscriptions()
         {
@@ -37,10 +37,20 @@ namespace Bifrost.MongoDB.Events
 
         void Initialize()
         {
-            _server = MongoServer.Create(_configuration.Url);
-            _database = _server.GetDatabase(_configuration.DefaultDatabase);
-            if (!_database.CollectionExists(CollectionName))
-                _database.CreateCollection(CollectionName);
+            var s = MongoClientSettings.FromUrl(new MongoUrl(_configuration.Url));
+            if (_configuration.UseSSL)
+            {
+                s.UseSsl = true;
+                s.SslSettings = new SslSettings
+                {
+                    EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12,
+                    CheckCertificateRevocation = false
+                };
+            }
+
+            _server = new MongoClient(s);
+
+			_database = _server.GetDatabase(_configuration.DefaultDatabase);
 
             _collection = _database.GetCollection<EventSubscription>(CollectionName);
         }
@@ -48,18 +58,21 @@ namespace Bifrost.MongoDB.Events
 
         public IEnumerable<EventSubscription> GetAll()
         {
-            return _collection.FindAll().ToArray();
+            return _collection.Find(new BsonDocument()).ToList();
         }
 
         public void Save(EventSubscription subscription)
         {
-            _collection.Save(subscription);
+			var filter = Builders<EventSubscription>.Filter.Eq(s => s.Id, subscription.Id);
+			//var update = Builders<EventSubscription>.Update.
+            _collection.ReplaceOne(filter, subscription, new UpdateOptions() { IsUpsert  = true });
         }
 
         public void ResetLastEventForAllSubscriptions()
         {
-            var update = Update.Set("LastEventId",0);
-            _collection.Update(Query.Null, update, UpdateFlags.Multi);
+            var update = Builders<EventSubscription>.Update.Set(s => s.LastEventId, 0);
+			
+			_collection.UpdateMany(new BsonDocument(), update);
         }
     }
 }

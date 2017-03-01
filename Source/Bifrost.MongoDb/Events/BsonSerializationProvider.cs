@@ -6,7 +6,7 @@ using System;
 using System.Reflection;
 using MongoDB.Bson.Serialization;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
     public class BsonSerializationProvider : IBsonSerializationProvider
     {

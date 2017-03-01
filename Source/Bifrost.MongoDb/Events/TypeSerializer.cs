@@ -7,44 +7,30 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Options;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
-    public class TypeSerializer : IBsonSerializer
-    {
-        public object Deserialize(BsonReader bsonReader, Type nominalType, Type actualType, IBsonSerializationOptions options)
-        {
-            var typeName = bsonReader.ReadString();
-            var type = Type.GetType(typeName);
-            return type;
-        }
+	public class TypeSerializer : IBsonSerializer
+	{
+		public Type ValueType
+		{
+			get
+			{
+				return typeof(Type);
+			}
+		}
+		public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+		{
+			var bsonReader = context.Reader;
+			var typeName = bsonReader.ReadString();
+			var type = Type.GetType(typeName);
+			return type;
+		}
 
-        public void Serialize(BsonWriter bsonWriter, Type nominalType, object value, IBsonSerializationOptions options)
-        {
-            var type = (Type)value;
-            bsonWriter.WriteString(type.AssemblyQualifiedName);
-        }
-
-
-
-        public object Deserialize(BsonReader bsonReader, Type nominalType, IBsonSerializationOptions options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GetDocumentId(object document, out object id, out Type idNominalType, out IIdGenerator idGenerator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetDocumentId(object document, object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBsonSerializationOptions GetDefaultSerializationOptions()
-        {
-            var options = new DocumentSerializationOptions();
-            return options;
-        }
-    }
+		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
+		{
+			var type = (Type)value;
+			var bsonWriter = context.Writer;
+			bsonWriter.WriteString(type.AssemblyQualifiedName);
+		}
+	}
 }
