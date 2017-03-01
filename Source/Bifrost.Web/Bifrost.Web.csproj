@@ -55,7 +55,6 @@
     <Compile Include="Applications\ApplicationRoute.cs" />
     <Compile Include="Applications\ApplicationRouteHandler.cs" />
     <Compile Include="Applications\ApplicationRouteHttpHandler.cs" />
-    <Compile Include="AssemblySpecifier.cs" />
     <Compile Include="Assets\AssetManagerRoute.cs" />
     <Compile Include="Assets\AssetManagerRouteHandler.cs" />
     <Compile Include="Assets\AssetManagerRouteHttpHandler.cs" />

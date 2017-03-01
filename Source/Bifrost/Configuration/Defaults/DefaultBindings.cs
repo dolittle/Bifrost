@@ -12,14 +12,14 @@ namespace Bifrost.Configuration.Defaults
     /// </summary>
     public class DefaultBindings : IDefaultBindings
     {
-        AssembliesConfiguration _assembliesConfiguration;
-        IAssemblyProvider _assemblyProvider;
-        IContractToImplementorsMap _contractToImplentorsMap;
+        readonly IAssembliesConfiguration _assembliesConfiguration;
+        readonly IAssemblyProvider _assemblyProvider;
+        readonly IContractToImplementorsMap _contractToImplentorsMap;
 
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultBindings"/>
         /// </summary>
-        public DefaultBindings(AssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider, IContractToImplementorsMap contractToImplentorsMap)
+        public DefaultBindings(IAssembliesConfiguration assembliesConfiguration, IAssemblyProvider assemblyProvider, IContractToImplementorsMap contractToImplentorsMap)
         {
             _assembliesConfiguration = assembliesConfiguration;
             _assemblyProvider = assemblyProvider;
@@ -31,7 +31,7 @@ namespace Bifrost.Configuration.Defaults
         {
             container.Bind(container);
             container.Bind<IContractToImplementorsMap>(_contractToImplentorsMap);
-            container.Bind<AssembliesConfiguration>(_assembliesConfiguration);
+            container.Bind<IAssembliesConfiguration>(_assembliesConfiguration);
             container.Bind<IAssemblyProvider>(_assemblyProvider);
             container.Bind<IAssemblies>(typeof(global::Bifrost.Execution.Assemblies), BindingLifecycle.Singleton);
             container.Bind<ITypeDiscoverer>(typeof(TypeDiscoverer), BindingLifecycle.Singleton);

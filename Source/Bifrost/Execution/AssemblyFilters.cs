@@ -11,13 +11,13 @@ namespace Bifrost.Execution
     /// </summary>
     public class AssemblyFilters : IAssemblyFilters
     {
-        AssembliesConfiguration _assembliesConfiguration;
+        readonly IAssembliesConfiguration _assembliesConfiguration;
 
         /// <summary>
         /// Initializes an instance of <see cref="AssemblyFilters"/>
         /// </summary>
         /// <param name="assembliesConfiguration"></param>
-        public AssemblyFilters(AssembliesConfiguration assembliesConfiguration)
+        public AssemblyFilters(IAssembliesConfiguration assembliesConfiguration)
         {
             _assembliesConfiguration = assembliesConfiguration;
         }

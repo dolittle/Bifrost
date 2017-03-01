@@ -7,17 +7,13 @@ using Bifrost.Specifications;
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
-    /// and used for the <see cref="Assemblies"/>
+    /// Defines a configuration for how to include or exclude assemblies.
     /// </summary>
-    public class IncludeAllRule : Specification<string>
+    public interface IAssembliesConfiguration
     {
         /// <summary>
-        /// Initializes an instance of <see cref="IncludeAllRule"/>
+        /// Get the specification to use.
         /// </summary>
-        public IncludeAllRule()
-        {
-            Predicate = a => true;
-        }
+        Specification<string> Specification { get; set; }
     }
 }

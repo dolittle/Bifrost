@@ -8,18 +8,14 @@ using Bifrost.Execution;
 namespace Bifrost
 {
     /// <summary>
-    /// Reperesents an <see cref="ICanSpecifyAssemblies">assembly specifier</see> for client aspects
+    /// Represents an <see cref="ICanSpecifyAssemblies">assembly specifier</see> for client aspects.
     /// </summary>
     public class AssemblySpecifier : ICanSpecifyAssemblies
     {
 #pragma warning disable 1591 // Xml Comments
-        public void Specify(IAssemblyRuleBuilder builder)
+        public void Specify(IAssembliesConfiguration configuration)
         {
-            builder.ExcludeAssembliesStartingWith(
-                "System",
-                "mscorlib",
-                "Microsoft"
-            );
+            configuration.IncludeAssembliesStartingWith("Bifrost");
         }
 #pragma warning disable 1591 // Xml Comments
     }

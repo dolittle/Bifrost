@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bifrost.Configuration.Assemblies;
@@ -15,35 +16,82 @@ namespace Bifrost.Execution
     /// </summary>
     public class AssemblySpecifiers : IAssemblySpecifiers
     {
-        ITypeFinder _typeFinder;
-        IContractToImplementorsMap _contractToImplementorsMap;
-        IAssemblyRuleBuilder _assemblyRuleBuilder;
+        static readonly object LockObject = new object();
+
+        readonly IAssembliesConfiguration _assembliesConfiguration;
+        readonly ISet<string> _specifiedAssemblies;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblySpecifiers"/>
         /// </summary>
-        /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
-        /// <param name="typeFinder"><see cref="ITypeFinder"/> to use for finding types</param>
-        /// <param name="assemblyRuleBuilder"><see cref="IAssemblyRuleBuilder"/> used for building the rules for assemblies</param>
-        public AssemblySpecifiers(IContractToImplementorsMap contractToImplementorsMap, ITypeFinder typeFinder, IAssemblyRuleBuilder assemblyRuleBuilder)
+        public AssemblySpecifiers(IAssembliesConfiguration assembliesConfiguration)
         {
-            _typeFinder = typeFinder;
-            _assemblyRuleBuilder = assemblyRuleBuilder;
-            _contractToImplementorsMap = contractToImplementorsMap;
+            _assembliesConfiguration = assembliesConfiguration;
+            _specifiedAssemblies = new HashSet<string>();
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public void SpecifyUsingSpecifiersFrom(Assembly assembly)
+        public bool SpecifyUsingSpecifiersFrom(Assembly assembly)
         {
-            _typeFinder
-                .FindMultiple<ICanSpecifyAssemblies>(_contractToImplementorsMap)
-                .Where(t => t.GetTypeInfo().Assembly.FullName == assembly.FullName)
-                .Where(type => type.HasDefaultConstructor())
-                .ForEach(type =>
+            lock (LockObject)
+            {
+                if (_specifiedAssemblies.Contains(assembly.FullName))
                 {
-                    var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
-                    specifier.Specify(_assemblyRuleBuilder);
-                });
+                    return false;
+                }
+
+                _specifiedAssemblies.Add(assembly.FullName);
+
+                var specified = false;
+                if (MayReferenceICanSpecifyAssemblies(assembly))
+                {
+                    try
+                    {
+                        specified = assembly
+                            .GetTypes()
+                            .Where(t => t.GetTypeInfo().GetInterfaces().Contains(typeof(ICanSpecifyAssemblies)))
+                            .Select(SpecifyFrom)
+                            .ToList()
+                            .Count > 0;
+                    }
+                    catch (ReflectionTypeLoadException e)
+                    {
+                        throw new AssemblySpecificationException(
+                            $"Error while reflecting on the types of {assembly.FullName}. Loader exceptions encountered:\n" +
+                            string.Join("\n", e.LoaderExceptions.Select(l => l.Message).Distinct()));
+                    }
+                }
+
+                return specified;
+            }
+        }
+
+        ICanSpecifyAssemblies SpecifyFrom(Type type)
+        {
+            try
+            {
+                var specifier = Activator.CreateInstance(type) as ICanSpecifyAssemblies;
+                specifier.Specify(_assembliesConfiguration);
+                return specifier;
+            }
+            catch (MissingMethodException)
+            {
+                throw new AssemblySpecificationException(
+                    $"Could not create instance of type {type.FullName}. It must have a default constructor.");
+            }
+            catch (Exception e)
+            {
+                throw new AssemblySpecificationException(
+                    $"Error while specifying assemblies from {type.FullName}: {e.Message}",
+                    e);
+            }
+        }
+
+        static bool MayReferenceICanSpecifyAssemblies(Assembly assembly)
+        {
+            return
+                assembly.FullName.Contains("Bifrost") ||
+                assembly.GetReferencedAssemblies().Any(a => a.FullName.Contains("Bifrost"));
         }
 #pragma warning restore 1591 // Xml Comments
     }
