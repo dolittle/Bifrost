@@ -97,15 +97,14 @@ namespace Bifrost.Sagas
             Commit();
         }
 
-        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, EventSourceId eventSourceId)
         {
             var stream = _eventStore.GetForEventSource(eventSource, eventSourceId);
             var sagaStream = _saga.GetForEventSource(eventSource, eventSourceId);
-            stream.Append(sagaStream);
-            return stream;
+            return new CommittedEventStream(eventSourceId, stream);
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, EventSourceId eventSourceId)
         {
             var eventStoreVersion = _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
             var sagaVersion = _saga.GetLastCommittedVersion(eventSource, eventSourceId);
@@ -115,15 +114,15 @@ namespace Bifrost.Sagas
 #pragma warning restore 1591 // Xml Comments
 
 
-        void ProcessEvents(IEnumerable<IEvent> events)
+        void ProcessEvents(IEnumerable<EventEnvelopeAndEvent> events)
         {
-            foreach (var @event in events)
+            foreach (var eventAndEnvelope in events)
             {
                 var chapters = _saga.Chapters;
                 foreach (var chapter in chapters )
-                    _processMethodInvoker.TryProcess(chapter, @event);
+                    _processMethodInvoker.TryProcess(chapter, eventAndEnvelope.Event);
 
-                _processMethodInvoker.TryProcess(_saga, @event);
+                _processMethodInvoker.TryProcess(_saga, eventAndEnvelope.Event);
             }
         }
     }

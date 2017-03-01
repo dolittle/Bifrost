@@ -18,7 +18,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext.given
 		                    	{
 		                    		simple_event = new SimpleEvent(aggregated_root_id);
 		                    		uncommitted_events = new UncommittedEventStream(aggregated_root_id);
-		                    		uncommitted_events.Append(simple_event);
+		                    		uncommitted_events.Append(new EventEnvelope(), simple_event);
 		                    		aggregated_root_mock = new Mock<IAggregateRoot>();
 		                    		aggregated_root_mock.Setup(a => a.UncommittedEvents).Returns(uncommitted_events);
 

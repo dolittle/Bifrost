@@ -16,8 +16,8 @@ namespace Bifrost.Sagas
     /// </summary>
     public class Saga : ISaga
     {
-        readonly List<IChapter> _chapters = new List<IChapter>();
-        readonly Dictionary<Guid, List<IEvent>> _aggregatedRootEvents = new Dictionary<Guid, List<IEvent>>();
+        List<IChapter> _chapters = new List<IChapter>();
+        Dictionary<EventSourceId, List<IEvent>> _eventsByEventSource = new Dictionary<EventSourceId, List<IEvent>>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Saga"/>
@@ -31,7 +31,16 @@ namespace Bifrost.Sagas
             ChapterProperties = GetType().GetTypeInfo().DeclaredProperties.Where(p => p.PropertyType.HasInterface<IChapter>()).ToArray();
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IEventEnvelopes"/> - a dependency that would normally be on the constructor, but these type of objects should
+        /// not have dependencies on the constructor level as it bleeds through all over the place. This is therefor then required by systems creating
+        /// an instance and working with <see cref="Saga"/> to set this
+        /// </summary>
+        public IEventEnvelopes EventEnvelopes { get; set; }
+
 #pragma warning disable 1591 // Xml Comments
+
+
         public Guid Id { get; set; }
         public string Partition { get; set; }
         public string Key { get; set; }
@@ -83,7 +92,7 @@ namespace Bifrost.Sagas
         public IEnumerable<IEvent> GetUncommittedEvents()
         {
             var uncommittedEvents = new List<IEvent>();
-            foreach (var events in _aggregatedRootEvents.Values)
+            foreach (var events in _eventsByEventSource.Values)
                 uncommittedEvents.AddRange(events);
 
             return uncommittedEvents;
@@ -93,49 +102,50 @@ namespace Bifrost.Sagas
         {
             var query = events.GroupBy(e => e.EventSourceId).Select(g=>g);
             foreach (var group in query)
-                _aggregatedRootEvents[group.Key] = group.ToList();
+                _eventsByEventSource[group.Key] = group.ToList();
         }
 
         public void SaveUncommittedEventsToEventStore(IEventStore eventStore)
         {
-            foreach( var aggregatedRootId in _aggregatedRootEvents.Keys )
+            throw new NotImplementedException();
+#if (false)
+            foreach ( var aggregatedRootId in _eventsByEventSource.Keys )
             {
-                var events = _aggregatedRootEvents[aggregatedRootId];
+                var events = _eventsByEventSource[aggregatedRootId];
 
                 var uncommittedEventStream = new UncommittedEventStream(aggregatedRootId);
+                /*
                 foreach (var @event in events)
-                    uncommittedEventStream.Append(@event);
+                    uncommittedEventStream.Append(_eventEnvelopes.CreateFrom( @event);*/
 
                 eventStore.Commit(uncommittedEventStream);
             }
+#endif
         }
 
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
         {
-            var eventStream = new CommittedEventStream(eventSourceId);
-            if( _aggregatedRootEvents.ContainsKey(eventSourceId))
-                eventStream.Append(_aggregatedRootEvents[eventSourceId]);
+            var eventStream = new CommittedEventStream(eventSourceId, _eventsByEventSource[eventSourceId].Select(e => new EventEnvelopeAndEvent(EventEnvelopes.CreateFrom(eventSource, e),e)));
             return eventStream;
         }
 
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            if (!_aggregatedRootEvents.ContainsKey(uncommittedEventStream.EventSourceId))
-                _aggregatedRootEvents[uncommittedEventStream.EventSourceId] = new List<IEvent>();
+            if (!_eventsByEventSource.ContainsKey(uncommittedEventStream.EventSourceId))
+                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<IEvent>();
 
-            _aggregatedRootEvents[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream);
+            _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream.Select(e=>e.Event));
 
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-            committedEventStream.Append(uncommittedEventStream);
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
         {
-            if (!_aggregatedRootEvents.ContainsKey(eventSourceId))
+            if (!_eventsByEventSource.ContainsKey(eventSourceId))
                 return EventSourceVersion.Zero;
 
-            var @event = _aggregatedRootEvents[eventSourceId].OrderByDescending(e => e.Version).FirstOrDefault();
+            var @event = _eventsByEventSource[eventSourceId].OrderByDescending(e => e.Version).FirstOrDefault();
             if( @event == null ) 
                 return EventSourceVersion.Zero;
 

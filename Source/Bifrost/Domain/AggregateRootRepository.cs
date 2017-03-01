@@ -15,15 +15,18 @@ namespace Bifrost.Domain
 	public class AggregateRootRepository<T> : IAggregateRootRepository<T>
 		where T : AggregateRoot
 	{
-		readonly ICommandContextManager _commandContextManager;
+		ICommandContextManager _commandContextManager;
+        IEventEnvelopes _eventEnvelopes;
 
 		/// <summary>
 		/// Initializes a new instance of <see cref="AggregateRootRepository{T}">AggregatedRootRepository</see>
 		/// </summary>
 		/// <param name="commandContextManager"> <see cref="ICommandContextManager"/> to use for tracking </param>
-		public AggregateRootRepository(ICommandContextManager commandContextManager)
+        /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> to use for getting the envelope for the <see cref="IEvent"/> when they are applied</param>
+		public AggregateRootRepository(ICommandContextManager commandContextManager, IEventEnvelopes eventEnvelopes)
 		{
 			_commandContextManager = commandContextManager;
+            _eventEnvelopes = eventEnvelopes;
 		}
 
 #pragma warning disable 1591 // Xml Comments
@@ -31,24 +34,25 @@ namespace Bifrost.Domain
 		{
 			var commandContext = _commandContextManager.GetCurrent();
 			var type = typeof (T);
-			var aggregatedRoot = Activator.CreateInstance(type, id) as T;
-			if (null != aggregatedRoot)
+			var aggregateRoot = Activator.CreateInstance(type, id) as T;
+            aggregateRoot.EventEnvelopes = _eventEnvelopes;
+			if (null != aggregateRoot)
 			{
-                if(!aggregatedRoot.IsStateless())
+                if(!aggregateRoot.IsStateless())
                 {
-                    var stream = commandContext.GetCommittedEventsFor(aggregatedRoot, id);
+                    var stream = commandContext.GetCommittedEventsFor(aggregateRoot, id);
                     if( stream.HasEvents )
-                        aggregatedRoot.ReApply(stream);
+                        aggregateRoot.ReApply(stream);
                 }
                 else
                 {
-                    var version = commandContext.GetLastCommittedVersion(aggregatedRoot, id);
-                    aggregatedRoot.FastForward(version);
+                    var version = commandContext.GetLastCommittedVersion(aggregateRoot, id);
+                    aggregateRoot.FastForward(version);
                 }
 			}
-            commandContext.RegisterForTracking(aggregatedRoot);
+            commandContext.RegisterForTracking(aggregateRoot);
 
-			return aggregatedRoot;
+			return aggregateRoot;
 		}
 #pragma warning restore 1591 // Xml Comments
 	}

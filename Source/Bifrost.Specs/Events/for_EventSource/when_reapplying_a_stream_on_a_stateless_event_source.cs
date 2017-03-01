@@ -10,11 +10,7 @@ namespace Bifrost.Specs.Events.for_EventSource
         static CommittedEventStream event_stream;
         static Exception exception;
 
-        Establish context = () =>
-                                {
-                                    event_stream = new CommittedEventStream(event_source_id);
-                                    event_stream.Append(new[] {new SimpleEvent(event_source_id)});
-                                };
+        Establish context = () => event_stream = new CommittedEventStream(event_source_id, new[] { new EventEnvelopeAndEvent(new EventEnvelope(), new SimpleEvent(event_source_id)) });
 
         Because of = () => exception = Catch.Exception(() => event_source.ReApply(event_stream));
 

@@ -16,33 +16,33 @@ namespace Bifrost.Events
         /// <summary>
         /// Populates each <see cref="IEvent">Event</see> with the name of the command that caused the event.
         /// </summary>
-        /// <param name="events">Enumerable of <see cref="IEvent">events</see> to be extended</param>
+        /// <param name="events"><see cref="IEnumerable{EventEnvelopeAndEvent}">Events</see> to be extended</param>
         /// <param name="command"><see cref="ICommand">Command</see> that caused the events to be generated</param>
-        public static void MarkEventsWithCommandDetails(this IEnumerable<IEvent> events, ICommand command)
+        public static void MarkEventsWithCommandDetails(this IEnumerable<EventEnvelopeAndEvent> events, ICommand command)
         {
-            foreach (var @event in events)
+            foreach (var combo in events)
             {
-                if (string.IsNullOrEmpty(@event.CommandName))
-                    @event.CommandName = command == null ? "[Not available]" : command.GetType().Name;
+                if (string.IsNullOrEmpty(combo.Event.CommandName))
+                    combo.Event.CommandName = command == null ? "[Not available]" : command.GetType().Name;
 
-                @event.CommandContext = command.Id;
+                combo.Event.CommandContext = command.Id;
             }
         }
 
         /// <summary>
         /// Populates each <see cref="IEvent">Event</see> with elements from the <see cref="IExecutionContext">ExecutionContext</see>
         /// </summary>
-        /// <param name="events">Enumerable of <see cref="IEvent">events</see> to be extended</param>
+        /// <param name="events"><see cref="IEnumerable{EventEnvelopeAndEvent}">Events</see> to be extended</param>
         /// <param name="executionContext"><see cref="IExecutionContext">Execution Context</see> under which the <see cref="IEvent">events</see> were generated</param>
-        public static void ExpandExecutionContext(this IEnumerable<IEvent> events, IExecutionContext executionContext)
+        public static void ExpandExecutionContext(this IEnumerable<EventEnvelopeAndEvent> events, IExecutionContext executionContext)
         {
             if (executionContext == null)
                 return;
 
-            foreach (var @event in events)
+            foreach (var combo in events)
             {
-                @event.CausedBy = executionContext.Principal.Identity.Name;
-                @event.Origin = executionContext.System;
+                combo.Event.CausedBy = executionContext.Principal.Identity.Name;
+                combo.Event.Origin = executionContext.System;
             }
         }
     }

@@ -4,16 +4,16 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventSource.given
 {
-    public class a_stateless_event_source
+    public class a_stateless_event_source : all_dependencies
     {
         protected static StatelessAggregatedRoot event_source;
         protected static Guid event_source_id;
 
-        Establish context =
-            () =>
+        Establish context = () =>
                 {
                     event_source_id = Guid.NewGuid();
                     event_source = new StatelessAggregatedRoot(event_source_id);
+                    event_source.EventEnvelopes = event_envelopes.Object;
                 };
         
     }

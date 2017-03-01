@@ -15,9 +15,9 @@ namespace Bifrost.Specs.Sagas.for_Saga.given
         {
             var eventStream = new UncommittedEventStream(aggregated_root_id);
             first_event = new SimpleEvent(aggregated_root_id) { Version = new EventSourceVersion(1, 0) };
-            eventStream.Append(first_event);
+            eventStream.Append(new EventEnvelope(), first_event);
             second_event = new SimpleEvent(aggregated_root_id) { Version = new EventSourceVersion(1, 1) };
-            eventStream.Append(second_event);
+            eventStream.Append(new EventEnvelope(), second_event);
 
             saga.Commit(eventStream);
         };

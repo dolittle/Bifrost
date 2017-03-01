@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Commands.for_CommandContext.given
 
         Establish context = () =>
         {
-            uncommitted_event = new SimpleEvent(aggregated_root.Id);
+            uncommitted_event = new SimpleEvent(aggregated_root.EventSourceId);
             aggregated_root.Apply(uncommitted_event);
         };
     }

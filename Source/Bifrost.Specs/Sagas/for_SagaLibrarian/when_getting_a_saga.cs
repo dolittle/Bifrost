@@ -10,6 +10,7 @@ namespace Bifrost.Specs.Sagas.for_SagaLibrarian
 	{
 		static Guid saga_id;
 		static SagaHolder saga_holder;
+        static ISaga saga;
 
 		Establish context = () =>
 								{
@@ -21,11 +22,11 @@ namespace Bifrost.Specs.Sagas.for_SagaLibrarian
 															SerializedSaga = "{}"
 														};
 								
-									entity_context_mock.Setup(e => e.Entities).Returns(new[] { saga_holder }.AsQueryable());
+									entity_context.Setup(e => e.Entities).Returns(new[] { saga_holder }.AsQueryable());
 								};
 
-		Because of = () => librarian.Get(saga_id);
+		Because of = () => saga = librarian.Get(saga_id);
 
-		It should_convert_from_saga_holder_to_saga = () => saga_converter_mock.Verify(s => s.ToSaga(saga_holder));
+		It should_convert_from_saga_holder_to_saga = () => saga_converter.Verify(s => s.ToSaga(saga_holder));
 	}
 }

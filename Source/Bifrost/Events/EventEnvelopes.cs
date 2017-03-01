@@ -4,10 +4,15 @@
  *--------------------------------------------------------------------------------------------*/
 namespace Bifrost.Events
 {
-	/// <summary>
-	/// Defines something that can process events
-	/// </summary>
-	public interface IProcessEvents
-	{
-	}
+    /// <summary>
+    /// Represents an implementation of <see cref="IEventEnvelopes"/>
+    /// </summary>
+    public class EventEnvelopes : IEventEnvelopes
+    {
+        /// <inheritdoc/>
+        public EventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
+        {
+            return new EventEnvelope();
+        }
+    }
 }

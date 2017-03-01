@@ -22,12 +22,12 @@ namespace Bifrost.Specs.Sagas.for_SagaLibrarian
 		                    		                  		Type = typeof (SagaWithOneChapterProperty).AssemblyQualifiedName,
 		                    		                  		SerializedSaga = "{}"
 		                    		                  	};
-		                    		entity_context_mock.Setup(e => e.Entities).Returns(new[] {persistent_saga}.AsQueryable());
+		                    		entity_context.Setup(e => e.Entities).Returns(new[] {persistent_saga}.AsQueryable());
 		                    	};
 
 		Because of = () => librarian.Catalogue(saga);
 
-		It should_update_existing_saga = () => entity_context_mock.Verify(e => e.Update(persistent_saga));
+		It should_update_existing_saga = () => entity_context.Verify(e => e.Update(persistent_saga));
 
 	}
 }

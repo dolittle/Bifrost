@@ -188,6 +188,7 @@
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />
     <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
+    <Compile Include="Read\HumanResources\Employees\QuerySecurity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bifrost.QuickStart.nuspec" />

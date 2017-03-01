@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Linq.Expressions;
 using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
@@ -18,15 +17,24 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes an instance of <see cref="EventSource">EventSource</see>
         /// </summary>
-        /// <param name="id">Id of the event source</param>
-        protected EventSource(Guid id)
+        /// <param name="id"><see cref="Events.EventSourceId"/> of the event source</param>
+        protected EventSource(EventSourceId id)
         {
-            Id = id;
+            EventSourceId = id;
             UncommittedEvents = new UncommittedEventStream(id);
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IEventEnvelopes"/> - a dependency that would normally be on the constructor, but these type of objects should
+        /// not have dependencies on the constructor level as it bleeds through all over the place. This is therefor then required by systems creating
+        /// an instance and working with <see cref="EventSource"/> to set this
+        /// </summary>
+
+        public IEventEnvelopes EventEnvelopes { get; set; }
+
 #pragma warning disable 1591 // Xml Comments
-        public Guid Id { get; set; }
+
+        public EventSourceId EventSourceId { get; set; }
 
         public EventSourceVersion Version { get; private set; }
 
@@ -37,19 +45,12 @@ namespace Bifrost.Events
             Apply(@event, true);
         }
 
-        public void Apply(Expression<Action> expression)
-        {
-            var eventToApply = MethodEventFactory.CreateMethodEventFromExpression(Id, expression);
-            Apply(eventToApply);
-
-        }
-
         public virtual void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);
 
-            foreach (var @event in eventStream)
-                ReApply(@event);
+            foreach (var eventAndEnvelope in eventStream)
+                ReApply(eventAndEnvelope.Event);
 
             Version = Version.NextCommit();
         }
@@ -64,14 +65,14 @@ namespace Bifrost.Events
 
         public virtual void Commit()
         {
-            UncommittedEvents = new UncommittedEventStream(Id);
+            UncommittedEvents = new UncommittedEventStream(EventSourceId);
             Version = Version.NextCommit();
         }
 
 
         public virtual void Rollback()
         {
-            UncommittedEvents = new UncommittedEventStream(Id);
+            UncommittedEvents = new UncommittedEventStream(EventSourceId);
             Version = Version.PreviousCommit();
         }
 
@@ -79,8 +80,6 @@ namespace Bifrost.Events
 		{
 			Commit();
 		}
-
-        
 
 #pragma warning restore 1591 // Xml Comments
         /// <summary>
@@ -98,8 +97,10 @@ namespace Bifrost.Events
         {
             if (isNew)
             {
+                ThrowIfEventEnvelopesNotSet();
+                var envelope = EventEnvelopes.CreateFrom(this, @event);
             	@event.EventSource = EventSourceType.AssemblyQualifiedName;
-                UncommittedEvents.Append(@event);
+                UncommittedEvents.Append(envelope, @event);
                 Version = Version.NextSequence();
                 @event.Version = Version;
             }
@@ -119,12 +120,12 @@ namespace Bifrost.Events
         {
             if (!IsForThisEventSource(eventStream.EventSourceId))
                 throw new InvalidOperationException("Cannot apply an EventStream belonging to a different event source." +
-                    string.Format(@"Expected events for Id {0} but got events for Id {1}", Id, eventStream.EventSourceId));
+                    string.Format(@"Expected events for Id {0} but got events for Id {1}", EventSourceId, eventStream.EventSourceId));
         }
 
         bool IsForThisEventSource(Guid targetEventSourceId)
         {
-            return targetEventSourceId == Id;
+            return targetEventSourceId == EventSourceId;
         }
 
         void ThrowIfStateful()
@@ -137,6 +138,11 @@ namespace Bifrost.Events
         {
             if (!Version.Equals(EventSourceVersion.Zero))
                 throw new InvalidFastForwardException("Cannot fast forward event source that is not an initial version");
+        }
+
+        void ThrowIfEventEnvelopesNotSet()
+        {
+            if (EventEnvelopes == null) throw new EventEnvelopesMissing();
         }
     }
 }

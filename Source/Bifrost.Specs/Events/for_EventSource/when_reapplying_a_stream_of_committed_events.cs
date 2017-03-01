@@ -18,8 +18,11 @@ namespace Bifrost.Specs.Events.for_EventSource
                 @event = new SimpleEvent(event_source_id) { Version = EventSourceVersion.Zero };
                 SecondEvent = new SimpleEvent(event_source_id) { Version = @event.Version.NextSequence() };
                 ThirdEvent = new SimpleEvent(event_source_id) { Version = @event.Version.NextCommit().NextSequence() };
-                EventStream = new CommittedEventStream(event_source_id);
-                EventStream.Append(new List<IEvent>() { @event, SecondEvent, ThirdEvent });
+                EventStream = new CommittedEventStream(event_source_id,new[] {
+                    new EventEnvelopeAndEvent(new EventEnvelope(), @event),
+                    new EventEnvelopeAndEvent(new EventEnvelope(), SecondEvent),
+                    new EventEnvelopeAndEvent(new EventEnvelope(), ThirdEvent),
+                });
             };
 
         Because of = () => event_source.ReApply(EventStream);

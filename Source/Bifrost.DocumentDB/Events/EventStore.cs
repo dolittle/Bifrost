@@ -43,30 +43,31 @@ namespace Bifrost.DocumentDB.Events
         }
 
 #pragma warning disable 1591
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
         {
             throw new NotImplementedException();
         }
 
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+            
 
             foreach( var @event in uncommittedEventStream )
             {
                 var serialized = _serializer.ToJson(@event, SerializationExtensions.SerializationOptions);
                 _client
                     .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
-                    .ContinueWith(t => @event.Id = t.Result)
+                    .ContinueWith(t => @event.Event.Id = t.Result)
                     .Wait();
 
-                committedEventStream.Append(@event);
+                
             }
-            
+
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
         {
             var version = EventSourceVersion.Zero;
             _client

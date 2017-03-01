@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Bifrost.Events
 {
@@ -17,44 +16,36 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStream">CommittedEventStream</see>
         /// </summary>
-        /// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
-        public CommittedEventStream(Guid eventSourceId)
+        /// <param name="eventSourceId">The <see cref="EventSourceId"/> of the <see cref="IEventSource"/></param>
+        public CommittedEventStream(EventSourceId eventSourceId)
             : base(eventSourceId)
         {
         }
 
         /// <summary>
-        /// Append a set of events to the stream.  Events will be applied in Sequence, not in the order they are passed in.
+        /// Initializes a new instance of <see cref="CommittedEventStream">CommittedEventStream</see>
         /// </summary>
-        /// <param name="events"><see cref="IEnumerable{T}">IEnumerable</see> of <see cref="IEvent">events</see> to append</param>
-        public void Append(IEnumerable<IEvent> events)
+        /// <param name="eventSourceId">The <see cref="EventSourceId"/> of the <see cref="IEventSource"/></param>
+        /// <param name="eventsWithEnvelope">The <see cref="IEvent">events</see> with their <see cref="EventEnvelope">envelopes</see></param>
+        public CommittedEventStream(EventSourceId eventSourceId, IEnumerable<EventEnvelopeAndEvent> eventsWithEnvelope)
+            : base(eventSourceId)
         {
-            var orderedEvents = events.OrderBy(e => e.Version);
-            foreach(var @event in orderedEvents)
+            foreach (var eventAndEnvelope in eventsWithEnvelope)
             {
-                Append(@event);
+                EnsureEventIsValid(eventAndEnvelope);
+                Events.Add(eventAndEnvelope);
             }
         }
 
-        /// <summary>
-        /// Append a single event to the stream.
-        /// </summary>
-        /// <param name="event"><see cref="IEvent"/> to append</param>
-        public void Append(IEvent @event)
+        void EnsureEventIsValid(EventEnvelopeAndEvent eventAndEnvelope)
         {
-            EnsureEventIsValid(@event);
-            Events.Add(@event);
-        }
-
-        private void EnsureEventIsValid(IEvent @event)
-        {
-            if (@event == null)
+            if (eventAndEnvelope.Event == null)
                 throw new ArgumentNullException("Cannot append a null event");
 
-            if (@event.EventSourceId != EventSourceId)
+            if (eventAndEnvelope.Event.EventSourceId != EventSourceId)
                 throw new ArgumentException(
                     string.Format("Cannot append an event from a different source.  Expected source {0} but got {1}.",
-                                  EventSourceId, @event.EventSourceId)
+                                  EventSourceId, eventAndEnvelope.Event.EventSourceId)
                     );
         }
     }

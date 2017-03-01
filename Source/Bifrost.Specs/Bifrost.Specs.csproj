@@ -252,6 +252,7 @@
     <Compile Include="Diagnostics\for_TypeRules\given\type_rules_with_one_rule.cs" />
     <Compile Include="Diagnostics\for_TypeRules\given\type_rules_without_rules.cs" />
     <Compile Include="Diagnostics\for_TypeRules\when_validating_all_with_one_rule_and_one_type_in_the_system.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\given\all_dependencies.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateless_aggregate_root.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_no_events.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_that_has_events.cs" />
@@ -271,6 +272,8 @@
     <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\a_committed_event_stream_coordinator.cs" />
+    <Compile Include="Events\for_EventSource\given\all_dependencies.cs" />
+    <Compile Include="Events\for_EventSource\when_applying_an_event_without_event_envelopes.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
@@ -847,8 +850,6 @@
     <Compile Include="Events\for_EventStream\given\an_empty_committed_event_stream.cs" />
     <Compile Include="Events\for_EventStream\given\an_empty_uncommitted_event_stream.cs" />
     <Compile Include="Events\for_EventSource\given\a_stateful_event_source.cs" />
-    <Compile Include="Events\MethodEventArgumentsSpecs.cs" />
-    <Compile Include="Events\MethodEventFactorySpecs.cs" />
     <Compile Include="Events\for_EventSource\given\an_event_source_with_2_uncommitted_events.cs" />
     <Compile Include="Events\for_EventSource\when_creating_a_new_event_source.cs" />
     <Compile Include="Execution\for_TypeImporter\TypeImporterSpecs.cs" />
@@ -921,6 +922,7 @@
     <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Events\for_EventProcessors\" />
     <Folder Include="Globalization\for_Localizer\given\" />
     <Folder Include="Security\for_SecurityActorExtensions\" />
     <Folder Include="Security\for_SecurityDescriptorBuilder\" />

@@ -85,12 +85,12 @@ namespace Bifrost.Commands
 		}
 
 
-        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, EventSourceId eventSourceId)
         {
             return _eventStore.GetForEventSource(eventSource, eventSourceId);
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, EventSourceId eventSourceId)
         {
             return _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
         }

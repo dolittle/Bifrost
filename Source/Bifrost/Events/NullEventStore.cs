@@ -13,19 +13,18 @@ namespace Bifrost.Events
     public class NullEventStore : IEventStore
     {
 #pragma warning disable 1591 // Xml Comments
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
         {
             return new CommittedEventStream(eventSourceId);
         }
 
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-            committedEventStream.Append(uncommittedEventStream);
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
         {
             return EventSourceVersion.Zero;
         }

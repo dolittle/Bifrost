@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Entities;
+using Bifrost.Events;
 
 namespace Bifrost.Sagas
 {
@@ -14,15 +15,15 @@ namespace Bifrost.Sagas
     /// </summary>
 	public class SagaLibrarian : ISagaLibrarian
 	{
-		readonly IEntityContext<SagaHolder> _entityContext;
-		readonly ISagaConverter _sagaConverter;
+		IEntityContext<SagaHolder> _entityContext;
+		ISagaConverter _sagaConverter;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SagaLibrarian"/>
         /// </summary>
         /// <param name="entityContext">A <see cref="IEntityContext{SagaHolder}"/> to use for working with persisting and resuming <see cref="ISaga">Sagas</see></param>
         /// <param name="sagaConverter">A <see cref="ISagaConverter"/> for converting a <see cref="ISaga"/> to a <see cref="SagaHolder"/> and back</param>
-		public SagaLibrarian(IEntityContext<SagaHolder> entityContext, ISagaConverter sagaConverter)
+        public SagaLibrarian(IEntityContext<SagaHolder> entityContext, ISagaConverter sagaConverter)
 		{
 			_entityContext = entityContext;
 			_sagaConverter = sagaConverter;

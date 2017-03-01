@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Events;
@@ -19,11 +18,13 @@ namespace Bifrost.RavenDB.Events
         IEventStoreConfiguration _configuration;
         DocumentStore _documentStore;
         IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
+        IEventEnvelopes _eventEnvelopes;
 
-        public EventStore(IEventStoreConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
+        public EventStore(IEventStoreConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager, IEventEnvelopes eventEnvelopes)
         {
             _configuration = configuration;
             _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
+            _eventEnvelopes = eventEnvelopes;
             InitializeDocumentStore();
             InsertOrModifyEventSourceIdAndVersionIndex();
         }
@@ -57,7 +58,7 @@ namespace Bifrost.RavenDB.Events
             _documentStore.RegisterListener(new EventMetaDataListener(_eventMigrationHierarchyManager));
         }
 
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
         {
             using (var session = _documentStore.OpenSession())
             {
@@ -67,10 +68,11 @@ namespace Bifrost.RavenDB.Events
                                     .Where(
                                         e => e.EventSourceId == eventSourceId &&
                                              e.EventSource == eventSourceType.AssemblyQualifiedName
-                                        ).ToArray();
+                                        )
+                                    .Select(e => new EventEnvelopeAndEvent(_eventEnvelopes.CreateFrom(eventSource, e), e))
+                                    .ToArray();
 
-                var stream = new CommittedEventStream(eventSourceId);
-                stream.Append(events);
+                var stream = new CommittedEventStream(eventSourceId, events);
                 return stream;
             }
         }
@@ -88,13 +90,12 @@ namespace Bifrost.RavenDB.Events
                 }
 
                 session.SaveChanges();
-                var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-                committedEventStream.Append(uncommittedEventStream);
+                var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
                 return committedEventStream;
             }
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
         {
             using (var session = _documentStore.OpenSession())
             {
@@ -107,23 +108,6 @@ namespace Bifrost.RavenDB.Events
                     return EventSourceVersion.Zero;
 
                 return @event.Version;
-            }
-        }
-
-        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-        {
-            using (var session = _documentStore.OpenSession())
-            {
-                var events = session.Query<IEvent>().Skip(batchSize * batchesToSkip).Take(batchSize);
-                return events.ToArray();
-            }
-        }
-
-        public IEnumerable<IEvent> GetAll()
-        {
-            using (var session = _documentStore.OpenSession())
-            {
-                return session.Query<IEvent>().ToArray();
             }
         }
 

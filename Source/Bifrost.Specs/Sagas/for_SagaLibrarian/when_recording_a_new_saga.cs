@@ -18,6 +18,6 @@ namespace Bifrost.Specs.Sagas.for_SagaLibrarian
 
 		Because of = () => librarian.Catalogue(saga);
 
-		It should_insert_saga = () => entity_context_mock.Verify(e => e.Insert(Moq.It.IsAny<SagaHolder>()));
+		It should_insert_saga = () => entity_context.Verify(e => e.Insert(Moq.It.IsAny<SagaHolder>()));
 	}
 }

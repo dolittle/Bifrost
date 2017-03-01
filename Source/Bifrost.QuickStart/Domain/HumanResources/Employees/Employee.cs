@@ -14,7 +14,7 @@ namespace Web.Domain.HumanResources.Employees
 
         public void Register(SocialSecurityNumber socialSecurityNumber, string firstName, string lastName, DateTime employedFrom)
         {
-            Apply(new EmployeeRegistered(Id)
+            Apply(new EmployeeRegistered(EventSourceId)
             {
                 SocialSecurityNumber = socialSecurityNumber,
                 FirstName = firstName,
