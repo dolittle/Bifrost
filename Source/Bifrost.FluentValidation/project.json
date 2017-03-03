@@ -13,7 +13,7 @@
       "type": "git",
       "url": "https://github.com/dolittle/bifrost"
     },
-    "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/release_notes.md",
+    "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md",
     "licenseUrl": "https://github.com/dolittle/Bifrost/blob/master/LICENSE",
     "iconUrl": "https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png",
     "tags": [
@@ -24,6 +24,12 @@
     ],
     "files": {
       "mappings": {
+        "lib/net461/": [
+          "bin/Release/net461/*.pdb"
+        ],
+        "lib/netstandard1.6/": [
+          "bin/Release/netstandard1.6/*.pdb"
+        ],
         "src/": [
           "**/*.cs"
         ]
@@ -34,14 +40,22 @@
     "debugType": "portable"
   },
   "dependencies": {
-    "Bifrost": "1.0.0-*",
-    "FluentValidation": "6.4.0-beta9"
+    "Bifrost": "1.0.0-*"
+
   },
   "runtimes": {
     "win": {}
   },
   "frameworks": {
-    "net461": {},
-    "netstandard1.6": {}
+    "net461": {
+      "dependencies": {
+        "FluentValidation": "6.2.1"
+      }
+    },
+    "netstandard1.6": {
+      "dependencies": {
+        "FluentValidation": "6.4.0-beta9"
+      }
+    }
   }
 }

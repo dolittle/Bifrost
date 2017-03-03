@@ -39,10 +39,6 @@
     <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=6.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\FluentValidation.6.4.0-beta9\lib\Net45\FluentValidation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,10 +58,12 @@
     <Compile Include="Commands\CommandValidatorFactory.cs" />
     <Compile Include="Commands\CommandValidatorProvider.cs" />
     <Compile Include="Commands\ComposedCommandBusinessValidator.cs" />
+    <Compile Include="Commands\ComposedCommandRuleBuilder.cs" />
     <Compile Include="Commands\ComposedCommandInputValidator.cs" />
     <Compile Include="Commands\ICommandBusinessValidator.cs" />
     <Compile Include="Commands\ICommandInputValidator.cs" />
     <Compile Include="Commands\ICommandValidatorProvider.cs" />
+    <Compile Include="Commands\IComposedCommandRuleBuilder.cs" />
     <Compile Include="Commands\NullCommandBusinessValidator.cs" />
     <Compile Include="Commands\NullCommandInputValidator.cs" />
     <Compile Include="ComposedValidatorDescriptor.cs" />
@@ -98,7 +96,7 @@
     <Compile Include="PropertyValidatorWithDynamicState.cs" />
     <Compile Include="AbstractValidatorExtensions.cs" />
     <Compile Include="RuleBuilderExtensions.cs" />
-    <Compile Include="Sagas\ChapterValidation.cs" />
+    <Compile Include="Sagas\ChapterValidator.cs" />
     <Compile Include="Sagas\ChapterValidationService.cs" />
     <Compile Include="Sagas\ChapterValidatorProvider.cs" />
     <Compile Include="Sagas\IChapterValidator.cs" />

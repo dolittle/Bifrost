@@ -6,14 +6,14 @@ using System;
 
 namespace Bifrost.Values
 {
-	[AttributeUsage(AttributeTargets.Property)]
-	public class NotifyChangesForAttribute : Attribute
-	{
-		public NotifyChangesForAttribute(params string[] propertyNames)
-		{
-			PropertyNames = propertyNames;
-		}
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NotifyChangesForAttribute : Attribute
+    {
+        public NotifyChangesForAttribute(params string[] propertyNames)
+        {
+            PropertyNames = propertyNames;
+        }
 
-		public string[] PropertyNames { get; private set; }
-	}
+        public string[] PropertyNames { get; private set; }
+    }
 }

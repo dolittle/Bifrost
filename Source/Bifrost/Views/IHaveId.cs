@@ -6,14 +6,14 @@ using System;
 
 namespace Bifrost.Views
 {
-	/// <summary>
-	/// Defines the behavior of having an Id - typically used by objects during querying
-	/// </summary>
+    /// <summary>
+    /// Defines the behavior of having an Id - typically used by objects during querying
+    /// </summary>
     public interface IHaveId
     {
-		/// <summary>
-		/// Get the Id of the object
-		/// </summary>
+        /// <summary>
+        /// Get the Id of the object
+        /// </summary>
         Guid Id { get; }
     }
 }

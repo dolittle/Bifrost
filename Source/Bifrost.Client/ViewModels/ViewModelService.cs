@@ -48,15 +48,15 @@ namespace Bifrost.ViewModels
         }
 #else
 
-		static IEnumerable<Assembly> CollectAssemblies()
-		{
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-			var query = from a in assemblies
-						where !a.FullName.Contains("System.")
-						select a;
+        static IEnumerable<Assembly> CollectAssemblies()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var query = from a in assemblies
+                        where !a.FullName.Contains("System.")
+                        select a;
 
-			return assemblies;
-		}
+            return assemblies;
+        }
 #endif
 
 
@@ -78,16 +78,7 @@ namespace Bifrost.ViewModels
         public static void SetViewModel(FrameworkElement target, string viewModel)
         {
             var type = TypeFinder(viewModel);
-            
-
-            /*
-            var typeDiscoverer = App.Container.Get<ITypeDiscoverer>();
-            var types = typeDiscoverer.FindAnyByName(viewModel);
-            if (types.Length > 1) throw new ArgumentException("Ambiguous viewModel name for : " + viewModel);
-             * */
-
             var viewModelInstance = InstanceCreator(type);
-                //App.Container.Get(types[0]);
             target.DataContext = viewModelInstance;
         }
 

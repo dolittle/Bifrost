@@ -10,33 +10,33 @@ namespace Bifrost.Execution
     /// <summary>
     /// Represents a <see cref="IDispatcher"/>
     /// </summary>
-	public class Dispatcher : IDispatcher
-	{
-		System.Windows.Threading.Dispatcher _systemDispatcher;
+    public class Dispatcher : IDispatcher
+    {
+        System.Windows.Threading.Dispatcher _systemDispatcher;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Dispatcher"/>
         /// </summary>
         /// <param name="systemDispatcher"></param>
-		public Dispatcher(System.Windows.Threading.Dispatcher systemDispatcher)
-		{
-			_systemDispatcher = systemDispatcher;
-		}
+        public Dispatcher(System.Windows.Threading.Dispatcher systemDispatcher)
+        {
+            _systemDispatcher = systemDispatcher;
+        }
 
 #pragma warning disable 1591 // Xml Comments
         public bool CheckAccess()
-		{
-			return _systemDispatcher.CheckAccess();
-		}
+        {
+            return _systemDispatcher.CheckAccess();
+        }
 
-		public void BeginInvoke(Delegate del, params object[] arguments)
-		{
-			_systemDispatcher.BeginInvoke(del, arguments);
-		}
+        public void BeginInvoke(Delegate del, params object[] arguments)
+        {
+            _systemDispatcher.BeginInvoke(del, arguments);
+        }
 
-		public void BeginInvoke(Action action)
-		{
-			_systemDispatcher.BeginInvoke(action);
+        public void BeginInvoke(Action action)
+        {
+            _systemDispatcher.BeginInvoke(action);
         }
 #pragma warning restore 1591 // Xml Comments
     }

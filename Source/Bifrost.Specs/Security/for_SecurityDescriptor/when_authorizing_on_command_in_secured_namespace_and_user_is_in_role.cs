@@ -1,5 +1,6 @@
 ﻿using System.Security.Principal;
 using Bifrost.Security;
+using Bifrost.Testing.Fakes.Security;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Security.for_SecurityDescriptor
@@ -10,11 +11,15 @@ namespace Bifrost.Specs.Security.for_SecurityDescriptor
         static AuthorizeDescriptorResult authorize_descriptor_result;
 
         Establish context = () =>
-            {
-                GenericPrincipal.ClaimsPrincipalSelector = () => new GenericPrincipal(new GenericIdentity(""), new[] { Testing.Fakes.Security.SecurityDescriptor.NAMESPACE_ROLE });
-            };
+        {
+            resolve_principal_mock.Setup(m => m.Resolve()).Returns(
+                new GenericPrincipal(
+                    new GenericIdentity(""),
+                    new[] { SecurityDescriptor.NAMESPACE_ROLE }));
+        };
 
-        Because of = () => authorize_descriptor_result = security_descriptor.Authorize(command_that_has_namespace_rule);
+        Because of = () =>
+            authorize_descriptor_result = security_descriptor.Authorize(command_that_has_namespace_rule);
 
         It should_be_authorized = () => authorize_descriptor_result.IsAuthorized.ShouldBeTrue();
     }

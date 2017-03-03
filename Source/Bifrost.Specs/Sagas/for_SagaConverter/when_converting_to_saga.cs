@@ -6,13 +6,13 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Sagas.for_SagaConverter
 {
-	public class when_converting_to_saga : given.a_saga_converter_and_a_saga_holder_with_one_chapter_and_one_event_and_chapter_is_current_and_state_is_continuing
-	{
-		static ISaga saga;
+    public class when_converting_to_saga : given.a_saga_converter_and_a_saga_holder_with_one_chapter_and_one_event_and_chapter_is_current_and_state_is_continuing
+    {
+        static ISaga saga;
 
-		Because of = () => saga = saga_converter.ToSaga(saga_holder);
+        Because of = () => saga = saga_converter.ToSaga(saga_holder);
 
-		It should_not_be_null = () => saga.ShouldNotBeNull();
+        It should_not_be_null = () => saga.ShouldNotBeNull();
         It should_be_correct_saga_type = () => saga.ShouldBeOfExactType<SagaWithOneChapterProperty>();
         It should_deserialize_saga = () => serializer_mock.Verify(s => s.FromJson(typeof(SagaWithOneChapterProperty), Moq.It.IsAny<string>(), Moq.It.IsAny<SagaSerializationOptions>()));
         It should_deserialize_chapter = () => serializer_mock.Verify(s => s.FromJson(Moq.It.IsAny<List<ChapterHolder>>(), Moq.It.IsAny<string>(), null));

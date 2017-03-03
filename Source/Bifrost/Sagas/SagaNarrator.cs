@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using Bifrost.Events;
+using Bifrost.Exceptions;
 using Bifrost.Execution;
 
 namespace Bifrost.Sagas
@@ -18,6 +19,7 @@ namespace Bifrost.Sagas
         readonly IContainer _container;
         readonly IChapterValidationService _chapterValidationService;
         readonly IEventStore _eventStore;
+        readonly IExceptionPublisher _exceptionPublisher;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SagaNarrator"/>
@@ -26,16 +28,19 @@ namespace Bifrost.Sagas
         /// <param name="container"><see cref="IContainer"/> for creating instances</param>
         /// <param name="chapterValidationService"><see cref="IChapterValidationService" /> for validating chapters</param>
         /// <param name="eventStore"></param>
+        /// <param name="exceptionPublisher">An <see cref="IExceptionPublisher"/> to send exceptions to</param>
         public SagaNarrator(
             ISagaLibrarian librarian,
             IContainer container,
             IChapterValidationService chapterValidationService,
-            IEventStore eventStore)
+            IEventStore eventStore,
+            IExceptionPublisher exceptionPublisher)
         {
             _librarian = librarian;
             _container = container;
             _chapterValidationService = chapterValidationService;
             _eventStore = eventStore;
+            _exceptionPublisher = exceptionPublisher;
         }
 
 #pragma warning disable 1591 // Xml Comments
@@ -62,8 +67,10 @@ namespace Bifrost.Sagas
                 saga.Conclude();
                 saga.SaveUncommittedEventsToEventStore(_eventStore);
                 _librarian.Close(saga);
-            } catch( Exception ex)
+            }
+            catch (Exception ex)
             {
+                _exceptionPublisher.Publish(ex);
                 conclusion.Exception = ex;
             }
 

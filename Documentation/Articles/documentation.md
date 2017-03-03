@@ -39,6 +39,9 @@ Markdown can be written using the simplest of editors (Pico, Nano, Notepad), but
 great value and guides you through giving you feedback on errors. Editors like [Visual Studio Code](http://code.visualstudio.com/)
 and [Sublime Text](http://sublimetext.com) comes highly recommended.
 
+Since the documentation is built by DocFX, you should read up on the markdown supported by it and extensions it supports [here](https://dotnet.github.io/docfx/spec/docfx_flavored_markdown.html).
+
+
 ### Highlighting - notes
 
 Sometimes you need to highlight something with a note. You **MUST** use the following type:
@@ -80,5 +83,6 @@ with underscore **_** instead. For instance: [*csharp_coding_styles.md*](chsarp_
 For processing all the documentation we're using [DocFX](http://dotnet.github.io/docfx/).
 It takes the API documentation and all the markdown articles and genereates HTML for us and it gets published during
 the continuous build running.
+
 
 ** More details to come **.

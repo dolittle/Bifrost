@@ -176,3 +176,33 @@ public class SomeClass
     }
 }
 ```
+
+## Async / Await
+
+In C# the *async* / *await* keywords should be used with utmost care. It is a thing that
+without really thinking it through can bleed throughout your codebase without necessarily
+a good reason. Alongside *async* / *await* comes the `Task` type that needs to be there.
+The places where threading is necessary, it *MUST* be dealt with internally to the
+implementation and not bleed throughout its APIs. Bifrost has a very good handle on its
+entrypoints and from these entrypoints, the need for scaling out across multiple threads
+are rarely needed. With the underlying infrastructure being relied on, web requests are
+already threaded. Since we enter the system and returns back as soon possible, we have a
+good grip of when this is needed. Threads can easily get out of hand and actually slow
+down systems.
+
+## Exposing IList / ICollection
+
+Public APIs *SHALL NOT* have mutable types as return types, such as IList, ICollection.
+The responsibility for maintaining state should lie with the owner of it. By exposing the
+ability for changing state outside the owner, you lose control over who can change state
+and side-effects occur that aren't clear. Instead you should always expose immutable types
+like IEnumerable instead.
+
+## Mutability
+
+One of the biggest cause of side-effects in a system is the ability to mute state and possibly
+state one does not necessarily own. The example is something creates an instance of an object
+and exposes public getters and setters for its properties and inviting anyone to change
+this state. This makes it hard to track which part of the system actually changed the state.
+Be very concious about ownership of instances. Avoid mutability. Most of the time it is
+not needed. Instead, create new objects with the mutation in place.

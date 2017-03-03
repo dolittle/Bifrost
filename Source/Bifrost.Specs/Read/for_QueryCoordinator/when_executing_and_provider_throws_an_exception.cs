@@ -29,5 +29,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
         Because of = () => result = coordinator.Execute(query, paging);
 
         It should_set_the_exception_on_the_result = () => result.Exception.ShouldEqual(exception_thrown);
+
+        It should_publish_the_exception = () => exception_publisher_mock.Verify(m => m.Publish(exception_thrown));
     }
 }

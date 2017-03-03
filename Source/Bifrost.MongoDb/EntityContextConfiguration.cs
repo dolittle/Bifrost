@@ -6,11 +6,12 @@ using System;
 using Bifrost.Configuration;
 using Bifrost.Entities;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.MongoDb
 {
     public class EntityContextConfiguration : IEntityContextConfiguration
     {
         public string Url { get; set; }
+        public bool UseSSL { get; set; }
         public string DefaultDatabase { get; set; }
 
         public Type EntityContextType { get { return typeof(EntityContext<>); } }

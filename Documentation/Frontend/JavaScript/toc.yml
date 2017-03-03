@@ -5,7 +5,7 @@
 - name: Commands
   href: commands.md
 - name: Read Models
-  href: readModel.md
+  href: read_model.md
 - name: Namespacing
   href: namespacing.md
 - name: Mapping
@@ -14,6 +14,34 @@
   href: messenger.md
 - name: Navigation
   href: navigation.md
+- name: Query
+  href: query.md
+- name: Regions
+  href: regions.md
+- name: Services
+  href: services.md
+- name: Tasks
+  href: tasks.md    
+- name: Validation
+  href: validation.md
+- name: View Models
+  href: view_models.md
+- name: Views
+  href: views.md
+- name: Values
+  items: 
+  - name: Binding
+    href: Values/binding.md
+  - name: formatter
+    href: Values/formatter.md
+  - name: Value Consumer
+    href: Values/value_consumer.md
+  - name: Value Provider
+    href: Values/value_provider.md
+  - name: Value Converter
+    href: Values/value_converter.md
+  - name: Type Converter
+    href: Values/type_converter.md  
 - name: Interaction
   items:
   - name: Operations
@@ -21,4 +49,16 @@
   - name: Triggers
     href: Interaction/triggers.md
   - name: Visual States
-    href: Interaction/visualStates.md
+    href: Interaction/visual_states.md
+- name: DOM
+  items:
+  - name: Element Visitors
+    href: element_visitors.md
+  - name: UI Element
+    href: ui_element.md
+  - name: Attached Property
+    href: attached_property.md
+  - name: Binding Context
+    href: binding_context.md
+  - name: Controls
+    href: controls.md

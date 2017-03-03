@@ -1,5 +1,4 @@
-﻿using System;
-using Bifrost.Commands;
+﻿using Bifrost.Commands;
 using Bifrost.Events;
 using Bifrost.Testing.Fakes.Commands;
 using Machine.Specifications;
@@ -17,7 +16,7 @@ namespace Bifrost.Specs.Commands.for_CommandContext.given
 
         Establish context = () =>
         {
-            command = new SimpleCommand(Guid.NewGuid());
+            command = new SimpleCommand();
             event_store = new Mock<IEventStore>();
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
             event_envelopes = new Mock<IEventEnvelopes>();

@@ -10,79 +10,68 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Options;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
-    public class MethodInfoSerializer : IBsonSerializer
-    {
-        public object Deserialize(BsonReader bsonReader, Type nominalType, Type actualType, IBsonSerializationOptions options)
-        {
-            bsonReader.ReadStartDocument();
+	public class MethodInfoSerializer : IBsonSerializer
+	{
+		public Type ValueType
+		{
+			get
+			{
+				return typeof(MethodInfo);
+			}
+		}
 
-            bsonReader.ReadName();
-            var typeName = bsonReader.ReadString();
-            bsonReader.ReadName();
-            var methodSignature = bsonReader.ReadString();
+		public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+		{
+			var bsonReader = context.Reader;
+			bsonReader.ReadStartDocument();
 
-            bsonReader.ReadEndDocument();
+			bsonReader.ReadName();
+			var typeName = bsonReader.ReadString();
+			bsonReader.ReadName();
+			var methodSignature = bsonReader.ReadString();
 
-            var type = Type.GetType(typeName);
-            if (type != null)
-            {
-                var method = type.GetMethods().Where(m => GetMethodSignature(m) == methodSignature).SingleOrDefault();
-                return method;
-            }
+			bsonReader.ReadEndDocument();
 
-            return null;
-        }
+			var type = Type.GetType(typeName);
+			if (type != null)
+			{
+				var method = type.GetMethods().Where(m => GetMethodSignature(m) == methodSignature).SingleOrDefault();
+				return method;
+			}
 
-        public void Serialize(BsonWriter bsonWriter, Type nominalType, object value, IBsonSerializationOptions options)
-        {
-            var method = (MethodInfo)value;
+			return null;
+		}
 
-            bsonWriter.WriteStartDocument();
-            bsonWriter.WriteName("Type");
-            bsonWriter.WriteString(method.DeclaringType.AssemblyQualifiedName);
-            bsonWriter.WriteName("Method");
-            bsonWriter.WriteString(GetMethodSignature(method));
+		public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
+		{
+			var method = (MethodInfo)value;
+			var bsonWriter = context.Writer;
 
-            bsonWriter.WriteEndDocument();
+			bsonWriter.WriteStartDocument();
+			bsonWriter.WriteName("Type");
+			bsonWriter.WriteString(method.DeclaringType.AssemblyQualifiedName);
+			bsonWriter.WriteName("Method");
+			bsonWriter.WriteString(GetMethodSignature(method));
 
-        }
+			bsonWriter.WriteEndDocument();
+		}
 
-        string GetMethodSignature(MethodInfo method)
-        {
-            var builder = new StringBuilder();
-            builder.Append(method.Name);
-            builder.Append("(");
+		string GetMethodSignature(MethodInfo method)
+		{
+			var builder = new StringBuilder();
+			builder.Append(method.Name);
+			builder.Append("(");
 
-            foreach (var parameter in method.GetParameters())
-                builder.AppendFormat("{0} {1}", parameter.ParameterType.Name, parameter.Name);
+			foreach (var parameter in method.GetParameters())
+				builder.AppendFormat("{0} {1}", parameter.ParameterType.Name, parameter.Name);
 
-            builder.Append(")");
-            return builder.ToString();
-        }
+			builder.Append(")");
+			return builder.ToString();
+		}
 
 
-        public object Deserialize(BsonReader bsonReader, Type nominalType, IBsonSerializationOptions options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GetDocumentId(object document, out object id, out Type idNominalType, out IIdGenerator idGenerator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetDocumentId(object document, object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBsonSerializationOptions GetDefaultSerializationOptions()
-        {
-            var options = new DocumentSerializationOptions();
-            return options;
-        }
-
-    }
+		
+	}
 }

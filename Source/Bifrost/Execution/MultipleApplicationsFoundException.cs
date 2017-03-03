@@ -6,9 +6,9 @@ using System;
 
 namespace Bifrost.Execution
 {
-	/// <summary>
-	/// The exception that is thrown if multiple <see cref="IApplication"/> types exist in the current AppDomain
-	/// </summary>
+    /// <summary>
+    /// The exception that is thrown if multiple <see cref="IApplication"/> types exist in the current AppDomain
+    /// </summary>
     public class MultipleApplicationsFoundException : ArgumentException
     {
         

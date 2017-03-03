@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Bifrost.MongoDB;
-using Bifrost.MongoDB.Events;
+using Bifrost.MongoDb;
+using Bifrost.MongoDb.Events;
 
 namespace Bifrost.Configuration
 {
@@ -23,6 +23,12 @@ namespace Bifrost.Configuration
         public static EventStorageConfiguration WithUrl(this EventStorageConfiguration configuration, string url)
         {
             configuration.Url = url;
+            return configuration;
+        }
+
+        public static EventStorageConfiguration WithSSL(this EventStorageConfiguration configuration)
+        {
+            configuration.UseSSL = true;
             return configuration;
         }
 
@@ -49,6 +55,12 @@ namespace Bifrost.Configuration
         public static EntityContextConfiguration WithUrl(this EntityContextConfiguration configuration, string url)
         {
             configuration.Url = url;
+            return configuration;
+        }
+
+        public static EntityContextConfiguration WithSSL(this EntityContextConfiguration configuration)
+        {
+            configuration.UseSSL = true;
             return configuration;
         }
 

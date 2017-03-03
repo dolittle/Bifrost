@@ -11,37 +11,37 @@ using Ninject.Web.Common;
 
 namespace Bifrost.Ninject
 {
-	/// <summary>
-	/// Provides functionality for setting scope to a Ninject <see cref="IBindingInSyntax{T}">Binding syntax</see> 
-	/// </summary>
-	public static class BindingLifecycleExtensions
-	{
+    /// <summary>
+    /// Provides functionality for setting scope to a Ninject <see cref="IBindingInSyntax{T}">Binding syntax</see> 
+    /// </summary>
+    public static class BindingLifecycleExtensions
+    {
 
-		/// <summary>
-		/// Set scope based on <see cref="BindingLifecycle">ActivationScope</see>
-		/// </summary>
-		/// <param name="syntax"><see cref="IBindingInSyntax{T}">Binding syntax</see> to set the scope for</param>
-		/// <param name="lifecycle"><see cref="BindingLifecycle"/> to use</param>
+        /// <summary>
+        /// Set scope based on <see cref="BindingLifecycle">ActivationScope</see>
+        /// </summary>
+        /// <param name="syntax"><see cref="IBindingInSyntax{T}">Binding syntax</see> to set the scope for</param>
+        /// <param name="lifecycle"><see cref="BindingLifecycle"/> to use</param>
         public static void WithLifecycle<T>(this IBindingInSyntax<T> syntax, BindingLifecycle lifecycle)
-		{
-			switch (lifecycle)
-			{
-				case BindingLifecycle.Singleton:
-					syntax.InSingletonScope();
-					break;
+        {
+            switch (lifecycle)
+            {
+                case BindingLifecycle.Singleton:
+                    syntax.InSingletonScope();
+                    break;
 #if(false)
-				case BindingLifecycle.Request:
-					syntax.InRequestScope();
-					break;
+                case BindingLifecycle.Request:
+                    syntax.InRequestScope();
+                    break;
 
-				case BindingLifecycle.Thread:
-					syntax.InThreadScope();
-					break;
-#endif			
-				case BindingLifecycle.Transient:
-					syntax.InTransientScope();
-					break;
-			}
-		}
-	}
+                case BindingLifecycle.Thread:
+                    syntax.InThreadScope();
+                    break;
+#endif            
+                case BindingLifecycle.Transient:
+                    syntax.InTransientScope();
+                    break;
+            }
+        }
+    }
 }

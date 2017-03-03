@@ -15,9 +15,6 @@ namespace Bifrost.FluentValidation.Commands
     /// <summary>
     /// Base class to inherit from for basic business-rule validation of a command.
     /// </summary>
-    /// <remarks>
-    /// Commands inherting from this base class will be automatically registered.
-    /// </remarks>
     /// <typeparam name="T">Concrete type of the Command to validate</typeparam>
     public abstract class CommandBusinessValidator<T> : BusinessValidator<T>, ICanValidate<T>, ICommandBusinessValidator where T : class, ICommand
     {

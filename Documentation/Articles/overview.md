@@ -27,13 +27,24 @@ to them fully.
 
 ## History
 
-The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out to Codeplex in early 2009. Source control History
-between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
+The project got started by [Einar Ingebrigtsen](https://github.com/einari) in late 2008 with the first public commits going out
+to Codeplex in early 2009. Source control History between 2009 and 2012 still sits [there](http://bifrost.codeplex.com). The
+initial thoughts behind the project was to encapsulate commonly used building blocks. In 2009, [Michael Smith](https://github.com/smithmx)
+and [Einar](https://github.com/einari) took the project in a completely different direction after real world experience with 
+traditional n-tier architecture and the discovery of commands. In 2012 it was moved to [GitHub](https://github.com/dolittle/bifrost).
+
 From the beginning the project evolved through the needs we saw when consulting for different companies. Amongst these were [Komplett](https://www.komplett.no).
+It has always had a high focus on delivering the building blocks to be able to deliver the true business value. This has been
+possible by engaging very close with domain experts and developers working on line of business solutions.
+
 A presentation @ NDC 2011 showcases the work that was done, you can find it [here](https://vimeo.com/45594255).
 From 2012 to 2015 it got further developed @ Statoil and their needs for a critical LOB application; ProCoSys.
-The result of this is that Statoil continued the work and created their own [fork](https://github.com/ProCoSys/Bifrost)
-and have gone their own path with it and use it on the ProCoSys project on a day to day basis.
+In 2015, [Børge Nordli](https://github.com/bnordli) became the primary Bifrost resource @ Statoil and late 2015 he started
+maintaining a [fork](https://github.com/ProCoSys/Bifrost) that was used by the project. Pull Requests from the fork has been
+coming in steadily.
+
+The effort of design and thoughtwork going into the project is a result of great collaboration over the years.
+Not only by the primary maintainers; Michael, Børge and Einar - but all colleagues and other contributors to the project.
 
 ## Domain Driven Design
 
@@ -61,11 +72,15 @@ has.
 
 The core principal is to keep the different parts of your system apart and not take any dependency on any other contexts.
 
-### Context map
+All the details about a bounded context should be available in a context map. The context map provides then a highlevel
+overview of the bounded context and its artifacts.
+
+
+### Bounded Context Mediator
 
 At times bounded contexts needs a certain awareness of other contexts. This is often related to data and things that
-the certain context does not own, but needs a relationship to. A context map can then provide a bridge between the
-contexts. This is something that is modelled directly.
+the certain context does not own, but needs a relationship to. A bounded context mediator can then provide a bridge between the
+contexts. This is something that is modelled directly. 
 
 > [!Note]
 > As of December 2016, Bifrost does not have a mechanism for this.
@@ -230,7 +245,7 @@ needed to be written in relation to what is being read and used. The performance
 Most line-of-business applications tend to read a lot more than they write. [CQRS](https://en.wikipedia.org/wiki/Command–query_separation#Command_Query_Responsibility_Segregation)
 talks about totally segregating the read from the write and treat them uniquely.
 One finds [event sourcing](../Backend/Events/event_sourcing.md) often associated with CQRS, something that Bifrost has embraced and helps
-bridge the two sides and stay completely decoupled.
+bridge the two sides and stay completely decoupled. It is an optional part of Bifrost but hightly recommended together with an [event store](../Backend/Events/event_store.md).
 
 ![Simple CQRS Diagram](images/cqrs.png)
 

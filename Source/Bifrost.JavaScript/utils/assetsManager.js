@@ -1,13 +1,14 @@
 ﻿Bifrost.namespace("Bifrost", {
     assetsManager: {
+        scripts: [],
+        isInitialized: function() {
+            return Bifrost.assetsManager.scripts.length > 0;
+        },
         initialize: function () {
             var promise = Bifrost.execution.Promise.create();
-            if (typeof Bifrost.assetsManager.scripts === "undefined" ||
-                Bifrost.assetsManager.scripts.length === 0) {
-
+            if (!Bifrost.assetsManager.isInitialized()) {
                 $.get("/Bifrost/AssetsManager", { extension: "js" }, function (result) {
-                    Bifrost.assetsManager.scripts = result;
-                    Bifrost.namespaces.create().initialize();
+                    Bifrost.assetsManager.initializeFromAssets(result);
                     promise.signal();
                 }, "json");
             } else {
@@ -15,23 +16,19 @@
             }
             return promise;
         },
-        initializeFromAssets: function(assets) {
-            Bifrost.assetsManager.scripts = assets;
-            Bifrost.namespaces.create().initialize();
+        initializeFromAssets: function (assets) {
+            if (!Bifrost.assetsManager.isInitialized()) {
+                Bifrost.assetsManager.scripts = assets;
+                Bifrost.namespaces.create().initialize();
+            }
         },
         getScripts: function () {
             return Bifrost.assetsManager.scripts;
         },
         hasScript: function(script) {
-            var found = false;
-            Bifrost.assetsManager.scripts.some(function (scriptInSystem) {
-                if (scriptInSystem === script) {
-                    found = true;
-                    return;
-                }
+            return Bifrost.assetsManager.scripts.some(function (scriptInSystem) {
+                return scriptInSystem === script;
             });
-
-            return found;
         },
         getScriptPaths: function () {
             var paths = [];

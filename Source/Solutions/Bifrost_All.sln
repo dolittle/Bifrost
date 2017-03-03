@@ -61,7 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\LICENSE = ..\..\LICENSE
 		..\PushToNuget.bat = ..\PushToNuget.bat
 		..\..\readme.md = ..\..\readme.md
-		..\..\release_notes.md = ..\..\release_notes.md
+		..\..\CHANGELOG.md = ..\..\CHANGELOG.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}"

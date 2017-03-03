@@ -23,9 +23,9 @@ namespace Bifrost.JSON.Serialization
     /// <summary>
     /// Represents a <see cref="ISerializer"/>
     /// </summary>
-	public class Serializer : ISerializer
-	{
-		readonly IContainer _container;
+    public class Serializer : ISerializer
+    {
+        readonly IContainer _container;
 
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheAutoTypeName;
         readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheNoneTypeName;
@@ -71,10 +71,10 @@ namespace Bifrost.JSON.Serialization
                         instance = CreateInstanceOf(type, json);
                         serializer.Populate(reader, instance);
                     }
-					return instance;
-				}
-			}
-		}
+                    return instance;
+                }
+            }
+        }
 
         public void FromJson(object instance, string json, ISerializationOptions options = null)
         {
@@ -113,10 +113,10 @@ namespace Bifrost.JSON.Serialization
         }
 
 
-		public IDictionary<string, object> GetKeyValuesFromJson(string json)
-		{
-			return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-		}
+        public IDictionary<string, object> GetKeyValuesFromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        }
 #pragma warning restore 1591 // Xml Comments
 
 
@@ -209,7 +209,7 @@ namespace Bifrost.JSON.Serialization
             serializer.Converters.Add(new ConceptDictionaryConverter());
             serializer.Converters.Add(new EventSourceVersionConverter());
             
-			return serializer;
-		}
+            return serializer;
+        }
     }
 }

@@ -3,15 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
-using System.Reflection;
-using Bifrost.Concepts;
-using Bifrost.Configuration;
 using Bifrost.Entities;
-using Bifrost.Execution;
-using Bifrost.Extensions;
 
 namespace Bifrost.EntityFramework.Entities
 {
@@ -97,24 +90,6 @@ namespace Bifrost.EntityFramework.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            /*
-            var typeDiscoverer = Configure.Instance.Container.Get<ITypeDiscoverer>();
-            var concepts = typeDiscoverer.FindMultiple(typeof(IAmConceptAs<>));
-
-            var complexTypeMethod = typeof(DbModelBuilder).GetMethod("ComplexType");
-            concepts.Where(t=>!t.ContainsGenericParameters).ForEach(t=> {
-                var genericComplexTypeMethod = complexTypeMethod.MakeGenericMethod(t);
-                var complexTypeConfiguration = genericComplexTypeMethod.Invoke(modelBuilder, null);
-                var propertyMethods = complexTypeConfiguration.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance).Where(m => m.Name == "Property");
-
-                var i = 0;
-                i++;
-            });*/
-
-            //ComplexTypeConfiguration<object> 
-            //modelBuilder.ComplexType<object>().Property()
-            //modelBuilder.ComplexType<Something>().Property(s=>s.Number).
-            
             var configuration = _entityTypeConfigurations.GetFor<T>();
             modelBuilder.Configurations.Add(configuration);
         }

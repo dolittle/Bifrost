@@ -67,15 +67,14 @@ type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:
             failwithf "Unable to resolve version from '%s'" versionAsString
             BuildVersion(0,0,0,0,"",false)
 
-let getLatestTag repositoryDir =
-    let startInfo = new System.Diagnostics.ProcessStartInfo("git")
-    startInfo.Arguments <- "describe --tag --abbrev=0"
+let spawnProcess (processName:string, arguments:string) =
+    let startInfo = new System.Diagnostics.ProcessStartInfo(processName)
+    startInfo.Arguments <- arguments
     startInfo.RedirectStandardInput <- true
     startInfo.RedirectStandardOutput <- true
     startInfo.RedirectStandardError <- true
     startInfo.UseShellExecute <- false
     startInfo.CreateNoWindow <- true
-    
 
     use proc = new System.Diagnostics.Process(StartInfo = startInfo)
     proc.Start() |> ignore
@@ -84,22 +83,34 @@ let getLatestTag repositoryDir =
     let result = reader.ReadToEnd()
     proc.WaitForExit()
     if proc.ExitCode <> 0 then 
-        failwith ("Couldn't get the current tag for versioning: \r\n" + proc.StandardError.ReadToEnd())
-
-    printfn "%s" result
+        failwith ("Problems spawning ("+processName+") with arguments ("+arguments+"): \r\n" +  proc.StandardError.ReadToEnd())
 
     result
+
+let performGitCommand arguments:string =
+    spawnProcess("git", arguments)
+
+let gitVersion repositoryDir = 
+    let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
+    let arguments = sprintf "%s /output json /showvariable SemVer" repositoryDir
+    let gitVersionExecutable = "Source/Solutions/packages/GitVersion.CommandLine/tools/GitVersion.exe"
+    let processName = if isWindows then gitVersionExecutable else "mono"
+    let fullArguments = if isWindows then arguments else sprintf "%s %s" gitVersionExecutable arguments
+
+    spawnProcess(processName, fullArguments)
+
+let getCurrentBranch =
+    performGitCommand("rev-parse --abbrev-ref HEAD").Trim()
+
+let getLatestTag repositoryDir =
+    //let commitSha = performGitCommand "rev-list --tags --max-count=1"
+    performGitCommand (sprintf "describe --tag --abbrev=0")
     
-
-    
-
-//    let _,msg,error = runGitCommand repositoryDir "describe --tag --abbrev=0"
-//   if error <> "" then failwithf "git describe failed: %s" error
-//    msg |> Seq.head
-
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
-    let gitVersionTag = getLatestTag "./"
+
+
+    let gitVersionTag = gitVersion "./"
     tracef "Git tag version : %s" gitVersionTag
     new BuildVersion(gitVersionTag, buildNumber, true)
 
@@ -170,6 +181,9 @@ let specProjectJsonFiles = specDirectories
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
 
+
+let currentBranch = getCurrentBranch
+
 // Versioning related
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
@@ -196,6 +210,7 @@ let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOK
 let documentationSolutionFile = "Source/Solutions/Bifrost_Documentation.sln"
 
 printfn "<----------------------- BUILD DETAILS ----------------------->"
+printfn "Git Branch : %s" currentBranch
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
 printfn "Build version : %s" (buildVersion.AsString())
@@ -239,8 +254,9 @@ Target "Build" <| fun _ ->
 //*****************************************************************************
 Target "UpdateVersionOnBuildServer" (fun _ ->
     if( appveyor ) then
+        tracef "Updating build version for AppVeyor to %s" (buildVersion.AsString())
         let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
-        ProcessHelper.Shell.Exec("appveyor", args=allArgs) |> ignore
+        spawnProcess("appveyor", allArgs) |> ignore
 )
 
 
@@ -270,22 +286,45 @@ Target "UpdateProjectJsonFiles" (fun _ ->
 )
 
 //*****************************************************************************
-//* Package all projects for NuGet
+//* Build all .NET Core projects
 //*****************************************************************************
-Target "PackageForNuGet" (fun _ ->
+Target "DotNetCoreBuild" (fun _ ->
     for file in projectJsonFiles do
-
         let restoreArgs = sprintf "restore %s" file.FullName
         let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
         trace restoreMessage
         ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
         trace "**** RESTORING DONE ****"
-        let buildArgs = sprintf "build %s --no-incremental" file.FullName
+        let buildArgs = sprintf "build -c Release %s --no-incremental" file.FullName
         let message = sprintf "**** BUILDING : %s *****" buildArgs
         trace message
         ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
         trace "**** BUILDING DONE ****"
-        let allArgs = sprintf "pack %s --output %s" file.FullName nugetDirectory
+)
+
+//*****************************************************************************
+//* Run .NET CLI Test
+//*****************************************************************************
+Target "DotNetTest" (fun _ ->
+    for file in specProjectJsonFiles do
+        let restoreArgs = sprintf "restore %s" file.FullName
+        let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
+        trace restoreMessage
+        ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
+        trace "**** RESTORING DONE ****"
+        let testArgs = sprintf "test -f \"netcoreapp1.1\" %s" file.FullName
+        let testMessage = sprintf "**** Running Specs for : %s *****" testArgs
+        trace testMessage
+        ProcessHelper.Shell.Exec("dotnet", args=testArgs) |> ignore
+        trace "**** Running Specs DONE ****"
+)
+
+//*****************************************************************************
+//* Package all projects for NuGet
+//*****************************************************************************
+Target "PackageForNuGet" (fun _ ->
+    for file in projectJsonFiles do
+        let allArgs = sprintf "pack --no-build %s --output %s" file.FullName nugetDirectory
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )
 
@@ -299,7 +338,7 @@ Target "MSpec" (fun _ ->
                     |> String.concat " "
 
     let allArgs = sprintf "%s" specFiles
-    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4"
+    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4.exe"
     ProcessHelper.Shell.Exec(mspec, args=allArgs) |> ignore
 )
 
@@ -405,6 +444,7 @@ Target "BuildRelease" DoNothing
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "Package"
 "UpdateProjectJsonFiles" ==> "Package"
+"DotNetCoreBuild" ==> 
 "PackageForNuGet" ==> "Package"
 
 // Specifications pipeline
@@ -420,11 +460,17 @@ Target "BuildAndSpecs" DoNothing
 "BuildRelease" ==> "BuildAndSpecs"
 "Specifications" ==> "BuildAndSpecs"
 
+Target "PackageAndDeploy" DoNothing
+"Package" ==> "PackageAndDeploy"
+"GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
+"Deploy" ==> "PackageAndDeploy"
+
+Target "DotNetCoreBuildAndSpecs" DoNothing
+"DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
+"DotNetTest" ==> "DotNetCoreBuildAndSpecs"
+
 Target "All" DoNothing
-"BuildRelease" ==> "All"
-"Specifications" ==> "All"
-"Package" ==> "All"
-"GenerateAndPublishDocumentation" ==> "All"
-"Deploy" ==> "All"
+"BuildAndSpecs" ==> "All"
+"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
 
 RunTargetOrDefault "All"

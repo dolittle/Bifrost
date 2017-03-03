@@ -9,146 +9,167 @@ using Bifrost.Events;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
-namespace Bifrost.MongoDB.Events
+namespace Bifrost.MongoDb.Events
 {
-    public class EventStore : IEventStore
-    {
-        const string CollectionName = "Events";
-        const string IncrementalKeysCollectionName = "_IncrementalKeys";
-        const string EventType = "EventType";
-        const string Generation = "Generation";
-        const string Version = "Version";
-        const string LogicalEventType = "LogicalEventType";
-        const string CurrentKey = "CurrentKey";
+	public class EventStore : IEventStore
+	{
+		const string CollectionName = "Events";
+		const string IncrementalKeysCollectionName = "_IncrementalKeys";
+		const string EventType = "EventType";
+		const string Generation = "Generation";
+		const string Version = "Version";
+		const string LogicalEventType = "LogicalEventType";
+		const string CurrentKey = "CurrentKey";
 
-        EventStorageConfiguration _configuration;
-        MongoServer _server;
-        MongoDatabase _database;
-        MongoCollection _collection;
-        MongoCollection _incrementalKeysCollection;
-        IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
-        IEventEnvelopes _eventEnvelopes;
+		EventStorageConfiguration _configuration;
+		MongoClient _server;
+		IMongoDatabase _database;
+		IMongoCollection<BsonDocument> _collection;
+		IMongoCollection<BsonDocument> _incrementalKeysCollection;
+		IEventMigrationHierarchyManager _eventMigrationHierarchyManager;
 
-        static EventStore()
-        {
-            BsonSerializer.RegisterSerializer(typeof(EventSourceVersion), new EventSourceVersionSerializer());
-        }
+		static EventStore()
+		{
+			BsonSerializer.RegisterSerializer(typeof(EventSourceVersion), new EventSourceVersionSerializer());
+		}
 
-        public EventStore(EventStorageConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager, IEventEnvelopes eventEnvelopes)
-        {
-            _configuration = configuration;
-            _eventMigrationHierarchyManager = eventMigrationHierarchyManager;
-            _eventEnvelopes = eventEnvelopes;
-            Initialize();
-        }
+		public EventStore(EventStorageConfiguration configuration, IEventMigrationHierarchyManager eventMigrationHierarchyManager)
+		{
+			_configuration = configuration;
+			_eventMigrationHierarchyManager = eventMigrationHierarchyManager;
+			Initialize();
+		}
 
-        void Initialize()
-        {
-            _server = MongoServer.Create(_configuration.Url);
-            _database = _server.GetDatabase(_configuration.DefaultDatabase);
-            if (!_database.CollectionExists(CollectionName))
-                _database.CreateCollection(CollectionName);
+		void Initialize()
+		{
+			var s = MongoClientSettings.FromUrl(new MongoUrl(_configuration.Url));
+			if (_configuration.UseSSL)
+			{
+				s.UseSsl = true;
+				s.SslSettings = new SslSettings
+				{
+					EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12,
+					CheckCertificateRevocation = false
+				};
+			}
+			_server = new MongoClient(s);
 
-            _collection = _database.GetCollection(CollectionName);
 
-            if (!_database.CollectionExists(IncrementalKeysCollectionName))
-                _database.CreateCollection(IncrementalKeysCollectionName);
+			_database = _server.GetDatabase(_configuration.DefaultDatabase);
 
-            _incrementalKeysCollection = _database.GetCollection(IncrementalKeysCollectionName);
-        }
+			_collection = _database.GetCollection<BsonDocument>(CollectionName);
 
-        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
-        {
-            var eventSourceType = eventSource.GetType();
-            var query = Query.And(
-                            Query.EQ("EventSourceId", eventSourceId.Value),
-                            Query.EQ("EventSource", eventSourceType.AssemblyQualifiedName)
-                        );
+			_incrementalKeysCollection = _database.GetCollection<BsonDocument>(IncrementalKeysCollectionName);
+		}
 
-            var cursor = _collection.FindAs<BsonDocument>(query);
-            var documents = cursor.ToArray();
-            var events = ToEvents(documents);
-            var stream = new CommittedEventStream(eventSourceId, events);
-            
-            return stream;
-        }
+		public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+		{
+			var eventSourceType = eventSource.GetType();
+			var builder = Builders<BsonDocument>.Filter;
+			var filter = builder.Eq("EventSourceId", eventSourceId) & builder.Eq("EventSource", eventSourceType.AssemblyQualifiedName);
 
-        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
-        {
-            var eventArray = uncommittedEventStream.ToArray();
-            for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
-            {
-                var eventEnvelopeAndEvent = eventArray[eventIndex];
-                eventEnvelopeAndEvent.Event.Id = GetNextEventId();
-                var eventDocument = eventEnvelopeAndEvent.Event.ToBsonDocument();
-                AddMetaData(eventEnvelopeAndEvent.Event, eventDocument);
-                _collection.Insert(eventDocument);
-            }
+			var cursor = _collection.Find<BsonDocument>(filter);
+			var documents = cursor.ToList();
+			var events = ToEvents(documents);
+			var stream = new CommittedEventStream(eventSourceId);
+			stream.Append(events);
+			return stream;
+		}
 
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
-            return committedEventStream;
-        }
+		public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
+		{
+			var eventArray = uncommittedEventStream.ToArray();
+			for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
+			{
+				var @event = eventArray[eventIndex];
+				@event.Id = GetNextEventId();
+				var eventDocument = @event.ToBsonDocument();
+				AddMetaData(@event, eventDocument);
+				_collection.InsertOne(eventDocument);
+			}
 
-        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
-        {
-            var query = Query.EQ("EventSourceId", eventSourceId.Value);
-            var sort = SortBy.Descending(Version);
-            var @event = _collection.FindAs<BsonDocument>(query).SetSortOrder(sort).FirstOrDefault();
-            if (@event == null)
-                return EventSourceVersion.Zero;
+			var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
+			committedEventStream.Append(uncommittedEventStream);
+			return committedEventStream;
+		}
 
-            return EventSourceVersion.FromCombined(@event[Version].AsDouble);
-        }
+		public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+		{
+			var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
+			var @event = _collection.Find<BsonDocument>(filter).SortBy(d => d.GetElement(Version)).FirstOrDefault();
+			if (@event == null)
+				return EventSourceVersion.Zero;
 
-        int GetNextEventId()
-        {
-            var currentValue = 0;
-            var query = Query.EQ("_id", CollectionName);
-            var result = _incrementalKeysCollection.FindAndModify(query, SortBy.Null, Update.Inc(CurrentKey, 1), true);
-            if (result.ModifiedDocument == null)
-            {
-                var eventsCurrentValue = new BsonDocument();
-                eventsCurrentValue["_id"] = CollectionName;
-                eventsCurrentValue[CurrentKey] = 1;
-                _incrementalKeysCollection.Insert(eventsCurrentValue);
-                currentValue = 1;
-            }
-            else
-                currentValue = result.ModifiedDocument[CurrentKey].AsInt32;
-            return currentValue;
-        }
+			return EventSourceVersion.FromCombined(@event[Version].AsDouble);
+		}
 
-        void AddMetaData(IEvent @event, BsonDocument eventDocument)
-        {
-            var eventType = @event.GetType();
-            var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
-            var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
-            eventDocument[EventType] = string.Format("{0}, {1}", eventType.FullName, eventType.Assembly.GetName().Name);
-            eventDocument[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
-            eventDocument[Generation] = migrationLevel;
-        }
+		public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
+		{
+			var cursor = _collection.Find<BsonDocument>(new BsonDocument());
+			cursor.Skip(batchSize * batchesToSkip);
+			cursor.Limit(batchSize);
+			var documents = cursor.ToList();
+			var events = ToEvents(documents);
+			return events;
+		}
 
-        void RemoveMetaData(BsonDocument document)
-        {
-            document.Remove(EventType);
-            document.Remove(LogicalEventType);
-            document.Remove(Generation);
-        }
+		public IEnumerable<IEvent> GetAll()
+		{
+			var documents = _collection.Find<BsonDocument>(new BsonDocument()).ToList();
+			var events = ToEvents(documents);
+			return events;
+		}
 
-        IEnumerable<EventEnvelopeAndEvent> ToEvents(IEnumerable<BsonDocument> documents)
-        {
-            var events = new List<EventEnvelopeAndEvent>();
-            
-            foreach (var document in documents)
-            {
-                var eventType = Type.GetType(document[EventType].AsString);
-                RemoveMetaData(document);
-                var instance = BsonSerializer.Deserialize(document, eventType) as IEvent;
-                events.Add(new EventEnvelopeAndEvent(null, instance));
-            }
-            return events;
-        }
-    }
+		int GetNextEventId()
+		{
+			var currentValue = 0;
+			var query = Builders<BsonDocument>.Filter.Eq("_id", CollectionName);
+			var result = _incrementalKeysCollection.FindOneAndUpdate(query, Builders<BsonDocument>.Update.Inc(CurrentKey, 1), new FindOneAndUpdateOptions<BsonDocument>() { ReturnDocument = ReturnDocument.After, IsUpsert = true });
+
+			//TODO: Is this really necessary? The above is an upsert?
+			if (result?.AsBsonDocument == null)
+			{
+				var eventsCurrentValue = new BsonDocument();
+				eventsCurrentValue["_id"] = CollectionName;
+				eventsCurrentValue[CurrentKey] = 1;
+				_incrementalKeysCollection.InsertOne(eventsCurrentValue);
+				currentValue = 1;
+			}
+			else
+				currentValue = result.AsBsonDocument[CurrentKey].AsInt32;
+			return currentValue;
+		}
+
+		void AddMetaData(IEvent @event, BsonDocument eventDocument)
+		{
+			var eventType = @event.GetType();
+			var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
+			var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
+			eventDocument[EventType] = string.Format("{0}, {1}", eventType.FullName, eventType.Assembly.GetName().Name);
+			eventDocument[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
+			eventDocument[Generation] = migrationLevel;
+		}
+
+		void RemoveMetaData(BsonDocument document)
+		{
+			document.Remove(EventType);
+			document.Remove(LogicalEventType);
+			document.Remove(Generation);
+		}
+
+		IEnumerable<IEvent> ToEvents(IEnumerable<BsonDocument> documents)
+		{
+			var events = new List<IEvent>();
+			
+			foreach (var document in documents)
+			{
+				var eventType = Type.GetType(document[EventType].AsString);
+				RemoveMetaData(document);
+				var instance = BsonSerializer.Deserialize(document, eventType) as IEvent;
+				events.Add(instance);
+			}
+			return events;
+		}
+	}
 }

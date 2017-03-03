@@ -1,6 +1,8 @@
 ﻿using Bifrost.Read;
 using Bifrost.Security;
 using Machine.Specifications;
+using Moq;
+using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Read.for_QueryCoordinator
 {
@@ -21,7 +23,7 @@ namespace Bifrost.Specs.Read.for_QueryCoordinator
             var authorizeTargetResult = new AuthorizeTargetResult(new FetchingSecurityTarget());
             var authorizeSecurableResult = new AuthorizeSecurableResult(new Securable("Something"));
             var authorizeActorResult = new AuthorizeActorResult(new SecurityActor("Something"));
-            authorizeActorResult.AddBrokenRule(new RoleRule(new UserSecurityActor(), "SomeRole"));
+            authorizeActorResult.AddBrokenRule(new RoleRule(Mock.Of<IUserSecurityActor>(), "SomeRole"));
             authorizeSecurableResult.ProcessAuthorizeActorResult(authorizeActorResult);
             authorizeTargetResult.ProcessAuthorizeSecurableResult(authorizeSecurableResult);
             authorizeActionResult.ProcessAuthorizeTargetResult(authorizeTargetResult);

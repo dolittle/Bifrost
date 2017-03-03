@@ -20,10 +20,10 @@ namespace Bifrost.Validation
     }
 
 
-	/// <summary>
-	/// Defines the behavior of being able to do validation
-	/// </summary>
-	/// <typeparam name="T">Type it can validate</typeparam>
+    /// <summary>
+    /// Defines the behavior of being able to do validation
+    /// </summary>
+    /// <typeparam name="T">Type it can validate</typeparam>
     public interface ICanValidate<in T> : ICanValidate
     {
         /// <summary>

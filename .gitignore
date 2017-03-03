@@ -44,7 +44,7 @@ artifacts
 log.txt
 
 Source/Console/Events
-Source/EConsol/Entities
+Source/Console/Entities
 
 # OS generated files #
 ######################

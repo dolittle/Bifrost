@@ -19,7 +19,7 @@ namespace Bifrost.Configuration
     /// <summary>
     /// Represents the default <see cref="IConfigure"/> type
     /// </summary>
-	public class Configure : IConfigure
+    public class Configure : IConfigure
     {
         static readonly object InstanceLock = new object();
 
@@ -177,16 +177,16 @@ namespace Bifrost.Configuration
         public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
-		public ISagasConfiguration Sagas { get; private set; }
-		public ISerializationConfiguration Serialization { get; private set; }
+        public ISagasConfiguration Sagas { get; private set; }
+        public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
         public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
         public AssembliesConfiguration Assemblies { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
-		public CultureInfo Culture { get; set; }
-		public CultureInfo UICulture { get; set; }
+        public CultureInfo Culture { get; set; }
+        public CultureInfo UICulture { get; set; }
 
         public BindingLifecycle DefaultLifecycle 
         {
@@ -230,8 +230,8 @@ namespace Bifrost.Configuration
             Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();
-        	Sagas = Container.Get<ISagasConfiguration>();
-			Serialization = Container.Get<ISerializationConfiguration>();
+            Sagas = Container.Get<ISagasConfiguration>();
+            Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();
             CallContext = Container.Get<ICallContextConfiguration>();
@@ -240,13 +240,13 @@ namespace Bifrost.Configuration
             QualityAssurance = Container.Get<IQualityAssurance>();
         }
 
-		void InitializeCulture()
-		{
-			if (Culture == null)
-				Culture = CultureInfo.InvariantCulture;
-			if (UICulture == null)
-				UICulture = CultureInfo.InvariantCulture;
-		}
+        void InitializeCulture()
+        {
+            if (Culture == null)
+                Culture = CultureInfo.InvariantCulture;
+            if (UICulture == null)
+                UICulture = CultureInfo.InvariantCulture;
+        }
 
         void ConfigureFromCanConfigurables()
         {

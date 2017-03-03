@@ -54,6 +54,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\ApplicationArea.cs" />
     <Compile Include="Applications\ApplicationAreas.cs" />
@@ -204,6 +205,10 @@
     <Compile Include="Events\NullCommittedEventStreamSender.cs" />
     <Compile Include="Events\NullCommittedEventStreamReceiver.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
+    <Compile Include="Security\IUserSecurityActor.cs" />
+    <Compile Include="Exceptions\ExceptionPublisher.cs" />
+    <Compile Include="Exceptions\IExceptionPublisher.cs" />
+    <Compile Include="Exceptions\IExceptionSubscriber.cs" />
     <Compile Include="Execution\AssemblyAdded.cs" />
     <Compile Include="Execution\AssemblyInfo.cs" />
     <Compile Include="Execution\AssemblySpecifiers.cs" />
@@ -358,7 +363,6 @@
     <Compile Include="Mapping\IPropertyMappingStrategy.cs" />
     <Compile Include="Mapping\Map.cs" />
     <Compile Include="Mapping\PropertyMap.cs" />
-    <Compile Include="Principal\CurrentPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\Fetching.cs" />
     <Compile Include="Read\FetchingSecurityManager.cs" />

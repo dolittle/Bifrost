@@ -16,7 +16,7 @@ namespace Bifrost.Specs.Sagas.for_ChapterTransitionHelper
                                     _nonTransitionalChapter = new NonTransitionalChapter();
                                 };
 
-		Because of = () => can_transition = ChapterTransitionHelper.CanTransition(_nonTransitionalChapter, _transitionalChapter);
+        Because of = () => can_transition = ChapterTransitionHelper.CanTransition(_nonTransitionalChapter, _transitionalChapter);
 
         It should_be_able_to_transition = () => can_transition.ShouldBeFalse();
     }

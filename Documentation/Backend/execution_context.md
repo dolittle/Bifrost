@@ -17,16 +17,17 @@ In Bifrost this is formalized through something called ``IExecutionContext``.
 You can take a dependency directly to the ``IExecutionContext`` on the constructor of any types
 resolved by the IOC.
 
-    using Bifrost.Execution;
+```csharp
+using Bifrost.Execution;
 
-    public class MySystem
+public class MySystem
+{
+    public MySystem(IExecutionContext executionContext)
     {
-        public MySystem(IExecutionContext executionContext)
-        {
-            // Put your code here
-        }
+        // Put your code here
     }
-
+}
+```
 
 ## ExecutionContextManager
 
@@ -35,17 +36,19 @@ With a singleton lifecycle, this is not very useful at all, as you would get the
 that is valid at the first creation time. Any changes after that would not be reflected.
 If you have a singleton, you can take a dependency to something called IExecutionContextManager
 
-    using Bifrost.Execution;
+```csharp
+using Bifrost.Execution;
 
-    public class MySystem
+public class MySystem
+{
+    public MySystem(IExecutionContextManager executionContextManager)
     {
-        public MySystem(IExecutionContextManager executionContextManager)
-        {
-             var current = executionContextManager.Current;
+            var current = executionContextManager.Current;
 
-             // Put your code here
-        }
+            // Put your code here
     }
+}
+```
 
 On the execution context you will find the following properties:
 
@@ -81,15 +84,17 @@ Tenant is resolved by the tenancy system. You can read more about this [here](te
 
 The last property is a dynamic property called Details - it can only be populated by placing a class
 implementing ICanPopulateExecutionContextDetails anywhere, in fact you can have multiple.
-Bifrot will discover all your implementations and call the ``Populate()`` method whenever the
+Bifrot will discover all your implementations and call the `Populate()` method whenever the
 execution context needs to be populated.
 
-    using Bifrost.Execution;
+```csharp
+using Bifrost.Execution;
 
-    public class MyPopulator : ICanPopulateExecutionContextDetails
+public class MyPopulator : ICanPopulateExecutionContextDetails
+{
+    public Populate(IExecutionContext executionContext, dynamic details)
     {
-        public Populate(IExecutionContext executionContext, dynamic details)
-        {
-            details.SomeMetaData = "Hello world";
-        }
+        details.SomeMetaData = "Hello world";
     }
+}
+```

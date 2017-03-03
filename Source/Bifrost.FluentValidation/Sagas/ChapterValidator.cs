@@ -13,20 +13,17 @@ namespace Bifrost.FluentValidation.Sagas
     /// <summary>
     /// Base class to inherit from for validation of a Chapter.
     /// </summary>
-    /// <remarks>
-    /// Chapter validators inherting from this base class will be automatically registered.
-    /// </remarks>
     /// <typeparam name="T">Concrete type of the Chapter to validate</typeparam>
-    public abstract class ChapterValidator<T> : AbstractValidator<T>, ICanValidate<T>, IChapterValidator where T : class, IChapter
+    public abstract class ChapterValidator<T> : AbstractValidator<T>, ICanValidate<T>, IChapterValidator
+        where T : class, IChapter
     {
 #pragma warning disable 1591 // Xml Comments
         public virtual IEnumerable<ValidationResult> ValidateFor(T chapter)
         {
-            var result = Validate(chapter as T);
+            var result = Validate(chapter);
             return from error in result.Errors
-                   select new ValidationResult(error.ErrorMessage, new[] { error.PropertyName });
+                select new ValidationResult(error.ErrorMessage, new[] { error.PropertyName });
         }
-
 
         IEnumerable<ValidationResult> ICanValidate.ValidateFor(object target)
         {
