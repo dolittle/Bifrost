@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using Bifrost.Domain;
 using Bifrost.Events;
@@ -70,8 +69,6 @@ namespace Bifrost.Commands
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                    events.MarkEventsWithCommandDetails(Command);
-                    events.ExpandExecutionContext(ExecutionContext);
                     _uncommittedEventStreamCoordinator.Commit(events);
                     trackedObject.Commit();
                 }
@@ -85,14 +82,14 @@ namespace Bifrost.Commands
         }
 
 
-        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, EventSourceId eventSourceId)
+        public CommittedEventStream GetCommittedEventsFor(IEventSource eventSource)
         {
-            return _eventStore.GetForEventSource(eventSource, eventSourceId);
+            return _eventStore.GetFor(eventSource);
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, EventSourceId eventSourceId)
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
-            return _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
+            return _eventStore.GetLastCommittedVersionFor(eventSource);
         }
 
 #pragma warning restore 1591 // Xml Comments

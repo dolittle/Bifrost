@@ -2,9 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-
 namespace Bifrost.Events
 {
     /// <summary>
@@ -12,32 +9,23 @@ namespace Bifrost.Events
     /// </summary>
     public class NullEventStore : IEventStore
     {
-#pragma warning disable 1591 // Xml Comments
-        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public CommittedEventStream GetFor(IEventSource eventSource)
         {
-            return new CommittedEventStream(eventSourceId);
+            return new CommittedEventStream(eventSource.EventSourceId);
         }
 
+        /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
             return EventSourceVersion.Zero;
         }
-
-        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-        {
-            return new IEvent[0];
-        }
-
-        public IEnumerable<IEvent> GetAll()
-        {
-            return new IEvent[0];
-        }
-#pragma warning restore 1591 // Xml Comments
     }
 }

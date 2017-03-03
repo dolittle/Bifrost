@@ -40,13 +40,13 @@ namespace Bifrost.Domain
 			{
                 if(!aggregateRoot.IsStateless())
                 {
-                    var stream = commandContext.GetCommittedEventsFor(aggregateRoot, id);
+                    var stream = commandContext.GetCommittedEventsFor(aggregateRoot);
                     if( stream.HasEvents )
                         aggregateRoot.ReApply(stream);
                 }
                 else
                 {
-                    var version = commandContext.GetLastCommittedVersion(aggregateRoot, id);
+                    var version = commandContext.GetLastCommittedVersionFor(aggregateRoot);
                     aggregateRoot.FastForward(version);
                 }
 			}

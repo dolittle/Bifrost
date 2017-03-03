@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Linq;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 
@@ -42,7 +41,7 @@ namespace Bifrost.Events
 
         void CommittedEventStreamReceived(CommittedEventStream committedEventStream)
         {
-            _eventSubscriptionManager.Process(committedEventStream.Select(e=>e.Event));
+            _eventSubscriptionManager.Process(committedEventStream);
 
             committedEventStream.ForEach(e => _eventProcessors.Process(e.Event));
         }

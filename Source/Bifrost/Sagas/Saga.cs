@@ -17,7 +17,7 @@ namespace Bifrost.Sagas
     public class Saga : ISaga
     {
         List<IChapter> _chapters = new List<IChapter>();
-        Dictionary<EventSourceId, List<IEvent>> _eventsByEventSource = new Dictionary<EventSourceId, List<IEvent>>();
+        Dictionary<EventSourceId, List<EventEnvelopeAndEvent>> _eventsByEventSource = new Dictionary<EventSourceId, List<EventEnvelopeAndEvent>>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Saga"/>
@@ -38,22 +38,30 @@ namespace Bifrost.Sagas
         /// </summary>
         public IEventEnvelopes EventEnvelopes { get; set; }
 
-#pragma warning disable 1591 // Xml Comments
 
-
+        /// <inheritdoc/>
         public Guid Id { get; set; }
+
+        /// <inheritdoc/>
         public string Partition { get; set; }
+
+        /// <inheritdoc/>
         public string Key { get; set; }
 
+        /// <inheritdoc/>
         public IEnumerable<IChapter> Chapters { get { return _chapters; } }
+
+        /// <inheritdoc/>
         public IChapter CurrentChapter { get; private set; }
 
+        /// <inheritdoc/>
         public void SetCurrentChapter<T>() where T : IChapter
         {
             IChapter chapter = Get<T>();            
             SetCurrentChapter(chapter); 
         }
-        
+
+        /// <inheritdoc/>
         public void SetCurrentChapter(IChapter chapter)
         {
             CurrentChapter = chapter;
@@ -61,8 +69,8 @@ namespace Bifrost.Sagas
                 AddChapter(chapter);
             chapter.OnSetCurrent();
         }
-        
 
+        /// <inheritdoc/>
         public void AddChapter(IChapter chapter)
         {
             ThrowIfChapterAlreadyExist(chapter.GetType());
@@ -70,41 +78,47 @@ namespace Bifrost.Sagas
             SetChapterPropertyIfAny(chapter);
         }
 
+        /// <inheritdoc/>
         public bool Contains<T>() where T : IChapter
         {
             return Contains(typeof(T));
         }
 
+        /// <inheritdoc/>
         public bool Contains(Type type)
         {
             return _chapters.Any(s => s.GetType() == type);
         }
 
+        /// <inheritdoc/>
         public T Get<T>() where T : IChapter
         {
             ThrowIfChapterDoesNotExist(typeof(T));
             return (T)_chapters.Where(s => s.GetType() == typeof (T)).Single();
         }
 
+        /// <inheritdoc/>
         public PropertyInfo[] ChapterProperties { get; private set; }
 
-
-        public IEnumerable<IEvent> GetUncommittedEvents()
+        /// <inheritdoc/>
+        public IEnumerable<EventEnvelopeAndEvent> GetUncommittedEvents()
         {
-            var uncommittedEvents = new List<IEvent>();
+            var uncommittedEvents = new List<EventEnvelopeAndEvent>();
             foreach (var events in _eventsByEventSource.Values)
                 uncommittedEvents.AddRange(events);
 
             return uncommittedEvents;
         }
 
-        public void SetUncommittedEvents(IEnumerable<IEvent> events)
+        /// <inheritdoc/>
+        public void SetUncommittedEvents(IEnumerable<EventEnvelopeAndEvent> events)
         {
-            var query = events.GroupBy(e => e.EventSourceId).Select(g=>g);
+            var query = events.GroupBy(e => e.Envelope.EventSourceId).Select(g=>g);
             foreach (var group in query)
                 _eventsByEventSource[group.Key] = group.ToList();
         }
 
+        /// <inheritdoc/>
         public void SaveUncommittedEventsToEventStore(IEventStore eventStore)
         {
             throw new NotImplementedException();
@@ -123,89 +137,105 @@ namespace Bifrost.Sagas
 #endif
         }
 
-        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public CommittedEventStream GetFor(IEventSource eventSource)
         {
-            var eventStream = new CommittedEventStream(eventSourceId, _eventsByEventSource[eventSourceId].Select(e => new EventEnvelopeAndEvent(EventEnvelopes.CreateFrom(eventSource, e),e)));
+            var eventStream = new CommittedEventStream(eventSource.EventSourceId, _eventsByEventSource[eventSource.EventSourceId]);
             return eventStream;
         }
 
+        /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             if (!_eventsByEventSource.ContainsKey(uncommittedEventStream.EventSourceId))
-                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<IEvent>();
+                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<EventEnvelopeAndEvent>();
 
-            _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream.Select(e=>e.Event));
+            _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream);
 
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
-            if (!_eventsByEventSource.ContainsKey(eventSourceId))
+            if (!_eventsByEventSource.ContainsKey(eventSource.EventSourceId))
                 return EventSourceVersion.Zero;
 
-            var @event = _eventsByEventSource[eventSourceId].OrderByDescending(e => e.Version).FirstOrDefault();
-            if( @event == null ) 
+            var eventAndEnvelope = _eventsByEventSource[eventSource.EventSourceId].OrderByDescending(e => e.Envelope.Version).FirstOrDefault();
+            if( eventAndEnvelope == null ) 
                 return EventSourceVersion.Zero;
 
-            return @event.Version;
+            return eventAndEnvelope.Envelope.Version;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IEvent> GetAll()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public SagaState CurrentState { get; set; }
 
+        /// <inheritdoc/>
         public virtual void OnConclude()
         {}
 
+        /// <inheritdoc/>
         public virtual void OnBegin()
         {}
 
+        /// <inheritdoc/>
         public virtual void OnContinue()
         {}
 
+        /// <inheritdoc/>
         public void Begin()
         {
             CurrentState.TransitionTo(SagaState.BEGUN);
             OnBegin();   
         }
 
+        /// <inheritdoc/>
         public void Continue()
         {
             CurrentState.TransitionTo(SagaState.CONTINUING);
             OnContinue();
         }
 
+        /// <inheritdoc/>
         public void Conclude()
         {
             CurrentState.TransitionTo(SagaState.CONCLUDED);
             OnConclude();
         }
 
+        /// <inheritdoc/>
         public bool IsNew
         {
             get { return CurrentState.IsNew; }
         }
-        
+
+        /// <inheritdoc/>
         public bool IsContinuing
         {
             get { return CurrentState.IsContinuing; }
         }
-        
+
+        /// <inheritdoc/>
         public bool IsBegun
         {
             get { return CurrentState.IsBegun; }
         }
-        
+
+        /// <inheritdoc/>
         public bool IsConcluded
         {
             get { return CurrentState.IsConcluded; }

@@ -24,29 +24,29 @@ namespace Bifrost.Events
         IEnumerable<EventSubscription> GetAvailableSubscriptions();
 
         /// <summary>
-        /// Process a set of <see cref="IEvent">Events</see> for a specific subscription
+        /// Process a set of <see cref="EventEnvelopeAndEvent">Events</see> for a specific subscription
         /// </summary>
         /// <param name="subscription"><see cref="EventSubscription"/> to process events for</param>
-        /// <param name="events"><see cref="IEvent">Events</see> to process</param>
-        void Process(EventSubscription subscription, IEnumerable<IEvent> events);
+        /// <param name="eventsWithEnvelope"><see cref="EventEnvelopeAndEvent">Events</see> to process</param>
+        void Process(EventSubscription subscription, IEnumerable<EventEnvelopeAndEvent> eventsWithEnvelope);
 
         /// <summary>
-        /// Process a single <see cref="IEvent"/> for a specific subscription
+        /// Process a single <see cref="EventEnvelopeAndEvent"/> for a specific subscription
         /// </summary>
         /// <param name="subscription"><see cref="EventSubscription"/> to process event for</param>
-        /// <param name="event"><see cref="IEvent"/> to process</param>
-        void Process(EventSubscription subscription, IEvent @event);
+        /// <param name="eventAndEnvelope"><see cref="EventEnvelopeAndEvent"/> to process</param>
+        void Process(EventSubscription subscription, EventEnvelopeAndEvent eventAndEnvelope);
 
         /// <summary>
-        /// Process a set of <see cref="IEvent">Events</see>
+        /// Process a set of <see cref="EventEnvelopeAndEvent">Events</see>
         /// </summary>
-        /// <param name="events"><see cref="IEvent">Events</see> to process</param>
-        void Process(IEnumerable<IEvent> events);
+        /// <param name="eventsWithEnvelope"><see cref="EventEnvelopeAndEvent">Events</see> to process</param>
+        void Process(IEnumerable<EventEnvelopeAndEvent> eventsWithEnvelope);
 
         /// <summary>
-        /// Process a single <see cref="IEvent"/>
+        /// Process a single <see cref="EventEnvelopeAndEvent"/>
         /// </summary>
-        /// <param name="event"><see cref="IEvent"/> to process</param>
-        void Process(IEvent @event);
+        /// <param name="eventAndEnvelope"><see cref="EventEnvelopeAndEvent"/> to process</param>
+        void Process(EventEnvelopeAndEvent eventAndEnvelope);
     }
 }

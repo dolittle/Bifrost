@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+
 namespace Bifrost.Events
 {
     /// <summary>
@@ -12,7 +14,7 @@ namespace Bifrost.Events
         /// <inheritdoc/>
         public EventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
         {
-            return new EventEnvelope();
+            throw new NotImplementedException();
         }
     }
 }

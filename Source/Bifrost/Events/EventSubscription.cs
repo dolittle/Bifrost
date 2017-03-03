@@ -46,11 +46,11 @@ namespace Bifrost.Events
         /// <summary>
         /// Check wether or not subscription should process the event
         /// </summary>
-        /// <param name="event">Event to check</param>
+        /// <param name="eventAndEnvelope">Event to check</param>
         /// <returns>True if it should process, false if not</returns>
-        public bool ShouldProcess(IEvent @event)
+        public bool ShouldProcess(EventEnvelopeAndEvent eventAndEnvelope)
         {
-            return @event.Id > LastEventId;
+            return eventAndEnvelope.Envelope.EventId > LastEventId;
         }
 
 

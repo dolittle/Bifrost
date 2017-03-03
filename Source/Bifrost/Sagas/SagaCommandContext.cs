@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Commands;
@@ -76,8 +75,6 @@ namespace Bifrost.Sagas
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                    events.MarkEventsWithCommandDetails(Command);
-                    events.ExpandExecutionContext(ExecutionContext);
                     ProcessEvents(events);
                     _saga.Commit(events);
                     _uncommittedEventStreamCoordinator.Commit(events);
@@ -97,17 +94,17 @@ namespace Bifrost.Sagas
             Commit();
         }
 
-        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, EventSourceId eventSourceId)
+        public CommittedEventStream GetCommittedEventsFor(IEventSource eventSource)
         {
-            var stream = _eventStore.GetForEventSource(eventSource, eventSourceId);
-            var sagaStream = _saga.GetForEventSource(eventSource, eventSourceId);
-            return new CommittedEventStream(eventSourceId, stream);
+            var stream = _eventStore.GetFor(eventSource);
+            var sagaStream = _saga.GetFor(eventSource);
+            return new CommittedEventStream(eventSource.EventSourceId, stream);
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, EventSourceId eventSourceId)
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
-            var eventStoreVersion = _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
-            var sagaVersion = _saga.GetLastCommittedVersion(eventSource, eventSourceId);
+            var eventStoreVersion = _eventStore.GetLastCommittedVersionFor(eventSource);
+            var sagaVersion = _saga.GetLastCommittedVersionFor(eventSource);
             return new[] { eventStoreVersion, sagaVersion }.Max();
         }
 

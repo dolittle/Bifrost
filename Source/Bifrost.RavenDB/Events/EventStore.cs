@@ -95,7 +95,7 @@ namespace Bifrost.RavenDB.Events
             }
         }
 
-        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource, EventSourceId eventSourceId)
         {
             using (var session = _documentStore.OpenSession())
             {

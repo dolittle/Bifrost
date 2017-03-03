@@ -152,13 +152,13 @@ namespace Bifrost.Sagas
         /// Get uncommitted events from the <see cref="ISaga"/>
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IEvent> GetUncommittedEvents();
+        IEnumerable<EventEnvelopeAndEvent> GetUncommittedEvents();
 
         /// <summary>
         /// Set any uncommitted into the <see cref="ISaga"/>
         /// </summary>
         /// <param name="events"></param>
-        void SetUncommittedEvents(IEnumerable<IEvent> events);
+        void SetUncommittedEvents(IEnumerable<EventEnvelopeAndEvent> events);
 
         /// <summary>
         /// Save any uncommitted events to a given <see cref="IEventStore"/>

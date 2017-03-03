@@ -57,9 +57,10 @@ namespace Bifrost.Sagas
 
             if (!string.IsNullOrEmpty(sagaHolder.UncommittedEvents))
             {
-                var uncommittedEvents = new List<IEvent>();
-                _serializer.FromJson(uncommittedEvents,sagaHolder.UncommittedEvents);
-                saga.SetUncommittedEvents(uncommittedEvents);
+                throw new NotImplementedException();
+                //var uncommittedEvents = new List<IEvent>();
+                //_serializer.FromJson(uncommittedEvents,sagaHolder.UncommittedEvents);
+                //saga.SetUncommittedEvents(uncommittedEvents);
             }
 
             DeserializeChapters(sagaHolder, saga, currentChapterType);

@@ -42,15 +42,21 @@ namespace Bifrost.Events
 
         public void Apply(IEvent @event)
         {
-            Apply(@event, true);
+            ThrowIfEventEnvelopesNotSet();
+            var envelope = EventEnvelopes.CreateFrom(this, @event);
+            Version = Version.NextSequence();
+            UncommittedEvents.Append(envelope, @event);
         }
 
-        public virtual void ReApply(CommittedEventStream eventStream)
+        public void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);
 
             foreach (var eventAndEnvelope in eventStream)
-                ReApply(eventAndEnvelope.Event);
+            {
+                InvokeOnMethod(eventAndEnvelope.Event);
+                Version = eventAndEnvelope.Envelope.Version;
+            }
 
             Version = Version.NextCommit();
         }
@@ -82,37 +88,11 @@ namespace Bifrost.Events
 		}
 
 #pragma warning restore 1591 // Xml Comments
-        /// <summary>
-        /// Get the event source type
-        /// </summary>
-		protected virtual Type EventSourceType { get { return GetType(); } }
-
-
-        void ReApply(IEvent @event)
-        {
-            Apply(@event, false);
-        }
-
-        void Apply(IEvent @event, bool isNew)
-        {
-            if (isNew)
-            {
-                ThrowIfEventEnvelopesNotSet();
-                var envelope = EventEnvelopes.CreateFrom(this, @event);
-            	@event.EventSource = EventSourceType.AssemblyQualifiedName;
-                UncommittedEvents.Append(envelope, @event);
-                Version = Version.NextSequence();
-                @event.Version = Version;
-            }
-            HandleInternally(@event);
-        }
-
-        void HandleInternally(IEvent @event)
+        void InvokeOnMethod(IEvent @event)
         {
             var handleMethod = this.GetOnMethod(@event);
             if (handleMethod != null)
                 handleMethod.Invoke(this, new[] { @event });
-            Version = @event.Version;
         }
 
 

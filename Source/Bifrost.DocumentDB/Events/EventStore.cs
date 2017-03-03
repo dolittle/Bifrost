@@ -67,7 +67,7 @@ namespace Bifrost.DocumentDB.Events
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource, EventSourceId eventSourceId)
         {
             var version = EventSourceVersion.Zero;
             _client

@@ -92,7 +92,7 @@ namespace Bifrost.MongoDb.Events
 			return committedEventStream;
 		}
 
-		public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
+		public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource, EventSourceId eventSourceId)
 		{
 			var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
 			var @event = _collection.Find<BsonDocument>(filter).SortBy(d => d.GetElement(Version)).FirstOrDefault();

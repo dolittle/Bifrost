@@ -40,19 +40,17 @@ namespace Bifrost.Commands
         IEnumerable<IAggregateRoot> GetObjectsBeingTracked();
 
         /// <summary>
-        /// Get commmitted events for a specific <see cref="EventSource"/>
+        /// Get commmitted events for a specific <see cref="IEventSource"/>
         /// </summary>
-        /// <param name="eventSource"><see cref="EventSource"/> to get from</param>
-        /// <param name="eventSourceId"><see cref="EventSourceId">Id</see> of <see cref="EventSource"/> to get from</param>
+        /// <param name="eventSource"><see cref="IEventSource"/> to get from</param>
         /// <returns><see cref="CommittedEventStream"/> for the <see cref="EventSource"/></returns>
-        CommittedEventStream GetCommittedEventsFor(EventSource eventSource, EventSourceId eventSourceId);
+        CommittedEventStream GetCommittedEventsFor(IEventSource eventSource);
 
         /// <summary>
-        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="EventSource"/>
+        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="IEventSource"/>
         /// </summary>
-        /// <param name="eventSource"><see cref="EventSource"/> to get <see cref="EventSourceVersion">version</see> for</param>
-        /// <param name="eventSourceId"><see cref="Guid">Id</see> of the specific <see cref="EventSource"/></param>
+        /// <param name="eventSource"><see cref="IEventSource"/> to get <see cref="EventSourceVersion">version</see> for</param>
         /// <returns>The last committed <see cref="EventSourceVersion">version</see></returns>
-        EventSourceVersion GetLastCommittedVersion(EventSource eventSource, EventSourceId eventSourceId);
+        EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource);
     }
 }
