@@ -63,7 +63,7 @@ namespace Bifrost.MongoDb.Events
 			_incrementalKeysCollection = _database.GetCollection<BsonDocument>(IncrementalKeysCollectionName);
 		}
 
-		public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+		public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
 		{
 			var eventSourceType = eventSource.GetType();
 			var builder = Builders<BsonDocument>.Filter;
@@ -72,8 +72,7 @@ namespace Bifrost.MongoDb.Events
 			var cursor = _collection.Find<BsonDocument>(filter);
 			var documents = cursor.ToList();
 			var events = ToEvents(documents);
-			var stream = new CommittedEventStream(eventSourceId);
-			stream.Append(events);
+			var stream = new CommittedEventStream(eventSourceId, events);
 			return stream;
 		}
 
@@ -83,18 +82,17 @@ namespace Bifrost.MongoDb.Events
 			for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
 			{
 				var @event = eventArray[eventIndex];
-				@event.Id = GetNextEventId();
+				@event.Event.Id = GetNextEventId();
 				var eventDocument = @event.ToBsonDocument();
-				AddMetaData(@event, eventDocument);
+				AddMetaData(@event.Event, eventDocument);
 				_collection.InsertOne(eventDocument);
 			}
 
-			var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-			committedEventStream.Append(uncommittedEventStream);
+			var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, eventArray);
 			return committedEventStream;
 		}
 
-		public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+		public EventSourceVersion GetLastCommittedVersion(IEventSource eventSource, EventSourceId eventSourceId)
 		{
 			var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
 			var @event = _collection.Find<BsonDocument>(filter).SortBy(d => d.GetElement(Version)).FirstOrDefault();
@@ -102,23 +100,6 @@ namespace Bifrost.MongoDb.Events
 				return EventSourceVersion.Zero;
 
 			return EventSourceVersion.FromCombined(@event[Version].AsDouble);
-		}
-
-		public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-		{
-			var cursor = _collection.Find<BsonDocument>(new BsonDocument());
-			cursor.Skip(batchSize * batchesToSkip);
-			cursor.Limit(batchSize);
-			var documents = cursor.ToList();
-			var events = ToEvents(documents);
-			return events;
-		}
-
-		public IEnumerable<IEvent> GetAll()
-		{
-			var documents = _collection.Find<BsonDocument>(new BsonDocument()).ToList();
-			var events = ToEvents(documents);
-			return events;
 		}
 
 		int GetNextEventId()
@@ -158,17 +139,17 @@ namespace Bifrost.MongoDb.Events
 			document.Remove(Generation);
 		}
 
-		IEnumerable<IEvent> ToEvents(IEnumerable<BsonDocument> documents)
+		IEnumerable<EventEnvelopeAndEvent> ToEvents(IEnumerable<BsonDocument> documents)
 		{
-			var events = new List<IEvent>();
-			
-			foreach (var document in documents)
+            var events = new List<EventEnvelopeAndEvent>();
+
+            foreach (var document in documents)
 			{
 				var eventType = Type.GetType(document[EventType].AsString);
 				RemoveMetaData(document);
 				var instance = BsonSerializer.Deserialize(document, eventType) as IEvent;
-				events.Add(instance);
-			}
+                events.Add(new EventEnvelopeAndEvent(null, instance));
+            }
 			return events;
 		}
 	}

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6AA43B6E-8B56-4B00-AB6E-0F711C432BE8}</ProjectGuid>
+    <ProjectGuid>{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bifrost.MongoDB</RootNamespace>
