@@ -29,8 +29,8 @@ namespace Bifrost.Domain
             _eventEnvelopes = eventEnvelopes;
 		}
 
-#pragma warning disable 1591 // Xml Comments
-		public T Get(Guid id)
+        /// <inheritdoc/>
+		public T Get(EventSourceId id)
 		{
 			var commandContext = _commandContextManager.GetCurrent();
 			var type = typeof (T);
@@ -54,6 +54,5 @@ namespace Bifrost.Domain
 
 			return aggregateRoot;
 		}
-#pragma warning restore 1591 // Xml Comments
 	}
 }
