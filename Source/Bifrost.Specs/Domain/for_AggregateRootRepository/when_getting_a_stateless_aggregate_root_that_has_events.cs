@@ -18,17 +18,17 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
                                 {
                                     version_of_last_event = new EventSourceVersion(1,1);
                                     expected_version = new EventSourceVersion(2, 0);
-                                    command_context_mock.Setup(e => e.GetLastCommittedVersion(Moq.It.IsAny<EventSource>(),aggregated_root_id)).Returns(version_of_last_event);
+                                    command_context_mock.Setup(e => e.GetLastCommittedVersionFor(Moq.It.IsAny<EventSource>())).Returns(version_of_last_event);
                                 };
 
         Because of = () => stateless_aggregated_root = repository.Get(aggregated_root_id);
 
         It should_return_an_instance = () => stateless_aggregated_root.ShouldNotBeNull();
-        It should_not_get_events_for_the_aggregated_root = () => command_context_mock.Verify(e => e.GetCommittedEventsFor(Moq.It.IsAny<EventSource>(), aggregated_root_id), Moq.Times.Never());
+        It should_not_get_events_for_the_aggregated_root = () => command_context_mock.Verify(e => e.GetCommittedEventsFor(Moq.It.IsAny<EventSource>()), Moq.Times.Never());
         It should_not_re_apply_events_for_the_aggregated_root = () => stateless_aggregated_root .ReApplyCalled.ShouldBeFalse();
         It should_ensure_the_event_source_has_the_correct_version = () =>
                                                                         {
-                                                                            command_context_mock.Verify(e => e.GetLastCommittedVersion(Moq.It.IsAny<EventSource>(), aggregated_root_id), Moq.Times.Once());
+                                                                            command_context_mock.Verify(e => e.GetLastCommittedVersionFor(Moq.It.IsAny<EventSource>()), Moq.Times.Once());
                                                                             stateless_aggregated_root.Version.ShouldEqual(expected_version);
                                                                         };
         It should_register_the_aggregate_root_for_tracking_within_this_context = () => command_context_mock.Verify(cc => cc.RegisterForTracking(stateless_aggregated_root));

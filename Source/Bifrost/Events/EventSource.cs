@@ -48,7 +48,7 @@ namespace Bifrost.Events
             UncommittedEvents.Append(envelope, @event);
         }
 
-        public void ReApply(CommittedEventStream eventStream)
+        public virtual void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);
 

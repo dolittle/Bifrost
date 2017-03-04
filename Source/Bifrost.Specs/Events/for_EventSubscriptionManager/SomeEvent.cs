@@ -5,6 +5,6 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
 {
     public class SomeEvent : Event
     {
-        public SomeEvent(Guid eventSourceId) : base(eventSourceId) { }
+        public SomeEvent(EventSourceId eventSourceId) : base(eventSourceId) { }
     }
 }

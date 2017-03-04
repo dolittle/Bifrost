@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using Bifrost.Conventions;
 
 namespace Bifrost.Events
@@ -17,7 +16,7 @@ namespace Bifrost.Events
     public interface IEvent : IConvention
     {
         /// <summary>
-        /// Gets the EventSource id (Aggregate Root) to which these events belong.
+        /// Gets the <see cref="EventSourceId"/> for the <see cref="IEventSource"/> the event originates from
         /// </summary>
         EventSourceId EventSourceId { get; set; }
     }

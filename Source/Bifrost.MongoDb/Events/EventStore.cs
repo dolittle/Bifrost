@@ -54,25 +54,21 @@ namespace Bifrost.MongoDb.Events
 				};
 			}
 			_server = new MongoClient(s);
-
-
 			_database = _server.GetDatabase(_configuration.DefaultDatabase);
-
 			_collection = _database.GetCollection<BsonDocument>(CollectionName);
-
 			_incrementalKeysCollection = _database.GetCollection<BsonDocument>(IncrementalKeysCollectionName);
 		}
 
-		public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
+		public CommittedEventStream GetFor(IEventSource eventSource)
 		{
 			var eventSourceType = eventSource.GetType();
 			var builder = Builders<BsonDocument>.Filter;
-			var filter = builder.Eq("EventSourceId", eventSourceId) & builder.Eq("EventSource", eventSourceType.AssemblyQualifiedName);
+			var filter = builder.Eq("EventSourceId", eventSource.EventSourceId) & builder.Eq("EventSource", eventSourceType.AssemblyQualifiedName);
 
 			var cursor = _collection.Find<BsonDocument>(filter);
 			var documents = cursor.ToList();
 			var events = ToEvents(documents);
-			var stream = new CommittedEventStream(eventSourceId, events);
+			var stream = new CommittedEventStream(eventSource.EventSourceId, events);
 			return stream;
 		}
 
@@ -92,9 +88,9 @@ namespace Bifrost.MongoDb.Events
 			return committedEventStream;
 		}
 
-		public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource, EventSourceId eventSourceId)
+		public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
 		{
-			var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
+			var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSource.EventSourceId);
 			var @event = _collection.Find<BsonDocument>(filter).SortBy(d => d.GetElement(Version)).FirstOrDefault();
 			if (@event == null)
 				return EventSourceVersion.Zero;
@@ -139,16 +135,16 @@ namespace Bifrost.MongoDb.Events
 			document.Remove(Generation);
 		}
 
-		IEnumerable<EventEnvelopeAndEvent> ToEvents(IEnumerable<BsonDocument> documents)
+		IEnumerable<EventAndEnvelope> ToEvents(IEnumerable<BsonDocument> documents)
 		{
-            var events = new List<EventEnvelopeAndEvent>();
+            var events = new List<EventAndEnvelope>();
 
             foreach (var document in documents)
 			{
 				var eventType = Type.GetType(document[EventType].AsString);
 				RemoveMetaData(document);
 				var instance = BsonSerializer.Deserialize(document, eventType) as IEvent;
-                events.Add(new EventEnvelopeAndEvent(null, instance));
+                events.Add(new EventAndEnvelope(null, instance));
             }
 			return events;
 		}

@@ -24,9 +24,9 @@ namespace Bifrost.Events
         /// <summary>
         /// Appends an event to the uncommitted event stream, setting the correct EventSourceId and Sequence Number for the event.
         /// </summary>
-        /// <param name="envelope">The <see cref="EventEnvelope"/> representing the metadata for the event</param>
+        /// <param name="envelope">The <see cref="IEventEnvelope"/> representing the metadata for the event</param>
         /// <param name="event">The event to be appended.</param>
-        public void Append(EventEnvelope envelope, IEvent @event)
+        public void Append(IEventEnvelope envelope, IEvent @event)
         {
             ThrowIfEventIsNull(@event);
             @event.EventSourceId = EventSourceId;

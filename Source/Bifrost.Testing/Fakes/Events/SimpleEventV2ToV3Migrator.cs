@@ -6,7 +6,7 @@ namespace Bifrost.Testing.Fakes.Events
     {
         public v3.SimpleEvent Migrate(v2.SimpleEvent source)
         {
-            var simpleEvent3 = new v3.SimpleEvent(source.EventSourceId, source.Id);
+            var simpleEvent3 = new v3.SimpleEvent(source.EventSourceId);
             return simpleEvent3;
         }
     }

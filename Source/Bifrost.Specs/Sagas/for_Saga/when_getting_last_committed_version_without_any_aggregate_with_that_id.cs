@@ -8,7 +8,7 @@ namespace Bifrost.Specs.Sagas.for_Saga
     {
         static EventSourceVersion version;
  
-        Because of = () => version = saga.GetLastCommittedVersionFor(Moq.It.IsAny<EventSource>(), Guid.NewGuid());
+        Because of = () => version = saga.GetLastCommittedVersionFor(Moq.It.IsAny<EventSource>());
 
         It should_return_a_zero_version = () => version.ShouldEqual(EventSourceVersion.Zero);
     }

@@ -2,6 +2,7 @@
 using Bifrost.Events;
 using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
+using Moq;
 
 namespace Bifrost.Specs.Sagas.for_Saga.given
 {
@@ -9,15 +10,22 @@ namespace Bifrost.Specs.Sagas.for_Saga.given
     {
         protected static Guid aggregated_root_id = Guid.NewGuid();
         protected static SimpleEvent first_event;
+        protected static Mock<IEventEnvelope> first_event_envelope;
         protected static SimpleEvent second_event;
+        protected static Mock<IEventEnvelope> second_event_envelope;
 
         Establish context = () =>
         {
             var eventStream = new UncommittedEventStream(aggregated_root_id);
-            first_event = new SimpleEvent(aggregated_root_id) { Version = new EventSourceVersion(1, 0) };
-            eventStream.Append(new EventEnvelope(), first_event);
-            second_event = new SimpleEvent(aggregated_root_id) { Version = new EventSourceVersion(1, 1) };
-            eventStream.Append(new EventEnvelope(), second_event);
+            first_event = new SimpleEvent(aggregated_root_id);
+            first_event_envelope = new Mock<IEventEnvelope>();
+            first_event_envelope.SetupGet(e => e.Version).Returns(new EventSourceVersion(1, 0));
+            eventStream.Append(first_event_envelope.Object, first_event);
+
+            second_event = new SimpleEvent(aggregated_root_id);
+            second_event_envelope = new Mock<IEventEnvelope>();
+            second_event_envelope.SetupGet(e => e.Version).Returns(new EventSourceVersion(1, 1));
+            eventStream.Append(second_event_envelope.Object, second_event);
 
             saga.Commit(eventStream);
         };

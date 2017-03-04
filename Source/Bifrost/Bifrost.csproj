@@ -185,6 +185,7 @@
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
+    <Compile Include="Events\IEventEnvelope.cs" />
     <Compile Include="Events\IEventEnvelopes.cs" />
     <Compile Include="Events\IEventProcessingResult.cs" />
     <Compile Include="Events\EventProcessorResult.cs" />

@@ -40,7 +40,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets or sets the last event id the subscriber has processed
         /// </summary>
-        public long LastEventId { get; set; }
+        public EventId LastEventId { get; set; }
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventAndEnvelope">Event to check</param>
         /// <returns>True if it should process, false if not</returns>
-        public bool ShouldProcess(EventAndEnvelope eventAndEnvelope)
+        public bool CanProcess(EventAndEnvelope eventAndEnvelope)
         {
             return eventAndEnvelope.Envelope.EventId > LastEventId;
         }

@@ -120,7 +120,7 @@ namespace Bifrost.Events
             var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
             {
-                if (!subscriptionToProcess.ShouldProcess(eventAndEnvelope))
+                if (!subscriptionToProcess.CanProcess(eventAndEnvelope))
                     continue;
 
                 Process(subscriptionToProcess, subscribers[subscriptionToProcess.Owner], eventAndEnvelope);
