@@ -42,52 +42,40 @@ namespace Bifrost.DocumentDB.Events
             InitializeStoredProcedures();
         }
 
-#pragma warning disable 1591
-        public CommittedEventStream GetForEventSource(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public CommittedEventStream GetFor(IEventSource eventSource)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            
-
-            foreach( var @event in uncommittedEventStream )
+            var eventsWithEnvelope = new List<EventWithEnvelope>();
+            foreach( var eventWithEnvelope in uncommittedEventStream )
             {
-                var serialized = _serializer.ToJson(@event, SerializationExtensions.SerializationOptions);
+                var serialized = _serializer.ToJson(eventWithEnvelope, SerializationExtensions.SerializationOptions);
                 _client
                     .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
-                    .ContinueWith(t => @event.Event.Id = t.Result)
+                    .ContinueWith(t => eventsWithEnvelope.Add(new EventWithEnvelope(eventWithEnvelope.Envelope.WithEventId((long)t.Result), eventWithEnvelope.Event)))
                     .Wait();
-
-                
             }
 
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
             return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource, EventSourceId eventSourceId)
+        /// <inheritdoc/>
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
             var version = EventSourceVersion.Zero;
             _client
-                .ExecuteStoredProcedureAsync<double>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSourceId)
+                .ExecuteStoredProcedureAsync<double>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSource.EventSourceId)
                 .ContinueWith(t => version = EventSourceVersion.FromCombined(t.Result))
                 .Wait();
 
             return version;
         }
-
-        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IEvent> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-#pragma warning restore 1591
 
 
         void InitializeCollection()
