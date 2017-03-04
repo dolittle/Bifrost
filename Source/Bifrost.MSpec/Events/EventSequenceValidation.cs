@@ -20,7 +20,7 @@ namespace Bifrost.MSpec.Events
         public EventValueValidation<T> AtSequenceNumber(int sequenceNumber)
         {
             var query = from e in _stream
-                        where e.Event.Version.Sequence == sequenceNumber
+                        where e.Envelope.Version.Sequence == sequenceNumber
                         select e;
 
             var @event = (T)query.FirstOrDefault().Event;
