@@ -48,7 +48,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventAndEnvelope">Event to check</param>
         /// <returns>True if it should process, false if not</returns>
-        public bool ShouldProcess(EventEnvelopeAndEvent eventAndEnvelope)
+        public bool ShouldProcess(EventWithEnvelope eventAndEnvelope)
         {
             return eventAndEnvelope.Envelope.EventId > LastEventId;
         }

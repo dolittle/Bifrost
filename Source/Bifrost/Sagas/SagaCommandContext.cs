@@ -111,7 +111,7 @@ namespace Bifrost.Sagas
 #pragma warning restore 1591 // Xml Comments
 
 
-        void ProcessEvents(IEnumerable<EventEnvelopeAndEvent> events)
+        void ProcessEvents(IEnumerable<EventWithEnvelope> events)
         {
             foreach (var eventAndEnvelope in events)
             {

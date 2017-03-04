@@ -11,12 +11,12 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents a collection of events in the order that they were applied.
     /// </summary>
-    public class EventStream : IEnumerable<EventEnvelopeAndEvent>
+    public class EventStream : IEnumerable<EventWithEnvelope>
     {
 		/// <summary>
 		/// Gets a list of all the events in the stream
 		/// </summary>
-        protected List<EventEnvelopeAndEvent> Events = new List<EventEnvelopeAndEvent>();
+        protected List<EventWithEnvelope> Events = new List<EventWithEnvelope>();
 
 		/// <summary>
 		/// Initializes a new <see cref="EventStream">EventStream</see>
@@ -52,7 +52,7 @@ namespace Bifrost.Events
         /// Get a generic enumerator to iterate over the events
         /// </summary>
         /// <returns>Enumerator</returns>
-        public IEnumerator<EventEnvelopeAndEvent> GetEnumerator()
+        public IEnumerator<EventWithEnvelope> GetEnumerator()
         {
             return Events.GetEnumerator();
         }

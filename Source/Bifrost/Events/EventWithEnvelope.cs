@@ -7,14 +7,14 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents an <see cref="EventEnvelope"/> and an <see cref="IEvent"/>
     /// </summary>
-    public class EventEnvelopeAndEvent
+    public class EventWithEnvelope
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="EventEnvelopeAndEvent"/>
+        /// Initializes a new instance of <see cref="EventWithEnvelope"/>
         /// </summary>
         /// <param name="envelope"><see cref="EventEnvelope">Envelope</see> with metadata for the <see cref="IEvent"/></param>
         /// <param name="theEvent"><see cref="IEvent">Event</see> that is represented</param>
-        public EventEnvelopeAndEvent(EventEnvelope envelope, IEvent theEvent)
+        public EventWithEnvelope(EventEnvelope envelope, IEvent theEvent)
         {
             Envelope = envelope;
             Event = theEvent;

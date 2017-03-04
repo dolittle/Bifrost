@@ -17,7 +17,7 @@ namespace Bifrost.Sagas
     public class Saga : ISaga
     {
         List<IChapter> _chapters = new List<IChapter>();
-        Dictionary<EventSourceId, List<EventEnvelopeAndEvent>> _eventsByEventSource = new Dictionary<EventSourceId, List<EventEnvelopeAndEvent>>();
+        Dictionary<EventSourceId, List<EventWithEnvelope>> _eventsByEventSource = new Dictionary<EventSourceId, List<EventWithEnvelope>>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Saga"/>
@@ -101,9 +101,9 @@ namespace Bifrost.Sagas
         public PropertyInfo[] ChapterProperties { get; private set; }
 
         /// <inheritdoc/>
-        public IEnumerable<EventEnvelopeAndEvent> GetUncommittedEvents()
+        public IEnumerable<EventWithEnvelope> GetUncommittedEvents()
         {
-            var uncommittedEvents = new List<EventEnvelopeAndEvent>();
+            var uncommittedEvents = new List<EventWithEnvelope>();
             foreach (var events in _eventsByEventSource.Values)
                 uncommittedEvents.AddRange(events);
 
@@ -111,7 +111,7 @@ namespace Bifrost.Sagas
         }
 
         /// <inheritdoc/>
-        public void SetUncommittedEvents(IEnumerable<EventEnvelopeAndEvent> events)
+        public void SetUncommittedEvents(IEnumerable<EventWithEnvelope> events)
         {
             var query = events.GroupBy(e => e.Envelope.EventSourceId).Select(g=>g);
             foreach (var group in query)
@@ -148,7 +148,7 @@ namespace Bifrost.Sagas
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             if (!_eventsByEventSource.ContainsKey(uncommittedEventStream.EventSourceId))
-                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<EventEnvelopeAndEvent>();
+                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<EventWithEnvelope>();
 
             _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream);
 

@@ -27,7 +27,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventSourceId">The <see cref="EventSourceId"/> of the <see cref="IEventSource"/></param>
         /// <param name="eventsWithEnvelope">The <see cref="IEvent">events</see> with their <see cref="EventEnvelope">envelopes</see></param>
-        public CommittedEventStream(EventSourceId eventSourceId, IEnumerable<EventEnvelopeAndEvent> eventsWithEnvelope)
+        public CommittedEventStream(EventSourceId eventSourceId, IEnumerable<EventWithEnvelope> eventsWithEnvelope)
             : base(eventSourceId)
         {
             foreach (var eventAndEnvelope in eventsWithEnvelope)
@@ -37,7 +37,7 @@ namespace Bifrost.Events
             }
         }
 
-        void EnsureEventIsValid(EventEnvelopeAndEvent eventAndEnvelope)
+        void EnsureEventIsValid(EventWithEnvelope eventAndEnvelope)
         {
             if (eventAndEnvelope.Event == null)
                 throw new ArgumentNullException("Cannot append a null event");
