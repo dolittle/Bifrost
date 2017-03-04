@@ -30,7 +30,7 @@ namespace Bifrost.Events
         {
             ThrowIfEventIsNull(@event);
             @event.EventSourceId = EventSourceId;
-            Events.Add(new EventWithEnvelope(envelope, @event));
+            Events.Add(new EventAndEnvelope(envelope, @event));
         }
 
         void ThrowIfEventIsNull(IEvent @event)

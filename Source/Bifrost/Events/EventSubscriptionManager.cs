@@ -58,20 +58,20 @@ namespace Bifrost.Events
             return availableSubscriptions;
         }
 
-        public void Process(EventSubscription subscription, IEnumerable<EventWithEnvelope> events)
+        public void Process(EventSubscription subscription, IEnumerable<EventAndEnvelope> events)
         {
             foreach (var @event in events)
                 Process(subscription, @event);
         }
 
-        public void Process(EventSubscription subscription, EventWithEnvelope @event)
+        public void Process(EventSubscription subscription, EventAndEnvelope @event)
         {
             var subscriber = _container.Get(subscription.Owner) as IProcessEvents;
             Process(subscription, subscriber, @event);
         }
 
 
-        public void Process(IEnumerable<EventWithEnvelope> eventsWithEnvelopes)
+        public void Process(IEnumerable<EventAndEnvelope> eventsWithEnvelopes)
         {
             RefreshAndMergeSubscriptionsFromRepository();
             var subscribers = GetSubscriberInstancesFromEvents(eventsWithEnvelopes);
@@ -80,7 +80,7 @@ namespace Bifrost.Events
                 Process(subscribers, eventAndEnvelope);
         }
 
-        public void Process(EventWithEnvelope eventAndEnvelope)
+        public void Process(EventAndEnvelope eventAndEnvelope)
         {
             RefreshAndMergeSubscriptionsFromRepository();
             var subscribers = GetSubscriberInstancesFromEvents(new[] { eventAndEnvelope });
@@ -89,7 +89,7 @@ namespace Bifrost.Events
 
 #pragma warning restore 1591 // Xml Comments
 
-        Dictionary<Type, IProcessEvents> GetSubscriberInstancesFromEvents(IEnumerable<EventWithEnvelope> events)
+        Dictionary<Type, IProcessEvents> GetSubscriberInstancesFromEvents(IEnumerable<EventAndEnvelope> events)
         {
             var subscribersBySubscriberTypes = new Dictionary<Type, IProcessEvents>();
 
@@ -114,7 +114,7 @@ namespace Bifrost.Events
         }
 
 
-        void Process(Dictionary<Type, IProcessEvents> subscribers, EventWithEnvelope eventAndEnvelope)
+        void Process(Dictionary<Type, IProcessEvents> subscribers, EventAndEnvelope eventAndEnvelope)
         {
             var eventType = eventAndEnvelope.GetType();
             var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
@@ -127,7 +127,7 @@ namespace Bifrost.Events
             }
         }
 
-        void Process(EventSubscription subscription, IProcessEvents subscriber, EventWithEnvelope eventAndEnvelope)
+        void Process(EventSubscription subscription, IProcessEvents subscriber, EventAndEnvelope eventAndEnvelope)
         {
             using (_localizer.BeginScope())
             {
