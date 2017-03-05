@@ -29,8 +29,16 @@ namespace Bifrost.Events
         public void Append(IEventEnvelope envelope, IEvent @event)
         {
             ThrowIfEventIsNull(@event);
+            ThrowIfEventBelongsToOtherEventSource(envelope);
+
             @event.EventSourceId = EventSourceId;
             Events.Add(new EventAndEnvelope(envelope, @event));
+        }
+
+        void ThrowIfEventBelongsToOtherEventSource(IEventEnvelope envelope)
+        {
+            if (envelope.EventSourceId != EventSourceId)
+                throw new EventBelongsToOtherEventSource(envelope.EventSourceId, EventSourceId);
         }
 
         void ThrowIfEventIsNull(IEvent @event)
