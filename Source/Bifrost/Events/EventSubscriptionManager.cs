@@ -89,13 +89,13 @@ namespace Bifrost.Events
 
 #pragma warning restore 1591 // Xml Comments
 
-        Dictionary<Type, IProcessEvents> GetSubscriberInstancesFromEvents(IEnumerable<EventAndEnvelope> events)
+        Dictionary<Type, IProcessEvents> GetSubscriberInstancesFromEvents(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
         {
             var subscribersBySubscriberTypes = new Dictionary<Type, IProcessEvents>();
 
-            foreach (var @event in events)
+            foreach (var eventAndEnvelope in eventsAndEnvelopes)
             {
-                var eventType = @event.GetType();
+                var eventType = eventAndEnvelope.Event.GetType();
                 var subscriptions = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
                 foreach (var subscription in subscriptions)
                 {
@@ -116,7 +116,7 @@ namespace Bifrost.Events
 
         void Process(Dictionary<Type, IProcessEvents> subscribers, EventAndEnvelope eventAndEnvelope)
         {
-            var eventType = eventAndEnvelope.GetType();
+            var eventType = eventAndEnvelope.Event.GetType();
             var subscriptionsToProcess = _allSubscriptions.Where(s => s.EventType.Equals(eventType));
             foreach (var subscriptionToProcess in subscriptionsToProcess)
             {

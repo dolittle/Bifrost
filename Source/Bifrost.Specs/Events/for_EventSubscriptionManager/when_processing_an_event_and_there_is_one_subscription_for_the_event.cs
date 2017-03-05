@@ -17,7 +17,10 @@ namespace Bifrost.Specs.Events.for_EventSubscriptionManager
         {
             var event_source_id = Guid.NewGuid();
             @event = new SomeEvent(event_source_id);
-            event_and_envelope = new EventAndEnvelope(new Mock<IEventEnvelope>().Object, new SomeEvent(event_source_id));
+            var eventEnvelope = new Mock<IEventEnvelope>();
+            eventEnvelope.SetupGet(e => e.EventId).Returns((long)1);
+
+            event_and_envelope = new EventAndEnvelope(eventEnvelope.Object, new SomeEvent(event_source_id));
             
             event_subscriptions_mock.Setup(e => e.Save(Moq.It.IsAny<EventSubscription>())).Callback((EventSubscription s) => actual_subscription = s);
             event_subscriber = new SomeEventSubscriber();
