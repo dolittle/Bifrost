@@ -7,11 +7,7 @@ namespace Bifrost.Specs.Events.for_EventSource
     [Subject(Subjects.applying_events)]
 	public class when_applying_a_new_event : given.a_stateful_event_source
 	{
-		Establish context =
-			() =>
-				{
-					@event = new SimpleEvent(event_source_id);
-				};
+		Establish context = () => @event = new SimpleEvent(event_source_id);
 
 		Because of = () => event_source.Apply(@event);
 
