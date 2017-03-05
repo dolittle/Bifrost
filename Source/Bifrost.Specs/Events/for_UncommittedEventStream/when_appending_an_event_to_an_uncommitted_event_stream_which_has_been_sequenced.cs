@@ -18,6 +18,7 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStream
         {
             @event = new SimpleEvent(event_source_id);
             event_envelope = new Mock<IEventEnvelope>();
+            event_envelope.SetupGet(e => e.EventSourceId).Returns(event_source_id);
         };
 
         Because of = () => Exception = Catch.Exception(() => event_stream.Append(event_envelope.Object, @event));

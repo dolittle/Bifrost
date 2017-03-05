@@ -177,6 +177,7 @@
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
+    <Compile Include="Events\EventBelongsToOtherEventSource.cs" />
     <Compile Include="Events\EventEnvelope.cs" />
     <Compile Include="Events\EventAndEnvelope.cs" />
     <Compile Include="Events\EventEnvelopes.cs" />

@@ -837,7 +837,7 @@
     <Compile Include="Events\for_EventSource\when_rolling_back_uncommitted_events.cs" />
     <Compile Include="Events\for_EventSource\when_applying_a_new_event.cs" />
     <Compile Include="Events\for_EventSource\when_reapplying_a_stream_of_committed_events.cs" />
-    <Compile Include="Events\for_UncommittedEventStream\when_appending_an_event_to_an_uncommitted_event_stream_which_has_been_attached_to_an_event_source.cs" />
+    <Compile Include="Events\for_UncommittedEventStream\when_appending_an_event_to_an_uncommitted_event_stream_belonging_to_a_different_event_source.cs" />
     <Compile Include="Events\for_UncommittedEventStream\when_appending_an_event_to_an_uncommitted_event_stream_which_has_been_sequenced.cs" />
     <Compile Include="Events\for_CommittedEventStream\given\an_empty_committed_event_stream.cs" />
     <Compile Include="Events\for_UncommittedEventStream\given\an_empty_uncommitted_event_stream.cs" />

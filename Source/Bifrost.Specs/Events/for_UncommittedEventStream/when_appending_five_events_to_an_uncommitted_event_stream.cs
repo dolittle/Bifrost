@@ -20,6 +20,7 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStream
                     {
                         var @event = new SimpleEvent(event_source_id);
                         var envelope = new Mock<IEventEnvelope>();
+                        envelope.SetupGet(e => e.EventSourceId).Returns(event_source_id);
                         events_and_envelopes.Add(new EventAndEnvelope(envelope.Object, @event));
                     }
                 };
