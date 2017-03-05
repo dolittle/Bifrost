@@ -569,6 +569,7 @@
     <Compile Include="Reflection\for_Proxying\when_building_interface_with_properties_from_other_type.cs" />
     <Compile Include="Rules\for_BrokenRuleReason\when_creating.cs" />
     <Compile Include="Rules\for_RuleContext\when_failing_with_two_callbacks_registered.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_and_an_event_source.cs" />
     <Compile Include="Specifications\given\coloured_shapes.cs" />
     <Compile Include="Specifications\given\rules_and_coloured_shapes.cs" />
     <Compile Include="Specifications\when_applying_a_simple_rule_against_a_satisfying_instance.cs" />
@@ -588,7 +589,7 @@
     <Compile Include="Sagas\for_SagaState\when_in_a_state_of_new.cs" />
     <Compile Include="Sagas\for_SagaState\when_in_a_state_of_concluded.cs" />
     <Compile Include="Sagas\for_Saga\when_getting_last_committed_version_and_an_aggregate_has_multiple_events.cs" />
-    <Compile Include="Sagas\for_Saga\given\a_saga_with_an_aggregated_root_with_multiple_events.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_and_an_event_source_and_multiple_committed_events.cs" />
     <Compile Include="Sagas\for_Saga\when_creating_a_saga.cs" />
     <Compile Include="Sagas\for_Saga\when_getting_last_committed_version_without_any_aggregate_with_that_id.cs" />
     <Compile Include="Sagas\for_Saga\when_setting_the_current_chapter_by_type_and_it_is_not_part_of_saga.cs" />
@@ -634,7 +635,7 @@
     <Compile Include="Sagas\for_SagaNarrator\when_transitioning_to_same_chapter_as_current.cs" />
     <Compile Include="Sagas\for_Saga\given\a_saga.cs" />
     <Compile Include="Sagas\for_Saga\given\a_saga_with_a_chapter_property.cs" />
-    <Compile Include="Sagas\for_Saga\given\a_saga_with_events_from_multiple_aggregated_roots.cs" />
+    <Compile Include="Sagas\for_Saga\given\a_saga_with_events_from_multiple_event_sources.cs" />
     <Compile Include="Sagas\for_Saga\when_adding_chapter.cs" />
     <Compile Include="Sagas\for_Saga\when_adding_chapter_and_chapter_already_exist.cs" />
     <Compile Include="Sagas\for_Saga\when_checking_if_a_chapter_is_in_saga_and_chapter_is_in_saga.cs" />
@@ -838,7 +839,6 @@
     <Compile Include="Events\for_EventSource\when_applying_a_new_event.cs" />
     <Compile Include="Events\for_EventSource\when_reapplying_a_stream_of_committed_events.cs" />
     <Compile Include="Events\for_UncommittedEventStream\when_appending_an_event_to_an_uncommitted_event_stream_belonging_to_a_different_event_source.cs" />
-    <Compile Include="Events\for_UncommittedEventStream\when_appending_an_event_to_an_uncommitted_event_stream_which_has_been_sequenced.cs" />
     <Compile Include="Events\for_CommittedEventStream\given\an_empty_committed_event_stream.cs" />
     <Compile Include="Events\for_UncommittedEventStream\given\an_empty_uncommitted_event_stream.cs" />
     <Compile Include="Events\for_EventSource\given\a_stateful_event_source.cs" />

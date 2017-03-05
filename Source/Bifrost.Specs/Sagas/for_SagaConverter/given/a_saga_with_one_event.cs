@@ -15,6 +15,9 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
                                     var event_source_id = Guid.NewGuid();
                                     simple_event = new SimpleEvent(event_source_id);
                                     var event_envelope = new Mock<IEventEnvelope>();
+                                    event_envelope.SetupGet(e => e.EventSourceId).Returns(event_source_id);
+                                    event_envelope.SetupGet(e => e.Version).Returns(new EventSourceVersion(1, 1));
+
                                     saga.SetUncommittedEvents(new[] { new EventAndEnvelope(event_envelope.Object, simple_event) });
                                 };
 
