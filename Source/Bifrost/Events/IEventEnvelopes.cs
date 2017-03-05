@@ -14,7 +14,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventSource"><see cref="IEventSource"/> to create <see cref="EventEnvelope"/> from</param>
         /// <param name="event"><see cref="IEvent"/> to create <see cref="EventEnvelope"/> from</param>
-        /// <returns><see cref="EventEnvelope"/></returns>
-        EventEnvelope CreateFrom(IEventSource eventSource, IEvent @event);
+        /// <returns><see cref="IEventEnvelope"/></returns>
+        IEventEnvelope CreateFrom(IEventSource eventSource, IEvent @event);
     }
 }

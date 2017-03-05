@@ -12,7 +12,7 @@ namespace Bifrost.Events
     public class EventEnvelopes : IEventEnvelopes
     {
         /// <inheritdoc/>
-        public EventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
+        public IEventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
         {
             throw new NotImplementedException();
         }
