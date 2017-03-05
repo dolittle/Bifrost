@@ -121,20 +121,12 @@ namespace Bifrost.Sagas
         /// <inheritdoc/>
         public void SaveUncommittedEventsToEventStore(IEventStore eventStore)
         {
-            throw new NotImplementedException();
-#if (false)
             foreach ( var aggregatedRootId in _eventsByEventSource.Keys )
             {
-                var events = _eventsByEventSource[aggregatedRootId];
-
                 var uncommittedEventStream = new UncommittedEventStream(aggregatedRootId);
-                /*
-                foreach (var @event in events)
-                    uncommittedEventStream.Append(_eventEnvelopes.CreateFrom( @event);*/
-
+                _eventsByEventSource[aggregatedRootId].ForEach(e => uncommittedEventStream.Append(e.Envelope, e.Event));
                 eventStore.Commit(uncommittedEventStream);
             }
-#endif
         }
 
         /// <inheritdoc/>
