@@ -42,7 +42,7 @@ namespace Bifrost.Events
         {
             var envelope = new EventEnvelope(
                 EventId.Null,
-                _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(@event.GetType()),
+                _eventMigrationHierarchyManager.GetCurrentGenerationFor(@event.GetType()),
                 _applicationResources.Identify(@event),
                 eventSource.EventSourceId,
                 _applicationResources.Identify(eventSource),

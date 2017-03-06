@@ -11,7 +11,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
         Because of = () =>
                          {
                              exception = Catch.Exception(() =>
-                                    event_migration_hierarchy_manager.GetConcreteTypeForLogicalEventMigrationLevel(typeof(Event),1)
+                                    event_migration_hierarchy_manager.GetTargetTypeForGeneration(typeof(Event),1)
                                  );
                          };
 

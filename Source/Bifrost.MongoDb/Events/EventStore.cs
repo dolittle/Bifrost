@@ -124,8 +124,8 @@ namespace Bifrost.MongoDb.Events
 		void AddMetaData(IEvent @event, BsonDocument eventDocument)
 		{
 			var eventType = @event.GetType();
-			var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeForEvent(eventType);
-			var migrationLevel = _eventMigrationHierarchyManager.GetCurrentMigrationLevelForLogicalEvent(logicalEventType);
+			var logicalEventType = _eventMigrationHierarchyManager.GetLogicalTypeFor(eventType);
+			var migrationLevel = _eventMigrationHierarchyManager.GetCurrentGenerationFor(logicalEventType);
 			eventDocument[EventType] = string.Format("{0}, {1}", eventType.FullName, eventType.Assembly.GetName().Name);
 			eventDocument[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
 			eventDocument[Generation] = migrationLevel;

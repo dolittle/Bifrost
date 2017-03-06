@@ -182,7 +182,7 @@
     <Compile Include="Events\EventAndEnvelope.cs" />
     <Compile Include="Events\EventEnvelopes.cs" />
     <Compile Include="Events\EventEnvelopesMissing.cs" />
-    <Compile Include="Events\EventMigrationLevel.cs" />
+    <Compile Include="Events\EventGeneration.cs" />
     <Compile Include="Events\EventSourceId.cs" />
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />

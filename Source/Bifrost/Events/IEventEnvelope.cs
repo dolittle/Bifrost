@@ -20,7 +20,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets the <see cref="EvenMigrationLevel"/> for the <see cref="IEvent"/>
         /// </summary>
-        EventMigrationLevel MigrationLevel { get; }
+        EventGeneration Generation { get; }
 
         /// <summary>
         /// Gets the <see cref="ApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEvent"/>

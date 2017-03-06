@@ -16,7 +16,7 @@ namespace Bifrost.Events
         /// Initializes a new instance of <see cref="EventEnvelope"/>
         /// </summary>
         /// <param name="eventId"><see cref="EventId"/> for the <see cref="IEvent"/></param>
-        /// <param name="migrationLevel"><see cref="EventMigrationLevel"/> for the <see cref="IEvent"/> </param>
+        /// <param name="generation"><see cref="EventGeneration"/> for the <see cref="IEvent"/> </param>
         /// <param name="event"><see cref="ApplicationResourceIdentifier"/> representing the <see cref="IEvent"/></param>
         /// <param name="eventSourceId"><see cref="EventSourceId"/> for the <see cref="IEventSource"/></param>
         /// <param name="eventSource"><see cref="ApplicationResourceIdentifier"/> representing the <see cref="IEventSource"/></param>
@@ -25,7 +25,7 @@ namespace Bifrost.Events
         /// <param name="occurred"><see cref="DateTime">When</see> the event occured</param>
         public EventEnvelope(
             EventId eventId,
-            EventMigrationLevel migrationLevel, 
+            EventGeneration generation, 
             ApplicationResourceIdentifier @event, 
             EventSourceId eventSourceId, 
             ApplicationResourceIdentifier eventSource, 
@@ -34,7 +34,7 @@ namespace Bifrost.Events
             DateTime occurred)
         {
             EventId = eventId;
-            MigrationLevel = migrationLevel;
+            Generation = generation;
             Event = @event;
             EventSourceId = eventSourceId;
             EventSource = eventSource;
@@ -47,7 +47,7 @@ namespace Bifrost.Events
         public EventId EventId { get; }
 
         /// <inheritdoc/>
-        public EventMigrationLevel MigrationLevel { get; }
+        public EventGeneration Generation { get; }
 
         /// <inheritdoc/>
         public ApplicationResourceIdentifier Event { get; }
@@ -70,7 +70,7 @@ namespace Bifrost.Events
         /// <inheritdoc/>
         public EventEnvelope WithEventId(EventId eventId)
         {
-            return new EventEnvelope(eventId, MigrationLevel, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
+            return new EventEnvelope(eventId, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
         }
     }
 }

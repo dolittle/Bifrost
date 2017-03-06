@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
 
         Because of = () =>
                          {
-                             logical_type = event_migration_hierarchy_manager.GetLogicalTypeForEvent(typeof(SimpleEvent));
+                             logical_type = event_migration_hierarchy_manager.GetLogicalTypeFor(typeof(SimpleEvent));
                          };
 
         It should_return_the_correct_logical_type_for_the_event_hierachy = () => logical_type.ShouldEqual(typeof(Testing.Fakes.Events.SimpleEvent));
