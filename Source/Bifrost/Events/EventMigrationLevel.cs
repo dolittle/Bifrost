@@ -7,22 +7,17 @@ using Bifrost.Concepts;
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents the identification of an <see cref="IEvent"/>
+    /// Represents the migration level of an <see cref="IEvent"/>
     /// </summary>
-    public class EventId : ConceptAs<long>
+    public class EventMigrationLevel : ConceptAs<int>
     {
         /// <summary>
-        /// Represents a null Event - EventId *MUST* start with 1
+        /// Implicitly convert from a <see cref="int"/> to an <see cref="EventMigrationLevel"/>
         /// </summary>
-        public static EventId Null = 0L;
-
-        /// <summary>
-        /// Implicitly convert from a <see cref="long"/> to an <see cref="EventId"/>
-        /// </summary>
-        /// <param name="eventId"></param>
-        public static implicit operator EventId(long eventId)
+        /// <param name="level">The level</param>
+        public static implicit operator EventMigrationLevel(int level)
         {
-            return new EventId { Value = eventId };
+            return new EventMigrationLevel { Value = level };
         }
     }
 }

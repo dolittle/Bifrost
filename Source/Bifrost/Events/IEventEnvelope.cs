@@ -18,6 +18,11 @@ namespace Bifrost.Events
         EventId EventId { get; }
 
         /// <summary>
+        /// Gets the <see cref="EvenMigrationLevel"/> for the <see cref="IEvent"/>
+        /// </summary>
+        EventMigrationLevel MigrationLevel { get; }
+
+        /// <summary>
         /// Gets the <see cref="ApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEvent"/>
         /// </summary>
         ApplicationResourceIdentifier Event { get; }
@@ -31,7 +36,6 @@ namespace Bifrost.Events
         /// Gets the <see cref="ApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEventSource"/>
         /// </summary>
         ApplicationResourceIdentifier EventSource { get; }
-
 
         /// <summary>
         /// Gets the <see cref="EventSourceVersion">version</see> of the <see cref="IEventSource"/>

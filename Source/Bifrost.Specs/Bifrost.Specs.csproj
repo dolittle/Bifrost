@@ -270,6 +270,9 @@
     <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\a_committed_event_stream_coordinator.cs" />
+    <Compile Include="Events\for_EventEnvelopes\given\all_dependencies.cs" />
+    <Compile Include="Events\for_EventEnvelopes\given\an_event_envelopes.cs" />
+    <Compile Include="Events\for_EventEnvelopes\when_creating_from_an_event_source_an_event.cs" />
     <Compile Include="Events\for_EventSource\given\all_dependencies.cs" />
     <Compile Include="Events\for_EventSource\when_applying_an_event_without_event_envelopes.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
@@ -771,7 +774,6 @@
     <Compile Include="Tasks\for_TaskManager\when_resuming.cs" />
     <Compile Include="Tasks\for_TaskScheduler\TaskWithTwoOperations.cs" />
     <Compile Include="Tasks\for_TaskScheduler\when_starting_asynchronous_task_with_two_operations.cs" />
-    <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly_multitple_times.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_no_one_can_resolve.cs" />
     <Compile Include="Utils\for_StringMapper\when_asking_if_has_mapping_for_and_it_has.cs" />
     <Compile Include="Utils\for_StringMapper\when_getting_all_mappings_for_a_string_with_no_mappings_matching.cs" />
@@ -907,7 +909,6 @@
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_without_id.cs" />
     <Compile Include="Views\for_View\when_getting_a_single_instance_of_object_with_id.cs" />
     <Compile Include="Views\Stubs.cs" />
-    <Compile Include="Time\for_SystemClock\when_setting_the_current_system_time_explicitly.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Events\for_EventProcessors\" />

@@ -77,10 +77,13 @@ namespace Bifrost.MongoDb.Events
 			var eventArray = uncommittedEventStream.ToArray();
 			for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
 			{
-				var @event = eventArray[eventIndex];
-				@event.Event.Id = GetNextEventId();
-				var eventDocument = @event.ToBsonDocument();
-				AddMetaData(@event.Event, eventDocument);
+				var eventAndEnvelope = eventArray[eventIndex];
+
+                new EventAndEnvelope(eventAndEnvelope.Envelope.WithEventId(GetNextEventId()), eventAndEnvelope.Event);
+
+
+				var eventDocument = eventAndEnvelope.ToBsonDocument();
+				AddMetaData(eventAndEnvelope.Event, eventDocument);
 				_collection.InsertOne(eventDocument);
 			}
 

@@ -182,6 +182,7 @@
     <Compile Include="Events\EventAndEnvelope.cs" />
     <Compile Include="Events\EventEnvelopes.cs" />
     <Compile Include="Events\EventEnvelopesMissing.cs" />
+    <Compile Include="Events\EventMigrationLevel.cs" />
     <Compile Include="Events\EventSourceId.cs" />
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
@@ -523,6 +524,7 @@
     <Compile Include="Tenancy\ITenantManager.cs" />
     <Compile Include="Tenancy\Tenant.cs" />
     <Compile Include="Tenancy\TenantManager.cs" />
+    <Compile Include="Time\ISystemClock.cs" />
     <Compile Include="Utils\IStringMapper.cs" />
     <Compile Include="Utils\IStringMapping.cs" />
     <Compile Include="Utils\StringMapper.cs" />
