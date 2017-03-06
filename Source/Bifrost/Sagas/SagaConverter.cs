@@ -16,10 +16,10 @@ namespace Bifrost.Sagas
     /// </summary>
     public class SagaConverter : ISagaConverter
     {
-        private static readonly ISerializationOptions SagaSerializationOptions = new SagaSerializationOptions();
+        static readonly ISerializationOptions SagaSerializationOptions = new SagaSerializationOptions();
 
-        readonly IContainer _container;
-        readonly ISerializer _serializer;
+        IContainer _container;
+        ISerializer _serializer;
 
         /// <summary>
         /// Initializes a new instance of <see cref="SagaConverter"/>
@@ -57,14 +57,12 @@ namespace Bifrost.Sagas
 
             if (!string.IsNullOrEmpty(sagaHolder.UncommittedEvents))
             {
-                throw new NotImplementedException();
-                //var uncommittedEvents = new List<IEvent>();
-                //_serializer.FromJson(uncommittedEvents,sagaHolder.UncommittedEvents);
-                //saga.SetUncommittedEvents(uncommittedEvents);
+                var uncommittedEvents = new List<EventAndEnvelope>();
+                _serializer.FromJson(uncommittedEvents,sagaHolder.UncommittedEvents);
+                saga.SetUncommittedEvents(uncommittedEvents);
             }
 
             DeserializeChapters(sagaHolder, saga, currentChapterType);
-            
 
             return saga;
         }
@@ -96,8 +94,6 @@ namespace Bifrost.Sagas
                 sagaHolder.CurrentChapterType = saga.CurrentChapter.GetType().AssemblyQualifiedName;
         }
 #pragma warning restore 1591 // Xml Comments
-
-
 
         ChapterHolder GetChapterHolderFromChapter(IChapter chapter)
         {

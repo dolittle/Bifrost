@@ -14,16 +14,16 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
         protected const string expected_key = "A_Magical_Key";
         protected const string expected_partition = "A_Magical_Partition";
         protected static SagaConverter saga_converter;
-        protected static Mock<IContainer> container_mock;
-        protected static Mock<ISerializer> serializer_mock;
+        protected static Mock<IContainer> container;
+        protected static Mock<ISerializer> serializer;
 
         Establish context = () =>
                                 {
                                     saga = new SagaWithOneChapterProperty {Key = expected_key, Partition = expected_partition};
 
-                                    container_mock = new Mock<IContainer>();
-                                    serializer_mock = new Mock<ISerializer>();
-                                    saga_converter = new SagaConverter(container_mock.Object, serializer_mock.Object);
+                                    container = new Mock<IContainer>();
+                                    serializer = new Mock<ISerializer>();
+                                    saga_converter = new SagaConverter(container.Object, serializer.Object);
                                 };
     }
 }

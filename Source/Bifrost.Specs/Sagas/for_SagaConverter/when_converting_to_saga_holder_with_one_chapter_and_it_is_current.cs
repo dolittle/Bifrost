@@ -12,6 +12,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter
         It should_set_current_chapter_type = () => saga_holder.CurrentChapterType.ShouldEqual(typeof (SimpleChapter).AssemblyQualifiedName);
         It should_set_the_id = () => saga_holder.Id.ShouldEqual(saga.Id);
         It should_set_the_type = () => saga_holder.Type = typeof (SagaWithOneChapterProperty).AssemblyQualifiedName;
-        It should_serialize_saga = () => serializer_mock.Verify(s=>s.ToJson(saga, Moq.It.IsAny<SagaSerializationOptions>()));
+        It should_serialize_saga = () => serializer.Verify(s=>s.ToJson(saga, Moq.It.IsAny<SagaSerializationOptions>()));
     }
 }

@@ -21,5 +21,6 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter
         It should_set_current_chapter = () => saga.CurrentChapter.ShouldNotBeNull();
         It should_set_current_chapter_to_simple_chapter = () => saga.CurrentChapter.ShouldBeOfExactType<SimpleChapter>();
         It should_be_in_a_state_of_continuing = () => saga.IsContinuing.ShouldBeTrue();
+        
     }
 }
