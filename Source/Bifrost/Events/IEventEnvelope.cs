@@ -47,7 +47,7 @@ namespace Bifrost.Events
         /// 
         /// Typically this would be the name of the user or system causing it
         /// </summary>
-        string CausedBy { get; }
+        CausedBy CausedBy { get; }
 
         /// <summary>
         /// Gets the time the event occurred

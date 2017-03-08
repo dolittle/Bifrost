@@ -30,7 +30,7 @@ namespace Bifrost.Events
             EventSourceId eventSourceId, 
             ApplicationResourceIdentifier eventSource, 
             EventSourceVersion version, 
-            string causedBy, 
+            CausedBy causedBy, 
             DateTime occurred)
         {
             EventId = eventId;
@@ -62,7 +62,7 @@ namespace Bifrost.Events
         public EventSourceVersion Version { get; }
 
         /// <inheritdoc/>
-        public string CausedBy { get; }
+        public CausedBy CausedBy { get; }
 
         /// <inheritdoc/>
         public DateTime Occurred { get; }
