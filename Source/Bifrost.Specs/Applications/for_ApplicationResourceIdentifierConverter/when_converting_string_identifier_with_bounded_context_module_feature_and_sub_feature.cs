@@ -3,9 +3,9 @@ using Bifrost.Applications;
 using Machine.Specifications;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Applications.for_ApplicationResources
+namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
 {
-    public class when_converting_string_identifier_with_bounded_context_module_feature_and_sub_feature : given.application_resources_without_structure_formats
+    public class when_converting_string_identifier_with_bounded_context_module_feature_and_sub_feature : given.an_application_resource_identifier_converter
     {
         const string application_name = "MyApplication";
         const string bounded_context_name = "TheBoundedContext";
@@ -15,16 +15,16 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
         const string resource_name = "MyResource";
 
         static string string_identifier =
-            $"{application_name}{ApplicationResources.ApplicationSeparator}" +
-            $"{bounded_context_name}{ApplicationResources.ApplicationLocationSeparator}" +
-            $"{module_name}{ApplicationResources.ApplicationLocationSeparator}" +
-            $"{feature_name}{ApplicationResources.ApplicationLocationSeparator}" +
+            $"{application_name}{ApplicationResourceIdentifierConverter.ApplicationSeparator}" +
+            $"{bounded_context_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
+            $"{module_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
+            $"{feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{sub_feature_name}" +
-            $"{ApplicationResources.ApplicationResourceSeparator}{resource_name}";
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}";
 
         static ApplicationResourceIdentifier identifier;
 
-        Because of = () => identifier = resources.FromString(string_identifier);
+        Because of = () => identifier = converter.FromString(string_identifier);
 
         It should_return_a_matching_identifier = () => identifier.ShouldNotBeNull();
         It should_hold_the_application = () => identifier.Application.ShouldEqual(application.Object);

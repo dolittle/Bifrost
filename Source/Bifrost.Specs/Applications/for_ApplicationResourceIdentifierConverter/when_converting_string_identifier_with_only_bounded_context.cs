@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using Bifrost.Applications;
-using Bifrost.Strings;
 using Machine.Specifications;
-using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Applications.for_ApplicationResources
+namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
 {
-    public class when_converting_string_identifier_with_only_bounded_context : given.application_resources_without_structure_formats
+    public class when_converting_string_identifier_with_only_bounded_context : given.an_application_resource_identifier_converter
     {
         const string bounded_context_name = "TheBoundedContext";
         const string module_name = "TheModule";
@@ -17,13 +15,13 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
         const string resource_name = "MyResource";
 
         static string string_identifier =
-            $"{application_name}{ApplicationResources.ApplicationSeparator}" +
-            $"{bounded_context_name}{ApplicationResources.ApplicationLocationSeparator}" +
-            $"{ApplicationResources.ApplicationResourceSeparator}{resource_name}";
+            $"{application_name}{ApplicationResourceIdentifierConverter.ApplicationSeparator}" +
+            $"{bounded_context_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}";
 
         static ApplicationResourceIdentifier identifier;
 
-        Because of = () => identifier = resources.FromString(string_identifier);
+        Because of = () => identifier = converter.FromString(string_identifier);
 
         It should_return_a_matching_identifier = () => identifier.ShouldNotBeNull();
         It should_hold_the_application = () => identifier.Application.ShouldEqual(application.Object);

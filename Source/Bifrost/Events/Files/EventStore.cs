@@ -19,6 +19,7 @@ namespace Bifrost.Events.Files
         EventStoreConfiguration _configuration;
         IEventEnvelopes _eventEnvelopes;
         IApplicationResources _applicationResources;
+        IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
         ISerializer _serializer;
 
         /// <summary>
@@ -26,13 +27,20 @@ namespace Bifrost.Events.Files
         /// </summary>
         /// <param name="configuration"><see cref="EventStoreConfiguration"/> to use as configuration</param>
         /// <param name="applicationResources"><see cref="IApplicationResources"/> for working with <see cref="IApplicationResource">application resources</see></param>
+        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for working with conversion of <see cref="ApplicationResourceIdentifier"/></param>
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
-        public EventStore(EventStoreConfiguration configuration, IApplicationResources applicationResources, IEventEnvelopes eventEnvelopes, ISerializer serializer)
+        public EventStore(
+            EventStoreConfiguration configuration, 
+            IApplicationResources applicationResources, 
+            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
+            IEventEnvelopes eventEnvelopes, 
+            ISerializer serializer)
         {
             _configuration = configuration;
             _eventEnvelopes = eventEnvelopes;
             _applicationResources = applicationResources;
+            _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _serializer = serializer;
         }
 
@@ -45,7 +53,7 @@ namespace Bifrost.Events.Files
             var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
             var envelopeFiles = files.Where(f => f.EndsWith(".envelope")).ToArray();
             var eventSourceIdentifier = _applicationResources.Identify(eventSource);
-            var eventSourceStringIdentifier = _applicationResources.AsString(eventSourceIdentifier);
+            var eventSourceStringIdentifier = _applicationResourceIdentifierConverter.AsString(eventSourceIdentifier);
 
             if (eventFiles.Length != envelopeFiles.Length) throw new ApplicationException($"There is a problem with event files for {eventSourceStringIdentifier} with Id {eventSourceId}");
 
@@ -78,7 +86,7 @@ namespace Bifrost.Events.Files
         {
             foreach (var eventAndEnvelope in uncommittedEventStream)
             {
-                var eventSourceIdentifier = _applicationResources.AsString(eventAndEnvelope.Envelope.EventSource);
+                var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventAndEnvelope.Envelope.EventSource);
                 var path = GetPathFor(eventSourceIdentifier, eventAndEnvelope.Envelope.EventSourceId);
                 var eventId = GetNextEventId();
 

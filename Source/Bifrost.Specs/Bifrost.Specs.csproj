@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_building.cs" />
     <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_adding_structure.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\given\all_dependencies.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\given\an_application_resource_identifier_converter.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_locations.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_applications.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\different_identifiers.cs" />
@@ -67,16 +69,16 @@
     <Compile Include="Applications\for_ApplicationResources\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_identifier_with_five_segments_for_a_resource_to_string.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_missing_application_locations_in_string.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_without_application_resource_in_string.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_missing_application_separator_in_string.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_bounded_context_module_feature_and_sub_feature.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_bounded_context_module_and_feature.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_bounded_context_and_module.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_mismatched_application_name.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_only_bounded_context.cs" />
-    <Compile Include="Applications\for_ApplicationResources\when_converting_string_identifier_with_application_five_location_segments_resource_that_should_match.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_identifier_with_five_segments_for_a_resource_to_string.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_missing_application_locations_in_string.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_without_application_resource_in_string.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_missing_application_separator_in_string.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_bounded_context_module_feature_and_sub_feature.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_bounded_context_module_and_feature.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_bounded_context_and_module.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_mismatched_application_name.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_only_bounded_context.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_with_application_five_location_segments_resource_that_should_match.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_and_module.cs" />
     <Compile Include="Applications\for_ApplicationResources\when_identifying_resource_that_matches_bounded_context_module_and_feature.cs" />

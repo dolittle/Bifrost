@@ -16,7 +16,7 @@ namespace Bifrost.Applications
         /// Initializes a new 
         /// </summary>
         public MissingApplicationLocations(string identifierString)
-            : base($"Missing location in '{identifierString}'. Expected format : {ApplicationResources.ExpectedFormat}")
+            : base($"Missing location in '{identifierString}'. Expected format : {ApplicationResourceIdentifierConverter.ExpectedFormat}")
         { }
     }
 }

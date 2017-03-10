@@ -21,6 +21,6 @@ namespace Bifrost.Applications
         /// Initializes a new instance of <see cref="UnableToIdentifyApplicationResource"/>
         /// </summary>
         /// <param name="identifierString"><see cref="string"/> that is not possible to identify</param>
-        public UnableToIdentifyApplicationResource(string identifierString) : base($"Unable to identify application resource for string '{identifierString}'. Expected format should be: {ApplicationResources.ExpectedFormat}") { }
+        public UnableToIdentifyApplicationResource(string identifierString) : base($"Unable to identify application resource for string '{identifierString}'. Expected format should be: {ApplicationResourceIdentifierConverter.ExpectedFormat}") { }
     }
 }

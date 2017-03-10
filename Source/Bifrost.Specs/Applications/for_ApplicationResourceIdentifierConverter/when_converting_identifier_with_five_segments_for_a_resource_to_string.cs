@@ -3,9 +3,9 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 
-namespace Bifrost.Specs.Applications.for_ApplicationResources
+namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
 {
-    public class when_converting_identifier_with_five_segments_for_a_resource_to_string : given.application_resources_without_structure_formats
+    public class when_converting_identifier_with_five_segments_for_a_resource_to_string : given.an_application_resource_identifier_converter
     {
         const string application_name = "MyApplication";
         const string bounded_context_name = "TheBoundedContext";
@@ -16,13 +16,13 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
         const string resource_name = "MyResource";
 
         static string expected = 
-            $"{application_name}{ApplicationResources.ApplicationSeparator}"+
-            $"{bounded_context_name}{ApplicationResources.ApplicationLocationSeparator}"+
-            $"{module_name}{ApplicationResources.ApplicationLocationSeparator}" +
-            $"{feature_name}{ApplicationResources.ApplicationLocationSeparator}" +
-            $"{sub_feature_name}{ApplicationResources.ApplicationLocationSeparator}" +
+            $"{application_name}{ApplicationResourceIdentifierConverter.ApplicationSeparator}"+
+            $"{bounded_context_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}"+
+            $"{module_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
+            $"{feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
+            $"{sub_feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{second_level_sub_feature_name}" +
-            $"{ApplicationResources.ApplicationResourceSeparator}{resource_name}";
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}";
 
         static ApplicationResourceIdentifier identifier;
 
@@ -48,7 +48,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
             }, resource);
         };
 
-        Because of = () => result = resources.AsString(identifier);
+        Because of = () => result = converter.AsString(identifier);
 
         It should_return_expected_string = () => result.ShouldEqual(expected);
     }

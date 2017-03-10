@@ -16,7 +16,7 @@ namespace Bifrost.Applications
         /// Initializes a new instance of <see cref="ApplicationMismatch"/>
         /// </summary>
         public ApplicationMismatch(string applicationName, string identifierString)
-            : base($"Application mismatch in '{identifierString}'. Expected application name '{applicationName}. Format of a string is expected to be '{ApplicationResources.ExpectedFormat}")
+            : base($"Application mismatch in '{identifierString}'. Expected application name '{applicationName}. Format of a string is expected to be '{ApplicationResourceIdentifierConverter.ExpectedFormat}")
         { }
     }
 }

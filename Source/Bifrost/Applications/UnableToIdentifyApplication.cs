@@ -17,7 +17,7 @@ namespace Bifrost.Applications
         /// </summary>
         /// <param name="identifierString">The invalid <see cref="string"/></param>
         public UnableToIdentifyApplication(string identifierString)
-            : base($"Unable to identify application in '{identifierString}'. Expected format : {ApplicationResources.ExpectedFormat}")
+            : base($"Unable to identify application in '{identifierString}'. Expected format : {ApplicationResourceIdentifierConverter.ExpectedFormat}")
         { }
     }
 }
