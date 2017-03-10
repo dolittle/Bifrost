@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Bifrost.Applications;
@@ -99,12 +100,16 @@ namespace Bifrost.Events.Files
 
         public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
-            /*
-            var eventPath = GetPathFor(eventSource.GetType().Name, eventSourceId);
-            var first = Directory.GetFiles(eventPath).OrderByDescending(f => f).FirstOrDefault();
+            var eventPath = GetPathFor(eventSource.GetType().Name, eventSource.EventSourceId);
+            var first = Directory.GetFiles(eventPath, "*.event").OrderByDescending(f => f).FirstOrDefault();
             if (first == null) return EventSourceVersion.Zero;
 
             var json = File.ReadAllText(first);
+            dynamic target = new ExpandoObject();
+            _serializer.FromJson(target, json);
+            
+            /*
+
             var target = new EventHolder
             {
                 Type = typeof(string),
@@ -113,10 +118,8 @@ namespace Bifrost.Events.Files
             };
 
             _serializer.FromJson(target, json);
-
-            return target.Version;*/
-
-            throw new NotImplementedException();
+            */
+            return target.Version;
         }
 
         string GetPathFor(string eventSource)

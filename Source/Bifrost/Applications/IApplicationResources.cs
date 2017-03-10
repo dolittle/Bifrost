@@ -19,15 +19,15 @@ namespace Bifrost.Applications
         /// <summary>
         /// Get a string representation of the resource
         /// </summary>
-        /// <param name="resource"><see cref="ApplicationResourceIdentifier">Resource</see> to represent as string</param>
+        /// <param name="identifier"><see cref="ApplicationResourceIdentifier">Resource</see> to represent as string</param>
         /// <returns><see cref="String"/> representing the resource</returns>
-        string AsString(ApplicationResourceIdentifier resource);
+        string AsString(ApplicationResourceIdentifier identifier);
 
         /// <summary>
         /// Translate a <see cref="string"/> to a <see cref="ApplicationResourceIdentifier"/>
         /// </summary>
-        /// <param name="resource"><see cref="String"/> representing the resource</param>
+        /// <param name="identifierAsString"><see cref="String"/> representing the resource</param>
         /// <returns><see cref="ApplicationResourceIdentifier">Identifier</see> for the resource</returns>
-        ApplicationResourceIdentifier FromString(string resource);
+        ApplicationResourceIdentifier FromString(string identifierAsString);
     }
 }
