@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
 {
     public class when_creating_from_an_event_source_an_event : given.an_event_envelopes
     {
-        const string identity_name = "Some User";
+        static CausedBy identity_name = "Some User";
         static EventGeneration event_generation = 42;
         static EventSourceVersion version = new EventSourceVersion(23, 11);
 

@@ -249,7 +249,13 @@
     <Compile Include="Diagnostics\for_TypeRules\given\type_rules_with_one_rule.cs" />
     <Compile Include="Diagnostics\for_TypeRules\given\type_rules_without_rules.cs" />
     <Compile Include="Diagnostics\for_TypeRules\when_validating_all_with_one_rule_and_one_type_in_the_system.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\AggregateRootWithEventSourceIdConstructor.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\AggregateRootWithMultipleConstructorParameters.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\AggregateRootWithInvalidConstructorParameter.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\AggregateRootWithParameterlessConstructor.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\AggregateRootWithGuidConstructor.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\given\all_dependencies.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\given\a_command_context.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\given\a_repository_for_a_stateless_aggregate_root.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\SimpleStatelessAggregateRoot.cs" />
     <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateful_aggregate_root_that_has_no_events.cs" />
@@ -266,6 +272,11 @@
     <Compile Include="Applications\for_SubFeature\when_adding_existing_sub_feature.cs" />
     <Compile Include="Applications\for_SubFeature\when_adding_sub_feature.cs" />
     <Compile Include="Applications\for_SubFeature\when_creating.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_with_event_source_id_in_constructor.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_with_invalid_constructor_parameter.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_with_multiple_constructor_parameters.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_with_parameterless_constructor.cs" />
+    <Compile Include="Domain\for_AggregateRootRepository\when_getting_a_stateless_aggregate_root_with_guid_in_constructor.cs" />
     <Compile Include="Dynamic\for_DynamicExtensions\ObjectWithProperties.cs" />
     <Compile Include="Dynamic\for_DynamicExtensions\when_converting_to_expando_object.cs" />
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\all_dependencies.cs" />
