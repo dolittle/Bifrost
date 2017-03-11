@@ -57,6 +57,7 @@
     <Compile Include="Applications\ApplicationResourceIdentifierConverter.cs" />
     <Compile Include="Applications\ApplicationResourceResolver.cs" />
     <Compile Include="Applications\ApplicationResourceResolverFor.cs" />
+    <Compile Include="Applications\ApplicationResourceTypes.cs" />
     <Compile Include="Applications\IApplicationResourceIdentifier.cs" />
     <Compile Include="Applications\IApplicationResourceIdentifierConverter.cs" />
     <Compile Include="Applications\IApplicationResourceResolver.cs" />
@@ -194,12 +195,16 @@
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
+    <Compile Include="Events\EventSourceApplicationResourceResolver.cs" />
+    <Compile Include="Events\EventSourceApplicationResourceType.cs" />
+    <Compile Include="Events\EventApplicationResourceType.cs" />
     <Compile Include="Events\EventBelongsToOtherEventSource.cs" />
     <Compile Include="Events\EventEnvelope.cs" />
     <Compile Include="Events\EventAndEnvelope.cs" />
     <Compile Include="Events\EventEnvelopes.cs" />
     <Compile Include="Events\EventEnvelopesMissing.cs" />
     <Compile Include="Events\EventGeneration.cs" />
+    <Compile Include="Events\EventApplicationResourceResolver.cs" />
     <Compile Include="Events\EventSourceId.cs" />
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />

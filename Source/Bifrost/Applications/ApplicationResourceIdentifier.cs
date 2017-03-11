@@ -76,6 +76,7 @@ namespace Bifrost.Applications
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
+            if (!(obj is IApplicationResourceIdentifier)) return false;
             return Equals((IApplicationResourceIdentifier) obj);
         }
 

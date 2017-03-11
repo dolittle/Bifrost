@@ -20,6 +20,7 @@ namespace Bifrost.Events.Files
         IEventEnvelopes _eventEnvelopes;
         IApplicationResources _applicationResources;
         IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
+        IApplicationResourceResolver _applicationResourceResolver;
         ISerializer _serializer;
 
         /// <summary>
@@ -28,12 +29,14 @@ namespace Bifrost.Events.Files
         /// <param name="configuration"><see cref="EventStoreConfiguration"/> to use as configuration</param>
         /// <param name="applicationResources"><see cref="IApplicationResources"/> for working with <see cref="IApplicationResource">application resources</see></param>
         /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for working with conversion of <see cref="IApplicationResourceIdentifier"/></param>
+        /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> for resolving <see cref="IApplicationResourceIdentifier"/> to concrete types</param> 
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
         public EventStore(
             EventStoreConfiguration configuration, 
             IApplicationResources applicationResources, 
-            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
+            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
+            IApplicationResourceResolver applicationResourceResolver,
             IEventEnvelopes eventEnvelopes, 
             ISerializer serializer)
         {
@@ -41,6 +44,7 @@ namespace Bifrost.Events.Files
             _eventEnvelopes = eventEnvelopes;
             _applicationResources = applicationResources;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
+            _applicationResourceResolver = applicationResourceResolver;
             _serializer = serializer;
         }
 
@@ -91,6 +95,7 @@ namespace Bifrost.Events.Files
                 var eventId = GetNextEventId();
 
                 var envelope = eventAndEnvelope.Envelope.WithEventId(eventId);
+
                 var envelopeAsJson = _serializer.ToJson(envelope);
                 var eventAsJson = _serializer.ToJson(eventAndEnvelope.Event);
 
