@@ -17,18 +17,18 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventId"><see cref="EventId"/> for the <see cref="IEvent"/></param>
         /// <param name="generation"><see cref="EventGeneration"/> for the <see cref="IEvent"/> </param>
-        /// <param name="event"><see cref="ApplicationResourceIdentifier"/> representing the <see cref="IEvent"/></param>
+        /// <param name="event"><see cref="IApplicationResourceIdentifier"/> representing the <see cref="IEvent"/></param>
         /// <param name="eventSourceId"><see cref="EventSourceId"/> for the <see cref="IEventSource"/></param>
-        /// <param name="eventSource"><see cref="ApplicationResourceIdentifier"/> representing the <see cref="IEventSource"/></param>
+        /// <param name="eventSource"><see cref="IApplicationResourceIdentifier"/> representing the <see cref="IEventSource"/></param>
         /// <param name="version"><see cref="EventSourceVersion">Version</see> of the event related to the <see cref="IEventSource"/></param>
         /// <param name="causedBy"><see cref="string"/> representing which person or what system caused the event</param>
         /// <param name="occurred"><see cref="DateTime">When</see> the event occured</param>
         public EventEnvelope(
             EventId eventId,
             EventGeneration generation, 
-            ApplicationResourceIdentifier @event, 
+            IApplicationResourceIdentifier @event, 
             EventSourceId eventSourceId, 
-            ApplicationResourceIdentifier eventSource, 
+            IApplicationResourceIdentifier eventSource, 
             EventSourceVersion version, 
             CausedBy causedBy, 
             DateTime occurred)
@@ -50,13 +50,13 @@ namespace Bifrost.Events
         public EventGeneration Generation { get; }
 
         /// <inheritdoc/>
-        public ApplicationResourceIdentifier Event { get; }
+        public IApplicationResourceIdentifier Event { get; }
 
         /// <inheritdoc/>
         public EventSourceId EventSourceId { get; }
 
         /// <inheritdoc/>
-        public ApplicationResourceIdentifier EventSource { get; }
+        public IApplicationResourceIdentifier EventSource { get; }
 
         /// <inheritdoc/>
         public EventSourceVersion Version { get; }

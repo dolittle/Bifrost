@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
     {
         const string BoundedContext = "MyBoundedContext";
 
-        static ApplicationResourceIdentifier identifier;
+        static IApplicationResourceIdentifier identifier;
         static Mock<ISegmentMatches> matches;
         static Mock<ISegmentMatch> bounded_context_match;
 
@@ -41,5 +41,6 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources
         It should_hold_the_correct_name_for_bounded_context = () => identifier.LocationSegments.ToArray()[0].Name.AsString().ShouldEqual(BoundedContext);
         It should_hold_the_application = () => identifier.Application.ShouldEqual(application.Object);
         It should_hold_the_type_as_application_resource = () => identifier.Resource.Name.AsString().ShouldEqual(typeof(string).Name);
+        It should_hold_the_resource_type = () => identifier.Resource.Type.ShouldEqual(application_resource_type.Object);
     }
 }

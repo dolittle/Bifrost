@@ -7,11 +7,15 @@ using System;
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// Defines a system that can resolve <see cref="IApplicationResource">application resources</see>
-    /// typically from <see cref="IApplicationResourceIdentifier"/> to a concrete <see cref="Type"/>
+    /// Defines a resolver that can resolve <see cref="Type">types</see> from <see cref="IApplicationResourceIdentifier"/>
     /// </summary>
-    public interface IApplicationResourceResolver
+    public interface ICanResolveApplicationResources
     {
+        /// <summary>
+        /// Gets the supported <see cref="IApplicationResourceType"/>
+        /// </summary>
+        IApplicationResourceType ApplicationResourceType { get; }
+
         /// <summary>
         /// Resolve a <see cref="IApplicationResourceIdentifier"/> into a <see cref="Type"/>
         /// </summary>

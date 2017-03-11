@@ -15,7 +15,7 @@ namespace Bifrost.Applications
         /// Identify a resource
         /// </summary>
         /// <param name="resource">Resource to identify</param>
-        /// <returns><see cref="ApplicationResourceIdentifier"/> identifying the resource</returns>
-        ApplicationResourceIdentifier Identify(object resource);
+        /// <returns><see cref="IApplicationResourceIdentifier"/> identifying the resource</returns>
+        IApplicationResourceIdentifier Identify(object resource);
     }
 }

@@ -23,9 +23,9 @@ namespace Bifrost.Events
         EventGeneration Generation { get; }
 
         /// <summary>
-        /// Gets the <see cref="ApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEvent"/>
+        /// Gets the <see cref="IApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEvent"/>
         /// </summary>
-        ApplicationResourceIdentifier Event { get; }
+        IApplicationResourceIdentifier Event { get; }
 
         /// <summary>
         /// Gets the <see cref="EventSourceId">id</see> of the <see cref="IEventSource"/>
@@ -33,9 +33,9 @@ namespace Bifrost.Events
         EventSourceId EventSourceId { get; }
 
         /// <summary>
-        /// Gets the <see cref="ApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEventSource"/>
+        /// Gets the <see cref="IApplicationResourceIdentifier">identifier</see> identifying the <see cref="IEventSource"/>
         /// </summary>
-        ApplicationResourceIdentifier EventSource { get; }
+        IApplicationResourceIdentifier EventSource { get; }
 
         /// <summary>
         /// Gets the <see cref="EventSourceVersion">version</see> of the <see cref="IEventSource"/>

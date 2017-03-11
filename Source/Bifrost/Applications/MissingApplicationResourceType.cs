@@ -8,15 +8,15 @@ namespace Bifrost.Applications
 {
     /// <summary>
     /// The exception that gets thrown when parsing an <see cref="IApplicationResourceIdentifier"/>
-    /// from a string and its not possible to find the <see cref="IApplicationResource"/> in the <see cref="string"/>
+    /// from a string and its not possible to find the <see cref="IApplicationResourceType"/> in the <see cref="string"/>
     /// </summary>
-    public class MissingApplicationResource : ArgumentException
+    public class MissingApplicationResourceType : ArgumentException
     {
         /// <summary>
         /// Initializes a new 
         /// </summary>
-        public MissingApplicationResource(string identifierString)
-            : base($"Missing application resource in '{identifierString}'. Expected format : {ApplicationResourceIdentifierConverter.ExpectedFormat}")
+        public MissingApplicationResourceType(string identifierString)
+            : base($"Missing application resource type in '{identifierString}'. Expected format : {ApplicationResourceIdentifierConverter.ExpectedFormat}")
         { }
     }
 }

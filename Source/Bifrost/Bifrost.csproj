@@ -55,8 +55,15 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Applications\ApplicationResourceIdentifierConverter.cs" />
+    <Compile Include="Applications\ApplicationResourceResolver.cs" />
+    <Compile Include="Applications\ApplicationResourceResolverFor.cs" />
+    <Compile Include="Applications\IApplicationResourceIdentifier.cs" />
     <Compile Include="Applications\IApplicationResourceIdentifierConverter.cs" />
     <Compile Include="Applications\IApplicationResourceResolver.cs" />
+    <Compile Include="Applications\IApplicationResourceType.cs" />
+    <Compile Include="Applications\IApplicationResourceTypes.cs" />
+    <Compile Include="Applications\ICanResolveApplicationResources.cs" />
+    <Compile Include="Applications\MissingApplicationResourceType.cs" />
     <Compile Include="Applications\MissingApplicationLocations.cs" />
     <Compile Include="Applications\ApplicationMismatch.cs" />
     <Compile Include="Applications\MissingApplicationResource.cs" />

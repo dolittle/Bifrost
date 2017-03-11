@@ -17,7 +17,7 @@ namespace Bifrost.Applications
         /// <summary>
         /// The expected format when parsing resources as strings
         /// </summary>
-        public static string ExpectedFormat = $"Application{ApplicationSeparator} LocationSegments separated with {ApplicationLocationSeparator} then {ApplicationResourceSeparator} And resource identifier. e.g. 'Application{ApplicationSeparator}BoundedContext{ApplicationLocationSeparator}Module{ApplicationLocationSeparator}Feature{ApplicationLocationSeparator}SubFeature{ApplicationResourceSeparator}Resource'";
+        public static string ExpectedFormat = $"Application{ApplicationSeparator} LocationSegments separated with {ApplicationLocationSeparator} then {ApplicationResourceSeparator} and resource identifier then {ApplicationResourceTypeSeparator} and the type. e.g. 'Application{ApplicationSeparator}BoundedContext{ApplicationLocationSeparator}Module{ApplicationLocationSeparator}Feature{ApplicationLocationSeparator}SubFeature{ApplicationResourceSeparator}Resource{ApplicationResourceTypeSeparator}Type'";
 
         /// <summary>
         /// The separator character used for separating the identification for the <see cref="IApplication"/>
@@ -34,19 +34,27 @@ namespace Bifrost.Applications
         /// </summary>
         public const char ApplicationResourceSeparator = '-';
 
+        /// <summary>
+        /// The separator character used for separating the <see cref="IApplicationResourceType"/> from the rest in a string
+        /// </summary>
+        public const char ApplicationResourceTypeSeparator = '+';
+
         IApplication _application;
+        IApplicationResourceTypes _applicationResourceTypes;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationResourceIdentifierConverter"/>
         /// </summary>
         /// <param name="application">The <see cref="IApplication">application context</see></param>
-        public ApplicationResourceIdentifierConverter(IApplication application)
+        /// <param name="applicationResourceTypes"><see cref="IApplicationResourceTypes"/> available</param>
+        public ApplicationResourceIdentifierConverter(IApplication application, IApplicationResourceTypes applicationResourceTypes)
         {
             _application = application;
+            _applicationResourceTypes = applicationResourceTypes;
         }
 
         /// <inheritdoc/>
-        public string AsString(ApplicationResourceIdentifier identifier)
+        public string AsString(IApplicationResourceIdentifier identifier)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"{identifier.Application.Name}{ApplicationSeparator}");
@@ -58,11 +66,12 @@ namespace Bifrost.Applications
                 stringBuilder.Append($"{l.Name}");
             });
             stringBuilder.Append($"{ApplicationResourceSeparator}{identifier.Resource.Name}");
+            stringBuilder.Append($"{ApplicationResourceTypeSeparator}{identifier.Resource.Type.Identifier}");
             return stringBuilder.ToString();
         }
 
         /// <inheritdoc/>
-        public ApplicationResourceIdentifier FromString(string identifierAsString)
+        public IApplicationResourceIdentifier FromString(string identifierAsString)
         {
             var applicationSeparatorIndex = identifierAsString.IndexOf('#');
             ThrowIfApplicationSeparatorMissing(applicationSeparatorIndex, identifierAsString);
@@ -73,8 +82,13 @@ namespace Bifrost.Applications
             var applicationIdentifier = identifierAsString.Substring(0, applicationSeparatorIndex);
             ThrowIfApplicationMismatches(applicationIdentifier, identifierAsString);
 
-            var resourceIdentifier = identifierAsString.Substring(applicationResourceSeparatorIndex + 1);
+            var applicationResourceTypeSeparatorIndex = identifierAsString.IndexOf('+');
+            ThrowIfApplicationResourceTypeMissing(applicationResourceTypeSeparatorIndex, identifierAsString);
+
+            var resourceIdentifier = identifierAsString.Substring(applicationResourceSeparatorIndex + 1, applicationResourceTypeSeparatorIndex - (applicationResourceSeparatorIndex + 1));
             var locationIdentifiers = identifierAsString.Substring(applicationSeparatorIndex + 1, applicationResourceSeparatorIndex - (applicationSeparatorIndex + 1));
+            var resourceTypeIdentifier = identifierAsString.Substring(applicationResourceTypeSeparatorIndex + 1);
+
             ThrowIfApplicationLocationsMissing(locationIdentifiers, identifierAsString);
 
             var locationStrings = locationIdentifiers.Split(ApplicationLocationSeparator).Where(s => s.Length > 0).ToArray();
@@ -108,7 +122,7 @@ namespace Bifrost.Applications
                 }
             }
 
-            var resource = new ApplicationResource(resourceIdentifier);
+            var resource = new ApplicationResource(resourceIdentifier, _applicationResourceTypes.GetFor(resourceTypeIdentifier));
             return new ApplicationResourceIdentifier(
                     _application,
                     locations,
@@ -136,7 +150,9 @@ namespace Bifrost.Applications
             if (_application.Name != applicationIdentifier) throw new ApplicationMismatch(_application.Name, identifierAsString);
         }
 
-
-
+        void ThrowIfApplicationResourceTypeMissing(int applicationResourceTypeSeparatorIndex, string identifierAsString)
+        {
+            if (applicationResourceTypeSeparatorIndex <= 0) throw new MissingApplicationResourceType(identifierAsString);
+        }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="Applications\for_ApplicationConfigurationBuilder\when_adding_structure.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\given\an_application_resource_identifier_converter.cs" />
+    <Compile Include="Applications\for_ApplicationResourceIdentifierConverter\when_converting_string_identifier_without_application_resource_type_in_string.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_locations.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\identifiers_with_different_applications.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\given\different_identifiers.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_representing_different_resource.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_representing_same_resource.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_representing_same_resource.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\given\all_dependencies.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\when_resolving_without_resolver_for_type.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />

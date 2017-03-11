@@ -20,9 +20,10 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
             $"{module_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{sub_feature_name}" +
-            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}";
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}"+
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceTypeSeparator}{resource_type}";
 
-        static ApplicationResourceIdentifier identifier;
+        static IApplicationResourceIdentifier identifier;
 
         Because of = () => identifier = converter.FromString(string_identifier);
 
@@ -34,5 +35,6 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
         It should_hold_the_module_segment = () => identifier.LocationSegments.ToArray()[1].Name.AsString().ShouldEqual(module_name);
         It should_hold_the_feature_segment = () => identifier.LocationSegments.ToArray()[2].Name.AsString().ShouldEqual(feature_name);
         It should_hold_the_sub_feature_segment = () => identifier.LocationSegments.ToArray()[3].Name.AsString().ShouldEqual(sub_feature_name);
+        It should_hold_the_resource_type = () => identifier.Resource.Type.ShouldEqual(application_resource_type.Object);
     }
 }

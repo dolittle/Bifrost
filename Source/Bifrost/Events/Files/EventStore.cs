@@ -27,7 +27,7 @@ namespace Bifrost.Events.Files
         /// </summary>
         /// <param name="configuration"><see cref="EventStoreConfiguration"/> to use as configuration</param>
         /// <param name="applicationResources"><see cref="IApplicationResources"/> for working with <see cref="IApplicationResource">application resources</see></param>
-        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for working with conversion of <see cref="ApplicationResourceIdentifier"/></param>
+        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for working with conversion of <see cref="IApplicationResourceIdentifier"/></param>
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
         public EventStore(

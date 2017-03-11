@@ -2,16 +2,15 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// Represents an identifier for <see cref="IApplicationResource">resources</see> in an <see cref="IApplication"/>
+    /// Represents an implementation of <see cref="IApplicationResourceIdentifier"/> - an identifier for <see cref="IApplicationResource">resources</see> in an <see cref="IApplication"/>
     /// </summary>
-    public class ApplicationResourceIdentifier : IEquatable<ApplicationResourceIdentifier>, IComparable, IComparable<ApplicationResourceIdentifier>
+    public class ApplicationResourceIdentifier : IApplicationResourceIdentifier
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationResourceIdentifier"/>
@@ -26,19 +25,13 @@ namespace Bifrost.Applications
             Resource = resource;
         }
 
-        /// <summary>
-        /// Gets the <see cref="IApplication"/> the resource belongs to
-        /// </summary>
+        /// <inheritdoc/>
         public IApplication Application { get; }
 
-        /// <summary>
-        /// Gets the segments representing the full <see cref="IApplicationLocation">location</see>
-        /// </summary>
+        /// <inheritdoc/>
         public IEnumerable<IApplicationLocation> LocationSegments { get; }
 
-        /// <summary>
-        /// Gets the <see cref="IApplicationResource">resource</see>
-        /// </summary>
+        /// <inheritdoc/>
         public IApplicationResource Resource { get; }
 
         /// <inheritdoc/>
@@ -54,7 +47,7 @@ namespace Bifrost.Applications
         }
 
         /// <inheritdoc/>
-        public bool Equals(ApplicationResourceIdentifier other)
+        public bool Equals(IApplicationResourceIdentifier other)
         {
             if (LocationSegments.Count() != other.LocationSegments.Count()) return false;
 
@@ -83,7 +76,7 @@ namespace Bifrost.Applications
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return Equals((ApplicationResourceIdentifier) obj);
+            return Equals((IApplicationResourceIdentifier) obj);
         }
 
         /// <inheritdoc/>
@@ -93,7 +86,7 @@ namespace Bifrost.Applications
         }
 
         /// <inheritdoc/>
-        public int CompareTo(ApplicationResourceIdentifier other)
+        public int CompareTo(IApplicationResourceIdentifier other)
         {
             return GetHashCode().CompareTo(other.GetHashCode());
         }

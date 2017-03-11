@@ -9,6 +9,8 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources.given
     {
         protected static ApplicationResources resources;
         protected static Mock<IApplicationStructure> application_structure;
+        protected static Mock<IApplicationResourceType> application_resource_type;
+
 
         Establish context = () =>
         {
@@ -17,7 +19,10 @@ namespace Bifrost.Specs.Applications.for_ApplicationResources.given
 
             application.SetupGet(a => a.Structure).Returns(application_structure.Object);
 
-            resources = new ApplicationResources(application.Object);
+            application_resource_type = new Mock<IApplicationResourceType>();
+            application_resource_types.Setup(a => a.GetFor(typeof(string))).Returns(application_resource_type.Object);
+
+            resources = new ApplicationResources(application.Object, application_resource_types.Object);
         };
     }
 }

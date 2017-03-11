@@ -22,7 +22,9 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifier.given
             var segments_a = new IApplicationLocation[] { boundedContext, module, feature };
             var segments_b = new IApplicationLocation[] { boundedContext, module, feature, subFeature };
 
-            var resource = new ApplicationResource("SomeResource");
+            var application_resource_type = new Mock<IApplicationResourceType>();
+
+            var resource = new ApplicationResource("SomeResource", application_resource_type.Object);
 
             identifier_a = new ApplicationResourceIdentifier(application.Object, segments_a, resource);
             identifier_b = new ApplicationResourceIdentifier(application.Object, segments_b, resource);

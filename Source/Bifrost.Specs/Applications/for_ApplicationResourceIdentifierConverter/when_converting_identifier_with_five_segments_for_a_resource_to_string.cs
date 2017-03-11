@@ -15,16 +15,17 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
         const string second_level_sub_feature_name = "TheSecondLevelSubFeature";
         const string resource_name = "MyResource";
 
-        static string expected = 
-            $"{application_name}{ApplicationResourceIdentifierConverter.ApplicationSeparator}"+
-            $"{bounded_context_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}"+
+        static string expected =
+            $"{application_name}{ApplicationResourceIdentifierConverter.ApplicationSeparator}" +
+            $"{bounded_context_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{module_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{sub_feature_name}{ApplicationResourceIdentifierConverter.ApplicationLocationSeparator}" +
             $"{second_level_sub_feature_name}" +
-            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}";
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceSeparator}{resource_name}" +
+            $"{ApplicationResourceIdentifierConverter.ApplicationResourceTypeSeparator}{resource_type}";
 
-        static ApplicationResourceIdentifier identifier;
+        static IApplicationResourceIdentifier identifier;
 
         static string result;
 
@@ -37,9 +38,9 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
             var feature = new Feature(module, feature_name);
             var sub_feature = new SubFeature(feature, sub_feature_name);
             var second_level_sub_feature = new SubFeature(sub_feature, second_level_sub_feature_name);
-            var resource = new ApplicationResource(resource_name);
 
-            identifier = new ApplicationResourceIdentifier(application.Object,new IApplicationLocation[] {
+            var resource = new ApplicationResource(resource_name, application_resource_type.Object);
+            identifier = new ApplicationResourceIdentifier(application.Object, new IApplicationLocation[] {
                 bounded_context,
                 module,
                 feature,

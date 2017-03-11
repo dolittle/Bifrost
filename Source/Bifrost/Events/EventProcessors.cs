@@ -15,7 +15,7 @@ namespace Bifrost.Events
     [Singleton]
     public class EventProcessors : IEventProcessors
     {
-        Dictionary<ApplicationResourceIdentifier, List<IEventProcessor>> _eventProcessorsByResourceIdentifier;
+        Dictionary<IApplicationResourceIdentifier, List<IEventProcessor>> _eventProcessorsByResourceIdentifier;
         List<IEventProcessor> _eventProcessors = new List<IEventProcessor>();
         IApplicationResources _applicationResources;
 
@@ -48,7 +48,7 @@ namespace Bifrost.Events
 
         void GatherEventProcessors(IInstancesOf<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
         {
-            _eventProcessorsByResourceIdentifier = new Dictionary<ApplicationResourceIdentifier, List<IEventProcessor>>();
+            _eventProcessorsByResourceIdentifier = new Dictionary<IApplicationResourceIdentifier, List<IEventProcessor>>();
             systemsThatHasEventProcessors.ForEach(a => a.ForEach(e =>
             {
                 List<IEventProcessor> eventProcessors;

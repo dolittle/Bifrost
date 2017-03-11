@@ -7,7 +7,7 @@ using System;
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// The exception that gets thrown when parsing an <see cref="ApplicationResourceIdentifier"/>
+    /// The exception that gets thrown when parsing an <see cref="IApplicationResourceIdentifier"/>
     /// from a string and its not possible to find the <see cref="IApplicationResource"/> in the <see cref="string"/>
     /// </summary>
     public class ApplicationMismatch : ArgumentException

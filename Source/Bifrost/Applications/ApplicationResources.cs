@@ -35,18 +35,21 @@ namespace Bifrost.Applications
 
 
         IApplication _application;
+        IApplicationResourceTypes _applicationResourceTypes;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationResources"/>
         /// </summary>
         /// <param name="application">The <see cref="IApplication"/> the resource belongs to</param>
-        public ApplicationResources(IApplication application)
+        /// <param name="applicationResourceTypes"><see cref="IApplicationResourceTypes"/> for getting <see cref="IApplicationResourceType"/></param>
+        public ApplicationResources(IApplication application, IApplicationResourceTypes applicationResourceTypes)
         {
             _application = application;
+            _applicationResourceTypes = applicationResourceTypes;
         }
 
         /// <inheritdoc/>
-        public ApplicationResourceIdentifier Identify(object resource)
+        public IApplicationResourceIdentifier Identify(object resource)
         {
             var type = resource.GetType();
             var @namespace = type.Namespace;
@@ -57,7 +60,7 @@ namespace Bifrost.Applications
                 if (match.HasMatches)
                 {
                     var segments = GetLocationSegmentsFrom(match);
-                    var identifier = new ApplicationResourceIdentifier(_application, segments, new ApplicationResource(type.Name));
+                    var identifier = new ApplicationResourceIdentifier(_application, segments, new ApplicationResource(type.Name, _applicationResourceTypes.GetFor(type)));
                     return identifier;
                 }
             }

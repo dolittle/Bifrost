@@ -7,8 +7,8 @@ using System;
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// The exception that gets thrown when parsing an <see cref="ApplicationResourceIdentifier"/>
-    /// from a string and its not possible to find the <see cref="IApplicationResource"/> in the <see cref="string"/>
+    /// The exception that gets thrown when parsing an <see cref="IApplicationResourceIdentifier"/>
+    /// from a string and its not possible to find the <see cref="IApplicationLocation">application location</see> in the <see cref="string"/>
     /// </summary>
     public class MissingApplicationLocations : ArgumentException
     {

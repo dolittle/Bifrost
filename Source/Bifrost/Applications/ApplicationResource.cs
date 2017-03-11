@@ -13,12 +13,17 @@ namespace Bifrost.Applications
         /// Initializes a new instance of <see cref="ApplicationResource"/>
         /// </summary>
         /// <param name="name"><see cref="ApplicationResourceName">Name</see> of the <see cref="IApplicationResource">application resource</see></param>
-        public ApplicationResource(ApplicationResourceName name)
+        /// <param name="type"><see cref="IApplicationResourceType">Type</see> of the <see cref="IApplicationResource">application resource</see></param>
+        public ApplicationResource(ApplicationResourceName name, IApplicationResourceType type)
         {
             Name = name;
+            Type = type;
         }
 
         /// <inheritdoc/>
         public ApplicationResourceName Name { get; }
+
+        /// <inheritdoc/>
+        public IApplicationResourceType Type { get; }
     }
 }
