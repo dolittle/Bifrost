@@ -68,7 +68,12 @@
     <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_using_equals_representing_same_resource.cs" />
     <Compile Include="Applications\for_ApplicationResourceIdentifier\when_comparing_two_instances_representing_same_resource.cs" />
     <Compile Include="Applications\for_ApplicationResourceResolver\given\all_dependencies.cs" />
-    <Compile Include="Applications\for_ApplicationResourceResolver\when_resolving_without_resolver_for_type.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\given\an_identifier.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\given\one_resolver_for_known_identifier.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\given\no_resolvers.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\when_resolving_without_resolver_for_identifier.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\when_resolving_with_resolver_for_identifier.cs" />
+    <Compile Include="Applications\for_ApplicationResourceResolver\when_resolving_without_any_resolvers.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\all_dependencies.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_with_one_structure_format.cs" />
     <Compile Include="Applications\for_ApplicationResources\given\application_resources_without_structure_formats.cs" />

@@ -68,6 +68,7 @@
     <Compile Include="Applications\ApplicationMismatch.cs" />
     <Compile Include="Applications\MissingApplicationResource.cs" />
     <Compile Include="Applications\UnableToIdentifyApplication.cs" />
+    <Compile Include="Applications\UnknownApplicationResourceType.cs" />
     <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\ApplicationArea.cs" />
