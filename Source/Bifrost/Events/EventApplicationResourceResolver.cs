@@ -19,19 +19,16 @@ namespace Bifrost.Events
         IApplication _application;
         IEnumerable<Type> _eventTypes;
 
-
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="EventApplicationResourceResolver"/>
         /// </summary>
-        /// <param name="application"></param>
-        /// <param name="typeDiscoverer"></param>
+        /// <param name="application">Current <see cref="IApplication"/></param>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> for finding correct <see cref="IEvent">event type</see></param>
         public EventApplicationResourceResolver(IApplication application, ITypeDiscoverer typeDiscoverer)
         {
             _application = application;
-
             _eventTypes = typeDiscoverer.FindMultiple<IEvent>();
         }
-
 
         /// <inheritdoc/>
         public override Type Resolve(IApplicationResourceIdentifier identifier)
