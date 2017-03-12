@@ -107,6 +107,7 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
+            var events = new List<EventAndEnvelope>();
             foreach (var eventAndEnvelope in uncommittedEventStream)
             {
                 var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventAndEnvelope.Envelope.EventSource);
@@ -123,9 +124,11 @@ namespace Bifrost.Events.Files
 
                 File.WriteAllText(envelopePath, envelopeAsJson);
                 File.WriteAllText(eventPath, eventAsJson);
+
+                events.Add(new EventAndEnvelope(envelope, eventAndEnvelope.Event));
             }
 
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, events);
             return committedEventStream;
         }
 
