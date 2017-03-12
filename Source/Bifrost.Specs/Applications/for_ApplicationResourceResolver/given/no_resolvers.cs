@@ -11,7 +11,11 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver.given
         Establish context = () =>
         {
             resolvers.Setup(r => r.GetEnumerator()).Returns(new List<ICanResolveApplicationResources>().GetEnumerator());
-            resolver = new ApplicationResourceResolver(resolvers.Object);
+            resolver = new ApplicationResourceResolver(
+                application.Object,
+                application_resource_types.Object, 
+                resolvers.Object,
+                type_discoverer.Object);
         };
     }
 }

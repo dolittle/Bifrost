@@ -5,7 +5,7 @@ using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver
 {
-    public class when_resolving_without_any_resolvers : given.no_resolvers
+    public class when_resolving_without_any_resolvers_or_types_matched : given.no_resolvers
     {
         static Exception exception;
 

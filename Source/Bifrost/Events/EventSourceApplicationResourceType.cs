@@ -18,5 +18,8 @@ namespace Bifrost.Events
 
         /// <inheritdoc/>
         public Type Type => typeof(IEventSource);
+
+        /// <inheritdoc/>
+        public ApplicationArea Area => ApplicationAreas.Domain;
     }
 }

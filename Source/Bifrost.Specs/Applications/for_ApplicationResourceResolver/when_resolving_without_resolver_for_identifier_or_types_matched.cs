@@ -6,25 +6,29 @@ using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver
 {
-    public class when_resolving_without_resolver_for_identifier : given.one_resolver_for_known_identifier
+    public class when_resolving_without_resolver_for_identifier_or_types_matched : given.one_resolver_for_known_identifier
     {
         static Exception exception;
-        protected const string resource_type_identifier = "OtherResourceType";
+        const string other_resource_type_identifier = "OtherResourceType";
+        const string other_resource_name = "OtherName";
 
-        protected static Mock<IApplicationResourceIdentifier> other_identifier;
-        protected static Mock<IApplicationResource> other_resource;
-        protected static Mock<IApplicationResourceType> other_resource_type;
+        static Mock<IApplicationResourceIdentifier> other_identifier;
+        static Mock<IApplicationResource> other_resource;
+        static Mock<IApplicationResourceType> other_resource_type;
 
         Establish context = () =>
         {
             other_resource_type = new Mock<IApplicationResourceType>();
-            other_resource_type.SetupGet(r => r.Identifier).Returns(resource_type_identifier);
+            other_resource_type.SetupGet(r => r.Identifier).Returns(other_resource_type_identifier);
 
             other_resource = new Mock<IApplicationResource>();
+            other_resource.SetupGet(r => r.Name).Returns(other_resource_name);
             other_resource.SetupGet(r => r.Type).Returns(other_resource_type.Object);
 
             other_identifier = new Mock<IApplicationResourceIdentifier>();
             other_identifier.SetupGet(i => i.Resource).Returns(other_resource.Object);
+
+            application_resource_types.Setup(a => a.GetFor(other_resource_type_identifier)).Returns(other_resource_type.Object);
         };
 
         Because of = () => exception = Catch.Exception(() => resolver.Resolve(other_identifier.Object));

@@ -35,6 +35,8 @@ namespace Bifrost.Applications
         /// <ineritdoc/>
         public IApplicationResourceType GetFor(string identifier)
         {
+            ThrowIfUnknownIdentifier(identifier);
+
             var resourceType = _resourceTypesByIdentifier[identifier];
             return resourceType;
         }
@@ -43,7 +45,23 @@ namespace Bifrost.Applications
         public IApplicationResourceType GetFor(Type type)
         {
             var resourceType = _resourceTypesByType.Where(r => type.Implements(r.Key)).Select(r => r.Value).SingleOrDefault();
+            ThrowIfUnknownType(type, resourceType);
+
             return resourceType;
         }
+
+
+        void ThrowIfUnknownIdentifier(string identifier)
+        {
+            if (!_resourceTypesByIdentifier.ContainsKey(identifier))
+                throw new UnknownApplicationResourceType(identifier);
+        }
+
+        void ThrowIfUnknownType(Type type, IApplicationResourceType resourceType)
+        {
+            if (resourceType == null)
+                throw new UnknownApplicationResourceType(type);
+        }
+
     }
 }

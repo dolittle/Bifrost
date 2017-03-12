@@ -15,15 +15,24 @@ namespace Bifrost.Applications
     [Singleton]
     public class ApplicationResourceResolver : IApplicationResourceResolver
     {
+        IApplication _application;
+        IApplicationResourceTypes _types;
+        ITypeDiscoverer _typeDiscoverer;
         Dictionary<string, ICanResolveApplicationResources> _resolversByType;
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="application"></param>
+        /// <param name="types"></param>
         /// <param name="resolvers"></param>
-        public ApplicationResourceResolver(IInstancesOf<ICanResolveApplicationResources> resolvers)
+        /// <param name="typeDiscoverer"></param>
+        public ApplicationResourceResolver(IApplication application, IApplicationResourceTypes types, IInstancesOf<ICanResolveApplicationResources> resolvers, ITypeDiscoverer typeDiscoverer)
         {
+            _application = application;
+            _types = types;
             _resolversByType = resolvers.ToDictionary(r => r.ApplicationResourceType.Identifier, r => r);
+            _typeDiscoverer = typeDiscoverer;
         }
 
         /// <inheritdoc/>
@@ -32,7 +41,23 @@ namespace Bifrost.Applications
             var typeIdentifier = identifier.Resource.Type.Identifier;
             if (_resolversByType.ContainsKey(typeIdentifier)) return _resolversByType[typeIdentifier].Resolve(identifier);
 
+            var resourceType = _types.GetFor(typeIdentifier);
+            var types = _typeDiscoverer.FindMultiple(resourceType.Type);
+            var typesMatchingName = types.Where(t => t.Name == identifier.Resource.Name);
+
+            ThrowIfAmbiguousTypes(identifier, typesMatchingName);
+
+            var formats = _application.Structure.GetStructureFormatsForArea(resourceType.Area);
+            var type = typesMatchingName.Where(t => formats.Any(f => f.Match(t.Namespace).HasMatches)).FirstOrDefault();
+            if (type != null) return type;
+
             throw new UnknownApplicationResourceType(identifier.Resource.Type.Identifier);
+        }
+
+        void ThrowIfAmbiguousTypes(IApplicationResourceIdentifier identifier, IEnumerable<Type> typesMatchingName)
+        {
+            if (typesMatchingName.Count() > 1)
+                throw new AmbiguousTypes(identifier);
         }
     }
 }

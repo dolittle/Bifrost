@@ -25,7 +25,11 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver.given
                     new[] { resource_resolver.Object }).GetEnumerator()
                 );
 
-            resolver = new ApplicationResourceResolver(resolvers.Object);
+            resolver = new ApplicationResourceResolver(
+                application.Object,
+                application_resource_types.Object, 
+                resolvers.Object,
+                type_discoverer.Object);
         };
     }
 }

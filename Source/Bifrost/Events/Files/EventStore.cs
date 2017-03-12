@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Dynamic;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Bifrost.Applications;
@@ -48,44 +49,62 @@ namespace Bifrost.Events.Files
             _serializer = serializer;
         }
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public CommittedEventStream GetFor(IEventSource eventSource)
         {
             var eventSourceId = eventSource.EventSourceId;
-            var eventPath = GetPathFor(eventSource.GetType().Name, eventSourceId);
+
+            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSource.EventSourceId);
+
             var files = Directory.GetFiles(eventPath).OrderBy(f => f);
             var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
             var envelopeFiles = files.Where(f => f.EndsWith(".envelope")).ToArray();
-            var eventSourceIdentifier = _applicationResources.Identify(eventSource);
-            var eventSourceStringIdentifier = _applicationResourceIdentifierConverter.AsString(eventSourceIdentifier);
 
-            if (eventFiles.Length != envelopeFiles.Length) throw new ApplicationException($"There is a problem with event files for {eventSourceStringIdentifier} with Id {eventSourceId}");
+            if (eventFiles.Length != envelopeFiles.Length) throw new ApplicationException($"There is a problem with event files for {eventSourceIdentifier} with Id {eventSourceId}");
 
-            for( var eventIndex=0; eventIndex<eventFiles.Length; eventIndex++)
+            var events = new List<EventAndEnvelope>();
+
+            for ( var eventIndex=0; eventIndex<eventFiles.Length; eventIndex++)
             {
-                
+                var envelopeFile = envelopeFiles[eventIndex];
+                var eventFile = eventFiles[eventIndex];
 
+                var envelopeAsJson = File.ReadAllText(envelopeFile);
+                var eventAsJson = File.ReadAllText(eventFile);
+                var envelopeValues = _serializer.GetKeyValuesFromJson(envelopeAsJson);
+
+
+                var _eventId = (long)envelopeValues["EventId"];
+                var _generation = (long)envelopeValues["Generation"];
+                var _event = _applicationResourceIdentifierConverter.FromString((string)envelopeValues["Event"]);
+                var _eventSourceId = Guid.Parse((string)envelopeValues["EventSourceId"]);
+                var _eventSource = _applicationResourceIdentifierConverter.FromString((string)envelopeValues["EventSource"]);
+                var _eventSourceVersion = EventSourceVersion.FromCombined(double.Parse(envelopeValues["Version"].ToString()));
+                var _causedBy = (string)envelopeValues["CausedBy"];
+                var _occurred = (DateTime)envelopeValues["Occurred"];
+                    
+                var envelope = new EventEnvelope(
+                    _eventId,
+                    (int)_generation,
+                    _event,
+                    _eventSourceId,
+                    _eventSource,
+                    _eventSourceVersion,
+                    _causedBy,
+                    _occurred
+                );
+
+                var eventType = _applicationResourceResolver.Resolve(envelope.Event);
+                var eventInstance = _serializer.FromJson(eventType, eventAsJson) as IEvent;
+                events.Add(new EventAndEnvelope(envelope, eventInstance));
             }
 
-            return new CommittedEventStream(eventSourceId);
-
-            /*
-            var events = new List<EventEnvelopeAndEvent>();
-
-            foreach (var file in files)
-            {
-                var json = File.ReadAllText(file);
-
-
-                _serializer.GetKeyValuesFromJson();
-
-                var @event = _serializer.FromJson(target.Type, json) as IEvent;
-                events.Add(new EventEnvelopeAndEvent(_eventEnvelopes.CreateFrom(eventSource, @event), @event));
-            }
-            return new CommittedEventStream(eventSourceId, events);*/
-
+            return new CommittedEventStream(eventSourceId, events);
         }
 
+        /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             foreach (var eventAndEnvelope in uncommittedEventStream)
@@ -110,29 +129,20 @@ namespace Bifrost.Events.Files
             return committedEventStream;
         }
 
-
+        /// <inheritdoc/>
         public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
-            var eventPath = GetPathFor(eventSource.GetType().Name, eventSource.EventSourceId);
+            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSource.EventSourceId);
+
             var first = Directory.GetFiles(eventPath, "*.event").OrderByDescending(f => f).FirstOrDefault();
             if (first == null) return EventSourceVersion.Zero;
 
-            var json = File.ReadAllText(first);
-            dynamic target = new ExpandoObject();
-            _serializer.FromJson(target, json);
-            
-            /*
+            var versionAsString = Path.GetFileNameWithoutExtension(first);
+            var versionAsDouble = double.Parse(versionAsString, CultureInfo.InvariantCulture);
 
-            var target = new EventHolder
-            {
-                Type = typeof(string),
-                Version = EventSourceVersion.Zero,
-                Event = string.Empty
-            };
-
-            _serializer.FromJson(target, json);
-            */
-            return target.Version;
+            return EventSourceVersion.FromCombined(versionAsDouble);
         }
 
         string GetPathFor(string eventSource)
@@ -172,6 +182,6 @@ namespace Bifrost.Events.Files
 
             return id;
         }
-#pragma warning restore 1591 // Xml Comments
+
     }
 }

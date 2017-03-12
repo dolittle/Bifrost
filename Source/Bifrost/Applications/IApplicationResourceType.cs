@@ -20,5 +20,10 @@ namespace Bifrost.Applications
         /// Gets the CLR type the <see cref="IApplicationResourceType"/> represents
         /// </summary>
         Type Type { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ApplicationArea"/> the <see cref="IApplicationResourceType">resource type</see> belongs to
+        /// </summary>
+        ApplicationArea Area { get; }
     }
 }

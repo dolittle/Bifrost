@@ -54,6 +54,7 @@
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Applications\AmbiguousTypes.cs" />
     <Compile Include="Applications\ApplicationResourceIdentifierConverter.cs" />
     <Compile Include="Applications\ApplicationResourceResolver.cs" />
     <Compile Include="Applications\ApplicationResourceResolverFor.cs" />
@@ -195,7 +196,6 @@
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
-    <Compile Include="Events\EventSourceApplicationResourceResolver.cs" />
     <Compile Include="Events\EventSourceApplicationResourceType.cs" />
     <Compile Include="Events\EventApplicationResourceType.cs" />
     <Compile Include="Events\EventBelongsToOtherEventSource.cs" />

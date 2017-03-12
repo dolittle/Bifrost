@@ -15,6 +15,14 @@ namespace Bifrost.Applications
         /// <summary>
         /// Initializes a new instance of <see cref="UnknownApplicationResourceType"/>
         /// </summary>
+        /// <param name="type"><see cref="Type">Type</see> of the resource type</param>
+        public UnknownApplicationResourceType(Type type) : base($"Unknown application resource type of '{type.FullName}'")
+        { }
+
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="UnknownApplicationResourceType"/>
+        /// </summary>
         /// <param name="identifier"><see cref="string">Identifier</see> of the resource type</param>
         public UnknownApplicationResourceType(string identifier) : base($"Unknown application resource type of '{identifier}'")
         { }
