@@ -21,12 +21,12 @@ namespace Bifrost.Applications
         Dictionary<string, ICanResolveApplicationResources> _resolversByType;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="ApplicationResourceResolver"/>
         /// </summary>
-        /// <param name="application"></param>
-        /// <param name="types"></param>
-        /// <param name="resolvers"></param>
-        /// <param name="typeDiscoverer"></param>
+        /// <param name="application">Current <see cref="IApplication">Application</see></param>
+        /// <param name="types"><see cref="IApplicationResourceTypes">Resource types</see> available</param>
+        /// <param name="resolvers">Instances of <see cref="ICanResolveApplicationResources"/> for specialized resolving</param>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> for discovering types needed</param>
         public ApplicationResourceResolver(IApplication application, IApplicationResourceTypes types, IInstancesOf<ICanResolveApplicationResources> resolvers, ITypeDiscoverer typeDiscoverer)
         {
             _application = application;
