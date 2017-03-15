@@ -2,7 +2,6 @@ using System;
 using Bifrost.Events;
 using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
-using Moq;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Events.for_UncommittedEventStream
@@ -12,16 +11,15 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStream
     {
         static Exception Exception;
         static IEvent @event;
-        static Mock<IEventEnvelope> event_envelope;
+        static EventSourceVersion version;
 
         Establish context = () =>
         {
             @event = new SimpleEvent(event_source_id);
-            event_envelope = new Mock<IEventEnvelope>();
-            event_envelope.SetupGet(e => e.EventSourceId).Returns(Guid.NewGuid());
+            version = new EventSourceVersion(1, 2);
         };
 
-        Because of = () => Exception = Catch.Exception(() => event_stream.Append(event_envelope.Object, @event));
+        Because of = () => Exception = Catch.Exception(() => event_stream.Append(@event, version));
 
         It should_throw_event_belongs_to_other_eventSource = () => Exception.ShouldBeOfExactType<EventBelongsToOtherEventSource>();
     }

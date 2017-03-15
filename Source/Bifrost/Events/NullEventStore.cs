@@ -9,6 +9,17 @@ namespace Bifrost.Events
     /// </summary>
     public class NullEventStore : IEventStore
     {
+        ICommittedEventStreamFactory _committedEventStreamFactory;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="NullEventStore"/>
+        /// </summary>
+        /// <param name="committedEventStreamFactory"></param>
+        public NullEventStore(ICommittedEventStreamFactory committedEventStreamFactory)
+        {
+            _committedEventStreamFactory = committedEventStreamFactory;
+        }
+
         /// <inheritdoc/>
         public CommittedEventStream GetFor(IEventSource eventSource)
         {
@@ -18,7 +29,7 @@ namespace Bifrost.Events
         /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
+            var committedEventStream = _committedEventStreamFactory.CreateFrom(uncommittedEventStream);
             return committedEventStream;
         }
 

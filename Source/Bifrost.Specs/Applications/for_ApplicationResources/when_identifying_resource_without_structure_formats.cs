@@ -4,7 +4,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Applications.for_ApplicationResources
 {
-    public class when_identifying_without_structure_formats : given.application_resources_without_structure_formats
+    public class when_identifying_resource_without_structure_formats : given.application_resources_without_structure_formats
     {
         static Exception exception;
 

@@ -2,18 +2,26 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IEventProcessingResult"/>
+    /// The severity of a <see cref="EventProcessingMessage"/>
     /// </summary>
-    public class EventProcessorResult : IEventProcessingResult
+    public enum EventProcessingMessageSeverity
     {
-        /// <inheritdoc/>
-        public IEventProcessor EventProcessor { get; }
+        /// <summary>
+        /// Message is informational
+        /// </summary>
+        Information,
 
-        /// <inheritdoc/>
-        public EventProcessingStatus Status { get; }
+        /// <summary>
+        /// Message is a warning
+        /// </summary>
+        Warning,
+
+        /// <summary>
+        /// Message is an error
+        /// </summary>
+        Error
     }
 }

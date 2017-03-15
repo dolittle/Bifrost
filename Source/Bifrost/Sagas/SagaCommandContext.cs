@@ -111,15 +111,15 @@ namespace Bifrost.Sagas
 #pragma warning restore 1591 // Xml Comments
 
 
-        void ProcessEvents(IEnumerable<EventAndEnvelope> events)
+        void ProcessEvents(UncommittedEventStream events)
         {
-            foreach (var eventAndEnvelope in events)
+            foreach (var @event in events)
             {
                 var chapters = _saga.Chapters;
                 foreach (var chapter in chapters )
-                    _processMethodInvoker.TryProcess(chapter, eventAndEnvelope.Event);
+                    _processMethodInvoker.TryProcess(chapter, @event);
 
-                _processMethodInvoker.TryProcess(_saga, eventAndEnvelope.Event);
+                _processMethodInvoker.TryProcess(_saga, @event);
             }
         }
     }

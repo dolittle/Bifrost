@@ -2,6 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Strings;
@@ -52,6 +53,12 @@ namespace Bifrost.Applications
         public IApplicationResourceIdentifier Identify(object resource)
         {
             var type = resource.GetType();
+            return Identify(type);
+        }
+
+        /// <inheritdoc/>
+        public IApplicationResourceIdentifier Identify(Type type)
+        {
             var @namespace = type.Namespace;
 
             foreach (var format in _application.Structure.AllStructureFormats)

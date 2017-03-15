@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Applications;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -20,7 +21,7 @@ namespace Bifrost.Events
         IApplicationResources _applicationResources;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="EventProcessors"/>
         /// </summary>
         /// <param name="applicationResources"></param>
         /// <param name="systemsThatHasEventProcessors"></param>
@@ -37,7 +38,8 @@ namespace Bifrost.Events
         public IEventProcessingResults Process(IEvent @event)
         {
             var identifier = _applicationResources.Identify(@event);
-            if (_eventProcessorsByResourceIdentifier.ContainsKey(identifier)) return new EventProcessingResults(new IEventProcessingResult[0]);
+            var i = _eventProcessorsByResourceIdentifier.First().Value;
+            if (!_eventProcessorsByResourceIdentifier.ContainsKey(identifier)) return new EventProcessingResults(new IEventProcessingResult[0]);
 
             List<IEventProcessingResult> results = new List<IEventProcessingResult>();
             var eventProcessors = _eventProcessorsByResourceIdentifier[identifier];
@@ -46,17 +48,17 @@ namespace Bifrost.Events
             return new EventProcessingResults(results);
         }
 
-        void GatherEventProcessors(IInstancesOf<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
+        void GatherEventProcessors(IEnumerable<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
         {
             _eventProcessorsByResourceIdentifier = new Dictionary<IApplicationResourceIdentifier, List<IEventProcessor>>();
             systemsThatHasEventProcessors.ForEach(a => a.ForEach(e =>
             {
                 List<IEventProcessor> eventProcessors;
-                if (_eventProcessorsByResourceIdentifier.ContainsKey(e.Identifier)) eventProcessors = _eventProcessorsByResourceIdentifier[e.Identifier];
+                if (_eventProcessorsByResourceIdentifier.ContainsKey(e.Event)) eventProcessors = _eventProcessorsByResourceIdentifier[e.Event];
                 else
                 {
                     eventProcessors = new List<IEventProcessor>();
-                    _eventProcessorsByResourceIdentifier[e.Identifier] = eventProcessors;
+                    _eventProcessorsByResourceIdentifier[e.Event] = eventProcessors;
                 }
                 eventProcessors.Add(e);
             }));

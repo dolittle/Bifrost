@@ -74,7 +74,6 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
         Because of = () => result = event_envelopes.CreateFrom(event_source.Object, @event.Object);
 
         It should_hold_the_event_source_id = () => result.EventSourceId.ShouldEqual(event_source_id);
-        It should_set_event_id_to_null = () => result.EventId.ShouldEqual(EventId.Null);
         It should_hold_user_name_as_caused_by = () => result.CausedBy.ShouldEqual(identity_name);
         It should_hold_the_generation = () => result.Generation.ShouldEqual(event_generation);
         It should_hold_correct_version = () => result.Version.ShouldEqual(version);

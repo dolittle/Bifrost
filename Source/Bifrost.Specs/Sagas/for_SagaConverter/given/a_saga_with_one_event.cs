@@ -10,18 +10,19 @@ namespace Bifrost.Specs.Sagas.for_SagaConverter.given
     {
         protected static SimpleEvent simple_event;
         protected static Mock<IEventEnvelope> event_envelope;
-        protected static EventAndEnvelope event_and_envelope;
+        protected static EventAndVersion event_and_Version;
 
         Establish context = () =>
                                 {
+                                    var event_source_version = new EventSourceVersion(1, 1);
                                     var event_source_id = Guid.NewGuid();
                                     simple_event = new SimpleEvent(event_source_id);
                                     event_envelope = new Mock<IEventEnvelope>();
                                     event_envelope.SetupGet(e => e.EventSourceId).Returns(event_source_id);
-                                    event_envelope.SetupGet(e => e.Version).Returns(new EventSourceVersion(1, 1));
+                                    event_envelope.SetupGet(e => e.Version).Returns(event_source_version);
 
-                                    event_and_envelope = new EventAndEnvelope(event_envelope.Object, simple_event);
-                                    saga.SetUncommittedEvents(new[] { event_and_envelope });
+                                    event_and_Version = new EventAndVersion(simple_event, event_source_version);
+                                    saga.SetUncommittedEvents(new[] { event_and_Version });
                                 };
 
     }

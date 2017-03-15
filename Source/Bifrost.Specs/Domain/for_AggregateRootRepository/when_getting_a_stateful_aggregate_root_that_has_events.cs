@@ -45,6 +45,5 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         It should_re_apply_events_for_the_aggregated_root = () => stateful_aggregated_root.ReApplyCalled.ShouldBeTrue();
         It should_be_the_correct_version = () => version.ShouldEqual(expected_version);
         It should_register_the_aggregate_root_for_tracking_within_this_context = () => command_context_mock.Verify(cc => cc.RegisterForTracking(stateful_aggregated_root));
-        It should_have_the_event_envelopes_on_the_object = () => stateful_aggregated_root.EventEnvelopes.ShouldEqual(event_envelopes.Object);
     }
 }

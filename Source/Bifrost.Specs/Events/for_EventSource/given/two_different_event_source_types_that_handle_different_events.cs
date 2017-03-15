@@ -24,9 +24,7 @@ namespace Bifrost.Specs.Events.for_EventSource.given
                                     another_simple_event = new AnotherSimpleEvent(second_event_source_id);
 
                                     event_source = new StatefulAggregatedRoot(event_source_id);
-                                    event_source.EventEnvelopes = event_envelopes.Object;
                                     second_event_source = new AnotherStatefulAggregatedRoot(second_event_source_id);
-                                    second_event_source.EventEnvelopes = event_envelopes.Object;
                                 };
     }
 }

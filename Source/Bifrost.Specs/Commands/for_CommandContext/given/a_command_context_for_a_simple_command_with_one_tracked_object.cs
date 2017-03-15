@@ -14,7 +14,6 @@ namespace Bifrost.Specs.Commands.for_CommandContext.given
         {
             event_source_id = Guid.NewGuid();
             aggregated_root = new StatefulAggregatedRoot(event_source_id);
-            aggregated_root.EventEnvelopes = event_envelopes.Object;
             command_context.RegisterForTracking(aggregated_root);
         };
     }

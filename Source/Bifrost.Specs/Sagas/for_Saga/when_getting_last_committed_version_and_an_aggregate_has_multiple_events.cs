@@ -9,6 +9,6 @@ namespace Bifrost.Specs.Sagas.for_Saga
 
         Because of = () => version = saga.GetLastCommittedVersionFor(event_source.Object);
 
-        It should_return_the_right_version = () => version.ShouldEqual(second_event_envelope.Object.Version);
+        It should_return_the_right_version = () => version.ShouldEqual(event_source.Object.Version);
     }
 }

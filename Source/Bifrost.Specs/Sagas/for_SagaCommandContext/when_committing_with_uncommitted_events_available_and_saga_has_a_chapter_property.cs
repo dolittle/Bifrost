@@ -24,7 +24,7 @@ namespace Bifrost.Specs.Sagas.for_SagaCommandContext
                                         process_method_invoker_mock.Object,
                                         saga_librarian_mock.Object);
 
-                                    command_context.RegisterForTracking(aggregated_root_mock.Object);
+                                    command_context.RegisterForTracking(aggregated_root.Object);
                                 };
 
         Because of = () => command_context.Commit();

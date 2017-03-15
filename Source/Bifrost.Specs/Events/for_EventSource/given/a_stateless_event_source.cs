@@ -13,7 +13,6 @@ namespace Bifrost.Specs.Events.for_EventSource.given
                 {
                     event_source_id = Guid.NewGuid();
                     event_source = new StatelessAggregatedRoot(event_source_id);
-                    event_source.EventEnvelopes = event_envelopes.Object;
                 };
         
     }

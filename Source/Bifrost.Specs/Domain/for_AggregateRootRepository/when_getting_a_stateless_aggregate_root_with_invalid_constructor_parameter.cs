@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         protected static AggregateRootRepository<AggregateRootWithInvalidConstructorParameter> repository;
         protected static Exception result;
 
-        Establish context = () => repository = new AggregateRootRepository<AggregateRootWithInvalidConstructorParameter>(command_context_manager.Object, event_envelopes.Object);
+        Establish context = () => repository = new AggregateRootRepository<AggregateRootWithInvalidConstructorParameter>(command_context_manager.Object);
 
         Because of = () => result = Catch.Exception(() => repository.Get(Guid.NewGuid()));
 

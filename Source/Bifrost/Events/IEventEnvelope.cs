@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Applications;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
 {
@@ -13,9 +14,25 @@ namespace Bifrost.Events
     public interface IEventEnvelope
     {
         /// <summary>
+        /// Gets the <see cref="TransactionCorrelationId"/> that the <see cref="IEvent"/> is part of
+        /// </summary>
+        TransactionCorrelationId CorrelationId { get; }
+
+        /// <summary>
         /// Gets the <see cref="EventId"/> representing the <see cref="IEvent"/>s
         /// </summary>
         EventId EventId { get; }
+
+        /// <summary>
+        /// Gets the global sequence number used in the <see cref="IEventStore"/>
+        /// </summary>
+        EventSequenceNumber SequenceNumber { get; }
+
+        /// <summary>
+        /// Gets the global sequence number for the specific <see cref="IEvent">event type</see>
+        /// </summary>
+        EventSequenceNumber SequenceNumberForEventType { get; }
+
 
         /// <summary>
         /// Gets the <see cref="EvenMigrationLevel"/> for the <see cref="IEvent"/>
@@ -55,10 +72,17 @@ namespace Bifrost.Events
         DateTime Occurred { get; }
 
         /// <summary>
-        /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="EventId"/>
+        /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="EventSequenceNumber">sequence number</see>
         /// </summary>
-        /// <param name="eventId">The new <see cref="EventId"/></param>
+        /// <param name="sequenceNumber">The new <see cref="EventSequenceNumber"/></param>
         /// <returns>A copy of the <see cref="EventEnvelope"/> with a new Id </returns>
-        EventEnvelope WithEventId(EventId eventId);
+        EventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber);
+
+        /// <summary>
+        /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="EventSequenceNumber">sequence number</see> for the <see cref="IEvent">event type</see>
+        /// </summary>
+        /// <param name="sequenceNumber">The new <see cref="EventSequenceNumber"/></param>
+        /// <returns>A copy of the <see cref="EventEnvelope"/> with a new Id </returns>
+        EventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumber);
     }
 }

@@ -13,7 +13,7 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository.given
         Establish context = () =>
                                 {
                                     command_context_mock = new Mock<ICommandContext>();
-                                    repository = new AggregateRootRepository<SimpleStatelessAggregateRoot>(command_context_manager.Object, event_envelopes.Object);
+                                    repository = new AggregateRootRepository<SimpleStatelessAggregateRoot>(command_context_manager.Object);
                                     command_context_manager.Setup(ccm => ccm.GetCurrent()).Returns(command_context_mock.Object);
                                 };
     }

@@ -17,17 +17,14 @@ namespace Bifrost.Domain
 		where T : AggregateRoot
 	{
 		ICommandContextManager _commandContextManager;
-        IEventEnvelopes _eventEnvelopes;
 
 		/// <summary>
 		/// Initializes a new instance of <see cref="AggregateRootRepository{T}">AggregatedRootRepository</see>
 		/// </summary>
 		/// <param name="commandContextManager"> <see cref="ICommandContextManager"/> to use for tracking </param>
-        /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> to use for getting the envelope for the <see cref="IEvent"/> when they are applied</param>
-		public AggregateRootRepository(ICommandContextManager commandContextManager, IEventEnvelopes eventEnvelopes)
+		public AggregateRootRepository(ICommandContextManager commandContextManager)
 		{
 			_commandContextManager = commandContextManager;
-            _eventEnvelopes = eventEnvelopes;
 		}
 
         /// <inheritdoc/>
@@ -39,7 +36,6 @@ namespace Bifrost.Domain
             ThrowIfConstructorIsInvalid(type, constructor);
 
             var aggregateRoot = GetInstanceFrom(id, constructor);
-            aggregateRoot.EventEnvelopes = _eventEnvelopes;
             if (null != aggregateRoot)
             {
                 if (!aggregateRoot.IsStateless())

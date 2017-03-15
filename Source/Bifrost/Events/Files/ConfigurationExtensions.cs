@@ -22,7 +22,6 @@ namespace Bifrost.Configuration
         public static IConfigure UsingFiles(this IEventsConfiguration eventsConfiguration, string path)
         {
             eventsConfiguration.EventStore = typeof(EventStore);
-            eventsConfiguration.EventSubscriptions = typeof(EventSubscriptions);
             eventsConfiguration.UncommittedEventStreamCoordinator = typeof(UncommittedEventStreamCoordinator);
 
             if (!Path.IsPathRooted(path))

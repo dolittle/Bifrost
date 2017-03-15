@@ -2,6 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using Bifrost.Applications;
 using Bifrost.Execution;
 using Bifrost.Time;
@@ -41,7 +42,10 @@ namespace Bifrost.Events
         public IEventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
         {
             var envelope = new EventEnvelope(
-                EventId.Null,
+                Guid.NewGuid(), // TODO: Correlation ID
+                Guid.NewGuid(),
+                EventSequenceNumber.None, // TODO: We will get this 
+                EventSequenceNumber.None, // TODO: We will get this 
                 _eventMigrationHierarchyManager.GetCurrentGenerationFor(@event.GetType()),
                 _applicationResources.Identify(@event),
                 eventSource.EventSourceId,

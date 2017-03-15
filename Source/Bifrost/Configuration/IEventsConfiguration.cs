@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Bifrost.Configuration;
 
 namespace Bifrost.Configuration
 {
@@ -21,11 +20,6 @@ namespace Bifrost.Configuration
         /// Gets or sets the type of <see cref="IEventStore"/> to use for handling events
         /// </summary>
         Type EventStore { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of <see cref="IEventSubscriptions"/> to use for handling event subscriptions
-        /// </summary>
-        Type EventSubscriptions { get; set; }
 
         /// <summary>
         /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling sending of <see cref="CommittedEventStream"/>

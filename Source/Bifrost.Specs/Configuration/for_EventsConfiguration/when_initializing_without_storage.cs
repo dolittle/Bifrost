@@ -15,6 +15,5 @@ namespace Bifrost.Specs.Configuration.for_EventsConfiguration
 
         It should_be_initialized = () => events_configuration.ShouldNotBeNull();
         It should_not_set_up_storage_for_events = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<IEvent>), Moq.It.IsAny<Type>()), Times.Never());
-        It should_not_set_up_storage_for_event_subscriptions = () => container_mock.Verify(c => c.Bind(typeof(IEntityContext<EventSubscription>), Moq.It.IsAny<Type>()), Times.Never());
     }
 }

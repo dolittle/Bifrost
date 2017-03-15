@@ -29,6 +29,7 @@ namespace Bifrost.Testing
         Mock<ILocalizer> localizer;
         ICommandContextFactory command_context_factory;
         ICommandContextManager command_context_manager;
+        Mock<IEventSource> event_source;
         Mock<ICommandHandlerManager> command_handler_manager;
         Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
         Mock<IEventStore> event_store;
@@ -51,7 +52,9 @@ namespace Bifrost.Testing
         public CommandScenario()
         {
             principal = new GenericPrincipal(new GenericIdentity("test"), new string[] { });
-            GeneratedEvents = new UncommittedEventStream(Guid.Empty);
+
+            event_source = new Mock<IEventSource>();
+            GeneratedEvents = new UncommittedEventStream(event_source.Object);
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
             event_store = new Mock<IEventStore>();
             saga_librarian = new Mock<ISagaLibrarian>();

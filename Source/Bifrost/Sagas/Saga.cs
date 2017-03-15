@@ -17,7 +17,7 @@ namespace Bifrost.Sagas
     public class Saga : ISaga
     {
         List<IChapter> _chapters = new List<IChapter>();
-        Dictionary<EventSourceId, List<EventAndEnvelope>> _eventsByEventSource = new Dictionary<EventSourceId, List<EventAndEnvelope>>();
+        Dictionary<EventSourceId, List<EventAndVersion>> _eventsByEventSource = new Dictionary<EventSourceId, List<EventAndVersion>>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Saga"/>
@@ -101,9 +101,9 @@ namespace Bifrost.Sagas
         public PropertyInfo[] ChapterProperties { get; private set; }
 
         /// <inheritdoc/>
-        public IEnumerable<EventAndEnvelope> GetUncommittedEvents()
+        public IEnumerable<EventAndVersion> GetUncommittedEvents()
         {
-            var uncommittedEvents = new List<EventAndEnvelope>();
+            var uncommittedEvents = new List<EventAndVersion>();
             foreach (var events in _eventsByEventSource.Values)
                 uncommittedEvents.AddRange(events);
 
@@ -111,9 +111,9 @@ namespace Bifrost.Sagas
         }
 
         /// <inheritdoc/>
-        public void SetUncommittedEvents(IEnumerable<EventAndEnvelope> events)
+        public void SetUncommittedEvents(IEnumerable<EventAndVersion> events)
         {
-            var query = events.GroupBy(e => e.Envelope.EventSourceId).Select(g=>g);
+            var query = events.GroupBy(e => e.Event.EventSourceId).Select(g=>g);
             foreach (var group in query)
                 _eventsByEventSource[group.Key] = group.ToList();
         }
@@ -121,31 +121,36 @@ namespace Bifrost.Sagas
         /// <inheritdoc/>
         public void SaveUncommittedEventsToEventStore(IEventStore eventStore)
         {
+            throw new NotImplementedException();
+            /*
             foreach ( var aggregatedRootId in _eventsByEventSource.Keys )
             {
                 var uncommittedEventStream = new UncommittedEventStream(aggregatedRootId);
-                _eventsByEventSource[aggregatedRootId].ForEach(e => uncommittedEventStream.Append(e.Envelope, e.Event));
+                _eventsByEventSource[aggregatedRootId].ForEach(e => uncommittedEventStream.Append(e.Event, e.Version));
                 eventStore.Commit(uncommittedEventStream);
-            }
+            }*/
         }
 
         /// <inheritdoc/>
         public CommittedEventStream GetFor(IEventSource eventSource)
         {
-            var eventStream = new CommittedEventStream(eventSource.EventSourceId, _eventsByEventSource[eventSource.EventSourceId]);
-            return eventStream;
+            throw new NotImplementedException();
+            //var eventStream = new CommittedEventStream(eventSource.EventSourceId, _eventsByEventSource[eventSource.EventSourceId]);
+            //return eventStream;
         }
 
         /// <inheritdoc/>
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             if (!_eventsByEventSource.ContainsKey(uncommittedEventStream.EventSourceId))
-                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<EventAndEnvelope>();
+                _eventsByEventSource[uncommittedEventStream.EventSourceId] = new List<EventAndVersion>();
 
-            _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream);
+            _eventsByEventSource[uncommittedEventStream.EventSourceId].AddRange(uncommittedEventStream.EventsAndVersion);
 
+            throw new NotImplementedException();
+            /*
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
-            return committedEventStream;
+            return committedEventStream;*/
         }
 
         /// <inheritdoc/>
@@ -154,11 +159,11 @@ namespace Bifrost.Sagas
             if (!_eventsByEventSource.ContainsKey(eventSource.EventSourceId))
                 return EventSourceVersion.Zero;
 
-            var eventAndEnvelope = _eventsByEventSource[eventSource.EventSourceId].OrderByDescending(e => e.Envelope.Version).FirstOrDefault();
+            var eventAndEnvelope = _eventsByEventSource[eventSource.EventSourceId].OrderByDescending(e => e.Version).FirstOrDefault();
             if( eventAndEnvelope == null ) 
                 return EventSourceVersion.Zero;
 
-            return eventAndEnvelope.Envelope.Version;
+            return eventAndEnvelope.Version;
         }
 
         /// <inheritdoc/>

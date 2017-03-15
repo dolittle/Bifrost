@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Applications;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
 {
@@ -15,7 +16,10 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a new instance of <see cref="EventEnvelope"/>
         /// </summary>
+        /// <param name="correlationId"><see cref="TransactionCorrelationId"/> the <see cref="IEvent"/> is part of</param>
         /// <param name="eventId"><see cref="EventId"/> for the <see cref="IEvent"/></param>
+        /// <param name="sequenceNumber"></param>
+        /// <param name="sequenceNumberForEventType"></param>
         /// <param name="generation"><see cref="EventGeneration"/> for the <see cref="IEvent"/> </param>
         /// <param name="event"><see cref="IApplicationResourceIdentifier"/> representing the <see cref="IEvent"/></param>
         /// <param name="eventSourceId"><see cref="EventSourceId"/> for the <see cref="IEventSource"/></param>
@@ -24,7 +28,10 @@ namespace Bifrost.Events
         /// <param name="causedBy"><see cref="string"/> representing which person or what system caused the event</param>
         /// <param name="occurred"><see cref="DateTime">When</see> the event occured</param>
         public EventEnvelope(
+            TransactionCorrelationId correlationId,
             EventId eventId,
+            EventSequenceNumber sequenceNumber,
+            EventSequenceNumber sequenceNumberForEventType,
             EventGeneration generation, 
             IApplicationResourceIdentifier @event, 
             EventSourceId eventSourceId, 
@@ -33,7 +40,10 @@ namespace Bifrost.Events
             CausedBy causedBy, 
             DateTime occurred)
         {
+            CorrelationId = correlationId;
             EventId = eventId;
+            SequenceNumber = sequenceNumber;
+            SequenceNumberForEventType = sequenceNumberForEventType;
             Generation = generation;
             Event = @event;
             EventSourceId = eventSourceId;
@@ -44,7 +54,16 @@ namespace Bifrost.Events
         }
 
         /// <inheritdoc/>
+        public TransactionCorrelationId CorrelationId { get; }
+
+        /// <inheritdoc/>
         public EventId EventId { get; }
+
+        /// <inheritdoc/>
+        public EventSequenceNumber SequenceNumber { get; }
+
+        /// <inheritdoc/>
+        public EventSequenceNumber SequenceNumberForEventType { get; }
 
         /// <inheritdoc/>
         public EventGeneration Generation { get; }
@@ -68,9 +87,15 @@ namespace Bifrost.Events
         public DateTime Occurred { get; }
 
         /// <inheritdoc/>
-        public EventEnvelope WithEventId(EventId eventId)
+        public EventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber)
         {
-            return new EventEnvelope(eventId, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
+            return new EventEnvelope(CorrelationId, EventId, sequenceNumber, SequenceNumberForEventType, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
+        }
+
+        /// <inheritdoc/>
+        public EventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumberForEventType)
+        {
+            return new EventEnvelope(CorrelationId, EventId, SequenceNumber, sequenceNumberForEventType, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
         }
     }
 }

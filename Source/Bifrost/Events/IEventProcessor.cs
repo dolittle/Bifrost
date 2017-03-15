@@ -12,9 +12,15 @@ namespace Bifrost.Events
     public interface IEventProcessor
     {
         /// <summary>
-        /// Gets the <see cref="IApplicationResourceIdentifier"/> for the <see cref="IEventProcessor"/>
+        /// Gets the identifier for the <see cref="IEventProcessor"/>
         /// </summary>
-        IApplicationResourceIdentifier Identifier { get; } 
+        EventProcessorIdentifier Identifier { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IApplicationResourceIdentifier"/> for the <see cref="IEvent">event type</see>
+        /// it represents
+        /// </summary>
+        IApplicationResourceIdentifier Event { get; } 
 
         /// <summary>
         /// Process an event 

@@ -21,16 +21,8 @@ namespace Bifrost.Events
         protected EventSource(EventSourceId id)
         {
             EventSourceId = id;
-            UncommittedEvents = new UncommittedEventStream(id);
+            UncommittedEvents = new UncommittedEventStream(this);
         }
-
-        /// <summary>
-        /// Gets or sets the <see cref="IEventEnvelopes"/> - a dependency that would normally be on the constructor, but these type of objects should
-        /// not have dependencies on the constructor level as it bleeds through all over the place. This is therefor then required by systems creating
-        /// an instance and working with <see cref="EventSource"/> to set this
-        /// </summary>
-
-        public IEventEnvelopes EventEnvelopes { get; set; }
 
 #pragma warning disable 1591 // Xml Comments
 
@@ -42,10 +34,8 @@ namespace Bifrost.Events
 
         public void Apply(IEvent @event)
         {
-            ThrowIfEventEnvelopesNotSet();
-            var envelope = EventEnvelopes.CreateFrom(this, @event);
+            UncommittedEvents.Append(@event, Version);
             Version = Version.NextSequence();
-            UncommittedEvents.Append(envelope, @event);
         }
 
         public virtual void ReApply(CommittedEventStream eventStream)
@@ -71,14 +61,14 @@ namespace Bifrost.Events
 
         public virtual void Commit()
         {
-            UncommittedEvents = new UncommittedEventStream(EventSourceId);
+            UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.NextCommit();
         }
 
 
         public virtual void Rollback()
         {
-            UncommittedEvents = new UncommittedEventStream(EventSourceId);
+            UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.PreviousCommit();
         }
 
@@ -96,7 +86,7 @@ namespace Bifrost.Events
         }
 
 
-        void ValidateEventStream(EventStream eventStream)
+        void ValidateEventStream(CommittedEventStream eventStream)
         {
             if (!IsForThisEventSource(eventStream.EventSourceId))
                 throw new InvalidOperationException("Cannot apply an EventStream belonging to a different event source." +
@@ -118,11 +108,6 @@ namespace Bifrost.Events
         {
             if (!Version.Equals(EventSourceVersion.Zero))
                 throw new InvalidFastForwardException("Cannot fast forward event source that is not an initial version");
-        }
-
-        void ThrowIfEventEnvelopesNotSet()
-        {
-            if (EventEnvelopes == null) throw new EventEnvelopesMissing();
         }
     }
 }

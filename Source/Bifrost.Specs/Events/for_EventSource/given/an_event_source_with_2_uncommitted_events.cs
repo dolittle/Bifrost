@@ -8,10 +8,8 @@ namespace Bifrost.Specs.Events.for_EventSource.given
 		private Establish context = () =>
 			    {
 					var firstEvent = new SimpleEvent(event_source_id);
-                    event_source.EventEnvelopes = event_envelopes.Object;
                     event_source.Apply(firstEvent);
 					var secondEvent = new SimpleEvent(event_source_id);
-                    event_source.EventEnvelopes = event_envelopes.Object;
                     event_source.Apply(secondEvent);
 				};
 	}

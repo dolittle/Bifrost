@@ -14,22 +14,20 @@ namespace Bifrost.Events
     public class CommittedEventStreamCoordinator : ICommittedEventStreamCoordinator
     {
         ICanReceiveCommittedEventStream _committedEventStreamReceiver;
-        IEventSubscriptionManager _eventSubscriptionManager;
         IEventProcessors _eventProcessors;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStreamCoordinator"/>
         /// </summary>
         /// <param name="committedEventStreamReceiver"><see cref="ICanReceiveCommittedEventStream">Committed event stream receiver</see> for receiving events</param>
-        /// <param name="eventSubscriptionManager"><see cref="IEventSubscriptionManager"/> for handling processing of <see cref="IEvent">events</see></param>
         /// <param name="eventProcessors"></param>
+        /// <param name="eventProcessorLog"></param>
         public CommittedEventStreamCoordinator(
-            ICanReceiveCommittedEventStream committedEventStreamReceiver, 
-            IEventSubscriptionManager eventSubscriptionManager,
-            IEventProcessors eventProcessors)
+            ICanReceiveCommittedEventStream committedEventStreamReceiver,
+            IEventProcessors eventProcessors,
+            IEventProcessorLog eventProcessorLog)
         {
             _committedEventStreamReceiver = committedEventStreamReceiver;
-            _eventSubscriptionManager = eventSubscriptionManager;
             _eventProcessors = eventProcessors;
         }
 
@@ -41,9 +39,13 @@ namespace Bifrost.Events
 
         void CommittedEventStreamReceived(CommittedEventStream committedEventStream)
         {
-            _eventSubscriptionManager.Process(committedEventStream);
+            //_eventSubscriptionManager.Process(committedEventStream);
 
-            committedEventStream.ForEach(e => _eventProcessors.Process(e.Event));
+            committedEventStream.ForEach(e =>
+            {
+                var result = _eventProcessors.Process(e.Event);
+                
+            });
         }
     }
 }

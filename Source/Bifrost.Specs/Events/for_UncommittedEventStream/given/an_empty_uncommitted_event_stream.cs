@@ -1,6 +1,7 @@
 ﻿using System;
 using Bifrost.Events;
 using Machine.Specifications;
+using Moq;
 
 namespace Bifrost.Specs.Events.for_UncommittedEventStream.given
 {
@@ -8,11 +9,15 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStream.given
     {
         protected static UncommittedEventStream event_stream;
         protected static EventSourceId event_source_id;
+        protected static Mock<IEventSource> event_source;
 
         Establish context = () =>
                 {
                     event_source_id = Guid.NewGuid();
-                    event_stream = new UncommittedEventStream(event_source_id);
+                    event_source = new Mock<IEventSource>();
+                    event_source.SetupGet(e => e.EventSourceId).Returns(event_source_id);
+                    
+                    event_stream = new UncommittedEventStream(event_source.Object);
                 };
     }
 }

@@ -9,13 +9,16 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator
     [Subject(typeof(UncommittedEventStream))]
     public class when_committing : given.an_uncommitted_event_stream_coordinator
     {
-        static Guid event_source_id = Guid.NewGuid();
+        static Mock<IEventSource> event_source;
+        static EventSourceId event_source_id = Guid.NewGuid();
         static UncommittedEventStream   uncommitted_event_stream;
         static CommittedEventStream committed_event_stream;
 
         Establish context = () =>
         {
-            uncommitted_event_stream = new UncommittedEventStream(event_source_id);
+            event_source = new Mock<IEventSource>();
+            event_source.SetupGet(e => e.EventSourceId).Returns(event_source_id);
+            uncommitted_event_stream = new UncommittedEventStream(event_source.Object);
             committed_event_stream = new CommittedEventStream(event_source_id);
             event_store_mock.Setup(e => e.Commit(uncommitted_event_stream)).Returns(committed_event_stream);
         };

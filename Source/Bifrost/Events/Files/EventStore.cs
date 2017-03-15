@@ -75,8 +75,10 @@ namespace Bifrost.Events.Files
                 var eventAsJson = File.ReadAllText(eventFile);
                 var envelopeValues = _serializer.GetKeyValuesFromJson(envelopeAsJson);
 
-
-                var _eventId = (long)envelopeValues["EventId"];
+                var _correllationId = Guid.Parse((string)envelopeValues["CorrellationId"]);
+                var _eventId = Guid.Parse((string)envelopeValues["EventId"]);
+                var _sequenceNumber = (long)envelopeValues["SequenceNumber"];
+                var _sequenceNumberForEventType = (long)envelopeValues["SequenceNumberForEventType"];
                 var _generation = (long)envelopeValues["Generation"];
                 var _event = _applicationResourceIdentifierConverter.FromString((string)envelopeValues["Event"]);
                 var _eventSourceId = Guid.Parse((string)envelopeValues["EventSourceId"]);
@@ -86,7 +88,10 @@ namespace Bifrost.Events.Files
                 var _occurred = (DateTime)envelopeValues["Occurred"];
                     
                 var envelope = new EventEnvelope(
+                    _correllationId,
                     _eventId,
+                    _sequenceNumber,
+                    _sequenceNumberForEventType,
                     (int)_generation,
                     _event,
                     _eventSourceId,
@@ -108,16 +113,17 @@ namespace Bifrost.Events.Files
         public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
         {
             var events = new List<EventAndEnvelope>();
-            foreach (var eventAndEnvelope in uncommittedEventStream)
-            {
-                var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventAndEnvelope.Envelope.EventSource);
-                var path = GetPathFor(eventSourceIdentifier, eventAndEnvelope.Envelope.EventSourceId);
-                var eventId = GetNextEventId();
+            var eventSourceIdentifier = _applicationResources.Identify(uncommittedEventStream.EventSource);
 
-                var envelope = eventAndEnvelope.Envelope.WithEventId(eventId);
+            foreach (var eventAndVersion in uncommittedEventStream.EventsAndVersion)
+            {
+                var eventSourceIdentifierAsString = _applicationResourceIdentifierConverter.AsString(eventSourceIdentifier);
+                var path = GetPathFor(eventSourceIdentifierAsString, eventAndVersion.Event.EventSourceId);
+
+                var envelope = _eventEnvelopes.CreateFrom(uncommittedEventStream.EventSource, eventAndVersion.Event);
 
                 var envelopeAsJson = _serializer.ToJson(envelope);
-                var eventAsJson = _serializer.ToJson(eventAndEnvelope.Event);
+                var eventAsJson = _serializer.ToJson(eventAndVersion.Event);
 
                 var eventPath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.event");
                 var envelopePath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.envelope");
@@ -125,7 +131,7 @@ namespace Bifrost.Events.Files
                 File.WriteAllText(envelopePath, envelopeAsJson);
                 File.WriteAllText(eventPath, eventAsJson);
 
-                events.Add(new EventAndEnvelope(envelope, eventAndEnvelope.Event));
+                events.Add(new EventAndEnvelope(envelope, eventAndVersion.Event));
             }
 
             var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, events);

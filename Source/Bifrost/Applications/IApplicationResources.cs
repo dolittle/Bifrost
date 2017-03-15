@@ -12,10 +12,17 @@ namespace Bifrost.Applications
     public interface IApplicationResources
     {
         /// <summary>
-        /// Identify a resource
+        /// Identify a resource from its instance
         /// </summary>
         /// <param name="resource">Resource to identify</param>
         /// <returns><see cref="IApplicationResourceIdentifier"/> identifying the resource</returns>
         IApplicationResourceIdentifier Identify(object resource);
+
+        /// <summary>
+        /// Identify a resource from its type
+        /// </summary>
+        /// <param name="type">Type of the resource to identify</param>
+        /// <returns><see cref="IApplicationResourceIdentifier"/> identifying the resource</returns>
+        IApplicationResourceIdentifier Identify(Type type);
     }
 }

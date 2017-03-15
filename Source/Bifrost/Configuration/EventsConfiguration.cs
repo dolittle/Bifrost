@@ -21,7 +21,6 @@ namespace Bifrost.Configuration
         public EventsConfiguration()
         {
             EventStore = typeof(NullEventStore);
-            EventSubscriptions = typeof(NullEventSubscriptions);
             UncommittedEventStreamCoordinator = typeof(NullUncommittedEventStreamCoordinator);
             CommittedEventStreamSender = typeof(NullCommittedEventStreamSender);
             CommittedEventStreamReceiver = typeof(NullCommittedEventStreamReceiver);
@@ -29,9 +28,6 @@ namespace Bifrost.Configuration
 
         /// <inheritdoc/>
         public Type EventStore { get; set; }
-
-        /// <inheritdoc/>
-        public Type EventSubscriptions { get; set; }
 
         /// <inheritdoc/>
         public Type UncommittedEventStreamCoordinator { get; set; }
@@ -49,12 +45,10 @@ namespace Bifrost.Configuration
             container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender, BindingLifecycle.Singleton);
             container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
             container.Bind<IEventStore>(EventStore, BindingLifecycle.Singleton);
-            container.Bind<IEventSubscriptions>(EventSubscriptions, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {
                 EntityContextConfiguration.BindEntityContextTo<IEvent>(container);
-                EntityContextConfiguration.BindEntityContextTo<EventSubscription>(container);
                 base.Initialize(container);
             }
         }

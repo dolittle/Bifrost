@@ -9,7 +9,7 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         protected static AggregateRootRepository<AggregateRootWithGuidConstructor> repository;
         protected static AggregateRootWithGuidConstructor result;
 
-        Establish context = () => repository = new AggregateRootRepository<AggregateRootWithGuidConstructor>(command_context_manager.Object, event_envelopes.Object);
+        Establish context = () => repository = new AggregateRootRepository<AggregateRootWithGuidConstructor>(command_context_manager.Object);
 
         Because of = () => result = repository.Get(Guid.NewGuid());
 
