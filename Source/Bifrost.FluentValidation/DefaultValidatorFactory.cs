@@ -9,7 +9,6 @@ using System.Reflection;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.FluentValidation.Commands;
-using Bifrost.FluentValidation.Sagas;
 using FluentValidation;
 
 namespace Bifrost.FluentValidation
@@ -58,9 +57,7 @@ namespace Bifrost.FluentValidation
             var validatorTypes = _typeDiscoverer.FindMultiple(typeof(IValidator)).Where(
                 t =>
                     !t.HasInterface<ICommandInputValidator>() &&
-                    !t.HasInterface<ICommandBusinessValidator>() &&
-                    !t.GetTypeInfo().BaseType.Name.Equals(typeof(ChapterValidator<>).Name)
-                    );
+                    !t.HasInterface<ICommandBusinessValidator>());
             foreach (var validatorType in validatorTypes)
             {
                 var genericArguments = validatorType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments();

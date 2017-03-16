@@ -111,7 +111,6 @@
     <Compile Include="Proxies\ProxyRouteHandler.cs" />
     <Compile Include="Proxies\ProxyRouteHttpHandler.cs" />
     <Compile Include="Commands\CommandProxies.cs" />
-    <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="HttpModule.cs" />
     <Compile Include="IPipe.cs" />
@@ -119,7 +118,6 @@
     <Compile Include="Pipeline\SinglePageApplication.cs" />
     <Compile Include="IWebContext.cs" />
     <Compile Include="IWebRequest.cs" />
-    <Compile Include="Sagas\SagaNarratorService.cs" />
     <Compile Include="Services\HttpStatus.cs" />
     <Compile Include="Services\IRegisteredServices.cs" />
     <Compile Include="Services\IRequestParamsFactory.cs" />

@@ -10,7 +10,7 @@ using Bifrost.Events;
 using Bifrost.Exceptions;
 using Bifrost.Execution;
 using Bifrost.Globalization;
-using Bifrost.Sagas;
+using Bifrost.Lifecycle;
 using Bifrost.Security;
 using Bifrost.Testing.Exceptions;
 using Bifrost.Validation;
@@ -33,7 +33,6 @@ namespace Bifrost.Testing
         Mock<ICommandHandlerManager> command_handler_manager;
         Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
         Mock<IEventStore> event_store;
-        Mock<ISagaLibrarian> saga_librarian;
         Mock<IProcessMethodInvoker> process_method_invoker;
         Mock<ICommandSecurityManager> command_security_manager_mock;
         Mock<IExecutionContextFactory> execution_context_factory_mock;
@@ -57,13 +56,11 @@ namespace Bifrost.Testing
             GeneratedEvents = new UncommittedEventStream(event_source.Object);
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
             event_store = new Mock<IEventStore>();
-            saga_librarian = new Mock<ISagaLibrarian>();
             process_method_invoker = new Mock<IProcessMethodInvoker>();
             call_context_mock = new Mock<ICallContext>();
             execution_context_factory_mock = new Mock<IExecutionContextFactory>();
             execution_context_manager = new ExecutionContextManager(execution_context_factory_mock.Object, call_context_mock.Object);
-            command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, saga_librarian.Object, process_method_invoker.Object,
-                                                                                                                            execution_context_manager, event_store.Object);
+            command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, process_method_invoker.Object, execution_context_manager, event_store.Object);
             command_context_manager = new CommandContextManager(command_context_factory);
 
             command_handler_manager = new Mock<ICommandHandlerManager>();
@@ -90,7 +87,7 @@ namespace Bifrost.Testing
             input_validator = null_validator;
             business_validator = null_validator;
 
-            uncommitted_event_stream_coordinator.Setup(es => es.Commit(It.IsAny<UncommittedEventStream>()))
+            uncommitted_event_stream_coordinator.Setup(es => es.Commit(It.IsAny<TransactionCorrelationId>(), It.IsAny<UncommittedEventStream>()))
                 .Callback((UncommittedEventStream ues) => RecordGeneratedEvents(ues));
         }
 

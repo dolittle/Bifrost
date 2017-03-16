@@ -110,20 +110,19 @@ namespace Bifrost.Events.Files
         }
 
         /// <inheritdoc/>
-        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
+        public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
         {
             var events = new List<EventAndEnvelope>();
-            var eventSourceIdentifier = _applicationResources.Identify(uncommittedEventStream.EventSource);
 
-            foreach (var eventAndVersion in uncommittedEventStream.EventsAndVersion)
+            foreach (var eventAndEnvelope in eventsAndEnvelopes)
             {
+                var eventSourceIdentifier = _applicationResources.Identify(eventAndEnvelope.Envelope.EventSourceId);
                 var eventSourceIdentifierAsString = _applicationResourceIdentifierConverter.AsString(eventSourceIdentifier);
-                var path = GetPathFor(eventSourceIdentifierAsString, eventAndVersion.Event.EventSourceId);
+                var path = GetPathFor(eventSourceIdentifierAsString, eventAndEnvelope.Event.EventSourceId);
 
-                var envelope = _eventEnvelopes.CreateFrom(uncommittedEventStream.EventSource, eventAndVersion.Event);
-
-                var envelopeAsJson = _serializer.ToJson(envelope);
-                var eventAsJson = _serializer.ToJson(eventAndVersion.Event);
+                var envelope = eventAndEnvelope.Envelope;
+                var envelopeAsJson = _serializer.ToJson(eventAndEnvelope.Envelope);
+                var eventAsJson = _serializer.ToJson(eventAndEnvelope.Event);
 
                 var eventPath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.event");
                 var envelopePath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.envelope");
@@ -131,11 +130,8 @@ namespace Bifrost.Events.Files
                 File.WriteAllText(envelopePath, envelopeAsJson);
                 File.WriteAllText(eventPath, eventAsJson);
 
-                events.Add(new EventAndEnvelope(envelope, eventAndVersion.Event));
+                events.Add(new EventAndEnvelope(envelope, eventAndEnvelope.Event));
             }
-
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, events);
-            return committedEventStream;
         }
 
         /// <inheritdoc/>
@@ -173,24 +169,5 @@ namespace Bifrost.Events.Files
             }
             return fullPath;
         }
-
-        int GetNextEventId()
-        {
-            var id = 0;
-
-            var idFile = Path.Combine(_configuration.Path, "LastEventID");
-
-            if (File.Exists(idFile))
-            {
-                var idAsString = File.ReadAllText(idFile);
-                int.TryParse(idAsString, out id);
-            }
-
-            id++;
-            File.WriteAllText(idFile, id.ToString());
-
-            return id;
-        }
-
     }
 }

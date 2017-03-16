@@ -69,7 +69,6 @@
     <Compile Include="Read\ReadOnlySession.cs" />
     <Compile Include="Read\ReadOnlySessionProxy.cs" />
     <Compile Include="Read\UTCDateTimesInterceptor.cs" />
-    <Compile Include="Sagas\SagaHolderClassMap.cs" />
     <Compile Include="UserTypes\InferredMapping.cs" />
     <Compile Include="UserTypes\NullSafeMapping.cs" />
     <Compile Include="UserTypes\MethodInfoUserType.cs" />

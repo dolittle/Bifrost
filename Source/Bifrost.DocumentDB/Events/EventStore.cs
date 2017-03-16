@@ -49,20 +49,15 @@ namespace Bifrost.DocumentDB.Events
         }
 
         /// <inheritdoc/>
-        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
+        public void Commit(IEnumerable<EventAndEnvelope> events)
         {
-            var eventsWithEnvelope = new List<EventAndEnvelope>();
-            foreach( var eventWithEnvelope in uncommittedEventStream )
+            foreach( var eventWithEnvelope in events )
             {
                 var serialized = _serializer.ToJson(eventWithEnvelope, SerializationExtensions.SerializationOptions);
                 _client
                     .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
-                    .ContinueWith(t => eventsWithEnvelope.Add(new EventAndEnvelope(eventWithEnvelope.Envelope.WithEventId((long)t.Result), eventWithEnvelope.Event)))
                     .Wait();
             }
-
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, uncommittedEventStream);
-            return committedEventStream;
         }
 
         /// <inheritdoc/>

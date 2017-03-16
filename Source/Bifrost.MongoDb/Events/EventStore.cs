@@ -72,23 +72,14 @@ namespace Bifrost.MongoDb.Events
 			return stream;
 		}
 
-		public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
+		public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
 		{
-			var eventArray = uncommittedEventStream.ToArray();
-			for (var eventIndex = 0; eventIndex < eventArray.Length; eventIndex++)
-			{
-				var eventAndEnvelope = eventArray[eventIndex];
-
-                new EventAndEnvelope(eventAndEnvelope.Envelope.WithEventId(GetNextEventId()), eventAndEnvelope.Event);
-
-
+            foreach( var eventAndEnvelope in eventsAndEnvelopes )
+            { 
 				var eventDocument = eventAndEnvelope.ToBsonDocument();
 				AddMetaData(eventAndEnvelope.Event, eventDocument);
 				_collection.InsertOne(eventDocument);
 			}
-
-			var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, eventArray);
-			return committedEventStream;
 		}
 
 		public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
@@ -128,7 +119,7 @@ namespace Bifrost.MongoDb.Events
 			var migrationLevel = _eventMigrationHierarchyManager.GetCurrentGenerationFor(logicalEventType);
 			eventDocument[EventType] = string.Format("{0}, {1}", eventType.FullName, eventType.Assembly.GetName().Name);
 			eventDocument[LogicalEventType] = string.Format("{0}, {1}", logicalEventType.FullName, logicalEventType.Assembly.GetName().Name);
-			eventDocument[Generation] = migrationLevel;
+			//eventDocument[Generation] = migrationLevel;
 		}
 
 		void RemoveMetaData(BsonDocument document)

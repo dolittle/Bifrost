@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Bifrost.Sagas;
 
 namespace Bifrost.Commands
 {
@@ -46,12 +45,13 @@ namespace Bifrost.Commands
             return inContext;
         }
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public bool HasCurrent
         {
             get { return CurrentContext != null; }
         }
 
+        /// <inheritdoc/>
         public ICommandContext GetCurrent()
         {
             if (!HasCurrent)
@@ -61,6 +61,7 @@ namespace Bifrost.Commands
             return CurrentContext;
         }
 
+        /// <inheritdoc/>
         public ICommandContext EstablishForCommand(ICommand command)
         {
             if (!IsInContext(command))
@@ -70,17 +71,5 @@ namespace Bifrost.Commands
             }
             return CurrentContext;
         }
-
-        public ICommandContext EstablishForSaga(ISaga saga, ICommand command)
-        {
-            if (!IsInContext(command))
-            {
-                var commandContext = _factory.Build(saga,command);
-
-                CurrentContext = commandContext;
-            }
-            return CurrentContext;
-        }
-#pragma warning restore 1591 // Xml Comments
     }
 }

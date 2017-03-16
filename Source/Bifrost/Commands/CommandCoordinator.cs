@@ -7,7 +7,6 @@ using System.Reflection;
 using Bifrost.Exceptions;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
-using Bifrost.Sagas;
 
 namespace Bifrost.Commands
 {
@@ -48,12 +47,7 @@ namespace Bifrost.Commands
             _exceptionPublisher = exceptionPublisher;
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public CommandResult Handle(ISaga saga, ICommand command)
-        {
-            return Handle(_commandContextManager.EstablishForSaga(saga, command), command);
-        }
-
+        /// <inheritdoc/>
         public CommandResult Handle(ICommand command)
         {
             return Handle(_commandContextManager.EstablishForCommand(command), command);

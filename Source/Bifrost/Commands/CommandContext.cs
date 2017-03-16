@@ -2,10 +2,12 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Execution;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Commands
 {
@@ -14,6 +16,7 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContext : ICommandContext
     {
+        TransactionCorrelationId _transactionCorrelationId;
         IEventStore _eventStore;
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
         List<IAggregateRoot> _objectsTracked = new List<IAggregateRoot>();
@@ -35,6 +38,9 @@ namespace Bifrost.Commands
             ExecutionContext = executionContext;
             _eventStore = eventStore;
             _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
+
+            // This should be exposed to the client somehow - maybe even coming from the client
+            _transactionCorrelationId = Guid.NewGuid();
         }
 
 
@@ -69,7 +75,7 @@ namespace Bifrost.Commands
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                    _uncommittedEventStreamCoordinator.Commit(events);
+                    _uncommittedEventStreamCoordinator.Commit(_transactionCorrelationId, events);
                     trackedObject.Commit();
                 }
             }

@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
+
 namespace Bifrost.Events
 {
     /// <summary>
@@ -19,9 +21,8 @@ namespace Bifrost.Events
 		/// <summary>
 		/// Save events for a specific aggregated root
 		/// </summary>
-        /// <param name="uncommittedEventStream"><see cref="UncommittedEventStream"></see> to save</param>
-        /// <returns>The <see cref="CommittedEventStream"/> with all the events that was committed with their updated Ids</returns>
-        CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream);
+        /// <param name="eventsAndEnvelopes"><see cref="IEnumerable{T}">Events and envelopes</see> to commit</param>
+        void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes);
 
         /// <summary>
         /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="IEventSource"/>

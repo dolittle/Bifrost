@@ -49,6 +49,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\CommonAssemblyInfo.cs">
@@ -299,7 +300,6 @@
     <Compile Include="Configuration\ViewsConfiguration.cs" />
     <Compile Include="Configuration\IConfigure.cs" />
     <Compile Include="Configuration\ISagasConfiguration.cs" />
-    <Compile Include="Configuration\SagasConfiguration.cs" />
     <Compile Include="Dynamic\DynamicExtensions.cs" />
     <Compile Include="Diagnostics\IProblems.cs" />
     <Compile Include="Diagnostics\IProblemsFactory.cs" />
@@ -442,7 +442,6 @@
     <Compile Include="Rules\RuleContext.cs" />
     <Compile Include="Rules\RuleContextFail.cs" />
     <Compile Include="Rules\RuleContexts.cs" />
-    <Compile Include="Sagas\SagaSerializationOptions.cs" />
     <Compile Include="Serialization\ISerializationOptions.cs" />
     <Compile Include="Serialization\SerializationOptionFlags.cs" />
     <Compile Include="Specifications\And.cs" />
@@ -453,14 +452,6 @@
     <Compile Include="Specifications\ParameterRebinder.cs" />
     <Compile Include="Specifications\Specification.cs" />
     <Compile Include="Specifications\SpecificationExtensions.cs" />
-    <Compile Include="Sagas\Constants.cs" />
-    <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
-    <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
-    <Compile Include="Sagas\ISagaConverter.cs" />
-    <Compile Include="Sagas\NullSagaLibrarian.cs" />
-    <Compile Include="Sagas\SagaConverter.cs" />
-    <Compile Include="Sagas\SagaState.cs" />
-    <Compile Include="Sagas\State.cs" />
     <Compile Include="Security\AuthorizeDescriptorResult.cs" />
     <Compile Include="Security\AuthorizationResult.cs" />
     <Compile Include="Security\AuthorizeActionResult.cs" />
@@ -500,12 +491,6 @@
     <Compile Include="Globalization\ILocalizer.cs" />
     <Compile Include="Globalization\LocalizationScope.cs" />
     <Compile Include="Globalization\Localizer.cs" />
-    <Compile Include="Sagas\ChapterDoesNotExistException.cs" />
-    <Compile Include="Sagas\ChapterTransition.cs" />
-    <Compile Include="Sagas\ChapterHolder.cs" />
-    <Compile Include="Sagas\SagaCommandContext.cs" />
-    <Compile Include="Sagas\SagaHolder.cs" />
-    <Compile Include="Sagas\SagaLibrarian.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Services\InvokeService.cs" />
     <Compile Include="Services\ServiceSecurityExtensions.cs" />
@@ -557,12 +542,6 @@
     <Compile Include="Utils\IStringMapping.cs" />
     <Compile Include="Utils\StringMapper.cs" />
     <Compile Include="Utils\StringMapping.cs" />
-    <Compile Include="Sagas\ICanTransitionTo.cs" />
-    <Compile Include="Sagas\ISaga.cs" />
-    <Compile Include="Sagas\IChapter.cs" />
-    <Compile Include="Sagas\ISagaLibrarian.cs" />
-    <Compile Include="Sagas\ISagaNarrator.cs" />
-    <Compile Include="Sagas\Saga.cs" />
     <Compile Include="Configuration\CommandsConfiguration.cs" />
     <Compile Include="Configuration\ConfigurationExtensions.cs" />
     <Compile Include="Configuration\Configure.cs" />
@@ -576,18 +555,10 @@
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />
-    <Compile Include="Sagas\SagaConclusion.cs" />
-    <Compile Include="Sagas\SagaNotInChapterException.cs" />
-    <Compile Include="Sagas\Chapter.cs" />
-    <Compile Include="Sagas\ChapterAlreadyExistException.cs" />
-    <Compile Include="Sagas\ChapterTransitionNotAllowedException.cs" />
-    <Compile Include="Sagas\ChapterTransitionHelper.cs" />
-    <Compile Include="Sagas\SagaNarrator.cs" />
     <Compile Include="Commands\CommandHandlerInvoker.cs" />
     <Compile Include="Commands\CommandValidationResult.cs" />
     <Compile Include="Validation\IAmValidatable.cs" />
     <Compile Include="Validation\ICanValidate.cs" />
-    <Compile Include="Sagas\IChapterValidationService.cs" />
     <Compile Include="Commands\ICommandContextStore.cs" />
     <Compile Include="Commands\ICommandValidator.cs" />
     <Compile Include="Validation\IValueRule.cs" />

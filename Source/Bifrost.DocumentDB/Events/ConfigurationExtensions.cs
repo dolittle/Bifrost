@@ -21,7 +21,6 @@ namespace Bifrost.Configuration
         public static IConfigure UsingDocumentDB(this IEventsConfiguration eventsConfiguration, Action<EventStorageConfiguration> configureCallback)
         {
             eventsConfiguration.EventStore = typeof(EventStore);
-            eventsConfiguration.EventSubscriptions = typeof(EventSubscriptions);
             var configuration = new EventStorageConfiguration();
             configureCallback(configuration);
             Configure.Instance.Container.Bind<EventStorageConfiguration>(configuration);

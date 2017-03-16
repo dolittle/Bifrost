@@ -126,19 +126,6 @@
     </Compile>
     <Compile Include="ObjectValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sagas\for_ChapterValidationService\given\a_chapter_validation_service.cs" />
-    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_that_fails.cs" />
-    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_that_passes.cs" />
-    <Compile Include="Sagas\for_ChapterValidationService\when_validating_a_chapter_with_no_validators.cs" />
-    <Compile Include="Sagas\for_ChapterValidatorProvider\given\a_chapter_validator_provider.cs" />
-    <Compile Include="Sagas\for_ChapterValidatorProvider\when_getting_a_validator_for_a_chapter_with_a_validator.cs" />
-    <Compile Include="Sagas\for_ChapterValidatorProvider\when_getting_a_validator_for_chapter_with_no_validator.cs" />
-    <Compile Include="Sagas\for_ChapterValidatorProvider\when_validating_a_chapter_that_does_not_exist.cs" />
-    <Compile Include="Sagas\for_ChapterValidator\given\a_chapter_validator.cs" />
-    <Compile Include="Sagas\for_ChapterValidator\when_validating_an_invalid_chapter.cs" />
-    <Compile Include="Sagas\for_ChapterValidator\when_validating_a_valid_chapter.cs" />
-    <Compile Include="Sagas\NonTransitionalChapterValidator.cs" />
-    <Compile Include="Sagas\SimpleChapterValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">

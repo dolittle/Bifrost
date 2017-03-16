@@ -9,7 +9,6 @@ using Bifrost.Web.Commands;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
-using Bifrost.Web.Sagas;
 using Bifrost.Web.Security;
 using Bifrost.Web.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -33,7 +32,6 @@ namespace Bifrost.Web
             RouteTable.Routes.Add(new AssetManagerRoute("Bifrost/AssetsManager"));
             RouteTable.Routes.AddService<CommandCoordinatorService>("Bifrost/CommandCoordinator");
             RouteTable.Routes.AddService<CommandSecurityService>("Bifrost/CommandSecurity");
-            RouteTable.Routes.AddService<SagaNarratorService>("Bifrost/SagaNarrator");
             RouteTable.Routes.AddService<QueryService>("Bifrost/Query");
             RouteTable.Routes.AddService<ReadModelService>("Bifrost/ReadModel");
             RouteTable.Routes.AddApplicationFromAssembly("Bifrost", typeof(BootStrapper).Assembly);

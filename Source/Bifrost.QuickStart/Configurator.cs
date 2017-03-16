@@ -2,8 +2,6 @@
 using System.Web.Routing;
 using Bifrost.Applications;
 using Bifrost.Configuration;
-using Bifrost.FluentValidation.Sagas;
-using Bifrost.Sagas;
 using Bifrost.Web.Services;
 using Web.Domain.HumanResources.Foos;
 
@@ -15,10 +13,6 @@ namespace Web
         {
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
-            var sagasPath = HttpContext.Current.Server.MapPath("~/App_Data/Sagas");
-
-            configure.Container.Bind<IChapterValidationService>(typeof(ChapterValidationService));
-            configure.Sagas.LibrarianType = typeof(SagaLibrarian);
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
