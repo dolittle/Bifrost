@@ -19,7 +19,7 @@ namespace Bifrost.Specs.Events.for_EventSource.given
 					event_source = new StatefulAggregatedRoot(event_source_id);
                     event_envelope = new Mock<IEventEnvelope>();
                     event_envelope.SetupGet(e => e.EventSourceId).Returns(event_source_id);
-                    event_envelopes.Setup(e => e.CreateFrom(event_source, Moq.It.IsAny<IEvent>())).Returns(event_envelope.Object);
+                    event_envelopes.Setup(e => e.CreateFrom(event_source, Moq.It.IsAny<IEvent>(), Moq.It.IsAny<EventSourceVersion>())).Returns(event_envelope.Object);
 				};
 	}
 }
