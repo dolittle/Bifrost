@@ -196,7 +196,6 @@
     <Compile Include="Events\CausedBy.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\CommittedEventStreamCoordinatorInitializer.cs" />
-    <Compile Include="Events\CommittedEventStreamFactory.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
     <Compile Include="Events\EventAndVersion.cs" />
     <Compile Include="Events\EventProcessorLog.cs" />
@@ -218,7 +217,6 @@
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
-    <Compile Include="Events\ICommittedEventStreamFactory.cs" />
     <Compile Include="Events\IEventEnvelope.cs" />
     <Compile Include="Events\IEventEnvelopes.cs" />
     <Compile Include="Events\IEventProcessingResult.cs" />

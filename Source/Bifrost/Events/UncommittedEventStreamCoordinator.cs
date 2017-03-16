@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
@@ -35,15 +36,18 @@ namespace Bifrost.Events
         /// <inheritdoc/>
         public void Commit(TransactionCorrelationId correlationId, UncommittedEventStream uncommittedEventStream)
         {
-            var events = new List<EventAndEnvelope>();
-            foreach (var eventAndVersion in uncommittedEventStream.EventsAndVersion)
-            {
-                var envelope = _eventEnvelopes.CreateFrom(uncommittedEventStream.EventSource, eventAndVersion.Event);
-                events.Add(new EventAndEnvelope(envelope, eventAndVersion.Event));
-            }
-            _eventStore.Commit(events);
+            var envelopes = _eventEnvelopes.CreateFrom(uncommittedEventStream.EventSource, uncommittedEventStream.EventsAndVersion);
 
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, events);
+            var eventsAndEnvelopes = envelopes.Select(e => new EventAndEnvelope(
+                    e.WithTransactionCorrelationId(correlationId)
+                     .WithSequenceNumber(0)
+                     .WithSequenceNumberForEventType(0),
+                    uncommittedEventStream.EventsAndVersion.Where(ev=>ev.Version.Equals(e.Version)).First().Event
+                ));
+
+            _eventStore.Commit(eventsAndEnvelopes);
+
+            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId, eventsAndEnvelopes);
             _committedEventStreamSender.Send(committedEventStream);
         }
     }
