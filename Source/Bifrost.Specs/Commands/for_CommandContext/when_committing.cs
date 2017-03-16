@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Bifrost.Events;
+﻿using Bifrost.Events;
 using Bifrost.Lifecycle;
 using Machine.Specifications;
 
@@ -9,7 +8,7 @@ namespace Bifrost.Specs.Commands.for_CommandContext
     {
         static UncommittedEventStream   event_stream;
 
-        Establish context = () => uncommitted_event_stream_coordinator.Setup(e=>e.Commit(Moq.It.IsAny<TransactionCorrelationId>(),Moq.It.IsAny<UncommittedEventStream>())).Callback((UncommittedEventStream s) => event_stream = s);
+        Establish context = () => uncommitted_event_stream_coordinator.Setup(e=>e.Commit(command_context.TransactionCorrelationId,Moq.It.IsAny<UncommittedEventStream>())).Callback((TransactionCorrelationId i, UncommittedEventStream s) => event_stream = s);
 
         Because of = () => command_context.Commit();
 

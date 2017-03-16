@@ -16,7 +16,6 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContext : ICommandContext
     {
-        TransactionCorrelationId _transactionCorrelationId;
         IEventStore _eventStore;
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
         List<IAggregateRoot> _objectsTracked = new List<IAggregateRoot>();
@@ -40,33 +39,39 @@ namespace Bifrost.Commands
             _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
 
             // This should be exposed to the client somehow - maybe even coming from the client
-            _transactionCorrelationId = Guid.NewGuid();
+            TransactionCorrelationId = Guid.NewGuid();
         }
 
 
-#pragma warning disable 1591 // Xml Comments
-        public ICommand Command { get; private set; }
-        public IExecutionContext ExecutionContext { get; private set; }
+        /// <inheritdoc/>
+        public TransactionCorrelationId TransactionCorrelationId { get; }
 
+        /// <inheritdoc/>
+        public ICommand Command { get; }
+
+        /// <inheritdoc/>
+        public IExecutionContext ExecutionContext { get; }
+
+        /// <inheritdoc/>
         public void RegisterForTracking(IAggregateRoot aggregatedRoot)
         {
             _objectsTracked.Add(aggregatedRoot);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IAggregateRoot> GetObjectsBeingTracked()
         {
             return _objectsTracked;
         }
 
 
-        /// <summary>
-        /// Disposes the CommandContext by Committing
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Commit();
         }
 
+        /// <inheritdoc/>
         public void Commit()
         {
             var trackedObjects = GetObjectsBeingTracked();
@@ -75,24 +80,26 @@ namespace Bifrost.Commands
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                    _uncommittedEventStreamCoordinator.Commit(_transactionCorrelationId, events);
+                    _uncommittedEventStreamCoordinator.Commit(TransactionCorrelationId, events);
                     trackedObject.Commit();
                 }
             }
         }
 
+        /// <inheritdoc/>
         public void Rollback()
         {
             // Todo : Should rollback any aggregated roots that are being tracked - 
             // PS: What do you do with events that has already been dispatched and stored?
         }
 
-
+        /// <inheritdoc/>
         public CommittedEventStream GetCommittedEventsFor(IEventSource eventSource)
         {
             return _eventStore.GetFor(eventSource);
         }
 
+        /// <inheritdoc/>
         public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
             return _eventStore.GetLastCommittedVersionFor(eventSource);

@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using Bifrost.Domain;
 using Bifrost.Events;
@@ -17,6 +16,11 @@ namespace Bifrost.Commands
     /// </summary>
     public interface ICommandContext : ITransaction
     {
+        /// <summary>
+        /// Gets the <see cref="TransactionCorrelationId"/> for the <see cref="ICommandContext"/>
+        /// </summary>
+        TransactionCorrelationId TransactionCorrelationId { get; }
+
         /// <summary>
         /// Gets the <see cref="ICommand">command</see> the context is for
         /// </summary>
