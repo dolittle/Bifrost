@@ -65,6 +65,7 @@ namespace Bifrost.Events
         public void Append(IEvent @event, EventSourceVersion version)
         {
             ThrowIfEventIsNull(@event);
+            ThrowIfEventBelongsToOtherEventSource(@event);
             @event.EventSourceId = EventSourceId;
             _events.Add(@event);
             _eventsAndVersion.Add(new EventAndVersion(@event, version));
@@ -82,10 +83,10 @@ namespace Bifrost.Events
             return _events.GetEnumerator();
         }
 
-        void ThrowIfEventBelongsToOtherEventSource(IEventEnvelope envelope)
+        void ThrowIfEventBelongsToOtherEventSource(IEvent @event)
         {
-            if (envelope.EventSourceId != EventSourceId)
-                throw new EventBelongsToOtherEventSource(envelope.EventSourceId, EventSourceId);
+            if (@event.EventSourceId != EventSourceId)
+                throw new EventBelongsToOtherEventSource(@event.EventSourceId, EventSourceId);
         }
 
         void ThrowIfEventIsNull(IEvent @event)

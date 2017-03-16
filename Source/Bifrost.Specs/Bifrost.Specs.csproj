@@ -316,7 +316,6 @@
     <Compile Include="Events\for_EventEnvelopes\given\an_event_envelopes.cs" />
     <Compile Include="Events\for_EventEnvelopes\when_creating_from_an_event_source_an_event.cs" />
     <Compile Include="Events\for_EventSource\given\all_dependencies.cs" />
-    <Compile Include="Events\for_EventSource\when_applying_an_event_without_event_envelopes.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
