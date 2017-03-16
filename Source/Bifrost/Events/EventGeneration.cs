@@ -12,6 +12,11 @@ namespace Bifrost.Events
     public class EventGeneration : ConceptAs<int>
     {
         /// <summary>
+        /// First generation of an event
+        /// </summary>
+        public static EventGeneration First = 1;
+
+        /// <summary>
         /// Implicitly convert from a <see cref="int"/> to an <see cref="EventGeneration"/>
         /// </summary>
         /// <param name="generation">The generation</param>

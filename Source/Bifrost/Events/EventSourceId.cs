@@ -13,6 +13,15 @@ namespace Bifrost.Events
     public class EventSourceId : ConceptAs<Guid>
     {
         /// <summary>
+        /// Creates a new instance of <see cref="EventSourceId"/> with a unique id
+        /// </summary>
+        /// <returns>A new <see cref="EventSourceId"/></returns>
+        public static EventSourceId New()
+        {
+            return new EventSourceId { Value = Guid.NewGuid() };
+        }
+
+        /// <summary>
         /// Implicitly convert from a <see cref="Guid"/> to an <see cref="EventSourceId"/>
         /// </summary>
         /// <param name="eventId"></param>

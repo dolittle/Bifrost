@@ -14,7 +14,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Represents a null Event - EventId *MUST* start with 1
         /// </summary>
-        public static EventSequenceNumber None = 0L;
+        public static EventSequenceNumber Zero = 0L;
 
         /// <summary>
         /// Implicitly convert from a <see cref="long"/> to an <see cref="EventSequenceNumber"/>

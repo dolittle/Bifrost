@@ -12,6 +12,11 @@ namespace Bifrost.Events
     public class CausedBy : ConceptAs<string>
     {
         /// <summary>
+        /// Represents an unknown user or system
+        /// </summary>
+        public static readonly CausedBy Unknown = "Unkwown";
+
+        /// <summary>
         /// Implicitly convert from a <see cref="string"/> to an <see cref="CausedBy"/>
         /// </summary>
         /// <param name="causedBy"><see cref="string"/> for the <see cref="CausedBy"/></param>
