@@ -38,7 +38,7 @@ namespace Bifrost.Events
             IApplicationResourceIdentifier eventSource, 
             EventSourceVersion version, 
             CausedBy causedBy, 
-            DateTime occurred)
+            DateTimeOffset occurred)
         {
             CorrelationId = correlationId;
             EventId = eventId;
@@ -84,18 +84,24 @@ namespace Bifrost.Events
         public CausedBy CausedBy { get; }
 
         /// <inheritdoc/>
-        public DateTime Occurred { get; }
+        public DateTimeOffset Occurred { get; }
 
         /// <inheritdoc/>
-        public EventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber)
+        public IEventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber)
         {
             return new EventEnvelope(CorrelationId, EventId, sequenceNumber, SequenceNumberForEventType, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
         }
 
         /// <inheritdoc/>
-        public EventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumberForEventType)
+        public IEventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumberForEventType)
         {
             return new EventEnvelope(CorrelationId, EventId, SequenceNumber, sequenceNumberForEventType, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
+        }
+
+        /// <inheritdoc/>
+        public IEventEnvelope WithTransactionCorrelationId(TransactionCorrelationId correlationId)
+        {
+            return new EventEnvelope(correlationId, EventId, SequenceNumber, SequenceNumberForEventType, Generation, Event, EventSourceId, EventSource, Version, CausedBy, Occurred);
         }
     }
 }
