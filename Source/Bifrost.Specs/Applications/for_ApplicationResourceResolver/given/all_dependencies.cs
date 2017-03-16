@@ -11,10 +11,13 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver.given
         protected static Mock<IApplicationResourceTypes> application_resource_types;
         protected static Mock<IInstancesOf<ICanResolveApplicationResources>> resolvers;
         protected static Mock<ITypeDiscoverer> type_discoverer;
+        protected static Mock<IApplicationStructure> application_structure;
 
         Establish context = () =>
         {
+            application_structure = new Mock<IApplicationStructure>();
             application = new Mock<IApplication>();
+            application.SetupGet(a => a.Structure).Returns(application_structure.Object);
             application_resource_types = new Mock<IApplicationResourceTypes>();
             resolvers = new Mock<IInstancesOf<ICanResolveApplicationResources>>();
             type_discoverer = new Mock<ITypeDiscoverer>();

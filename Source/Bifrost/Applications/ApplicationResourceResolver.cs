@@ -50,7 +50,6 @@ namespace Bifrost.Applications
             var formats = _application.Structure.GetStructureFormatsForArea(resourceType.Area);
             var type = typesMatchingName.Where(t => formats.Any(f => f.Match(t.Namespace).HasMatches)).FirstOrDefault();
             if (type != null) return type;
-
             throw new UnknownApplicationResourceType(identifier.Resource.Type.Identifier);
         }
 
