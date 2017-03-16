@@ -88,7 +88,7 @@ namespace Bifrost.Testing
             business_validator = null_validator;
 
             uncommitted_event_stream_coordinator.Setup(es => es.Commit(It.IsAny<TransactionCorrelationId>(), It.IsAny<UncommittedEventStream>()))
-                .Callback((UncommittedEventStream ues) => RecordGeneratedEvents(ues));
+                .Callback((TransactionCorrelationId i,UncommittedEventStream ues) => RecordGeneratedEvents(ues));
         }
 
         /// <summary>
