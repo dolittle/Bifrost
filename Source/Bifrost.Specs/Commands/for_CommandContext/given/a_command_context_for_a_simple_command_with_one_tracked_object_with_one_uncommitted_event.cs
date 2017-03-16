@@ -15,7 +15,7 @@ namespace Bifrost.Specs.Commands.for_CommandContext.given
             uncommitted_event = new SimpleEvent(aggregated_root.EventSourceId);
             event_envelope = new Mock<IEventEnvelope>();
             event_envelope.SetupGet(e => e.EventSourceId).Returns(aggregated_root.EventSourceId);
-            event_envelopes.Setup(e => e.CreateFrom(aggregated_root, uncommitted_event)).Returns(event_envelope.Object);
+            event_envelopes.Setup(e => e.CreateFrom(aggregated_root, uncommitted_event, Moq.It.IsAny<EventSourceVersion>())).Returns(event_envelope.Object);
             aggregated_root.Apply(uncommitted_event);
         };
     }
