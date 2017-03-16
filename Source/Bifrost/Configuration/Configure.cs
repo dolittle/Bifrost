@@ -177,7 +177,6 @@ namespace Bifrost.Configuration
         public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
-        public ISagasConfiguration Sagas { get; private set; }
         public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
         public ICallContextConfiguration CallContext { get; private set; }
@@ -205,7 +204,6 @@ namespace Bifrost.Configuration
                 () => Events.Initialize(Container),
                 () => Tasks.Initialize(Container),
                 () => Views.Initialize(Container),
-                () => Sagas.Initialize(Container),
                 () => Frontend.Initialize(Container),
                 () => CallContext.Initialize(Container),
                 () => ExecutionContext.Initialize(Container),
@@ -230,7 +228,6 @@ namespace Bifrost.Configuration
             Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();
-            Sagas = Container.Get<ISagasConfiguration>();
             Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();

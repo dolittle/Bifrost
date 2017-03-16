@@ -41,8 +41,6 @@ namespace Bifrost.MSpec.Events
             }
             foundEvent.ShouldNotBeNull();
             return new EventValueValidation<T>(foundEvent);
-
-
         }
 
         public EventValueValidation<T> AtBeginning()

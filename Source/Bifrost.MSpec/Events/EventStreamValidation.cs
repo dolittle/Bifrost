@@ -13,6 +13,5 @@ namespace Bifrost.MSpec.Events
             var sequenceValidation = new EventSequenceValidation<T>(eventSource.UncommittedEvents);
             return sequenceValidation;
         }
-
     }
 }

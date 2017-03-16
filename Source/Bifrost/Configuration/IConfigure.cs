@@ -59,12 +59,6 @@ namespace Bifrost.Configuration
         IBindingConventionManager ConventionManager { get; }
 
         /// <summary>
-        /// Gets the configuration for sagas
-        /// Supports specific storage
-        /// </summary>
-        ISagasConfiguration Sagas { get; }
-
-        /// <summary>
         /// Gets the configureation for serialization
         /// </summary>
         ISerializationConfiguration Serialization { get; }

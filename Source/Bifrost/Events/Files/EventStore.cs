@@ -112,12 +112,9 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
         {
-            var events = new List<EventAndEnvelope>();
-
             foreach (var eventAndEnvelope in eventsAndEnvelopes)
             {
-                var eventSourceIdentifier = _applicationResources.Identify(eventAndEnvelope.Envelope.EventSourceId);
-                var eventSourceIdentifierAsString = _applicationResourceIdentifierConverter.AsString(eventSourceIdentifier);
+                var eventSourceIdentifierAsString = _applicationResourceIdentifierConverter.AsString(eventAndEnvelope.Envelope.EventSource);
                 var path = GetPathFor(eventSourceIdentifierAsString, eventAndEnvelope.Event.EventSourceId);
 
                 var envelope = eventAndEnvelope.Envelope;
@@ -129,8 +126,6 @@ namespace Bifrost.Events.Files
 
                 File.WriteAllText(envelopePath, envelopeAsJson);
                 File.WriteAllText(eventPath, eventAsJson);
-
-                events.Add(new EventAndEnvelope(envelope, eventAndEnvelope.Event));
             }
         }
 

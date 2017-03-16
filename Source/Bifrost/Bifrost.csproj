@@ -199,6 +199,7 @@
     <Compile Include="Events\CommittedEventStreamFactory.cs" />
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
     <Compile Include="Events\EventAndVersion.cs" />
+    <Compile Include="Events\EventProcessorLog.cs" />
     <Compile Include="Events\EventSequenceNumber.cs" />
     <Compile Include="Events\EventProcessingMessage.cs" />
     <Compile Include="Events\EventProcessingMessageSeverity.cs" />
@@ -299,7 +300,6 @@
     <Compile Include="Configuration\TasksConfiguration.cs" />
     <Compile Include="Configuration\ViewsConfiguration.cs" />
     <Compile Include="Configuration\IConfigure.cs" />
-    <Compile Include="Configuration\ISagasConfiguration.cs" />
     <Compile Include="Dynamic\DynamicExtensions.cs" />
     <Compile Include="Diagnostics\IProblems.cs" />
     <Compile Include="Diagnostics\IProblemsFactory.cs" />
