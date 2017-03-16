@@ -3,8 +3,11 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Applications;
 using Bifrost.Execution;
+using Bifrost.Lifecycle;
 using Bifrost.Time;
 
 namespace Bifrost.Events
@@ -39,23 +42,29 @@ namespace Bifrost.Events
         }
 
         /// <inheritdoc/>
-        public IEventEnvelope CreateFrom(IEventSource eventSource, IEvent @event)
+        public IEventEnvelope CreateFrom(IEventSource eventSource, IEvent @event, EventSourceVersion version)
         {
             var envelope = new EventEnvelope(
-                Guid.NewGuid(), // TODO: Correlation ID
+                TransactionCorrelationId.NotSet,
                 Guid.NewGuid(),
-                EventSequenceNumber.None, // TODO: We will get this 
-                EventSequenceNumber.None, // TODO: We will get this 
+                EventSequenceNumber.Zero, 
+                EventSequenceNumber.Zero, 
                 _eventMigrationHierarchyManager.GetCurrentGenerationFor(@event.GetType()),
                 _applicationResources.Identify(@event),
                 eventSource.EventSourceId,
                 _applicationResources.Identify(eventSource),
-                eventSource.Version,
+                version,
                 _executionContext.Principal.Identity.Name,
                 _systemClock.GetCurrentTime()
             );
 
             return envelope;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<IEventEnvelope> CreateFrom(IEventSource eventSource, IEnumerable<EventAndVersion> eventsAndVersion)
+        {
+            return eventsAndVersion.Select(e => CreateFrom(eventSource, e.Event, e.Version));
         }
     }
 }
