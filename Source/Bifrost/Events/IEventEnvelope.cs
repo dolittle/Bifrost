@@ -69,20 +69,27 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets the time the event occurred
         /// </summary>
-        DateTime Occurred { get; }
+        DateTimeOffset Occurred { get; }
+
+        /// <summary>
+        /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="TransactionCorrelationId">correlation id</see>
+        /// </summary>
+        /// <param name="correlationId"></param>
+        /// <returns>A copy of the <see cref="EventEnvelope"/> with a new <see cref="TransactionCorrelationId"/> </returns>
+        IEventEnvelope WithTransactionCorrelationId(TransactionCorrelationId correlationId);
 
         /// <summary>
         /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="EventSequenceNumber">sequence number</see>
         /// </summary>
         /// <param name="sequenceNumber">The new <see cref="EventSequenceNumber"/></param>
         /// <returns>A copy of the <see cref="EventEnvelope"/> with a new Id </returns>
-        EventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber);
+        IEventEnvelope WithSequenceNumber(EventSequenceNumber sequenceNumber);
 
         /// <summary>
         /// Creates a new <see cref="EventEnvelope"/> with a different <see cref="EventSequenceNumber">sequence number</see> for the <see cref="IEvent">event type</see>
         /// </summary>
         /// <param name="sequenceNumber">The new <see cref="EventSequenceNumber"/></param>
         /// <returns>A copy of the <see cref="EventEnvelope"/> with a new Id </returns>
-        EventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumber);
+        IEventEnvelope WithSequenceNumberForEventType(EventSequenceNumber sequenceNumber);
     }
 }
