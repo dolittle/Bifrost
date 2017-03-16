@@ -13,6 +13,20 @@ namespace Bifrost.Lifecycle
     public class TransactionCorrelationId : ConceptAs<Guid>
     {
         /// <summary>
+        /// Creates a new instance of <see cref="TransactionCorrelationId"/> with a unique id
+        /// </summary>
+        /// <returns>A new <see cref="TransactionCorrelationId"/></returns>
+        public static TransactionCorrelationId New()
+        {
+            return new TransactionCorrelationId { Value = Guid.NewGuid() };
+        }
+
+        /// <summary>
+        /// Gets the value representing a not set <see cref="TransactionCorrelationId"/>
+        /// </summary>
+        public static TransactionCorrelationId NotSet = Guid.Empty;
+
+        /// <summary>
         /// Implicitly convert from a <see cref="Guid"/> to a <see cref="TransactionCorrelationId"/>
         /// </summary>
         /// <param name="value"><see cref="Guid"/> for the value</param>
