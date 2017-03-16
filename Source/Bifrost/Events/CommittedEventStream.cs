@@ -33,6 +33,7 @@ namespace Bifrost.Events
         /// <param name="eventsWithEnvelope">The <see cref="IEvent">events</see> with their <see cref="EventEnvelope">envelopes</see></param>
         public CommittedEventStream(EventSourceId eventSourceId, IEnumerable<EventAndEnvelope> eventsWithEnvelope)
         {
+            EventSourceId = eventSourceId;
             foreach (var eventAndEnvelope in eventsWithEnvelope)
             {
                 EnsureEventIsValid(eventAndEnvelope);
