@@ -15,9 +15,9 @@ namespace Bifrost.Time
         /// Retrieves the current system date and time
         /// </summary>
         /// <returns>The current system <see cref="DateTime">date and time</see></returns>
-        public DateTime GetCurrentTime()
+        public DateTimeOffset GetCurrentTime()
         {
-            return DateTime.UtcNow;
+            return DateTimeOffset.UtcNow;
         }
     };
 }

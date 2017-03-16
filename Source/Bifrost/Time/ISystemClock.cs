@@ -14,7 +14,7 @@ namespace Bifrost.Time
         /// <summary>
         /// Retrieves the current system date and time
         /// </summary>
-        /// <returns>The current system <see cref="DateTime">date and time</see></returns>
-        DateTime GetCurrentTime();
+        /// <returns>The current system <see cref="DateTimeOffset">date and time</see></returns>
+        DateTimeOffset GetCurrentTime();
     }
 }
