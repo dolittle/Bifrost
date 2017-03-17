@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Events;
+using Bifrost.Events.InProcess;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -20,8 +21,8 @@ namespace Bifrost.Configuration
         {
             EventStore = typeof(NullEventStore);
             UncommittedEventStreamCoordinator = typeof(NullUncommittedEventStreamCoordinator);
-            CommittedEventStreamSender = typeof(NullCommittedEventStreamSender);
-            CommittedEventStreamReceiver = typeof(NullCommittedEventStreamReceiver);
+            CommittedEventStreamSender = typeof(CommittedEventStreamSender);
+            CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
             EventProcessorLog = typeof(NullEventProcessorLog);
 
             EventSequenceNumbers = new EventSequenceConfiguration();
