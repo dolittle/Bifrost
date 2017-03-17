@@ -314,6 +314,7 @@
     <Compile Include="Events\for_CommittedEventStreamCoordinator\given\a_committed_event_stream_coordinator.cs" />
     <Compile Include="Events\for_EventEnvelopes\given\all_dependencies.cs" />
     <Compile Include="Events\for_EventEnvelopes\given\an_event_envelopes.cs" />
+    <Compile Include="Events\for_EventEnvelopes\when_creating_from_an_event_source_two_events_and_version.cs" />
     <Compile Include="Events\for_EventEnvelopes\when_creating_from_an_event_source_an_event.cs" />
     <Compile Include="Events\for_EventEnvelope\given\an_event_envelope.cs" />
     <Compile Include="Events\for_EventEnvelope\when_building_with_new_sequence_number_for_event_type.cs" />

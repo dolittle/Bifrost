@@ -2,6 +2,7 @@
 using System.Security.Principal;
 using Bifrost.Applications;
 using Bifrost.Events;
+using Bifrost.Lifecycle;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
@@ -73,6 +74,10 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
 
         Because of = () => result = event_envelopes.CreateFrom(event_source.Object, @event.Object, version);
 
+        It should_hold_a_not_set_correlation_id = () => result.CorrelationId.ShouldEqual(TransactionCorrelationId.NotSet);
+        It should_hold_zero_sequence_number = () => result.SequenceNumber.ShouldEqual(EventSequenceNumber.Zero);
+        It should_hold_zero_sequence_number_for_type = () => result.SequenceNumberForEventType.ShouldEqual(EventSequenceNumber.Zero);
+        It should_hold_a_non_default_id_for_event_id = () => result.EventId.ShouldNotEqual(EventId.NotSet);
         It should_hold_the_event_source_id = () => result.EventSourceId.ShouldEqual(event_source_id);
         It should_hold_user_name_as_caused_by = () => result.CausedBy.ShouldEqual(identity_name);
         It should_hold_the_generation = () => result.Generation.ShouldEqual(event_generation);

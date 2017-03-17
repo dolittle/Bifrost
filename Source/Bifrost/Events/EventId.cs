@@ -13,6 +13,11 @@ namespace Bifrost.Events
     public class EventId : ConceptAs<Guid>
     {
         /// <summary>
+        /// Represents a not set <see cref="EventId"/>
+        /// </summary>
+        public static EventId NotSet = Guid.Empty;
+
+        /// <summary>
         /// Creates a new instance of <see cref="EventId"/> with a unique id
         /// </summary>
         /// <returns>A new <see cref="EventId"/></returns>
