@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Bifrost.Events;
 
 namespace Bifrost.Configuration
 {
@@ -30,5 +31,15 @@ namespace Bifrost.Configuration
         /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling receiving of <see cref="CommittedEventStream"/>
         /// </summary>
         Type CommittedEventStreamReceiver { get; set; }
+
+        /// <summary>
+        /// Gets the configuration for <see cref="IEventSequenceNumbers"/>
+        /// </summary>
+        EventSequenceConfiguration EventSequenceNumbers { get; }
+
+        /// <summary>
+        /// Gets or sets the type of <see cref="IEventProcessorLog"/> to use for logging
+        /// </summary>
+        Type EventProcessorLog { get; set; }
     }
 }
