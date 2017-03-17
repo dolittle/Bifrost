@@ -322,7 +322,8 @@
     <Compile Include="Events\for_EventSource\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\all_dependencies.cs" />
     <Compile Include="Events\for_UncommittedEventStreamCoordinator\given\an_uncommitted_event_stream_coordinator.cs" />
-    <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing.cs" />
+    <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing_two_uncommitted_events.cs" />
+    <Compile Include="Events\for_UncommittedEventStreamCoordinator\when_committing_a_single_uncommitted_event.cs" />
     <Compile Include="Events\for_EventSourceVersion\given\a_range_of_event_source_versions.cs" />
     <Compile Include="Events\for_EventSourceVersion\when_comparing_event_source_versions.cs" />
     <Compile Include="Events\for_EventSourceVersion\when_converting_the_event_source_version_to_a_single_number.cs" />

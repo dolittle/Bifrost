@@ -6,15 +6,17 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator.given
 {
     public class all_dependencies
     {
-        protected static Mock<IEventStore> event_store_mock;
-        protected static Mock<ICanSendCommittedEventStream> committed_event_stream_sender_mock;
+        protected static Mock<IEventStore> event_store;
+        protected static Mock<ICanSendCommittedEventStream> committed_event_stream_sender;
         protected static Mock<IEventEnvelopes> event_envelopes;
+        protected static Mock<IEventSequenceNumbers> event_sequence_numbers;
 
         Establish context = () =>
         {
-            event_store_mock = new Mock<IEventStore>();
-            committed_event_stream_sender_mock = new Mock<ICanSendCommittedEventStream>();
+            event_store = new Mock<IEventStore>();
+            committed_event_stream_sender = new Mock<ICanSendCommittedEventStream>();
             event_envelopes = new Mock<IEventEnvelopes>();
+            event_sequence_numbers = new Mock<IEventSequenceNumbers>();
         };
     }
 }

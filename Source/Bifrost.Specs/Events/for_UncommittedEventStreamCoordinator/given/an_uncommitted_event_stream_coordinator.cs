@@ -9,8 +9,9 @@ namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator.given
 
         Establish context = () => coordinator = 
             new UncommittedEventStreamCoordinator(
-                event_store_mock.Object, 
-                committed_event_stream_sender_mock.Object, 
-                event_envelopes.Object);
+                event_store.Object, 
+                committed_event_stream_sender.Object, 
+                event_envelopes.Object,
+                event_sequence_numbers.Object);
     }
 }

@@ -231,6 +231,7 @@
     <Compile Include="Events\IEventProcessorLog.cs" />
     <Compile Include="Events\IEventProcessors.cs" />
     <Compile Include="Events\IEventProcessorState.cs" />
+    <Compile Include="Events\IEventSequenceNumbers.cs" />
     <Compile Include="Events\IKnowAboutEventProcessors.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
