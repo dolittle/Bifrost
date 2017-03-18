@@ -62,7 +62,7 @@ namespace Bifrost.Events.Files
             var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
             var envelopeFiles = files.Where(f => f.EndsWith(".envelope")).ToArray();
 
-            if (eventFiles.Length != envelopeFiles.Length) throw new ApplicationException($"There is a problem with event files for {eventSourceIdentifier} with Id {eventSourceId}");
+            if (eventFiles.Length != envelopeFiles.Length) throw new Exception($"There is a problem with event files for {eventSourceIdentifier} with Id {eventSourceId}");
 
             var events = new List<EventAndEnvelope>();
 

@@ -9,7 +9,7 @@ namespace Bifrost.Events
     /// <summary>
     /// Exception that gets thrown if <see cref="IEventEnvelopes"/> is not provided e.g. for <see cref="EventSource"/>
     /// </summary>
-    public class EventEnvelopesMissing : ApplicationException
+    public class EventEnvelopesMissing : Exception
     {
         /// <summary>
         /// Initializes a new instance of <see cref="EventEnvelopesMissing"/>
