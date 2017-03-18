@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Commands;
 using Bifrost.Events;
 
@@ -70,7 +71,7 @@ namespace Bifrost.Domain
 
         System.Reflection.ConstructorInfo GetConstructorFor(Type type)
         {
-            return type.GetConstructors().Where(c =>
+            return type.GetTypeInfo().GetConstructors().Where(c =>
             {
                 var parameters = c.GetParameters();
                 return parameters.Length == 1 &&
