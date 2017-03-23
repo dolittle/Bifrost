@@ -4,7 +4,7 @@ using Machine.Specifications;
 
 namespace Bifrost.Specs.Strings.for_StringFormat
 {
-    public class when_matching_string_with_four_segments_that_should_match_an_fixed_optional_then_recurring_optional_variable_then_fixed_optional_segment_in_format
+    public class when_matching_string_with_four_segments_that_should_match_a_fixed_optional_then_recurring_optional_variable_then_fixed_optional_segment_in_format
     {
         const string first_fixed_string = "FirstFixed";
         const string last_fixed_string = "LastFixed";
