@@ -148,6 +148,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Events.Redis\Bifrost.Events.Redis.csproj">
+      <Project>{589a0f70-a043-45b3-b97e-34698a029edb}</Project>
+      <Name>Bifrost.Events.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
       <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
       <Name>Bifrost.FluentValidation</Name>

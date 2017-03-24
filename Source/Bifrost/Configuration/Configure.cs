@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
 using Bifrost.Diagnostics;
+using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 
@@ -22,6 +23,7 @@ namespace Bifrost.Configuration
     public class Configure : IConfigure
     {
         static readonly object InstanceLock = new object();
+        IEventsConfiguration _events;
 
         /// <summary>
         /// Gets the static instance of <see cref="Configure"/>
@@ -173,7 +175,7 @@ namespace Bifrost.Configuration
         public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
-        public IEventsConfiguration Events { get; private set; }
+        
         public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
@@ -201,7 +203,7 @@ namespace Bifrost.Configuration
             var initializers = new Action[] {
                 () => Serialization.Initialize(Container),
                 () => Commands.Initialize(Container),
-                () => Events.Initialize(Container),
+                () => _events.Initialize(Container),
                 () => Tasks.Initialize(Container),
                 () => Views.Initialize(Container),
                 () => Frontend.Initialize(Container),
@@ -224,7 +226,7 @@ namespace Bifrost.Configuration
         void InitializeProperties()
         {
             Commands = Container.Get<ICommandsConfiguration>();
-            Events = Container.Get<IEventsConfiguration>();
+            _events = Container.Get<IEventsConfiguration>();
             Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();

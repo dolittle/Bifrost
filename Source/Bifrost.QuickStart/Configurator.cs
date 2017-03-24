@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using Bifrost.Applications;
 using Bifrost.Configuration;
+using Bifrost.Events;
 using Bifrost.Web.Services;
 using Web.Domain.HumanResources.Foos;
 
@@ -14,6 +15,7 @@ namespace Web
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
             var eventSequenceNumbersPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSequenceNumbers");
+            var eventProcessorsStatePath = HttpContext.Current.Server.MapPath("~/App_Data/EventProcessors");
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
@@ -22,14 +24,17 @@ namespace Web
                         .Read("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
                         .Frontend("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
                 ))
+
+                .Events(e =>
+                    {
+                        //e.EventStore.UsingFiles(eventsPath);
+                        //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                        e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                        e.EventSequenceNumbers.UsingRedis("dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False");
+                    })
+                    
                 .Serialization
                     .UsingJson()
-
-                .Eventing(e => e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath))
-
-                .Events
-                    .UsingFiles(eventsPath)
-                
 
                 // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
                 //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))

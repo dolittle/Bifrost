@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Bifrost.Events;
 
 namespace Bifrost.Configuration
 {
@@ -15,11 +16,13 @@ namespace Bifrost.Configuration
         /// Confugre eventing
         /// </summary>
         /// <param name="configure"></param>
-        /// <param name="eventsConfiguration"></param>
+        /// <param name="eventsConfigurationCallback"></param>
         /// <returns></returns>
-        public static IConfigure Eventing(this IConfigure configure, Action<IEventsConfiguration> eventsConfiguration)
+        public static IConfigure Events(this IConfigure configure, Action<IEventsConfiguration> eventsConfigurationCallback)
         {
-            eventsConfiguration(configure.Events);
+            var eventsConfiguration = new EventsConfiguration();
+            configure.Container.Bind<IEventsConfiguration>(eventsConfiguration);
+            eventsConfigurationCallback(eventsConfiguration);
             return configure;
         }
     }

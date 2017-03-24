@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using Bifrost.Execution;
 using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
@@ -11,6 +12,7 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents a <see cref="IUncommittedEventStreamCoordinator"/>
     /// </summary>
+    [Singleton]
     public class UncommittedEventStreamCoordinator : IUncommittedEventStreamCoordinator
     {
         IEventStore _eventStore;

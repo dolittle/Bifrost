@@ -221,6 +221,7 @@
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
+    <Compile Include="Events\EventStoreConfiguration.cs" />
     <Compile Include="Events\Files\EventProcessorStates.cs" />
     <Compile Include="Events\Files\EventSequenceNumbers.cs" />
     <Compile Include="Events\Files\EventProcessorStatesConfiguration.cs" />
@@ -562,7 +563,7 @@
     <Compile Include="Configuration\ICommandsConfiguration.cs" />
     <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
     <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
-    <Compile Include="Configuration\IEventsConfiguration.cs" />
+    <Compile Include="Events\IEventsConfiguration.cs" />
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />
