@@ -78,8 +78,8 @@ namespace Bifrost.Events.InProcess
 
                 foreach (var method in methods)
                 {
-                    var identifier = applicationResources.Identify(method.GetParameters()[0].ParameterType);
-                    var processMethodEventProcessor = new ProcessMethodEventProcessor(_container, _systemClock, "", identifier, method);
+                    var eventIdentifier = applicationResources.Identify(method.GetParameters()[0].ParameterType);
+                    var processMethodEventProcessor = new ProcessMethodEventProcessor(_container, _systemClock, "", eventIdentifier, method);
                     _eventProcessors.Add(processMethodEventProcessor);
                 }
             }

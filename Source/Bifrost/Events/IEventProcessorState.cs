@@ -17,9 +17,20 @@ namespace Bifrost.Events
         IEventProcessor EventProcessor { get; }
 
         /// <summary>
-        /// Gets the <see cref="EventId"/> of the last <see cref="IEvent"/> that was processed
+        /// Gets the <see cref="EventProcessorStatus">status</see> of the processor
         /// </summary>
-        EventId LastEvent { get; }
+        EventProcessorStatus Status { get; }
+
+
+        /// <summary>
+        /// Gets the <see cref="EventSequenceNumber"/> from the global sequence number of the last <see cref="IEvent"/> that was processed 
+        /// </summary>
+        EventSequenceNumber LastProcessedSequenceNumber { get; }
+
+        /// <summary>
+        /// Gets the <see cref="EventSequenceNumber"/> of the last <see cref="IEvent"/> that was processed of the given type
+        /// </summary>
+        EventSequenceNumber LastProcessedSequenceNumberForEventType { get; }
 
         /// <summary>
         /// Gets the <see cref="DateTimeOffset"/> of the last <see cref="IEvent"/> that was processed
@@ -29,6 +40,6 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets the <see cref="EventProcessingStatus"/> of the last <see cref="IEvent"/> that was processed
         /// </summary>
-        EventProcessingStatus LastStatus { get; }
+        EventProcessingStatus LastProcessingStatus { get; }
     }
 }

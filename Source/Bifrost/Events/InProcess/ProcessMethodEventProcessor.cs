@@ -51,9 +51,9 @@ namespace Bifrost.Events.InProcess
         public EventProcessorIdentifier Identifier { get; }
 
         /// <inheritdoc/>
-        public IEventProcessingResult Process(IEvent @event)
+        public IEventProcessingResult Process(IEventEnvelope envelope, IEvent @event)
         {
-            var status = EventProcessingStatus.Successful;
+            var status = EventProcessingStatus.Success;
             var start = _systemClock.GetCurrentTime();
             var messages = new EventProcessingMessage[0];
 
@@ -70,7 +70,7 @@ namespace Bifrost.Events.InProcess
             }
             var end = _systemClock.GetCurrentTime();
 
-            return new EventProcessingResult(this, status, start, end, messages);
+            return new EventProcessingResult(envelope.CorrelationId, this, status, start, end, messages);
         }
     }
 }

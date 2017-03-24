@@ -2,21 +2,17 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace Bifrost.Events
+namespace Bifrost.Events.Files
 {
     /// <summary>
-    /// Represents the status of an <see cref="IEventProcessor"/>
+    /// Represents the configuration related to <see cref="EventProcessorStates"/>
     /// </summary>
-    public enum EventProcessingStatus
+    public class EventProcessorStatesConfiguration
     {
         /// <summary>
-        /// The state an <see cref="IEventProcessor"/> is in when it has processed successfully
+        /// Gets or sets the path to where information related to <see cref="EventProcessorStates"/>
+        /// should be stored
         /// </summary>
-        Success,
-
-        /// <summary>
-        /// The state an <see cref="IEventProcessor"/> is in when it has problems processing
-        /// </summary>
-        Failed
+        public string Path { get; set; }
     }
 }

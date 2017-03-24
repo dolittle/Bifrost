@@ -2,6 +2,9 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
+
 namespace Bifrost.Events
 {
     /// <summary>
@@ -11,8 +14,15 @@ namespace Bifrost.Events
     public class NullEventProcessorLog : IEventProcessorLog
     {
         /// <inheritdoc/>
-        public void Failed(IEventProcessor processor, IEvent @event, IEventEnvelope envelope)
+        public void Failed(IEventProcessor processor, IEvent @event, IEventEnvelope envelope, IEnumerable<EventProcessingMessage> messages)
         {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public void Info(IEventProcessor processor, IEvent @event, IEventEnvelope envelope, IEnumerable<EventProcessingMessage> messages)
+        {
+            throw new NotImplementedException();
         }
     }
 }

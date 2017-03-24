@@ -5,14 +5,18 @@
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IEventProcessorLog"/>
+    /// Represents the status of an <see cref="IEventProcessor"/>
     /// </summary>
-    public class EventProcessorLog : IEventProcessorLog
+    public enum EventProcessorStatus
     {
-        /// <inheritdoc/>
-        public void Failed(IEventProcessor processor, IEvent @event, IEventEnvelope envelope)
-        {
-            
-        }
+        /// <summary>
+        /// The <see cref="IEventProcessor"/> is online
+        /// </summary>
+        Online,
+
+        /// <summary>
+        /// The <see cref="IEventProcessor"/> is streaming events
+        /// </summary>
+        Streaming
     }
 }

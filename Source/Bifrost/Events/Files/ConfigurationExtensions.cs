@@ -57,5 +57,27 @@ namespace Bifrost.Configuration
 
             return eventSequenceConfiguration;
         }
+
+        /// <summary>
+        /// Configures the <see cref="EventSequenceConfiguration"/>
+        /// </summary>
+        /// <param name="eventProcessorStatesConfiguration"><see cref="Events.EventProcessorStatesConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="path">Path to where to store <see cref="IEventProcessorState">event processor state</see></param>
+        /// <returns>Chained <see cref="Events.EventProcessorStatesConfiguration"/></returns>
+        public static Events.EventProcessorStatesConfiguration UsingFiles(this Events.EventProcessorStatesConfiguration eventProcessorStatesConfiguration, string path)
+        {
+            if (!Path.IsPathRooted(path))
+                path = Path.Combine(Directory.GetCurrentDirectory(), path);
+
+            var configuration = new Events.Files.EventProcessorStatesConfiguration
+            {
+                Path = path
+            };
+            Configure.Instance.Container.Bind(configuration);
+
+            eventProcessorStatesConfiguration.EventProcessorStates = typeof(EventProcessorStates);
+
+            return eventProcessorStatesConfiguration;
+        }
     }
 }

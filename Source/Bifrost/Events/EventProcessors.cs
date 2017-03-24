@@ -24,18 +24,18 @@ namespace Bifrost.Events
         /// Initializes a new instance of <see cref="EventProcessors"/>
         /// </summary>
         /// <param name="applicationResources"></param>
-        /// <param name="systemsThatHasEventProcessors"></param>
-        public EventProcessors(IApplicationResources applicationResources, IInstancesOf<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
+        /// <param name="systemsThatKnowsAboutEventProcessors"></param>
+        public EventProcessors(IApplicationResources applicationResources, IInstancesOf<IKnowAboutEventProcessors> systemsThatKnowsAboutEventProcessors)
         {
             _applicationResources = applicationResources;
-            GatherEventProcessors(systemsThatHasEventProcessors);
+            GatherEventProcessorsFrom(systemsThatKnowsAboutEventProcessors);
         }
 
         /// <inheritdoc/>
         public IEnumerable<IEventProcessor> All => _eventProcessors;
 
         /// <inheritdoc/>
-        public IEventProcessingResults Process(IEvent @event)
+        public IEventProcessingResults Process(IEventEnvelope envelope, IEvent @event)
         {
             var identifier = _applicationResources.Identify(@event);
             var i = _eventProcessorsByResourceIdentifier.First().Value;
@@ -43,12 +43,12 @@ namespace Bifrost.Events
 
             List<IEventProcessingResult> results = new List<IEventProcessingResult>();
             var eventProcessors = _eventProcessorsByResourceIdentifier[identifier];
-            eventProcessors.ForEach(e => results.Add(e.Process(@event)));
+            eventProcessors.ForEach(e => results.Add(e.Process(envelope, @event)));
 
             return new EventProcessingResults(results);
         }
 
-        void GatherEventProcessors(IEnumerable<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
+        void GatherEventProcessorsFrom(IEnumerable<IKnowAboutEventProcessors> systemsThatHasEventProcessors)
         {
             _eventProcessorsByResourceIdentifier = new Dictionary<IApplicationResourceIdentifier, List<IEventProcessor>>();
             systemsThatHasEventProcessors.ForEach(a => a.ForEach(e =>

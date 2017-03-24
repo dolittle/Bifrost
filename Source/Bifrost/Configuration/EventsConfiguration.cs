@@ -26,6 +26,7 @@ namespace Bifrost.Configuration
             EventProcessorLog = typeof(NullEventProcessorLog);
 
             EventSequenceNumbers = new EventSequenceConfiguration();
+            EventProcessorStates = new EventProcessorStatesConfiguration();
         }
 
         /// <inheritdoc/>
@@ -47,6 +48,10 @@ namespace Bifrost.Configuration
         public EventSequenceConfiguration EventSequenceNumbers { get; }
 
         /// <inheritdoc/>
+        public EventProcessorStatesConfiguration EventProcessorStates { get; }
+        
+
+        /// <inheritdoc/>
         public override void Initialize(IContainer container)
         {
             container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinator);
@@ -55,6 +60,7 @@ namespace Bifrost.Configuration
             container.Bind<IEventStore>(EventStore, BindingLifecycle.Singleton);
             container.Bind<IEventSequenceNumbers>(EventSequenceNumbers.EventSequenceNumbers, BindingLifecycle.Singleton);
             container.Bind<IEventProcessorLog>(EventProcessorLog, BindingLifecycle.Singleton);
+            container.Bind<IEventProcessorStates>(EventProcessorStates.EventProcessorStates, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {

@@ -53,7 +53,7 @@ namespace Bifrost.Events
         /// </summary>
         public bool HasEvents
         {
-            get { return this.Count > 0; }
+            get { return Count > 0; }
         }
 
         /// <summary>

@@ -38,6 +38,11 @@ namespace Bifrost.Configuration
         EventSequenceConfiguration EventSequenceNumbers { get; }
 
         /// <summary>
+        /// Gets the configuration for <see cref="IEventProcessorStates"/>
+        /// </summary>
+        EventProcessorStatesConfiguration EventProcessorStates { get; }
+
+        /// <summary>
         /// Gets or sets the type of <see cref="IEventProcessorLog"/> to use for logging
         /// </summary>
         Type EventProcessorLog { get; set; }
