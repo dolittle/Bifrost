@@ -23,7 +23,6 @@ namespace Bifrost.Configuration
     public class Configure : IConfigure
     {
         static readonly object InstanceLock = new object();
-        IEventsConfiguration _events;
 
         /// <summary>
         /// Gets the static instance of <see cref="Configure"/>
@@ -203,7 +202,7 @@ namespace Bifrost.Configuration
             var initializers = new Action[] {
                 () => Serialization.Initialize(Container),
                 () => Commands.Initialize(Container),
-                () => _events.Initialize(Container),
+                () => Container.Get<IEventsConfiguration>().Initialize(Container),
                 () => Tasks.Initialize(Container),
                 () => Views.Initialize(Container),
                 () => Frontend.Initialize(Container),
@@ -226,7 +225,6 @@ namespace Bifrost.Configuration
         void InitializeProperties()
         {
             Commands = Container.Get<ICommandsConfiguration>();
-            _events = Container.Get<IEventsConfiguration>();
             Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();

@@ -50,7 +50,10 @@
   <ItemGroup>
     <Compile Include="EventSequenceConfigurationExtensions.cs" />
     <Compile Include="EventSequenceNumbers.cs" />
+    <Compile Include="EventSourceVersions.cs" />
+    <Compile Include="EventSourceVersionsConfiguration.cs" />
     <Compile Include="EventSequenceNumbersConfiguration.cs" />
+    <Compile Include="EventSourceVersionsConfigurationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

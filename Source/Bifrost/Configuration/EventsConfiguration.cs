@@ -24,6 +24,7 @@ namespace Bifrost.Configuration
             EventProcessorLog = typeof(NullEventProcessorLog);
 
             EventStore = new EventStoreConfiguration();
+            EventSourceVersions = new EventSourceVersionsConfiguration();
             EventSequenceNumbers = new EventSequenceConfiguration();
             EventProcessorStates = new EventProcessorStatesConfiguration();
         }
@@ -41,6 +42,9 @@ namespace Bifrost.Configuration
         public EventStoreConfiguration EventStore { get; }
 
         /// <inheritdoc/>
+        public EventSourceVersionsConfiguration EventSourceVersions { get; }
+
+        /// <inheritdoc/>
         public EventSequenceConfiguration EventSequenceNumbers { get; }
 
         /// <inheritdoc/>
@@ -52,6 +56,7 @@ namespace Bifrost.Configuration
             container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender, BindingLifecycle.Singleton);
             container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
             container.Bind<IEventStore>(EventStore.EventStore, BindingLifecycle.Singleton);
+            container.Bind<IEventSourceVersions>(EventSourceVersions.EventSourceVersions, BindingLifecycle.Singleton);
             container.Bind<IEventSequenceNumbers>(EventSequenceNumbers.EventSequenceNumbers, BindingLifecycle.Singleton);
             container.Bind<IEventProcessorLog>(EventProcessorLog, BindingLifecycle.Singleton);
             container.Bind<IEventProcessorStates>(EventProcessorStates.EventProcessorStates, BindingLifecycle.Singleton);

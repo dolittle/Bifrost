@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Applications;
 using Bifrost.Commands;
 using Bifrost.Events;
 
@@ -15,18 +16,31 @@ namespace Bifrost.Domain
     /// </summary>
     /// <typeparam name="T">Type the repository is for</typeparam>
     public class AggregateRootRepository<T> : IAggregateRootRepository<T>
-		where T : AggregateRoot
-	{
-		ICommandContextManager _commandContextManager;
+        where T : AggregateRoot
+    {
+        ICommandContextManager _commandContextManager;
+        IEventStore _eventStore;
+        IEventSourceVersions _eventSourceVersions;
+        IApplicationResources _applicationResources;
 
-		/// <summary>
-		/// Initializes a new instance of <see cref="AggregateRootRepository{T}">AggregatedRootRepository</see>
-		/// </summary>
-		/// <param name="commandContextManager"> <see cref="ICommandContextManager"/> to use for tracking </param>
-		public AggregateRootRepository(ICommandContextManager commandContextManager)
-		{
-			_commandContextManager = commandContextManager;
-		}
+        /// <summary>
+        /// Initializes a new instance of <see cref="AggregateRootRepository{T}">AggregatedRootRepository</see>
+        /// </summary>
+        /// <param name="commandContextManager"> <see cref="ICommandContextManager"/> to use for tracking </param>
+        /// <param name="eventStore"><see cref="IEventStore"/> for getting <see cref="IEvent">events</see></param>
+        /// <param name="eventSourceVersions"><see cref="IEventSourceVersions"/> for working with versioning of <see cref="AggregateRoot"/></param>
+        /// <param name="applicationResources"><see cref="IApplicationResources"/> for being able to identify resources</param>
+        public AggregateRootRepository(
+            ICommandContextManager commandContextManager,
+            IEventStore eventStore,
+            IEventSourceVersions eventSourceVersions,
+            IApplicationResources applicationResources)
+        {
+            _commandContextManager = commandContextManager;
+            _eventStore = eventStore;
+            _eventSourceVersions = eventSourceVersions;
+            _applicationResources = applicationResources;
+        }
 
         /// <inheritdoc/>
 		public T Get(EventSourceId id)
@@ -51,13 +65,16 @@ namespace Bifrost.Domain
 
         void FastForward(ICommandContext commandContext, T aggregateRoot)
         {
-            var version = commandContext.GetLastCommittedVersionFor(aggregateRoot);
+            var identifier = _applicationResources.Identify(typeof(T));
+            var version = _eventSourceVersions.GetFor(identifier, aggregateRoot.EventSourceId);
             aggregateRoot.FastForward(version);
         }
 
         void ReApplyEvents(ICommandContext commandContext, T aggregateRoot)
         {
-            var stream = commandContext.GetCommittedEventsFor(aggregateRoot);
+            var identifier = _applicationResources.Identify(typeof(T));
+            var events = _eventStore.GetFor(identifier, aggregateRoot.EventSourceId);
+            var stream = new CommittedEventStream(aggregateRoot.EventSourceId, events);
             if (stream.HasEvents)
                 aggregateRoot.ReApply(stream);
         }

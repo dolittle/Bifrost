@@ -28,6 +28,11 @@ namespace Bifrost.Events
         EventStoreConfiguration EventStore { get; }
 
         /// <summary>
+        /// Gets the configuration for <see cref="IEventSourceVersions"/>
+        /// </summary>
+        EventSourceVersionsConfiguration EventSourceVersions { get; }
+
+        /// <summary>
         /// Gets the configuration for <see cref="IEventSequenceNumbers"/>
         /// </summary>
         EventSequenceConfiguration EventSequenceNumbers { get; }

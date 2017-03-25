@@ -221,6 +221,7 @@
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
+    <Compile Include="Events\EventSourceVersionsConfiguration.cs" />
     <Compile Include="Events\EventStoreConfiguration.cs" />
     <Compile Include="Events\Files\EventProcessorStates.cs" />
     <Compile Include="Events\Files\EventSequenceNumbers.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Events\IEventProcessorState.cs" />
     <Compile Include="Events\IEventProcessorStates.cs" />
     <Compile Include="Events\IEventSequenceNumbers.cs" />
+    <Compile Include="Events\IEventSourceVersions.cs" />
     <Compile Include="Events\IKnowAboutEventProcessors.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
@@ -254,6 +256,7 @@
     <Compile Include="Events\NullEventProcessorLog.cs" />
     <Compile Include="Events\NullEventProcessorStates.cs" />
     <Compile Include="Events\NullEventSequenceNumbers.cs" />
+    <Compile Include="Events\NullEventSourceVersions.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Lifecycle\TransactionCorrelationId.cs" />
     <Compile Include="Security\IUserSecurityActor.cs" />
@@ -343,7 +346,6 @@
     <Compile Include="Events\IProcessMethodInvoker.cs" />
     <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\NullEventStore.cs" />
-    <Compile Include="Events\NullUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
