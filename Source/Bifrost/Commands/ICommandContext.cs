@@ -42,19 +42,5 @@ namespace Bifrost.Commands
         /// </summary>
         /// <returns>All tracked objects</returns>
         IEnumerable<IAggregateRoot> GetObjectsBeingTracked();
-
-        /// <summary>
-        /// Get commmitted events for a specific <see cref="IEventSource"/>
-        /// </summary>
-        /// <param name="eventSource"><see cref="IEventSource"/> to get from</param>
-        /// <returns><see cref="CommittedEventStream"/> for the <see cref="EventSource"/></returns>
-        CommittedEventStream GetCommittedEventsFor(IEventSource eventSource);
-
-        /// <summary>
-        /// Returns the last committed <see cref="EventSourceVersion">Event Source Version</see> for the <see cref="IEventSource"/>
-        /// </summary>
-        /// <param name="eventSource"><see cref="IEventSource"/> to get <see cref="EventSourceVersion">version</see> for</param>
-        /// <returns>The last committed <see cref="EventSourceVersion">version</see></returns>
-        EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource);
     }
 }

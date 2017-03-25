@@ -16,7 +16,6 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContext : ICommandContext
     {
-        IEventStore _eventStore;
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
         List<IAggregateRoot> _objectsTracked = new List<IAggregateRoot>();
 
@@ -25,17 +24,14 @@ namespace Bifrost.Commands
         /// </summary>
         /// <param name="command">The <see cref="ICommand">command</see> the context is for</param>
         /// <param name="executionContext">The <see cref="IExecutionContext"/> for the command</param>
-        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
         /// <param name="uncommittedEventStreamCoordinator">The <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinating the committing of events</param>
         public CommandContext(
             ICommand command,
             IExecutionContext executionContext,
-            IEventStore eventStore,
             IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator)
         {
             Command = command;
             ExecutionContext = executionContext;
-            _eventStore = eventStore;
             _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
 
             // This should be exposed to the client somehow - maybe even coming from the client
@@ -92,21 +88,6 @@ namespace Bifrost.Commands
             // Todo : Should rollback any aggregated roots that are being tracked - 
             // PS: What do you do with events that has already been dispatched and stored?
         }
-
-        /// <inheritdoc/>
-        public CommittedEventStream GetCommittedEventsFor(IEventSource eventSource)
-        {
-            return _eventStore.GetFor(eventSource);
-        }
-
-        /// <inheritdoc/>
-        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
-        {
-            return _eventStore.GetLastCommittedVersionFor(eventSource);
-        }
-
 #pragma warning restore 1591 // Xml Comments
-
-
     }
 }
