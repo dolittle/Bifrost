@@ -4,33 +4,36 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Concepts;
-using Bifrost.Extensions;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Options;
 
-namespace Bifrost.MongoDb.Concepts
+namespace Bifrost.Read.MongoDB.Concepts
 {
+    /// <summary>
+    /// Represents an implementation of <see cref="IBsonSerializer"/> that knows how to 
+    /// serialize and deserialize <see cref="ConceptAs{T}"/>
+    /// </summary>
     public class ConceptSerializer : IBsonSerializer
     {
-        private Type _valueType;
-        public Type ValueType
-        {
-            get
-            {
-                return _valueType;
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of <see cref="ConceptSerializer"/>
+        /// </summary>
+        /// <param name="conceptType"></param>
         public ConceptSerializer(Type conceptType)
         {
             if (!conceptType.IsConcept())
                 throw new ArgumentException("Type is not a concept.", nameof(conceptType));
 
-            _valueType = conceptType;
+            ValueType = conceptType;
         }
 
+        /// <summary>
+        /// Gets the value type the serializer supports - our <see cref="ConceptAs{T}">concept</see>
+        /// </summary>
+        public Type ValueType { get; }
+
+
+        /// <inheritdoc/>
         public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
             var bsonReader = context.Reader;
@@ -63,6 +66,7 @@ namespace Bifrost.MongoDb.Concepts
             return concept;
         }
 
+        /// <inheritdoc/>
         public bool GetDocumentId(object document, out object id, out Type idNominalType, out IIdGenerator idGenerator)
         {
             id = null;
@@ -70,7 +74,8 @@ namespace Bifrost.MongoDb.Concepts
             idNominalType = null;
             return false;
         }
-		
+
+        /// <inheritdoc/>
         public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
         {
             var underlyingValue = value?.GetType().GetProperty("Value").GetValue(value, null);

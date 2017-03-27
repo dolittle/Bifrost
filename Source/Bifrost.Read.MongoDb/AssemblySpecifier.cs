@@ -5,7 +5,7 @@
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
-namespace Bifrost.MongoDB
+namespace Bifrost.Read.MongoDB
 {
     /// <summary>
     /// Reperesents an <see cref="ICanSpecifyAssemblies">assembly specifier</see> for client aspects

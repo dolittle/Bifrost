@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using Bifrost.Applications;
 
 namespace Bifrost.Events.MongoDB
 {
@@ -26,7 +27,20 @@ namespace Bifrost.Events.MongoDB
         }
 
         /// <inheritdoc/>
-        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
+        public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <inheritdoc/>
+        public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
             throw new NotImplementedException();
         }

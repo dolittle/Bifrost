@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "1.0.0-*",
   "copyright": "Copyright 2008 - 2017 Dolittle",
   "authors": [
@@ -55,11 +55,12 @@
   "publishOptions": {},
   "dependencies": {
     "Bifrost": "1.0.0-*",
+    "Bifrost.FluentValidation": "1.0.0-*",
     "Bifrost.JSON": "1.0.0-*",
     "Bifrost.Ninject": "1.0.0-*",
-    "Bifrost.FluentValidation": "1.0.0-*",
     "Bifrost.Web": "1.0.0-*",
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "WindowsAzure.Storage": "8.1.1"
   },
   "runtimes": {
     "win": {}

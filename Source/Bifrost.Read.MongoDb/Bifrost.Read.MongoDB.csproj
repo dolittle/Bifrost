@@ -25,6 +25,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Bifrost.MongoDB.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,13 +61,6 @@
     <Compile Include="EntityContext.cs" />
     <Compile Include="EntityContextConfiguration.cs" />
     <Compile Include="EntityContextConnection.cs" />
-    <Compile Include="EventClassMap.cs" />
-    <Compile Include="Events\EventSourceVersionSerializer.cs" />
-    <Compile Include="Events\EventStore.cs" />
-    <Compile Include="Events\BsonSerializationProvider.cs" />
-    <Compile Include="Events\EventStorageConfiguration.cs" />
-    <Compile Include="Events\MethodInfoSerializer.cs" />
-    <Compile Include="Events\TypeSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

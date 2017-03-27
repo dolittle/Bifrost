@@ -3,20 +3,22 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Reflection;
+using Bifrost.Concepts;
 using MongoDB.Bson.Serialization;
 
-namespace Bifrost.MongoDb.Events
+namespace Bifrost.Read.MongoDB.Concepts
 {
-    public class BsonSerializationProvider : IBsonSerializationProvider
+    /// <summary>
+    /// Represents a <see cref="IBsonSerializationProvider"/> that is capable of getting the correct
+    /// serializer to deal with <see cref="ConceptAs{T}"/>
+    /// </summary>
+    public class ConceptSerializationProvider : IBsonSerializationProvider
     {
+        /// <inheritdoc/>
         public IBsonSerializer GetSerializer(Type type)
         {
-            if (typeof(MethodInfo).IsAssignableFrom(type))
-                return new MethodInfoSerializer();
-
-            if (typeof(Type).IsAssignableFrom(type))
-                return new TypeSerializer();
+            if (type.IsConcept())
+                return new ConceptSerializer(type);
 
             return null;
         }

@@ -17,6 +17,8 @@ namespace Web
             var eventSequenceNumbersPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSequenceNumbers");
             var eventProcessorsStatePath = HttpContext.Current.Server.MapPath("~/App_Data/EventProcessors");
 
+            var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
+
             configure
                 .Application("QuickStart", a => a.Structure(s => s
                         .Domain("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
@@ -30,7 +32,10 @@ namespace Web
                         //e.EventStore.UsingFiles(eventsPath);
                         //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                         e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
-                        e.EventSequenceNumbers.UsingRedis("dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False");
+
+                        e.EventSourceVersions.UsingRedis(redis);
+                        e.EventSequenceNumbers.UsingRedis(redis);
+                        e.EventStore.UsingTables("DefaultEndpointsProtocol=https;AccountName=dolittle;AccountKey=XcfKv4RV5Hd3My4PbXlBATvLhvI0TpZmP5jwcCFbiILM/kESPr6pibI8hdD3+qPpe+UZ5OlmWUI7Z7qSKlRwuQ==;EndpointSuffix=core.windows.net");
                     })
                     
                 .Serialization
