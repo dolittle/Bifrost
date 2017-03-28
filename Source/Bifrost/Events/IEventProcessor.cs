@@ -27,7 +27,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="envelope"><see cref="IEventEnvelope"/> for <see cref="IEvent"/> to process</param>
         /// <param name="event"><see cref="IEvent"/> to process</param>
-        /// <returns><see cref="EventProcessorResult">Result</see> from the processing</returns>
+        /// <returns><see cref="IEventProcessingResult">Result</see> from the processing</returns>
         IEventProcessingResult Process(IEventEnvelope envelope, IEvent @event);
     }
 }

@@ -12,7 +12,7 @@ namespace Bifrost.Configuration
     public interface ICommandsConfiguration : IConfigurationElement, IHaveStorage
     {
         /// <summary>
-        /// Gets or sets the type <see cref="ICommandCoordinator"/> to use
+        /// Gets or sets the type <see cref="Commands.ICommandCoordinator"/> to use
         /// </summary>
         Type CommandCoordinatorType { get; set; }
     }

@@ -26,7 +26,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="eventStore"><see cref="IEventStore"/> to use for saving the events</param>
         /// <param name="eventSourceVersions"><see cref="IEventSourceVersions"/> for working with the version for the <see cref="IEventSource"/></param>
-        /// <param name="committedEventStreamSender"><see cref="ICommittedEventStreamSender"/> send the <see cref="CommittedEventStream"/></param>
+        /// <param name="committedEventStreamSender"><see cref="ICanSendCommittedEventStream"/> send the <see cref="CommittedEventStream"/></param>
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="eventSequenceNumbers"><see cref="IEventSequenceNumbers"/> for allocating <see cref="EventSequenceNumber">sequence number</see> for <see cref="IEvent">events</see></param>
         public UncommittedEventStreamCoordinator(

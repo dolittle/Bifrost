@@ -8,14 +8,14 @@ using Bifrost.Collections;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a system that can provide <see cref="_Assembly">assemblies</see>
+    /// Defines a system that can provide <see cref="Assembly">assemblies</see>
     /// </summary>
     public interface IAssemblyProvider
     {
         /// <summary>
-        /// Get all the <see cref="_Assembly">assemblies</see> that can be provided
+        /// Get all the <see cref="Assembly">assemblies</see> that can be provided
         /// </summary>
-        /// <returns><see cref="IEnumerable{_Assembly}">Assemblies</see> provided</returns>
+        /// <returns><see cref="IObservableCollection{Assembly}">Assemblies</see> provided</returns>
         IObservableCollection<Assembly> GetAll();
     }
 }

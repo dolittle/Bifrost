@@ -17,7 +17,7 @@ namespace Bifrost.Applications
         /// <param name="format">Convention string format</param>
         /// <returns><see cref="IApplicationStructureConfigurationBuilder">Builder</see> to continue building on</returns>
         /// <remarks>
-        /// <see cref="IApplicationStructureConfigurationBuilder.Include(string, string)"/> for more details on format
+        /// <seealso cref="IApplicationStructureConfigurationBuilder.Include(ApplicationArea, string)">for more details on format</seealso>
         /// </remarks>
         public static IApplicationStructureConfigurationBuilder Domain(this IApplicationStructureConfigurationBuilder builder, string format)
         {
@@ -31,7 +31,7 @@ namespace Bifrost.Applications
         /// <param name="format">Convention string format</param>
         /// <returns><see cref="IApplicationStructureConfigurationBuilder">Builder</see> to continue building on</returns>
         /// <remarks>
-        /// <see cref="IApplicationStructureConfigurationBuilder.Include(string, string)"/> for more details on format
+        /// <seealso cref="IApplicationStructureConfigurationBuilder.Include(ApplicationArea, string)">for more details on format</seealso>
         /// </remarks>
         public static IApplicationStructureConfigurationBuilder Events(this IApplicationStructureConfigurationBuilder builder, string format)
         {
@@ -45,7 +45,7 @@ namespace Bifrost.Applications
         /// <param name="format">Convention string format</param>
         /// <returns><see cref="IApplicationStructureConfigurationBuilder">Builder</see> to continue building on</returns>
         /// <remarks>
-        /// <see cref="IApplicationStructureConfigurationBuilder.Include(string, string)"/> for more details on format
+        /// <seealso cref="IApplicationStructureConfigurationBuilder.Include(ApplicationArea, string)">for more details on format</seealso>
         /// </remarks>
         public static IApplicationStructureConfigurationBuilder Read(this IApplicationStructureConfigurationBuilder builder, string format)
         {
@@ -59,7 +59,7 @@ namespace Bifrost.Applications
         /// <param name="format">Convention string format</param>
         /// <returns><see cref="IApplicationStructureConfigurationBuilder">Builder</see> to continue building on</returns>
         /// <remarks>
-        /// <see cref="IApplicationStructureConfigurationBuilder.Include(string, string)"/> for more details on format
+        /// <seealso cref="IApplicationStructureConfigurationBuilder.Include(ApplicationArea, string)">for more details on format</seealso>
         /// </remarks>
         public static IApplicationStructureConfigurationBuilder Frontend(this IApplicationStructureConfigurationBuilder builder, string format)
         {

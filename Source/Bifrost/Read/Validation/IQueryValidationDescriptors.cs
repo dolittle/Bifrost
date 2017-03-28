@@ -10,14 +10,14 @@ namespace Bifrost.Read.Validation
     public interface IQueryValidationDescriptors
     {
         /// <summary>
-        /// Checks if there is a <see cref="QueryValidationDescriptor{TQ}"/> for a specific <see cref="IQuery"/> by its type
+        /// Checks if there is a <see cref="QueryValidationDescriptorFor{TQ}"/> for a specific <see cref="IQuery"/> by its type
         /// </summary>
         /// <typeparam name="TQuery">Type of <see cref="IQuery"/> to check for</typeparam>
-        /// <returns>True if there is a <see cref="QueryValidationDescriptor{TQ}"/> for the query and false if not</returns>
+        /// <returns>True if there is a <see cref="QueryValidationDescriptorFor{TQ}"/> for the query and false if not</returns>
         bool HasDescriptorFor<TQuery>() where TQuery : IQuery;
 
         /// <summary>
-        /// Get a <see cref="QueryValidationDescriptor{TQ}"/> for a specific <see cref="IQuery"/> by its type
+        /// Get a <see cref="QueryValidationDescriptorFor{TQ}"/> for a specific <see cref="IQuery"/> by its type
         /// </summary>
         /// <typeparam name="TQuery">Type of <see cref="IQuery"/> to get for</typeparam>
         /// <returns><see cref="IQueryValidationDescriptor"/> describing the validation for the <see cref="IQuery"/></returns>

@@ -5,7 +5,7 @@
 namespace Bifrost.Commands
 {
     /// <summary>
-    /// Creates <see cref="IComamndContext"/> for <see cref="ICommand"/>
+    /// Creates <see cref="ICommandContext"/> for <see cref="ICommand"/>
     /// </summary>
     public interface ICommandContextFactory
     {

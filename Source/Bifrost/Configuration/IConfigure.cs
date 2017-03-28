@@ -96,7 +96,7 @@ namespace Bifrost.Configuration
         CultureInfo UICulture { get; set; }
 
         /// <summary>
-        /// Gets or sets the default <see cref="BindingLifeCycle"/> for objects when created/managed by the <see cref="IContainer"/>
+        /// Gets or sets the default <see cref="Execution.BindingLifecycle"/> for objects when created/managed by the <see cref="IContainer"/>
         /// </summary>
         BindingLifecycle DefaultLifecycle { get; set; }
 

@@ -20,7 +20,7 @@ namespace Bifrost.Execution
         IContainer _container;
 
         /// <summary>
-        /// Initalizes an instance of <see cref="HaveInstanceOf{T}"/>
+        /// Initalizes an instance of <see cref="IInstancesOf{T}"/>
         /// </summary>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> used for discovering types</param>
         /// <param name="container"><see cref="IContainer"/> used for managing instances of the types when needed</param>

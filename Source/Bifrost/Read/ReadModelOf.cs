@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 namespace Bifrost.Read
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IReadModel{T}"/> for dealing with fetching of single <see cref="IReadModel"/> instances
+    /// Represents an implementation of <see cref="IReadModelOf{T}"/> for dealing with fetching of single <see cref="IReadModel"/> instances
     /// </summary>
     /// <typeparam name="T">Type of <see cref="IReadModel"/></typeparam>
     public class ReadModelOf<T> : IReadModelOf<T> where T:IReadModel

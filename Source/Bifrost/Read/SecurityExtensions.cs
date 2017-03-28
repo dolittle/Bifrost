@@ -41,7 +41,7 @@ namespace Bifrost.Read
         /// <summary>
         /// Add a <see cref="NamespaceSecurable"/> to the <see cref="FetchingSecurityTarget"/> for a given namespace
         /// </summary>
-        /// <param name="target"><see cref="CommandSecurityTarget"/> to add to</param>
+        /// <param name="target"><see cref="FetchingSecurityTarget"/> to add to</param>
         /// <param name="namespace">Namespace to secure</param>
         /// <param name="continueWith">Callback for continuing the fluent interface</param>
         /// <returns><see cref="NamespaceSecurable"/> for the specific namespace</returns>

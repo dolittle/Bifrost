@@ -22,7 +22,7 @@ namespace Bifrost.Commands
         }
 
         /// <summary>
-        /// Gets or sets the error messages related to a command, typically as a result of a failing ModelRule used from the <see cref="Validator"/>
+        /// Gets or sets the error messages related to a command, typically as a result of a failing ModelRule used from the validator
         /// </summary>
         public IEnumerable<string> CommandErrorMessages { get; set; }
 

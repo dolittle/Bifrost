@@ -11,7 +11,7 @@ namespace Bifrost.Domain
     /// signature for the constructor. 
     /// 
     /// Expected format is a public constructor with one parameter which is either a <see cref="Guid"/>
-    /// or a <see cref="EventSourceId"/>
+    /// or a <see cref="Events.EventSourceId"/>
     /// </summary>
     public class InvalidAggregateRootConstructorSignature : ArgumentException
     {

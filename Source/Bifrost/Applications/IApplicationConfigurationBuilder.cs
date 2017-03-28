@@ -7,12 +7,12 @@ using System;
 namespace Bifrost.Applications
 {
     /// <summary>
-    /// Defines a builder for building <see cref="ApplicationConfiguration"/>
+    /// Defines a builder for building <see cref="IApplication"/>
     /// </summary>
     public interface IApplicationConfigurationBuilder
     {
         /// <summary>
-        /// Gets the <see cref="ApplicatioName">name</see> of the application
+        /// Gets the <see cref="ApplicationName">name</see> of the application
         /// </summary>
         ApplicationName Name { get; }
 

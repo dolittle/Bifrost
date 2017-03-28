@@ -14,7 +14,7 @@ namespace Bifrost.Applications
         List<IModule> _modules = new List<IModule>();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Bounded"/>
+        /// Initializes a new instance of <see cref="BoundedContext"/>
         /// </summary>
         public BoundedContext(BoundedContextName name)
         {

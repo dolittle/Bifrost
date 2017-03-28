@@ -28,7 +28,7 @@ namespace Bifrost.Read.Validation
         }
 
         /// <summary>
-        /// Gets the <see cref="IRuleBuilder">rule builders</see> for the <see cref="IQuery">query </see>arguments
+        /// Gets the <see cref="IValueValidationBuilder">rule builders</see> for the <see cref="IQuery">query </see>arguments
         /// </summary>
         public IEnumerable<IValueValidationBuilder> ArgumentsRuleBuilders
         {

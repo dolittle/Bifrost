@@ -14,13 +14,13 @@ namespace Bifrost.Applications
         /// Get a string representation of the resource
         /// </summary>
         /// <param name="identifier"><see cref="IApplicationResourceIdentifier">Resource</see> to represent as string</param>
-        /// <returns><see cref="String"/> representing the resource</returns>
+        /// <returns><see cref="string"/> representing the resource</returns>
         string AsString(IApplicationResourceIdentifier identifier);
 
         /// <summary>
         /// Translate a <see cref="string"/> to a <see cref="IApplicationResourceIdentifier"/>
         /// </summary>
-        /// <param name="identifierAsString"><see cref="String"/> representing the resource</param>
+        /// <param name="identifierAsString"><see cref="string"/> representing the resource</param>
         /// <returns><see cref="IApplicationResourceIdentifier">Identifier</see> for the resource</returns>
         IApplicationResourceIdentifier FromString(string identifierAsString);
     }

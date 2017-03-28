@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -32,7 +32,7 @@ namespace Bifrost.Events
         public IEventSource EventSource { get;  }
 
         /// <summary>
-        /// Gets the Id of the <see cref="IEventSource"/> that this <see cref="EventStream"/> relates to.
+        /// Gets the Id of the <see cref="IEventSource"/> that this <see cref="UncommittedEventStream"/> relates to.
         /// </summary>
         public EventSourceId EventSourceId => EventSource.EventSourceId;
 

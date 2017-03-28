@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents a special version of an <see cref="EventStream">EventStream</see>
+    /// Represents a special version of an eventstream
     /// that holds committed <see cref="IEvent">events</see>
     /// </summary>
     public class CommittedEventStream : IEnumerable<EventAndEnvelope>
@@ -43,7 +43,7 @@ namespace Bifrost.Events
 
 
         /// <summary>
-        /// Gets the Id of the <see cref="IEventSource"/> that this <see cref="EventStream"/> relates to.
+        /// Gets the Id of the <see cref="IEventSource"/> that this <see cref="CommittedEventStream"/> relates to.
         /// </summary>
         public EventSourceId EventSourceId { get; private set; }
 

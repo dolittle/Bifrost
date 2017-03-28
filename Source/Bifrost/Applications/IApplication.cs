@@ -10,7 +10,7 @@ namespace Bifrost.Applications
     public interface IApplication
     {
         /// <summary>
-        /// Gets the <see cref="ApplicatioName">name</see> of the <see cref="IApplication"/>
+        /// Gets the <see cref="ApplicationName">name</see> of the <see cref="IApplication"/>
         /// </summary>
         ApplicationName Name { get; }
 

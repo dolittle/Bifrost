@@ -15,7 +15,7 @@ namespace Bifrost.Validation
         List<IValueRule> _rules;
 
         /// <summary>
-        /// Initializes an instance of <see cref="ValueValidationBuilder"/>
+        /// Initializes an instance of <see cref="ValueValidationBuilder{T}"/>
         /// </summary>
         /// <param name="property">Property that represents the value</param>
         public ValueValidationBuilder(PropertyInfo property)
