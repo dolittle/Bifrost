@@ -50,13 +50,10 @@ namespace Bifrost.Events.Files
         }
 
         /// <inheritdoc/>
-        public CommittedEventStream GetFor(IEventSource eventSource)
+        public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            var eventSourceId = eventSource.EventSourceId;
-
-            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
-            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
-            var eventPath = GetPathFor(eventSourceIdentifier, eventSource.EventSourceId);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventSource);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
 
             var files = Directory.GetFiles(eventPath).OrderBy(f => f);
             var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
@@ -106,7 +103,7 @@ namespace Bifrost.Events.Files
                 events.Add(new EventAndEnvelope(envelope, eventInstance));
             }
 
-            return new CommittedEventStream(eventSourceId, events);
+            return events;
         }
 
         /// <inheritdoc/>
@@ -130,11 +127,21 @@ namespace Bifrost.Events.Files
         }
 
         /// <inheritdoc/>
-        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
+        public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
             var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
             var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
-            var eventPath = GetPathFor(eventSourceIdentifier, eventSource.EventSourceId);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
+            var files = Directory.GetFiles(eventPath, "*.event");
+            return files.Length > 0;
+        }
+
+        /// <inheritdoc/>
+        public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
 
             var first = Directory.GetFiles(eventPath, "*.event").OrderByDescending(f => f).FirstOrDefault();
             if (first == null) return EventSourceVersion.Zero;
@@ -164,5 +171,6 @@ namespace Bifrost.Events.Files
             }
             return fullPath;
         }
+
     }
 }

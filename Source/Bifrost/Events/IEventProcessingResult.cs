@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
 {
@@ -12,6 +13,11 @@ namespace Bifrost.Events
     /// </summary>
     public interface IEventProcessingResult
     {
+        /// <summary>
+        /// Gets the <see cref="TransactionCorrelationId"/> for 
+        /// </summary>
+        TransactionCorrelationId CorrelationId { get; }
+
         /// <summary>
         /// Gets the <see cref="IEventProcessor"/> the result is coming from
         /// </summary>

@@ -148,6 +148,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Events.Azure.Tables\Bifrost.Events.Azure.Tables.csproj">
+      <Project>{97e7ebed-1f31-44f7-9aa2-c1049bd74a7f}</Project>
+      <Name>Bifrost.Events.Azure.Tables</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Events.MongoDB\Bifrost.Events.MongoDB.csproj">
+      <Project>{d184da7f-505f-45f5-a192-728705639715}</Project>
+      <Name>Bifrost.Events.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bifrost.Events.Redis\Bifrost.Events.Redis.csproj">
+      <Project>{589a0f70-a043-45b3-b97e-34698a029edb}</Project>
+      <Name>Bifrost.Events.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj">
       <Project>{e7507338-7499-4046-8a9e-76d100974e82}</Project>
       <Name>Bifrost.FluentValidation</Name>

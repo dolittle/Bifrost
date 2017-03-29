@@ -20,13 +20,14 @@ namespace Bifrost.Events
         /// Gets the <see cref="IApplicationResourceIdentifier"/> for the <see cref="IEvent">event type</see>
         /// it represents
         /// </summary>
-        IApplicationResourceIdentifier Event { get; } 
+        IApplicationResourceIdentifier Event { get; }
 
         /// <summary>
         /// Process an event 
         /// </summary>
+        /// <param name="envelope"><see cref="IEventEnvelope"/> for <see cref="IEvent"/> to process</param>
         /// <param name="event"><see cref="IEvent"/> to process</param>
         /// <returns><see cref="EventProcessorResult">Result</see> from the processing</returns>
-        IEventProcessingResult Process(IEvent @event);
+        IEventProcessingResult Process(IEventEnvelope envelope, IEvent @event);
     }
 }

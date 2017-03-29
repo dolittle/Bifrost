@@ -13,7 +13,6 @@ namespace Bifrost.Commands
     public class CommandContextFactory : ICommandContextFactory
     {
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
-        IEventStore _eventStore;
         IProcessMethodInvoker _processMethodInvoker;
         IExecutionContextManager _executionContextManager;
 
@@ -23,16 +22,13 @@ namespace Bifrost.Commands
         /// <param name="uncommittedEventStreamCoordinator">A <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinator an <see cref="UncommittedEventStream"/></param>
         /// <param name="processMethodInvoker">A <see cref="IProcessMethodInvoker"/> for processing events</param>
         /// <param name="executionContextManager">A <see cref="IExecutionContextManager"/> for getting execution context from</param>
-        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
         public CommandContextFactory(
             IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator,
             IProcessMethodInvoker processMethodInvoker,
-            IExecutionContextManager executionContextManager,
-            IEventStore eventStore)
+            IExecutionContextManager executionContextManager)
         {
             _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
             _processMethodInvoker = processMethodInvoker;
-            _eventStore = eventStore;
             _executionContextManager = executionContextManager;
         }
 
@@ -42,10 +38,8 @@ namespace Bifrost.Commands
             return new CommandContext(
                 command,
                 _executionContextManager.Current,
-                _eventStore,
                 _uncommittedEventStreamCoordinator
                 );
         }
-
     }
 }

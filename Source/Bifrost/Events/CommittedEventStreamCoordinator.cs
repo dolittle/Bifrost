@@ -2,6 +2,8 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Linq;
+using System.Threading.Tasks;
 using Bifrost.Execution;
 using Bifrost.Extensions;
 
@@ -15,6 +17,8 @@ namespace Bifrost.Events
     {
         ICanReceiveCommittedEventStream _committedEventStreamReceiver;
         IEventProcessors _eventProcessors;
+        IEventProcessorLog _eventProcessorLog;
+        IEventProcessorStates _eventProcessorStates;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStreamCoordinator"/>
@@ -22,13 +26,17 @@ namespace Bifrost.Events
         /// <param name="committedEventStreamReceiver"><see cref="ICanReceiveCommittedEventStream">Committed event stream receiver</see> for receiving events</param>
         /// <param name="eventProcessors"></param>
         /// <param name="eventProcessorLog"></param>
+        /// <param name="eventProcessorStates"></param>
         public CommittedEventStreamCoordinator(
             ICanReceiveCommittedEventStream committedEventStreamReceiver,
             IEventProcessors eventProcessors,
-            IEventProcessorLog eventProcessorLog)
+            IEventProcessorLog eventProcessorLog,
+            IEventProcessorStates eventProcessorStates)
         {
             _committedEventStreamReceiver = committedEventStreamReceiver;
             _eventProcessors = eventProcessors;
+            _eventProcessorLog = eventProcessorLog;
+            _eventProcessorStates = eventProcessorStates;
         }
 
         /// <inheritdoc/>
@@ -39,12 +47,26 @@ namespace Bifrost.Events
 
         void CommittedEventStreamReceived(CommittedEventStream committedEventStream)
         {
-            //_eventSubscriptionManager.Process(committedEventStream);
-
             committedEventStream.ForEach(e =>
             {
-                var result = _eventProcessors.Process(e.Event);
-                
+                var results = _eventProcessors.Process(e.Envelope, e.Event);
+                Parallel.ForEach(results, result =>
+                {
+                    if (result.Status == EventProcessingStatus.Success)
+                    {
+                        _eventProcessorStates.ReportSuccessFor(result.EventProcessor, e.Event, e.Envelope);
+
+                        if( result.Messages.Count() > 0 )
+                        {
+                            _eventProcessorLog.Info(result.EventProcessor, e.Event, e.Envelope, result.Messages);
+                        }
+                    }
+                    else
+                    {
+                        _eventProcessorStates.ReportFailureFor(result.EventProcessor, e.Event, e.Envelope);
+                        _eventProcessorLog.Failed(result.EventProcessor, e.Event, e.Envelope, result.Messages);
+                    }
+                });
             });
         }
     }

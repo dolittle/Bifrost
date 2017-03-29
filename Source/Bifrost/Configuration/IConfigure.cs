@@ -4,9 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Globalization;
 using System.Reflection;
-using Bifrost.Applications;
 using Bifrost.Configuration.Assemblies;
-using Bifrost.Events;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -35,12 +33,6 @@ namespace Bifrost.Configuration
         /// Gets the configuration for commands
         /// </summary>
         ICommandsConfiguration Commands { get; }
-
-        /// <summary>
-        /// Gets the configuration for events.
-        /// Supports specific storage
-        /// </summary>
-        IEventsConfiguration Events { get; }
 
         /// <summary>
         /// Gets the configuration for <see cref="Bifrost.Tasks.Task">Tasks</see>

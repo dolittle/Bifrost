@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using Bifrost.Applications;
 
 namespace Bifrost.Events
 {
@@ -12,9 +13,9 @@ namespace Bifrost.Events
     public class NullEventStore : IEventStore
     {
         /// <inheritdoc/>
-        public CommittedEventStream GetFor(IEventSource eventSource)
+        public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            return new CommittedEventStream(eventSource.EventSourceId);
+            return new EventAndEnvelope[0];
         }
 
         /// <inheritdoc/>
@@ -23,7 +24,13 @@ namespace Bifrost.Events
         }
 
         /// <inheritdoc/>
-        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
+        public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
             return EventSourceVersion.Zero;
         }

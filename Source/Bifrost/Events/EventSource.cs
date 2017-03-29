@@ -9,10 +9,8 @@ namespace Bifrost.Events
 {
     /// <summary>
     /// Represents a <see cref="IEventSource">IEventSource</see>
-    ///
-    /// This is a base abstract class for any EventSource
     /// </summary>
-    public abstract class EventSource : IEventSource, ITransaction
+    public class EventSource : IEventSource, ITransaction
     {
         /// <summary>
         /// Initializes an instance of <see cref="EventSource">EventSource</see>
@@ -24,20 +22,23 @@ namespace Bifrost.Events
             UncommittedEvents = new UncommittedEventStream(this);
         }
 
-#pragma warning disable 1591 // Xml Comments
-
+        /// <inheritdoc/>
         public EventSourceId EventSourceId { get; set; }
 
+        /// <inheritdoc/>
         public EventSourceVersion Version { get; private set; }
 
+        /// <inheritdoc/>
         public UncommittedEventStream UncommittedEvents { get; private set; }
 
+        /// <inheritdoc/>
         public void Apply(IEvent @event)
         {
             UncommittedEvents.Append(@event, Version);
             Version = Version.NextSequence();
         }
 
+        /// <inheritdoc/>
         public virtual void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);
@@ -51,6 +52,7 @@ namespace Bifrost.Events
             Version = Version.NextCommit();
         }
 
+        /// <inheritdoc/>
         public void FastForward(EventSourceVersion lastVersion)
         {
             ThrowIfStateful();
@@ -59,25 +61,26 @@ namespace Bifrost.Events
             Version = lastVersion.NextCommit();
         }
 
+        /// <inheritdoc/>
         public virtual void Commit()
         {
             UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.NextCommit();
         }
 
-
+        /// <inheritdoc/>
         public virtual void Rollback()
         {
             UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.PreviousCommit();
         }
 
+        /// <inheritdoc/>
 		public void Dispose()
 		{
 			Commit();
 		}
 
-#pragma warning restore 1591 // Xml Comments
         void InvokeOnMethod(IEvent @event)
         {
             var handleMethod = this.GetOnMethod(@event);

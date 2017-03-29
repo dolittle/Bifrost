@@ -19,20 +19,15 @@ namespace Bifrost.Configuration
         /// </summary>
         public EventsConfiguration()
         {
-            EventStore = typeof(NullEventStore);
-            UncommittedEventStreamCoordinator = typeof(NullUncommittedEventStreamCoordinator);
             CommittedEventStreamSender = typeof(CommittedEventStreamSender);
             CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
             EventProcessorLog = typeof(NullEventProcessorLog);
 
+            EventStore = new EventStoreConfiguration();
+            EventSourceVersions = new EventSourceVersionsConfiguration();
             EventSequenceNumbers = new EventSequenceConfiguration();
+            EventProcessorStates = new EventProcessorStatesConfiguration();
         }
-
-        /// <inheritdoc/>
-        public Type EventStore { get; set; }
-
-        /// <inheritdoc/>
-        public Type UncommittedEventStreamCoordinator { get; set; }
 
         /// <inheritdoc/>
         public Type CommittedEventStreamSender { get; set; }
@@ -44,17 +39,27 @@ namespace Bifrost.Configuration
         public Type EventProcessorLog { get; set; }
 
         /// <inheritdoc/>
+        public EventStoreConfiguration EventStore { get; }
+
+        /// <inheritdoc/>
+        public EventSourceVersionsConfiguration EventSourceVersions { get; }
+
+        /// <inheritdoc/>
         public EventSequenceConfiguration EventSequenceNumbers { get; }
+
+        /// <inheritdoc/>
+        public EventProcessorStatesConfiguration EventProcessorStates { get; }
 
         /// <inheritdoc/>
         public override void Initialize(IContainer container)
         {
-            container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinator);
             container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender, BindingLifecycle.Singleton);
             container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
-            container.Bind<IEventStore>(EventStore, BindingLifecycle.Singleton);
+            container.Bind<IEventStore>(EventStore.EventStore, BindingLifecycle.Singleton);
+            container.Bind<IEventSourceVersions>(EventSourceVersions.EventSourceVersions, BindingLifecycle.Singleton);
             container.Bind<IEventSequenceNumbers>(EventSequenceNumbers.EventSequenceNumbers, BindingLifecycle.Singleton);
             container.Bind<IEventProcessorLog>(EventProcessorLog, BindingLifecycle.Singleton);
+            container.Bind<IEventProcessorStates>(EventProcessorStates.EventProcessorStates, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {

@@ -72,7 +72,8 @@
     <Compile Include="Applications\MissingApplicationResource.cs" />
     <Compile Include="Applications\UnableToIdentifyApplication.cs" />
     <Compile Include="Applications\UnknownApplicationResourceType.cs" />
-    <Compile Include="Configuration\EventSequenceConfiguration.cs" />
+    <Compile Include="Events\EventProcessorStatesConfiguration.cs" />
+    <Compile Include="Events\EventSequenceConfiguration.cs" />
     <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="Applications\Application.cs" />
     <Compile Include="Applications\ApplicationArea.cs" />
@@ -200,7 +201,8 @@
     <Compile Include="Events\CommittedEventStreamReceived.cs" />
     <Compile Include="Events\ConfigureExtensions.cs" />
     <Compile Include="Events\EventAndVersion.cs" />
-    <Compile Include="Events\EventProcessorLog.cs" />
+    <Compile Include="Events\EventProcessorState.cs" />
+    <Compile Include="Events\EventProcessorStatus.cs" />
     <Compile Include="Events\EventSequenceNumber.cs" />
     <Compile Include="Events\EventProcessingMessage.cs" />
     <Compile Include="Events\EventProcessingMessageSeverity.cs" />
@@ -219,7 +221,11 @@
     <Compile Include="Events\EventId.cs" />
     <Compile Include="Events\EventProcessingResults.cs" />
     <Compile Include="Events\EventProcessingStatus.cs" />
+    <Compile Include="Events\EventSourceVersionsConfiguration.cs" />
+    <Compile Include="Events\EventStoreConfiguration.cs" />
+    <Compile Include="Events\Files\EventProcessorStates.cs" />
     <Compile Include="Events\Files\EventSequenceNumbers.cs" />
+    <Compile Include="Events\Files\EventProcessorStatesConfiguration.cs" />
     <Compile Include="Events\Files\EventSequenceNumbersConfiguration.cs" />
     <Compile Include="Events\IEventEnvelope.cs" />
     <Compile Include="Events\IEventEnvelopes.cs" />
@@ -235,7 +241,9 @@
     <Compile Include="Events\IEventProcessorLog.cs" />
     <Compile Include="Events\IEventProcessors.cs" />
     <Compile Include="Events\IEventProcessorState.cs" />
+    <Compile Include="Events\IEventProcessorStates.cs" />
     <Compile Include="Events\IEventSequenceNumbers.cs" />
+    <Compile Include="Events\IEventSourceVersions.cs" />
     <Compile Include="Events\IKnowAboutEventProcessors.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamBridge.cs" />
     <Compile Include="Events\InProcess\CommittedEventStreamReceiver.cs" />
@@ -246,7 +254,9 @@
     <Compile Include="Events\NullCommittedEventStreamSender.cs" />
     <Compile Include="Events\NullCommittedEventStreamReceiver.cs" />
     <Compile Include="Events\NullEventProcessorLog.cs" />
+    <Compile Include="Events\NullEventProcessorStates.cs" />
     <Compile Include="Events\NullEventSequenceNumbers.cs" />
+    <Compile Include="Events\NullEventSourceVersions.cs" />
     <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
     <Compile Include="Lifecycle\TransactionCorrelationId.cs" />
     <Compile Include="Security\IUserSecurityActor.cs" />
@@ -336,7 +346,6 @@
     <Compile Include="Events\IProcessMethodInvoker.cs" />
     <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\NullEventStore.cs" />
-    <Compile Include="Events\NullUncommittedEventStreamCoordinator.cs" />
     <Compile Include="Events\ProcessMethodInvoker.cs" />
     <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
     <Compile Include="Execution\AssemblyComparer.cs" />
@@ -556,7 +565,7 @@
     <Compile Include="Configuration\ICommandsConfiguration.cs" />
     <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
     <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
-    <Compile Include="Configuration\IEventsConfiguration.cs" />
+    <Compile Include="Events\IEventsConfiguration.cs" />
     <Compile Include="Configuration\IViewsConfiguration.cs" />
     <Compile Include="Configuration\IStorageConfiguration.cs" />
     <Compile Include="Events\EventSourceExtensions.cs" />
