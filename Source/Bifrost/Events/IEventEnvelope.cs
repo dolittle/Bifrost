@@ -35,7 +35,7 @@ namespace Bifrost.Events
 
 
         /// <summary>
-        /// Gets the <see cref="EvenMigrationLevel"/> for the <see cref="IEvent"/>
+        /// Gets the <see cref="EventGeneration"/> for the <see cref="IEvent"/>
         /// </summary>
         EventGeneration Generation { get; }
 
