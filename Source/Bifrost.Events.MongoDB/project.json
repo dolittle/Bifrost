@@ -1,52 +1,52 @@
 ﻿{
-    "version": "1.0.0-*",
-    "copyright": "Copyright 2008 - 2017 Dolittle",
-    "authors": [
-        "all contributors"
+  "version": "1.0.0-*",
+  "copyright": "Copyright 2008 - 2017 Dolittle",
+  "authors": [
+    "all contributors"
+  ],
+  "description": "Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.",
+  "packOptions": {
+    "owners": [
+      "Dolittle"
     ],
-    "description": "Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.",
-    "packOptions": {
-        "owners": [
-            "Dolittle"
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/dolittle/bifrost"
+    },
+    "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md",
+    "licenseUrl": "https://github.com/dolittle/Bifrost/blob/master/LICENSE",
+    "iconUrl": "https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png",
+    "tags": [
+      "MVVM",
+      "SOLID",
+      "CQRS",
+      "LOB"
+    ],
+    "files": {
+      "mappings": {
+        "lib/net461/": [
+          "bin/Release/net461/*.pdb"
         ],
-        "repository": {
-            "type": "git",
-            "url": "https://github.com/dolittle/bifrost"
-        },
-        "releaseNotes": "https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md",
-        "licenseUrl": "https://github.com/dolittle/Bifrost/blob/master/LICENSE",
-        "iconUrl": "https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png",
-        "tags": [
-            "MVVM",
-            "SOLID",
-            "CQRS",
-            "LOB"
+        "lib/netstandard1.6/": [
+          "bin/Release/netstandard1.6/*.pdb"
         ],
-        "files": {
-            "mappings": {
-                "lib/net461/": [
-                    "bin/Release/net461/*.pdb"
-                ],
-                "lib/netstandard1.6/": [
-                    "bin/Release/netstandard1.6/*.pdb"
-                ],
-                "src/": [
-                    "**/*.cs"
-                ]
-            }
-        }
-    },
-    "buildOptions": {
-        "debugType": "portable"
-    },
-    "dependencies": {
-					"Bifrost": "1.0.0-*",
-					"MongoDB.Driver": "2.4.2"
-    },
-    "runtimes": {
-        "win": {}
-    },
-    "frameworks": {
-        "net461": {}
+        "src/": [
+          "**/*.cs"
+        ]
+      }
     }
+  },
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "Bifrost": "1.0.0-*",
+    "MongoDB.Driver": "2.4.2"
+  },
+  "runtimes": {
+    "win": {}
+  },
+  "frameworks": {
+    "net461": {}
+  }
 }

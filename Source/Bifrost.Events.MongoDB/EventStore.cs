@@ -4,7 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bifrost.Applications;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
 namespace Bifrost.Events.MongoDB
 {
@@ -13,17 +17,26 @@ namespace Bifrost.Events.MongoDB
     /// </summary>
     public class EventStore : IEventStore
     {
-        /// <inheritdoc/>
-        public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
+        IMongoCollection<BsonDocument> _collection;
+
+        static EventStore()
         {
-            
-            throw new NotImplementedException();
+            BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="EventStore"/>
+        /// </summary>
+        public EventStore()
+        {
+            _collection = null;
         }
 
         /// <inheritdoc/>
-        public CommittedEventStream GetFor(IEventSource eventSource)
+        public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
         {
-            throw new NotImplementedException();
+            var documents = eventsAndEnvelopes.Select(e => e.Envelope.ToBsonDocument().AddRange(e.Event.ToBsonDocument()));
+            _collection.InsertMany(documents);
         }
 
         /// <inheritdoc/>
@@ -31,7 +44,6 @@ namespace Bifrost.Events.MongoDB
         {
             throw new NotImplementedException();
         }
-
 
         /// <inheritdoc/>
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
