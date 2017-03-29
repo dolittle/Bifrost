@@ -111,6 +111,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Read", "Read", "{5097934F-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Read.MongoDB", "..\Bifrost.Read.MongoDb\Bifrost.Read.MongoDB.csproj", "{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Events.Azure.DocumentDB", "..\Bifrost.Events.Azure.DocumentDB\Bifrost.Events.Azure.DocumentDB.csproj", "{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -654,6 +656,26 @@ Global
 		{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}.Release|x64.Build.0 = Release|Any CPU
 		{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}.Release|x86.ActiveCfg = Release|Any CPU
 		{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}.Release|x86.Build.0 = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|x64.Build.0 = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|ARM.Build.0 = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|x64.ActiveCfg = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|x64.Build.0 = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -699,6 +721,7 @@ Global
 		{589A0F70-A043-45B3-B97E-34698A029EDB} = {6B7FCD5E-7B6C-44AA-A370-6EEE78D9EBAA}
 		{5097934F-C4DE-4FC3-A0CD-57B43E834E61} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA} = {5097934F-C4DE-4FC3-A0CD-57B43E834E61}
+		{3FFDEF36-BB79-4D5C-A0B8-AC3C21B81536} = {6B7FCD5E-7B6C-44AA-A370-6EEE78D9EBAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35

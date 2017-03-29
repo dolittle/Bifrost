@@ -8,8 +8,8 @@
     <ProjectGuid>{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.MongoDB</RootNamespace>
-    <AssemblyName>Bifrost.MongoDB</AssemblyName>
+    <RootNamespace>Bifrost.Read.MongoDB</RootNamespace>
+    <AssemblyName>Bifrost.Read.MongoDB</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\Bifrost.MongoDB.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Bifrost.Read.MongoDB.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
