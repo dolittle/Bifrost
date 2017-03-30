@@ -11,7 +11,7 @@ using Bifrost.Serialization;
 namespace Bifrost.Web.Services
 {
     /// <summary>
-    /// Represents an instance of <see cref="IRequestParamsFactory"/>
+    /// Represents an implementation of <see cref="IRequestParamsFactory"/>
     /// </summary>
     public class RequestParamsFactory : IRequestParamsFactory
     {

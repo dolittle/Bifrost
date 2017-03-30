@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Bifrost.Dynamic;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -59,7 +60,7 @@ namespace Bifrost.Web.Read
         {
             foreach (var key in descriptor.Parameters.Keys) {
                 var propertyName = key.ToPascalCase ();
-                var property = queryType.GetProperty (propertyName);
+                var property = queryType.GetTypeInfo().GetProperty (propertyName);
                 if (property != null) {
                     var value = descriptor.Parameters[key].ToString().ParseTo(property.PropertyType);
                     property.SetValue (instance, value, null);

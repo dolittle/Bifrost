@@ -29,7 +29,7 @@ namespace Bifrost.Configuration
 
         public static WebConfiguration AsSinglePageApplication(this WebConfiguration configuration)
         {
-            HttpModule.AddPipe(new SinglePageApplication());
+            configuration.AddPipe(new SinglePageApplication());
             return configuration;
         }
 

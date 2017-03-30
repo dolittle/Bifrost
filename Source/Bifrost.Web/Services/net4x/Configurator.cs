@@ -5,13 +5,11 @@
 using System.Linq;
 using Bifrost.Configuration;
 using Bifrost.JSON.Concepts;
-#if(NET461)
 using Bifrost.Web.SignalR;
 using Microsoft.AspNet.SignalR;
 using System.Web.Routing;
 using Owin;
 using Newtonsoft.Json;
-#endif
 
 namespace Bifrost.Web
 {
@@ -20,12 +18,9 @@ namespace Bifrost.Web
         public void Configure(IConfigure configure)
         {
             configure.CallContext.WithCallContextTypeOf<WebCallContext>();
-#if(NET461)            
             ConfigureSignalR(configure);
-#endif
         }
 
-#if(NET461)
         void ConfigureSignalR(IConfigure configure)
         {
             var resolver = new BifrostDependencyResolver(configure.Container);
@@ -47,6 +42,5 @@ namespace Bifrost.Web
             RouteTable.Routes.Remove(route);
             RouteTable.Routes.Insert(0, route);
         }
-#endif        
     }
 }

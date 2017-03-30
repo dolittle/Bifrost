@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
@@ -10,7 +11,11 @@ using Bifrost.Execution;
 using Bifrost.Extensions;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
+#if(NET461)
 using Microsoft.AspNet.SignalR;
+#else
+using Microsoft.AspNetCore.SignalR;
+#endif
 
 namespace Bifrost.Web.Hubs
 {
@@ -45,7 +50,7 @@ namespace Bifrost.Web.Hubs
 
                 foreach (var type in @namespace)
                 {
-                    if (type.IsGenericType) continue;
+                    if (type.GetTypeInfo().IsGenericType) continue;
 
                     var name = type.Name.ToCamelCase();
 
