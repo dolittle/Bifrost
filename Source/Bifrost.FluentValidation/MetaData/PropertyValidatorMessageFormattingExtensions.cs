@@ -2,10 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluentValidation.Internal;
 using FluentValidation.Validators;
 
@@ -25,7 +21,11 @@ namespace Bifrost.FluentValidation.MetaData
         public static string GetErrorMessageFor(this IPropertyValidator propertyValidator, string propertyName)
         {
             var formatter = new MessageFormatter().AppendPropertyName(propertyName);
+#if (NET461)
+            var errorMessage = formatter.BuildMessage(propertyValidator.ErrorMessageSource.GetString(null));
+#else
             var errorMessage = formatter.BuildMessage(propertyValidator.ErrorMessageSource.GetString());
+#endif
             return errorMessage;
         }
     }

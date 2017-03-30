@@ -43,17 +43,11 @@ namespace Bifrost.FluentValidation
             return this.AddRuleForConcept(expression);
         }
         
-        /// <summary>
-        /// Validates the specified instance
-        /// 
-        /// </summary>
-        /// <param name="instance">The object to validate</param>
-        /// <returns>
-        /// A ValidationResult object containing any validation failures
-        /// </returns>
-        public override ValidationResult Validate(T instance)
+
+        /// <inheritdoc/>
+        public override ValidationResult Validate(ValidationContext<T> context)
         {
-            var result = base.Validate(instance);
+            var result = base.Validate(context.InstanceToValidate);
             return BuildResult(result);
         }
 
