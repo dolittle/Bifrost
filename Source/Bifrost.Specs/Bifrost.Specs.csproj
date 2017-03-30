@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
     <DebugType>portable</DebugType>
@@ -19,31 +18,25 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Execution\for_TypeImporter\**\*;Events\MethodEventArgumentsSpecs.cs;Events\MethodEventFactorySpecs.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj" />
   </ItemGroup>
-
   <ItemGroup>
+    <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.2.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="dotnet-test-mspec" Version="0.2.0" />
     <PackageReference Include="Machine.Specifications" Version="0.11.0" />
     <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
     <PackageReference Include="moq" Version="4.7.8" />
   </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <DefineConstants>$(DefineConstants);NET461</DefineConstants>
   </PropertyGroup>
-
 </Project>
