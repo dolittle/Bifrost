@@ -32,7 +32,6 @@ namespace Bifrost.Testing
         Mock<IEventSource> event_source;
         Mock<ICommandHandlerManager> command_handler_manager;
         Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
-        Mock<IEventStore> event_store;
         Mock<IProcessMethodInvoker> process_method_invoker;
         Mock<ICommandSecurityManager> command_security_manager_mock;
         Mock<IExecutionContextFactory> execution_context_factory_mock;
@@ -55,12 +54,11 @@ namespace Bifrost.Testing
             event_source = new Mock<IEventSource>();
             GeneratedEvents = new UncommittedEventStream(event_source.Object);
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
-            event_store = new Mock<IEventStore>();
             process_method_invoker = new Mock<IProcessMethodInvoker>();
             call_context_mock = new Mock<ICallContext>();
             execution_context_factory_mock = new Mock<IExecutionContextFactory>();
             execution_context_manager = new ExecutionContextManager(execution_context_factory_mock.Object, call_context_mock.Object);
-            command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, process_method_invoker.Object, execution_context_manager, event_store.Object);
+            command_context_factory = new CommandContextFactory(uncommitted_event_stream_coordinator.Object, process_method_invoker.Object, execution_context_manager);
             command_context_manager = new CommandContextManager(command_context_factory);
 
             command_handler_manager = new Mock<ICommandHandlerManager>();
