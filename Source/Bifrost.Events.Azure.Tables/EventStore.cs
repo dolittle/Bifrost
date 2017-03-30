@@ -31,7 +31,7 @@ namespace Bifrost.Events.Azure.Tables
         /// <param name="connectionStringProvider"><see cref="ICanProvideConnectionString">ConnectionString provider</see></param>
         public EventStore(
             IApplicationResources applicationResources,
-            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
+            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
             ICanProvideConnectionString connectionStringProvider)
         {
             _applicationResources = applicationResources;
@@ -41,7 +41,8 @@ namespace Bifrost.Events.Azure.Tables
             var account = CloudStorageAccount.Parse(connectionString);
             var tableClient = account.CreateCloudTableClient();
             _table = tableClient.GetTableReference(EventStoreTable);
-            _table.CreateIfNotExists();
+
+            _table.CreateIfNotExistsAsync();
         }
 
         /// <inheritdoc/>
@@ -54,22 +55,23 @@ namespace Bifrost.Events.Azure.Tables
                 var partitionKey = GetPartitionKeyFor(e.Envelope.EventSource, e.Envelope.EventSourceId);
                 var rowKey = e.Envelope.SequenceNumber.Value.ToString();
                 var @event = new DynamicTableEntity(partitionKey, rowKey);
-                @event["CorrelationId"] = new EntityProperty(e.Envelope.CorrelationId);
-                @event["Event"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.Event));
-                @event["EventId"] = new EntityProperty(e.Envelope.EventId);
-                @event["SequenceNumber"] = new EntityProperty(e.Envelope.SequenceNumber);
-                @event["SequenceNumberForEvnetType"] = new EntityProperty(e.Envelope.SequenceNumberForEventType);
-                @event["Generation"] = new EntityProperty(e.Envelope.Generation);
-                @event["EventSource"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.EventSource));
-                @event["EventSourceId"] = new EntityProperty(e.Envelope.EventSourceId);
-                @event["Version"] = new EntityProperty(e.Envelope.Version.Combine());
-                @event["CausedBy"] = new EntityProperty(e.Envelope.CausedBy);
-                @event["Occurred"] = new EntityProperty(e.Envelope.Occurred);
+
+                @event.Properties["CorrelationId"] = new EntityProperty(e.Envelope.CorrelationId);
+                @event.Properties["Event"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.Event));
+                @event.Properties["EventId"] = new EntityProperty(e.Envelope.EventId);
+                @event.Properties["SequenceNumber"] = new EntityProperty(e.Envelope.SequenceNumber);
+                @event.Properties["SequenceNumberForEvnetType"] = new EntityProperty(e.Envelope.SequenceNumberForEventType);
+                @event.Properties["Generation"] = new EntityProperty(e.Envelope.Generation);
+                @event.Properties["EventSource"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.EventSource));
+                @event.Properties["EventSourceId"] = new EntityProperty(e.Envelope.EventSourceId);
+                @event.Properties["Version"] = new EntityProperty(e.Envelope.Version.Combine());
+                @event.Properties["CausedBy"] = new EntityProperty(e.Envelope.CausedBy);
+                @event.Properties["Occurred"] = new EntityProperty(e.Envelope.Occurred);
 
                 batch.Add(TableOperation.Insert(@event));
             });
 
-            _table.BeginExecuteBatch(batch, (state) => { }, null);
+            _table.ExecuteBatchAsync(batch);
         }
 
         /// <inheritdoc/>
@@ -89,11 +91,22 @@ namespace Bifrost.Events.Azure.Tables
         {
             var partitionKey = GetPartitionKeyFor(eventSource, eventSourceId);
             var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" });
-            var events = _table.ExecuteQuery(query).ToArray();
+
+            var events = new List<DynamicTableEntity>();
+            TableContinuationToken continuationToken = null;
+            do
+            {
+                _table.ExecuteQuerySegmentedAsync(query, continuationToken).ContinueWith(e =>
+                {
+                    events.AddRange(e.Result.Results);
+                    continuationToken = e.Result.ContinuationToken;
+                }).Wait();
+            } while (continuationToken != null);
+
             var result = events.OrderByDescending(e => long.Parse(e.RowKey)).FirstOrDefault();
             if (result == null) return EventSourceVersion.Zero;
 
-            var value = result["Version"].DoubleValue.Value;
+            var value = result.Properties["Version"].DoubleValue.Value;
             var version = EventSourceVersion.FromCombined(value);
             return version;
         }
