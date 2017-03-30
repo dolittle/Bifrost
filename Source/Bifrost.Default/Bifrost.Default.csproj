@@ -23,7 +23,7 @@
       <PackagePath>Content/</PackagePath>
       <Pack>true</Pack>
     </None>
-    <None Update="Web.Debug.config;Web.Release.config;Web.config;Properties\AssemblyInfo.cs;project.json;project.lock.json;Web.config.transform">
+    <None Update="Web.Debug.config;Web.Release.config;Web.config;project.json;project.lock.json;Web.config.transform">
       <Link>Content/%(FileName)%(Extension)</Link>
       <Pack>false</Pack>
     </None>

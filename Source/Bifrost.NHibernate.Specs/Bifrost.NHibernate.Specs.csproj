@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Machine.Specifications" Version="0.11.0" />
+    <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
+    <PackageReference Include="moq" Version="4.7.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\Bifrost.NHibernate\Bifrost.NHibernate.csproj" />
   </ItemGroup>

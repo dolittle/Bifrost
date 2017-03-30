@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Reflection;
 using Bifrost.Concepts;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -78,7 +79,7 @@ namespace Bifrost.Events.MongoDB
         /// <inheritdoc/>
         public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
         {
-            var underlyingValue = value?.GetType().GetProperty("Value").GetValue(value, null);
+            var underlyingValue = value?.GetType().GetTypeInfo().GetProperty("Value").GetValue(value, null);
             var nominalType = args.NominalType;
             var underlyingValueType = nominalType.GetConceptValueType();
 

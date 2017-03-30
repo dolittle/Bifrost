@@ -16,6 +16,7 @@ namespace Bifrost.DocumentDB.Events
     /// <summary>
     /// Represents an implementation of <see cref="IEventStore"/> specifically for the Azure DocumentDB
     /// </summary>
+#if (false)
     public class EventStore : IEventStore
     {
         DocumentClient _client;
@@ -157,4 +158,5 @@ namespace Bifrost.DocumentDB.Events
         }
 
     }
+#endif
 }

@@ -9,12 +9,20 @@ namespace Web
         {
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
+            var eventSequenceNumbersPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSequenceNumbers");
+            var eventProcessorsStatePath = HttpContext.Current.Server.MapPath("~/App_Data/EventProcessors");
+
 
             configure
                 .Serialization
                     .UsingJson()
-                .Events
-                    .UsingFiles(eventsPath)
+                .Events(e =>
+                {
+                    e.EventStore.UsingFiles(eventsPath);
+                    e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                    e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                })
+                    
 
                 // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingFiles(...) line above and uncomment the line below
                 //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))
