@@ -7,7 +7,6 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceIdentifierConverter
 {
     public class when_converting_string_identifier_with_bounded_context_module_feature_and_sub_feature : given.an_application_resource_identifier_converter
     {
-        const string application_name = "MyApplication";
         const string bounded_context_name = "TheBoundedContext";
         const string module_name = "TheModule";
         const string feature_name = "TheFeature";
