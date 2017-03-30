@@ -11,8 +11,6 @@ namespace Bifrost.Web.Configuration
     public class WebConfiguration : IFrontendTargetConfiguration
     {
         List<IPipe> _pipes = new List<IPipe>(); 
-    
-
 
         public WebConfiguration(NamespaceMapper namespaceMapper)
         {
