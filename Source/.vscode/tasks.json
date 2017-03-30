@@ -8,7 +8,7 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": ["Console/" ],
+            "args": ["Bifrost.Web/", "-f", "netstandard1.6" ],
             "isBuildCommand": true,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"

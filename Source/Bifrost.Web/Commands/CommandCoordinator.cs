@@ -6,7 +6,11 @@ using System;
 using Bifrost.Commands;
 using Bifrost.Execution;
 using Bifrost.Serialization;
+#if(NET461)
 using Microsoft.AspNet.SignalR;
+#else
+using Microsoft.AspNetCore.SignalR;
+#endif
 
 namespace Bifrost.Web.Commands
 {

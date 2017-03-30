@@ -15,6 +15,10 @@ namespace Bifrost.Web.Configuration
             ScriptsToInclude = new ScriptsToInclude();
             PathsToNamespaces = new PathToNamespaceMappers();
             NamespaceMapper = namespaceMapper;
+
+#if(NET461)            
+            ApplicationPhysicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+#endif
         }
 
         public AssetsConfiguration Assets { get; set; }
@@ -22,6 +26,8 @@ namespace Bifrost.Web.Configuration
         public PathToNamespaceMappers PathsToNamespaces { get; set; }
         public NamespaceMapper NamespaceMapper { get; set; }
         public bool ApplicationRouteCached { get; set; }
+
+        public string ApplicationPhysicalPath { get; }
 
         public void Initialize(IContainer container)
         {
