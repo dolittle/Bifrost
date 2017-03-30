@@ -18,12 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="**\*.cs" />
     <None Update="**\*.*">
       <PackagePath>Content/</PackagePath>
       <Pack>true</Pack>
     </None>
-    <None Update="Web.Debug.config;Web.Release.config;Web.config;Properties\AssemblyInfo.cs;project.json;project.lock.json">
+    <None Update="Web.Debug.config;Web.Release.config;Web.config;project.json;project.lock.json">
       <Link>Content/%(FileName)%(Extension)</Link>
       <Pack>false</Pack>
     </None>
@@ -38,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bifrost.Events.Azure.Tables\Bifrost.Events.Azure.Tables.csproj" />
+    <ProjectReference Include="..\Bifrost.Events.MongoDB\Bifrost.Events.MongoDB.csproj" />
+    <ProjectReference Include="..\Bifrost.Events.RabbitMQ\Bifrost.Events.RabbitMQ.csproj" />
+    <ProjectReference Include="..\Bifrost.Events.Redis\Bifrost.Events.Redis.csproj" />
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj" />
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj" />
