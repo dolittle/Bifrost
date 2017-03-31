@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Bifrost.Web.Configuration;
+using Bifrost.Configuration;
+using System.Reflection;
+
 namespace SimpleWeb
 {
     public class Startup
@@ -12,6 +16,7 @@ namespace SimpleWeb
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBifrost();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -23,6 +28,13 @@ namespace SimpleWeb
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            
+
+
+            app.UseBifrost();
+
 
             app.Run(async (context) =>
             {

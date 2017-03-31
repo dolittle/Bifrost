@@ -9,10 +9,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
+    <PackageReference Include="StructureMap" Version="4.4.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Bifrost.Autofac\Bifrost.Autofac.csproj" />
+    <ProjectReference Include="..\..\Bifrost.StructureMap\Bifrost.StructureMap.csproj" />
     <ProjectReference Include="..\..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\..\Bifrost.JSON\Bifrost.JSON.csproj" />
     <ProjectReference Include="..\..\Bifrost.Ninject\Bifrost.Ninject.csproj" />
