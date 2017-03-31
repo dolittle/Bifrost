@@ -23,8 +23,13 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Visualizer\**\*;Styles\**\*;Scripts\**\*;img\**\*;font\**\*;css\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+
+    <!--
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-preview1-24193" />
+    -->
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+
     <None Include="App.config" />
     <None Update="**\*.cs">
       <PackagePath>src/</PackagePath>
