@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.IO;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 
@@ -12,15 +13,20 @@ namespace Bifrost.Web.Configuration
     {
         List<IPipe> _pipes = new List<IPipe>(); 
 
-        public WebConfiguration(NamespaceMapper namespaceMapper)
+        public WebConfiguration(
+            NamespaceMapper namespaceMapper
+            )
         {
             Assets = new AssetsConfiguration();
             ScriptsToInclude = new ScriptsToInclude();
             PathsToNamespaces = new PathToNamespaceMappers();
             NamespaceMapper = namespaceMapper;
 
-#if(NET461)            
+#if (NET461)
             ApplicationPhysicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+#else
+            // Todo: Temporary hack!!! Use ContentRoot in IHostingEnvironment
+            ApplicationPhysicalPath = Directory.GetCurrentDirectory();
 #endif
         }
 

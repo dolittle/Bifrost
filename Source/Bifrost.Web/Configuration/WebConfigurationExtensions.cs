@@ -1,12 +1,10 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Bifrost.Web;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Pipeline;
-using Bifrost.Web.Services;
 
 namespace Bifrost.Configuration
 {
@@ -14,8 +12,9 @@ namespace Bifrost.Configuration
     {
         public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
         {
-            var webConfiguration = new WebConfiguration(Configure.Instance.Container.Get<NamespaceMapper>());
-            Configure.Instance.Container.Bind<WebConfiguration>(webConfiguration);
+            var webConfiguration = new WebConfiguration(
+                Configure.Instance.Container.Get<NamespaceMapper>());
+            Configure.Instance.Container.Bind(webConfiguration);
             configuration.Target = webConfiguration;
             configureCallback(webConfiguration);
             return Configure.Instance;

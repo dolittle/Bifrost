@@ -43,20 +43,6 @@ namespace SimpleWeb
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
 
-                        #region Temporary Configuration for the Bifrost Visualizer - work in progress
-                        w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("/Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
-
-                        w.PathsToNamespaces.Add("Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("/Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("Bifrost/Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("/Bifrost/Visualizer", "Bifrost.Visualizer");
-
-                        w.NamespaceMapper.Add("Bifrost.Visualizer.**.", "Bifrost.Web.Visualizer.**.");
-                        #endregion
-
                         var baseNamespace = global::Bifrost.Configuration.Configure.Instance.EntryAssembly.GetName().Name;
 
                         // Normally you would use the base namespace from the assembly - but since the demo code is written for a specific namespace

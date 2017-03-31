@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Bifrost.Web.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using Bifrost.Web.Configuration;
-using Bifrost.Configuration;
-using System.Reflection;
 
 namespace SimpleWeb
 {
@@ -29,11 +26,7 @@ namespace SimpleWeb
                 app.UseDeveloperExceptionPage();
             }
 
-
-            
-
-
-            app.UseBifrost();
+            app.UseBifrost(env);
 
 
             app.Run(async (context) =>
