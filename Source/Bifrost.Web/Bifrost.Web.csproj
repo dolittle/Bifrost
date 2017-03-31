@@ -3,7 +3,7 @@
     <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
     <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
     <Authors>all contributors</Authors>
-    <TargetFrameworks>net461;netstandard16</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <DebugType>portable</DebugType>
     <AssemblyName>Bifrost.Web</AssemblyName>
     <PackageId>Bifrost.Web</PackageId>
@@ -26,12 +26,15 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Visualizer\**\*;Styles\**\*;Scripts\**\*;img\**\*;font\**\*;css\**\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <!--
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-preview1-24193" />
     -->
+
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    
+
+
 
     <None Include="App.config" />
     <None Update="**\*.cs">
@@ -52,7 +55,7 @@
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>$(DefineConstants);NET461</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET461;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net461' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>

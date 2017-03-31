@@ -59,7 +59,7 @@ namespace Bifrost.Web.Services
         {
             try
             {
-                var form = _factory.BuildParamsCollectionFrom(new HttpRequestWrapper(HttpContext.Current.Request));
+                var form = _factory.BuildParamsCollectionFrom(new HttpRequest(new HttpRequestWrapper(HttpContext.Current.Request)));
                 var serviceInstance = _container.Get(_type);
 
                 var authorizationResult = _securityManager.Authorize<InvokeService>(serviceInstance);
