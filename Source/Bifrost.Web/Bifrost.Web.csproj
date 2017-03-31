@@ -17,6 +17,9 @@
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Compile Remove="**/netstandard/**/*.cs" />
+  </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'net461' ">
     <Compile Remove="**/net4x/**/*.cs" />
   </ItemGroup>
