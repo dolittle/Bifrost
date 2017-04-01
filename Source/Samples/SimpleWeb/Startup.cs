@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace SimpleWeb
 {
@@ -26,13 +29,23 @@ namespace SimpleWeb
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDefaultFiles();
+
+            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"Samples/SimpleWeb/wwwroot");
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
+                //RequestPath = new PathString("/")
+            });            
+            //app.UseStaticFiles();
             app.UseBifrost(env);
 
 
+/*
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
-            });
+            });*/
         }
     }
 }
