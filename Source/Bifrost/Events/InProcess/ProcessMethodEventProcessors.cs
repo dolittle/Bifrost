@@ -67,7 +67,7 @@ namespace Bifrost.Events.InProcess
             var processors = _typeDiscoverer.FindMultiple<IProcessEvents>();
             foreach (var processor in processors)
             {
-                var methods = processor.GetMethods(BindingFlags.Public | BindingFlags.Instance).Where(m =>
+                var methods = processor.GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance).Where(m =>
                 {
                     var parameters = m.GetParameters();
                     return

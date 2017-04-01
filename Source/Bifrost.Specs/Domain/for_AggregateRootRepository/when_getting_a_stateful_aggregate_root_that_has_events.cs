@@ -28,7 +28,7 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         Because of = () => stateful_aggregated_root = repository.Get(event_source_id);
 
         It should_return_an_instance = () => stateful_aggregated_root.ShouldNotBeNull();
-        It should_re_apply_events_for_the_aggregated_root = () => stateful_aggregated_root.ReApplyCalled.ShouldBeTrue();
+        It should_reapply_events_for_the_aggregated_root = () => stateful_aggregated_root.ReApplyCalled.ShouldBeTrue();
         It should_be_the_correct_version = () => stateful_aggregated_root.Version.ShouldEqual(expected_version);
         It should_register_the_aggregate_root_for_tracking_within_this_context = () => command_context_mock.Verify(cc => cc.RegisterForTracking(stateful_aggregated_root));
     }

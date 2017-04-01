@@ -62,7 +62,7 @@ namespace Bifrost.FluentValidation.Commands
 
         public ICommandBusinessValidator GetBusinessValidatorFor(Type commandType)
         {
-            if (!typeof (ICommand).IsAssignableFrom(commandType))
+            if (!typeof (ICommand).GetTypeInfo().IsAssignableFrom(commandType))
                 return null;
 
             Type registeredBusinessValidatorType;
@@ -78,7 +78,7 @@ namespace Bifrost.FluentValidation.Commands
 
         public ICommandInputValidator GetInputValidatorFor(Type commandType)
         {
-            if (!typeof(ICommand).IsAssignableFrom(commandType))
+            if (!typeof(ICommand).GetTypeInfo().IsAssignableFrom(commandType))
                 return null;
 
             Type registeredInputValidatorType;

@@ -4,6 +4,8 @@ using System.Reflection;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.StructureMap;
+using Ninject;
+using Ninject.Selection.Heuristics;
 
 namespace SimpleWeb
 {
@@ -44,6 +46,9 @@ namespace SimpleWeb
     {
         public Bifrost.Execution.IContainer CreateContainer()
         {
+            var kernel = new StandardKernel();
+            var components = kernel.Components;
+
             var structureMap = new StructureMap.Container();
 
             var container = new Container(structureMap);

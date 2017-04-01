@@ -37,6 +37,7 @@ namespace Bifrost.FluentValidation.Commands
         static IEnumerable<PropertyInfo> GetPropertiesWithType<TCommand>()
         {
             return typeof(TCommand)
+                .GetTypeInfo()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p => p.PropertyType == typeof(TProperty));
         }

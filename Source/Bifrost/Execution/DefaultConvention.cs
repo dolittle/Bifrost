@@ -55,7 +55,7 @@ namespace Bifrost.Execution
                 var instanceName = string.Format("{0}.{1}", service.Namespace, serviceName.Substring(1));
                 var serviceInstanceType = service.GetTypeInfo().Assembly.GetType(instanceName);
                 if (null != serviceInstanceType &&
-                    serviceInstanceType.GetConstructors().Any(c=>c.IsPublic) &&
+                    serviceInstanceType.GetTypeInfo().GetConstructors().Any(c=>c.IsPublic) &&
                     IsAssignableFrom(service,serviceInstanceType) &&
                     !HasMultipleImplementationInSameNamespace(service) &&
                     !serviceInstanceType.HasAttribute<IgnoreDefaultConventionAttribute>())
