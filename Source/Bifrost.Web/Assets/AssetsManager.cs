@@ -5,8 +5,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Hosting;
-using Bifrost.Configuration;
 using Bifrost.Execution;
 using Bifrost.Web.Configuration;
 
@@ -56,7 +54,7 @@ namespace Bifrost.Web.Assets
 
         void Initialize()
         {
-            var root = HostingEnvironment.ApplicationPhysicalPath;
+            var root = _webConfiguration.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {

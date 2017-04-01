@@ -3,58 +3,90 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Bifrost.Events
 {
     /// <summary>
-    /// Represents a special version of an <see cref="EventStream">EventStream</see>
+    /// Represents a special version of an eventstream
     /// that holds committed <see cref="IEvent">events</see>
     /// </summary>
-    public class CommittedEventStream : EventStream
+    public class CommittedEventStream : IEnumerable<EventAndEnvelope>
     {
+        List<EventAndEnvelope> _events = new List<EventAndEnvelope>();
+
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStream">CommittedEventStream</see>
         /// </summary>
-        /// <param name="eventSourceId">Id of the event source - typically an <see cref="AggregateRoot">AggregatedRoot</see></param>
-        public CommittedEventStream(Guid eventSourceId)
-            : base(eventSourceId)
+        /// <param name="eventSourceId">The <see cref="EventSourceId"/> of the <see cref="IEventSource"/></param>
+        public CommittedEventStream(EventSourceId eventSourceId)
         {
+            EventSourceId = eventSourceId;
         }
 
+
         /// <summary>
-        /// Append a set of events to the stream.  Events will be applied in Sequence, not in the order they are passed in.
+        /// Initializes a new instance of <see cref="CommittedEventStream">CommittedEventStream</see>
         /// </summary>
-        /// <param name="events"><see cref="IEnumerable{T}">IEnumerable</see> of <see cref="IEvent">events</see> to append</param>
-        public void Append(IEnumerable<IEvent> events)
+        /// <param name="eventSourceId">The <see cref="EventSourceId"/> of the <see cref="IEventSource"/></param>
+        /// <param name="eventsWithEnvelope">The <see cref="IEvent">events</see> with their <see cref="EventEnvelope">envelopes</see></param>
+        public CommittedEventStream(EventSourceId eventSourceId, IEnumerable<EventAndEnvelope> eventsWithEnvelope)
         {
-            var orderedEvents = events.OrderBy(e => e.Version);
-            foreach(var @event in orderedEvents)
+            EventSourceId = eventSourceId;
+            foreach (var eventAndEnvelope in eventsWithEnvelope)
             {
-                Append(@event);
+                EnsureEventIsValid(eventAndEnvelope);
+                _events.Add(eventAndEnvelope);
             }
         }
 
+
         /// <summary>
-        /// Append a single event to the stream.
+        /// Gets the Id of the <see cref="IEventSource"/> that this <see cref="CommittedEventStream"/> relates to.
         /// </summary>
-        /// <param name="event"><see cref="IEvent"/> to append</param>
-        public void Append(IEvent @event)
+        public EventSourceId EventSourceId { get; private set; }
+
+
+        /// <summary>
+        /// Indicates whether there are any events in the Stream.
+        /// </summary>
+        public bool HasEvents
         {
-            EnsureEventIsValid(@event);
-            Events.Add(@event);
+            get { return Count > 0; }
         }
 
-        private void EnsureEventIsValid(IEvent @event)
+        /// <summary>
+        /// The number of Events in the Stream.
+        /// </summary>
+        public int Count
         {
-            if (@event == null)
+            get { return _events.Count; }
+        }
+
+        /// <summary>
+        /// Get a generic enumerator to iterate over the events
+        /// </summary>
+        /// <returns>Enumerator</returns>
+        public IEnumerator<EventAndEnvelope> GetEnumerator()
+        {
+            return _events.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        void EnsureEventIsValid(EventAndEnvelope eventAndEnvelope)
+        {
+            if (eventAndEnvelope.Event == null)
                 throw new ArgumentNullException("Cannot append a null event");
 
-            if (@event.EventSourceId != EventSourceId)
+            if (eventAndEnvelope.Event.EventSourceId != EventSourceId)
                 throw new ArgumentException(
                     string.Format("Cannot append an event from a different source.  Expected source {0} but got {1}.",
-                                  EventSourceId, @event.EventSourceId)
+                                  EventSourceId, eventAndEnvelope.Event.EventSourceId)
                     );
         }
     }

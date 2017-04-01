@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -27,8 +27,8 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes an instance of <see cref="EventMigratorManager">EventMigratorManager</see>
         /// </summary>
-        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IEventMigrator">Event migrators</see></param>
-        /// <param name="container"><see cref="IContainer"/> to use for instantiation of <see cref="IEventMigrator">Event migrators</see></param>
+        /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering <see cref="IEventMigrator{T1,T2}">Event migrators</see></param>
+        /// <param name="container"><see cref="IContainer"/> to use for instantiation of <see cref="IEventMigrator{T1,T2}">Event migrators</see></param>
         public EventMigratorManager(ITypeDiscoverer typeDiscoverer, IContainer container)
         {
             _typeDiscoverer = typeDiscoverer;

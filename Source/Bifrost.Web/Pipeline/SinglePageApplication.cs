@@ -3,8 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.IO;
-using System.Web;
-using System.Web.Routing;
 
 namespace Bifrost.Web.Pipeline
 {

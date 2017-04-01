@@ -1,22 +1,18 @@
 ﻿using Bifrost.Events;
 using Machine.Specifications;
-using Moq;
 
 namespace Bifrost.Specs.Events.for_UncommittedEventStreamCoordinator.given
 {
-    public class an_uncommitted_event_stream_coordinator
+    public class an_uncommitted_event_stream_coordinator : all_dependencies
     {
         protected static UncommittedEventStreamCoordinator coordinator;
-        protected static Mock<IEventStoreChangeManager> event_store_change_manager_mock;
-        protected static Mock<IEventStore> event_store_mock;
-        protected static Mock<IEventSubscriptionManager> event_subscription_manager_mock;
 
-        Establish context = () =>
-        {
-            event_store_mock = new Mock<IEventStore>();
-            event_store_change_manager_mock = new Mock<IEventStoreChangeManager>();
-            event_subscription_manager_mock = new Mock<IEventSubscriptionManager>();
-            coordinator = new UncommittedEventStreamCoordinator(event_store_mock.Object, event_store_change_manager_mock.Object, event_subscription_manager_mock.Object);
-        };
+        Establish context = () => coordinator = 
+            new UncommittedEventStreamCoordinator(
+                event_store.Object, 
+                event_source_versions.Object,
+                committed_event_stream_sender.Object, 
+                event_envelopes.Object,
+                event_sequence_numbers.Object);
     }
 }

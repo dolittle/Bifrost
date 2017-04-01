@@ -34,13 +34,13 @@ namespace Bifrost.Events
         }
 
 #pragma warning disable 1591 // Xml Comments
-        public int GetCurrentMigrationLevelForLogicalEvent(Type logicalEvent)
+        public EventGeneration GetCurrentGenerationFor(Type logicalEvent)
         {
             var hierarchy = GetHierarchyForLogicalType(logicalEvent);
             return hierarchy.MigrationLevel;
         }
 
-        public Type GetConcreteTypeForLogicalEventMigrationLevel(Type logicalEvent, int level)
+        public Type GetTargetTypeForGeneration(Type logicalEvent, EventGeneration level)
         {
             if(level < 0)
                 throw new MigrationLevelOutOfRangeException(string.Format("The lowest possible migration level is 0.  You asked for {0}",level));
@@ -63,7 +63,7 @@ namespace Bifrost.Events
             return type;
         }
 
-        public Type GetLogicalTypeForEvent(Type @event)
+        public Type GetLogicalTypeFor(Type @event)
         {
             var hierarchy = _hierarchies.Where(h => h.MigratedTypes.Contains(@event)).FirstOrDefault();
 

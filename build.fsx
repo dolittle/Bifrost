@@ -21,6 +21,8 @@ open AssemblyInfoFile
 // https://github.com/krauthaufen/DevILSharp/blob/master/build.fsx
 // http://blog.2mas.xyz/take-control-of-your-build-ci-and-deployment-with-fsharp-fake/
 
+let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
+
 let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*[+-]*(\d+)*", RegexOptions.Compiled)
 type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:string, release:bool) =
     let major = major
@@ -91,7 +93,6 @@ let performGitCommand arguments:string =
     spawnProcess("git", arguments)
 
 let gitVersion repositoryDir = 
-    let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
     let arguments = sprintf "%s /output json /showvariable SemVer" repositoryDir
     let gitVersionExecutable = "Source/Solutions/packages/GitVersion.CommandLine/tools/GitVersion.exe"
     let processName = if isWindows then gitVersionExecutable else "mono"
@@ -166,18 +167,9 @@ let sourceDirectory = sprintf "%s/Source" __SOURCE_DIRECTORY__
 let artifactsDirectory = sprintf "%s/artifacts" __SOURCE_DIRECTORY__
 let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
 
-let projectDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
-                        |> Array.filter(fun d -> d.Name.Contains("Spec") = false )
+let projectsDirectories = File.ReadAllLines "projects.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
-let projectJsonFiles = File.ReadAllLines "projects.txt"
-                        |> Array.map(fun f -> new FileInfo(sprintf "./Source/%s/project.json" f))
-
-let specDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
-                        |> Array.filter(fun d -> d.Name.Contains("Spec") )
-
-let specProjectJsonFiles = specDirectories 
-                        |> Array.map(fun d -> filesInDirMatching "project.json" d)
-                        |> Array.concat
+let specDirectories = File.ReadAllLines "specs.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
 
@@ -231,23 +223,6 @@ Target "RestorePackages" (fun _ ->
              Retries = 4 })
 )
 
-//*****************************************************************************
-//* Build
-//*****************************************************************************
-Target "Build" <| fun _ ->
-    let buildMode = getBuildParamOrDefault "buildMode" "Release"
-    let setParams defaults =
-        { defaults with
-            Verbosity = Some MSBuildVerbosity.Minimal
-            Properties =
-                [
-                    "Optimize", "True"
-                ]
-        }
-
-    build setParams solutionFile
-        |> DoNothing
-
 
 //*****************************************************************************
 //* Update project json files with correct version
@@ -274,72 +249,46 @@ Target "UpdateAssemblyInfoFiles" (fun _ ->
     ] <| AssemblyInfoFileConfig(false)
 )
 
+//*****************************************************************************
+//* Build
+//*****************************************************************************
+Target "Build" (fun _ ->
+    trace "**** Building ****"
+    for directory in projectsDirectories do
+        tracef "Building %s" directory.FullName
+        let allArgs = sprintf "build %s %s" directory.FullName (if isWindows then "" else "-f netstandard1.6")
+        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+        if errorCode <> 0 then failwithf "Building %s failed" directory.FullName
 
-//*****************************************************************************
-//* Update project.json files with correct version and all Bifrost dependencies
-//* to be the same version as well. Since we're in one project, we deploy 
-//* all the packages in this repository at once
-//*****************************************************************************
-Target "UpdateProjectJsonFiles" (fun _ ->
-    for file in projectJsonFiles do
-        updateProjectJsonFile(file, buildVersion)
-)
-
-//*****************************************************************************
-//* Build all .NET Core projects
-//*****************************************************************************
-Target "DotNetCoreBuild" (fun _ ->
-    for file in projectJsonFiles do
-        let restoreArgs = sprintf "restore %s" file.FullName
-        let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
-        trace restoreMessage
-        ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
-        trace "**** RESTORING DONE ****"
-        let buildArgs = sprintf "build -c Release %s --no-incremental" file.FullName
-        let message = sprintf "**** BUILDING : %s *****" buildArgs
-        trace message
-        ProcessHelper.Shell.Exec("dotnet", args=buildArgs) |> ignore
-        trace "**** BUILDING DONE ****"
+    trace "**** Building Done ****"
 )
 
 //*****************************************************************************
 //* Run .NET CLI Test
 //*****************************************************************************
 Target "DotNetTest" (fun _ ->
-    for file in specProjectJsonFiles do
-        let restoreArgs = sprintf "restore %s" file.FullName
-        let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
-        trace restoreMessage
-        ProcessHelper.Shell.Exec("dotnet", args=restoreArgs) |> ignore
-        trace "**** RESTORING DONE ****"
-        let testArgs = sprintf "test -f \"netcoreapp1.1\" %s" file.FullName
-        let testMessage = sprintf "**** Running Specs for : %s *****" testArgs
-        trace testMessage
-        ProcessHelper.Shell.Exec("dotnet", args=testArgs) |> ignore
-        trace "**** Running Specs DONE ****"
+    trace "**** Running Specs ****"
+
+    let currentDir = Directory.GetCurrentDirectory()
+
+    for directory in specDirectories do
+        tracef "Running Specs for %s" directory.FullName
+        Directory.SetCurrentDirectory directory.FullName
+        let allArgs = sprintf "test %s" (if isWindows then "" else "-f netcoreapp1.1")
+        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+        if errorCode <> 0 then failwith "Running C# Specifications failed"
+
+    Directory.SetCurrentDirectory(currentDir)
+    trace "**** Running Specs DONE ****"
 )
 
 //*****************************************************************************
 //* Package all projects for NuGet
 //*****************************************************************************
 Target "PackageForNuGet" (fun _ ->
-    for file in projectJsonFiles do
-        let allArgs = sprintf "pack --no-build %s --output %s" file.FullName nugetDirectory
+    for directory in projectsDirectories do
+        let allArgs = sprintf "pack --no-build %s --output %s" directory.FullName nugetDirectory
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
-)
-
-
-//*****************************************************************************
-//* Run MSpec Specifications
-//*****************************************************************************
-Target "MSpec" (fun _ -> 
-    let specFiles = !! ("Source/**/*.Specs.dll")
-                    |> Seq.toArray
-                    |> String.concat " "
-
-    let allArgs = sprintf "%s" specFiles
-    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4.exe"
-    ProcessHelper.Shell.Exec(mspec, args=allArgs) |> ignore
 )
 
 //*****************************************************************************
@@ -349,7 +298,7 @@ Target "JavaScriptSpecs" (fun _ ->
     if Directory.Exists("TestResults") = false then Directory.CreateDirectory("TestResults") |> ignore
     let allArgs = sprintf "Forseti.yaml ../TestResults/forseti.testresults.trx BUILD-CI"
     let errorCode = ProcessHelper.Shell.Exec("Tools/Forseti/Forseti.Output.exe", args=allArgs, dir="Source")
-    if errorCode <> 0 then failwith "Running JavaScript specs failed"
+    if errorCode <> 0 then failwith "Running JavaScript Specifications failed"
 )
 
 //*****************************************************************************
@@ -412,6 +361,7 @@ Target "DeployNugetPackages" (fun _ ->
         trace "Not deploying to NuGet - no key set"
 )
 
+
 // ******** Pre Info 
 // Get Build Number from BuildServer
 // Get Version from Git Tag
@@ -443,13 +393,11 @@ Target "BuildRelease" DoNothing
 // Package pipeline
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "Package"
-"UpdateProjectJsonFiles" ==> "Package"
-"DotNetCoreBuild" ==> 
 "PackageForNuGet" ==> "Package"
 
 // Specifications pipeline
 Target "Specifications" DoNothing
-"MSpec" ==> "Specifications"
+"DotNetTest" ==> "Specifications"
 "JavaScriptSpecs" ==> "Specifications"
 
 // Deployment pipeline
@@ -464,10 +412,6 @@ Target "PackageAndDeploy" DoNothing
 "Package" ==> "PackageAndDeploy"
 "GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
-
-Target "DotNetCoreBuildAndSpecs" DoNothing
-"DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
-"DotNetTest" ==> "DotNetCoreBuildAndSpecs"
 
 Target "All" DoNothing
 "BuildAndSpecs" ==> "All"

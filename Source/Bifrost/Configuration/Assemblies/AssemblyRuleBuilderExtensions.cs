@@ -15,9 +15,9 @@ namespace Bifrost.Configuration.Assemblies
         /// <summary>
         /// Excludes specified assemblies
         /// </summary>
-        /// <param name="assemblyBuilder"><see cref="IAssemblyBuilder"/> to build upon</param>
+        /// <param name="assemblyBuilder"><see cref="IAssemblyRuleBuilder"/> to build upon</param>
         /// <param name="names">Names that assemblies should not be starting with</param>
-        /// <returns>Chained <see cref="IAssemblyBuilder"/></returns>
+        /// <returns>Chained <see cref="IAssemblyRuleBuilder"/></returns>
         public static IAssemblyRuleBuilder ExcludeAssembliesStartingWith(this IAssemblyRuleBuilder assemblyBuilder, params string[] names)
         {
             assemblyBuilder.Specification = assemblyBuilder.Specification.And(new ExceptAssembliesStartingWith(names));

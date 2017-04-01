@@ -8,12 +8,12 @@ using System.Reflection;
 namespace Bifrost.Concepts
 {
     /// <summary>
-    /// Factory to create an instance of an<see cref="ConceptAs"/> from the Type and Underlying value.
+    /// Factory to create an instance of a <see cref="ConceptAs{T}"/> from the Type and Underlying value.
     /// </summary>
     public class ConceptFactory
     {
         /// <summary>
-        /// Creates an instance of a <see cref="ConceptAs"/> given the type and underlying value.
+        /// Creates an instance of a <see cref="ConceptAs{T}"/> given the type and underlying value.
         /// </summary>
         /// <param name="type">Type of the ConceptAs to create</param>
         /// <param name="value">Value to give to this instance</param>

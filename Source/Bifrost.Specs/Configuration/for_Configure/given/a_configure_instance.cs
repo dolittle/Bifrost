@@ -2,6 +2,7 @@
 using Bifrost.Configuration;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
+using Bifrost.Events;
 using Bifrost.Execution;
 using Machine.Specifications;
 using Moq;
@@ -17,7 +18,6 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
         protected static Mock<IDefaultBindings> default_bindings_mock;
         protected static Mock<IEventsConfiguration> events_configuration_mock;
         protected static Mock<ITasksConfiguration> tasks_configuration_mock;
-        protected static Mock<ISagasConfiguration> sagas_configuration_mock;
         protected static Mock<ISerializationConfiguration> serialization_configuration_mock;
         protected static Mock<IViewsConfiguration> views_configuration_mock;
         protected static Mock<IDefaultStorageConfiguration> default_storage_configuration_mock;
@@ -48,10 +48,7 @@ namespace Bifrost.Specs.Configuration.for_Configure.given
 
                                     views_configuration_mock = new Mock<IViewsConfiguration>();
                                     container_mock.Setup(c => c.Get<IViewsConfiguration>()).Returns(views_configuration_mock.Object);
-
-                                    sagas_configuration_mock = new Mock<ISagasConfiguration>();
-                                    container_mock.Setup(c => c.Get<ISagasConfiguration>()).Returns(sagas_configuration_mock.Object);
-            
+           
                                     serialization_configuration_mock = new Mock<ISerializationConfiguration>();
                                     container_mock.Setup(c => c.Get<ISerializationConfiguration>()).Returns(serialization_configuration_mock.Object);
 

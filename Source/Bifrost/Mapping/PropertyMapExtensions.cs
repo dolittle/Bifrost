@@ -9,7 +9,7 @@ using Bifrost.Extensions;
 namespace Bifrost.Mapping
 {
     /// <summary>
-    /// Extends <see cref="PropertyMap"/> with mapping utilities
+    /// Extends <see cref="PropertyMap{T1,T2}"/> with mapping utilities
     /// </summary>
     public static class PropertyMapExtensions
     {

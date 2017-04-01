@@ -12,7 +12,7 @@ namespace Bifrost.Mapping
     public class PropertyMap<TSource, TTarget> : IPropertyMap
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="PropertyMap"/>
+        /// Initializes a new instance of <see cref="PropertyMap{Source, Target}"/>
         /// </summary>
         /// <param name="from"></param>
         public PropertyMap(PropertyInfo from)

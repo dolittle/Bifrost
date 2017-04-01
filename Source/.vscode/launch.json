@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/Console/bin/Debug/netcoreapp1.1/Console.dll",
+            "program": "${workspaceRoot}/Samples/SimpleWeb/bin/Debug/netcoreapp1.1/SimpleWeb.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

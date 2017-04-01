@@ -15,7 +15,9 @@ namespace Web.Domain.HumanResources.Employees
 
         public void Handle(RegisterEmployee command)
         {
-            var employee = _repository.Get(Guid.NewGuid());
+            var id = Guid.Parse("6077b565-36a1-4d99-b848-b65159282fa6");
+            //var employee = _repository.Get(Guid.NewGuid());
+            var employee = _repository.Get(id);
             employee.Register(
                 command.SocialSecurityNumber, 
                 command.FirstName, 

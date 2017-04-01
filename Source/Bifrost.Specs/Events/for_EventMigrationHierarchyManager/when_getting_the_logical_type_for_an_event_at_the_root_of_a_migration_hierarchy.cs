@@ -12,7 +12,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
         Because of = () =>
         {
             root_type = typeof(AnotherSimpleEvent);
-            logical_type = event_migration_hierarchy_manager.GetLogicalTypeForEvent(root_type);
+            logical_type = event_migration_hierarchy_manager.GetLogicalTypeFor(root_type);
         };
 
         It should_return_the_type_passed_in_as_the_logical_type = () => logical_type.ShouldEqual(root_type);

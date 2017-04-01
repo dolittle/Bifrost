@@ -5,10 +5,9 @@ namespace Bifrost.Testing.Fakes.Events
 {
     public class AnotherSimpleEvent : Event
     {
-        public AnotherSimpleEvent(Guid eventSourceId, long id) : base(eventSourceId,id)
+        public AnotherSimpleEvent(EventSourceId eventSourceId) : base(eventSourceId)
         {}
 
-        public AnotherSimpleEvent(Guid eventSourceId) : this(eventSourceId, 0)
-        {}
+        public string Content { get; set; }
     }
 }

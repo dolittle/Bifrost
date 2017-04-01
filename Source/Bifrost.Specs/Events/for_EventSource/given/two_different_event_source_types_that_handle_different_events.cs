@@ -7,7 +7,7 @@ using Machine.Specifications;
 namespace Bifrost.Specs.Events.for_EventSource.given
 {
     [Subject(typeof(EventSourceExtensions))]
-    public class two_different_event_source_types_that_handle_different_events
+    public class two_different_event_source_types_that_handle_different_events : all_dependencies
     {
         protected static StatefulAggregatedRoot event_source;
         protected static AnotherStatefulAggregatedRoot second_event_source;

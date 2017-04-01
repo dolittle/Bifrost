@@ -16,6 +16,7 @@ namespace Bifrost.DocumentDB.Events
     /// <summary>
     /// Represents an implementation of <see cref="IEventStore"/> specifically for the Azure DocumentDB
     /// </summary>
+#if (false)
     public class EventStore : IEventStore
     {
         DocumentClient _client;
@@ -42,51 +43,35 @@ namespace Bifrost.DocumentDB.Events
             InitializeStoredProcedures();
         }
 
-#pragma warning disable 1591
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        /// <inheritdoc/>
+        public CommittedEventStream GetFor(IEventSource eventSource)
         {
             throw new NotImplementedException();
         }
 
-        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
+        /// <inheritdoc/>
+        public void Commit(IEnumerable<EventAndEnvelope> events)
         {
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-
-            foreach( var @event in uncommittedEventStream )
+            foreach( var eventWithEnvelope in events )
             {
-                var serialized = _serializer.ToJson(@event, SerializationExtensions.SerializationOptions);
+                var serialized = _serializer.ToJson(eventWithEnvelope, SerializationExtensions.SerializationOptions);
                 _client
                     .ExecuteStoredProcedureAsync<long>(_insertEventStoredProcedure.SelfLink, serialized)
-                    .ContinueWith(t => @event.Id = t.Result)
                     .Wait();
-
-                committedEventStream.Append(@event);
             }
-            
-            return committedEventStream;
         }
 
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
+        /// <inheritdoc/>
+        public EventSourceVersion GetLastCommittedVersionFor(IEventSource eventSource)
         {
             var version = EventSourceVersion.Zero;
             _client
-                .ExecuteStoredProcedureAsync<double>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSourceId)
+                .ExecuteStoredProcedureAsync<double>(_getLastCommittedVersionStoredProcedure.SelfLink, eventSource.EventSourceId)
                 .ContinueWith(t => version = EventSourceVersion.FromCombined(t.Result))
                 .Wait();
 
             return version;
         }
-
-        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IEvent> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-#pragma warning restore 1591
 
 
         void InitializeCollection()
@@ -173,4 +158,5 @@ namespace Bifrost.DocumentDB.Events
         }
 
     }
+#endif
 }

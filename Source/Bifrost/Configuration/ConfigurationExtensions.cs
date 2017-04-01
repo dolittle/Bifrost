@@ -2,9 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using Bifrost.Entities;
-using Bifrost.Events;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -24,34 +22,6 @@ namespace Bifrost.Configuration
         {
             configure.SystemName = name;
             return configure;
-        }
-
-        /// <summary>
-        /// Configures events to be persisted synchronously
-        /// </summary>
-        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
-        /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
-        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure Synchronous(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
-        {
-            configuration.UncommittedEventStreamCoordinatorType = typeof(UncommittedEventStreamCoordinator);
-            if (configurationAction != null)
-                configurationAction(configuration);
-            return Configure.Instance;
-        }
-
-        /// <summary>
-        /// Configures events to be persisted asynchronously
-        /// </summary>
-        /// <param name="configuration"><see cref="IEventsConfiguration"/> instance to configure</param>
-        /// <param name="configurationAction">Callback for further configuring the <see cref="IEventsConfiguration"/></param>
-        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure Asynchronous(this IEventsConfiguration configuration, Action<IEventsConfiguration> configurationAction = null)
-        {
-            configuration.UncommittedEventStreamCoordinatorType = typeof(AsynchronousUncommittedEventStreamCoordinator);
-            if (configurationAction != null)
-                configurationAction(configuration);
-            return Configure.Instance;
         }
 
 

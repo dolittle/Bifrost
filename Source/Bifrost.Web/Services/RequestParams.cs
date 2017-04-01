@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Specialized;
-using System.Web;
 
 namespace Bifrost.Web.Services
 {
@@ -27,7 +26,7 @@ namespace Bifrost.Web.Services
         /// Converts an HttpCookieCollection into parameters
         /// </summary>
         /// <param name="cookies">An HttpCookieCollection</param>
-        public void Add(HttpCookieCollection cookies)
+        public void Add(IHttpCookies cookies)
         {
             var count = cookies.Count;
             for(var index = 0; index < count; index++)

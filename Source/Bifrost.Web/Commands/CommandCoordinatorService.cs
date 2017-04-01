@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using Bifrost.Commands;
 using Bifrost.Execution;
-using Bifrost.Sagas;
 using Bifrost.Serialization;
 
 namespace Bifrost.Web.Commands
@@ -16,18 +15,15 @@ namespace Bifrost.Web.Commands
         readonly ICommandCoordinator _commandCoordinator;
         readonly ISerializer _serializer;
         readonly ITypeDiscoverer _typeDiscoverer;
-        readonly ISagaLibrarian _sagaLibrarian;
 
         public CommandCoordinatorService(
             ICommandCoordinator commandCoordinator, 
             ISerializer serializer,
-            ITypeDiscoverer typeDiscoverer,
-            ISagaLibrarian sagaLibrarian)
+            ITypeDiscoverer typeDiscoverer)
         {
             _commandCoordinator = commandCoordinator;
             _serializer = serializer;
             _typeDiscoverer = typeDiscoverer;
-            _sagaLibrarian = sagaLibrarian;
         }
 
         public CommandResult Handle(CommandDescriptor commandDescriptor)
@@ -53,32 +49,6 @@ namespace Bifrost.Web.Commands
                         results.Add(new CommandResult { Exception = new UnknownCommandException(commandDescriptor.Name) });
                     else 
                         results.Add(_commandCoordinator.Handle(commandInstance));
-                }
-                catch (Exception ex)
-                {
-                    var commandResult = CommandResult.ForCommand(commandInstance);
-                    commandResult.Exception = ex;
-                    return new[] { commandResult };
-                }
-            }
-
-            return results.ToArray();
-        }
-
-
-        public IEnumerable<CommandResult> HandleForSaga(Guid sagaId, CommandDescriptor[] commandDescriptors)
-        {
-            var results = new List<CommandResult>();
-            var saga = _sagaLibrarian.Get(sagaId);
-
-            // Todo : IMPORTANT : We need to treat this as a unit of work with rollbacks if one or more commands fail and some succeed!!!!!!!!!!! 
-            foreach (var commandDescriptor in commandDescriptors)
-            {
-                ICommand commandInstance = null;
-                try
-                {
-                    commandInstance = GetCommandFromDescriptor(commandDescriptor);
-                    results.Add(_commandCoordinator.Handle(saga, commandInstance));
                 }
                 catch (Exception ex)
                 {

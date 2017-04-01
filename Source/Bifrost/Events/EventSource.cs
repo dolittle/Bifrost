@@ -3,50 +3,56 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using System.Linq.Expressions;
 using Bifrost.Lifecycle;
 
 namespace Bifrost.Events
 {
     /// <summary>
     /// Represents a <see cref="IEventSource">IEventSource</see>
-    ///
-    /// This is a base abstract class for any EventSource
     /// </summary>
-    public abstract class EventSource : IEventSource, ITransaction
+    public class EventSource : IEventSource, ITransaction
     {
         /// <summary>
         /// Initializes an instance of <see cref="EventSource">EventSource</see>
         /// </summary>
-        /// <param name="id">Id of the event source</param>
-        protected EventSource(Guid id)
+        /// <param name="id"><see cref="Events.EventSourceId"/> of the event source</param>
+        protected EventSource(EventSourceId id)
         {
-            Id = id;
-            UncommittedEvents = new UncommittedEventStream(id);
+            EventSourceId = id;
+            UncommittedEvents = new UncommittedEventStream(this);
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public Guid Id { get; set; }
+        /// <inheritdoc/>
+        public EventSourceId EventSourceId { get; set; }
 
+        /// <inheritdoc/>
         public EventSourceVersion Version { get; private set; }
 
+        /// <inheritdoc/>
         public UncommittedEventStream UncommittedEvents { get; private set; }
 
+        /// <inheritdoc/>
         public void Apply(IEvent @event)
         {
-            Apply(@event, true);
+            UncommittedEvents.Append(@event, Version);
+            Version = Version.NextSequence();
         }
 
+        /// <inheritdoc/>
         public virtual void ReApply(CommittedEventStream eventStream)
         {
             ValidateEventStream(eventStream);
 
-            foreach (var @event in eventStream)
-                ReApply(@event);
+            foreach (var eventAndEnvelope in eventStream)
+            {
+                InvokeOnMethod(eventAndEnvelope.Event);
+                Version = eventAndEnvelope.Envelope.Version;
+            }
 
             Version = Version.NextCommit();
         }
 
+        /// <inheritdoc/>
         public void FastForward(EventSourceVersion lastVersion)
         {
             ThrowIfStateful();
@@ -55,69 +61,44 @@ namespace Bifrost.Events
             Version = lastVersion.NextCommit();
         }
 
+        /// <inheritdoc/>
         public virtual void Commit()
         {
-            UncommittedEvents = new UncommittedEventStream(Id);
+            UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.NextCommit();
         }
 
-
+        /// <inheritdoc/>
         public virtual void Rollback()
         {
-            UncommittedEvents = new UncommittedEventStream(Id);
+            UncommittedEvents = new UncommittedEventStream(this);
             Version = Version.PreviousCommit();
         }
 
-        public void Dispose()
-        {
-            Commit();
-        }
+        /// <inheritdoc/>
+		public void Dispose()
+		{
+			Commit();
+		}
 
-        
-
-#pragma warning restore 1591 // Xml Comments
-        /// <summary>
-        /// Get the event source type
-        /// </summary>
-        protected virtual Type EventSourceType { get { return GetType(); } }
-
-
-        void ReApply(IEvent @event)
-        {
-            Apply(@event, false);
-        }
-
-        void Apply(IEvent @event, bool isNew)
-        {
-            if (isNew)
-            {
-                @event.EventSource = EventSourceType.AssemblyQualifiedName;
-                UncommittedEvents.Append(@event);
-                Version = Version.NextSequence();
-                @event.Version = Version;
-            }
-            HandleInternally(@event);
-        }
-
-        void HandleInternally(IEvent @event)
+        void InvokeOnMethod(IEvent @event)
         {
             var handleMethod = this.GetOnMethod(@event);
             if (handleMethod != null)
                 handleMethod.Invoke(this, new[] { @event });
-            Version = @event.Version;
         }
 
 
-        void ValidateEventStream(EventStream eventStream)
+        void ValidateEventStream(CommittedEventStream eventStream)
         {
             if (!IsForThisEventSource(eventStream.EventSourceId))
                 throw new InvalidOperationException("Cannot apply an EventStream belonging to a different event source." +
-                    string.Format(@"Expected events for Id {0} but got events for Id {1}", Id, eventStream.EventSourceId));
+                    string.Format(@"Expected events for Id {0} but got events for Id {1}", EventSourceId, eventStream.EventSourceId));
         }
 
         bool IsForThisEventSource(Guid targetEventSourceId)
         {
-            return targetEventSourceId == Id;
+            return targetEventSourceId == EventSourceId;
         }
 
         void ThrowIfStateful()

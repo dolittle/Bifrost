@@ -10,7 +10,7 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
 
         Because of = () =>
         {
-            exception = Catch.Exception(() => event_migration_hierarchy_manager.GetLogicalTypeForEvent(typeof(Event)));
+            exception = Catch.Exception(() => event_migration_hierarchy_manager.GetLogicalTypeFor(typeof(Event)));
         };
 
         It should_throw_an_unregistered_event_exception = () => exception.ShouldBeOfExactType(typeof(UnregisteredEventException));

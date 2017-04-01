@@ -10,15 +10,15 @@ namespace Bifrost.Specs.Commands.for_CommandContext.given
     {
         protected static SimpleCommand command;
         protected static CommandContext command_context;
-        protected static Mock<IEventStore>  event_store_mock;
         protected static Mock<IUncommittedEventStreamCoordinator> uncommitted_event_stream_coordinator;
+        protected static Mock<IEventEnvelopes> event_envelopes;
 
         Establish context = () =>
         {
             command = new SimpleCommand();
-            event_store_mock = new Mock<IEventStore>();
             uncommitted_event_stream_coordinator = new Mock<IUncommittedEventStreamCoordinator>();
-            command_context = new CommandContext(command, null, event_store_mock.Object, uncommitted_event_stream_coordinator.Object);
+            event_envelopes = new Mock<IEventEnvelopes>();
+            command_context = new CommandContext(command, null, uncommitted_event_stream_coordinator.Object);
         };
     }
 }

@@ -15,7 +15,7 @@ namespace Bifrost.Validation.Rules
         where T : IComparable<T>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="GreaterThanOrEqual"/> 
+        /// Initializes a new instance of <see cref="GreaterThanOrEqual{T}"/> 
         /// </summary>
         /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
         /// <param name="value">Value that the input value must be greater than or equal</param>

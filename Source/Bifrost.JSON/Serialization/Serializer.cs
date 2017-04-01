@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Applications;
 using Bifrost.Concepts;
 using Bifrost.Execution;
 using Bifrost.Extensions;
@@ -25,18 +26,20 @@ namespace Bifrost.JSON.Serialization
     /// </summary>
     public class Serializer : ISerializer
     {
-        readonly IContainer _container;
+        IContainer _container;
+        IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
 
-        readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheAutoTypeName;
-        readonly ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheNoneTypeName;
+        ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheAutoTypeName;
+        ConcurrentDictionary<ISerializationOptions, JsonSerializer> _cacheNoneTypeName;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Serializer"/>
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> used to create instances of types during serialization</param>
-        public Serializer(IContainer container)
+        public Serializer(IContainer container, IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter)
         {
             _container = container;
+            _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _cacheAutoTypeName = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
             _cacheNoneTypeName = new ConcurrentDictionary<ISerializationOptions, JsonSerializer>();
         }
@@ -205,6 +208,7 @@ namespace Bifrost.JSON.Serialization
                                      ContractResolver = contractResolver,
                                  };
             serializer.Converters.Add(new MethodInfoConverter());
+            serializer.Converters.Add(new ApplicationResourceIdentifierJsonConverter(_applicationResourceIdentifierConverter));
             serializer.Converters.Add(new ConceptConverter());
             serializer.Converters.Add(new ConceptDictionaryConverter());
             serializer.Converters.Add(new EventSourceVersionConverter());

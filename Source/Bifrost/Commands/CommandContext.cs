@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.Execution;
+using Bifrost.Lifecycle;
 
 namespace Bifrost.Commands
 {
@@ -15,7 +16,6 @@ namespace Bifrost.Commands
     /// </summary>
     public class CommandContext : ICommandContext
     {
-        IEventStore _eventStore;
         IUncommittedEventStreamCoordinator _uncommittedEventStreamCoordinator;
         List<IAggregateRoot> _objectsTracked = new List<IAggregateRoot>();
 
@@ -24,44 +24,50 @@ namespace Bifrost.Commands
         /// </summary>
         /// <param name="command">The <see cref="ICommand">command</see> the context is for</param>
         /// <param name="executionContext">The <see cref="IExecutionContext"/> for the command</param>
-        /// <param name="eventStore">A <see cref="IEventStore"/> that will receive any events generated</param>
         /// <param name="uncommittedEventStreamCoordinator">The <see cref="IUncommittedEventStreamCoordinator"/> to use for coordinating the committing of events</param>
         public CommandContext(
             ICommand command,
             IExecutionContext executionContext,
-            IEventStore eventStore,
             IUncommittedEventStreamCoordinator uncommittedEventStreamCoordinator)
         {
             Command = command;
             ExecutionContext = executionContext;
-            _eventStore = eventStore;
             _uncommittedEventStreamCoordinator = uncommittedEventStreamCoordinator;
+
+            // This should be exposed to the client somehow - maybe even coming from the client
+            TransactionCorrelationId = Guid.NewGuid();
         }
 
 
-#pragma warning disable 1591 // Xml Comments
-        public ICommand Command { get; private set; }
-        public IExecutionContext ExecutionContext { get; private set; }
+        /// <inheritdoc/>
+        public TransactionCorrelationId TransactionCorrelationId { get; }
 
+        /// <inheritdoc/>
+        public ICommand Command { get; }
+
+        /// <inheritdoc/>
+        public IExecutionContext ExecutionContext { get; }
+
+        /// <inheritdoc/>
         public void RegisterForTracking(IAggregateRoot aggregatedRoot)
         {
             _objectsTracked.Add(aggregatedRoot);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IAggregateRoot> GetObjectsBeingTracked()
         {
             return _objectsTracked;
         }
 
 
-        /// <summary>
-        /// Disposes the CommandContext by Committing
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Commit();
         }
 
+        /// <inheritdoc/>
         public void Commit()
         {
             var trackedObjects = GetObjectsBeingTracked();
@@ -70,33 +76,18 @@ namespace Bifrost.Commands
                 var events = trackedObject.UncommittedEvents;
                 if (events.HasEvents)
                 {
-                    events.MarkEventsWithCommandDetails(Command);
-                    events.ExpandExecutionContext(ExecutionContext);
-                    _uncommittedEventStreamCoordinator.Commit(events);
+                    _uncommittedEventStreamCoordinator.Commit(TransactionCorrelationId, events);
                     trackedObject.Commit();
                 }
             }
         }
 
+        /// <inheritdoc/>
         public void Rollback()
         {
             // Todo : Should rollback any aggregated roots that are being tracked - 
             // PS: What do you do with events that has already been dispatched and stored?
         }
-
-
-        public CommittedEventStream GetCommittedEventsFor(EventSource eventSource, Guid eventSourceId)
-        {
-            return _eventStore.GetForEventSource(eventSource, eventSourceId);
-        }
-
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
-        {
-            return _eventStore.GetLastCommittedVersion(eventSource, eventSourceId);
-        }
-
 #pragma warning restore 1591 // Xml Comments
-
-
     }
 }
