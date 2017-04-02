@@ -70,6 +70,7 @@ namespace Bifrost.Web.Assets
         public void AddAsset(string relativePath)
         {
             var extension = Path.GetExtension(relativePath);
+            if (relativePath.StartsWith("/") || relativePath.StartsWith("\\")) relativePath = relativePath.Substring(1);
 
             List<string> assets;
             if (!_assetsByExtension.ContainsKey(extension))
