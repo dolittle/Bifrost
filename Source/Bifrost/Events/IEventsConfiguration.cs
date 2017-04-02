@@ -35,7 +35,7 @@ namespace Bifrost.Events
         /// <summary>
         /// Gets the configuration for <see cref="IEventSequenceNumbers"/>
         /// </summary>
-        EventSequenceConfiguration EventSequenceNumbers { get; }
+        EventSequenceNumbersConfiguration EventSequenceNumbers { get; }
 
         /// <summary>
         /// Gets the configuration for <see cref="IEventProcessorStates"/>

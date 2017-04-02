@@ -36,21 +36,21 @@ namespace Bifrost.Configuration
         }
 
         /// <summary>
-        /// Configures the <see cref="EventSequenceConfiguration"/>
+        /// Configures the <see cref="Events.EventSequenceNumbersConfiguration"/>
         /// </summary>
-        /// <param name="eventSequenceConfiguration"><see cref="EventSequenceConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="eventSequenceConfiguration"><see cref="Events.EventSequenceNumbersConfiguration">Configuration instance</see> to configure</param>
         /// <param name="path">Path to where to store <see cref="IEventSequenceNumbers">event sequence numbers</see></param>
-        /// <returns>Chained <see cref="EventSequenceConfiguration"/></returns>
-        public static EventSequenceConfiguration UsingFiles(this EventSequenceConfiguration eventSequenceConfiguration, string path)
+        /// <returns>Chained <see cref="Events.EventSequenceNumbersConfiguration"/></returns>
+        public static Events.EventSequenceNumbersConfiguration UsingFiles(this Events.EventSequenceNumbersConfiguration eventSequenceConfiguration, string path)
         {
             if (!Path.IsPathRooted(path))
                 path = Path.Combine(Directory.GetCurrentDirectory(), path);
 
-            var configuration = new EventSequenceNumbersConfiguration
+            var configuration = new Events.Files.EventSequenceNumbersConfiguration
             {
                 Path = path
             };
-            Configure.Instance.Container.Bind<EventSequenceNumbersConfiguration>(configuration);
+            Configure.Instance.Container.Bind(configuration);
 
             eventSequenceConfiguration.EventSequenceNumbers = typeof(EventSequenceNumbers);
 
@@ -58,7 +58,7 @@ namespace Bifrost.Configuration
         }
 
         /// <summary>
-        /// Configures the <see cref="EventSequenceConfiguration"/>
+        /// Configures the <see cref="Events.EventSequenceNumbersConfiguration"/>
         /// </summary>
         /// <param name="eventProcessorStatesConfiguration"><see cref="Events.EventProcessorStatesConfiguration">Configuration instance</see> to configure</param>
         /// <param name="path">Path to where to store <see cref="IEventProcessorState">event processor state</see></param>

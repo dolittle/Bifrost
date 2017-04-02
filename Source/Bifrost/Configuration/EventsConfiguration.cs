@@ -25,7 +25,7 @@ namespace Bifrost.Configuration
 
             EventStore = new EventStoreConfiguration();
             EventSourceVersions = new EventSourceVersionsConfiguration();
-            EventSequenceNumbers = new EventSequenceConfiguration();
+            EventSequenceNumbers = new EventSequenceNumbersConfiguration();
             EventProcessorStates = new EventProcessorStatesConfiguration();
         }
 
@@ -45,7 +45,7 @@ namespace Bifrost.Configuration
         public EventSourceVersionsConfiguration EventSourceVersions { get; }
 
         /// <inheritdoc/>
-        public EventSequenceConfiguration EventSequenceNumbers { get; }
+        public EventSequenceNumbersConfiguration EventSequenceNumbers { get; }
 
         /// <inheritdoc/>
         public EventProcessorStatesConfiguration EventProcessorStates { get; }

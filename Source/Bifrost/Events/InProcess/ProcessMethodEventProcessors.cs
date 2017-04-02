@@ -24,12 +24,19 @@ namespace Bifrost.Events.InProcess
     public class ProcessMethodEventProcessors : IKnowAboutEventProcessors
     {
         /// <summary>
+        /// The separator used in the <see cref="EventProcessorIdentifier"/> between the type and the event it handles
+        /// </summary>
+        public const string IdentifierSeparator = "|";
+
+        /// <summary>
         /// Name of method that any event subscriber needs to be called in order to be recognized by the convention
         /// </summary>
         public const string ProcessMethodName = "Process";
 
         List<IEventProcessor> _eventProcessors = new List<IEventProcessor>();
-        
+
+        IApplicationResources _applicationResources;
+        IApplicationResourceIdentifierConverter _applicationResourcesIdentifierConverter;
         ITypeDiscoverer _typeDiscoverer;
         IContainer _container;
         ISystemClock _systemClock;
@@ -38,16 +45,24 @@ namespace Bifrost.Events.InProcess
         /// Initializes a new instance of <see cref="ProcessMethodEventProcessors"/>
         /// </summary>
         /// <param name="applicationResources"><see cref="IApplicationResources"/> for identifying <see cref="IEvent">events</see> </param>
+        /// <param name="applicationResourcesIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for converting <see cref="IApplicationResourceIdentifier"/> to and from different formats</param>
         /// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> for discovering implementations of <see cref="IProcessEvents"/></param>
         /// <param name="container"><see cref="IContainer"/> for the implementation <see cref="ProcessMethodEventProcessor"/> when acquiring instances of implementations of <see cref="IProcessEvents"/></param>
         /// <param name="systemClock"><see cref="ISystemClock"/> for timing <see cref="IEventProcessors"/></param>
-        public ProcessMethodEventProcessors(IApplicationResources applicationResources, ITypeDiscoverer typeDiscoverer, IContainer container, ISystemClock systemClock)
+        public ProcessMethodEventProcessors(
+            IApplicationResources applicationResources, 
+            IApplicationResourceIdentifierConverter applicationResourcesIdentifierConverter,
+            ITypeDiscoverer typeDiscoverer, 
+            IContainer container, 
+            ISystemClock systemClock)
         {
+            _applicationResources = applicationResources;
+            _applicationResourcesIdentifierConverter = applicationResourcesIdentifierConverter;
             _typeDiscoverer = typeDiscoverer;
             _container = container;
             _systemClock = systemClock;
 
-            PopulateEventProcessors(applicationResources);
+            PopulateEventProcessors();
         }
 
         /// <inheritdoc/>
@@ -62,7 +77,7 @@ namespace Bifrost.Events.InProcess
             return _eventProcessors.GetEnumerator();
         }
 
-        void PopulateEventProcessors(IApplicationResources applicationResources)
+        void PopulateEventProcessors()
         {
             var processors = _typeDiscoverer.FindMultiple<IProcessEvents>();
             foreach (var processor in processors)
@@ -78,8 +93,13 @@ namespace Bifrost.Events.InProcess
 
                 foreach (var method in methods)
                 {
-                    var eventIdentifier = applicationResources.Identify(method.GetParameters()[0].ParameterType);
-                    var processMethodEventProcessor = new ProcessMethodEventProcessor(_container, _systemClock, "", eventIdentifier, method);
+                    var eventProcessorTypeIdentifier = _applicationResources.Identify(processor);
+                    var eventProcessorTypeIdentifierAsString = _applicationResourcesIdentifierConverter.AsString(eventProcessorTypeIdentifier);
+                    var eventIdentifier = _applicationResources.Identify(method.GetParameters()[0].ParameterType);
+                    var eventIdentifierAsString = _applicationResourcesIdentifierConverter.AsString(eventIdentifier);
+                    var eventProcessorIdentifier = (EventProcessorIdentifier)$"{eventProcessorTypeIdentifierAsString}{IdentifierSeparator}{eventIdentifierAsString}";
+
+                    var processMethodEventProcessor = new ProcessMethodEventProcessor(_container, _systemClock, eventProcessorIdentifier, eventIdentifier, method);
                     _eventProcessors.Add(processMethodEventProcessor);
                 }
             }

@@ -9,12 +9,12 @@ namespace Bifrost.Events
     /// <summary>
     /// Represents the configuration for <see cref="IEventSequenceNumbers"/>
     /// </summary>
-    public class EventSequenceConfiguration
+    public class EventSequenceNumbersConfiguration
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="EventSequenceConfiguration"/>
+        /// Initializes a new instance of <see cref="EventSequenceNumbersConfiguration"/>
         /// </summary>
-        public EventSequenceConfiguration()
+        public EventSequenceNumbersConfiguration()
         {
             EventSequenceNumbers = typeof(NullEventSequenceNumbers);
         }

@@ -15,9 +15,9 @@ namespace Bifrost.Events
         /// <summary>
         /// Configure <see cref="IEventSequenceNumbers"/> to be using Redis
         /// </summary>
-        /// <param name="eventSourceVersionsConfiguration"><see cref="EventSequenceConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="eventSourceVersionsConfiguration"><see cref="EventSequenceNumbersConfiguration">Configuration instance</see> to configure</param>
         /// <param name="connectionStrings"><see cref="string">string or strings</see> representing connectionstrings according to StackExchange.Redis</param>
-        /// <returns>Chained <see cref="EventSequenceConfiguration"/></returns>
+        /// <returns>Chained <see cref="EventSequenceNumbersConfiguration"/></returns>
         public static EventSourceVersionsConfiguration UsingRedis(this EventSourceVersionsConfiguration eventSourceVersionsConfiguration, params string[] connectionStrings)
         {
             eventSourceVersionsConfiguration.EventSourceVersions = typeof(EventSourceVersions);

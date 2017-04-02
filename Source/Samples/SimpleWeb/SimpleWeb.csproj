@@ -14,6 +14,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Bifrost.Autofac\Bifrost.Autofac.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Azure.DocumentDB\Bifrost.Events.Azure.DocumentDB.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Azure.Tables\Bifrost.Events.Azure.Tables.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.MongoDB\Bifrost.Events.MongoDB.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.RabbitMQ\Bifrost.Events.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Redis\Bifrost.Events.Redis.csproj" />
     <ProjectReference Include="..\..\Bifrost.StructureMap\Bifrost.StructureMap.csproj" />
     <ProjectReference Include="..\..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\..\Bifrost.JSON\Bifrost.JSON.csproj" />

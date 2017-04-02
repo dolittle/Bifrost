@@ -10,18 +10,18 @@ namespace Bifrost.Events
     /// <summary>
     /// Extensions for configuring Redis support for <see cref="IEventSequenceNumbers"/>
     /// </summary>
-    public static class EventSequenceConfigurationExtensions
+    public static class EventSequenceNumbersConfigurationExtensions
     {
         /// <summary>
         /// Configure <see cref="IEventSequenceNumbers"/> to be using Redis
         /// </summary>
-        /// <param name="eventSequenceConfiguration"><see cref="EventSequenceConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="eventSequenceConfiguration"><see cref="EventSequenceNumbersConfiguration">Configuration instance</see> to configure</param>
         /// <param name="connectionStrings"></param>
-        /// <returns>Chained <see cref="EventSequenceConfiguration"/></returns>
-        public static EventSequenceConfiguration UsingRedis(this EventSequenceConfiguration eventSequenceConfiguration, params string[] connectionStrings)
+        /// <returns>Chained <see cref="EventSequenceNumbersConfiguration"/></returns>
+        public static EventSequenceNumbersConfiguration UsingRedis(this EventSequenceNumbersConfiguration eventSequenceConfiguration, params string[] connectionStrings)
         {
             eventSequenceConfiguration.EventSequenceNumbers = typeof(EventSequenceNumbers);
-            var configuration = new EventSequenceNumbersConfiguration(connectionStrings);
+            var configuration = new Redis.EventSequenceNumbersConfiguration(connectionStrings);
             Configure.Instance.Container.Bind(configuration);
             return eventSequenceConfiguration;
         }
