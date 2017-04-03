@@ -1,12 +1,10 @@
-﻿using Bifrost.Web.Configuration;
+﻿using System.IO;
+using Bifrost.Web.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.IO;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 
 namespace SimpleWeb
 {
@@ -16,6 +14,7 @@ namespace SimpleWeb
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting();
             services.AddBifrost();
         }
 
@@ -31,21 +30,17 @@ namespace SimpleWeb
 
             app.UseDefaultFiles();
 
-            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"Samples/SimpleWeb/wwwroot");
+            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             app.UseStaticFiles(new StaticFileOptions()
             {
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                    context.Context.Response.Headers.Add("Expires", "-1");
+                },
                 FileProvider = new PhysicalFileProvider(staticFilesPath),
-                //RequestPath = new PathString("/")
-            });            
-            //app.UseStaticFiles();
+            });
             app.UseBifrost(env);
-
-
-/*
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });*/
         }
     }
 }

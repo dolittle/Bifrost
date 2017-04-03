@@ -13,7 +13,7 @@ namespace SimpleWeb
             var eventSequenceNumbersPath = "./App_Data/EventSequenceNumbers";
             var eventProcessorsStatePath = "./App_Data/EventProcessors";
 
-            var redis = "";
+            var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s

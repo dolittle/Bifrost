@@ -3,7 +3,10 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="MyCommand.cs" />
+    <Content Include="wwwroot\home.html" />
+    <Content Include="wwwroot\home.js" />
+    <Content Include="wwwroot\MyCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.4.0" />
