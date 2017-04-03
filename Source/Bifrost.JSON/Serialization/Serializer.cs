@@ -209,6 +209,7 @@ namespace Bifrost.JSON.Serialization
                                      ContractResolver = contractResolver,
                                  };
             serializer.Converters.Add(new ApplicationResourceIdentifierJsonConverter(_applicationResourceIdentifierConverter));
+            serializer.Converters.Add(new ExceptionConverter());
             serializer.Converters.Add(new ConceptConverter());
             serializer.Converters.Add(new ConceptDictionaryConverter());
             serializer.Converters.Add(new EventSourceVersionConverter());
