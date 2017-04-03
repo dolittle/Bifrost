@@ -3,7 +3,6 @@
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <AssemblyName>Bifrost.Web</AssemblyName>
     <PackageId>Bifrost.Web</PackageId>
-    <DocumentationFile>bin\Debug\net461\Bifrost.Web.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Compile Remove="**/netstandard/**/*.cs" />
@@ -20,11 +19,7 @@
     -->
 
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    
-
-
 
     <None Include="App.config" />
     <None Update="**\*.cs">

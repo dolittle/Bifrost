@@ -2,14 +2,10 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
-using System.Text;
+using System.Web;
 using Bifrost.Configuration;
+using Newtonsoft.Json;
 
 namespace Bifrost.Web.Assets
 {

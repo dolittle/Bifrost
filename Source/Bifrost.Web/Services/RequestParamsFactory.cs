@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Web;
 using Bifrost.Serialization;
 
 namespace Bifrost.Web.Services
@@ -22,7 +21,7 @@ namespace Bifrost.Web.Services
             _serializer = serializer;
         }
 
-#pragma warning disable 1591 // Xml Comments
+        /// <inheritdoc/>
         public RequestParams BuildParamsCollectionFrom(IHttpRequest request)
         {
             var queystring = request.QueryString;
@@ -33,7 +32,6 @@ namespace Bifrost.Web.Services
 
             return requestParams;
         }
-#pragma warning restore 1591 // Xml Comments
 
         NameValueCollection BuildFormFromInputStream(Stream stream)
         {
