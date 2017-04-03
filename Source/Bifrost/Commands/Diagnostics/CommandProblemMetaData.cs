@@ -7,7 +7,7 @@ using System;
 namespace Bifrost.Commands.Diagnostics
 {
     /// <summary>
-    /// Represents the metadata for a <see cref="IProblem"/> generated for a <see cref="ICommand"/>
+    /// Represents the metadata for a <see cref="Bifrost.Diagnostics.Problem"/> generated for a <see cref="ICommand"/>
     /// </summary>
     public class CommandProblemMetaData
     {

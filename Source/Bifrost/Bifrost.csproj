@@ -1,586 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FB310720-CD89-44B6-BD54-7861F65D8466}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost</RootNamespace>
+    <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
+    <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
+    <Authors>all contributors</Authors>
+    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+    <DebugType>portable</DebugType>
     <AssemblyName>Bifrost</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NoWarn>1584, 1574</NoWarn>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\Bifrost.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Bifrost.XML</DocumentationFile>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Keys\Bifrost.snk</AssemblyOriginatorKeyFile>
+    <PackageId>Bifrost</PackageId>
+    <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
+    <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+    <PackageReference Include="System.Security.Claims" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="**\*.cs">
+      <PackagePath>src/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\netstandard1.6\*.pdb">
+      <PackagePath>lib/netstandard1.6/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\net461\*.pdb">
+      <PackagePath>lib/net461/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Dynamic" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Common\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Conventions\IConvention.cs" />
-    <Compile Include="AssemblySpecifier.cs" />
-    <Compile Include="CodeGeneration\CodeGenerator.cs" />
-    <Compile Include="CodeGeneration\CodeWriter.cs" />
-    <Compile Include="CodeGeneration\ICodeGenerator.cs" />
-    <Compile Include="CodeGeneration\ICodeWriter.cs" />
-    <Compile Include="CodeGeneration\ILanguageElement.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Accessor.cs" />
-    <Compile Include="CodeGeneration\JavaScript\AccessorExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Assignment.cs" />
-    <Compile Include="CodeGeneration\JavaScript\AssignmentExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\CodeGeneratorExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Container.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ContainerExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\AccessorAssignment.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Boolean.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Date.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Null.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Global.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Observable.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ObservableExtension.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ObservableExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ObservableVisitor.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Return.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Function.cs" />
-    <Compile Include="CodeGeneration\JavaScript\FunctionBody.cs" />
-    <Compile Include="CodeGeneration\JavaScript\FunctionCall.cs" />
-    <Compile Include="CodeGeneration\JavaScript\FunctionExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\KeyAssignment.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Literal.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Namespace.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ObjectLiteral.cs" />
-    <Compile Include="CodeGeneration\JavaScript\PropertyAssignment.cs" />
-    <Compile Include="CodeGeneration\JavaScript\Scope.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ScopeExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\This.cs" />
-    <Compile Include="CodeGeneration\JavaScript\TypeExtension.cs" />
-    <Compile Include="CodeGeneration\JavaScript\TypeExtensionExtensions.cs" />
-    <Compile Include="CodeGeneration\JavaScript\VariantAssignment.cs" />
-    <Compile Include="CodeGeneration\LanguageElement.cs" />
-    <Compile Include="Collections\CollectionCleared.cs" />
-    <Compile Include="Collections\IObservableCollection.cs" />
-    <Compile Include="Collections\ItemsAddedToCollection.cs" />
-    <Compile Include="Collections\ItemsRemovedFromCollection.cs" />
-    <Compile Include="Collections\ObservableCollection.cs" />
-    <Compile Include="Commands\AmbiguousCommandException.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandContextFactory.cs" />
-    <Compile Include="Commands\CommandSecurityTarget.cs" />
-    <Compile Include="Commands\CommandSecurityExtensions.cs" />
-    <Compile Include="Commands\CommandSecurityManager.cs" />
-    <Compile Include="Commands\CommandValidators.cs" />
-    <Compile Include="Commands\Diagnostics\CommandProblemMetaData.cs" />
-    <Compile Include="Commands\Diagnostics\ComplexTypesRule.cs" />
-    <Compile Include="Commands\Diagnostics\CommandInheritanceRule.cs" />
-    <Compile Include="Commands\Diagnostics\TooManyPropertiesRule.cs" />
-    <Compile Include="Commands\Diagnostics\ProblemTypes.cs" />
-    <Compile Include="Commands\ExpressionNotMethodCallException.cs" />
-    <Compile Include="Commands\HandleCommand.cs" />
-    <Compile Include="Commands\ICommandContextFactory.cs" />
-    <Compile Include="Commands\ICommandSecurityManager.cs" />
-    <Compile Include="Commands\ICommandValidators.cs" />
-    <Compile Include="Commands\TypeDiscovererExtensions.cs" />
-    <Compile Include="Concepts\ConceptAs.cs" />
-    <Compile Include="Concepts\ConceptExtensions.cs" />
-    <Compile Include="Concepts\ConceptFactory.cs" />
-    <Compile Include="Concepts\ConceptMap.cs" />
-    <Compile Include="Concepts\Value.cs" />
-    <Compile Include="Concurrency\IScheduler.cs" />
-    <Compile Include="Concurrency\Scheduler.cs" />
-    <Compile Include="Configuration\AmbiguousContainerCreationException.cs" />
-    <Compile Include="Configuration\Assemblies\AssembliesConfiguration.cs" />
-    <Compile Include="Configuration\Assemblies\AssembliesConfigurationBuilder.cs" />
-    <Compile Include="Configuration\Assemblies\AssemblyRuleBuilderExtensions.cs" />
-    <Compile Include="Configuration\Assemblies\ExceptAssembliesStartingWith.cs" />
-    <Compile Include="Configuration\Assemblies\IAssemblyRuleBuilder.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAll.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAllRule.cs" />
-    <Compile Include="Configuration\Assemblies\IncludeAllExtensions.cs" />
-    <Compile Include="Execution\AppDomainAssemblyProvider.cs" />
-    <Compile Include="Security\IUserSecurityActor.cs" />
-    <Compile Include="Exceptions\ExceptionPublisher.cs" />
-    <Compile Include="Exceptions\IExceptionPublisher.cs" />
-    <Compile Include="Exceptions\IExceptionSubscriber.cs" />
-    <Compile Include="Execution\AssemblyAdded.cs" />
-    <Compile Include="Execution\AssemblyInfo.cs" />
-    <Compile Include="Execution\AssemblySpecifiers.cs" />
-    <Compile Include="Configuration\CallContextConfiguration.cs" />
-    <Compile Include="Configuration\ConfigurationStorageElement.cs" />
-    <Compile Include="Configuration\CanCreateContainerNotFoundException.cs" />
-    <Compile Include="Configuration\DefaultStorageConfiguration.cs" />
-    <Compile Include="Configuration\ExecutionContextConfiguration.cs" />
-    <Compile Include="Configuration\FrontendConfiguration.cs" />
-    <Compile Include="Execution\ContractToImplementorsMap.cs" />
-    <Compile Include="Execution\DefaultAssemblySpecifier.cs" />
-    <Compile Include="Execution\FileSystemAssemblyProvider.cs" />
-    <Compile Include="Execution\IAssemblySpecifiers.cs" />
-    <Compile Include="Configuration\ICallContextConfiguration.cs" />
-    <Compile Include="Configuration\ICanConfigure.cs" />
-    <Compile Include="Configuration\ICanCreateContainer.cs" />
-    <Compile Include="Configuration\IConfigurationElement.cs" />
-    <Compile Include="Configuration\IDefaultStorageConfiguration.cs" />
-    <Compile Include="Configuration\IExecutionContextConfiguration.cs" />
-    <Compile Include="Configuration\IFrontendConfiguration.cs" />
-    <Compile Include="Configuration\IFrontendTargetConfiguration.cs" />
-    <Compile Include="Configuration\IHaveStorage.cs" />
-    <Compile Include="Configuration\ISecurityConfiguration.cs" />
-    <Compile Include="Configuration\ITasksConfiguration.cs" />
-    <Compile Include="Configuration\IWantToKnowWhenConfigurationIsDone.cs" />
-    <Compile Include="Entities\Files\Document.cs" />
-    <Compile Include="Entities\Files\Mapping\DocumentMapFor.cs" />
-    <Compile Include="Entities\Files\Mapping\KeyStrategy.cs" />
-    <Compile Include="Entities\Files\Mapping\PropertyMapExtensions.cs" />
-    <Compile Include="Execution\AssemblyFilters.cs" />
-    <Compile Include="Execution\AssemblyProvider.cs" />
-    <Compile Include="Execution\AssemblyUtility.cs" />
-    <Compile Include="Execution\FileSystem.cs" />
-    <Compile Include="Execution\IAssemblyProvider.cs" />
-    <Compile Include="Execution\IAssemblyUtility.cs" />
-    <Compile Include="Execution\ICanProvideAssemblies.cs" />
-    <Compile Include="Execution\ICanSpecifyAssemblies.cs" />
-    <Compile Include="Execution\IAssemblyFilters.cs" />
-    <Compile Include="Execution\IFileSystem.cs" />
-    <Compile Include="Execution\InvalidSignatureException.cs" />
-    <Compile Include="Execution\CannotInvokeMethodBecauseTargetIsNotAlive.cs" />
-    <Compile Include="Execution\ITypeFinder.cs" />
-    <Compile Include="Execution\IContractToImplementorsMap.cs" />
-    <Compile Include="Execution\TypeFinder.cs" />
-    <Compile Include="Execution\WeakDelegate.cs" />
-    <Compile Include="Mapping\SourcePropertyMappingStrategy.cs" />
-    <Compile Include="MissingDefaultConstructorException.cs" />
-    <Compile Include="Configuration\MultiplePrincipalResolversFound.cs" />
-    <Compile Include="Configuration\SecurityConfiguration.cs" />
-    <Compile Include="Configuration\TasksConfiguration.cs" />
-    <Compile Include="Configuration\ViewsConfiguration.cs" />
-    <Compile Include="Configuration\IConfigure.cs" />
-    <Compile Include="Configuration\ISagasConfiguration.cs" />
-    <Compile Include="Configuration\SagasConfiguration.cs" />
-    <Compile Include="Dynamic\DynamicExtensions.cs" />
-    <Compile Include="Diagnostics\IProblems.cs" />
-    <Compile Include="Diagnostics\IProblemsFactory.cs" />
-    <Compile Include="Diagnostics\IProblemsReporter.cs" />
-    <Compile Include="Diagnostics\IProblemTypes.cs" />
-    <Compile Include="Diagnostics\Problem.cs" />
-    <Compile Include="Diagnostics\IQualityAssurance.cs" />
-    <Compile Include="Diagnostics\ITypeRuleFor.cs" />
-    <Compile Include="Diagnostics\ITypeRules.cs" />
-    <Compile Include="Diagnostics\Problems.cs" />
-    <Compile Include="Diagnostics\ProblemSeverity.cs" />
-    <Compile Include="Diagnostics\ProblemsFactory.cs" />
-    <Compile Include="Diagnostics\ProblemsReporter.cs" />
-    <Compile Include="Diagnostics\ProblemType.cs" />
-    <Compile Include="Diagnostics\QualityAssurance.cs" />
-    <Compile Include="Diagnostics\TypeRules.cs" />
-    <Compile Include="Dynamic\DynamicHelpers.cs" />
-    <Compile Include="Entities\Files\ConfigurationExtensions.cs" />
-    <Compile Include="Entities\Files\EntityContext.cs" />
-    <Compile Include="Entities\Files\EntityContextConfiguration.cs" />
-    <Compile Include="Entities\Files\EntityContextConnection.cs" />
-    <Compile Include="Entities\NullEntityContext.cs" />
-    <Compile Include="Entities\NullEntityContextConfiguration.cs" />
-    <Compile Include="Entities\NullEntityContextConnection.cs" />
-    <Compile Include="Events\AsynchronousUncommittedEventStreamCoordinator.cs" />
-    <Compile Include="Events\Files\ConfigurationExtensions.cs" />
-    <Compile Include="Events\EventExtensions.cs" />
-    <Compile Include="Events\EventStoreChangeManager.cs" />
-    <Compile Include="Events\EventSubscription.cs" />
-    <Compile Include="Events\EventSubscriptionManager.cs" />
-    <Compile Include="Events\Files\EventStore.cs" />
-    <Compile Include="Events\Files\EventStoreConfiguration.cs" />
-    <Compile Include="Events\Files\EventSubscriptions.cs" />
-    <Compile Include="Events\IEventStoreChangeListener.cs" />
-    <Compile Include="Events\IEventStoreChangeManager.cs" />
-    <Compile Include="Events\IEventStoreChangeNotifier.cs" />
-    <Compile Include="Events\IEventSubscriptionManager.cs" />
-    <Compile Include="Events\IEventSubscriptions.cs" />
-    <Compile Include="Events\InvalidFastForwardException.cs" />
-    <Compile Include="Events\IProcessMethodInvoker.cs" />
-    <Compile Include="Events\IUncommittedEventStreamCoordinator.cs" />
-    <Compile Include="Events\NullEventStore.cs" />
-    <Compile Include="Events\NullEventSubscriptions.cs" />
-    <Compile Include="Events\NullUncommittedEventStreamCoordinator.cs" />
-    <Compile Include="Events\ProcessMethodInvoker.cs" />
-    <Compile Include="Events\UncommittedEventStreamCoordinator.cs" />
-    <Compile Include="Execution\AssemblyComparer.cs" />
-    <Compile Include="Execution\Assemblies.cs" />
-    <Compile Include="Execution\BaseConvention.cs" />
-    <Compile Include="Execution\BindingConventionManager.cs" />
-    <Compile Include="Execution\BindingLifecycle.cs" />
-    <Compile Include="Execution\DefaultCallContext.cs" />
-    <Compile Include="Execution\DefaultConvention.cs" />
-    <Compile Include="Execution\ExecutionContext.cs" />
-    <Compile Include="Execution\ExecutionContextDetailsPopulator.cs" />
-    <Compile Include="Execution\ExecutionContextFactory.cs" />
-    <Compile Include="Execution\ExecutionContextManager.cs" />
-    <Compile Include="Execution\ExecutionContextPopulator.cs" />
-    <Compile Include="Execution\HashCodeHelper.cs" />
-    <Compile Include="Execution\IAssemblies.cs" />
-    <Compile Include="Execution\IBindingConvention.cs" />
-    <Compile Include="Execution\IBindingConventionManager.cs" />
-    <Compile Include="Execution\ICallContext.cs" />
-    <Compile Include="Execution\ICanPopulateExecutionContextDetails.cs" />
-    <Compile Include="Execution\IContainer.cs" />
-    <Compile Include="Execution\IExecutionContext.cs" />
-    <Compile Include="Execution\IExecutionContextDetailsPopulator.cs" />
-    <Compile Include="Execution\IExecutionContextFactory.cs" />
-    <Compile Include="Execution\IExecutionContextManager.cs" />
-    <Compile Include="Execution\IgnoreDefaultConventionAttribute.cs" />
-    <Compile Include="Execution\IInstancesOf.cs" />
-    <Compile Include="Execution\InstancesOf.cs" />
-    <Compile Include="Execution\ITypeDiscoverer.cs" />
-    <Compile Include="Execution\ITypeImporter.cs" />
-    <Compile Include="Execution\MultipleApplicationsFoundException.cs" />
-    <Compile Include="Execution\MultipleTypesFoundException.cs" />
-    <Compile Include="Execution\ReadOnlyObjectException.cs" />
-    <Compile Include="Execution\SingletonAttribute.cs" />
-    <Compile Include="Execution\TypeDiscoverer.cs" />
-    <Compile Include="Execution\TypeImporter.cs" />
-    <Compile Include="Execution\UnableToResolveTypeByName.cs" />
-    <Compile Include="Execution\WriteOnceExpandoObject.cs" />
-    <Compile Include="Extensions\CollectionsExtensions.cs" />
-    <Compile Include="Extensions\ITypeInfo.cs" />
-    <Compile Include="Extensions\MethodCalls.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TypeInfo.cs" />
-    <Compile Include="Mapping\DefaultMappingTarget.cs" />
-    <Compile Include="Mapping\IMap.cs" />
-    <Compile Include="Mapping\IMappingTarget.cs" />
-    <Compile Include="Mapping\IMappingTargetFor.cs" />
-    <Compile Include="Mapping\IMappingTargets.cs" />
-    <Compile Include="Mapping\IMaps.cs" />
-    <Compile Include="Mapping\IPropertyMap.cs" />
-    <Compile Include="Mapping\Mapper.cs" />
-    <Compile Include="Mapping\MappingTargetFor.cs" />
-    <Compile Include="Mapping\MappingTargets.cs" />
-    <Compile Include="Mapping\Maps.cs" />
-    <Compile Include="Mapping\MissingMapException.cs" />
-    <Compile Include="Mapping\PropertyMapExtensions.cs" />
-    <Compile Include="Mapping\TargetPropertyMappingStrategy.cs" />
-    <Compile Include="Mapping\IMapper.cs" />
-    <Compile Include="Mapping\IPropertyMappingStrategy.cs" />
-    <Compile Include="Mapping\Map.cs" />
-    <Compile Include="Mapping\PropertyMap.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Read\Fetching.cs" />
-    <Compile Include="Read\FetchingSecurityManager.cs" />
-    <Compile Include="Read\ICanFilterReadModels.cs" />
-    <Compile Include="Read\IFetchingSecurityManager.cs" />
-    <Compile Include="Read\IReadModelFilters.cs" />
-    <Compile Include="Read\QueryableExtensions.cs" />
-    <Compile Include="Read\ReadModelFilters.cs" />
-    <Compile Include="Read\FetchingSecurityTarget.cs" />
-    <Compile Include="Read\SecurityExtensions.cs" />
-    <Compile Include="Read\UnknownQueryTypeException.cs" />
-    <Compile Include="Read\IQuery.cs" />
-    <Compile Include="Read\PagingInfo.cs" />
-    <Compile Include="Read\IQueryCoordinator.cs" />
-    <Compile Include="Read\IQueryFor.cs" />
-    <Compile Include="Read\IQueryProviderFor.cs" />
-    <Compile Include="Read\IReadModelOf.cs" />
-    <Compile Include="Read\NoQueryPropertyException.cs" />
-    <Compile Include="Read\QueryableProvider.cs" />
-    <Compile Include="Read\QueryCoordinator.cs" />
-    <Compile Include="Read\QueryProviderResult.cs" />
-    <Compile Include="Read\ReadModelOf.cs" />
-    <Compile Include="Read\ReadModelRepositoryFor.cs" />
-    <Compile Include="Read\QueryResult.cs" />
-    <Compile Include="Read\TypeDiscovererExtensions.cs" />
-    <Compile Include="Read\UnknownQueryException.cs" />
-    <Compile Include="Read\UnknownReadModelOfException.cs" />
-    <Compile Include="Read\Validation\IQueryValidationDescriptor.cs" />
-    <Compile Include="Read\Validation\IQueryValidationDescriptors.cs" />
-    <Compile Include="Read\Validation\IQueryValidator.cs" />
-    <Compile Include="Read\Validation\QueryArgument.cs" />
-    <Compile Include="Read\Validation\QueryArgumentValidationBuilder.cs" />
-    <Compile Include="Read\Validation\QueryArgumentValidationResult.cs" />
-    <Compile Include="Read\Validation\QueryValidationDescriptorFor.cs" />
-    <Compile Include="Read\Validation\QueryValidationDescriptors.cs" />
-    <Compile Include="Read\Validation\QueryValidationResult.cs" />
-    <Compile Include="Read\Validation\QueryValidator.cs" />
-    <Compile Include="Reflection\IProxying.cs" />
-    <Compile Include="Reflection\Proxying.cs" />
-    <Compile Include="Rules\IRule.cs" />
-    <Compile Include="Rules\IRuleBuilder.cs" />
-    <Compile Include="Rules\IRuleContext.cs" />
-    <Compile Include="Rules\IRuleContextChangeSubscriber.cs" />
-    <Compile Include="Rules\BrokenRule.cs" />
-    <Compile Include="Rules\BrokenRuleReason.cs" />
-    <Compile Include="Rules\IRuleContexts.cs" />
-    <Compile Include="Rules\RuleContext.cs" />
-    <Compile Include="Rules\RuleContextFail.cs" />
-    <Compile Include="Rules\RuleContexts.cs" />
-    <Compile Include="Sagas\SagaSerializationOptions.cs" />
-    <Compile Include="Serialization\ISerializationOptions.cs" />
-    <Compile Include="Serialization\SerializationOptionFlags.cs" />
-    <Compile Include="Specifications\And.cs" />
-    <Compile Include="Specifications\CompositeRule.cs" />
-    <Compile Include="Specifications\Is.cs" />
-    <Compile Include="Specifications\Negative.cs" />
-    <Compile Include="Specifications\Or.cs" />
-    <Compile Include="Specifications\ParameterRebinder.cs" />
-    <Compile Include="Specifications\Specification.cs" />
-    <Compile Include="Specifications\SpecificationExtensions.cs" />
-    <Compile Include="Sagas\Constants.cs" />
-    <Compile Include="Sagas\Exceptions\InvalidSagaStateTransitionException.cs" />
-    <Compile Include="Sagas\Exceptions\UnknownSagaStateException.cs" />
-    <Compile Include="Sagas\ISagaConverter.cs" />
-    <Compile Include="Sagas\NullSagaLibrarian.cs" />
-    <Compile Include="Sagas\SagaConverter.cs" />
-    <Compile Include="Sagas\SagaState.cs" />
-    <Compile Include="Sagas\State.cs" />
-    <Compile Include="Security\AuthorizeDescriptorResult.cs" />
-    <Compile Include="Security\AuthorizationResult.cs" />
-    <Compile Include="Security\AuthorizeActionResult.cs" />
-    <Compile Include="Security\AuthorizeActorResult.cs" />
-    <Compile Include="Security\AuthorizeSecurableResult.cs" />
-    <Compile Include="Security\AuthorizeTargetResult.cs" />
-    <Compile Include="Security\ICanResolvePrincipal.cs" />
-    <Compile Include="Security\ISecurityAction.cs" />
-    <Compile Include="Security\ISecurityCondition.cs" />
-    <Compile Include="Security\ISecurityContext.cs" />
-    <Compile Include="Security\ISecurityDescriptor.cs" />
-    <Compile Include="Security\ISecurityDescriptorBuilder.cs" />
-    <Compile Include="Security\ISecurityManager.cs" />
-    <Compile Include="Security\ISecurityActor.cs" />
-    <Compile Include="Security\ISecurable.cs" />
-    <Compile Include="Security\ISecurityRule.cs" />
-    <Compile Include="Security\ISecurityRuleBuilder.cs" />
-    <Compile Include="Security\ISecurityTarget.cs" />
-    <Compile Include="Security\NamespaceSecurable.cs" />
-    <Compile Include="Security\RoleRule.cs" />
-    <Compile Include="Security\RuleEvaluationError.cs" />
-    <Compile Include="Security\Securable.cs" />
-    <Compile Include="Security\SecurableExtensions.cs" />
-    <Compile Include="Security\SecurityAction.cs" />
-    <Compile Include="Security\SecurityContext.cs" />
-    <Compile Include="Security\SecurityContextExtensions.cs" />
-    <Compile Include="Security\BaseSecurityDescriptor.cs" />
-    <Compile Include="Security\SecurityDescriptorBuilder.cs" />
-    <Compile Include="Security\SecurityManager.cs" />
-    <Compile Include="Security\SecurityActor.cs" />
-    <Compile Include="Security\SecurityTarget.cs" />
-    <Compile Include="Security\DefaultPrincipalResolver.cs" />
-    <Compile Include="Security\TypeSecurable.cs" />
-    <Compile Include="Security\UserSecurityActor.cs" />
-    <Compile Include="Security\UserSecurityActorExtensions.cs" />
-    <Compile Include="Serialization\SerializationOptions.cs" />
-    <Compile Include="Globalization\ILocalizer.cs" />
-    <Compile Include="Globalization\LocalizationScope.cs" />
-    <Compile Include="Globalization\Localizer.cs" />
-    <Compile Include="Sagas\ChapterDoesNotExistException.cs" />
-    <Compile Include="Sagas\ChapterTransition.cs" />
-    <Compile Include="Sagas\ChapterHolder.cs" />
-    <Compile Include="Sagas\SagaCommandContext.cs" />
-    <Compile Include="Sagas\SagaHolder.cs" />
-    <Compile Include="Sagas\SagaLibrarian.cs" />
-    <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Services\InvokeService.cs" />
-    <Compile Include="Services\ServiceSecurityExtensions.cs" />
-    <Compile Include="Services\ServiceSecurityTarget.cs" />
-    <Compile Include="Tasks\ITaskScheduler.cs" />
-    <Compile Include="Tasks\ITaskManager.cs" />
-    <Compile Include="Tasks\ITaskRepository.cs" />
-    <Compile Include="Tasks\ITaskStatusReporter.cs" />
-    <Compile Include="Tasks\Task.cs" />
-    <Compile Include="Tasks\TaskEntity.cs" />
-    <Compile Include="Tasks\TaskRepository.cs" />
-    <Compile Include="Tasks\TaskScheduler.cs" />
-    <Compile Include="Tasks\TaskId.cs" />
-    <Compile Include="Tasks\TaskManager.cs" />
-    <Compile Include="Tasks\TaskOperation.cs" />
-    <Compile Include="Tasks\TaskStateChange.cs" />
-    <Compile Include="Tenancy\ICanPopulateTenant.cs" />
-    <Compile Include="Tenancy\ITenant.cs" />
-    <Compile Include="Tenancy\ITenantManager.cs" />
-    <Compile Include="Tenancy\Tenant.cs" />
-    <Compile Include="Tenancy\TenantManager.cs" />
-    <Compile Include="Utils\IStringMapper.cs" />
-    <Compile Include="Utils\IStringMapping.cs" />
-    <Compile Include="Utils\StringMapper.cs" />
-    <Compile Include="Utils\StringMapping.cs" />
-    <Compile Include="Sagas\ICanTransitionTo.cs" />
-    <Compile Include="Sagas\ISaga.cs" />
-    <Compile Include="Sagas\IChapter.cs" />
-    <Compile Include="Sagas\ISagaLibrarian.cs" />
-    <Compile Include="Sagas\ISagaNarrator.cs" />
-    <Compile Include="Sagas\Saga.cs" />
-    <Compile Include="Configuration\CommandsConfiguration.cs" />
-    <Compile Include="Configuration\ConfigurationExtensions.cs" />
-    <Compile Include="Configuration\Configure.cs" />
-    <Compile Include="Configuration\Defaults\DefaultBindings.cs" />
-    <Compile Include="Configuration\Defaults\DefaultConventions.cs" />
-    <Compile Include="Configuration\EventsConfiguration.cs" />
-    <Compile Include="Configuration\ICommandsConfiguration.cs" />
-    <Compile Include="Configuration\Defaults\IDefaultConventions.cs" />
-    <Compile Include="Configuration\Defaults\IDefaultBindings.cs" />
-    <Compile Include="Configuration\IEventsConfiguration.cs" />
-    <Compile Include="Configuration\IViewsConfiguration.cs" />
-    <Compile Include="Configuration\IStorageConfiguration.cs" />
-    <Compile Include="Events\EventSourceExtensions.cs" />
-    <Compile Include="Sagas\SagaConclusion.cs" />
-    <Compile Include="Sagas\SagaNotInChapterException.cs" />
-    <Compile Include="Sagas\Chapter.cs" />
-    <Compile Include="Sagas\ChapterAlreadyExistException.cs" />
-    <Compile Include="Sagas\ChapterTransitionNotAllowedException.cs" />
-    <Compile Include="Sagas\ChapterTransitionHelper.cs" />
-    <Compile Include="Sagas\SagaNarrator.cs" />
-    <Compile Include="Commands\CommandHandlerInvoker.cs" />
-    <Compile Include="Commands\CommandValidationResult.cs" />
-    <Compile Include="Validation\IAmValidatable.cs" />
-    <Compile Include="Validation\ICanValidate.cs" />
-    <Compile Include="Sagas\IChapterValidationService.cs" />
-    <Compile Include="Commands\ICommandContextStore.cs" />
-    <Compile Include="Commands\ICommandValidator.cs" />
-    <Compile Include="Validation\IValueRule.cs" />
-    <Compile Include="Validation\IValueValidationBuilder.cs" />
-    <Compile Include="Validation\MetaData\ICanGenerateValidationMetaData.cs" />
-    <Compile Include="Validation\MetaData\IValidationMetaData.cs" />
-    <Compile Include="Validation\MetaData\Length.cs" />
-    <Compile Include="Validation\MetaData\LessThanOrEqual.cs" />
-    <Compile Include="Validation\MetaData\GreaterThanOrEqual.cs" />
-    <Compile Include="Validation\MetaData\Regex.cs" />
-    <Compile Include="Validation\MetaData\Email.cs" />
-    <Compile Include="Validation\MetaData\GreaterThan.cs" />
-    <Compile Include="Validation\MetaData\LessThan.cs" />
-    <Compile Include="Validation\MetaData\NotNull.cs" />
-    <Compile Include="Validation\MetaData\Required.cs" />
-    <Compile Include="Validation\MetaData\Rule.cs" />
-    <Compile Include="Commands\UnhandledCommandException.cs" />
-    <Compile Include="Events\DuplicateInEventMigrationHierarchyException.cs" />
-    <Compile Include="Events\EventMigrationHierarchy.cs" />
-    <Compile Include="Events\EventMigrationHierarchyDiscoverer.cs" />
-    <Compile Include="Events\EventMigrationHierarchyManager.cs" />
-    <Compile Include="Events\EventMigratorManager.cs" />
-    <Compile Include="Events\EventOutOfSequenceException.cs" />
-    <Compile Include="Events\EventSourceVersion.cs" />
-    <Compile Include="Commands\ICommandHandlerInvoker.cs" />
-    <Compile Include="Events\EventSubscriber.cs" />
-    <Compile Include="Events\IAmNextGenerationOf.cs" />
-    <Compile Include="Events\IEventMigrationHierarchyDiscoverer.cs" />
-    <Compile Include="Events\IEventMigrationHierarchyManager.cs" />
-    <Compile Include="Events\IEventMigratorManager.cs" />
-    <Compile Include="Events\IEventMigrator.cs" />
-    <Compile Include="Events\InvalidMigrationTypeException.cs" />
-    <Compile Include="Events\NotAMigratedEventTypeException.cs" />
-    <Compile Include="Events\MigrationLevelOutOfRangeException.cs" />
-    <Compile Include="Events\UnregisteredEventException.cs" />
-    <Compile Include="Validation\MetaData\TypeMetaData.cs" />
-    <Compile Include="Validation\MetaData\ValidationMetaData.cs" />
-    <Compile Include="Validation\Rules\Reasons.cs" />
-    <Compile Include="Validation\Rules\NotNull.cs" />
-    <Compile Include="Validation\Rules\Required.cs" />
-    <Compile Include="Validation\Rules\Regex.cs" />
-    <Compile Include="Validation\Rules\MaxLength.cs" />
-    <Compile Include="Validation\Rules\LessThan.cs" />
-    <Compile Include="Validation\Rules\LessThanOrEqual.cs" />
-    <Compile Include="Validation\Rules\GreaterThanOrEqual.cs" />
-    <Compile Include="Validation\Rules\GreaterThan.cs" />
-    <Compile Include="Validation\Rules\Email.cs" />
-    <Compile Include="Validation\ValidationResult.cs" />
-    <Compile Include="Validation\ValidationRules.cs" />
-    <Compile Include="Validation\ValueRule.cs" />
-    <Compile Include="Validation\ValueTypeMismatch.cs" />
-    <Compile Include="Validation\ValueValidationBuilder.cs" />
-    <Compile Include="Views\IHaveId.cs" />
-    <Compile Include="Views\ObjectDoesNotHaveIdException.cs" />
-    <Compile Include="Commands\CommandContext.cs" />
-    <Compile Include="Commands\CommandContextManager.cs" />
-    <Compile Include="Commands\CommandHandlerManager.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Commands\ICommandContext.cs" />
-    <Compile Include="Commands\ICommandContextManager.cs" />
-    <Compile Include="Commands\ICommandHandlerManager.cs" />
-    <Compile Include="Configuration\IEntityContextConfiguration.cs" />
-    <Compile Include="Domain\InvalidAggregateException.cs" />
-    <Compile Include="Domain\AggregateRoot.cs" />
-    <Compile Include="Domain\AggregateRootRepository.cs" />
-    <Compile Include="Domain\IAggregateRoot.cs" />
-    <Compile Include="Domain\IAggregateRootRepository.cs" />
-    <Compile Include="Domain\IDynamicOriginator.cs" />
-    <Compile Include="Domain\IMemento.cs" />
-    <Compile Include="Domain\IOriginator.cs" />
-    <Compile Include="Domain\MissingAggregateRootException.cs" />
-    <Compile Include="Entities\IEntityContext.cs" />
-    <Compile Include="Entities\IEntityContextConnection.cs" />
-    <Compile Include="Events\EventStream.cs" />
-    <Compile Include="Events\CommittedEventStream.cs" />
-    <Compile Include="Events\Event.cs" />
-    <Compile Include="Events\EventSource.cs" />
-    <Compile Include="Events\IEventSource.cs" />
-    <Compile Include="Events\IEventStore.cs" />
-    <Compile Include="Events\UncommittedEventStream.cs" />
-    <Compile Include="Commands\CommandCoordinator.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\IHandleCommands.cs" />
-    <Compile Include="Commands\ICommandCoordinator.cs" />
-    <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\IProcessEvents.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Lifecycle\ITransaction.cs" />
-    <Compile Include="Views\IView.cs" />
-    <Compile Include="Views\View.cs" />
-    <Compile Include="Time\Month.cs" />
-    <Compile Include="Time\SystemClock.cs" />
-    <Compile Include="Commands\UnknownCommandException.cs" />
-    <Compile Include="Configuration\ISerializationConfiguration.cs" />
-    <Compile Include="Configuration\SerializationConfiguration.cs" />
-    <Compile Include="Read\IReadModel.cs" />
-    <Compile Include="Read\IReadModelRepositoryFor.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="Bifrost.nuspec" />
-    <None Include="project.json" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <Compile Remove="Execution\AppDomainAssemblyProvider.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  </ItemGroup>
 </Project>

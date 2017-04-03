@@ -2,7 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
+using Bifrost.Events;
 
 namespace Bifrost.Domain
 {
@@ -16,9 +16,9 @@ namespace Bifrost.Domain
         /// <summary>
         /// Get an aggregated root by id
         /// </summary>
-        /// <param name="id">Id of aggregated root to get</param>
+        /// <param name="id"><see cref="EventSourceId"/> of aggregated root to get</param>
         /// <returns>An instance of the aggregated root</returns>
         /// <exception cref="MissingAggregateRootException">Thrown if aggregated root does not exist</exception>
-        T Get(Guid id);
+        T Get(EventSourceId id);
     }
 }

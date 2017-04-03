@@ -18,7 +18,7 @@ namespace Bifrost.Security
         void AddTarget(ISecurityTarget securityTarget);
 
         /// <summary>
-        /// Get all <see cref="ISecurityTargets">security targets</see>
+        /// Get all <see cref="ISecurityTarget">security targets</see>
         /// </summary>
         IEnumerable<ISecurityTarget> Targets { get; }
 

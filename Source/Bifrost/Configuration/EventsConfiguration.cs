@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Events;
+using Bifrost.Events.InProcess;
 using Bifrost.Execution;
 
 namespace Bifrost.Configuration
@@ -13,45 +14,58 @@ namespace Bifrost.Configuration
     /// </summary>
     public class EventsConfiguration : ConfigurationStorageElement, IEventsConfiguration
     {
-        IEventStoreChangeManager _eventStoreChangeManager;
-
         /// <summary>
         /// Initializes an instance of <see cref="EventsConfiguration"/>
         /// </summary>
-        /// <param name="eventStoreChangeManager">An instance of <see cref="IEventStoreChangeManager"/></param>
-        public EventsConfiguration(IEventStoreChangeManager eventStoreChangeManager)
+        public EventsConfiguration()
         {
-            _eventStoreChangeManager = eventStoreChangeManager;
-            EventStoreType = typeof(NullEventStore);
-            EventSubscriptionsType = typeof(NullEventSubscriptions);
-            UncommittedEventStreamCoordinatorType = typeof(NullUncommittedEventStreamCoordinator);
+            CommittedEventStreamSender = typeof(CommittedEventStreamSender);
+            CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
+            EventProcessorLog = typeof(NullEventProcessorLog);
+
+            EventStore = new EventStoreConfiguration();
+            EventSourceVersions = new EventSourceVersionsConfiguration();
+            EventSequenceNumbers = new EventSequenceNumbersConfiguration();
+            EventProcessorStates = new EventProcessorStatesConfiguration();
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public Type EventStoreType { get; set; }
-        public Type EventSubscriptionsType { get; set; }
-        public Type UncommittedEventStreamCoordinatorType { get; set; }
+        /// <inheritdoc/>
+        public Type CommittedEventStreamSender { get; set; }
 
-        public void AddEventStoreChangeNotifier(Type type)
-        {
-            _eventStoreChangeManager.Register(type);
-        }
+        /// <inheritdoc/>
+        public Type CommittedEventStreamReceiver { get; set; }
 
+        /// <inheritdoc/>
+        public Type EventProcessorLog { get; set; }
+
+        /// <inheritdoc/>
+        public EventStoreConfiguration EventStore { get; }
+
+        /// <inheritdoc/>
+        public EventSourceVersionsConfiguration EventSourceVersions { get; }
+
+        /// <inheritdoc/>
+        public EventSequenceNumbersConfiguration EventSequenceNumbers { get; }
+
+        /// <inheritdoc/>
+        public EventProcessorStatesConfiguration EventProcessorStates { get; }
+
+        /// <inheritdoc/>
         public override void Initialize(IContainer container)
         {
-            container.Bind<IUncommittedEventStreamCoordinator>(UncommittedEventStreamCoordinatorType);
-
-            container.Bind<IEventStore>(EventStoreType, BindingLifecycle.Singleton);
-
-            container.Bind<IEventSubscriptions>(EventSubscriptionsType, BindingLifecycle.Singleton);
+            container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender, BindingLifecycle.Singleton);
+            container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
+            container.Bind<IEventStore>(EventStore.EventStore, BindingLifecycle.Singleton);
+            container.Bind<IEventSourceVersions>(EventSourceVersions.EventSourceVersions, BindingLifecycle.Singleton);
+            container.Bind<IEventSequenceNumbers>(EventSequenceNumbers.EventSequenceNumbers, BindingLifecycle.Singleton);
+            container.Bind<IEventProcessorLog>(EventProcessorLog, BindingLifecycle.Singleton);
+            container.Bind<IEventProcessorStates>(EventProcessorStates.EventProcessorStates, BindingLifecycle.Singleton);
 
             if (EntityContextConfiguration != null)
             {
                 EntityContextConfiguration.BindEntityContextTo<IEvent>(container);
-                EntityContextConfiguration.BindEntityContextTo<EventSubscription>(container);
                 base.Initialize(container);
             }
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

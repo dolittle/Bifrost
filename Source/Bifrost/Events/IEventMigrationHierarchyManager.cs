@@ -17,7 +17,7 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="logicalEvent">The logical event (initial generation)</param>
         /// <returns>migration level</returns>
-        int GetCurrentMigrationLevelForLogicalEvent(Type logicalEvent);
+        EventGeneration GetCurrentGenerationFor(Type logicalEvent);
 
         /// <summary>
         /// Gets the concrete type that the logical event took at the specified migration level
@@ -25,14 +25,14 @@ namespace Bifrost.Events
         /// <param name="logicalEvent">The logical event</param>
         /// <param name="level">The level we wish the concrete type for</param>
         /// <returns>The concrete type</returns>
-        Type GetConcreteTypeForLogicalEventMigrationLevel(Type logicalEvent, int level);
+        Type GetTargetTypeForGeneration(Type logicalEvent, EventGeneration level);
 
         /// <summary>
         /// Gets the logical event type of the migration hierarchy of which the passed in event is part
         /// </summary>
         /// <param name="event">Event for which you want to know the logical event </param>
         /// <returns>Type of the logical event</returns>
-        Type GetLogicalTypeForEvent(Type @event);
+        Type GetLogicalTypeFor(Type @event);
 
 
         /// <summary>

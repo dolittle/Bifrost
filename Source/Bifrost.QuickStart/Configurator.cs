@@ -1,8 +1,8 @@
 ﻿using System.Web;
 using System.Web.Routing;
+using Bifrost.Applications;
 using Bifrost.Configuration;
-using Bifrost.FluentValidation.Sagas;
-using Bifrost.Sagas;
+using Bifrost.Events;
 using Bifrost.Web.Services;
 using Web.Domain.HumanResources.Foos;
 
@@ -14,19 +14,33 @@ namespace Web
         {
             var entitiesPath = HttpContext.Current.Server.MapPath("~/App_Data/Entities");
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
-            var sagasPath = HttpContext.Current.Server.MapPath("~/App_Data/Sagas");
+            var eventSequenceNumbersPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSequenceNumbers");
+            var eventProcessorsStatePath = HttpContext.Current.Server.MapPath("~/App_Data/EventProcessors");
 
-            configure.Container.Bind<IChapterValidationService>(typeof(ChapterValidationService));
-            configure.Sagas.LibrarianType = typeof(SagaLibrarian);
+            var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
 
             configure
+                .Application("QuickStart", a => a.Structure(s => s
+                        .Domain("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Events("Web.Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Read("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Frontend("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                ))
+
+                .Events(e =>
+                    {
+                        //e.EventStore.UsingFiles(eventsPath);
+                        //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                        e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+
+                        e.EventProcessorStates.UsingRedis(redis);
+                        e.EventSourceVersions.UsingRedis(redis);
+                        e.EventSequenceNumbers.UsingRedis(redis);
+                        e.EventStore.UsingTables("DefaultEndpointsProtocol=https;AccountName=dolittle;AccountKey=XcfKv4RV5Hd3My4PbXlBATvLhvI0TpZmP5jwcCFbiILM/kESPr6pibI8hdD3+qPpe+UZ5OlmWUI7Z7qSKlRwuQ==;EndpointSuffix=core.windows.net");
+                    })
+                    
                 .Serialization
                     .UsingJson()
-                .Events
-                    .Synchronous()
-
-                .Events
-                    .UsingFiles(eventsPath)
 
                 // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
                 //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))

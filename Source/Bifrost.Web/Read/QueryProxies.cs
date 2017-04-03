@@ -11,6 +11,7 @@ using Bifrost.Extensions;
 using Bifrost.Read;
 using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
+using System.Reflection;
 
 namespace Bifrost.Web.Read
 {
@@ -46,7 +47,7 @@ namespace Bifrost.Web.Read
                 foreach (var type in @namespace)
                 {
                     var name = type.Name.ToCamelCase();
-                    var queryForTypeName = type.GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
+                    var queryForTypeName = type.GetTypeInfo().GetInterface(typeof(IQueryFor<>).Name).GetGenericArguments()[0].Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)
                         .WithType(t =>
                             t.WithSuper("Bifrost.read.Query")

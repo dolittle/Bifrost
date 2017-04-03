@@ -7,7 +7,7 @@ using System.Linq;
 namespace Bifrost.Entities
 {
     /// <summary>
-    /// Represents a null implementation of <see cref="IEntityContext"/> doing absolutely nothing
+    /// Represents a null implementation of <see cref="IEntityContext{T}"/> doing absolutely nothing
     /// </summary>
     /// <typeparam name="T">Type of entity</typeparam>
     public class NullEntityContext<T> : IEntityContext<T>

@@ -10,20 +10,20 @@ namespace Bifrost.MSpec.Events
 {
     public class EventSequenceValidation<T> where T : IEvent
     {
-        readonly EventStream _stream;
+        readonly UncommittedEventStream _stream;
 
-        public EventSequenceValidation(EventStream stream)
+        public EventSequenceValidation(UncommittedEventStream stream)
         {
             _stream = stream;
         }
 
         public EventValueValidation<T> AtSequenceNumber(int sequenceNumber)
         {
-            var query = from e in _stream
+            var query = from e in _stream.EventsAndVersion
                         where e.Version.Sequence == sequenceNumber
                         select e;
 
-            var @event = (T)query.FirstOrDefault();
+            var @event = (T)query.FirstOrDefault().Event;
             @event.ShouldNotBeNull();
             @event.ShouldBeOfExactType<T>();
             return new EventValueValidation<T>(@event);
@@ -41,8 +41,6 @@ namespace Bifrost.MSpec.Events
             }
             foundEvent.ShouldNotBeNull();
             return new EventValueValidation<T>(foundEvent);
-
-
         }
 
         public EventValueValidation<T> AtBeginning()

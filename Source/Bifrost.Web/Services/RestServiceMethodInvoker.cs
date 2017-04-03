@@ -85,12 +85,12 @@ namespace Bifrost.Web.Services
 
             input = Unescape(input);
 
-            if (parameter.ParameterType.IsValueType)
+            if (parameter.ParameterType.GetTypeInfo().IsValueType)
                 return TypeDescriptor.GetConverter(parameter.ParameterType).ConvertFromInvariantString(input);
 
             if(parameter.ParameterType.IsConcept())
             {
-                var genericArgumentType = parameter.ParameterType.BaseType.GetGenericArguments()[0];
+                var genericArgumentType = parameter.ParameterType.GetTypeInfo().BaseType.GetTypeInfo().GetGenericArguments()[0];
                 var value = input.ParseTo(genericArgumentType);
                 return ConceptFactory.CreateConceptInstance(parameter.ParameterType, value);
             }

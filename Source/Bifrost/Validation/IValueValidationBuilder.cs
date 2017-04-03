@@ -13,7 +13,7 @@ namespace Bifrost.Validation
     public interface IValueValidationBuilder : IRuleBuilder<IValueRule>
     {
         /// <summary>
-        /// Property that will be used in any of the rules in this <see cref="IRuleBuilder">builder</see>
+        /// Property that will be used in any of the rules in this <see cref="IRuleBuilder{T}">builder</see>
         /// </summary>
         PropertyInfo Property { get; }
     }

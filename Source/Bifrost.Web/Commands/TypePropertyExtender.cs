@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Reflection;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Concepts;
 using Bifrost.Extensions;
@@ -13,7 +14,7 @@ namespace Bifrost.Web.Commands
     {
         public void Extend(Type commandType, string propertyName, Observable observable)
         {
-            var property = commandType.GetProperty(propertyName.ToPascalCase());
+            var property = commandType.GetTypeInfo().GetProperty(propertyName.ToPascalCase());
             if (property != null)
             {
                 var type = property.PropertyType;

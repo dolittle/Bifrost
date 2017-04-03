@@ -8,11 +8,12 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Bifrost.Configuration.Assemblies;
 using Bifrost.Configuration.Defaults;
+using Bifrost.Diagnostics;
+using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Extensions;
-using Bifrost.Diagnostics;
-using Bifrost.Configuration.Assemblies;
 
 namespace Bifrost.Configuration
 {
@@ -173,11 +174,10 @@ namespace Bifrost.Configuration
         public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
         public ICommandsConfiguration Commands { get; private set; }
-        public IEventsConfiguration Events { get; private set; }
+        
         public ITasksConfiguration Tasks { get; private set; }
         public IViewsConfiguration Views { get; private set; }
         public IBindingConventionManager ConventionManager { get; private set; }
-        public ISagasConfiguration Sagas { get; private set; }
         public ISerializationConfiguration Serialization { get; private set; }
         public IFrontendConfiguration Frontend { get; private set; }
         public ICallContextConfiguration CallContext { get; private set; }
@@ -202,10 +202,9 @@ namespace Bifrost.Configuration
             var initializers = new Action[] {
                 () => Serialization.Initialize(Container),
                 () => Commands.Initialize(Container),
-                () => Events.Initialize(Container),
+                () => Container.Get<IEventsConfiguration>().Initialize(Container),
                 () => Tasks.Initialize(Container),
                 () => Views.Initialize(Container),
-                () => Sagas.Initialize(Container),
                 () => Frontend.Initialize(Container),
                 () => CallContext.Initialize(Container),
                 () => ExecutionContext.Initialize(Container),
@@ -226,11 +225,9 @@ namespace Bifrost.Configuration
         void InitializeProperties()
         {
             Commands = Container.Get<ICommandsConfiguration>();
-            Events = Container.Get<IEventsConfiguration>();
             Tasks = Container.Get<ITasksConfiguration>();
             Views = Container.Get<IViewsConfiguration>();
             ConventionManager = Container.Get<IBindingConventionManager>();
-            Sagas = Container.Get<ISagasConfiguration>();
             Serialization = Container.Get<ISerializationConfiguration>();
             DefaultStorage = Container.Get<IDefaultStorageConfiguration>();
             Frontend = Container.Get<IFrontendConfiguration>();

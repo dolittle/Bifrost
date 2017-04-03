@@ -7,14 +7,14 @@ using System.Reflection;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Defines a system that knows about <see cref="ICanSpecifyAssembly"/>
+    /// Defines a system that knows about <see cref="ICanSpecifyAssemblies"/>
     /// </summary>
     public interface IAssemblySpecifiers
     {
         /// <summary>
-        /// Specifies using specifiers found in a specific <see cref="_Assembly"/>
+        /// Specifies using specifiers found in a specific <see cref="Assembly"/>
         /// </summary>
-        /// <param name="assembly"><see cref="_Assembly"/> to find specifiers from</param>
+        /// <param name="assembly"><see cref="Assembly"/> to find specifiers from</param>
         void SpecifyUsingSpecifiersFrom(Assembly assembly);
     }
 }

@@ -16,25 +16,67 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Configures the <see cref="IEventStore"/>
         /// </summary>
-        /// <param name="eventsConfiguration"><see cref="IEventsConfiguration"/> to configure</param>
+        /// <param name="eventStoreConfiguration"><see cref="Events.EventStoreConfiguration"/> to configure</param>
         /// <param name="path">Path to where the event store should live</param>
-        /// <returns>Chained <see cref="IConfigure"/> for fluent configuration</returns>
-        public static IConfigure UsingFiles(this IEventsConfiguration eventsConfiguration, string path)
+        /// <returns>Chained <see cref="Events.EventStoreConfiguration"/> for fluent configuration</returns>
+        public static Events.EventStoreConfiguration UsingFiles(this Events.EventStoreConfiguration eventStoreConfiguration, string path)
         {
-            eventsConfiguration.EventStoreType = typeof(EventStore);
-            eventsConfiguration.EventSubscriptionsType = typeof(EventSubscriptions);
-            eventsConfiguration.UncommittedEventStreamCoordinatorType = typeof(UncommittedEventStreamCoordinator);
+            eventStoreConfiguration.EventStore = typeof(EventStore);
 
             if (!Path.IsPathRooted(path))
                 path = Path.Combine(Directory.GetCurrentDirectory(), path);
 
-            var configuration = new EventStoreConfiguration
+            var configuration = new Events.Files.EventStoreConfiguration
             {
                 Path = path
             };
-            Configure.Instance.Container.Bind<EventStoreConfiguration>(configuration);
+            Configure.Instance.Container.Bind(configuration);
 
-            return Configure.Instance;
+            return eventStoreConfiguration;
+        }
+
+        /// <summary>
+        /// Configures the <see cref="Events.EventSequenceNumbersConfiguration"/>
+        /// </summary>
+        /// <param name="eventSequenceConfiguration"><see cref="Events.EventSequenceNumbersConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="path">Path to where to store <see cref="IEventSequenceNumbers">event sequence numbers</see></param>
+        /// <returns>Chained <see cref="Events.EventSequenceNumbersConfiguration"/></returns>
+        public static Events.EventSequenceNumbersConfiguration UsingFiles(this Events.EventSequenceNumbersConfiguration eventSequenceConfiguration, string path)
+        {
+            if (!Path.IsPathRooted(path))
+                path = Path.Combine(Directory.GetCurrentDirectory(), path);
+
+            var configuration = new Events.Files.EventSequenceNumbersConfiguration
+            {
+                Path = path
+            };
+            Configure.Instance.Container.Bind(configuration);
+
+            eventSequenceConfiguration.EventSequenceNumbers = typeof(EventSequenceNumbers);
+
+            return eventSequenceConfiguration;
+        }
+
+        /// <summary>
+        /// Configures the <see cref="Events.EventSequenceNumbersConfiguration"/>
+        /// </summary>
+        /// <param name="eventProcessorStatesConfiguration"><see cref="Events.EventProcessorStatesConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="path">Path to where to store <see cref="IEventProcessorState">event processor state</see></param>
+        /// <returns>Chained <see cref="Events.EventProcessorStatesConfiguration"/></returns>
+        public static Events.EventProcessorStatesConfiguration UsingFiles(this Events.EventProcessorStatesConfiguration eventProcessorStatesConfiguration, string path)
+        {
+            if (!Path.IsPathRooted(path))
+                path = Path.Combine(Directory.GetCurrentDirectory(), path);
+
+            var configuration = new Events.Files.EventProcessorStatesConfiguration
+            {
+                Path = path
+            };
+            Configure.Instance.Container.Bind(configuration);
+
+            eventProcessorStatesConfiguration.EventProcessorStates = typeof(EventProcessorStates);
+
+            return eventProcessorStatesConfiguration;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Bifrost.Validation.Rules
         where T : IComparable<T>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="LessThan"/> 
+        /// Initializes a new instance of <see cref="LessThan{T}"/> 
         /// </summary>
         /// <param name="property"><see cref="PropertyInfo">Property</see> the rule is for</param>
         /// <param name="value">Value that the input value must be less than</param>

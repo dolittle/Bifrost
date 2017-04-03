@@ -5,7 +5,7 @@
 namespace Bifrost.Configuration
 {
     /// <summary>
-    /// Defines the configuration related to <see cref="IExecutionContext"/>
+    /// Defines the configuration related to <see cref="Execution.IExecutionContext"/>
     /// </summary>
     public interface IExecutionContextConfiguration : IConfigurationElement
     {

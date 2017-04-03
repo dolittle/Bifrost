@@ -9,10 +9,8 @@ namespace Bifrost.Testing.Fakes.Events.v2
 
         public string SecondGenerationProperty { get; set; }
 
-        public SimpleEvent(Guid eventSourceId) : this(eventSourceId, 0)
-        {}
 
-        public SimpleEvent(Guid eventSourceId, long id) : base(eventSourceId, id)
+        public SimpleEvent(EventSourceId  eventSourceId) : base(eventSourceId)
         {
             SecondGenerationProperty = DEFAULT_VALUE_FOR_SECOND_GENERATION_PROPERTY;
         }

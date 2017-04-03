@@ -54,7 +54,11 @@ namespace Bifrost.FluentValidation.Commands
         {
             if (!_validateFor((T)context.InstanceToValidate))
                 return new[] {
+#if (NET461)
+                    new ValidationFailure(string.Empty,CurrentValidator.ErrorMessageSource.GetString(null))
+#else
                     new ValidationFailure(string.Empty,CurrentValidator.ErrorMessageSource.GetString())
+#endif
                 };
 
             return new ValidationFailure[0];

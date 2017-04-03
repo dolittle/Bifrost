@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Bifrost.Web.Services
 {
@@ -82,7 +83,7 @@ namespace Bifrost.Web.Services
             foreach (var valueInterceptorType in valueInterceptorTypes)
             {
                 var valueInterceptor = _container.Get(valueInterceptorType);
-                value.Value = valueInterceptorType.GetMethod("Intercept").Invoke(valueInterceptor, new[] { value.Value });
+                value.Value = valueInterceptorType.GetTypeInfo().GetMethod("Intercept").Invoke(valueInterceptor, new[] { value.Value });
             }
         }
 

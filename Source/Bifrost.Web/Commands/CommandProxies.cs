@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Bifrost.CodeGeneration;
 using Bifrost.CodeGeneration.JavaScript;
@@ -57,7 +58,7 @@ namespace Bifrost.Web.Commands
                 
                 foreach (var type in @namespace)
                 {
-                    if (type.IsGenericType) continue;
+                    if (type.GetTypeInfo().IsGenericType) continue;
                     
                     var name = type.Name.ToCamelCase();
                     currentNamespace.Content.Assign(name)

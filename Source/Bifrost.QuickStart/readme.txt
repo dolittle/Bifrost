@@ -16,15 +16,11 @@ There is support for the following IOC containers in addition to Ninject:
 
 - AutoFac
 - StructureMap
-- Unity
-- Windsor
 
 All available from Nuget:
 
 install-package Bifrost.AutoFac
 install-package Bifrost.StructureMap
-install-package Bifrost.Unity
-install-package Bifrost.Windsor
 
 If you want to implement support for your own, you need to implement the 
 interface called IContainer sitting in the Bifrost.Execution namespace.

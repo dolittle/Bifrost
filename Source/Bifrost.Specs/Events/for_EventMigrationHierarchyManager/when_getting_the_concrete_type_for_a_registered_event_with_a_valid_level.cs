@@ -12,9 +12,9 @@ namespace Bifrost.Specs.Events.for_EventMigrationHierarchyManager
 
         Because of = () =>
         {
-            concrete_type_for_level_zero = event_migration_hierarchy_manager.GetConcreteTypeForLogicalEventMigrationLevel(event_with_migrations, 0);
-            concrete_type_for_level_one = event_migration_hierarchy_manager.GetConcreteTypeForLogicalEventMigrationLevel(event_with_migrations, 1);
-            concrete_type_for_level_two = event_migration_hierarchy_manager.GetConcreteTypeForLogicalEventMigrationLevel(event_with_migrations, 2);
+            concrete_type_for_level_zero = event_migration_hierarchy_manager.GetTargetTypeForGeneration(event_with_migrations, 0);
+            concrete_type_for_level_one = event_migration_hierarchy_manager.GetTargetTypeForGeneration(event_with_migrations, 1);
+            concrete_type_for_level_two = event_migration_hierarchy_manager.GetTargetTypeForGeneration(event_with_migrations, 2);
         };
 
         It should_get_the_logical_type_when_asking_for_level_zero = () => concrete_type_for_level_zero.ShouldEqual(typeof(SimpleEvent));

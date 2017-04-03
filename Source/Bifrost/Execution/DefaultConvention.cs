@@ -31,7 +31,7 @@ namespace Bifrost.Execution
 #pragma warning disable 1591 // Xml Comments
         public override bool CanResolve(IContainer container, Type service)
         {
-            var type = GetServiceInstanceType(service) ;
+            var type = GetServiceInstanceType(service);
             return type != null && !container.HasBindingFor(type);
         }
 
@@ -55,6 +55,7 @@ namespace Bifrost.Execution
                 var instanceName = string.Format("{0}.{1}", service.Namespace, serviceName.Substring(1));
                 var serviceInstanceType = service.GetTypeInfo().Assembly.GetType(instanceName);
                 if (null != serviceInstanceType &&
+                    serviceInstanceType.GetTypeInfo().GetConstructors().Any(c=>c.IsPublic) &&
                     IsAssignableFrom(service,serviceInstanceType) &&
                     !HasMultipleImplementationInSameNamespace(service) &&
                     !serviceInstanceType.HasAttribute<IgnoreDefaultConventionAttribute>())

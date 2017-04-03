@@ -4,8 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using Bifrost.Applications;
 using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
@@ -15,144 +17,139 @@ namespace Bifrost.Events.Files
     /// </summary>
     public class EventStore : IEventStore
     {
-        class EventHolder
-        {
-            public Type Type { get; set; }
-            public EventSourceVersion Version { get; set; }
-            public string Event { get; set; }
-        }
-
-
         EventStoreConfiguration _configuration;
+        IEventEnvelopes _eventEnvelopes;
+        IApplicationResources _applicationResources;
+        IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
+        IApplicationResourceResolver _applicationResourceResolver;
         ISerializer _serializer;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EventStore"/>
         /// </summary>
         /// <param name="configuration"><see cref="EventStoreConfiguration"/> to use as configuration</param>
+        /// <param name="applicationResources"><see cref="IApplicationResources"/> for working with <see cref="IApplicationResource">application resources</see></param>
+        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for working with conversion of <see cref="IApplicationResourceIdentifier"/></param>
+        /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> for resolving <see cref="IApplicationResourceIdentifier"/> to concrete types</param> 
+        /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
-        public EventStore(EventStoreConfiguration configuration, ISerializer serializer)
+        public EventStore(
+            EventStoreConfiguration configuration, 
+            IApplicationResources applicationResources, 
+            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
+            IApplicationResourceResolver applicationResourceResolver,
+            IEventEnvelopes eventEnvelopes, 
+            ISerializer serializer)
         {
             _configuration = configuration;
+            _eventEnvelopes = eventEnvelopes;
+            _applicationResources = applicationResources;
+            _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
+            _applicationResourceResolver = applicationResourceResolver;
             _serializer = serializer;
         }
 
-#pragma warning disable 1591 // Xml Comments
-        public CommittedEventStream GetForEventSource(EventSource eventSource, Guid eventSourceId)
+        /// <inheritdoc/>
+        public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            var eventPath = GetPathFor(eventSource.GetType().Name, eventSourceId);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventSource);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
+
             var files = Directory.GetFiles(eventPath).OrderBy(f => f);
+            var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
+            var envelopeFiles = files.Where(f => f.EndsWith(".envelope")).ToArray();
 
-            var stream = new CommittedEventStream(eventSourceId);
+            if (eventFiles.Length != envelopeFiles.Length) throw new Exception($"There is a problem with event files for {eventSourceIdentifier} with Id {eventSourceId}");
 
-            var target = new EventHolder
+            var events = new List<EventAndEnvelope>();
+
+            for ( var eventIndex=0; eventIndex<eventFiles.Length; eventIndex++)
             {
-                Type = typeof(string),
-                Version = EventSourceVersion.Zero,
-                Event = string.Empty
-            };
+                var envelopeFile = envelopeFiles[eventIndex];
+                var eventFile = eventFiles[eventIndex];
 
-            foreach (var file in files)
-            {
-                var json = File.ReadAllText(file);
-                _serializer.FromJson(target, json);
+                var envelopeAsJson = File.ReadAllText(envelopeFile);
+                var eventAsJson = File.ReadAllText(eventFile);
+                var envelopeValues = _serializer.GetKeyValuesFromJson(envelopeAsJson);
 
-                var @event = _serializer.FromJson(target.Type, json) as IEvent;
-                stream.Append(new[] { @event });
-            }
-            return stream;
-        }
+                var _correllationId = Guid.Parse((string)envelopeValues["CorrellationId"]);
+                var _eventId = Guid.Parse((string)envelopeValues["EventId"]);
+                var _sequenceNumber = (long)envelopeValues["SequenceNumber"];
+                var _sequenceNumberForEventType = (long)envelopeValues["SequenceNumberForEventType"];
+                var _generation = (long)envelopeValues["Generation"];
+                var _event = _applicationResourceIdentifierConverter.FromString((string)envelopeValues["Event"]);
+                var _eventSourceId = Guid.Parse((string)envelopeValues["EventSourceId"]);
+                var _eventSource = _applicationResourceIdentifierConverter.FromString((string)envelopeValues["EventSource"]);
+                var _eventSourceVersion = EventSourceVersion.FromCombined(double.Parse(envelopeValues["Version"].ToString()));
+                var _causedBy = (string)envelopeValues["CausedBy"];
+                var _occurred = (DateTime)envelopeValues["Occurred"];
+                    
+                var envelope = new EventEnvelope(
+                    _correllationId,
+                    _eventId,
+                    _sequenceNumber,
+                    _sequenceNumberForEventType,
+                    (int)_generation,
+                    _event,
+                    _eventSourceId,
+                    _eventSource,
+                    _eventSourceVersion,
+                    _causedBy,
+                    _occurred
+                );
 
-        public CommittedEventStream Commit(UncommittedEventStream uncommittedEventStream)
-        {
-            foreach (var @event in uncommittedEventStream)
-            {
-                var eventSourceName = Type.GetType(@event.EventSource).Name;
-                var eventPath = GetPathFor(eventSourceName, @event.EventSourceId);
-
-                @event.Id = GetNextEventId();
-
-                var json = _serializer.ToJson(new EventHolder
-                {
-                    Type = @event.GetType(),
-                    Version = @event.Version,
-                    Event = _serializer.ToJson(@event)
-                });
-
-                var path = Path.Combine(eventPath,$"{@event.Version.Commit}.{@event.Version.Sequence}");
-                File.WriteAllText(path, json);
-            }
-
-            var committedEventStream = new CommittedEventStream(uncommittedEventStream.EventSourceId);
-            committedEventStream.Append(uncommittedEventStream);
-            return committedEventStream;
-        }
-
-        int GetNextEventId()
-        {
-            var id = 0;
-            
-            var idFile = Path.Combine(_configuration.Path, "LastEventID");
-
-            if (File.Exists(idFile))
-            {
-                var idAsString = File.ReadAllText(idFile);
-                int.TryParse(idAsString, out id);
-            }
-
-            id++;
-            File.WriteAllText(idFile, id.ToString());
-
-            return id;
-        }
-
-        public EventSourceVersion GetLastCommittedVersion(EventSource eventSource, Guid eventSourceId)
-        {
-            var eventPath = GetPathFor(eventSource.GetType().Name, eventSourceId);
-            var first = Directory.GetFiles(eventPath).OrderByDescending(f => f).FirstOrDefault();
-            if (first == null) return EventSourceVersion.Zero;
-
-            var json = File.ReadAllText(first);
-            var target = new EventHolder
-            {
-                Type = typeof(string),
-                Version = EventSourceVersion.Zero,
-                Event = string.Empty
-            };
-
-            _serializer.FromJson(target, json);
-
-            return target.Version;
-        }
-
-        public IEnumerable<IEvent> GetBatch(int batchesToSkip, int batchSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IEvent> GetAll()
-        {
-            var events = new List<IEvent>();
-            var path = Path.Combine(_configuration.Path, "EventStore");
-            var eventFiles = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-            foreach (var eventFile in eventFiles)
-            {
-                var json = File.ReadAllText(eventFile);
-
-                var target = new EventHolder
-                {
-                    Type = typeof(string),
-                    Version = EventSourceVersion.Zero,
-                    Event = string.Empty
-                };
-
-                _serializer.FromJson(target, json);
-
-                var @event = _serializer.FromJson(target.Type, target.Event) as IEvent;
-                events.Add(@event);
+                var eventType = _applicationResourceResolver.Resolve(envelope.Event);
+                var eventInstance = _serializer.FromJson(eventType, eventAsJson) as IEvent;
+                events.Add(new EventAndEnvelope(envelope, eventInstance));
             }
 
             return events;
+        }
+
+        /// <inheritdoc/>
+        public void Commit(IEnumerable<EventAndEnvelope> eventsAndEnvelopes)
+        {
+            foreach (var eventAndEnvelope in eventsAndEnvelopes)
+            {
+                var eventSourceIdentifierAsString = _applicationResourceIdentifierConverter.AsString(eventAndEnvelope.Envelope.EventSource);
+                var path = GetPathFor(eventSourceIdentifierAsString, eventAndEnvelope.Event.EventSourceId);
+
+                var envelope = eventAndEnvelope.Envelope;
+                var envelopeAsJson = _serializer.ToJson(eventAndEnvelope.Envelope);
+                var eventAsJson = _serializer.ToJson(eventAndEnvelope.Event);
+
+                var eventPath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.event");
+                var envelopePath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.envelope");
+
+                File.WriteAllText(envelopePath, envelopeAsJson);
+                File.WriteAllText(eventPath, eventAsJson);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
+            var files = Directory.GetFiles(eventPath, "*.event");
+            return files.Length > 0;
+        }
+
+        /// <inheritdoc/>
+        public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
+
+            var first = Directory.GetFiles(eventPath, "*.event").OrderByDescending(f => f).FirstOrDefault();
+            if (first == null) return EventSourceVersion.Zero;
+
+            var versionAsString = Path.GetFileNameWithoutExtension(first);
+            var versionAsDouble = double.Parse(versionAsString, CultureInfo.InvariantCulture);
+
+            return EventSourceVersion.FromCombined(versionAsDouble);
         }
 
         string GetPathFor(string eventSource)
@@ -165,7 +162,7 @@ namespace Bifrost.Events.Files
             return fullPath;
         }
 
-        string GetPathFor(string eventSource, Guid eventSourceId)
+        string GetPathFor(string eventSource, EventSourceId eventSourceId)
         {
             var fullPath = Path.Combine(GetPathFor(eventSource), eventSourceId.ToString());
             if (!Directory.Exists(fullPath))
@@ -174,7 +171,6 @@ namespace Bifrost.Events.Files
             }
             return fullPath;
         }
-#pragma warning restore 1591 // Xml Comments
-        
+
     }
 }

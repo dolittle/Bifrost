@@ -18,7 +18,7 @@ namespace Bifrost.Security
         /// Add a tenant condition for a <see cref="ISecurityContext"/> 
         /// </summary>
         /// <param name="context"><see cref="ISecurityContext"/> to add for</param>
-        /// <param name="tenant">The <see cref="Tentant"/> criteria that must be met</param>
+        /// <param name="tenant">The <see cref="Tenant"/> criteria that must be met</param>
         /// <returns>The <see cref="ISecurityContext"/> to continue the chain</returns>
         public static ISecurityContext TenantIs(this ISecurityContext context, Tenant tenant)
         {

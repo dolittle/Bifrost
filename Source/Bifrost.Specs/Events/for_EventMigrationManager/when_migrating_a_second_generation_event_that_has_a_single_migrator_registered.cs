@@ -15,7 +15,6 @@ namespace Bifrost.Specs.Events.for_EventMigrationService
         It should_migrate_the_correct_values = () =>
                                                    {
                                                        var v2 = result as SimpleEvent;
-                                                       v2.Id.ShouldEqual(source_event.Id);
                                                        v2.EventSourceId.ShouldEqual(source_event.EventSourceId);
                                                        v2.SecondGenerationProperty.ShouldEqual(SimpleEvent.DEFAULT_VALUE_FOR_SECOND_GENERATION_PROPERTY);
                                                    };

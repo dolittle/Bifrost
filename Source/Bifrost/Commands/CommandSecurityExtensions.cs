@@ -16,7 +16,7 @@ namespace Bifrost.Commands
         /// Add an <see cref="HandleCommand">action</see> to describe the handling of <see cref="ICommand">commands</see>
         /// </summary>
         /// <param name="descriptorBuilder"><see cref="ISecurityDescriptorBuilder"/> to extend</param>
-        /// <returns><see cref="HandleCommandSecurityAction"/> for describing the action</returns>
+        /// <returns><see cref="HandleCommand"/> for describing the action</returns>
         public static HandleCommand Handling(this ISecurityDescriptorBuilder descriptorBuilder)
         {
             var action = new HandleCommand();

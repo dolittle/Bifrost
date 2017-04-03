@@ -7,7 +7,7 @@ using Bifrost.Specifications;
 namespace Bifrost.Configuration.Assemblies
 {
     /// <summary>
-    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="Assembly">assemblies</see> 
+    /// Represents a <see cref="Specification{T}">rule</see> specific to <see cref="System.Reflection.Assembly">assemblies</see> 
     /// and used for the <see cref="Assemblies"/>
     /// </summary>
     public class IncludeAllRule : Specification<string>

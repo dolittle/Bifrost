@@ -2,8 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Bifrost.Sagas;
-
 namespace Bifrost.Commands
 {
     /// <summary>
@@ -36,19 +34,5 @@ namespace Bifrost.Commands
         /// go back up the "stack".
         /// </remarks>
         ICommandContext EstablishForCommand(ICommand command);
-
-        /// <summary>
-        /// Establish a <see cref="ICommandContext">command context</see> for a specific <see cref="ICommand">command</see> in the
-        /// context of a Saga.
-        /// This will be the current command context, unless something else establishes a new context
-        /// </summary>
-        /// <param name="saga"><see cref="ISaga"/> to be in context of</param>
-        /// <param name="command"><see cref="ICommand">Command</see> to establish for</param>
-        /// <returns>Established context</returns>
-        /// <remarks>
-        /// The contexts are not stacked. So establishing two contexts after one another does not give you a chance to
-        /// go back up the "stack".
-        /// </remarks>
-        ICommandContext EstablishForSaga(ISaga saga, ICommand command);
     }
 }

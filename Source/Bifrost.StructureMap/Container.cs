@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -153,22 +153,22 @@ namespace Bifrost.StructureMap
 
         public void Bind<T>(Func<T> resolveCallback)
         {
-            throw new NotImplementedException();
+            _container.Configure(c => c.For<T>().Use(ctx => resolveCallback()));
         }
 
         public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            throw new NotImplementedException();
+            _container.Configure(c => c.For(service).Use(ctx => resolveCallback(service)));
         }
 
         public void Bind<T>(Func<T> resolveCallback, BindingLifecycle lifecycle)
         {
-            throw new NotImplementedException();
+            _container.Configure(c => c.For<T>().LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(ctx => resolveCallback()));
         }
 
         public void Bind(Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
         {
-            throw new NotImplementedException();
+            _container.Configure(c => c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(ctx => resolveCallback(service)));
         }
 
         public BindingLifecycle DefaultLifecycle { get; set; }

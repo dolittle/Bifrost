@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using System.Reflection;
 using Bifrost.CodeGeneration.JavaScript;
 using Bifrost.Extensions;
 using Bifrost.Read;
@@ -15,7 +16,7 @@ namespace Bifrost.Web.Read
         public static Container WithReadModelConvenienceFunctions(this FunctionBody functionBody, Type type)
         {
             var excludePropertiesFrom = typeof(IReadModel);
-            var properties = type.GetProperties();
+            var properties = type.GetTypeInfo().GetProperties();
             if (excludePropertiesFrom != null)
                 properties = properties.Where(p => !excludePropertiesFrom.GetProperties().Select(pi => pi.Name).Contains(p.Name)).ToArray();
 

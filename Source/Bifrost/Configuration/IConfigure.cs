@@ -35,12 +35,6 @@ namespace Bifrost.Configuration
         ICommandsConfiguration Commands { get; }
 
         /// <summary>
-        /// Gets the configuration for events.
-        /// Supports specific storage
-        /// </summary>
-        IEventsConfiguration Events { get; }
-
-        /// <summary>
         /// Gets the configuration for <see cref="Bifrost.Tasks.Task">Tasks</see>
         /// Supports specific storage
         /// </summary>
@@ -55,12 +49,6 @@ namespace Bifrost.Configuration
         /// Gets the convention manager for bindings
         /// </summary>
         IBindingConventionManager ConventionManager { get; }
-
-        /// <summary>
-        /// Gets the configuration for sagas
-        /// Supports specific storage
-        /// </summary>
-        ISagasConfiguration Sagas { get; }
 
         /// <summary>
         /// Gets the configureation for serialization
@@ -108,7 +96,7 @@ namespace Bifrost.Configuration
         CultureInfo UICulture { get; set; }
 
         /// <summary>
-        /// Gets or sets the default <see cref="BindingLifeCycle"/> for objects when created/managed by the <see cref="IContainer"/>
+        /// Gets or sets the default <see cref="Execution.BindingLifecycle"/> for objects when created/managed by the <see cref="IContainer"/>
         /// </summary>
         BindingLifecycle DefaultLifecycle { get; set; }
 

@@ -10,7 +10,7 @@ namespace Bifrost.Execution
     public class ExecutionContextManager : IExecutionContextManager
     {
         /// <summary>
-        /// Key identifying the current <see cref="IExectionContext"/> in a <see cref="ICallContext"/>
+        /// Key identifying the current <see cref="IExecutionContext"/> in a <see cref="ICallContext"/>
         /// </summary>
         public const string ExecutionContextKey = "ExecutionContext";
 

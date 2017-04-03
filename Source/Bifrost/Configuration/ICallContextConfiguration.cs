@@ -12,7 +12,7 @@ namespace Bifrost.Configuration
     public interface ICallContextConfiguration : IConfigurationElement
     {
         /// <summary>
-        /// Gets or sets the type of <see cref="ICallContext"/> to use
+        /// Gets or sets the type of <see cref="Execution.ICallContext"/> to use
         /// </summary>
         Type CallContextType { get; set; }
     }

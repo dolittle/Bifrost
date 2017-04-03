@@ -1,126 +1,55 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{58448401-0B31-48D6-B6EA-D76EF501F902}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bifrost.RavenDB.Specs</RootNamespace>
-    <AssemblyName>Bifrost.RavenDB.Specs</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\Solutions\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
+    <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
+    <Authors>all contributors</Authors>
+    <TargetFramework>net461</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>Bifrost.RavenDB</AssemblyName>
+    <PackageId>Bifrost.RavenDB</PackageId>
+    <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
+    <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Machine.Specifications, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.dll</HintPath>
-    </Reference>
-    <Reference Include="Machine.Specifications.Clr4, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.0.9.1\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
-    </Reference>
-    <Reference Include="Machine.Specifications.Should, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\Machine.Specifications.Should.0.7.2\lib\net45\Machine.Specifications.Should.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4">
-      <HintPath>..\Solutions\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.1\lib\net40\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\Solutions\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.5.2916\lib\net45\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\packages\RavenDB.Client.2.5.2916\lib\net45\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
+    <None Update="**\*.cs">
+      <PackagePath>src/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\netstandard1.6\*.pdb">
+      <PackagePath>lib/netstandard1.6/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\net461\*.pdb">
+      <PackagePath>lib/net461/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj" />
+    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj" />
+    <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Machine.Specifications" Version="0.11.0" />
+    <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
+    <PackageReference Include="RavenDB.Client" Version="2.5.2916" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System.Transactions" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_long.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_string.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_json_to_concept_as_guid.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_long_to_json.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_string_to_json.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_string.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_long.cs" />
-    <Compile Include="for_ConceptTypeConverter\given\concept_converters.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_checking_can_convert_from_a_concept_of_guid.cs" />
-    <Compile Include="for_ConceptTypeConverter\when_converting_from_concept_as_guid_to_json.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\given\an_entity_id_property_register_with_ids_registered.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_another_property_is_the_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_an_unregistered_id_property_is_the_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_asking_if_the_registered_id_property_is_the_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_already_registered_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_unregistered_concept_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_registering_an_unregistered_non_concept_id_property.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_registering_with_field_id.cs" />
-    <Compile Include="for_EntityIdPropertyRegister\when_registering_with_no_id_property.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj">
-      <Project>{DB77EB6A-DB79-4839-AB30-90593BCE470F}</Project>
-      <Name>Bifrost.JSON</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.RavenDB\Bifrost.RavenDB.csproj">
-      <Project>{cb331526-55bf-4887-a0d8-ee721b7fcdd7}</Project>
-      <Name>Bifrost.RavenDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost.Testing\Bifrost.Testing.csproj">
-      <Project>{47835DE6-FA79-4888-83B6-F6891891CBB0}</Project>
-      <Name>Bifrost.Testing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bifrost\Bifrost.csproj">
-      <Project>{FB310720-CD89-44B6-BD54-7861F65D8466}</Project>
-      <Name>Bifrost</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

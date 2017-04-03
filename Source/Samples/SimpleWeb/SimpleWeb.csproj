@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
+    <PackageReference Include="StructureMap" Version="4.4.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bifrost.Autofac\Bifrost.Autofac.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Azure.DocumentDB\Bifrost.Events.Azure.DocumentDB.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Azure.Tables\Bifrost.Events.Azure.Tables.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.MongoDB\Bifrost.Events.MongoDB.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.RabbitMQ\Bifrost.Events.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Events.Redis\Bifrost.Events.Redis.csproj" />
+    <ProjectReference Include="..\..\Bifrost.StructureMap\Bifrost.StructureMap.csproj" />
+    <ProjectReference Include="..\..\Bifrost\Bifrost.csproj" />
+    <ProjectReference Include="..\..\Bifrost.JSON\Bifrost.JSON.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Ninject\Bifrost.Ninject.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Web\Bifrost.Web.csproj" />
+  </ItemGroup>
+</Project>

@@ -7,7 +7,7 @@ using Bifrost.Mapping;
 namespace Bifrost.Entities.Files.Mapping
 {
     /// <summary>
-    /// Represents the base mapping for mapping any type to a <see cref="File"/>
+    /// Represents the base mapping for mapping any type to a <see cref="System.IO.File"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class DocumentMapFor<T> : Map<T, Document>
