@@ -1,18 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
+    <AssemblyName>Bifrost.Events.Azure.DocumentDB</AssemblyName>
+    <PackageId>Bifrost.Events.Azure.DocumentDB</PackageId>
     <DocumentationFile>bin\Debug\net461\Bifrost.Events.Azure.DocumentDB.xml</DocumentationFile>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
   </ItemGroup>
 
+  <Import Project="..\Common.proj" />
 </Project>

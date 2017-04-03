@@ -1,12 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
+    <AssemblyName>Bifrost.Events.Azure.Tables</AssemblyName>
+    <PackageId>Bifrost.Events.Azure.Tables</PackageId>
     <DocumentationFile>bin\Debug\net461\Bifrost.Events.Azure.Tables.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -18,4 +14,5 @@
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
   </ItemGroup>
 
+  <Import Project="..\Common.proj" />
 </Project>

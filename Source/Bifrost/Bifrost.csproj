@@ -1,21 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
-    <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
-    <Authors>all contributors</Authors>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <DebugType>portable</DebugType>
     <AssemblyName>Bifrost</AssemblyName>
     <PackageId>Bifrost</PackageId>
-    <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
-    <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
-    <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
@@ -50,20 +38,9 @@
     <Reference Include="System.Dynamic" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
-    <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <Compile Remove="Execution\AppDomainAssemblyProvider.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-  </ItemGroup>
+  <Import Project="..\Common.proj" />
 </Project>
