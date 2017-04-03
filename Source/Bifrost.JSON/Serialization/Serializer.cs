@@ -36,6 +36,7 @@ namespace Bifrost.JSON.Serialization
         /// Initializes a new instance of <see cref="Serializer"/>
         /// </summary>
         /// <param name="container">A <see cref="IContainer"/> used to create instances of types during serialization</param>
+        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for converting string representations of <see cref="IApplicationResourceIdentifier"/></param>
         public Serializer(IContainer container, IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter)
         {
             _container = container;
@@ -207,7 +208,6 @@ namespace Bifrost.JSON.Serialization
                                      TypeNameHandling = typeNameHandling,
                                      ContractResolver = contractResolver,
                                  };
-            serializer.Converters.Add(new MethodInfoConverter());
             serializer.Converters.Add(new ApplicationResourceIdentifierJsonConverter(_applicationResourceIdentifierConverter));
             serializer.Converters.Add(new ConceptConverter());
             serializer.Converters.Add(new ConceptDictionaryConverter());

@@ -9,22 +9,32 @@ using Newtonsoft.Json;
 
 namespace Bifrost.JSON.Serialization
 {
+    /// <summary>
+    /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize <see cref="IApplicationResourceIdentifier"/>
+    /// </summary>
     public class ApplicationResourceIdentifierJsonConverter : JsonConverter
     {
         IApplicationResourceIdentifierConverter _converter;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ApplicationResourceIdentifierJsonConverter"/>
+        /// </summary>
+        /// <param name="converter"></param>
         public ApplicationResourceIdentifierJsonConverter(IApplicationResourceIdentifierConverter converter)
         {
             _converter = converter;
         }
 
+        /// <inheritdoc/>
         public override bool CanRead { get { return true; } }
 
+        /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
             return typeof(IApplicationResourceIdentifier).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
+        /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var identifierAsString = reader.ReadAsString();
@@ -32,7 +42,10 @@ namespace Bifrost.JSON.Serialization
             return identifier;
         }
 
+        /// <inheritdoc/>
         public override bool CanWrite { get { return true; } }
+
+        /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var identifier = value as IApplicationResourceIdentifier;
