@@ -90,7 +90,8 @@ namespace Bifrost.Events.Azure.Tables
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
             var partitionKey = GetPartitionKeyFor(eventSource, eventSourceId);
-            var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" });
+            var partitionKeyFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+            var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" }).Where(partitionKeyFilter);
 
             var events = new List<DynamicTableEntity>();
             TableContinuationToken continuationToken = null;
