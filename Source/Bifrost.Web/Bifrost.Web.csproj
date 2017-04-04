@@ -4,6 +4,45 @@
     <AssemblyName>Bifrost.Web</AssemblyName>
     <PackageId>Bifrost.Web</PackageId>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
+    <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
+    <Authors>all contributors</Authors>
+    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+    <DebugType>portable</DebugType>
+    <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
+    <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
+    <!--<RuntimeIdentifiers>win</RuntimeIdentifiers>-->
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="**\*.cs">
+      <PackagePath>src/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\netstandard1.6\*.pdb">
+      <PackagePath>lib/netstandard1.6/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="bin\Release\net461\*.pdb">
+      <PackagePath>lib/net461/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Compile Remove="**/netstandard/**/*.cs" />
   </ItemGroup>
@@ -63,5 +102,4 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <Import Project="..\Common.proj" />
 </Project>

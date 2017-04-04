@@ -11,7 +11,7 @@
     <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <!--<RuntimeIdentifiers>win</RuntimeIdentifiers>-->
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
   </PropertyGroup>
