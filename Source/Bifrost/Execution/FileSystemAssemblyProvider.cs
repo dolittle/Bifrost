@@ -25,17 +25,18 @@ namespace Bifrost.Execution
         {
             var codeBase = typeof(FileSystemAssemblyProvider).GetTypeInfo().Assembly.CodeBase;
             var uri = new Uri(codeBase);
+            Console.WriteLine($"FileSystemAssemblyProvider - codeBase = '{codeBase}'");
 
             var assemblyFileInfo = new FileInfo(uri.LocalPath);
 
             var assemblyFiles = fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.dll").ToList();
             assemblyFiles.AddRange(fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.exe"));
 
-            assemblyFiles.ForEach(assemblyFile => Debug.Write($"Discovered assembly '{assemblyFile}'"));
+            assemblyFiles.ForEach(assemblyFile => Console.WriteLine($"Discovered assembly '{assemblyFile}'"));
 
             AvailableAssemblies = assemblyFiles.Select(file => new AssemblyInfo(Path.GetFileNameWithoutExtension(file.FullName), file.FullName));
 
-            foreach (var assembly in AvailableAssemblies) Debug.Write($"Making assembly '{assembly.FileName}' available");
+            foreach (var assembly in AvailableAssemblies) Console.WriteLine($"Making assembly '{assembly.FileName}' available");
         }
 
 #pragma warning disable 1591 // Xml Comments
