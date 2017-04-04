@@ -7,4 +7,3 @@ Bifrost.Events.MongoDB
 Bifrost.Events.RabbitMQ
 Bifrost.Events.Redis
 Bifrost.Web
-Bifrost.Testing
