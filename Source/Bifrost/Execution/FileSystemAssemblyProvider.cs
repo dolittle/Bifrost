@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -30,7 +31,11 @@ namespace Bifrost.Execution
             var assemblyFiles = fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.dll").ToList();
             assemblyFiles.AddRange(fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.exe"));
 
+            assemblyFiles.ForEach(assemblyFile => Debug.Write($"Discovered assembly '{assemblyFile}'"));
+
             AvailableAssemblies = assemblyFiles.Select(file => new AssemblyInfo(Path.GetFileNameWithoutExtension(file.FullName), file.FullName));
+
+            foreach (var assembly in AvailableAssemblies) Debug.Write($"Making assembly '{assembly.FileName}' available");
         }
 
 #pragma warning disable 1591 // Xml Comments
