@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyModel;
 namespace Bifrost.Execution
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ICanProvideAssemblies"/> that provides assemblies from the current <see cref="_AppDomain"/>
+    /// Represents an implementation of <see cref="ICanProvideAssemblies"/> that provides assemblies from the current context
     /// </summary>
     public class DefaultAssemblyProvider : ICanProvideAssemblies
     {
@@ -28,7 +28,7 @@ namespace Bifrost.Execution
 
             
             Console.WriteLine("DefaultAssemblyProvider - assemblies");
-            foreach (var assembly in AvailableAssemblies) Console.WriteLine($"Making assembly '{assembly.FileName}' available");
+            foreach (var assembly in AvailableAssemblies) Console.WriteLine($"Making assembly '{assembly.Name}' available");
         }
 
         /// <inheritdoc/>
