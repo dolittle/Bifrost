@@ -1,0 +1,11 @@
+
+version: '2'
+
+services:
+  source:
+    image: source:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000

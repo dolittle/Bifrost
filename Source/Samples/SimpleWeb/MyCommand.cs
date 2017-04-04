@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bifrost.Commands;
 
 namespace Domain
 {
-    public class MyCommand : Bifrost.Commands.Command
+    public class MyCommand : Command
     {
+        public string Something { get; set; }
     }
 }
