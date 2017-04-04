@@ -33,6 +33,9 @@ namespace SimpleWeb
                     //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                     //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
 
+                    e.CommittedEventStreamSender.UsingRabbitMQ();
+                    e.CommittedEventStreamReceiver.UsingRabbitMQ();
+
                     e.EventProcessorStates.UsingRedis(redis);
                     e.EventSourceVersions.UsingRedis(redis);
                     e.EventSequenceNumbers.UsingRedis(redis);

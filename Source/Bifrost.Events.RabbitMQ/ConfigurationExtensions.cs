@@ -20,5 +20,18 @@ namespace Bifrost.Events
 
             return configuration;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static CommittedEventStreamReceiverConfiguration UsingRabbitMQ(this CommittedEventStreamReceiverConfiguration configuration)
+        {
+            configuration.CommittedEventStreamReceiver = typeof(RabbitMQ.CommittedEventStreamReceiver);
+
+            return configuration;
+        }
     }
 }
