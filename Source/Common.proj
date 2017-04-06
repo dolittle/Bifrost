@@ -1,10 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <AssemblyName>Bifrost.Ninject</AssemblyName>
-    <PackageId>Bifrost.Ninject</PackageId>
-    <DocumentationFile>bin\Debug\net461\Bifrost.Ninject.xml</DocumentationFile>
-  </PropertyGroup>
+﻿<Project DefaultTargets="Compile" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
     <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
@@ -42,22 +36,4 @@
       <Pack>true</Pack>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <PackageReference Include="Ninject" Version="3.2.2" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>$(DefineConstants);NET461</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
-  </ItemGroup>
-
 </Project>

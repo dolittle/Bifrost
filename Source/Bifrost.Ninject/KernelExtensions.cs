@@ -9,8 +9,15 @@ using Ninject.Modules;
 
 namespace Bifrost.Ninject
 {
+    /// <summary>
+    /// Extensions for working with <see cref="IKernel"/>
+    /// </summary>
     public static class KernelExtensions
     {
+        /// <summary>
+        /// Discover all modules and load them into the kernal
+        /// </summary>
+        /// <param name="kernel"><see cref="IKernel"/> to load into</param>
         public static void LoadAllModules(this IKernel kernel)
         {
             var typeImporter = kernel.Get<ITypeImporter>();

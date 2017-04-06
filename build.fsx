@@ -152,6 +152,11 @@ let updateProjectJsonFile(file:FileInfo, version:BuildVersion) =
     let fixedJson = fixVersion json
     File.WriteAllText(file.FullName, sprintf "%O" fixedJson)
 
+let updateVersionOnProjectFile(file:string, version:BuildVersion) =
+    let projectFile = File.ReadAllText(file)
+    let newVersionString = sprintf "<Version>%s</Version>" (version.AsString())
+    let updatedProjectFile = projectFile.Replace("<Version>1.0.0</Version>", newVersionString)
+    File.WriteAllText(file, updatedProjectFile)
 
 //*****************************************************************************
 //* Globals
@@ -248,6 +253,19 @@ Target "UpdateAssemblyInfoFiles" (fun _ ->
         Attribute.FileVersion version 
     ] <| AssemblyInfoFileConfig(false)
 )
+
+//*****************************************************************************
+//* Update the version number on the project files
+//*****************************************************************************
+Target "UpdateVersionOnProjectFiles" (fun _ ->
+    trace "**** Fixing version number for project files ****"
+    for directory in projectsDirectories do
+        let projectFiles = Directory.GetFiles(directory.FullName,"*.csproj")
+        let file = projectFiles.[0]
+        tracef "Fixing %s" file
+        updateVersionOnProjectFile(file, buildVersion)
+    trace "**** Fixing version number for project files - Done ****"
+)    
 
 //*****************************************************************************
 //* Build
@@ -393,6 +411,7 @@ Target "BuildRelease" DoNothing
 // Package pipeline
 Target "Package" DoNothing
 "UpdateAssemblyInfoFiles" ==> "Package"
+"UpdateVersionOnProjectFiles" ==> "Package"
 "PackageForNuGet" ==> "Package"
 
 // Specifications pipeline

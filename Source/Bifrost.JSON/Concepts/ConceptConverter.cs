@@ -5,18 +5,22 @@
 using System;
 using System.Reflection;
 using Bifrost.Concepts;
-using Bifrost.Extensions;
 using Newtonsoft.Json;
 
 namespace Bifrost.JSON.Concepts
 {
+    /// <summary>
+    /// Implements a <see cref="JsonConverter"/> that deals with serializing and deserializing of <see cref="ConceptAs{T}"/>
+    /// </summary>
     public class ConceptConverter : JsonConverter
     {
+        /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
             return objectType.IsConcept();
         }
 
+        /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             //var instance = Activator.CreateInstance(objectType);
@@ -31,6 +35,7 @@ namespace Bifrost.JSON.Concepts
             return ConceptFactory.CreateConceptInstance(objectType, reader.Value);
         }
 
+        /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object concept, JsonSerializer serializer)
         {
             var value = concept.GetType().GetTypeInfo().GetProperty("Value").GetValue(concept, null);

@@ -44,12 +44,15 @@ namespace Bifrost.FluentValidation
         }
         
 
-        /// <inheritdoc/>
-        public override ValidationResult Validate(ValidationContext<T> context)
+        
+        
+        /*public override ValidationResult Validate(ValidationContext<T> context)
         {
             var result = base.Validate(context.InstanceToValidate);
             return BuildResult(result);
-        }
+        }*/
+
+        
 
         /// <summary>
         /// Validates the provided instance using the specified ruleset

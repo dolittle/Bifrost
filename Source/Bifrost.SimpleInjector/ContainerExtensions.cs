@@ -6,27 +6,55 @@ using System;
 using Bifrost.Execution;
 using SimpleInjector;
 
-
 namespace Bifrost.SimpleInjector
 {
+    /// <summary>
+    /// Extensions for <see cref="global::SimpleInjector.Container"/>
+    /// </summary>
     public static class ContainerExtensions
     {
+        /// <inheritdoc/>
+        
+        /// <summary>
+        /// Register a binding of a type to a callback that can resolve an instance of the type with a given lifecycle
+        /// </summary>
+        /// <typeparam name="T">Type to register</typeparam>
+        /// <param name="container"><see cref="global::SimpleInjector.Container"/> to register into</param>
+        /// <param name="resolveCallback"><see cref="Func{T}"/> that resolves the type by returning an instance</param>
+        /// <param name="lifecycle"><see cref="BindingLifecycle">Lifecycle</see> of the binding</param>
         public static void Register<T>(this global::SimpleInjector.Container container, Func<T> resolveCallback, BindingLifecycle lifecycle)
         {
             Func<Type> typeResolver = () => { return resolveCallback.Invoke().GetType(); };
             container.Register(typeof(T), typeResolver, lifecycle);
         }
+
+        /// <summary>
+        /// Register a binding of a type to a callback that can resolve it with a given lifecycle
+        /// </summary>
+        /// <typeparam name="T">Type to register</typeparam>
+        /// <param name="container"><see cref="global::SimpleInjector.Container"/> to register into</param>
+        /// <param name="resolveCallback"><see cref="Func{T}"/> that resolves the type</param>
+        /// <param name="lifecycle"><see cref="BindingLifecycle">Lifecycle</see> of the binding</param>
         public static void Register<T>(this global::SimpleInjector.Container container, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             container.Register(typeof(T), resolveCallback, lifecycle);
         }
+
+
+        /// <summary>
+        /// Register a binding of a type to a callback that can resolve an instance of the type with a given lifecycle
+        /// </summary>
+        /// <param name="container"><see cref="global::SimpleInjector.Container"/> to register into</param>
+        /// <param name="service"><see cref="Type"/> to register</param>
+        /// <param name="resolveCallback"><see cref="Func{T}"/> that resolves the type</param>
+        /// <param name="lifecycle"><see cref="BindingLifecycle">Lifecycle</see> of the binding</param>
         public static void Register(this global::SimpleInjector.Container container, Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             var lifestyle = ResolveLifestyle(lifecycle);
             container.Register(service, resolveCallback, lifestyle);
         }
 
-        private static Lifestyle ResolveLifestyle(BindingLifecycle lifecycle)
+        static Lifestyle ResolveLifestyle(BindingLifecycle lifecycle)
         {
             var lifestyle = Lifestyle.Transient;
             switch (lifecycle)
@@ -45,7 +73,5 @@ namespace Bifrost.SimpleInjector
 
             return lifestyle;
         }
-
-
     }
 }

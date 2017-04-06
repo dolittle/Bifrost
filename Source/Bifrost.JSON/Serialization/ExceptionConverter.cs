@@ -4,32 +4,37 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
-using Bifrost.Events;
 using Newtonsoft.Json;
 
-namespace Bifrost.JSON.Events
+namespace Bifrost.JSON.Serialization
 {
     /// <summary>
-    /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize <see cref="EventSourceVersion"/>
+    /// Represents an implementation of <see cref="JsonConverter"/> for dealing with <see cref="Exception"/>
     /// </summary>
-    public class EventSourceVersionConverter : JsonConverter
+    public class ExceptionConverter : JsonConverter
     {
         /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(EventSourceVersion).GetTypeInfo().IsAssignableFrom(objectType);
+            return typeof(Exception).GetTypeInfo().IsAssignableFrom(objectType);
         }
 
         /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return EventSourceVersion.FromCombined((double)reader.Value);
+            return new Exception();
         }
 
         /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(((EventSourceVersion)value).Combine());
+            var exception = value as Exception;
+            writer.WriteStartObject();
+            writer.WritePropertyName("message");
+            writer.WriteValue(exception.Message);
+            writer.WritePropertyName("stackTrace");
+            writer.WriteValue(exception.StackTrace);
+            writer.WriteEndObject();
         }
     }
 }

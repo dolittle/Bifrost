@@ -13,14 +13,14 @@ namespace Bifrost.Events
     public interface IEventsConfiguration : IConfigurationElement
     {
         /// <summary>
-        /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling sending of <see cref="CommittedEventStream"/>
+        /// Gets the configuration for <see cref="ICanSendCommittedEventStream"/>
         /// </summary>
-        Type CommittedEventStreamSender { get; set; }
+        CommittedEventStreamSenderConfiguration CommittedEventStreamSender { get; }
 
         /// <summary>
-        /// Gets or sets the type of <see cref="ICanReceiveCommittedEventStream"/> to use for handling receiving of <see cref="CommittedEventStream"/>
+        /// Gets the configuration for <see cref="ICanReceiveCommittedEventStream"/>
         /// </summary>
-        Type CommittedEventStreamReceiver { get; set; }
+        CommittedEventStreamReceiverConfiguration CommittedEventStreamReceiver { get; }
 
         /// <summary>
         /// Gets the configuration for <see cref="IEventStore"/>

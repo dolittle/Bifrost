@@ -21,11 +21,7 @@ namespace Bifrost.FluentValidation.MetaData
         public static string GetErrorMessageFor(this IPropertyValidator propertyValidator, string propertyName)
         {
             var formatter = new MessageFormatter().AppendPropertyName(propertyName);
-#if (NET461)
             var errorMessage = formatter.BuildMessage(propertyValidator.ErrorMessageSource.GetString(null));
-#else
-            var errorMessage = formatter.BuildMessage(propertyValidator.ErrorMessageSource.GetString());
-#endif
             return errorMessage;
         }
     }

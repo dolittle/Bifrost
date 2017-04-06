@@ -26,7 +26,8 @@ namespace Bifrost.Web.Configuration
             ApplicationPhysicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
 #else
             // Todo: Temporary hack!!! Use ContentRoot in IHostingEnvironment
-            ApplicationPhysicalPath = Directory.GetCurrentDirectory();
+            ApplicationPhysicalPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot");
+            //ApplicationPhysicalPath = Path.Combine(Directory.GetCurrentDirectory(), @"Samples/SimpleWeb/wwwroot");
 #endif
         }
 

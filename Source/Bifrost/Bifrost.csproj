@@ -1,69 +1,87 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
-    <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
-    <Authors>all contributors</Authors>
-    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <DebugType>portable</DebugType>
-    <AssemblyName>Bifrost</AssemblyName>
-    <PackageId>Bifrost</PackageId>
-    <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
-    <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
-    <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Linq" Version="4.3.0" />
-    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
-    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
-    <PackageReference Include="System.Security.Claims" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
+        <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
+        <Authors>all contributors</Authors>
+        <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+        <DebugType>portable</DebugType>
+        <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
+        <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
+        <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
+        <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
+        <!--<RuntimeIdentifiers>win</RuntimeIdentifiers>-->
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="**\*.cs">
-      <PackagePath>src/</PackagePath>
-      <Pack>true</Pack>
-    </None>
-    <None Update="bin\Release\netstandard1.6\*.pdb">
-      <PackagePath>lib/netstandard1.6/</PackagePath>
-      <Pack>true</Pack>
-    </None>
-    <None Update="bin\Release\net461\*.pdb">
-      <PackagePath>lib/net461/</PackagePath>
-      <Pack>true</Pack>
-    </None>
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <TreatSpecificWarningsAsErrors />
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Dynamic" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="**\*.cs">
+            <PackagePath>src/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+        <None Update="bin\Release\netstandard1.6\*.pdb">
+            <PackagePath>lib/netstandard1.6/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+        <None Update="bin\Release\net461\*.pdb">
+            <PackagePath>lib/net461/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+    </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+        <AssemblyName>Bifrost</AssemblyName>
+        <PackageId>Bifrost</PackageId>
+        <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
-    <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
-  </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+        <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+        <PackageReference Include="System.Linq" Version="4.3.0" />
+        <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+        <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+        <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+        <PackageReference Include="System.Security.Claims" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+        <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+    </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <Compile Remove="Execution\AppDomainAssemblyProvider.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="**\*.cs">
+            <PackagePath>src/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+        <None Update="bin\Release\netstandard1.6\*.pdb">
+            <PackagePath>lib/netstandard1.6/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+        <None Update="bin\Release\net461\*.pdb">
+            <PackagePath>lib/net461/</PackagePath>
+            <Pack>true</Pack>
+        </None>
+    </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-  </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+        <Reference Include="System" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Dynamic" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+        <Compile Remove="Execution\AppDomainAssemblyProvider.cs" />
+    </ItemGroup>
+
 </Project>

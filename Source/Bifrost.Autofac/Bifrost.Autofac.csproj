@@ -1,4 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+    <AssemblyName>Bifrost.Autofac</AssemblyName>
+    <PackageId>Bifrost.Autofac</PackageId>
+    <DocumentationFile>bin\Debug\net461\Bifrost.Autofac.xml</DocumentationFile>
+  </PropertyGroup>
 
   <PropertyGroup>
     <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
@@ -6,17 +12,21 @@
     <Authors>all contributors</Authors>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <DebugType>portable</DebugType>
-    <AssemblyName>Bifrost.Autofac</AssemblyName>
-    <PackageId>Bifrost.Autofac</PackageId>
     <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
     <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/dolittle/Bifrost/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dolittle/bifrost</RepositoryUrl>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <!--<RuntimeIdentifiers>win</RuntimeIdentifiers>-->
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,5 +56,4 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
 </Project>

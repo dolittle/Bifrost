@@ -13,13 +13,17 @@ namespace SimpleWeb
             var eventSequenceNumbersPath = "./App_Data/EventSequenceNumbers";
             var eventProcessorsStatePath = "./App_Data/EventProcessors";
 
-            var redis = "";
+            //var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
+
+            //var redis = "52.166.200.146:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
+            var redis = "127.0.0.1:6379";
+
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
-                        .Domain("Web.Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                        .Events("Web.Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
-                        .Read("Web.Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Domain("Domain.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Events("Events.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
+                        .Read("Read.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
                         .Frontend("Web.{BoundedContext}.-{Module}.-{Feature}.^{SubFeature}*")
                 ))
 
@@ -28,6 +32,9 @@ namespace SimpleWeb
                     //e.EventStore.UsingFiles(eventsPath);
                     //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                     //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+
+                    e.CommittedEventStreamSender.UsingRabbitMQ();
+                    e.CommittedEventStreamReceiver.UsingRabbitMQ();
 
                     e.EventProcessorStates.UsingRedis(redis);
                     e.EventSourceVersions.UsingRedis(redis);

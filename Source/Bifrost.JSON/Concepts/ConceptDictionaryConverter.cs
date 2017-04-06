@@ -12,8 +12,12 @@ using Newtonsoft.Json;
 
 namespace Bifrost.JSON.Concepts
 {
+    /// <summary>
+    /// Represents a <see cref="JsonConverter"/> that can serialize and deserialize a <see cref="IDictionary{TKey, TValue}">dictionary</see> of <see cref="ConceptAs{T}"/>
+    /// </summary>
     public class ConceptDictionaryConverter : JsonConverter
     {
+        /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
             if (objectType.HasInterface(typeof(IDictionary<,>)) && objectType.GetTypeInfo().IsGenericType ) 
@@ -30,6 +34,7 @@ namespace Bifrost.JSON.Concepts
             return false;
         }
 
+        /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
@@ -59,6 +64,7 @@ namespace Bifrost.JSON.Concepts
             return finalDictionary;
         }
 
+        /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var dictionary = value as IDictionary;

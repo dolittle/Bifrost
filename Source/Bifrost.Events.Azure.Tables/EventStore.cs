@@ -5,7 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Applications;
+using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -68,6 +70,26 @@ namespace Bifrost.Events.Azure.Tables
                 @event.Properties["CausedBy"] = new EntityProperty(e.Envelope.CausedBy);
                 @event.Properties["Occurred"] = new EntityProperty(e.Envelope.Occurred);
 
+                foreach( var property in e.Event.GetType().GetTypeInfo().GetProperties() ) 
+                {
+                    if( property.Name == "EventSourceId") continue;
+                    EntityProperty entityProperty = null;
+                    object value = property.GetValue(e.Event);
+                    if( value.IsConcept() ) value = value.GetConceptValue();
+
+                    if( value.GetType() == typeof(Guid) ) entityProperty = new EntityProperty((Guid)value);
+                    if( value.GetType() == typeof(int) ) entityProperty = new EntityProperty((long)value);
+                    if( value.GetType() == typeof(long) ) entityProperty = new EntityProperty((long)value);
+                    if( value.GetType() == typeof(string) ) entityProperty = new EntityProperty((string)value);
+                    if( value.GetType() == typeof(DateTime) ) entityProperty = new EntityProperty((DateTime)value);
+                    if( value.GetType() == typeof(DateTimeOffset) ) entityProperty = new EntityProperty((DateTimeOffset)value);
+                    if( value.GetType() == typeof(bool) ) entityProperty = new EntityProperty((bool)value);
+                    if( value.GetType() == typeof(double) ) entityProperty = new EntityProperty((double)value);
+                    if( value.GetType() == typeof(float) ) entityProperty = new EntityProperty((double)value);
+
+                    if( entityProperty != null ) @event.Properties[property.Name] = entityProperty;
+                }
+
                 batch.Add(TableOperation.Insert(@event));
             });
 
@@ -90,7 +112,8 @@ namespace Bifrost.Events.Azure.Tables
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
             var partitionKey = GetPartitionKeyFor(eventSource, eventSourceId);
-            var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" });
+            var partitionKeyFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+            var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" }).Where(partitionKeyFilter);
 
             var events = new List<DynamicTableEntity>();
             TableContinuationToken continuationToken = null;

@@ -1,5 +1,6 @@
 Bifrost
 Bifrost.JSON
+Bifrost.FluentValidation
 Bifrost.StructureMap
 Bifrost.Events.Azure.DocumentDB
 Bifrost.Events.Azure.Tables
@@ -7,4 +8,3 @@ Bifrost.Events.MongoDB
 Bifrost.Events.RabbitMQ
 Bifrost.Events.Redis
 Bifrost.Web
-Bifrost.Testing

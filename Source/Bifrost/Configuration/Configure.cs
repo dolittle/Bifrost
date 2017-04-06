@@ -67,7 +67,7 @@ namespace Bifrost.Configuration
 #if(NET461)
                 new AppDomainAssemblyProvider(),
 #endif
-                //new DefaultAssemblyProvider()
+                new DefaultAssemblyProvider(),
                 new FileSystemAssemblyProvider(new FileSystem())
             };
 

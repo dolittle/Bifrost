@@ -19,8 +19,8 @@ namespace Bifrost.Configuration
         /// </summary>
         public EventsConfiguration()
         {
-            CommittedEventStreamSender = typeof(CommittedEventStreamSender);
-            CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
+            CommittedEventStreamSender = new CommittedEventStreamSenderConfiguration();
+            CommittedEventStreamReceiver = new CommittedEventStreamReceiverConfiguration();
             EventProcessorLog = typeof(NullEventProcessorLog);
 
             EventStore = new EventStoreConfiguration();
@@ -30,10 +30,10 @@ namespace Bifrost.Configuration
         }
 
         /// <inheritdoc/>
-        public Type CommittedEventStreamSender { get; set; }
+        public CommittedEventStreamSenderConfiguration CommittedEventStreamSender { get; }
 
         /// <inheritdoc/>
-        public Type CommittedEventStreamReceiver { get; set; }
+        public CommittedEventStreamReceiverConfiguration CommittedEventStreamReceiver { get; }
 
         /// <inheritdoc/>
         public Type EventProcessorLog { get; set; }
@@ -53,8 +53,8 @@ namespace Bifrost.Configuration
         /// <inheritdoc/>
         public override void Initialize(IContainer container)
         {
-            container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender, BindingLifecycle.Singleton);
-            container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver, BindingLifecycle.Singleton);
+            container.Bind<ICanSendCommittedEventStream>(CommittedEventStreamSender.CommittedEventStreamSender, BindingLifecycle.Singleton);
+            container.Bind<ICanReceiveCommittedEventStream>(CommittedEventStreamReceiver.CommittedEventStreamReceiver, BindingLifecycle.Singleton);
             container.Bind<IEventStore>(EventStore.EventStore, BindingLifecycle.Singleton);
             container.Bind<IEventSourceVersions>(EventSourceVersions.EventSourceVersions, BindingLifecycle.Singleton);
             container.Bind<IEventSequenceNumbers>(EventSequenceNumbers.EventSequenceNumbers, BindingLifecycle.Singleton);

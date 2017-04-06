@@ -8,10 +8,10 @@ namespace Bifrost.Web.Security
 {
     public class SecurityRoute : Route
     {
-        const string Url = "Bifrost/Security";
+        const string _url = "Bifrost/Security";
 
         public SecurityRoute()
-            : base(Url, new SecurityRouteHandler())
+            : base(_url, new SecurityRouteHandler())
         {
         }
 
