@@ -334,24 +334,11 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
     if String.IsNullOrEmpty(documentationUser) then
         trace "Skipping building and publishing documentation - user not set"
     else
-        documentationSolutionFile
-         |> RestoreMSSolutionPackages (fun p ->
-             { p with
-                 OutputPath = "./Source/Solutions/packages"
-                 Retries = 4 })
+        trace "**** Generating Documentation ****"
 
-        let buildMode = getBuildParamOrDefault "buildMode" "Release"
-        let setParams defaults =
-            { defaults with
-                Verbosity = Some MSBuildVerbosity.Minimal
-                Properties =
-                    [
-                        "Optimize", "True"
-                    ]
-            }
-
-        build setParams documentationSolutionFile
-            |> DoNothing
+        let currentDir = Directory.GetCurrentDirectory()
+        if ProcessHelper.Shell.Exec("dotnet", "restore") <> 0 then failwith "Couldn't restore documentation project"
+        if ProcessHelper.Shell.Exec("dotnet", "build") <> 0 then failwith "Couldn't build documentation project"
 
         let siteDir = "dolittle.github.io"
         ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
@@ -366,6 +353,9 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         ProcessHelper.Shell.Exec("git" , args="push", dir=siteDir) |> ignore
         
         FileHelper.DeleteDir siteDir
+
+        Directory.SetCurrentDirectory(currentDir)
+        trace "**** Generating Documentation DONE ****"
 )
 
 
