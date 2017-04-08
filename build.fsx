@@ -221,11 +221,19 @@ printfn "<----------------------- BUILD DETAILS ----------------------->"
 //* Restore Packages
 //*****************************************************************************
 Target "RestorePackages" (fun _ ->
-    solutionFile
-     |> RestoreMSSolutionPackages (fun p ->
-         { p with
-             OutputPath = "./Source/Solutions/packages"
-             Retries = 4 })
+    trace "**** Restoring packages ****"
+
+    let currentDir = Directory.GetCurrentDirectory()
+
+    for directory in projectsDirectories.Concat(specDirectories) do
+        tracef "Restoring packages for %s" directory.FullName
+        Directory.SetCurrentDirectory directory.FullName
+        let allArgs = sprintf "restore"
+        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+        if errorCode <> 0 then failwith "Restoring failed"
+
+    Directory.SetCurrentDirectory(currentDir)
+    trace "**** Restoring packages DONE ****"
 )
 
 
