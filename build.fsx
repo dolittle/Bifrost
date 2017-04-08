@@ -337,6 +337,7 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         trace "**** Generating Documentation ****"
 
         let currentDir = Directory.GetCurrentDirectory()
+        Directory.SetCurrentDirectory "./Documentation"
         if ProcessHelper.Shell.Exec("dotnet", "restore") <> 0 then failwith "Couldn't restore documentation project"
         if ProcessHelper.Shell.Exec("dotnet", "build") <> 0 then failwith "Couldn't build documentation project"
 
