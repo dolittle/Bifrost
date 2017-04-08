@@ -1,7 +1,6 @@
 ﻿using Bifrost.Applications;
 using Bifrost.Commands;
 using Bifrost.Domain;
-using Bifrost.Events;
 using Machine.Specifications;
 using Moq;
 
