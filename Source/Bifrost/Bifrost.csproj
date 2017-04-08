@@ -47,6 +47,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+        <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="1.1.1" />
         <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
         <PackageReference Include="System.Linq" Version="4.3.0" />
         <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
