@@ -1,23 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost", "..\Bifrost\Bifrost.csproj", "{FB310720-CD89-44B6-BD54-7861F65D8466}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost", "..\Bifrost\Bifrost.csproj", "{FB310720-CD89-44B6-BD54-7861F65D8466}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.JavaScript", "..\Bifrost.JavaScript\Bifrost.JavaScript.csproj", "{15567D0A-4DAF-49CD-9F8F-4FA94AD889D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Web", "..\Bifrost.Web\Bifrost.Web.csproj", "{0A748BD3-97DD-4C57-8069-4E36656C0A1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Web", "..\Bifrost.Web\Bifrost.Web.csproj", "{0A748BD3-97DD-4C57-8069-4E36656C0A1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Content", "..\Bifrost.Content\Bifrost.Content.csproj", "{ACFBFE97-27FE-4D3C-B5F6-B5CBC24F9EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.FluentValidation", "..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj", "{E7507338-7499-4046-8A9E-76D100974E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.FluentValidation", "..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj", "{E7507338-7499-4046-8A9E-76D100974E82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Client", "..\Bifrost.Client\Bifrost.Client.csproj", "{29BD2EFC-79DE-4B45-BC4E-A049E6CF243F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "..\Documentation\Documentation.csproj", "{ABE43D11-EDD0-41DB-B8D1-99258384CD68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Ninject", "..\Bifrost.Ninject\Bifrost.Ninject.csproj", "{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Ninject", "..\Bifrost.Ninject\Bifrost.Ninject.csproj", "{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.JSON", "..\Bifrost.JSON\Bifrost.JSON.csproj", "{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +157,26 @@ Global
 		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x64.Build.0 = Release|Any CPU
 		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x86.ActiveCfg = Release|Any CPU
 		{3EE03158-1BE0-470C-85FB-E673CD5FC9E1}.Release|x86.Build.0 = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|ARM.Build.0 = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|x64.Build.0 = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Debug|x86.Build.0 = Debug|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|ARM.Build.0 = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|x64.ActiveCfg = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|x64.Build.0 = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|x86.ActiveCfg = Release|Any CPU
+		{237FDCB7-A16C-4C8A-86ED-D644F4FE039C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
