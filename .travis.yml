@@ -32,7 +32,7 @@ install:
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"  
 
 script:
-  - ./build.sh DotNetCoreBuildAndSpecs
+  - ./build.sh BuildAndSpecs
   
 notifications:
   email: false
