@@ -17,7 +17,8 @@ namespace SimpleWeb
 
             //var redis = "52.166.200.146:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
             var redis = "127.0.0.1:6379";
-
+            //var redis = "10.0.1.46:6379";
+            var rabbitMQ = "amqp://guest:guest@localhost:5672/";
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
@@ -33,8 +34,8 @@ namespace SimpleWeb
                     //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                     //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
 
-                    e.CommittedEventStreamSender.UsingRabbitMQ();
-                    e.CommittedEventStreamReceiver.UsingRabbitMQ();
+                    e.CommittedEventStreamSender.UsingRabbitMQ(rabbitMQ);
+                    e.CommittedEventStreamReceiver.UsingRabbitMQ(rabbitMQ);
 
                     e.EventProcessorStates.UsingRedis(redis);
                     e.EventSourceVersions.UsingRedis(redis);
