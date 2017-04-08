@@ -106,9 +106,8 @@ namespace Bifrost.Events.RabbitMQ
 
                     model.BasicAck(ea.DeliveryTag, false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ex = ex;
 
                 }
                 finally

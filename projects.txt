@@ -1,5 +1,6 @@
 Bifrost
 Bifrost.JSON
+Bifrost.FluentValidation
 Bifrost.StructureMap
 Bifrost.Events.Azure.DocumentDB
 Bifrost.Events.Azure.Tables

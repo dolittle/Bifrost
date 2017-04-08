@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Version>1.0.0</Version>
     <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
     <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
     <Authors>all contributors</Authors>
