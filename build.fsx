@@ -22,6 +22,8 @@ open AssemblyInfoFile
 // http://blog.2mas.xyz/take-control-of-your-build-ci-and-deployment-with-fsharp-fake/
 
 let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
+let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
+let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*[+-]*(\d+)*", RegexOptions.Compiled)
 type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:string, release:bool) =
@@ -109,11 +111,12 @@ let getLatestTag repositoryDir =
     
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
-
-
-    let gitVersionTag = gitVersion "./"
-    tracef "Git tag version : %s" gitVersionTag
-    new BuildVersion(gitVersionTag, buildNumber, true)
+    if appveyor then
+        let gitVersionTag = gitVersion "./"
+        tracef "Git tag version : %s" gitVersionTag
+        new BuildVersion(gitVersionTag, buildNumber, true)
+    else 
+        new BuildVersion("1.0.0", 0, false)
 
 let getLatestNuGetVersion =
     trace "Get latest NuGet version"
@@ -175,9 +178,6 @@ let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
 let projectsDirectories = File.ReadAllLines "projects.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
 let specDirectories = File.ReadAllLines "specs.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
-
-let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
-let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 let currentBranch = getCurrentBranch
 
@@ -304,12 +304,12 @@ Target "DotNetTest" (fun _ ->
         let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
         if errorCode <> 0 then failwith "Running C# Specifications failed"
 
-        let resultsFile = "./TestResults/results.trx"
-        if appveyor && File.Exists(resultsFile) then
-            let webClient = new System.Net.WebClient()
-            let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
-            tracef "Posting results to %s" url
-            webClient.UploadFile(url, ) |> ignore
+        // let resultsFile = "./TestResults/results.trx"
+        // if appveyor && File.Exists(resultsFile) then
+        //     let webClient = new System.Net.WebClient()
+        //     let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
+        //     tracef "Posting results to %s" url
+        //     webClient.UploadFile(url, resultsFile) |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
     trace "**** Running Specs DONE ****"
@@ -345,9 +345,11 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         trace "**** Generating Documentation ****"
 
         let currentDir = Directory.GetCurrentDirectory()
-        Directory.SetCurrentDirectory "./Documentation"
+        tracef "Current directory is : %s" currentDir
+        Directory.SetCurrentDirectory "./Source/Documentation"
         if ProcessHelper.Shell.Exec("dotnet", "restore") <> 0 then failwith "Couldn't restore documentation project"
         if ProcessHelper.Shell.Exec("dotnet", "build") <> 0 then failwith "Couldn't build documentation project"
+        Directory.SetCurrentDirectory(currentDir)
 
         let siteDir = "dolittle.github.io"
         ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
@@ -363,7 +365,6 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         
         FileHelper.DeleteDir siteDir
 
-        Directory.SetCurrentDirectory(currentDir)
         trace "**** Generating Documentation DONE ****"
 )
 
@@ -442,5 +443,10 @@ Target "PackageAndDeploy" DoNothing
 Target "All" DoNothing
 "BuildAndSpecs" ==> "All"
 "PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
+
+Target "Travis" DoNothing
+"BuildRelease" ==> "Travis"
+"DotNetTest" ==> "Travis"
+
 
 RunTargetOrDefault "All"
