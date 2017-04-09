@@ -61,7 +61,6 @@
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
 
-    <None Include="App.config" />
     <None Update="**\*.cs">
       <PackagePath>src/</PackagePath>
       <Pack>true</Pack>
