@@ -306,7 +306,7 @@ Target "DotNetTest" (fun _ ->
 
         if appveyor then
             let webClient = new System.Net.WebClient()
-            let url = sprintf "https://ci.appveyor.com/api/testresults/mspec/$%s" appveyor_job_id
+            let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/$%s" appveyor_job_id
             webClient.UploadFile(url, "./TestResults/results.trx") |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
