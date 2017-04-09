@@ -177,7 +177,7 @@ let projectsDirectories = File.ReadAllLines "projects.txt" |> Array.map(fun f ->
 let specDirectories = File.ReadAllLines "specs.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
-
+let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 let currentBranch = getCurrentBranch
 
@@ -300,13 +300,19 @@ Target "DotNetTest" (fun _ ->
     for directory in specDirectories do
         tracef "Running Specs for %s" directory.FullName
         Directory.SetCurrentDirectory directory.FullName
-        let allArgs = sprintf "test %s %s" (if isWindows then "" else "-f netcoreapp1.1") (if appveyor then "--logger:trx" else "")
+        let allArgs = sprintf "test %s %s" (if isWindows then "" else "-f netcoreapp1.1") (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
         let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
         if errorCode <> 0 then failwith "Running C# Specifications failed"
+
+        if appveyor then
+            let webClient = new System.Net.WebClient()
+            let url = sprintf "https://ci.appveyor.com/api/testresults/mspec/$%s" appveyor_job_id
+            webClient.UploadFile(url, "./TestResults/results.trx") |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
     trace "**** Running Specs DONE ****"
 )
+
 
 //*****************************************************************************
 //* Package all projects for NuGet
