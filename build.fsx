@@ -300,7 +300,7 @@ Target "DotNetTest" (fun _ ->
     for directory in specDirectories do
         tracef "Running Specs for %s" directory.FullName
         Directory.SetCurrentDirectory directory.FullName
-        let allArgs = sprintf "test %s" (if isWindows then "" else "-f netcoreapp1.1")
+        let allArgs = sprintf "test %s %s" (if isWindows then "" else "-f netcoreapp1.1") (if appveyor then "--logger:Appveyor" else "")
         let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
         if errorCode <> 0 then failwith "Running C# Specifications failed"
 
