@@ -19,8 +19,7 @@ addons:
     - libunwind8
     - zlib1g
 
-mono:
-  - latest
+mono: latest
 
 os:
   - linux
