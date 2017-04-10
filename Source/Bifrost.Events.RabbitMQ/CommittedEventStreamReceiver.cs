@@ -15,7 +15,7 @@ using System;
 namespace Bifrost.Events.RabbitMQ
 {
     /// <summary>
-    /// 
+    /// Represents an implementation of <see cref="ICanReceiveCommittedEventStream"/> for RabbitMQ
     /// </summary>
     public class CommittedEventStreamReceiver : ICanReceiveCommittedEventStream
     {
