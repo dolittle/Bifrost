@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Security.Principal;
 using Bifrost.Applications;
 using Bifrost.Events;
@@ -19,8 +20,7 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
         static Mock<IEventSource> event_source;
         static Mock<IEvent> @event;
         static IEventEnvelope result;
-        static Mock<IPrincipal> principal;
-        static Mock<IIdentity> identity;
+        static ClaimsPrincipal principal;
 
         static DateTime expected_time;
 
@@ -35,11 +35,8 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
             event_source.SetupGet(e => e.Version).Returns(version);
             @event = new Mock<IEvent>();
 
-            identity = new Mock<IIdentity>();
-            identity.SetupGet(i => i.Name).Returns(identity_name);
-            principal = new Mock<IPrincipal>();
-            principal.SetupGet(p => p.Identity).Returns(identity.Object);
-            execution_context.SetupGet(e => e.Principal).Returns(principal.Object);
+            principal = new ClaimsPrincipal(new ClaimsIdentity());
+            execution_context.SetupGet(e => e.Principal).Returns(principal);
 
             event_migration_hierarchy_manager.Setup(e => e.GetCurrentGenerationFor(@event.Object.GetType())).Returns(event_generation);
 

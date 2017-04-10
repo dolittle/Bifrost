@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
+using System.Security.Claims;
 using Bifrost.Applications;
 using Bifrost.Events;
 using Bifrost.Lifecycle;
@@ -18,8 +18,7 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
         static ApplicationResourceIdentifier event_source_resource_identifier;
         static EventGeneration event_generation = 42;
 
-        static Mock<IPrincipal> principal;
-        static Mock<IIdentity> identity;
+        static ClaimsPrincipal principal;
         static CausedBy identity_name = "Some User";
         
         static DateTime expected_time;
@@ -41,13 +40,9 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
             event_source = new Mock<IEventSource>();
             event_source.SetupGet(e => e.EventSourceId).Returns(event_source_id);
             event_source.SetupGet(e => e.Version).Returns(first_event_version);
-            
 
-            identity = new Mock<IIdentity>();
-            identity.SetupGet(i => i.Name).Returns(identity_name);
-            principal = new Mock<IPrincipal>();
-            principal.SetupGet(p => p.Identity).Returns(identity.Object);
-            execution_context.SetupGet(e => e.Principal).Returns(principal.Object);
+            principal = new ClaimsPrincipal(new ClaimsIdentity());
+            execution_context.SetupGet(e => e.Principal).Returns(principal);
             event_migration_hierarchy_manager.Setup(e => e.GetCurrentGenerationFor(Moq.It.IsAny<Type>())).Returns(event_generation);
 
             expected_time = new DateTime(2005, 3, 5, 15, 33, 0);
