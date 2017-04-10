@@ -41,7 +41,9 @@ namespace Bifrost.Specs.Events.for_EventEnvelopes
             event_source.SetupGet(e => e.EventSourceId).Returns(event_source_id);
             event_source.SetupGet(e => e.Version).Returns(first_event_version);
 
-            principal = new ClaimsPrincipal(new ClaimsIdentity());
+            var identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(identity.NameClaimType, identity_name));
+            principal = new ClaimsPrincipal(identity);
             execution_context.SetupGet(e => e.Principal).Returns(principal);
             event_migration_hierarchy_manager.Setup(e => e.GetCurrentGenerationFor(Moq.It.IsAny<Type>())).Returns(event_generation);
 
