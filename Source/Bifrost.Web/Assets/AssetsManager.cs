@@ -54,6 +54,7 @@ namespace Bifrost.Web.Assets
 
         public void Initialize()
         {
+            _assetsByExtension = new Dictionary<string, List<string>>();
             var root = _webConfiguration.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
