@@ -28,6 +28,7 @@ namespace Bifrost.Execution
             Principal = principal;
             Culture = cultureInfo;
             Application = application;
+            Tenant = tenant;
             Details = new WriteOnceExpandoObject(d => detailsPopulator(this,d));
         }
 
