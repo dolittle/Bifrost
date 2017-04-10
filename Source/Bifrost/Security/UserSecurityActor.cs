@@ -26,21 +26,13 @@ namespace Bifrost.Security
             _resolvePrincipal = resolvePrincipal;
         }
 
-        /// <summary>
-        /// Checks wether the Current user has the requested role.
-        /// </summary>
-        /// <param name="role">Role to check for</param>
-        /// <returns>True if the user has the role, False otherwise</returns>
+        /// <inheritdoc/>
         public bool IsInRole(string role)
         {
             return _resolvePrincipal.Resolve().IsInRole(role);
         }
 
-        /// <summary>
-        /// Checks wether or not the Current user has the requested claim type
-        /// </summary>
-        /// <param name="claimType">ClaimType to check for</param>
-        /// <returns>True if the user has the claimtype, false if not </returns>
+        /// <inheritdoc/>
         public bool HasClaimType(string claimType)
         {
             return _resolvePrincipal.Resolve().FindAll(claimType).Count() > 0;
