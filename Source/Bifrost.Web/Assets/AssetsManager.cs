@@ -52,7 +52,7 @@ namespace Bifrost.Web.Assets
         }
 
 
-        void Initialize()
+        public void Initialize()
         {
             var root = _webConfiguration.ApplicationPhysicalPath;
             var files = Directory.GetFiles(root, "*.*", SearchOption.AllDirectories);

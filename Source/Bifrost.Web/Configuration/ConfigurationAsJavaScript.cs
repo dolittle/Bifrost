@@ -44,17 +44,20 @@ namespace Bifrost.Web.Configuration
         {
             get
             {
-                if (string.IsNullOrEmpty(_configurationAsString)) InitializeIfNotInitialized();
+                if (string.IsNullOrEmpty(_configurationAsString)) Initialize();
 
                 return _configurationAsString;
             }
         }
 
-        void InitializeIfNotInitialized()
+        
+
+        public void Initialize()
         {
             var proxies = Configure.Instance.Container.Get<GeneratedProxies>();
 
             var assetsManager = Configure.Instance.Container.Get<IAssetsManager>();
+            assetsManager.Initialize();
 
             var builder = new StringBuilder();
 

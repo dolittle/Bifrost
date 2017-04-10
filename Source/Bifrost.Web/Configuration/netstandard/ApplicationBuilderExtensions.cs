@@ -49,6 +49,7 @@ namespace Bifrost.Web.Configuration
         {
             var configuration = Configure.Instance.Container.Get<ConfigurationAsJavaScript>();
             context.Response.ContentType = "text/javascript";
+            if (context.Request.Query.ContainsKey("nocache")) configuration.Initialize();
             await context.Response.WriteAsync(configuration.AsString);
         }
 
