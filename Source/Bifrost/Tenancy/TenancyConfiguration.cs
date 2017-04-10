@@ -2,21 +2,20 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-namespace Bifrost.Tenancy
+using Bifrost.Execution;
+ 
+ namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Defines a tenant in the system
+    /// Represents an implementation of <see cref="ITenancyConfiguration"/>
     /// </summary>
-    public interface ITenant
+    public class TenancyConfiguration : ITenancyConfiguration
     {
-        /// <summary>
-        /// Gets the <see cref="TenantId">identifier</see> of the <see cref="ITenant"/>
-        /// </summary>
-        TenantId TenantId { get; }
+        /// <inheritdoc/>
+        public void Initialize(IContainer container)
+        {
+            var typeDiscoverer = container.Get<ITypeDiscoverer>();
 
-        /// <summary>
-        /// Gets the details for the tenant
-        /// </summary>
-        dynamic Details { get; }
+        }
     }
 }

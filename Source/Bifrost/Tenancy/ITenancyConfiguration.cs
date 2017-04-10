@@ -2,21 +2,14 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using Bifrost.Configuration;
+
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Represents a <see cref="ITenantManager"/>
+    /// Defines the configuration for tenancy
     /// </summary>
-    public class TenantManager : ITenantManager
+    public interface ITenancyConfiguration : IConfigurationElement
     {
-#pragma warning disable 1591 // Xml Comments
-        public ITenant Current
-        {
-            get 
-            {
-                return null;
-            }
-        }
-#pragma warning restore 1591 // Xml Comments
     }
 }

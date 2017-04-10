@@ -5,18 +5,14 @@
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Defines a tenant in the system
+    /// Defines systems that can resolve the <see cref="TenantId"/> of a <see cref="ITenant"/>
     /// </summary>
-    public interface ITenant
+    public interface ICanResolveTenantId
     {
         /// <summary>
-        /// Gets the <see cref="TenantId">identifier</see> of the <see cref="ITenant"/>
+        /// Resolves the <see cref="TenantId"/>
         /// </summary>
-        TenantId TenantId { get; }
-
-        /// <summary>
-        /// Gets the details for the tenant
-        /// </summary>
-        dynamic Details { get; }
+        /// <returns><see cref="TenantId"/> of the current <see cref="ITenant"/></returns>
+        TenantId Resolve();
     }
 }

@@ -2,7 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Bifrost.Execution;
 
 namespace Bifrost.Tenancy
 {
@@ -11,8 +10,22 @@ namespace Bifrost.Tenancy
     /// </summary>
     public class Tenant : ITenant
     {
-#pragma warning disable 1591 // Xml Comments
-        public WriteOnceExpandoObject Details { get; private set; }
-#pragma warning restore 1591 // Xml Comments
+        /// <summary>
+        /// Initializes a new instance of <see cref="Tenant"/>
+        /// </summary>
+        /// <param name="tenantId"><see cref="TenantId"/> of the tenant</param>
+        /// <param name="details">Dynamic object holding details</param>
+        public Tenant(TenantId tenantId, dynamic details)
+        {
+            TenantId = tenantId;
+            Details = details;
+        }
+
+        /// <inheritdoc/>
+        public TenantId TenantId { get; }
+
+        /// <inheritdoc/>
+        public dynamic Details { get; }
+
     }
 }

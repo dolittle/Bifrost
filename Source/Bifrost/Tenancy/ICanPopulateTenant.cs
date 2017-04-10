@@ -12,8 +12,8 @@ namespace Bifrost.Tenancy
         /// <summary>
         /// Method that gets called when the <see cref="Tenant"/> is being set up
         /// </summary>
-        /// <param name="tenant"><see cref="Tenant"/> that is being populated</param>
-        /// <param name="details">Details for the <see cref="Tenant"/> - can be expanded on</param>
-        void Visit(Tenant tenant, dynamic details);
+        /// <param name="tenant"><see cref="ITenant"/> that is being populated</param>
+        /// <param name="details">Details for the <see cref="ITenant"/> - can be expanded on</param>
+        void Visit(ITenant tenant, dynamic details);
     }
 }

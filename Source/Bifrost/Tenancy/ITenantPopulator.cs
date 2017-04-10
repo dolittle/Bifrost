@@ -5,18 +5,16 @@
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Defines a tenant in the system
+    /// Defines a system that can populate <see cref="ITenant"/>
     /// </summary>
-    public interface ITenant
+    public interface ITenantPopulator
     {
         /// <summary>
-        /// Gets the <see cref="TenantId">identifier</see> of the <see cref="ITenant"/>
+        /// Populate a tenant 
         /// </summary>
-        TenantId TenantId { get; }
+        /// <param name="tenant"></param>
+        /// <param name="details"></param>
+        void Populate(ITenant tenant, dynamic details);
 
-        /// <summary>
-        /// Gets the details for the tenant
-        /// </summary>
-        dynamic Details { get; }
     }
 }
