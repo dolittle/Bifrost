@@ -14,6 +14,7 @@ using Bifrost.Diagnostics;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.Tenancy;
 
 namespace Bifrost.Configuration
 {
@@ -183,6 +184,7 @@ namespace Bifrost.Configuration
         public ICallContextConfiguration CallContext { get; private set; }
         public IExecutionContextConfiguration ExecutionContext { get; private set; }
         public ISecurityConfiguration Security { get; private set; }
+        public ITenancyConfiguration Tenancy { get; private set; }
         public AssembliesConfiguration Assemblies { get; private set; }
         public IQualityAssurance QualityAssurance { get; private set; }
         public CultureInfo Culture { get; set; }
@@ -209,6 +211,7 @@ namespace Bifrost.Configuration
                 () => CallContext.Initialize(Container),
                 () => ExecutionContext.Initialize(Container),
                 () => Security.Initialize(Container),
+                () => Tenancy.Initialize(Container),
                 () => DefaultStorage.Initialize(Container)
             };
 
@@ -234,6 +237,7 @@ namespace Bifrost.Configuration
             CallContext = Container.Get<ICallContextConfiguration>();
             ExecutionContext = Container.Get<IExecutionContextConfiguration>();
             Security = Container.Get<ISecurityConfiguration>();
+            Tenancy = Container.Get<ITenancyConfiguration>();
             QualityAssurance = Container.Get<IQualityAssurance>();
         }
 

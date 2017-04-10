@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
+using Bifrost.Tenancy;
 
 namespace Bifrost.Configuration
 {
@@ -79,6 +80,11 @@ namespace Bifrost.Configuration
         /// Gets the configuration for security
         /// </summary>
         ISecurityConfiguration Security { get; }
+
+        /// <summary>
+        /// Gets the configuration for tenancy
+        /// </summary>
+        ITenancyConfiguration Tenancy { get; }
 
         /// <summary>
         /// Gets the configuration for assemblies and how they are treated
