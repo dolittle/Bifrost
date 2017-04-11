@@ -7,6 +7,7 @@ using Bifrost.Execution;
 
 namespace Bifrost.Web
 {
+    [Singleton]
     public class WebCallContext : ICallContext
     {
         public bool HasData(string key)
