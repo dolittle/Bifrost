@@ -15,6 +15,7 @@ namespace Bifrost.Tenancy
     /// You can have as many implementations of <see cref="ICanPopulateTenant"/> - they will all
     /// be called. There is no guarantee in ordering of when they're called
     /// </remarks>
+    [Singleton]
     public class TenantPopulator : ITenantPopulator
     {
         IInstancesOf<ICanPopulateTenant> _populators;

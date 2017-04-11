@@ -14,18 +14,15 @@ namespace Bifrost.Tenancy
         /// Initializes a new instance of <see cref="Tenant"/>
         /// </summary>
         /// <param name="tenantId"><see cref="TenantId"/> of the tenant</param>
-        /// <param name="details">Dynamic object holding details</param>
-        public Tenant(TenantId tenantId, dynamic details)
+        public Tenant(TenantId tenantId)
         {
             TenantId = tenantId;
-            Details = details;
         }
 
         /// <inheritdoc/>
         public TenantId TenantId { get; }
 
         /// <inheritdoc/>
-        public dynamic Details { get; }
-
+        public dynamic Details { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace Bifrost.Tenancy
             if (resolverTypes.Count() == 1) resolverType = resolverTypes.First();
 
             container.Bind<ICanResolveTenantId>(resolverType);
+
+            container.Bind<ITenant>(() => container.Get<ITenantManager>().Current);
         }
     }
 }
