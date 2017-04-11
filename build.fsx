@@ -380,9 +380,6 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
 
         use proc = new System.Diagnostics.Process(StartInfo = startInfo)
         proc.Start() |> ignore
-
-        let reader = new System.IO.StreamReader(proc.StandardOutput.BaseStream, System.Text.Encoding.UTF8)
-        let result = reader.ReadToEnd()
         proc.WaitForExit()
         if proc.ExitCode <> 0 then 
             failwith ("Couldn't push documentation to repository")
