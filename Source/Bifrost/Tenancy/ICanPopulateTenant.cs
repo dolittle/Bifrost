@@ -14,6 +14,6 @@ namespace Bifrost.Tenancy
         /// </summary>
         /// <param name="tenant"><see cref="ITenant"/> that is being populated</param>
         /// <param name="details">Details for the <see cref="ITenant"/> - can be expanded on</param>
-        void Visit(ITenant tenant, dynamic details);
+        void Populate(ITenant tenant, dynamic details);
     }
 }

@@ -15,6 +15,5 @@ namespace Bifrost.Tenancy
         /// <param name="tenant"></param>
         /// <param name="details"></param>
         void Populate(ITenant tenant, dynamic details);
-
     }
 }
