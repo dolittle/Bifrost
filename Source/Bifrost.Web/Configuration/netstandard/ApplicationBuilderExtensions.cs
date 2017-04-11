@@ -12,6 +12,7 @@ using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,7 @@ namespace Microsoft.AspNetCore.Builder
             Configure.DiscoverAndConfigure();
         }
 
-        public static IApplicationBuilder UseBifrost(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseBifrost(this IApplicationBuilder builder, IHostingEnvironment hostingEnvironment)
         {
             builder.Use(WebCallContext.Middleware);
 
@@ -43,6 +44,9 @@ namespace Microsoft.AspNetCore.Builder
 
             var routes = routeBuilder.Build();
             builder.UseRouter(routes);
+
+            var webConfiguration = Configure.Instance.Container.Get<WebConfiguration>();
+            webConfiguration.ApplicationPhysicalPath = hostingEnvironment.WebRootPath;
 
             return builder;
         }
