@@ -82,7 +82,7 @@ namespace Bifrost.Events.Files
 
         string GetPathFor(IEventProcessor eventProcessor)
         {
-            var path = Path.Combine(_configuration.Path, eventProcessor.Identifier, ".state");
+            var path = Path.Combine(_configuration.Path, $"{eventProcessor.Identifier.Value.GetHashCode().ToString()}.state");
             return path;
         }
 
