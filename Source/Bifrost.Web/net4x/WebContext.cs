@@ -1,14 +1,11 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Bifrost.Configuration;
-using Bifrost.Web.Configuration;
 
 namespace Bifrost.Web
 {
