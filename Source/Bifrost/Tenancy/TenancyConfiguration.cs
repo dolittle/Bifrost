@@ -25,7 +25,7 @@ namespace Bifrost.Tenancy
 
             container.Bind<ICanResolveTenantId>(resolverType);
 
-            container.Bind<ITenant>(() => container.Get<ITenantManager>().Current);
+            container.Bind(() => container.Get<ITenantManager>().Current);
         }
     }
 }

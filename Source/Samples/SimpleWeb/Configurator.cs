@@ -30,10 +30,11 @@ namespace SimpleWeb
 
                 .Events(e =>
                 {
-                    //e.EventStore.UsingFiles(eventsPath);
-                    //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
-                    //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                    e.EventStore.UsingFiles(eventsPath);
+                    e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                    e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
 
+                    /*
                     e.CommittedEventStreamSender.UsingRabbitMQ(rabbitMQ);
                     e.CommittedEventStreamReceiver.UsingRabbitMQ(rabbitMQ);
 
@@ -41,6 +42,7 @@ namespace SimpleWeb
                     e.EventSourceVersions.UsingRedis(redis);
                     e.EventSequenceNumbers.UsingRedis(redis);
                     e.EventStore.UsingTables("DefaultEndpointsProtocol=https;AccountName=dolittle;AccountKey=XcfKv4RV5Hd3My4PbXlBATvLhvI0TpZmP5jwcCFbiILM/kESPr6pibI8hdD3+qPpe+UZ5OlmWUI7Z7qSKlRwuQ==;EndpointSuffix=core.windows.net");
+                    */
                 })
 
                 .Serialization

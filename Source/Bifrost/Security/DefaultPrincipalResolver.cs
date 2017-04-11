@@ -11,9 +11,21 @@ namespace Bifrost.Security
     /// </summary>
     public class DefaultPrincipalResolver : ICanResolvePrincipal
     {
+        /// <summary>
+        /// The user name when there is no user logged in
+        /// </summary>
+        public const string AnonymousUserName = "[Anonymous]";
+
         /// <inheritdoc/>
         public ClaimsPrincipal Resolve()
         {
+            if( ClaimsPrincipal.Current == null )
+            {
+                var identity = new ClaimsIdentity();
+                identity.AddClaim(new Claim(identity.NameClaimType, AnonymousUserName));
+                var principal = new ClaimsPrincipal(identity);
+                return principal;
+            }
             return ClaimsPrincipal.Current;
         }
     }
