@@ -442,7 +442,7 @@ Target "PackageAndDeploy" DoNothing
 
 Target "All" DoNothing
 "BuildRelease" ==> "All"
-"DotNetTest" => "All"
+"DotNetTest" ==> "All"
 "JavaScriptSpecs" ==> "All"
 "PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
 
