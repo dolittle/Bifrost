@@ -4,8 +4,6 @@ pull_requests:
 image: Visual Studio 2017
 build_script:
 - cmd: .\build.cmd All
-test:
-  assemblies: 'Source\**\*.Specs.dll'
 deploy: off
 artifacts:
 - path: artifacts\nuget\*

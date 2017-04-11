@@ -304,12 +304,12 @@ Target "DotNetTest" (fun _ ->
         let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
         if errorCode <> 0 then failwith "Running C# Specifications failed"
 
-        // let resultsFile = "./TestResults/results.trx"
-        // if appveyor && File.Exists(resultsFile) then
-        //     let webClient = new System.Net.WebClient()
-        //     let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
-        //     tracef "Posting results to %s" url
-        //     webClient.UploadFile(url, resultsFile) |> ignore
+        let resultsFile = "./TestResults/results.trx"
+        if appveyor && File.Exists(resultsFile) then
+            let webClient = new System.Net.WebClient()
+            let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
+            tracef "Posting results to %s" url
+            webClient.UploadFile(url, resultsFile) |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
     trace "**** Running Specs DONE ****"
@@ -436,13 +436,13 @@ Target "Deploy" DoNothing
 "DeployNugetPackages" ==> "Deploy"
 
 Target "PackageAndDeploy" DoNothing
-"Package" ==> "PackageAndDeploy"
 "GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
+"Package" ==> "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
 
 Target "All" DoNothing
 "BuildRelease" ==> "All"
-"DotNetTest" =?> ("All", appveyor)
+"DotNetTest" => "All"
 "JavaScriptSpecs" ==> "All"
 "PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
 
