@@ -14,6 +14,6 @@ namespace Bifrost.Configuration
         /// <summary>
         /// Initializes a new instance of <see cref="MultiplePrincipalResolversFound"/>
         /// </summary>
-        public MultiplePrincipalResolversFound() : base("More than one implementation of ICanResolvePrincipal found - there can only be one") { }
+        public MultiplePrincipalResolversFound() : base("More than one implementation of ICanResolvePrincipal found - Highlander principle applied; there can be only one") { }
     }
 }
