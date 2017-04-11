@@ -354,11 +354,12 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         trace "Clone site repository"
 
         let siteDir = "dolittle.github.io"
-        Directory.SetCurrentDirectory(siteDir)
         ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
 
         trace "Copy all the content from the generated site"
         FileHelper.CopyDir "dolittle.github.io/bifrost" "Source/Documentation/_site" (fun f -> true)
+
+        Directory.SetCurrentDirectory(siteDir)
 
         trace "Push back to Git repository"
         ProcessHelper.Shell.Exec("git" , args="add .") |> ignore
