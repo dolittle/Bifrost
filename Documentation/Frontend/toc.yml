@@ -4,5 +4,7 @@
   href: JavaScript/
 - name: ASP.NET
   href: ASP.NET/
+- name: ASP.NET Core
+  href: ASP.NETCore
 - name: XAML
   href: XAML/
