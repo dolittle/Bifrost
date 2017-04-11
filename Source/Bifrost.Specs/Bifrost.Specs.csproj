@@ -36,9 +36,6 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tenancy\for_TenancyConfiguration\" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <DefineConstants>$(DefineConstants);NET461</DefineConstants>
   </PropertyGroup>
