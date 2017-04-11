@@ -7,8 +7,7 @@ namespace SimpleWeb
     {
         public void Populate(ITenant tenant, dynamic details)
         {
-            var i = 0;
-            i++;
+            details.SomethingTenantSpecific = $"This is a tenant specific string : {tenant.TenantId}";
         }
     }
 }

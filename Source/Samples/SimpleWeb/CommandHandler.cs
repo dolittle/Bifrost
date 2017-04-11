@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.Read;
+using Bifrost.Tenancy;
 using Events.Awesome;
 using FluentValidation;
 
@@ -23,7 +24,7 @@ namespace Domain.Awesome
     {
         IAggregateRootRepository<MyAggregate> _repository;
 
-        public CommandHandler(IAggregateRootRepository<MyAggregate> repository)
+        public CommandHandler(IAggregateRootRepository<MyAggregate> repository, ITenant tenant)
         {
             _repository = repository;
         }

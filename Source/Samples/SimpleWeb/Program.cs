@@ -9,7 +9,7 @@ namespace SimpleWeb
     {
         public static void Main(string[] args)
         {
-            GenericPrincipal.ClaimsPrincipalSelector = () =>
+            ClaimsPrincipal.ClaimsPrincipalSelector = () =>
              {
                  var identity = new ClaimsIdentity();
                  identity.AddClaim(new Claim("Name", "Unknown"));

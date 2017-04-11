@@ -1,5 +1,5 @@
-﻿using Bifrost.Applications;
-using Bifrost.Events;
+﻿using System.IO;
+using Bifrost.Applications;
 using Bifrost.Configuration;
 
 namespace SimpleWeb
@@ -8,10 +8,11 @@ namespace SimpleWeb
     {
         public void Configure(IConfigure configure)
         {
-            var entitiesPath = "./App_Data/Entities";
-            var eventsPath = "./App_Data/Events";
-            var eventSequenceNumbersPath = "./App_Data/EventSequenceNumbers";
-            var eventProcessorsStatePath = "./App_Data/EventProcessors";
+            var basePath = "App_Data";
+            var entitiesPath = Path.Combine(basePath,"Entities");
+            var eventsPath = Path.Combine(basePath, "Events");
+            var eventSequenceNumbersPath = Path.Combine(basePath, "EventSequenceNumbers");
+            var eventProcessorsStatePath = Path.Combine(basePath, "EventProcessors");
 
             //var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
 
