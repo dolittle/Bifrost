@@ -1,6 +1,8 @@
 ﻿using Bifrost.Configuration;
 using Bifrost.Execution;
-using Bifrost.StructureMap;
+using Ninject;
+//using Bifrost.StructureMap;
+using Bifrost.Ninject;
 
 namespace SimpleWeb
 {
@@ -8,9 +10,14 @@ namespace SimpleWeb
     {
         public IContainer CreateContainer()
         {
-            var structureMap = new StructureMap.Container();
+            //var structureMap = new StructureMap.Container();
+            //var container = new Container(structureMap);
 
-            var container = new Container(structureMap);
+            var kernel = new StandardKernel();
+            var container = new Container(kernel);
+
+            
+
             return container;
         }
     }
