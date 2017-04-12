@@ -3,11 +3,14 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+using Bifrost.Execution;
+
 namespace Bifrost.Tenancy
 {
     /// <summary>
     /// Represents a <see cref="ITenant"/> in the system
     /// </summary>
+    [IgnoreDefaultConvention]
     public class Tenant : ITenant
     {
         /// <summary>
