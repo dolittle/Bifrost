@@ -58,37 +58,8 @@ namespace Bifrost.Events.Azure.Tables
                 var rowKey = e.Envelope.SequenceNumber.Value.ToString();
                 var @event = new DynamicTableEntity(partitionKey, rowKey);
 
-                @event.Properties["CorrelationId"] = new EntityProperty(e.Envelope.CorrelationId);
-                @event.Properties["Event"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.Event));
-                @event.Properties["EventId"] = new EntityProperty(e.Envelope.EventId);
-                @event.Properties["SequenceNumber"] = new EntityProperty(e.Envelope.SequenceNumber);
-                @event.Properties["SequenceNumberForEvnetType"] = new EntityProperty(e.Envelope.SequenceNumberForEventType);
-                @event.Properties["Generation"] = new EntityProperty(e.Envelope.Generation);
-                @event.Properties["EventSource"] = new EntityProperty(_applicationResourceIdentifierConverter.AsString(e.Envelope.EventSource));
-                @event.Properties["EventSourceId"] = new EntityProperty(e.Envelope.EventSourceId);
-                @event.Properties["Version"] = new EntityProperty(e.Envelope.Version.Combine());
-                @event.Properties["CausedBy"] = new EntityProperty(e.Envelope.CausedBy);
-                @event.Properties["Occurred"] = new EntityProperty(e.Envelope.Occurred);
-
-                foreach( var property in e.Event.GetType().GetTypeInfo().GetProperties() ) 
-                {
-                    if( property.Name == "EventSourceId") continue;
-                    EntityProperty entityProperty = null;
-                    object value = property.GetValue(e.Event);
-                    if( value.IsConcept() ) value = value.GetConceptValue();
-
-                    if( value.GetType() == typeof(Guid) ) entityProperty = new EntityProperty((Guid)value);
-                    if( value.GetType() == typeof(int) ) entityProperty = new EntityProperty((long)value);
-                    if( value.GetType() == typeof(long) ) entityProperty = new EntityProperty((long)value);
-                    if( value.GetType() == typeof(string) ) entityProperty = new EntityProperty((string)value);
-                    if( value.GetType() == typeof(DateTime) ) entityProperty = new EntityProperty((DateTime)value);
-                    if( value.GetType() == typeof(DateTimeOffset) ) entityProperty = new EntityProperty((DateTimeOffset)value);
-                    if( value.GetType() == typeof(bool) ) entityProperty = new EntityProperty((bool)value);
-                    if( value.GetType() == typeof(double) ) entityProperty = new EntityProperty((double)value);
-                    if( value.GetType() == typeof(float) ) entityProperty = new EntityProperty((double)value);
-
-                    if( entityProperty != null ) @event.Properties[property.Name] = entityProperty;
-                }
+                AddPropertiesFrom(@event, e.Envelope);
+                AddPropertiesFrom(@event, e.Event, "EventSourceId");
 
                 batch.Add(TableOperation.Insert(@event));
             });
@@ -141,6 +112,37 @@ namespace Bifrost.Events.Azure.Tables
 
             var partitionKey = $"{identifierAsString}-{id}";
             return partitionKey;
+        }
+
+        void AddPropertiesFrom(DynamicTableEntity @event, object instance, params string[] propertiesToIgnore)
+        {
+            foreach (var property in instance.GetType().GetTypeInfo().GetProperties())
+            {
+                if (propertiesToIgnore.Contains(property.Name)) continue;
+                var value = property.GetValue(instance);
+                var entityProperty = GetEntityPropertyFor(property, value);
+                if (entityProperty != null) @event.Properties[property.Name] = entityProperty;
+            }
+        }
+
+        EntityProperty GetEntityPropertyFor(PropertyInfo property, object value)
+        {
+            EntityProperty entityProperty = null;
+            var valueType = value.GetType();
+
+            if (value.IsConcept()) value = value.GetConceptValue();
+
+            if (valueType == typeof(Guid)) entityProperty = new EntityProperty((Guid)value);
+            if (valueType == typeof(int)) entityProperty = new EntityProperty((long)value);
+            if (valueType == typeof(long)) entityProperty = new EntityProperty((long)value);
+            if (valueType == typeof(string)) entityProperty = new EntityProperty((string)value);
+            if (valueType == typeof(DateTime)) entityProperty = new EntityProperty((DateTime)value);
+            if (valueType == typeof(DateTimeOffset)) entityProperty = new EntityProperty((DateTimeOffset)value);
+            if (valueType == typeof(bool)) entityProperty = new EntityProperty((bool)value);
+            if (valueType == typeof(double)) entityProperty = new EntityProperty((double)value);
+            if (valueType == typeof(float)) entityProperty = new EntityProperty((double)value);
+
+            return entityProperty;
         }
     }
 }
