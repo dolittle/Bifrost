@@ -27,6 +27,11 @@ namespace Bifrost.Ninject
         {
             Kernel = kernel;
             _boundServices = new List<Type>();
+
+#if (!NET461)
+            kernel.Components.Remove<global::Ninject.Planning.Strategies.IPlanningStrategy, global::Ninject.Planning.Strategies.ConstructorReflectionStrategy>();
+            kernel.Components.Add<global::Ninject.Planning.Strategies.IPlanningStrategy, ConstructorReflectionStrategy>();
+#endif
         }
 
         /// <summary>

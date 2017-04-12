@@ -47,6 +47,14 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Compile Remove="**/netstandard/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' != 'net461' ">
+    <Compile Remove="**/net4x/**/*.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <PackageReference Include="Ninject" Version="3.2.2" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
