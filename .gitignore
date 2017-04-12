@@ -48,6 +48,9 @@ log.txt
 Source/Console/Events
 Source/Console/Entities
 
+App_Data
+
+
 # OS generated files #
 ######################
 .DS_Store
