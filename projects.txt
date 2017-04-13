@@ -3,9 +3,9 @@ Bifrost.JSON
 Bifrost.FluentValidation
 Bifrost.Ninject
 Bifrost.StructureMap
-Bifrost.Events.Azure.DocumentDB
 Bifrost.Events.Azure.Tables
 Bifrost.Events.MongoDB
 Bifrost.Events.RabbitMQ
 Bifrost.Events.Redis
+Bifrost.Read.MongoDB
 Bifrost.Web
