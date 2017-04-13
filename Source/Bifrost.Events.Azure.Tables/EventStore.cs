@@ -10,6 +10,7 @@ using Bifrost.Applications;
 using Bifrost.Concepts;
 using Bifrost.Extensions;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Bifrost.Events.Azure.Tables
@@ -41,7 +42,9 @@ namespace Bifrost.Events.Azure.Tables
             var connectionString = connectionStringProvider();
 
             var account = CloudStorageAccount.Parse(connectionString);
+            
             var tableClient = account.CreateCloudTableClient();
+            tableClient.DefaultRequestOptions.RetryPolicy = new ExponentialRetry(TimeSpan.FromMilliseconds(100), 5);
             _table = tableClient.GetTableReference(EventStoreTable);
 
             _table.CreateIfNotExistsAsync();
