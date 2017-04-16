@@ -23,6 +23,7 @@ namespace Bifrost.Events.Files
         IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
         IApplicationResourceResolver _applicationResourceResolver;
         ISerializer _serializer;
+        IFiles _files;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EventStore"/>
@@ -33,13 +34,15 @@ namespace Bifrost.Events.Files
         /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> for resolving <see cref="IApplicationResourceIdentifier"/> to concrete types</param> 
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
+        /// <param name="files"><see cref="IFiles"/> to work with files</param>
         public EventStore(
             EventStoreConfiguration configuration, 
             IApplicationResources applicationResources, 
             IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
             IApplicationResourceResolver applicationResourceResolver,
-            IEventEnvelopes eventEnvelopes, 
-            ISerializer serializer)
+            IEventEnvelopes eventEnvelopes,
+            ISerializer serializer,
+            IFiles files)
         {
             _configuration = configuration;
             _eventEnvelopes = eventEnvelopes;
@@ -47,6 +50,7 @@ namespace Bifrost.Events.Files
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _applicationResourceResolver = applicationResourceResolver;
             _serializer = serializer;
+            _files = files;
         }
 
         /// <inheritdoc/>
@@ -68,8 +72,8 @@ namespace Bifrost.Events.Files
                 var envelopeFile = envelopeFiles[eventIndex];
                 var eventFile = eventFiles[eventIndex];
 
-                var envelopeAsJson = File.ReadAllText(envelopeFile);
-                var eventAsJson = File.ReadAllText(eventFile);
+                var envelopeAsJson = _files.ReadString(Path.GetDirectoryName(envelopeFile), Path.GetFileName(envelopeFile));
+                var eventAsJson = _files.ReadString(Path.GetDirectoryName(eventFile), Path.GetFileName(eventFile));
                 var envelopeValues = _serializer.GetKeyValuesFromJson(envelopeAsJson);
 
                 var _correllationId = Guid.Parse((string)envelopeValues["CorrellationId"]);
@@ -118,11 +122,11 @@ namespace Bifrost.Events.Files
                 var envelopeAsJson = _serializer.ToJson(eventAndEnvelope.Envelope);
                 var eventAsJson = _serializer.ToJson(eventAndEnvelope.Event);
 
-                var eventPath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.event");
-                var envelopePath = Path.Combine(path, $"{envelope.Version.Commit}.{envelope.Version.Sequence}.envelope");
+                var eventFileName = $"{envelope.Version.Commit}.{envelope.Version.Sequence}.event";
+                var envelopeFileName = $"{envelope.Version.Commit}.{envelope.Version.Sequence}.envelope";
 
-                File.WriteAllText(envelopePath, envelopeAsJson);
-                File.WriteAllText(eventPath, eventAsJson);
+                _files.WriteString(path, eventFileName, eventAsJson);
+                _files.WriteString(path, envelopeFileName, envelopeAsJson);
             }
         }
 
@@ -132,8 +136,8 @@ namespace Bifrost.Events.Files
             var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
             var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
             var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
-            var files = Directory.GetFiles(eventPath, "*.event");
-            return files.Length > 0;
+            var files = _files.GetFilesIn(eventPath, "*.event");
+            return files.Count() > 0;
         }
 
         /// <inheritdoc/>
@@ -143,7 +147,7 @@ namespace Bifrost.Events.Files
             var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
             var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
 
-            var first = Directory.GetFiles(eventPath, "*.event").OrderByDescending(f => f).FirstOrDefault();
+            var first = _files.GetFilesIn(eventPath,"*.event").OrderByDescending(f => f).FirstOrDefault();
             if (first == null) return EventSourceVersion.Zero;
 
             var versionAsString = Path.GetFileNameWithoutExtension(first);
@@ -155,20 +159,12 @@ namespace Bifrost.Events.Files
         string GetPathFor(string eventSource)
         {
             var fullPath = Path.Combine(_configuration.Path, "EventStore", eventSource);
-            if (!Directory.Exists(fullPath))
-            {
-                Directory.CreateDirectory(fullPath);
-            }
             return fullPath;
         }
 
         string GetPathFor(string eventSource, EventSourceId eventSourceId)
         {
             var fullPath = Path.Combine(GetPathFor(eventSource), eventSourceId.ToString());
-            if (!Directory.Exists(fullPath))
-            {
-                Directory.CreateDirectory(fullPath);
-            }
             return fullPath;
         }
 
