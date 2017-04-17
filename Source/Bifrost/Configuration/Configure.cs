@@ -104,7 +104,7 @@ namespace Bifrost.Configuration
         /// Configure with a specific <see cref="IContainer"/>.
         /// </summary>
         /// <param name="container"><see cref="IContainer"/> to configure with.</param>
-        /// <param name="assembliesConfiguration"><see cref="IAssembliesConfiguration"/> to use.</param>
+        /// <param name="assembliesConfiguration"><see cref="AssembliesConfiguration"/> to use.</param>
         /// <param name="assemblyProvider"><see cref="IAssemblyProvider"/> to use for providing assemblies.</param>
         /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of
         /// the relationship between contracts and implementors.</param>
