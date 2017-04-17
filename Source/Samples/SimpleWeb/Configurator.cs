@@ -13,6 +13,7 @@ namespace SimpleWeb
             var eventsPath = Path.Combine(basePath, "Events");
             var eventSequenceNumbersPath = Path.Combine(basePath, "EventSequenceNumbers");
             var eventProcessorsStatePath = Path.Combine(basePath, "EventProcessors");
+            var eventSourceVersionsPath = Path.Combine(basePath, "EventSourceVersions");
 
             //var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
 
@@ -34,6 +35,7 @@ namespace SimpleWeb
                     e.EventStore.UsingFiles(eventsPath);
                     e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                     e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                    e.EventSourceVersions.UsingFiles(eventSourceVersionsPath);
 
                     /*
                     e.CommittedEventStreamSender.UsingRabbitMQ(rabbitMQ);

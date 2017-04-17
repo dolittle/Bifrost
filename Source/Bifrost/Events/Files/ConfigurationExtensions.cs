@@ -78,5 +78,19 @@ namespace Bifrost.Configuration
 
             return eventProcessorStatesConfiguration;
         }
+
+
+        /// <summary>
+        /// Configures <see cref="EventSourceVersionsConfiguration"/> for a file representation
+        /// </summary>
+        /// <param name="eventSourceVersionsConfiguration"><see cref="EventSourceVersionsConfiguration">Configuration instance</see> to configure</param>
+        /// <param name="path">Path to where to store <see cref="EventSourceVersion"/> per <see cref="IEventSource"/></param>
+        /// <returns>Chained <see cref="EventSourceVersionsConfiguration"/></returns>
+        public static EventSourceVersionsConfiguration UsingFiles(this EventSourceVersionsConfiguration eventSourceVersionsConfiguration, string path)
+        {
+            Configure.Instance.Container.Bind<ICanProvideEventSourceVersionsPath>(() => path);
+
+            return eventSourceVersionsConfiguration;
+        }
     }
 }
