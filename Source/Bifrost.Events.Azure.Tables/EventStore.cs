@@ -24,6 +24,7 @@ namespace Bifrost.Events.Azure.Tables
 
         IApplicationResources _applicationResources;
         IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
+        IApplicationResourceResolver _applicationResourceResolver;
         CloudTable _table;
 
         /// <summary>
@@ -31,14 +32,17 @@ namespace Bifrost.Events.Azure.Tables
         /// </summary>
         /// <param name="applicationResources">System for dealing with <see cref="IApplicationResources">Application Resources</see></param>
         /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter">Converter</see> for converting to and from string representations</param>
+        /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> for resolving types from <see cref="IApplicationResourceIdentifier">identifiers</see></param>
         /// <param name="connectionStringProvider"><see cref="ICanProvideConnectionString">ConnectionString provider</see></param>
         public EventStore(
             IApplicationResources applicationResources,
             IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
+            IApplicationResourceResolver applicationResourceResolver,
             ICanProvideConnectionString connectionStringProvider)
         {
             _applicationResources = applicationResources;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
+            _applicationResourceResolver = applicationResourceResolver;
             var connectionString = connectionStringProvider();
 
             var account = CloudStorageAccount.Parse(connectionString);
@@ -73,20 +77,66 @@ namespace Bifrost.Events.Azure.Tables
         /// <inheritdoc/>
         public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            throw new NotImplementedException();
+            var partitionKeyFilter = GetPartitionKeyFilterFor(eventSource, eventSourceId);
+            var query = new TableQuery<DynamicTableEntity>().Where(partitionKeyFilter);
+
+            var events = new List<DynamicTableEntity>();
+            TableContinuationToken continuationToken = null;
+            do
+            {
+                _table.ExecuteQuerySegmentedAsync(query, continuationToken).ContinueWith(e =>
+                {
+                    events.AddRange(e.Result.Results);
+                    continuationToken = e.Result.ContinuationToken;
+                }).Wait();
+            } while (continuationToken != null);
+
+            var eventsAndEnvelopes = events.OrderBy(e => long.Parse(e.RowKey)).Select(entity => {
+                var eventResource = GetApplicationResourceIdentifierFromSanitizedString(entity.Properties[PropertiesFor<EventEnvelope>.GetPropertyName(e => e.Event)].StringValue);
+                var eventSourceResource = GetApplicationResourceIdentifierFromSanitizedString(entity.Properties[PropertiesFor<EventEnvelope>.GetPropertyName(e => e.EventSource)].StringValue);
+                var envelope = new EventEnvelope(
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.CorrelationId),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.EventId),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.SequenceNumber),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.SequenceNumberForEventType),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.Generation),
+                    eventResource,
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.EventSourceId),
+                    eventSourceResource,
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.Version),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.CausedBy),
+                    PropertiesFor<EventEnvelope>.GetValue(entity, e => e.Occurred)
+                );
+
+                var eventType = _applicationResourceResolver.Resolve(envelope.Event);
+                var @event = Activator.CreateInstance(eventType, envelope.EventSourceId) as IEvent;
+                eventType.GetProperties().Where(p => p.CanWrite).ForEach(p => p.SetValue(@event, PropertyHelper.GetValue(entity, p)));
+
+                return new EventAndEnvelope(envelope, @event);
+            });
+
+            return eventsAndEnvelopes;
         }
 
         /// <inheritdoc/>
         public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            throw new NotImplementedException();
+            var partitionKeyFilter = GetPartitionKeyFilterFor(eventSource, eventSourceId);
+            var query = new TableQuery<DynamicTableEntity>().Where(partitionKeyFilter);
+
+            var hasEvents = false;
+            TableContinuationToken continuationToken = null;
+            _table.ExecuteQuerySegmentedAsync(query, continuationToken).ContinueWith(e =>
+                hasEvents = e.Result.Results.Count() > 0
+            ).Wait();
+
+            return hasEvents;
         }
 
         /// <inheritdoc/>
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            var partitionKey = GetPartitionKeyFor(eventSource, eventSourceId);
-            var partitionKeyFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+            var partitionKeyFilter = GetPartitionKeyFilterFor(eventSource, eventSourceId);
             var query = new TableQuery<DynamicTableEntity>().Select(new[] { "Version" }).Where(partitionKeyFilter);
 
             var events = new List<DynamicTableEntity>();
@@ -108,11 +158,30 @@ namespace Bifrost.Events.Azure.Tables
             return version;
         }
 
-        string GetPartitionKeyFor(IApplicationResourceIdentifier identifier, EventSourceId id)
+        string GetPartitionKeyFilterFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
+        {
+            var partitionKey = GetPartitionKeyFor(eventSource, eventSourceId);
+            var partitionKeyFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
+            return partitionKeyFilter;
+        }
+
+        string GetSanitizedApplicationResourceIdentifier(IApplicationResourceIdentifier identifier)
         {
             var identifierAsString = _applicationResourceIdentifierConverter.AsString(identifier);
             identifierAsString = identifierAsString.Replace('#', '|');
+            return identifierAsString;
+        }
 
+        IApplicationResourceIdentifier GetApplicationResourceIdentifierFromSanitizedString(string identifierAsString)
+        {
+            identifierAsString = identifierAsString.Replace('|', '#');
+            var identifier = _applicationResourceIdentifierConverter.FromString(identifierAsString);
+            return identifier;
+        }
+
+        string GetPartitionKeyFor(IApplicationResourceIdentifier identifier, EventSourceId id)
+        {
+            var identifierAsString = GetSanitizedApplicationResourceIdentifier(identifier);
             var partitionKey = $"{identifierAsString}-{id}";
             return partitionKey;
         }
@@ -133,17 +202,31 @@ namespace Bifrost.Events.Azure.Tables
             EntityProperty entityProperty = null;
             var valueType = value.GetType();
 
-            if (value.IsConcept()) value = value.GetConceptValue();
+            if (value.IsConcept())
+            {
+                value = value.GetConceptValue();
+                valueType = valueType.GetConceptValueType();
+            }
 
-            if (valueType == typeof(Guid)) entityProperty = new EntityProperty((Guid)value);
-            if (valueType == typeof(int)) entityProperty = new EntityProperty((long)value);
-            if (valueType == typeof(long)) entityProperty = new EntityProperty((long)value);
-            if (valueType == typeof(string)) entityProperty = new EntityProperty((string)value);
-            if (valueType == typeof(DateTime)) entityProperty = new EntityProperty((DateTime)value);
-            if (valueType == typeof(DateTimeOffset)) entityProperty = new EntityProperty((DateTimeOffset)value);
-            if (valueType == typeof(bool)) entityProperty = new EntityProperty((bool)value);
-            if (valueType == typeof(double)) entityProperty = new EntityProperty((double)value);
-            if (valueType == typeof(float)) entityProperty = new EntityProperty((double)value);
+            if( value == null )
+            {
+                var typeInfo = valueType.GetTypeInfo();
+                if (typeInfo.IsValueType || valueType.HasDefaultConstructor())
+                    value = Activator.CreateInstance(valueType);
+                else if (valueType == typeof(string)) value = string.Empty;
+            }
+
+            if (valueType == typeof(EventSourceVersion)) entityProperty = new EntityProperty(((EventSourceVersion)value).Combine());
+            else if (valueType == typeof(Guid)) entityProperty = new EntityProperty((Guid)value);
+            else if (valueType == typeof(int)) entityProperty = new EntityProperty((int)value);
+            else if (valueType == typeof(long)) entityProperty = new EntityProperty((long)value);
+            else if (valueType == typeof(string)) entityProperty = new EntityProperty((string)value);
+            else if (valueType == typeof(DateTime)) entityProperty = new EntityProperty((DateTime)value);
+            else if (valueType == typeof(DateTimeOffset)) entityProperty = new EntityProperty((DateTimeOffset)value);
+            else if (valueType == typeof(bool)) entityProperty = new EntityProperty((bool)value);
+            else if (valueType == typeof(double)) entityProperty = new EntityProperty((double)value);
+            else if (valueType == typeof(float)) entityProperty = new EntityProperty((double)value);
+            else if (valueType.HasInterface<IApplicationResourceIdentifier>()) entityProperty = new EntityProperty(_applicationResourceIdentifierConverter.AsString((IApplicationResourceIdentifier)value));
 
             return entityProperty;
         }

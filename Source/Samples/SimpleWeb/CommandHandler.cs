@@ -31,7 +31,8 @@ namespace Domain.Awesome
 
         public void Handle(MyCommand command)
         {
-            var es = _repository.Get(Guid.NewGuid());
+            var g = Guid.Parse("28ca41b6-68d8-4464-b8f8-e270cc928371");
+            var es = _repository.Get(g);
             es.DoStuff(command.Something);
         }
     }
@@ -49,6 +50,13 @@ namespace Domain.Awesome
         public void DoStuff(string something)
         {
             Apply(new MyEvent(EventSourceId) { Something = something});
+        }
+
+
+        void On(MyEvent @event)
+        {
+            var i = 0;
+            i++;
         }
     }
 }
