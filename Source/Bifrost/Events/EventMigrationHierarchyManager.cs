@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -52,12 +52,12 @@ namespace Bifrost.Events
             {
                  type = hierarchy.GetConcreteTypeForLevel(level);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new MigrationLevelOutOfRangeException(string.Format(
                                         "The maximum migration level for the logical event {0} is {1}.  Does not have a migration level of {2}",
                                         logicalEvent.FullName, hierarchy.MigrationLevel, level
-                                        ),ex);
+                                        ));
             }
 
             return type;

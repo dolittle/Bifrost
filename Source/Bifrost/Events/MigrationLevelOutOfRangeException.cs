@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -17,22 +17,8 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a <see cref="MigrationLevelOutOfRangeException">MigrationLevelOutOfRangeException</see>
         /// </summary>
-        public MigrationLevelOutOfRangeException()
-        {}
-
-        /// <summary>
-        /// Initializes a <see cref="MigrationLevelOutOfRangeException">MigrationLevelOutOfRangeException</see>
-        /// </summary>
         /// <param name="message">Error Message</param>
         public MigrationLevelOutOfRangeException(string message) : base(message)
         {}
-
-        /// <summary>
-        /// Initializes a <see cref="MigrationLevelOutOfRangeException">MigrationLevelOutOfRangeException</see>
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="innerException">Inner Exception</param>
-        public MigrationLevelOutOfRangeException(string message, Exception innerException) : base(message,innerException)
-        { }
     }
 }
