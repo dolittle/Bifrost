@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -25,19 +25,21 @@ namespace Bifrost.Events.RabbitMQ
         public event CommittedEventStreamReceived Received = (e) => { };
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="CommittedEventStreamCoordinator"/>
         /// </summary>
-        /// <param name="serializer"></param>
-        /// <param name="applicationResourceIdentifierConverter"></param>
-        /// <param name="applicationResourceResolver"></param>
+        /// <param name="serializer"><see cref="ISerializer"/> to use for deserializing <see cref="IEvent">events</see></param>
+        /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> used for converting resource identifiers</param>
+        /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> used for resolving types from <see cref="IApplicationResourceIdentifier"/></param>
+        /// <param name="connectionStringProvider"><see cref="ICanProvideConnectionStringToReceiver">Provider</see> of connection string</param>
         public CommittedEventStreamReceiver(
             ISerializer serializer,
             IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
-            IApplicationResourceResolver applicationResourceResolver)
+            IApplicationResourceResolver applicationResourceResolver,
+            ICanProvideConnectionStringToReceiver connectionStringProvider)
         {
             _serializer = serializer;
             var factory = new ConnectionFactory();
-            factory.Uri = "amqp://guest:guest@localhost:5672/";
+            factory.Uri = connectionStringProvider();
 
             var connection = factory.CreateConnection();
             var exchangeName = "Events";
@@ -108,14 +110,10 @@ namespace Bifrost.Events.RabbitMQ
                 }
                 catch
                 {
-
                 }
                 finally
                 {
-
                 }
-
-
             };
 
             Task.Run(() => model.BasicConsume(queueName, false, consumer));

@@ -20,7 +20,7 @@ namespace Bifrost.Events
         /// <returns>Chained <see cref="CommittedEventStreamReceiverConfiguration"/></returns>
         public static CommittedEventStreamSenderConfiguration UsingRabbitMQ(this CommittedEventStreamSenderConfiguration configuration, string connectionString)
         {
-            configuration.CommittedEventStreamSender = typeof(RabbitMQ.CommittedEventStreamSender);
+            configuration.CommittedEventStreamSender = typeof(CommittedEventStreamSender);
             Configure.Instance.Container.Bind<ICanProvideConnectionStringToSender>(() => connectionString);
             return configuration;
         }
@@ -34,7 +34,7 @@ namespace Bifrost.Events
         /// <returns>Chained <see cref="CommittedEventStreamReceiverConfiguration"/></returns>
         public static CommittedEventStreamReceiverConfiguration UsingRabbitMQ(this CommittedEventStreamReceiverConfiguration configuration, string connectionString)
         {
-            configuration.CommittedEventStreamReceiver = typeof(RabbitMQ.CommittedEventStreamReceiver);
+            configuration.CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
             Configure.Instance.Container.Bind<ICanProvideConnectionStringToReceiver>(() => connectionString);
             return configuration;
         }
