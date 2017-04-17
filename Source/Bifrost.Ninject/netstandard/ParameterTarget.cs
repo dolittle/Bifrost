@@ -16,7 +16,6 @@ namespace Bifrost.Ninject
     public class ParameterTarget : Target<ParameterInfo>
     {
         Lazy<object> _defaultValue;
-        bool _hasDefaultValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterTarget"/> class.
@@ -26,7 +25,6 @@ namespace Bifrost.Ninject
         public ParameterTarget(MethodBase method, ParameterInfo site)
             : base(method, site)
         {
-            _hasDefaultValue = site.HasDefaultValue;
             _defaultValue = new Lazy<object>(() => site.DefaultValue);
         }
 
@@ -43,13 +41,12 @@ namespace Bifrost.Ninject
         }
 
         /// <inheritdoc/>
-        public override bool HasDefaultValue => _hasDefaultValue;
+        public override bool HasDefaultValue => Site.HasDefaultValue;
 
         /// <inheritdoc/>
         public override object DefaultValue
         {
             get { return HasDefaultValue ? _defaultValue.Value : base.DefaultValue; }
         }
-
     }
 }
