@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bifrost.Execution;
-using System.Collections.Generic;
 using StructureMap.Pipeline;
 
 namespace Bifrost.StructureMap
@@ -26,8 +26,13 @@ namespace Bifrost.StructureMap
             _container = container;
         }
 
+        /// <summary>
+        /// Gets the default <see cref="BindingLifecycle"/>
+        /// </summary>
+        public virtual BindingLifecycle DefaultLifecycle => BindingLifecycle.Transient;
+
         /// <inheritdoc/>
-        public T Get<T> ()
+        public T Get<T>()
         {
             return _container.GetInstance<T>();
         }
@@ -48,10 +53,11 @@ namespace Bifrost.StructureMap
         }
 
         /// <inheritdoc/>
-        public object Get (Type type)
+        public object Get(Type type)
         {
             return _container.GetInstance(type);
         }
+
 
         /// <inheritdoc/>
         public object Get (Type type, bool optional = false)
@@ -69,25 +75,26 @@ namespace Bifrost.StructureMap
         }
 
         /// <inheritdoc/>
-        public IEnumerable<T> GetAll<T> ()
+        public IEnumerable<T> GetAll<T>()
         {
             return _container.GetAllInstances<T>();
         }
 
         /// <inheritdoc/>
-        public bool HasBindingFor (Type type)
+        public bool HasBindingFor(Type type)
         {
             return _container.Model.HasImplementationsFor(type);
         }
 
         /// <inheritdoc/>
-        public bool HasBindingFor<T> ()
+        public bool HasBindingFor<T>()
         {
             return _container.Model.HasImplementationsFor<T>();
         }
 
+
         /// <inheritdoc/>
-        public IEnumerable<object> GetAll (Type type)
+        public IEnumerable<object> GetAll(Type type)
         {
             var list = new List<object>();
             foreach( var instance in _container.GetAllInstances(type) ) list.Add (instance);
@@ -95,69 +102,69 @@ namespace Bifrost.StructureMap
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Type> GetBoundServices ()
+        public IEnumerable<Type> GetBoundServices()
         {
             return _container.Model.PluginTypes.Select(p=>p.PluginType);
         }
 
         /// <inheritdoc/>
-        public void Bind (Type service, Func<Type> resolveCallback)
+        public void Bind(Type service, Func<Type> resolveCallback)
         {
             _container.Configure (c=>c.For(service).Use((ctx) => resolveCallback()));
         }
 
         /// <inheritdoc/>
-        public void Bind<T> (Func<Type> resolveCallback)
+        public void Bind<T>(Func<Type> resolveCallback)
         {
             _container.Configure (c=>c.For<T>().UseInstance(new ConfiguredInstance(resolveCallback())));
             
         }
 
         /// <inheritdoc/>
-        public void Bind (Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind(Type service, Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             _container.Configure (c=>c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(new ConfiguredInstance(resolveCallback())));
         }
 
         /// <inheritdoc/>
-        public void Bind<T> (Func<Type> resolveCallback, BindingLifecycle lifecycle)
+        public void Bind<T>(Func<Type> resolveCallback, BindingLifecycle lifecycle)
         {
             _container.Configure (c=>c.For<T>().LifecycleIs(GetInstanceScopeFor(lifecycle)).UseInstance(new ConfiguredInstance(resolveCallback())));
         }
 
         /// <inheritdoc/>
-        public void Bind<T> (Type type)
+        public void Bind<T>(Type type)
         {
             _container.Configure (c=>c.For<T>().UseInstance(new ConfiguredInstance(type)));
         }
 
         /// <inheritdoc/>
-        public void Bind (Type service, Type type)
+        public void Bind(Type service, Type type)
         {
             _container.Configure (c=>c.For(service).Use(type));
         }
 
         /// <inheritdoc/>
-        public void Bind<T> (Type type, BindingLifecycle lifecycle)
+        public void Bind<T>(Type type, BindingLifecycle lifecycle)
         {
 
             _container.Configure (c=>c.For<T>().LifecycleIs(GetInstanceScopeFor(lifecycle)).UseInstance(new ConfiguredInstance(type)));
         }
 
         /// <inheritdoc/>
-        public void Bind (Type service, Type type, BindingLifecycle lifecycle)
+        public void Bind(Type service, Type type, BindingLifecycle lifecycle)
         {
             _container.Configure (c=>c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(type));
         }
 
         /// <inheritdoc/>
-        public void Bind<T> (T instance)
+        public void Bind<T>(T instance)
         {
             _container.Configure (c => c.For(typeof(T)).Use(new ObjectInstance(instance)));
         }
 
         /// <inheritdoc/>
-        public void Bind (Type service, object instance)
+        public void Bind(Type service, object instance)
         {
             _container.Configure (c => c.For(service).Add (instance));
         }
@@ -186,8 +193,6 @@ namespace Bifrost.StructureMap
             _container.Configure(c => c.For(service).LifecycleIs(GetInstanceScopeFor(lifecycle)).Use(ctx => resolveCallback(service)));
         }
 
-        /// <inheritdoc/>
-        public BindingLifecycle DefaultLifecycle { get; set; }
 
         ILifecycle GetInstanceScopeFor(BindingLifecycle lifecycle)
         {
@@ -203,4 +208,3 @@ namespace Bifrost.StructureMap
         }
     }
 }
-

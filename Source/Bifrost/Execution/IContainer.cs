@@ -13,13 +13,6 @@ namespace Bifrost.Execution
     public interface IContainer
     {
         /// <summary>
-        /// Gets or sets the <see cref="BindingLifecycle"/> for objects.
-        /// This property usually guides the implementing container for default bindings it may create for types that 
-        /// does not have an explicit binding and is not abstract or an interface
-        /// </summary>
-        BindingLifecycle DefaultLifecycle { get; set; }
-
-        /// <summary>
         /// Get an instance of a specific type
         /// </summary>
         /// <typeparam name="T">Type to get instance of</typeparam>
@@ -47,7 +40,7 @@ namespace Bifrost.Execution
         /// <param name="type">Type to get instance of</param>
         /// <param name="optional">If the binding is optional, return null and not throw an exception</param>
         /// <returns>Instance of the type</returns>
-        object Get(Type type, bool optional = false);
+        object Get(Type type, bool optional);
 
         /// <summary>
         /// Get all instances of a specific type
