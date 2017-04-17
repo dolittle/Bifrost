@@ -29,15 +29,19 @@ namespace Bifrost.Ninject
                 case BindingLifecycle.Singleton:
                     syntax.InSingletonScope();
                     break;
-#if(false)
+#if (false)
                 case BindingLifecycle.Request:
                     syntax.InRequestScope();
                     break;
+#endif
 
+#if (NET461)
                 case BindingLifecycle.Thread:
                     syntax.InThreadScope();
                     break;
-#endif            
+#endif
+                
+
                 case BindingLifecycle.Transient:
                     syntax.InTransientScope();
                     break;
