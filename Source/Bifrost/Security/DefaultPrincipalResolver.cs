@@ -2,7 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace Bifrost.Security
 {
@@ -11,11 +11,22 @@ namespace Bifrost.Security
     /// </summary>
     public class DefaultPrincipalResolver : ICanResolvePrincipal
     {
-#pragma warning disable 1591 // Xml Comments
-        public IPrincipal Resolve()
+        /// <summary>
+        /// The user name when there is no user logged in
+        /// </summary>
+        public const string AnonymousUserName = "[Anonymous]";
+
+        /// <inheritdoc/>
+        public ClaimsPrincipal Resolve()
         {
-            return GenericPrincipal.Current;
+            if( ClaimsPrincipal.Current == null )
+            {
+                var identity = new ClaimsIdentity();
+                identity.AddClaim(new Claim(identity.NameClaimType, AnonymousUserName));
+                var principal = new ClaimsPrincipal(identity);
+                return principal;
+            }
+            return ClaimsPrincipal.Current;
         }
-#pragma warning restore 1591 // Xml Comments
     }
 }

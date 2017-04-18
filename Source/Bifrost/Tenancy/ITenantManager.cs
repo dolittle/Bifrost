@@ -5,7 +5,7 @@
 namespace Bifrost.Tenancy
 {
     /// <summary>
-    /// Defines a manager for <see cref="Tenant"/>
+    /// Defines a system that manages <see cref="ITenant"/>
     /// </summary>
     public interface ITenantManager
     {
@@ -13,6 +13,5 @@ namespace Bifrost.Tenancy
         /// Gets the current <see cref="ITenant"/>
         /// </summary>
         ITenant Current { get; }
-
     }
 }

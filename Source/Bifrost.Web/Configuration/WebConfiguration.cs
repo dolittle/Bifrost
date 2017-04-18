@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.IO;
 using Bifrost.Configuration;
 using Bifrost.Execution;
 
@@ -24,10 +23,6 @@ namespace Bifrost.Web.Configuration
 
 #if (NET461)
             ApplicationPhysicalPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
-#else
-            // Todo: Temporary hack!!! Use ContentRoot in IHostingEnvironment
-            ApplicationPhysicalPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot");
-            //ApplicationPhysicalPath = Path.Combine(Directory.GetCurrentDirectory(), @"Samples/SimpleWeb/wwwroot");
 #endif
         }
 
@@ -37,7 +32,7 @@ namespace Bifrost.Web.Configuration
         public NamespaceMapper NamespaceMapper { get; set; }
         public bool ApplicationRouteCached { get; set; }
 
-        public string ApplicationPhysicalPath { get; }
+        public string ApplicationPhysicalPath { get; internal set; }
         public IEnumerable<IPipe> Pipes => _pipes;
 
         public void Initialize(IContainer container)

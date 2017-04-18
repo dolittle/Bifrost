@@ -14,13 +14,16 @@ namespace Bifrost.Specs.Domain.for_AggregateRootRepository
         static EventSourceId event_source_id = Guid.NewGuid();
         static SimpleStatefulAggregateRoot stateful_aggregated_root;
         static EventSourceVersion expected_version;
+        
 
         Establish context = () =>
         {
             var @event = new SimpleEvent(event_source_id);
             var version = new EventSourceVersion(1, 1);
             var event_envelope = new Mock<IEventEnvelope>();
+            
             event_envelope.SetupGet(e => e.Version).Returns(version);
+            event_store.Setup(e => e.GetFor(application_resource_identifier.Object, event_source_id)).Returns(new[] { new EventAndEnvelope(event_envelope.Object, @event) });
 
             expected_version = new EventSourceVersion(2,0);
         };

@@ -17,6 +17,8 @@ namespace Bifrost.Events.MongoDB
     /// </summary>
     public class EventStore : IEventStore
     {
+        const string EventStoreCollectionName = "Events";
+
         IMongoCollection<BsonDocument> _collection;
 
         static EventStore()
@@ -27,9 +29,15 @@ namespace Bifrost.Events.MongoDB
         /// <summary>
         /// Initializes a new instance of <see cref="EventStore"/>
         /// </summary>
-        public EventStore()
+        /// <param name="connectionDetailsProvider"><see cref="ICanProvideConnectionDetails">Connection details provider</see></param>
+        public EventStore(ICanProvideConnectionDetails connectionDetailsProvider)
         {
             _collection = null;
+            var connectionDetails = connectionDetailsProvider();
+            var settings = MongoClientSettings.FromUrl(new MongoUrl(connectionDetails.Item1));
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase(connectionDetails.Item2);
+            _collection = database.GetCollection<BsonDocument>(EventStoreCollectionName);
         }
 
         /// <inheritdoc/>
@@ -42,6 +50,8 @@ namespace Bifrost.Events.MongoDB
         /// <inheritdoc/>
         public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
+            
+
             throw new NotImplementedException();
         }
 

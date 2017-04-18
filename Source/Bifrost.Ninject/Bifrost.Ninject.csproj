@@ -6,6 +6,7 @@
     <DocumentationFile>bin\Debug\net461\Bifrost.Ninject.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
+    <Version>1.0.0</Version>
     <Description>Bifrost is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
     <Copyright>Copyright 2008 - 2017 Dolittle</Copyright>
     <Authors>all contributors</Authors>
@@ -45,6 +46,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
   </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Compile Remove="**/netstandard/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' != 'net461' ">
+    <Compile Remove="**/net4x/**/*.cs" />
+  </ItemGroup>
+
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <PackageReference Include="Ninject" Version="3.2.2" />

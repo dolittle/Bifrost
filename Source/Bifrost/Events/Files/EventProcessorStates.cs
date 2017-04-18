@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Dynamic;
-using System.IO;
 using Bifrost.Serialization;
 using Bifrost.Time;
 
@@ -18,6 +17,7 @@ namespace Bifrost.Events.Files
     {
         EventProcessorStatesConfiguration _configuration;
         ISerializer _serializer;
+        IFiles _files;
         ISystemClock _systemClock;
 
         /// <summary>
@@ -25,19 +25,21 @@ namespace Bifrost.Events.Files
         /// </summary>
         /// <param name="configuration">The <see cref="EventProcessorStatesConfiguration">configuration</see></param>
         /// <param name="serializer"><see cref="ISerializer"/></param>
+        /// <param name="files"><see cref="IFiles"/> to work with files</param>
         /// <param name="systemClock"><see cref="ISystemClock"/> for getting time from the system</param>
-        public EventProcessorStates(EventProcessorStatesConfiguration configuration, ISerializer serializer, ISystemClock systemClock)
+        public EventProcessorStates(EventProcessorStatesConfiguration configuration, ISerializer serializer, IFiles files, ISystemClock systemClock)
         {
             _configuration = configuration;
             _serializer = serializer;
+            _files = files;
             _systemClock = systemClock;
         }
 
         /// <inheritdoc/>
         public IEventProcessorState GetFor(IEventProcessor eventProcessor)
         {
-            var path = GetPathFor(eventProcessor);
-            var json = File.ReadAllText(path);
+            var fileName = GetFileNameFor(eventProcessor);
+            var json = _files.ReadString(_configuration.Path, fileName);
 
             var eventProcessorState = new EventProcessorState(
                 eventProcessor, 
@@ -53,16 +55,12 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public void ReportFailureFor(IEventProcessor eventProcessor, IEvent @event, IEventEnvelope envelope)
         {
-            MakeSurePathExists();
-
             WriteState(eventProcessor, envelope, EventProcessingStatus.Failed);
         }
 
         /// <inheritdoc/>
         public void ReportSuccessFor(IEventProcessor eventProcessor, IEvent @event, IEventEnvelope envelope)
         {
-            MakeSurePathExists();
-
             WriteState(eventProcessor, envelope, EventProcessingStatus.Success);
         }
 
@@ -76,19 +74,14 @@ namespace Bifrost.Events.Files
             state.LastProcessingStatus = processingStatus;
 
             var json = _serializer.ToJson(state);
-            var path = GetPathFor(eventProcessor);
-            File.WriteAllText(path, json);
+            var fileName = GetFileNameFor(eventProcessor);
+
+            _files.WriteString(_configuration.Path, fileName, json);
         }
 
-        string GetPathFor(IEventProcessor eventProcessor)
+        string GetFileNameFor(IEventProcessor eventProcessor)
         {
-            var path = Path.Combine(_configuration.Path, eventProcessor.Identifier, ".state");
-            return path;
-        }
-
-        void MakeSurePathExists()
-        {
-            if (!Directory.Exists(_configuration.Path)) Directory.CreateDirectory(_configuration.Path);
+            return $"{eventProcessor.Identifier.Value.GetHashCode().ToString()}.state";
         }
     }
 }

@@ -15,11 +15,11 @@ using IContainer = Bifrost.Execution.IContainer;
 namespace Bifrost.Autofac
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IContainer"/> for AutoFac
+    /// Represents an implementation of <see cref="Execution.IContainer"/> for AutoFac
     /// </summary>
     public class Container : IContainer
     {
-        global::Autofac.IContainer _container;
+        readonly global::Autofac.IContainer _container;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Container"/>
@@ -30,8 +30,9 @@ namespace Bifrost.Autofac
             _container = container;
         }
 
-
 #pragma warning disable 1591
+        public virtual BindingLifecycle DefaultLifecycle => BindingLifecycle.Transient;
+
         public T Get<T>()
         {
             return _container.Resolve<T>();
@@ -45,7 +46,10 @@ namespace Bifrost.Autofac
             }
             catch
             {
-                if (!optional) throw;
+                if (!optional)
+                {
+                    throw;
+                }
             }
 
             return default(T);
@@ -60,11 +64,7 @@ namespace Bifrost.Autofac
 
         public object Get(Type type, bool optional)
         {
-            if (optional)
-            {
-                return _container.ResolveOptional(type);
-            }
-            return _container.Resolve(type);
+            return optional ? _container.ResolveOptional(type) : _container.Resolve(type);
         }
 
         public IEnumerable<T> GetAll<T>()
@@ -84,22 +84,20 @@ namespace Bifrost.Autofac
 
         public IEnumerable<object> GetAll(Type type)
         {
-            List<object> list = ((IEnumerable) _container
-                                                   .Resolve(typeof (IEnumerable<>)
-                                                                .MakeGenericType(type)))
+            return ((IEnumerable)_container.Resolve(typeof(IEnumerable<>).MakeGenericType(type)))
                 .OfType<object>()
                 .ToList();
-
-            return list;
         }
 
         public IEnumerable<Type> GetBoundServices()
         {
-            IEnumerable<Type> types = _container.ComponentRegistry.Registrations
-                                                .SelectMany(r => r.Services.OfType<IServiceWithType>(),
-                                                            (r, s) => new {r, s})
-                                                .Select(rs => rs.r.Activator.LimitType).ToList();
-            return types;
+            return _container
+                .ComponentRegistry.Registrations
+                .SelectMany(
+                    r => r.Services.OfType<IServiceWithType>(),
+                    (r, s) => new { r, s })
+                .Select(rs => rs.r.Activator.LimitType)
+                .ToList();
         }
 
         public void Bind(Type type, Func<Type> resolveCallback)
@@ -174,8 +172,6 @@ namespace Bifrost.Autofac
             RegisterWithCallback(service, resolveCallback, DefaultLifecycle);
         }
 
-        public BindingLifecycle DefaultLifecycle { get; set; }
-
 #pragma warning restore 1591
 
         void RegisterWithCallback<T>(Type service, Func<T> resolveCallback, BindingLifecycle lifecycle)
@@ -229,15 +225,21 @@ namespace Bifrost.Autofac
                     foreach (ParameterInfo parameter in parameters)
                     {
                         object service = _container.Resolve(parameter.ParameterType);
-                        if (service == null) throw new Exception("Unkown service");
+                        if (service == null)
+                        {
+                            throw new Exception("Unkown service");
+                        }
+
                         parameterInstances.Add(service);
                     }
+
                     return Activator.CreateInstance(type, parameterInstances.ToArray());
                 }
                 catch (Exception)
                 {
                 }
             }
+
             throw new MissingDefaultConstructorException(type);
         }
     }

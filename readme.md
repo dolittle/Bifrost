@@ -9,7 +9,7 @@
 | Platform | Build Status |
 | -------- | ------ |
 | Windows | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/93saivbkl94plciv?svg=true)](https://ci.appveyor.com/project/Dolittle/bifrost-7c2cn) | 
-| Linux / macOS | [![Travis Build Status](https://travis-ci.org/dolittle/Bifrost.svg?branch=master)](https://travis-ci.org/dolittle/Bifrost) |
+| Linux | [![Travis Build Status](https://travis-ci.org/dolittle/Bifrost.svg?branch=master)](https://travis-ci.org/dolittle/Bifrost) |
 
 
 ![Bifrost Logo](Media/Logo/logo_128x128.png)

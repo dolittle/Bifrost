@@ -22,6 +22,8 @@ open AssemblyInfoFile
 // http://blog.2mas.xyz/take-control-of-your-build-ci-and-deployment-with-fsharp-fake/
 
 let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
+let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
+let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*[+-]*(\d+)*", RegexOptions.Compiled)
 type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:string, release:bool) =
@@ -109,11 +111,12 @@ let getLatestTag repositoryDir =
     
 let getVersionFromGitTag(buildNumber:int) =
     trace "Get version from Git tag"
-
-
-    let gitVersionTag = gitVersion "./"
-    tracef "Git tag version : %s" gitVersionTag
-    new BuildVersion(gitVersionTag, buildNumber, true)
+    if appveyor then
+        let gitVersionTag = gitVersion "./"
+        tracef "Git tag version : %s" gitVersionTag
+        new BuildVersion(gitVersionTag, buildNumber, true)
+    else 
+        new BuildVersion("1.0.0", 0, false)
 
 let getLatestNuGetVersion =
     trace "Get latest NuGet version"
@@ -176,9 +179,6 @@ let projectsDirectories = File.ReadAllLines "projects.txt" |> Array.map(fun f ->
 
 let specDirectories = File.ReadAllLines "specs.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
-let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
-
-
 let currentBranch = getCurrentBranch
 
 // Versioning related
@@ -221,11 +221,19 @@ printfn "<----------------------- BUILD DETAILS ----------------------->"
 //* Restore Packages
 //*****************************************************************************
 Target "RestorePackages" (fun _ ->
-    solutionFile
-     |> RestoreMSSolutionPackages (fun p ->
-         { p with
-             OutputPath = "./Source/Solutions/packages"
-             Retries = 4 })
+    trace "**** Restoring packages ****"
+
+    let currentDir = Directory.GetCurrentDirectory()
+
+    for directory in projectsDirectories.Concat(specDirectories) do
+        tracef "Restoring packages for %s" directory.FullName
+        Directory.SetCurrentDirectory directory.FullName
+        let allArgs = sprintf "restore"
+        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
+        if errorCode <> 0 then failwith "Restoring failed"
+
+    Directory.SetCurrentDirectory(currentDir)
+    trace "**** Restoring packages DONE ****"
 )
 
 
@@ -292,13 +300,21 @@ Target "DotNetTest" (fun _ ->
     for directory in specDirectories do
         tracef "Running Specs for %s" directory.FullName
         Directory.SetCurrentDirectory directory.FullName
-        let allArgs = sprintf "test %s" (if isWindows then "" else "-f netcoreapp1.1")
+        let allArgs = sprintf "test %s %s" (if isWindows then "" else "-f netcoreapp1.1") (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
         let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
         if errorCode <> 0 then failwith "Running C# Specifications failed"
+
+        let resultsFile = "./TestResults/results.trx"
+        if appveyor && File.Exists(resultsFile) then
+            let webClient = new System.Net.WebClient()
+            let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
+            tracef "Posting results to %s" url
+            webClient.UploadFile(url, resultsFile) |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
     trace "**** Running Specs DONE ****"
 )
+
 
 //*****************************************************************************
 //* Package all projects for NuGet
@@ -326,38 +342,54 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
     if String.IsNullOrEmpty(documentationUser) then
         trace "Skipping building and publishing documentation - user not set"
     else
-        documentationSolutionFile
-         |> RestoreMSSolutionPackages (fun p ->
-             { p with
-                 OutputPath = "./Source/Solutions/packages"
-                 Retries = 4 })
+        trace "**** Generating Documentation ****"
 
-        let buildMode = getBuildParamOrDefault "buildMode" "Release"
-        let setParams defaults =
-            { defaults with
-                Verbosity = Some MSBuildVerbosity.Minimal
-                Properties =
-                    [
-                        "Optimize", "True"
-                    ]
-            }
+        let currentDir = Directory.GetCurrentDirectory()
+        tracef "Current directory is : %s" currentDir
+        Directory.SetCurrentDirectory "./Source/Documentation"
+        if ProcessHelper.Shell.Exec("dotnet", "restore") <> 0 then failwith "Couldn't restore documentation project"
+        if ProcessHelper.Shell.Exec("dotnet", "build") <> 0 then failwith "Couldn't build documentation project"
+        Directory.SetCurrentDirectory(currentDir)
 
-        build setParams documentationSolutionFile
-            |> DoNothing
+        trace "Clone site repository"
 
         let siteDir = "dolittle.github.io"
         ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
+
+        trace "Copy all the content from the generated site"
         FileHelper.CopyDir "dolittle.github.io/bifrost" "Source/Documentation/_site" (fun f -> true)
 
-        ProcessHelper.Shell.Exec("git" , args="add .", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.name \"Bifrost Documentation Account\"", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.email \"bifrost@dolittle.com\"", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="commit -m \"<-- Autogenerated : documentation updated -->\"", dir=siteDir) |> ignore
+        Directory.SetCurrentDirectory(siteDir)
+
+        trace "Push back to Git repository"
+        ProcessHelper.Shell.Exec("git" , args="add .") |> ignore
+        ProcessHelper.Shell.Exec("git" , args="config --global user.name \"Bifrost Documentation Account\"") |> ignore
+        ProcessHelper.Shell.Exec("git" , args="config --global user.email \"bifrost@dolittle.com\"") |> ignore
+        ProcessHelper.Shell.Exec("git" , args="commit -m \"<-- Autogenerated : documentation updated -->\"") |> ignore
         let remoteUrl = sprintf "remote set-url origin https://%s:%s@github.com/dolittle/dolittle.github.io.git" documentationUser documentationUserToken
-        ProcessHelper.Shell.Exec("git" , args=remoteUrl, dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="push", dir=siteDir) |> ignore
+        ProcessHelper.Shell.Exec("git" , args=remoteUrl) |> ignore
+        // if( ProcessHelper.Shell.Exec("git" , args="push 2>nul") <> 0) then failwith "Couldn't push documentation to repository"
+
+        let startInfo = new System.Diagnostics.ProcessStartInfo("git")
+        startInfo.Arguments <- "push"
+        startInfo.RedirectStandardInput <- false
+        startInfo.RedirectStandardOutput <- false
+        startInfo.RedirectStandardError <- false
+        startInfo.UseShellExecute <- false
+        startInfo.CreateNoWindow <- true
+
+        use proc = new System.Diagnostics.Process(StartInfo = startInfo)
+        proc.Start() |> ignore
+        proc.WaitForExit()
+        if proc.ExitCode <> 0 then 
+            failwith ("Couldn't push documentation to repository")
         
+        trace "--- Delete content of site dir ---"
         FileHelper.DeleteDir siteDir
+
+        Directory.SetCurrentDirectory(currentDir)
+
+        trace "**** Generating Documentation DONE ****"
 )
 
 
@@ -414,26 +446,23 @@ Target "Package" DoNothing
 "UpdateVersionOnProjectFiles" ==> "Package"
 "PackageForNuGet" ==> "Package"
 
-// Specifications pipeline
-Target "Specifications" DoNothing
-"DotNetTest" ==> "Specifications"
-"JavaScriptSpecs" ==> "Specifications"
-
 // Deployment pipeline
 Target "Deploy" DoNothing
 "DeployNugetPackages" ==> "Deploy"
 
-Target "BuildAndSpecs" DoNothing
-"BuildRelease" ==> "BuildAndSpecs"
-"Specifications" ==> "BuildAndSpecs"
-
 Target "PackageAndDeploy" DoNothing
-"Package" ==> "PackageAndDeploy"
 "GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
+"Package" ==> "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
 
 Target "All" DoNothing
-"BuildAndSpecs" ==> "All"
+"BuildRelease" ==> "All"
+"DotNetTest" ==> "All"
+"JavaScriptSpecs" ==> "All"
 "PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
+
+Target "Travis" DoNothing
+"BuildRelease" ==> "Travis"
+"DotNetTest" ==> "Travis"
 
 RunTargetOrDefault "All"

@@ -13,7 +13,8 @@ namespace Bifrost.Configuration
         public static IConfigure Web(this IFrontendConfiguration configuration, Action<WebConfiguration> configureCallback)
         {
             var webConfiguration = new WebConfiguration(
-                Configure.Instance.Container.Get<NamespaceMapper>());
+                Configure.Instance.Container.Get<NamespaceMapper>()
+                );
             Configure.Instance.Container.Bind(webConfiguration);
             configuration.Target = webConfiguration;
             configureCallback(webConfiguration);

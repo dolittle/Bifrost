@@ -43,8 +43,13 @@ artifacts
 
 log.txt
 
+*.trx
+
 Source/Console/Events
 Source/Console/Entities
+
+App_Data
+
 
 # OS generated files #
 ######################

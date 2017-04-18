@@ -4,7 +4,6 @@ description: Learn about how to leverage the Execution Context
 keywords: .NET
 author: einari
 ---
-
 # Execution Context
 
 During execution sometimes one needs information that are cross cutting the application.

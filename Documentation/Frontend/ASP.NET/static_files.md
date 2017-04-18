@@ -4,7 +4,6 @@ description: Learn how to work effectively
 keywords: ASP.NET
 author: einari
 ---
-
 # Static Files
 
 > [!Note]

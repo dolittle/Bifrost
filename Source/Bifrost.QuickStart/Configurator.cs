@@ -31,7 +31,7 @@ namespace Web
                     {
                         //e.EventStore.UsingFiles(eventsPath);
                         //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
-                        e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                        //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
 
                         e.EventProcessorStates.UsingRedis(redis);
                         e.EventSourceVersions.UsingRedis(redis);

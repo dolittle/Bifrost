@@ -5,19 +5,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bifrost.Configuration;
+using Bifrost.Web;
 using Bifrost.Web.Assets;
 using Bifrost.Web.Commands;
+using Bifrost.Web.Configuration;
 using Bifrost.Web.Proxies;
 using Bifrost.Web.Read;
 using Bifrost.Web.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace Bifrost.Web.Configuration
+namespace Microsoft.AspNetCore.Builder
 {
     public static class ApplicationBuilderExtensions
     {
@@ -26,8 +27,10 @@ namespace Bifrost.Web.Configuration
             Configure.DiscoverAndConfigure();
         }
 
-        public static IApplicationBuilder UseBifrost(this IApplicationBuilder builder, IHostingEnvironment env)
+        public static IApplicationBuilder UseBifrost(this IApplicationBuilder builder, IHostingEnvironment hostingEnvironment)
         {
+            builder.Use(WebCallContext.Middleware);
+
             builder.Map("/Bifrost/Application", a => a.Run(Application));
             builder.Map("/Bifrost/Proxies", a => a.Run(Proxies));
             builder.Map("/Bifrost/Security", a => a.Run(SecurityProxies));
@@ -42,6 +45,9 @@ namespace Bifrost.Web.Configuration
             var routes = routeBuilder.Build();
             builder.UseRouter(routes);
 
+            var webConfiguration = Configure.Instance.Container.Get<WebConfiguration>();
+            webConfiguration.ApplicationPhysicalPath = hostingEnvironment.WebRootPath;
+
             return builder;
         }
 
@@ -49,6 +55,7 @@ namespace Bifrost.Web.Configuration
         {
             var configuration = Configure.Instance.Container.Get<ConfigurationAsJavaScript>();
             context.Response.ContentType = "text/javascript";
+            if (context.Request.Query.ContainsKey("nocache")) configuration.Initialize();
             await context.Response.WriteAsync(configuration.AsString);
         }
 

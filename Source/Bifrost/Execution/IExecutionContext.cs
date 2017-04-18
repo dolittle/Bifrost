@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Globalization;
-using System.Security.Principal;
+using System.Security.Claims;
+using Bifrost.Applications;
 using Bifrost.Tenancy;
 
 namespace Bifrost.Execution
@@ -15,22 +16,22 @@ namespace Bifrost.Execution
     public interface IExecutionContext
     {
         /// <summary>
-        /// Gets the <see cref="IPrincipal"/> for the execution context
+        /// Gets the <see cref="ClaimsPrincipal"/> for the <see cref="IExecutionContext">execution context</see>
         /// </summary>
-        IPrincipal Principal { get; }
+        ClaimsPrincipal Principal { get; }
 
         /// <summary>
-        /// Gets the <see cref="CultureInfo"/> for the execution context
+        /// Gets the <see cref="CultureInfo"/> for the <see cref="IExecutionContext">execution context</see>
         /// </summary>
         CultureInfo Culture { get; }
 
         /// <summary>
-        /// Gets the string identifying the currently executing system
+        /// Gets the <see cref="IApplication"/> for the <see cref="IExecutionContext">execution context</see>
         /// </summary>
-        string System { get; }
+        IApplication Application { get; }
 
         /// <summary>
-        /// Gets the tenant for the current execution context
+        /// Gets the <see cref="ITenant"/> for the <see cref="IExecutionContext">execution context</see>
         /// </summary>
         ITenant Tenant { get; }
 

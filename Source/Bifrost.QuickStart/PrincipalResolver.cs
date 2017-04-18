@@ -1,15 +1,13 @@
-﻿using System.Security.Principal;
-using System.Threading;
-using System.Web;
+﻿using System.Security.Claims;
 using Bifrost.Security;
 
 namespace Web
 {
     public class PrincipalResolver : ICanResolvePrincipal
     {
-        public IPrincipal Resolve()
+        public ClaimsPrincipal Resolve()
         {
-            return HttpContext.Current?.User ?? Thread.CurrentPrincipal;
+            return ClaimsPrincipal.Current;
         }
     }
 }

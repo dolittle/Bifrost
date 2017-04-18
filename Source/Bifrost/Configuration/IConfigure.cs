@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
+using Bifrost.Tenancy;
 
 namespace Bifrost.Configuration
 {
@@ -81,6 +82,11 @@ namespace Bifrost.Configuration
         ISecurityConfiguration Security { get; }
 
         /// <summary>
+        /// Gets the configuration for tenancy
+        /// </summary>
+        ITenancyConfiguration Tenancy { get; }
+
+        /// <summary>
         /// Gets the configuration for assemblies and how they are treated
         /// </summary>
         AssembliesConfiguration Assemblies { get; }
@@ -94,11 +100,6 @@ namespace Bifrost.Configuration
         /// Gets or sets the <see cref="CultureInfo">UI culture</see> to use in Bifrost
         /// </summary>
         CultureInfo UICulture { get; set; }
-
-        /// <summary>
-        /// Gets or sets the default <see cref="Execution.BindingLifecycle"/> for objects when created/managed by the <see cref="IContainer"/>
-        /// </summary>
-        BindingLifecycle DefaultLifecycle { get; set; }
 
         /// <summary>
         /// Initializes Bifrost after configuration

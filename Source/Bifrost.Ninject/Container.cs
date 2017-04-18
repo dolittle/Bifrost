@@ -27,7 +27,17 @@ namespace Bifrost.Ninject
         {
             Kernel = kernel;
             _boundServices = new List<Type>();
+
+#if (!NET461)
+            kernel.Components.Remove<global::Ninject.Planning.Strategies.IPlanningStrategy, global::Ninject.Planning.Strategies.ConstructorReflectionStrategy>();
+            kernel.Components.Add<global::Ninject.Planning.Strategies.IPlanningStrategy, ConstructorReflectionStrategy>();
+#endif
         }
+
+        /// <summary>
+        /// Gets the default <see cref="BindingLifecycle"/>
+        /// </summary>
+        public virtual BindingLifecycle DefaultLifecycle => BindingLifecycle.Transient;
 
         /// <summary>
         /// Gets the <see cref="IKernel"/> used by the <see cref="Container"/>
@@ -123,15 +133,13 @@ namespace Bifrost.Ninject
         /// <inheritdoc/>
         public void Bind<T>(Type type)
         {
-            Kernel.Bind<T>().To(type);
-            _boundServices.Add(typeof(T));
+            Bind<T>(type, DefaultLifecycle);
         }
 
         /// <inheritdoc/>
         public void Bind(Type service, Type type)
         {
-            Kernel.Bind(service).To(type);
-            _boundServices.Add(service);
+            Bind(service, type, DefaultLifecycle);
         }
 
         /// <inheritdoc/>
@@ -165,15 +173,13 @@ namespace Bifrost.Ninject
         /// <inheritdoc/>
         public void Bind<T>(Func<T> resolveCallback)
         {
-            Kernel.Bind<T>().ToMethod(c => resolveCallback());
-            _boundServices.Add(typeof(T));
+            Bind(resolveCallback, DefaultLifecycle);
         }
 
         /// <inheritdoc/>
         public void Bind(Type service, Func<Type, object> resolveCallback)
         {
-            Kernel.Bind(service).ToMethod(c => resolveCallback(c.Request.Service));
-            _boundServices.Add(service);
+            Bind(service, resolveCallback, DefaultLifecycle);
         }
 
         /// <inheritdoc/>
@@ -189,8 +195,5 @@ namespace Bifrost.Ninject
             Kernel.Bind(service).ToMethod(c => resolveCallback(c.Request.Service)).WithLifecycle(lifecycle);
             _boundServices.Add(service);
         }
-
-        /// <inheritdoc/>
-        public BindingLifecycle DefaultLifecycle { get; set; }
     }
 }

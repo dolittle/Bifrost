@@ -2,8 +2,6 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Bifrost.Execution;
-
 namespace Bifrost.Tenancy
 {
     /// <summary>
@@ -12,8 +10,13 @@ namespace Bifrost.Tenancy
     public interface ITenant
     {
         /// <summary>
+        /// Gets the <see cref="TenantId">identifier</see> of the <see cref="ITenant"/>
+        /// </summary>
+        TenantId TenantId { get; }
+
+        /// <summary>
         /// Gets the details for the tenant
         /// </summary>
-        WriteOnceExpandoObject Details { get; }
+        dynamic Details { get; }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Bifrost.Applications;
-using Bifrost.Events;
+﻿using System.IO;
+using Bifrost.Applications;
 using Bifrost.Configuration;
+using Bifrost.Events;
 
 namespace SimpleWeb
 {
@@ -8,16 +9,19 @@ namespace SimpleWeb
     {
         public void Configure(IConfigure configure)
         {
-            var entitiesPath = "./App_Data/Entities";
-            var eventsPath = "./App_Data/Events";
-            var eventSequenceNumbersPath = "./App_Data/EventSequenceNumbers";
-            var eventProcessorsStatePath = "./App_Data/EventProcessors";
+            var basePath = "App_Data";
+            var entitiesPath = Path.Combine(basePath,"Entities");
+            var eventsPath = Path.Combine(basePath, "Events");
+            var eventSequenceNumbersPath = Path.Combine(basePath, "EventSequenceNumbers");
+            var eventProcessorsStatePath = Path.Combine(basePath, "EventProcessors");
+            var eventSourceVersionsPath = Path.Combine(basePath, "EventSourceVersions");
 
-            //var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
+            var redis = "dolittle.redis.cache.windows.net:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
 
             //var redis = "52.166.200.146:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
-            var redis = "127.0.0.1:6379";
-
+            //var redis = "127.0.0.1:6379";
+            //var redis = "10.0.1.46:6379";
+            var rabbitMQ = "amqp://guest:guest@localhost:5672/";
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
@@ -29,17 +33,23 @@ namespace SimpleWeb
 
                 .Events(e =>
                 {
-                    //e.EventStore.UsingFiles(eventsPath);
-                    //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
-                    //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                    /*
+                    e.EventStore.UsingFiles(eventsPath);
+                    e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                    e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                    e.EventSourceVersions.UsingFiles(eventSourceVersionsPath);
+                    */
 
-                    e.CommittedEventStreamSender.UsingRabbitMQ();
-                    e.CommittedEventStreamReceiver.UsingRabbitMQ();
+                    /*
+                    e.CommittedEventStreamSender.UsingRabbitMQ(rabbitMQ);
+                    e.CommittedEventStreamReceiver.UsingRabbitMQ(rabbitMQ);
+                    */
 
                     e.EventProcessorStates.UsingRedis(redis);
                     e.EventSourceVersions.UsingRedis(redis);
                     e.EventSequenceNumbers.UsingRedis(redis);
                     e.EventStore.UsingTables("DefaultEndpointsProtocol=https;AccountName=dolittle;AccountKey=XcfKv4RV5Hd3My4PbXlBATvLhvI0TpZmP5jwcCFbiILM/kESPr6pibI8hdD3+qPpe+UZ5OlmWUI7Z7qSKlRwuQ==;EndpointSuffix=core.windows.net");
+                    
                 })
 
                 .Serialization

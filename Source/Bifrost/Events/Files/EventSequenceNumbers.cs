@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.IO;
 using Bifrost.Applications;
 using Bifrost.Execution;
 
@@ -15,20 +14,26 @@ namespace Bifrost.Events.Files
     [Singleton]
     public class EventSequenceNumbers : IEventSequenceNumbers
     {
+        const string SequenceFileName = "sequence";
+        const string SequenceForPrefix = "sequence_for_";
+
         EventSequenceNumbersConfiguration _configuration;
         object _globalSequenceLock = new object();
         Dictionary<int, object> _sequenceLocksPerType = new Dictionary<int, object>();
         IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
+        IFiles _files;
 
         /// <summary>
         /// Initializes a new instance of <see cref="EventSequenceNumbers"/>
         /// </summary>
         /// <param name="configuration"><see cref="EventSequenceNumbersConfiguration">Configuration</see>"/></param>
         /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for getting string representation of <see cref="IApplicationResourceIdentifier"/></param>
-        public EventSequenceNumbers(EventSequenceNumbersConfiguration configuration, IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter)
+        /// <param name="files"><see cref="IFiles"/> to work with files</param>
+        public EventSequenceNumbers(EventSequenceNumbersConfiguration configuration, IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, IFiles files)
         {
             _configuration = configuration;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
+            _files = files;
         }
 
 
@@ -37,11 +42,8 @@ namespace Bifrost.Events.Files
         {
             lock( _globalSequenceLock )
             {
-                MakeSurePathExists();
-
-                var file = Path.Combine(_configuration.Path, "sequence");
-                var sequence = GetNextInSequenceFromFile(file);
-                File.WriteAllText(file, sequence.ToString());
+                var sequence = GetNextInSequenceFromFile(SequenceFileName);
+                _files.WriteString(_configuration.Path, SequenceFileName, sequence.ToString());
                 return sequence;
             }
         }
@@ -58,10 +60,9 @@ namespace Bifrost.Events.Files
             lock( _sequenceLocksPerType[hashCode] )
             {
                 var identifierAsString = _applicationResourceIdentifierConverter.AsString(identifier);
-                var file = Path.Combine(_configuration.Path, $"sequence_for_{identifierAsString}");
-
+                var file = $"{SequenceForPrefix}{identifierAsString}";
                 var sequence = GetNextInSequenceFromFile(file);
-                File.WriteAllText(file, sequence.ToString());
+                _files.WriteString(_configuration.Path, file, sequence.ToString());
                 return sequence;
             }
         }
@@ -69,31 +70,10 @@ namespace Bifrost.Events.Files
         long GetNextInSequenceFromFile(string file)
         {
             var sequence = 0L;
-            if (!File.Exists(file)) File.WriteAllText(file, sequence.ToString());
-
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    sequence = long.Parse(reader.ReadToEnd().Trim());
-                }
-            }
-
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-            { 
-                sequence++;
-                using (var writer = new StreamWriter(stream))
-                {
-                    writer.Write(sequence);
-                }
-            }
-
+            if( _files.Exists(_configuration.Path, file)) sequence = long.Parse(_files.ReadString(_configuration.Path, file));
+            sequence++;
+            _files.WriteString(_configuration.Path, file, sequence.ToString());
             return sequence;
-        }
-
-        void MakeSurePathExists()
-        {
-            if (!Directory.Exists(_configuration.Path)) Directory.CreateDirectory(_configuration.Path);
         }
     }
 }

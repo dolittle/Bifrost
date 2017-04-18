@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Linq;
 using Bifrost.Commands;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.Read;
+using Bifrost.Tenancy;
 using Events.Awesome;
 using FluentValidation;
 
@@ -23,14 +24,15 @@ namespace Domain.Awesome
     {
         IAggregateRootRepository<MyAggregate> _repository;
 
-        public CommandHandler(IAggregateRootRepository<MyAggregate> repository)
+        public CommandHandler(IAggregateRootRepository<MyAggregate> repository, ITenant tenant)
         {
             _repository = repository;
         }
 
         public void Handle(MyCommand command)
         {
-            var es = _repository.Get(Guid.NewGuid());
+            var g = Guid.Parse("28ca41b6-68d8-4464-b8f8-e270cc928371");
+            var es = _repository.Get(g);
             es.DoStuff(command.Something);
         }
     }
@@ -48,6 +50,13 @@ namespace Domain.Awesome
         public void DoStuff(string something)
         {
             Apply(new MyEvent(EventSourceId) { Something = something});
+        }
+
+
+        void On(MyEvent @event)
+        {
+            var i = 0;
+            i++;
         }
     }
 }

@@ -33,5 +33,31 @@ namespace Bifrost.Security
 
             return securityActor;
         }
+
+
+        /// <summary>
+        /// Declares that the <see cref="UserSecurityActor"/> must have a certain claim type
+        /// </summary>
+        /// <param name="securityActor"><see cref="UserSecurityActor"/> to declare it for</param>
+        /// <param name="claimType">Claim type that is required</param>
+        /// <returns><see cref="UserSecurityActor"/> to continue the chain with</returns>
+        public static UserSecurityActor MustHaveClaimType(this UserSecurityActor securityActor, string claimType)
+        {
+            securityActor.AddRule(new ClaimTypeRule(securityActor, claimType));
+            return securityActor;
+        }
+
+        /// <summary>
+        /// Declares that the <see cref="UserSecurityActor"/> must have specific claim types
+        /// </summary>
+        /// <param name="securityActor"><see cref="UserSecurityActor"/> to declare it for</param>
+        /// <param name="claimTypes">Claim types that are required</param>
+        /// <returns><see cref="UserSecurityActor"/> to continue the chain with</returns>
+        public static UserSecurityActor MustHaveClaimTypes(this UserSecurityActor securityActor, params string[] claimTypes)
+        {
+            foreach (var claimType in claimTypes) securityActor.AddRule(new ClaimTypeRule(securityActor, claimType));
+
+            return securityActor;
+        }
     }
 }

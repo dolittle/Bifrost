@@ -11,5 +11,7 @@ namespace Bifrost.Web.Assets
         IEnumerable<string> GetFilesForExtension(string extension);
         IEnumerable<string> GetStructureForExtension(string extension);
         void AddAsset(string relativePath);
+
+        void Initialize();
     }
 }

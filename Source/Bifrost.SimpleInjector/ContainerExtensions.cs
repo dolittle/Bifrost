@@ -13,8 +13,6 @@ namespace Bifrost.SimpleInjector
     /// </summary>
     public static class ContainerExtensions
     {
-        /// <inheritdoc/>
-        
         /// <summary>
         /// Register a binding of a type to a callback that can resolve an instance of the type with a given lifecycle
         /// </summary>
@@ -40,9 +38,8 @@ namespace Bifrost.SimpleInjector
             container.Register(typeof(T), resolveCallback, lifecycle);
         }
 
-
         /// <summary>
-        /// Register a binding of a type to a callback that can resolve an instance of the type with a given lifecycle
+        /// Register a binding of a type to a callback that can resolve an implementation of the type with a given lifecycle
         /// </summary>
         /// <param name="container"><see cref="global::SimpleInjector.Container"/> to register into</param>
         /// <param name="service"><see cref="Type"/> to register</param>
@@ -52,6 +49,20 @@ namespace Bifrost.SimpleInjector
         {
             var lifestyle = ResolveLifestyle(lifecycle);
             container.Register(service, resolveCallback, lifestyle);
+        }
+
+
+        /// <summary>
+        /// Register a binding of a type to a callback that can resolve an instance of the type with a given lifecycle
+        /// </summary>
+        /// <param name="container"><see cref="global::SimpleInjector.Container"/> to register into</param>
+        /// <param name="service"><see cref="Type"/> to register</param>
+        /// <param name="resolveCallback"><see cref="Func{T}"/> that resolves the instance</param>
+        /// <param name="lifecycle"><see cref="BindingLifecycle">Lifecycle</see> of the binding</param>
+        public static void Register(this global::SimpleInjector.Container container, Type service, Func<Type, object> resolveCallback, BindingLifecycle lifecycle)
+        {
+            var lifestyle = ResolveLifestyle(lifecycle);
+            container.Register(service, () => resolveCallback, lifestyle);
         }
 
         static Lifestyle ResolveLifestyle(BindingLifecycle lifecycle)
