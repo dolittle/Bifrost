@@ -8,4 +8,5 @@ Bifrost.Events.MongoDB
 Bifrost.Events.RabbitMQ
 Bifrost.Events.Redis
 Bifrost.Read.MongoDB
+Bifrost.Read.DocumentDB
 Bifrost.Web
