@@ -15,25 +15,9 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes an <see cref="InvalidFastForwardException">InvalidFastForwardException</see>
         /// </summary>
-        public InvalidFastForwardException()
-        {}
-
-        /// <summary>
-        /// Initializes an <see cref="InvalidFastForwardException">InvalidFastForwardException</see>
-        /// </summary>
         /// <param name="message">Error Message</param>
         public InvalidFastForwardException(string message)
             : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes an <see cref="InvalidFastForwardException">InvalidFastForwardException</see>
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="inner">Inner Exception</param>
-        public InvalidFastForwardException(string message, Exception inner)
-            : base(message, inner)
         {
         }
     }

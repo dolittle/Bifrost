@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -15,25 +15,10 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes an instance of <see cref="DuplicateInEventMigrationHierarchyException"/>
         /// </summary>
-        public DuplicateInEventMigrationHierarchyException()
-        {}
-
-        /// <summary>
-        /// Initializes an instance of <see cref="DuplicateInEventMigrationHierarchyException"/>
-        /// </summary>
         /// <param name="message">The error message that explains the reason for the exception</param>
         public DuplicateInEventMigrationHierarchyException(string message)
             : base(message)
         {
         }
-
-        /// <summary>
-        /// Initializes an instance of <see cref="DuplicateInEventMigrationHierarchyException"/>
-        /// </summary>
-        /// <param name="message">The error message that explains the reason for the exception</param>
-        /// <param name="innerException">The inner exception that is causing the exception</param>
-        public DuplicateInEventMigrationHierarchyException(string message, Exception innerException)
-            : base(message, innerException)
-        { }
     }
 }

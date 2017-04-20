@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -15,22 +15,8 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a <see cref="InvalidMigrationTypeException">InvalidMigrationTypeException</see>
         /// </summary>
-        public InvalidMigrationTypeException()
-        {}
-
-        /// <summary>
-        /// Initializes a <see cref="InvalidMigrationTypeException">InvalidMigrationTypeException</see>
-        /// </summary>
         /// <param name="message">Error Message</param>
         public InvalidMigrationTypeException(string message) : base(message)
         {}
-
-        /// <summary>
-        /// Initializes a <see cref="InvalidMigrationTypeException">InvalidMigrationTypeException</see>
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="innerException">Inner Exception</param>
-        public InvalidMigrationTypeException(string message, Exception innerException) : base(message,innerException)
-        { }
 }
 }

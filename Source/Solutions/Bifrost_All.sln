@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1663A5F5-14BA-4FDD-8D0D-B80996A32623}"
 EndProject
@@ -70,8 +70,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Default", "..\Bifro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Autofac", "..\Bifrost.Autofac\Bifrost.Autofac.csproj", "{26ECC23C-4139-4167-9DED-00002E5D9570}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.DocumentDB", "..\Bifrost.DocumentDB\Bifrost.DocumentDB.csproj", "{8DB73E9B-8AE1-4341-8DF8-469C578A150D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.FluentValidation", "..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj", "{E7507338-7499-4046-8A9E-76D100974E82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.FluentValidation.Specs", "..\Bifrost.FluentValidation.Specs\Bifrost.FluentValidation.Specs.csproj", "{53CDDC70-4541-4E9E-A2F4-95AFD556AC40}"
@@ -112,6 +110,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Events.Azure.DocumentDB", "..\Bifrost.Events.Azure.DocumentDB\Bifrost.Events.Azure.DocumentDB.csproj", "{16E407CC-209C-443B-AE61-CD2D211D8D34}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleWeb", "..\Samples\SimpleWeb\SimpleWeb.csproj", "{939DC032-0331-4453-930F-D12836879607}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Read.DocumentDB", "..\Bifrost.Read.DocumentDB\Bifrost.Read.DocumentDB.csproj", "{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -430,20 +430,6 @@ Global
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|x64.ActiveCfg = Release|Any CPU
 		{26ECC23C-4139-4167-9DED-00002E5D9570}.Release|x86.ActiveCfg = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|ARM.ActiveCfg = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|x64.ActiveCfg = Release|Any CPU
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7507338-7499-4046-8A9E-76D100974E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7507338-7499-4046-8A9E-76D100974E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7507338-7499-4046-8A9E-76D100974E82}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -682,6 +668,26 @@ Global
 		{939DC032-0331-4453-930F-D12836879607}.Release|x64.Build.0 = Release|Any CPU
 		{939DC032-0331-4453-930F-D12836879607}.Release|x86.ActiveCfg = Release|Any CPU
 		{939DC032-0331-4453-930F-D12836879607}.Release|x86.Build.0 = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|ARM.Build.0 = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|x64.Build.0 = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -709,7 +715,6 @@ Global
 		{9E87D7C6-65C2-4FAD-81FF-FDC7F0400384} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 		{D8A3E244-AC49-4372-8C03-F5AA3107BD80} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 		{26ECC23C-4139-4167-9DED-00002E5D9570} = {1287AD93-5279-46B3-AE57-1CCC468CB2B1}
-		{8DB73E9B-8AE1-4341-8DF8-469C578A150D} = {5BD443D5-1CDE-4FF5-BFA7-9761EC14FE0C}
 		{E7507338-7499-4046-8A9E-76D100974E82} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{53CDDC70-4541-4E9E-A2F4-95AFD556AC40} = {2B61FCED-42AC-48B3-B2E9-6F0EE50E0674}
 		{AF3E39EB-5A28-46D7-8ECA-A5BD2D692D2F} = {1287AD93-5279-46B3-AE57-1CCC468CB2B1}
@@ -728,6 +733,7 @@ Global
 		{63BBC1F3-E5E0-4902-BADF-1589F91C0BEA} = {5097934F-C4DE-4FC3-A0CD-57B43E834E61}
 		{16E407CC-209C-443B-AE61-CD2D211D8D34} = {6B7FCD5E-7B6C-44AA-A370-6EEE78D9EBAA}
 		{939DC032-0331-4453-930F-D12836879607} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
+		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D} = {5097934F-C4DE-4FC3-A0CD-57B43E834E61}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35

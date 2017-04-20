@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -15,22 +15,8 @@ namespace Bifrost.Events
         /// <summary>
         /// Initializes a <see cref="UnregisteredEventException"/>
         /// </summary>
-        public UnregisteredEventException()
-        {}
-
-        /// <summary>
-        /// Initializes a <see cref="UnregisteredEventException"/>
-        /// </summary>
         /// <param name="message">Error Message</param>
         public UnregisteredEventException(string message) : base(message)
         {}
-
-        /// <summary>
-        /// Initializes a <see cref="UnregisteredEventException"/>
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="innerException">Inner Exception</param>
-        public UnregisteredEventException(string message, Exception innerException) : base(message,innerException)
-        { }
     }
 }

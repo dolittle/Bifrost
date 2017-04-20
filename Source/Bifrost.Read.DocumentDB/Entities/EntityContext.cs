@@ -4,12 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
+using System.Reflection;
 using Bifrost.Concepts;
 using Bifrost.Entities;
 using Bifrost.Extensions;
 using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Linq;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -57,7 +57,7 @@ namespace Bifrost.DocumentDB.Entities
             var documentType = typeof(T).Name;
             var document = new Document();
 
-            var properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetTypeInfo().GetProperties();
             properties.ForEach(p =>
             {
                 var value = p.GetValue(entity);

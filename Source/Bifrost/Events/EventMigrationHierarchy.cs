@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------------
+﻿/*---------------------------------------------------------------------------------------------
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -106,11 +106,11 @@ namespace Bifrost.Events
                 var actualTypeMigratingFrom = GetMigrationFromType(type);
 
                 if(actualTypeMigratingFrom != expectedTypeToMigrateFrom)
-                    ThrowInvalidMigrationTypeException(expectedTypeToMigrateFrom, type, null);
+                    ThrowInvalidMigrationTypeException(expectedTypeToMigrateFrom, type);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ThrowInvalidMigrationTypeException(expectedTypeToMigrateFrom, type, ex);
+                ThrowInvalidMigrationTypeException(expectedTypeToMigrateFrom, type);
             }
 
         }
@@ -134,11 +134,10 @@ namespace Bifrost.Events
             ).FirstOrDefault() != null;
         }
 
-        static void ThrowInvalidMigrationTypeException(Type expected, Type actual, Exception innerException)
+        static void ThrowInvalidMigrationTypeException(Type expected, Type actual)
         {
             throw new InvalidMigrationTypeException(
-                    string.Format("Expected migration for type {0} but got migration for type {1} instead.", expected, actual),
-                    innerException
+                    string.Format("Expected migration for type {0} but got migration for type {1} instead.", expected, actual)
                 );
         }
     }
