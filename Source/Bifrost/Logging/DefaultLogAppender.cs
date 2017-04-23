@@ -28,7 +28,7 @@ namespace Bifrost.Logging
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
-            Debug.Write($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
+            Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
         }
 #else
         ILoggerFactory _loggerFactory;
@@ -40,6 +40,7 @@ namespace Bifrost.Logging
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
         public DefaultLogAppender(ILoggerFactory loggerFactory)
         {
+            
             _loggerFactory = loggerFactory;
         }
 
