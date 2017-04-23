@@ -30,6 +30,7 @@ namespace SimpleWeb
 
             app.UseDefaultFiles();
 
+
             var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot");
             app.UseStaticFiles(new StaticFileOptions()
             {

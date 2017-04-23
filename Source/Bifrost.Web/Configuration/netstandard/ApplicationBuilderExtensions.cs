@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Microsoft.AspNetCore.Builder
@@ -24,11 +25,12 @@ namespace Microsoft.AspNetCore.Builder
     {
         public static void AddBifrost(this IServiceCollection serviceCollection)
         {
-            Configure.DiscoverAndConfigure();
         }
 
         public static IApplicationBuilder UseBifrost(this IApplicationBuilder builder, IHostingEnvironment hostingEnvironment)
-        {
+        {            
+            Configure.DiscoverAndConfigure(builder.ApplicationServices.GetService<ILoggerFactory>());
+
             builder.Use(WebCallContext.Middleware);
 
             builder.Map("/Bifrost/Application", a => a.Run(Application));
