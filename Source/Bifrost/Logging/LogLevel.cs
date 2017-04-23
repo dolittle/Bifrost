@@ -7,12 +7,20 @@ namespace Bifrost.Logging
     /// <summary>
     /// The severity of a log entry
     /// </summary>
+    /// <remarks>
+    /// Inspired by : https://docs.microsoft.com/en-us/aspnet/core/api/microsoft.extensions.logging.loglevel
+    /// </remarks>
     public enum LogLevel
     {
         /// <summary>
         /// Trace message
         /// </summary>
         Trace,
+
+        /// <summary>
+        /// Informational message
+        /// </summary>
+        Debug,
 
         /// <summary>
         /// Informational message

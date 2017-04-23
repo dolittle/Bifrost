@@ -13,6 +13,18 @@ namespace Bifrost.Logging
     [Singleton]
     public class Logger : ILogger
     {
+        static ILogger _internal;
+
+        /// <summary>
+        /// Internal logger for those scenarios where it can't be or it is inconvenient to get it injected
+        /// </summary>
+        internal static ILogger Internal => _internal;
+
+        static Logger()
+        {
+            _internal = new NullLogger();
+        }
+
         ILogAppenders _logAppenders;
 
         /// <summary>
@@ -22,6 +34,7 @@ namespace Bifrost.Logging
         public Logger(ILogAppenders logAppenders)
         {
             _logAppenders = logAppenders;
+            _internal = this;
         }
 
         /// <inheritdoc/>
@@ -30,6 +43,11 @@ namespace Bifrost.Logging
             _logAppenders.Append(filePath, lineNumber, member, LogLevel.Trace, message);
         }
 
+        /// <inheritdoc/>
+        public void Debug(string message, string filePath, int lineNumber, string member)
+        {
+            _logAppenders.Append(filePath, lineNumber, member, LogLevel.Debug, message);
+        }
 
         /// <inheritdoc/>
         public void Information(string message, string filePath, int lineNumber, string member)

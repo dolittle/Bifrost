@@ -26,6 +26,19 @@ namespace Bifrost.Logging
             [CallerMemberName]string member = "");
 
         /// <summary>
+        /// Output a debug message
+        /// </summary>
+        /// <param name="message">Message to output</param>
+        /// <param name="filePath">FilePath of the caller</param>
+        /// <param name="lineNumber">Linenumber in the file of the caller</param>
+        /// <param name="member">Membername of the caller</param>
+        void Debug(
+            string message,
+            [CallerFilePath]string filePath = "",
+            [CallerLineNumber]int lineNumber = 0,
+            [CallerMemberName]string member = "");
+
+        /// <summary>
         /// Output an informational message
         /// </summary>
         /// <param name="message">Message to output</param>

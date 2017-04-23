@@ -45,8 +45,6 @@ namespace Bifrost.Logging
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
-            
-
             Microsoft.Extensions.Logging.ILogger logger;
             var loggerKey = filePath;
             if (!_loggers.ContainsKey(loggerKey))
@@ -59,6 +57,7 @@ namespace Bifrost.Logging
             switch( level )
             {
                 case LogLevel.Trace: logger.LogTrace(message); break;
+                case LogLevel.Debug: logger.LogDebug(message); break;
                 case LogLevel.Info: logger.LogInformation(message); break;
                 case LogLevel.Warning: logger.LogWarning(message); break;
                 case LogLevel.Critical: logger.LogCritical(message); break;
