@@ -13,19 +13,6 @@ namespace Bifrost.Configuration
     public static partial class ConfigurationExtensions
     {
         /// <summary>
-        /// Configures the running system with a name
-        /// </summary>
-        /// <param name="configure"><see cref="IConfigure"/> instance to configure</param>
-        /// <param name="name">Name of the system</param>
-        /// <returns>Chained <see cref="IConfigure"/> instance</returns>
-        public static IConfigure WithSystemName(this IConfigure configure, string name)
-        {
-            configure.SystemName = name;
-            return configure;
-        }
-
-
-        /// <summary>
         /// Binds given entity context for a specific type (IEntityContext of T)
         /// </summary>
         /// <typeparam name="T">The Type that this vbinding will work for</typeparam>

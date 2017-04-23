@@ -40,7 +40,6 @@ namespace Bifrost.Configuration
             IDefaultBindings defaultBindings,
             AssembliesConfiguration assembliesConfiguration)
         {
-            SystemName = "[Not Set]";
             AssembliesConfiguration = assembliesConfiguration;
             container.Bind<IConfigure>(this);
 
@@ -185,7 +184,6 @@ namespace Bifrost.Configuration
 
 #pragma warning disable 1591 // Xml Comments
         public IContainer Container { get; private set; }
-        public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
         public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
