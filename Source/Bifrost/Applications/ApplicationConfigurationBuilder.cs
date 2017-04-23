@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
+using Bifrost.Logging;
 
 namespace Bifrost.Applications
 {
@@ -30,6 +31,7 @@ namespace Bifrost.Applications
         {
             Name = name;
             _applicationStructure = applicationStructure;
+            Logger.Internal.Trace($"Building application {name}");
         }
 
 

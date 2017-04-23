@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bifrost.Logging;
 
 namespace Bifrost.Strings
 {
@@ -63,6 +64,8 @@ namespace Bifrost.Strings
         /// <inheritdoc/>
         public ISegmentMatches Match(string stringToMatch)
         {
+            Logger.Internal.Trace($"Trying to match the following string '{stringToMatch}'");
+
             var matches = new List<ISegmentMatch>();
             var strings = stringToMatch.Split(Separators);
 

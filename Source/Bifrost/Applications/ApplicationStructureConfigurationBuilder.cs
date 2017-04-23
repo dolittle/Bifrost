@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using Bifrost.Logging;
 using Bifrost.Strings;
 
 namespace Bifrost.Applications
@@ -43,7 +44,9 @@ namespace Bifrost.Applications
         /// <inheritdoc/>
         public IApplicationStructureConfigurationBuilder Include(ApplicationArea area, string format)
         {
-            if( !format.StartsWith("[")) format = $"[.]{format}";
+            Logger.Internal.Trace($"Include '{format}' for '{area}'");
+
+            if ( !format.StartsWith("[")) format = $"[.]{format}";
             var formatsByArea = new Dictionary<ApplicationArea, IEnumerable<IStringFormat>>(_structureFormats);
             var parser = new StringFormatParser();
             var stringFormat = parser.Parse(format);

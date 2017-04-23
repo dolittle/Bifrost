@@ -72,11 +72,17 @@ namespace Bifrost.Configuration
             logger.Information("Starting up");
 
             IContractToImplementorsMap contractToImplementorsMap;
+
+            
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
+
+            logger.Trace("Settings up contract to implementors map");
 
             contractToImplementorsMap = new ContractToImplementorsMap();
             var executingAssembly = typeof(Configure).GetTypeInfo().Assembly;
             contractToImplementorsMap.Feed(executingAssembly.GetTypes());
+
+            logger.Trace("Specifying which assemblies to include");
             var assemblySpecifiers = new AssemblySpecifiers(contractToImplementorsMap, new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(executingAssembly);
 

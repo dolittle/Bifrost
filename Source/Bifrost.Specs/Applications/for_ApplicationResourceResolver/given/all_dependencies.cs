@@ -1,5 +1,6 @@
 ﻿using Bifrost.Applications;
 using Bifrost.Execution;
+using Bifrost.Logging;
 using Machine.Specifications;
 using Moq;
 
@@ -12,6 +13,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver.given
         protected static Mock<IInstancesOf<ICanResolveApplicationResources>> resolvers;
         protected static Mock<ITypeDiscoverer> type_discoverer;
         protected static Mock<IApplicationStructure> application_structure;
+        protected static ILogger logger;
 
         Establish context = () =>
         {
@@ -21,6 +23,7 @@ namespace Bifrost.Specs.Applications.for_ApplicationResourceResolver.given
             application_resource_types = new Mock<IApplicationResourceTypes>();
             resolvers = new Mock<IInstancesOf<ICanResolveApplicationResources>>();
             type_discoverer = new Mock<ITypeDiscoverer>();
+            logger = Mock.Of<ILogger>();
         };
     }
 }
