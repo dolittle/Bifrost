@@ -34,8 +34,17 @@ namespace Bifrost.Logging
         public static ILogAppenders DiscoverAndConfigure(ILoggerFactory loggerFactory)
 #endif
         {
+#if (NET461)
+            var assembliesToSkip = new[] { "Bifrost", "System", "Microsoft", "mscorlib" };
+            var types = new List<Type>();
+            var availableAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = availableAssemblies.Where(a => !assembliesToSkip.Any(aa => a.FullName.StartsWith(aa)));
+            assemblies.ForEach(a => types.AddRange(a.GetTypes()));
+#else
             var assembly = Assembly.GetEntryAssembly();
             var types = assembly.GetTypes();
+#endif
+
             var configuratorTypes = types.Where(t => t.HasInterface<ICanConfigureLogAppenders>());
 
             var configurators = new List<ICanConfigureLogAppenders>();
