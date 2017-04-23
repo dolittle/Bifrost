@@ -89,9 +89,10 @@ namespace Bifrost.Configuration
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
 #if (NET461)
-                new AppDomainAssemblyProvider(),
-#endif
+                new AppDomainAssemblyProvider(logger),
+#else
                 new DefaultAssemblyProvider(logger),
+#endif
                 new FileSystemAssemblyProvider(new FileSystem(), logger)
             };
 
