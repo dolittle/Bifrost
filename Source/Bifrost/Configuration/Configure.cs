@@ -85,8 +85,8 @@ namespace Bifrost.Configuration
 #if (NET461)
                 new AppDomainAssemblyProvider(),
 #endif
-                new DefaultAssemblyProvider(),
-                new FileSystemAssemblyProvider(new FileSystem())
+                new DefaultAssemblyProvider(logger),
+                new FileSystemAssemblyProvider(new FileSystem(), logger)
             };
 
 
@@ -217,11 +217,7 @@ namespace Bifrost.Configuration
                 () => DefaultStorage.Initialize(Container)
             };
 
-#if (SILVERLIGHT)
-            initializers.ForEach(initializer => initializer());
-#else
             Parallel.ForEach(initializers, initializator => initializator());
-#endif
             ConfigurationDone();
         }
 #pragma warning restore 1591 // Xml Comments

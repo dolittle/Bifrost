@@ -2,10 +2,10 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Logging;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.DependencyModel;
 
@@ -19,15 +19,15 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultAssemblyProvider"/>
         /// </summary>
-        public DefaultAssemblyProvider() 
+        /// <param name="logger">Logger for logging</param>
+        public DefaultAssemblyProvider(ILogger logger)
         {
             var entryAssembly = Assembly.GetEntryAssembly();
             var dependencyModel = DependencyContext.Load(entryAssembly);
             var assemblyNames = dependencyModel.GetRuntimeAssemblyNames(RuntimeEnvironment.GetRuntimeIdentifier());
             AvailableAssemblies = assemblyNames.Select(asm => new AssemblyInfo(asm.Name, string.Empty));
             
-            Console.WriteLine("DefaultAssemblyProvider - assemblies");
-            foreach (var assembly in AvailableAssemblies) Console.WriteLine($"Making assembly '{assembly.Name}' available");
+            foreach (var assembly in AvailableAssemblies) logger.Information($"Providing '{assembly.Name}'");
         }
 
         /// <inheritdoc/>

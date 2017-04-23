@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bifrost.Logging;
 
 namespace Bifrost.Execution
 {
@@ -20,23 +20,25 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="FileSystemAssemblyProvider"/>
         /// </summary>
-        /// <param name="fileSystem"></param>
-        public FileSystemAssemblyProvider(IFileSystem fileSystem)
+        /// <param name="fileSystem"><see cref="IFileSystem"/> to provide from</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public FileSystemAssemblyProvider(IFileSystem fileSystem, ILogger logger)
         {
             var codeBase = typeof(FileSystemAssemblyProvider).GetTypeInfo().Assembly.CodeBase;
             var uri = new Uri(codeBase);
-            Console.WriteLine($"FileSystemAssemblyProvider - codeBase = '{codeBase}'");
+
+            logger.Information($"Codebase is '{codeBase}'");
 
             var assemblyFileInfo = new FileInfo(uri.LocalPath);
 
             var assemblyFiles = fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.dll").ToList();
             assemblyFiles.AddRange(fileSystem.GetFilesFrom(assemblyFileInfo.Directory.ToString(), "*.exe"));
 
-            assemblyFiles.ForEach(assemblyFile => Console.WriteLine($"Discovered assembly '{assemblyFile}'"));
+            assemblyFiles.ForEach(assemblyFile => logger.Information($"Discovered assembly '{assemblyFile}"));
 
             AvailableAssemblies = assemblyFiles.Select(file => new AssemblyInfo(Path.GetFileNameWithoutExtension(file.FullName), file.FullName));
 
-            foreach (var assembly in AvailableAssemblies) Console.WriteLine($"Making assembly '{assembly.FileName}' available");
+            foreach (var assembly in AvailableAssemblies) logger.Information($"Providing '{assembly.FileName}'");
         }
 
 #pragma warning disable 1591 // Xml Comments
