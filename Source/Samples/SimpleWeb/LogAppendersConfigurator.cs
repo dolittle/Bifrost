@@ -1,5 +1,4 @@
-﻿using System;
-using Bifrost.Logging;
+﻿using Bifrost.Logging;
 
 namespace SimpleWeb
 {

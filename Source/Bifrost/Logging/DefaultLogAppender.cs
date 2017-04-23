@@ -4,7 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-#if(NET461)
+using System.IO;
+#if (NET461)
 using System.Diagnostics;
 #else
 using Microsoft.Extensions.Logging;
@@ -46,13 +47,15 @@ namespace Bifrost.Logging
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
             Microsoft.Extensions.Logging.ILogger logger;
-            var loggerKey = filePath;
+            var loggerKey = Path.GetFileNameWithoutExtension(filePath);
             if (!_loggers.ContainsKey(loggerKey))
             {
                 logger = _loggerFactory.CreateLogger(loggerKey);
                 _loggers[loggerKey] = logger;
             }
             else logger = _loggers[loggerKey];
+
+            message = $"[{member}({lineNumber})]-{message}";
 
             switch( level )
             {

@@ -64,7 +64,7 @@ namespace Bifrost.Strings
         /// <inheritdoc/>
         public ISegmentMatches Match(string stringToMatch)
         {
-            Logger.Internal.Trace($"Trying to match the following string '{stringToMatch}'");
+            Logger.Internal.Trace($"Trying to match the following string '{stringToMatch}' - separators : '{string.Join(" ",Separators)}'");
 
             var matches = new List<ISegmentMatch>();
             var strings = stringToMatch.Split(Separators);
@@ -73,9 +73,13 @@ namespace Bifrost.Strings
             var currentStringIndex = 0;
             var currentSegmentIndex = 0;
 
+            Logger.Internal.Trace($"Segments count: {segments.Length}");
+
             while( currentSegmentIndex < segments.Length )
             {
                 var segment = segments[currentSegmentIndex];
+                Logger.Internal.Trace($"Current segment : {segment}");
+
                 var length = strings.Length - currentStringIndex;
                 if (length <= 0) break;
 
@@ -88,6 +92,7 @@ namespace Bifrost.Strings
                 if (!match.HasMatch && !segment.Optional) return new SegmentMatches(new ISegmentMatch[0]);
                 if (match.HasMatch)
                 {
+                    Logger.Internal.Trace($"Match found");
                     matches.Add(match);
                     matches.AddRange(match.Children);
                     currentStringIndex += match.Values.Count();
