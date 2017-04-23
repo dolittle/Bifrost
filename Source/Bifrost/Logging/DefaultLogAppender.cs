@@ -40,8 +40,6 @@ namespace Bifrost.Logging
         public DefaultLogAppender(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
-
-            
         }
 
         /// <inheritdoc/>
