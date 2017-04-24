@@ -57,6 +57,7 @@
         <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
         <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" />
     </ItemGroup>
 
     <ItemGroup>

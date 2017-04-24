@@ -21,11 +21,6 @@ namespace Bifrost.Configuration
         IContainer Container { get; }
 
         /// <summary>
-        /// Gets or sets the name of the currently running system
-        /// </summary>
-        string SystemName { get; set; }
-
-        /// <summary>
         /// Gets the entry assembly for the application
         /// </summary>
         Assembly EntryAssembly { get; }

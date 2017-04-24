@@ -2,9 +2,9 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bifrost.Logging;
 
 namespace Bifrost.Strings
 {
@@ -48,6 +48,8 @@ namespace Bifrost.Strings
         {
             var matches = new List<string>();
 
+            Logger.Internal.Trace($"Matching : {string.Join(";",input)}");
+
             IEnumerable<ISegmentMatch> matchesFromChildren = new ISegmentMatch[0];
             if (Occurrences == SegmentOccurrence.Single)
             {
@@ -58,6 +60,12 @@ namespace Bifrost.Strings
 
             var match = new SegmentMatch(VariableName, this, matches, matchesFromChildren);
             return match;
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"VariableStringSegment({VariableName})";
         }
 
         IEnumerable<ISegmentMatch> MatchChildren(IEnumerable<string> input, IEnumerable<string> matches)
@@ -77,6 +85,5 @@ namespace Bifrost.Strings
 
             return matchesFromChildren;
         }
-
     }
 }

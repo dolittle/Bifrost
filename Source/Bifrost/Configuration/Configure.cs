@@ -14,7 +14,11 @@ using Bifrost.Diagnostics;
 using Bifrost.Events;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.Logging;
 using Bifrost.Tenancy;
+#if(!NET461)
+using Microsoft.Extensions.Logging;
+#endif
 
 namespace Bifrost.Configuration
 {
@@ -36,7 +40,6 @@ namespace Bifrost.Configuration
             IDefaultBindings defaultBindings,
             AssembliesConfiguration assembliesConfiguration)
         {
-            SystemName = "[Not Set]";
             AssembliesConfiguration = assembliesConfiguration;
             container.Bind<IConfigure>(this);
 
@@ -52,24 +55,44 @@ namespace Bifrost.Configuration
         /// Configure by letting Bifrost discover anything that implements the discoverable configuration interfaces
         /// </summary>
         /// <returns></returns>
-        public static Configure DiscoverAndConfigure(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, IEnumerable<ICanProvideAssemblies> additionalAssemblyProviders = null)
+        public static Configure DiscoverAndConfigure(
+#if(!NET461)
+            ILoggerFactory loggerFactory,
+#endif
+            Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback = null, 
+            IEnumerable<ICanProvideAssemblies> additionalAssemblyProviders = null)
         {
+#if (NET461)
+            var logAppenders = LoggingConfigurator.DiscoverAndConfigure();
+#else
+            var logAppenders = LoggingConfigurator.DiscoverAndConfigure(loggerFactory);
+#endif
+            Logging.ILogger logger = new Logger(logAppenders);
+            logger.Information("Starting up");
+
             IContractToImplementorsMap contractToImplementorsMap;
+
+            
             var assembliesConfigurationBuilder = BuildAssembliesConfigurationIfCallbackDefined(assembliesConfigurationBuilderCallback);
+
+            logger.Trace("Settings up contract to implementors map");
 
             contractToImplementorsMap = new ContractToImplementorsMap();
             var executingAssembly = typeof(Configure).GetTypeInfo().Assembly;
             contractToImplementorsMap.Feed(executingAssembly.GetTypes());
+
+            logger.Trace("Specifying which assemblies to include");
             var assemblySpecifiers = new AssemblySpecifiers(contractToImplementorsMap, new TypeFinder(), assembliesConfigurationBuilder.RuleBuilder);
             assemblySpecifiers.SpecifyUsingSpecifiersFrom(executingAssembly);
 
             var assemblyProviders = new List<ICanProvideAssemblies>
             {
-#if(NET461)
-                new AppDomainAssemblyProvider(),
+#if (NET461)
+                new AppDomainAssemblyProvider(logger),
+#else
+                new DefaultAssemblyProvider(logger),
 #endif
-                new DefaultAssemblyProvider(),
-                new FileSystemAssemblyProvider(new FileSystem())
+                new FileSystemAssemblyProvider(new FileSystem(), logger)
             };
 
 
@@ -90,6 +113,10 @@ namespace Bifrost.Configuration
             ThrowIfCanCreateContainerDoesNotHaveDefaultConstructor(canCreateContainerType);
             var canCreateContainerInstance = Activator.CreateInstance(canCreateContainerType) as ICanCreateContainer;
             var container = canCreateContainerInstance.CreateContainer();
+
+            container.Bind(logAppenders);
+            container.Bind(logger);
+
             var configure = With(
                 container,
                 assembliesConfiguration,
@@ -157,7 +184,6 @@ namespace Bifrost.Configuration
 
 #pragma warning disable 1591 // Xml Comments
         public IContainer Container { get; private set; }
-        public string SystemName { get; set; }
         public Assembly EntryAssembly { get; private set; }
         public AssembliesConfiguration AssembliesConfiguration { get; private set; }
         public IDefaultStorageConfiguration DefaultStorage { get; set; }
@@ -196,11 +222,7 @@ namespace Bifrost.Configuration
                 () => DefaultStorage.Initialize(Container)
             };
 
-#if (SILVERLIGHT)
-            initializers.ForEach(initializer => initializer());
-#else
             Parallel.ForEach(initializers, initializator => initializator());
-#endif
             ConfigurationDone();
         }
 #pragma warning restore 1591 // Xml Comments
@@ -261,7 +283,7 @@ namespace Bifrost.Configuration
         static AssembliesConfigurationBuilder BuildAssembliesConfigurationIfCallbackDefined(Action<AssembliesConfigurationBuilder> assembliesConfigurationBuilderCallback)
         {
             var builder = new AssembliesConfigurationBuilder();
-            if (assembliesConfigurationBuilderCallback != null) assembliesConfigurationBuilderCallback(builder);
+            assembliesConfigurationBuilderCallback?.Invoke(builder);
             if (builder.RuleBuilder == null) builder.IncludeAll();
             return builder;
         }

@@ -74,6 +74,12 @@ namespace Bifrost.Strings
             return segmentMatch;
         }
 
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"FixedStringSegment({String})";
+        }
+
         IEnumerable<ISegmentMatch> MatchChildren(IEnumerable<string> input, IEnumerable<string> matches)
         {
             var matchesFromChildren = new List<ISegmentMatch>();

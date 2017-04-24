@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Bifrost.Logging;
 
 namespace Bifrost.Execution
 {
@@ -18,28 +19,27 @@ namespace Bifrost.Execution
         /// <summary>
         /// Initializes a new instance of <see cref="AppDomainAssemblyProvider"/>
         /// </summary>
-        public AppDomainAssemblyProvider()
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public AppDomainAssemblyProvider(ILogger logger)
         {
             AppDomain.CurrentDomain.AssemblyLoad += AssemblyLoaded;
+
+            AvailableAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(assembly => !assembly.IsDynamic)
+                .Select(assembly =>
+                {
+                    var name = assembly.GetName();
+                    var assemblyInfo = new AssemblyInfo(name.Name, assembly.Location);
+                    return assemblyInfo;
+                });
+
+            foreach (var assembly in AvailableAssemblies) logger.Information($"Providing '{assembly.Name}'");
         }
 
 #pragma warning disable 1591 // Xml Comments
         public event AssemblyAdded AssemblyAdded = (a) => { };
 
-        public IEnumerable<AssemblyInfo> AvailableAssemblies
-        {
-            get
-            {
-                return AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(assembly => !assembly.IsDynamic)
-                    .Select(assembly =>
-                    {
-                        var name = assembly.GetName();
-                        var assemblyInfo = new AssemblyInfo(name.Name, assembly.Location);
-                        return assemblyInfo;
-                    });
-            }
-        }
+        public IEnumerable<AssemblyInfo> AvailableAssemblies { get; }
 
         public Assembly Get(AssemblyInfo assemblyInfo)
         {
@@ -52,7 +52,6 @@ namespace Bifrost.Execution
 
         void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
         {
-
             AssemblyAdded(args.LoadedAssembly);
         }
     }

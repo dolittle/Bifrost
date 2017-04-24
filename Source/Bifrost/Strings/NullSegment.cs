@@ -31,5 +31,13 @@ namespace Bifrost.Strings
         {
             return new SegmentMatch("Null", this, new string[0], new ISegmentMatch[0]);
         }
+
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return "[NULL SEGMENT]";
+        }
+
     }
 }
