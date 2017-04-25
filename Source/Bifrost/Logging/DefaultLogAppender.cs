@@ -65,7 +65,7 @@ namespace Bifrost.Logging
                 case LogLevel.Info: logger.LogInformation(message); break;
                 case LogLevel.Warning: logger.LogWarning(message); break;
                 case LogLevel.Critical: logger.LogCritical(message); break;
-                case LogLevel.Error: logger.LogError(message); break;
+                case LogLevel.Error: logger.LogError(0, exception, message); break;
             }
         }
 #endif
