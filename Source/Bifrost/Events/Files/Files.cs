@@ -34,7 +34,7 @@ namespace Bifrost.Events.Files
 
             _logger.Trace($"Writing string to file '{fullPath}'");
             
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
                 using (var writer = new StreamWriter(stream))
                 {
