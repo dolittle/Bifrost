@@ -53,7 +53,7 @@ namespace Bifrost.Web.Read
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Error executing query : '{descriptor.NameOfQuery}'")
+                _logger.Error(ex, $"Error executing query : '{descriptor.NameOfQuery}'");
                 return new QueryResult { Exception = ex };
             }
         }
