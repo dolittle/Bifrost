@@ -65,7 +65,7 @@ namespace Bifrost.Commands
             {
                 using (_localizer.BeginScope())
                 {
-                    _logger.Info("Handle command");
+                    _logger.Information("Handle command");
 
                     commandResult = CommandResult.ForCommand(command);
 
@@ -105,7 +105,7 @@ namespace Bifrost.Commands
                     }
                     else
                     {
-                        _logger.Info("Command was not successful, rolling back");
+                        _logger.Information("Command was not successful, rolling back");
                         transaction.Rollback();
                     }
                 }
