@@ -8,6 +8,7 @@ using System.Reflection;
 using Bifrost.Dynamic;
 using Bifrost.Execution;
 using Bifrost.Extensions;
+using Bifrost.Logging;
 using Bifrost.Read;
 using Bifrost.Web.Configuration;
 
@@ -20,24 +21,41 @@ namespace Bifrost.Web.Read
         IQueryCoordinator _queryCoordinator;
         WebConfiguration _configuration;
 
-        public QueryService(ITypeDiscoverer typeDiscoverer, IContainer container, IQueryCoordinator queryCoordinator, WebConfiguration configuration)
+        ILogger _logger;
+
+        public QueryService(
+            ITypeDiscoverer typeDiscoverer,
+            IContainer container,
+            IQueryCoordinator queryCoordinator,
+            WebConfiguration configuration,
+            ILogger logger)
         {
             _typeDiscoverer = typeDiscoverer;
             _container = container;
             _queryCoordinator = queryCoordinator;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public QueryResult Execute(QueryDescriptor descriptor, PagingInfo paging)
         {
-            var queryType = _typeDiscoverer.GetQueryTypeByName(descriptor.GeneratedFrom);
-            var query = _container.Get(queryType) as IQuery;
+            try
+            {
+                _logger.Information($"Executing query : {descriptor.NameOfQuery}");
+                var queryType = _typeDiscoverer.GetQueryTypeByName(descriptor.GeneratedFrom);
+                var query = _container.Get(queryType) as IQuery;
 
-            PopulateProperties (descriptor, queryType, query);
+                PopulateProperties(descriptor, queryType, query);
 
-            var result = _queryCoordinator.Execute(query, paging);
-            if( result.Success ) AddClientTypeInformation(result);
-            return result;
+                var result = _queryCoordinator.Execute(query, paging);
+                if (result.Success) AddClientTypeInformation(result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Error executing query : '{descriptor.NameOfQuery}'")
+                return new QueryResult { Exception = ex };
+            }
         }
 
         void AddClientTypeInformation(QueryResult result)
@@ -56,14 +74,16 @@ namespace Bifrost.Web.Read
             result.Items = items;
         }
 
-        void PopulateProperties (QueryDescriptor descriptor, Type queryType, object instance)
+        void PopulateProperties(QueryDescriptor descriptor, Type queryType, object instance)
         {
-            foreach (var key in descriptor.Parameters.Keys) {
-                var propertyName = key.ToPascalCase ();
-                var property = queryType.GetTypeInfo().GetProperty (propertyName);
-                if (property != null) {
+            foreach (var key in descriptor.Parameters.Keys)
+            {
+                var propertyName = key.ToPascalCase();
+                var property = queryType.GetTypeInfo().GetProperty(propertyName);
+                if (property != null)
+                {
                     var value = descriptor.Parameters[key].ToString().ParseTo(property.PropertyType);
-                    property.SetValue (instance, value, null);
+                    property.SetValue(instance, value, null);
                 }
             }
         }
