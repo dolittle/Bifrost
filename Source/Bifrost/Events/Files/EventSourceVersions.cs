@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Bifrost.Applications;
+using Bifrost.Logging;
 
 namespace Bifrost.Events.Files
 {
@@ -26,16 +27,19 @@ namespace Bifrost.Events.Files
         /// <param name="eventStore"><see cref="IEventStore"/> for getting information if not found in file system</param>
         /// <param name="applicationResourceIdentifierConverter">Converter for converting <see cref="IApplicationResourceIdentifier"/> "/></param>
         /// <param name="pathProvider">A delegate that can provide path to store <see cref="EventSourceVersion"/> for <see cref="IEventSource"/> - see <see cref="ICanProvideEventSourceVersionsPath"/></param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public EventSourceVersions(
             IFiles files, 
             IEventStore eventStore, 
             IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
-            ICanProvideEventSourceVersionsPath pathProvider)
+            ICanProvideEventSourceVersionsPath pathProvider,
+            ILogger logger)
         {
             _files = files;
             _eventStore = eventStore;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _path = pathProvider();
+            logger.Information($"Using path : {_path}");
         }
 
         /// <inheritdoc/>

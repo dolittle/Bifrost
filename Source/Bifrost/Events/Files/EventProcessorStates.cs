@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Dynamic;
+using Bifrost.Logging;
 using Bifrost.Serialization;
 using Bifrost.Time;
 
@@ -27,12 +28,19 @@ namespace Bifrost.Events.Files
         /// <param name="serializer"><see cref="ISerializer"/></param>
         /// <param name="files"><see cref="IFiles"/> to work with files</param>
         /// <param name="systemClock"><see cref="ISystemClock"/> for getting time from the system</param>
-        public EventProcessorStates(EventProcessorStatesConfiguration configuration, ISerializer serializer, IFiles files, ISystemClock systemClock)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public EventProcessorStates(
+            EventProcessorStatesConfiguration configuration, 
+            ISerializer serializer, 
+            IFiles files, 
+            ISystemClock systemClock,
+            ILogger logger)
         {
             _configuration = configuration;
             _serializer = serializer;
             _files = files;
             _systemClock = systemClock;
+            logger.Information($"Using path : {configuration.Path}");
         }
 
         /// <inheritdoc/>
