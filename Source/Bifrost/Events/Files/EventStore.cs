@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Bifrost.Applications;
+using Bifrost.Logging;
 using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
@@ -35,6 +36,7 @@ namespace Bifrost.Events.Files
         /// <param name="eventEnvelopes"><see cref="IEventEnvelopes"/> for working with <see cref="EventEnvelope"/></param>
         /// <param name="serializer"><see cref="ISerializer"/> to use for serialization</param>
         /// <param name="files"><see cref="IFiles"/> to work with files</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public EventStore(
             EventStoreConfiguration configuration, 
             IApplicationResources applicationResources, 
@@ -42,8 +44,10 @@ namespace Bifrost.Events.Files
             IApplicationResourceResolver applicationResourceResolver,
             IEventEnvelopes eventEnvelopes,
             ISerializer serializer,
-            IFiles files)
+            IFiles files,
+            ILogger logger)
         {
+            logger.Information($"Using path : {configuration.Path}");
             _configuration = configuration;
             _eventEnvelopes = eventEnvelopes;
             _applicationResources = applicationResources;

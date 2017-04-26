@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.IO;
+using Bifrost.Logging;
 using Bifrost.Serialization;
 
 namespace Bifrost.Events.Files
@@ -13,13 +14,27 @@ namespace Bifrost.Events.Files
     /// </summary>
     public class Files : IFiles
     {
+        ILogger _logger;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="Files"/>
+        /// </summary>
+        /// <param name="logger"></param>
+        public Files(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+
         /// <inheritdoc/>
         public void WriteString(string path, string file, string content)
         {
             MakeSurePathExists(path);
             var fullPath = Path.Combine(path, file);
 
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            _logger.Trace($"Writing string to file '{fullPath}'");
+            
+            using (var stream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
             {
                 using (var writer = new StreamWriter(stream))
                 {
@@ -31,9 +46,12 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public string ReadString(string path, string file)
         {
+            MakeSurePathExists(path);
             var fullPath = Path.Combine(path, file);
 
-            using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            _logger.Trace($"Reading string from file '{fullPath}'");
+
+            using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 using (var reader = new StreamReader(stream))
                 {

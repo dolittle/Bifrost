@@ -7,6 +7,7 @@ using System.Reflection;
 using Bifrost.Exceptions;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
+using Bifrost.Logging;
 
 namespace Bifrost.Commands
 {
@@ -21,6 +22,7 @@ namespace Bifrost.Commands
         readonly ICommandSecurityManager _commandSecurityManager;
         readonly ILocalizer _localizer;
         readonly IExceptionPublisher _exceptionPublisher;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandCoordinator">CommandCoordinator</see>
@@ -31,13 +33,15 @@ namespace Bifrost.Commands
         /// <param name="commandValidators">A <see cref="ICommandValidators"/> for validating a <see cref="ICommand"/> before handling</param>
         /// <param name="localizer">A <see cref="ILocalizer"/> to use for controlling localization of current thread when handling commands</param>
         /// <param name="exceptionPublisher">An <see cref="IExceptionPublisher"/> to send exceptions to</param>
+        /// <param name="logger"><see cref="ILogger"/> to log with</param>
         public CommandCoordinator(
             ICommandHandlerManager commandHandlerManager,
             ICommandContextManager commandContextManager,
             ICommandSecurityManager commandSecurityManager,
             ICommandValidators commandValidators,
             ILocalizer localizer,
-            IExceptionPublisher exceptionPublisher)
+            IExceptionPublisher exceptionPublisher,
+            ILogger logger)
         {
             _commandHandlerManager = commandHandlerManager;
             _commandContextManager = commandContextManager;
@@ -45,6 +49,7 @@ namespace Bifrost.Commands
             _commandValidationService = commandValidators;
             _localizer = localizer;
             _exceptionPublisher = exceptionPublisher;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
@@ -60,6 +65,8 @@ namespace Bifrost.Commands
             {
                 using (_localizer.BeginScope())
                 {
+                    _logger.Information("Handle command");
+
                     commandResult = CommandResult.ForCommand(command);
 
                     var authorizationResult = _commandSecurityManager.Authorize(command);
@@ -83,12 +90,14 @@ namespace Bifrost.Commands
                         }
                         catch (TargetInvocationException ex)
                         {
+                            _logger.Error(ex, "Error handling command");
                             _exceptionPublisher.Publish(ex);
                             commandResult.Exception = ex.InnerException;
                             transaction.Rollback();
                         }
                         catch (Exception ex)
                         {
+                            _logger.Error(ex, "Error handling command");
                             _exceptionPublisher.Publish(ex);
                             commandResult.Exception = ex;
                             transaction.Rollback();
@@ -96,17 +105,20 @@ namespace Bifrost.Commands
                     }
                     else
                     {
+                        _logger.Information("Command was not successful, rolling back");
                         transaction.Rollback();
                     }
                 }
             }
             catch (TargetInvocationException ex)
             {
+                _logger.Error(ex, "Error handling command");
                 _exceptionPublisher.Publish(ex);
                 commandResult.Exception = ex.InnerException;
             }
             catch (Exception ex)
             {
+                _logger.Error(ex, "Error handling command");
                 _exceptionPublisher.Publish(ex);
                 commandResult.Exception = ex;
             }

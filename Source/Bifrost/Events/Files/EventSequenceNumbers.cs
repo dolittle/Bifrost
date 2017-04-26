@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Bifrost.Applications;
 using Bifrost.Execution;
+using Bifrost.Logging;
 
 namespace Bifrost.Events.Files
 {
@@ -29,11 +30,17 @@ namespace Bifrost.Events.Files
         /// <param name="configuration"><see cref="EventSequenceNumbersConfiguration">Configuration</see>"/></param>
         /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> for getting string representation of <see cref="IApplicationResourceIdentifier"/></param>
         /// <param name="files"><see cref="IFiles"/> to work with files</param>
-        public EventSequenceNumbers(EventSequenceNumbersConfiguration configuration, IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, IFiles files)
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        public EventSequenceNumbers(
+            EventSequenceNumbersConfiguration configuration, 
+            IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter, 
+            IFiles files,
+            ILogger logger)
         {
             _configuration = configuration;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _files = files;
+            logger.Information($"Using path : {configuration.Path}");
         }
 
 

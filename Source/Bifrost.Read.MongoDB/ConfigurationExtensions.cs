@@ -2,6 +2,7 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using Bifrost.Read.MongoDB;
 
 namespace Bifrost.Configuration
@@ -11,6 +12,23 @@ namespace Bifrost.Configuration
     /// </summary>
     public static class ConfigurationExtensions
     {
+        /// <summary>
+        /// Configure the default storage mechanism to use MongoDB
+        /// </summary>
+        /// <param name="storage"><see cref="IHaveStorage"/> to configure</param>
+        /// <param name="configureCallback">Callback to configure more details for the connections</param>
+        /// <returns>Chained <see cref="IConfigure"/></returns>
+        public static IConfigure UsingMongoDB(this IHaveStorage storage, Action<EntityContextConfiguration> configureCallback)
+        {
+            var entityContextConfiguration = new EntityContextConfiguration();
+            configureCallback(entityContextConfiguration);
+
+            var connection = new EntityContextConnection(entityContextConfiguration);
+            entityContextConfiguration.Connection = connection;
+
+            storage.EntityContextConfiguration = entityContextConfiguration;
+            return Configure.Instance;
+        }        
 
         /// <summary>
         /// Specifiy the url for the MongoDB server

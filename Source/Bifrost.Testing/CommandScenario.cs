@@ -11,6 +11,7 @@ using Bifrost.Exceptions;
 using Bifrost.Execution;
 using Bifrost.Globalization;
 using Bifrost.Lifecycle;
+using Bifrost.Logging;
 using Bifrost.Security;
 using Bifrost.Testing.Exceptions;
 using Bifrost.Validation;
@@ -78,7 +79,8 @@ namespace Bifrost.Testing
                                         command_security_manager_mock.Object,
                                         command_validators_mock.Object,
                                         localizer.Object,
-                                        Mock.Of<IExceptionPublisher>());
+                                        Mock.Of<IExceptionPublisher>(),
+                                        Mock.Of<ILogger>());
 
             null_validator_mock = new Mock<ICanValidate<T>>();
             null_validator = null_validator_mock.Object;
