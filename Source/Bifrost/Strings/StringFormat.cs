@@ -111,7 +111,10 @@ namespace Bifrost.Strings
             {
                 for (var i = currentStringIndex; i < strings.Length; i++)
                 {
-                    var nextMatch = MatchStrings(strings, currentStringIndex + 1, segment, length - 1);
+                    var actualLength = length - 1;
+                    if (actualLength <= 0) break;
+
+                    var nextMatch = MatchStrings(strings, currentStringIndex + 1, segment, actualLength);
                     if (nextMatch.HasMatch)
                         length = strings.Length - (currentStringIndex + 1);
 

@@ -45,7 +45,7 @@
         <DocumentationFile>bin\Debug\net461\Bifrost.xml</DocumentationFile>
     </PropertyGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
         <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
         <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="1.1.1" />
         <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
@@ -79,6 +79,7 @@
         <Reference Include="System" />
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="System.Dynamic" />
+        <Compile Remove="Execution\DefaultAssemblyProvider.cs" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
