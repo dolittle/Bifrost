@@ -6,8 +6,10 @@ open Fake
 open Fake.RestorePackageHelper
 open Fake.Git
 open System
+open System.Diagnostics
 open System.IO
 open System.Linq
+open System.Text
 open System.Text.RegularExpressions
 open FSharp.Data
 open FSharp.Data.JsonExtensions
@@ -79,17 +81,33 @@ let spawnProcess (processName:string, arguments:string) =
     startInfo.RedirectStandardError <- true
     startInfo.UseShellExecute <- false
     startInfo.CreateNoWindow <- true
+    startInfo.StandardOutputEncoding = Encoding.Unicode
+    startInfo.StandardErrorEncoding = Encoding.Unicode
+
+    let result = new StringBuilder()
+
+    let resultHandler (_sender:obj) (args:DataReceivedEventArgs) = result.AppendLine args.Data |> ignore
+    let outputHandler (_sender:obj) (args:DataReceivedEventArgs) = Console.WriteLine args.Data
 
     use proc = new System.Diagnostics.Process(StartInfo = startInfo)
-    proc.Start() |> ignore
+    proc.EnableRaisingEvents <- true
+    
+    proc.OutputDataReceived.AddHandler(DataReceivedEventHandler (resultHandler))
+    proc.ErrorDataReceived.AddHandler(DataReceivedEventHandler (resultHandler))
 
-    let reader = new System.IO.StreamReader(proc.StandardOutput.BaseStream, System.Text.Encoding.UTF8)
-    let result = reader.ReadToEnd()
+    proc.OutputDataReceived.AddHandler(DataReceivedEventHandler (outputHandler))
+    proc.ErrorDataReceived.AddHandler(DataReceivedEventHandler (outputHandler))
+    
+    proc.Start() |> ignore
+    proc.BeginOutputReadLine()
+    proc.BeginErrorReadLine()
     proc.WaitForExit()
     if proc.ExitCode <> 0 then 
         failwith ("Problems spawning ("+processName+") with arguments ("+arguments+"): \r\n" +  proc.StandardError.ReadToEnd())
 
-    result
+    proc.Close()
+    
+    result.ToString()
 
 let performGitCommand arguments:string =
     spawnProcess("git", arguments)
@@ -246,8 +264,8 @@ Target "RestorePackages" (fun _ ->
         tracef "Restoring packages for %s" directory.FullName
         Directory.SetCurrentDirectory directory.FullName
         let allArgs = sprintf "restore"
-        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
-        if errorCode <> 0 then failwith "Restoring failed"
+
+        spawnProcess("dotnet", allArgs) |> ignore
 
     Directory.SetCurrentDirectory(currentDir)
     trace "**** Restoring packages DONE ****"
@@ -300,8 +318,7 @@ Target "Build" (fun _ ->
     for directory in projectsDirectories do
         tracef "Building %s" directory.FullName
         let allArgs = sprintf "build %s %s" directory.FullName (if isWindows then "" else "-f netstandard1.6")
-        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
-        if errorCode <> 0 then failwithf "Building %s failed" directory.FullName
+        spawnProcess("dotnet", allArgs)
 
     trace "**** Building Done ****"
 )
@@ -318,8 +335,8 @@ Target "DotNetTest" (fun _ ->
         tracef "Running Specs for %s" directory.FullName
         Directory.SetCurrentDirectory directory.FullName
         let allArgs = sprintf "test %s %s" (if isWindows then "" else "-f netcoreapp1.1") (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
-        let errorCode = ProcessHelper.Shell.Exec("dotnet", args=allArgs)
-        if errorCode <> 0 then failwith "Running C# Specifications failed"
+
+        spawnProcess("dotnet", allArgs)
 
         let resultsFile = "./TestResults/results.trx"
         if appveyor && File.Exists(resultsFile) then
@@ -339,7 +356,7 @@ Target "DotNetTest" (fun _ ->
 Target "PackageForNuGet" (fun _ ->
     for directory in projectsDirectories do
         let allArgs = sprintf "pack --no-build %s --output %s" directory.FullName nugetDirectory
-        ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
+        spawnProcess("dotnet", allArgs)
 )
 
 //*****************************************************************************
@@ -364,14 +381,15 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         let currentDir = Directory.GetCurrentDirectory()
         tracef "Current directory is : %s" currentDir
         Directory.SetCurrentDirectory "./Source/Documentation"
-        if ProcessHelper.Shell.Exec("dotnet", "restore") <> 0 then failwith "Couldn't restore documentation project"
-        if ProcessHelper.Shell.Exec("dotnet", "build") <> 0 then failwith "Couldn't build documentation project"
+
+        spawnProcess("dotnet", "restore")
+        spawnProcess("dotnet", "build")
         Directory.SetCurrentDirectory(currentDir)
 
         trace "Clone site repository"
 
         let siteDir = "dolittle.github.io"
-        ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
+        spawnProcess("git", "clone https://github.com/dolittle/dolittle.github.io.git")
 
         trace "Copy all the content from the generated site"
         FileHelper.CopyDir "dolittle.github.io/bifrost" "Source/Documentation/_site" (fun f -> true)
@@ -379,28 +397,16 @@ Target "GenerateAndPublishDocumentation" (fun _ ->
         Directory.SetCurrentDirectory(siteDir)
 
         trace "Push back to Git repository"
-        ProcessHelper.Shell.Exec("git" , args="add .") |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.name \"Bifrost Documentation Account\"") |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.email \"bifrost@dolittle.com\"") |> ignore
-        ProcessHelper.Shell.Exec("git" , args="commit -m \"<-- Autogenerated : documentation updated -->\"") |> ignore
+        spawnProcess("git" , "add .") |> ignore
+        spawnProcess("git" , "config --global user.name \"Bifrost Documentation Account\"") |> ignore
+        spawnProcess("git" , "config --global user.email \"bifrost@dolittle.com\"") |> ignore
+        spawnProcess("git" , "commit -m \"<-- Autogenerated : documentation updated -->\"") |> ignore
         let remoteUrl = sprintf "remote set-url origin https://%s:%s@github.com/dolittle/dolittle.github.io.git" documentationUser documentationUserToken
-        ProcessHelper.Shell.Exec("git" , args=remoteUrl) |> ignore
+        spawnProcess("git" , remoteUrl) |> ignore
         // if( ProcessHelper.Shell.Exec("git" , args="push 2>nul") <> 0) then failwith "Couldn't push documentation to repository"
 
-        let startInfo = new System.Diagnostics.ProcessStartInfo("git")
-        startInfo.Arguments <- "push"
-        startInfo.RedirectStandardInput <- false
-        startInfo.RedirectStandardOutput <- false
-        startInfo.RedirectStandardError <- false
-        startInfo.UseShellExecute <- false
-        startInfo.CreateNoWindow <- true
+        spawnProcess("git", "push")
 
-        use proc = new System.Diagnostics.Process(StartInfo = startInfo)
-        proc.Start() |> ignore
-        proc.WaitForExit()
-        if proc.ExitCode <> 0 then 
-            failwith ("Couldn't push documentation to repository")
-        
         trace "--- Delete content of site dir ---"
         FileHelper.DeleteDir siteDir
 
@@ -423,7 +429,7 @@ Target "DeployNugetPackages" (fun _ ->
                         
         for package in packages do
             let allArgs = sprintf "push %s %s -Source %s" package key source
-            ProcessHelper.Shell.Exec(nugetPath, args=allArgs) |> ignore
+            spawnProcess(nugetPath, allArgs) |> ignore
     else
         trace "Not deploying to NuGet - no key set"
 )
@@ -442,11 +448,11 @@ Target "PackageSamples" (fun _ ->
         let projFile = sprintf "Source/%s/%s.csproj" sampleProject sampleProject
 
         tracef "Build %s" projFile
-        ProcessHelper.Shell.Exec(msbuild, projFile) |> ignore
+        spawnProcess(msbuild, projFile) |> ignore
 
         tracef "Packaging %s %s" specFile
         let allArgs = sprintf "pack %s -Version %s -OutputDirectory %s" specFile (buildVersion.AsString()) nugetDirectory
-        ProcessHelper.Shell.Exec(nugetPath, args=allArgs) |> ignore
+        spawnProcess(nugetPath, allArgs) |> ignore
 
     trace "*** Package Sample Projects DONE ***"
 )
