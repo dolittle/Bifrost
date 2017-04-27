@@ -492,7 +492,7 @@ Target "Deploy" DoNothing
 Target "PackageAndDeploy" DoNothing
 "GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
 "Package" ==> "PackageAndDeploy"
-"PackageSamples" => "PackageAndDeploy"
+"PackageSamples" ==> "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
 
 Target "All" DoNothing
