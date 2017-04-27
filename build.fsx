@@ -1,4 +1,4 @@
-#I "Source/Solutions/packages/FAKE/tools/"
+﻿#I "Source/Solutions/packages/FAKE/tools/"
 #I "Source/Solutions/packages/FAKE/FSharp.Data/lib/net40"
 #r "FakeLib.dll"
 #r "FSharp.Data.dll" 
@@ -161,6 +161,19 @@ let updateVersionOnProjectFile(file:string, version:BuildVersion) =
     let updatedProjectFile = projectFile.Replace("<Version>1.0.0</Version>", newVersionString)
     File.WriteAllText(file, updatedProjectFile)
 
+let getMsBuildEnginePath() =
+    let msbuildLocations = [|
+        "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\msbuild.exe";
+        "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\MSBuild\\15.0\\Bin\\msbuild.exe";
+        "c:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\MSBuild\\15.0\\Bin\\msbuild.exe"
+    |]
+
+    let msbuild = Array.tryFind (fun f -> File.Exists f) msbuildLocations
+    if msbuild.IsSome then 
+        msbuild.Value
+    else 
+        ""
+
 //*****************************************************************************
 //* Globals
 //*****************************************************************************
@@ -174,6 +187,9 @@ let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 let sourceDirectory = sprintf "%s/Source" __SOURCE_DIRECTORY__
 let artifactsDirectory = sprintf "%s/artifacts" __SOURCE_DIRECTORY__
 let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
+
+let msbuild = getMsBuildEnginePath()
+
 
 let projectsDirectories = File.ReadAllLines "projects.txt" |> Array.map(fun f -> new DirectoryInfo(sprintf "./Source/%s" f))
 
@@ -214,6 +230,7 @@ printfn "Build version : %s" (buildVersion.AsString())
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
 printfn "Documentation User : %s" documentationUser
+printfn "MSBuild location : %s" msbuild
 printfn "<----------------------- BUILD DETAILS ----------------------->"
 
 
@@ -411,6 +428,28 @@ Target "DeployNugetPackages" (fun _ ->
         trace "Not deploying to NuGet - no key set"
 )
 
+//*****************************************************************************
+//* Deploy to NuGet if release mode
+//*****************************************************************************
+Target "PackageSamples" (fun _ ->
+    let sampleProjects = ["Bifrost.QuickStart"]
+    // "Source/Bifrost.Default/Bifrost.Default.nuspec"
+
+    trace "*** Package Sample Projects ***"
+    
+    for sampleProject in sampleProjects do
+        let specFile = sprintf "Source/%s/%s.nuspec" sampleProject sampleProject
+        let projFile = sprintf "Source/%s/%s.csproj" sampleProject sampleProject
+
+        tracef "Build %s" projFile
+        ProcessHelper.Shell.Exec(msbuild, projFile) |> ignore
+
+        tracef "Packaging %s %s" specFile
+        let allArgs = sprintf "pack %s -Version %s -OutputDirectory %s" specFile (buildVersion.AsString()) nugetDirectory
+        ProcessHelper.Shell.Exec(nugetPath, args=allArgs) |> ignore
+
+    trace "*** Package Sample Projects DONE ***"
+)
 
 // ******** Pre Info 
 // Get Build Number from BuildServer
@@ -453,6 +492,7 @@ Target "Deploy" DoNothing
 Target "PackageAndDeploy" DoNothing
 "GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
 "Package" ==> "PackageAndDeploy"
+"PackageSamples" => "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
 
 Target "All" DoNothing
