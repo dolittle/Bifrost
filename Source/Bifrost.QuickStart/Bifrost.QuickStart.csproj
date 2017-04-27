@@ -180,7 +180,7 @@
     <Compile Include="Read\HumanResources\Employees\AllEmployees.cs" />
     <Compile Include="Read\HumanResources\Employees\Employee.cs" />
     <Compile Include="Read\HumanResources\Employees\EmployeeMap.cs" />
-    <Compile Include="Read\HumanResources\Employees\EventSubscribers.cs" />
+    <Compile Include="Read\HumanResources\Employees\EventProcessors.cs" />
     <Compile Include="Read\HumanResources\Employees\QuerySecurity.cs" />
   </ItemGroup>
   <PropertyGroup>

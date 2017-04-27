@@ -2,7 +2,6 @@
 using System.Web.Routing;
 using Bifrost.Applications;
 using Bifrost.Configuration;
-using Bifrost.Events;
 using Bifrost.Web.Services;
 using Web.Domain.HumanResources.Foos;
 
@@ -16,8 +15,7 @@ namespace Web
             var eventsPath = HttpContext.Current.Server.MapPath("~/App_Data/Events");
             var eventSequenceNumbersPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSequenceNumbers");
             var eventProcessorsStatePath = HttpContext.Current.Server.MapPath("~/App_Data/EventProcessors");
-
-            //var redis = "";
+            var eventSourceVersionsPath = HttpContext.Current.Server.MapPath("~/App_Data/EventSourceVersions");
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
@@ -29,60 +27,24 @@ namespace Web
 
                 .Events(e =>
                     {
-                        //e.EventStore.UsingFiles(eventsPath);
-                        //e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
-                        //e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
-
-                        //e.EventProcessorStates.UsingRedis(redis);
-                        //e.EventSourceVersions.UsingRedis(redis);
-                        //e.EventSequenceNumbers.UsingRedis(redis);
-                        //e.EventStore.UsingTables("");
+                        e.EventStore.UsingFiles(eventsPath);
+                        e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
+                        e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
+                        e.EventSourceVersions.UsingFiles(eventSourceVersionsPath);
                     })
                     
                 .Serialization
                     .UsingJson()
 
-                // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
-                //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))
-
-                // For using RavenDB - install the nuget package : install-package Bifrost.RavenDB and comment out the .UsingRavenDB(...) line above and uncomment the line below
-                //.UsingRavenDB(e=>e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-
-                // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
-
 
                 .DefaultStorage
-                    //.UsingEntityFramework(e => e.WithConnectionString(@"Data Source=(LocalDB)\v11.0;AttachDbFileName=|DataDirectory|\Database.mdf;Initial Catalog=Database;Integrated Security=True"))
                     .UsingFiles(entitiesPath)
 
-                // For using MongoDB - install the nuget package : install-package Bifrost.MongoDB and comment out the .UsingMongoDB(...) line above and uncomment the line below
-                //.UsingMongoDB(e => e.WithUrl("http://localhost:27017").WithDefaultDatabase("QuickStart"))
-
-                // For using RavenDB - install the nuget package : install-package Bifrost.RavenDB and comment out the .UsingRavenDB(...) line above and uncomment the line below
-                //.UsingRavenDB(e => e.WithUrl("http://localhost:8080").WithDefaultDatabase("QuickStart"))
-
-                // For using Azure DocumentDB - install the nuget package : install-package Bifrost.DocumentDB and comment out the .UsingDocumentDB(...) line above and uncomment the line below
-                //.UsingDocumentDB(e => e.WithUrl("").WithDefaultDatabase("QuickStart").UsingAuthorizationKey(""))
                 .Frontend
                     .Web(w =>
                     {
                         w.AsSinglePageApplication();
                         w.PathsToNamespaces.Clear();
-
-                        #region Temporary Configuration for the Bifrost Visualizer - work in progress
-                        w.PathsToNamespaces.Add("Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("/Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
-                        w.PathsToNamespaces.Add("/Bifrost/Visualizer/**/", "Bifrost.Visualizer.**.");
-
-                        w.PathsToNamespaces.Add("Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("/Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("Bifrost/Visualizer", "Bifrost.Visualizer");
-                        w.PathsToNamespaces.Add("/Bifrost/Visualizer", "Bifrost.Visualizer");
-
-                        w.NamespaceMapper.Add("Bifrost.Visualizer.**.", "Bifrost.Web.Visualizer.**.");
-                        #endregion
 
                         var baseNamespace = global::Bifrost.Configuration.Configure.Instance.EntryAssembly.GetName().Name;
 
