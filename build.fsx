@@ -244,7 +244,9 @@ printfn "<----------------------- BUILD DETAILS ----------------------->"
 printfn "Git Branch : %s" currentBranch
 printfn "Git Version : %s" (versionFromGitTag.AsString())
 printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
+printfn "Last NuGet version - preRelease : %b" (lastNuGetVersion.IsPreRelease)
 printfn "Build version : %s" (buildVersion.AsString())
+printfn "Build version - preRelease : %b" (buildVersion.IsPreRelease)
 printfn "Version Same : %b" sameVersion
 printfn "Release Build : %b" isReleaseBuild
 printfn "Documentation User : %s" documentationUser
