@@ -79,6 +79,7 @@
         <Reference Include="System" />
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="System.Dynamic" />
+        <Compile Remove="Execution\DefaultAssemblyProvider.cs" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
