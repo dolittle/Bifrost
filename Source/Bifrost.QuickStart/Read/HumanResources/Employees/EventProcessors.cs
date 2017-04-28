@@ -4,11 +4,11 @@ using Bifrost.Read;
 
 namespace Web.Read.HumanResources.Employees
 {
-    public class EventSubscribers : IProcessEvents
+    public class EventProcessors : IProcessEvents
     {
         IReadModelRepositoryFor<Employee> _repository;
 
-        public EventSubscribers(IReadModelRepositoryFor<Employee> repository)
+        public EventProcessors(IReadModelRepositoryFor<Employee> repository)
         {
             _repository = repository;
         }

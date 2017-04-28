@@ -9,14 +9,6 @@ namespace SimpleWeb
     {
         public static void Main(string[] args)
         {
-            ClaimsPrincipal.ClaimsPrincipalSelector = () =>
-             {
-                 var identity = new ClaimsIdentity();
-                 identity.AddClaim(new Claim("Name", "Unknown"));
-                 var principal = new ClaimsPrincipal(identity);
-                 return principal;
-             };
-
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
