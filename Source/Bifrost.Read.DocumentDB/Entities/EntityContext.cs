@@ -98,7 +98,10 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            throw new NotImplementedException();           
+            return _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
+                new FeedOptions { MaxItemCount = 1 })
+                .AsEnumerable()
+                .FirstOrDefault();
         }
 
         public void DeleteById<TProperty>(TProperty id)
