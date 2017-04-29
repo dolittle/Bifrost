@@ -1,4 +1,4 @@
-
+﻿
 function polyfillForEach() {
     if (typeof Array.prototype.forEach !== "function") {
         Array.prototype.forEach = function (callback, thisArg) {
@@ -2954,9 +2954,21 @@ Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFact
 Bifrost.namespace("Bifrost.io", {
     fileManager: Bifrost.Singleton(function () {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
-        var self = this;
+		var self = this;
 
-        var uri = Bifrost.Uri.create(window.location.href);
+		var scriptSource = (function (scripts) {
+			var scripts = document.getElementsByTagName('script'),
+				script = scripts[scripts.length - 1];
+
+			if (script.getAttribute.length !== undefined) {
+				return script.src
+			}
+
+			return script.getAttribute('src', -1)
+		}());
+
+		//var uri = Bifrost.Uri.create(window.location.href);
+		var uri = Bifrost.Uri.create(scriptSource);
         if (window.location.protocol === "file:") {
             this.origin = window.location.href;
             this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
