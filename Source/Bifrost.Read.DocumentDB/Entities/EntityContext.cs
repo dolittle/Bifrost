@@ -10,6 +10,7 @@ using Bifrost.Entities;
 using Bifrost.Extensions;
 using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -60,9 +61,9 @@ namespace Bifrost.DocumentDB.Entities
             var properties = typeof(T).GetTypeInfo().GetProperties();
             properties.ForEach(p =>
             {
-                var value = p.GetValue(entity);
+                var value = p.GetValue(entity);                
 
-                if (value.IsConcept()) value = value.GetConceptValue();
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
 
                 if (p.Name.ToLowerInvariant() == "id")
                     document.Id = value.ToString();
@@ -97,7 +98,7 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException();           
         }
 
         public void DeleteById<TProperty>(TProperty id)
