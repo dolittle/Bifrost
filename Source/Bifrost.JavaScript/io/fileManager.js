@@ -3,7 +3,7 @@
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
 		var self = this;
 
-		var scriptSource = (function (scripts) {
+		var scriptSource = (function () {
 			var scripts = document.getElementsByTagName('script'),
 				script = scripts[scripts.length - 1];
 
