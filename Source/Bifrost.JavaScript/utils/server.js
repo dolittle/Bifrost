@@ -2,7 +2,20 @@
     server: Bifrost.Singleton(function () {
         var self = this;
 
-        this.target = "";
+		function getTarget() {
+			var scripts = document.getElementsByTagName('script'),
+				script = scripts[scripts.length - 1];
+
+			if (script.getAttribute.length !== undefined) {
+				return script.src;
+			}
+
+			return script.getAttribute('src', -1);
+		}
+
+		var uri = Bifrost.Uri.create(getTarget());
+
+		this.target = uri.scheme + "://" + uri.host + ":" + uri.port;
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {

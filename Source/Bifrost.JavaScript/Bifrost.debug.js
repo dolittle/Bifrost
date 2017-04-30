@@ -2301,7 +2301,20 @@ Bifrost.namespace("Bifrost", {
     server: Bifrost.Singleton(function () {
         var self = this;
 
-        this.target = "";
+		function getTarget() {
+			var scripts = document.getElementsByTagName('script'),
+				script = scripts[scripts.length - 1];
+
+			if (script.getAttribute.length !== undefined) {
+				return script.src;
+			}
+
+			return script.getAttribute('src', -1);
+		}
+
+		var uri = Bifrost.Uri.create(getTarget());
+
+		this.target = uri.scheme + "://" + uri.host + ":" + uri.port;
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
@@ -2954,9 +2967,20 @@ Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFact
 Bifrost.namespace("Bifrost.io", {
     fileManager: Bifrost.Singleton(function () {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
-        var self = this;
+		var self = this;
 
-        var uri = Bifrost.Uri.create(window.location.href);
+		var scriptSource = (function () {
+			var scripts = document.getElementsByTagName('script'),
+				script = scripts[scripts.length - 1];
+
+			if (script.getAttribute.length !== undefined) {
+				return script.src;
+			}
+
+			return script.getAttribute('src', -1);
+		}());
+
+		var uri = Bifrost.Uri.create(scriptSource);
         if (window.location.protocol === "file:") {
             this.origin = window.location.href;
             this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
