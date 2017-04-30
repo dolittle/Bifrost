@@ -356,7 +356,7 @@
     <None Include="jshint.conf" />
     <None Include="merge.cmd" />
   </ItemGroup>
-  <UsingTask AssemblyFile="$(SolutionDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" Condition=" '$(OS)' == 'Windows_NT' " />
+  <UsingTask AssemblyFile="$(ProjectDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" Condition=" '$(OS)' == 'Windows_NT' " />
   <Target Name="BeforeBuild">
     <JSLintTask SourceDirectory="$(ProjectDir)" SettingsFile="$(ProjectDir)jshint.conf" UseHint="true" Condition=" '$(OS)' == 'Windows_NT' "/>
   </Target>
