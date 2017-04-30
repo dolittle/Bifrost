@@ -1,5 +1,45 @@
 # Release Notes
 
+## Version 1.2.0
+
+* Added guidance for issues [#698](https://github.com/dolittle/Bifrost/issues/698)
+* Including PDB files in NuGet Packages [#744](https://github.com/dolittle/Bifrost/issues/744)
+* Migrated remaining NUnit specs to MSpec [#687](https://github.com/dolittle/Bifrost/issues/687)
+* Introduced GitVersion for getting version for builds [#758](https://github.com/dolittle/Bifrost/issues/758)
+* Changed all files from CRLF to LF [#732](https://github.com/dolittle/Bifrost/issues/732)
+* Various changes migrated from ProCoSys fork: [#713(https://github.com/dolittle/Bifrost/issues/713)
+  - Use activator to create instances of Commands when generating proxies
+  - Limit initialization of AssetsManager once - JavaScript
+  - Introduce IConvention as a marker interface for finding things that are governed by conventions
+  - Composed validators improvement
+  - Security proxies excluded from the application route
+* Updated debugging documentation [#734](https://github.com/dolittle/Bifrost/issues/734)
+* Documentation for how you could set up Web.config [#735](https://github.com/dolittle/Bifrost/issues/735)
+* Documentation for editor config [#731](https://github.com/dolittle/Bifrost/issues/731)
+* Added MyGet symbol source [#737](https://github.com/dolittle/Bifrost/issues/737)
+* Cleaned up Tabs to Spaces [#733](https://github.com/dolittle/Bifrost/issues/)
+* Ensure CommandHandlerInvoker is only called once [#766](https://github.com/dolittle/Bifrost/issues/766)
+* Upgraded to release version of FluentValidation [#775](https://github.com/dolittle/Bifrost/issues/775)
+* `IExceptionSubscriber` for catching errors that can be logged or surfaced [#773](https://github.com/dolittle/Bifrost/issues/773)
+* Updated to the latest Mongo DB driver [#789](https://github.com/dolittle/Bifrost/issues/789) [#594](https://github.com/dolittle/Bifrost/issues/594) [#779](https://github.com/dolittle/Bifrost/issues/779)
+* [Breaking Change] Configuration of events for pipeline [#787](https://github.com/dolittle/Bifrost/issues/787)
+* [Breaking Change] Changed entire pipeline of events and subscriptions [#596](https://github.com/dolittle/Bifrost/issues/596) [#193](https://github.com/dolittle/Bifrost/issues/193)
+* [Breaking Change] Move to OWIN and not be coupled to System.Web [#515](https://github.com/dolittle/Bifrost/issues/515)
+* [Breaking Change] Include Application details instead of system [#799](https://github.com/dolittle/Bifrost/issues/799)
+* [Breaking Change] Updated ITenant to use a `dynamic` instead of `WriteOnceExpandoObject` [#797](https://github.com/dolittle/Bifrost/issues/797)
+* Fixed so that `ICanPopulateTenant` implementations actually gets called [#798](https://github.com/dolittle/Bifrost/issues/798)
+* Using ContentRoot as the actual content root for .NET Core Applications [#800](https://github.com/dolittle/Bifrost/issues/800)
+* Provide a workaround for .NET standard of Ninject for default bindings [#801](https://github.com/dolittle/Bifrost/issues/801)
+* [Breaking Change] Improved configuration of Events [#591](https://github.com/dolittle/Bifrost/issues/591)
+* [Breaking Change] Do not expose default lifecycle for containers [#717](https://github.com/dolittle/Bifrost/issues/717)
+* EventStore implementation for Azure Tables [#771](https://github.com/dolittle/Bifrost/issues/771)
+* Simple support for Rabbit MQ [#741](https://github.com/dolittle/Bifrost/issues/741)
+* DocumentDB support moved to Bifrost.Read.DocumentDB [#812](https://github.com/dolittle/Bifrost/issues/812)
+* Introduce logging [#816](https://github.com/dolittle/Bifrost/issues/816)
+* Fixing an exception that occured in Ninject during parallell loading [#818](https://github.com/dolittle/Bifrost/issues/818)
+* Migrate to MSBuild based projects - away from project.json [#815](https://github.com/dolittle/Bifrost/issues/815)
+* [Breaking Change] Systemname not part of configuration anymore [#814](https://github.com/dolittle/Bifrost/issues/814)
+
 ## Version 1.1.2
 
 * No changes - just fingertrouble when releasing 1.1.1
