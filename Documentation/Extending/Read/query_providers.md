@@ -38,3 +38,56 @@ public class QueryableProvider : IQueryProviderFor<IQueryable>
     }
 }
 ```
+
+## Custom type
+
+Lets say you create your own type that represents collections of data:
+
+```csharp
+public interface ICustomQuery
+{
+    // Your functionality
+}
+
+public interface ICustomQueryFor<T> : ICustomQuery
+   where T: IReadModel
+{
+    // Your functionality
+}
+```
+
+The query provider could then be something like this:
+
+```csharp
+public class CustomQueryProvider : IQueryProviderFor<ICustomQuery>
+{
+    public QueryProviderResult Execute(ICustomQuery query, PagingInfo paging)
+    {
+        var result = new QueryProviderResult()
+        result.TotalItems = query. /* provide the total items */
+
+        result.Items = query. /* do my paging thing, if needed */ 
+
+        return result;
+    }
+}
+```
+
+When using it in a query, you simply do:
+
+```csharp
+public class MyReadModel : IReadModel
+{
+}
+
+public class MyQuery : IQueryFor<MyReadModel>
+{
+    public ICustomQueryFor<MyReadModel> Query
+    {
+        get
+        {
+            return /* Get the custom query from somewhere */
+        }
+    }
+}
+```
