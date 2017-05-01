@@ -2,6 +2,8 @@
   href: getting_started.md
 - name: Application
   items: 
+  - name: Introduction
+    href: Application/introduction.md
   - name: Resources
     href: Application/resources.md
 - name: Commands
