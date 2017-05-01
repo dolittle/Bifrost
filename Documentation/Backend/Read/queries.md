@@ -36,7 +36,7 @@ underlying datastore and technique to get to the data. The only rule is that the
 must be a [query provider](../../Extending/Read/query_providers.md) for the return type.
 
 Bifrost has a very simple [repository for read models](read_model_repository.md) that
-can be used.
+can be used. You don't have to use it, as you decide entirely what you use internally - the query sits there as a contract and can also then be changed to accommodate a change in storage strategy.
 
 ### Arguments
 
