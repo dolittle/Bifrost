@@ -24,10 +24,16 @@
   href: tasks.md    
 - name: Validation
   href: validation.md
-- name: View Models
-  href: view_models.md
 - name: Views
-  href: views.md
+  items: 
+  - name: Introduction
+    href: Views/introduction.md
+  - name: Views
+    href: Views/views.md
+  - name: View Models
+    href: Views/view_models.md
+  - name: Conventions
+    href: Views/conventions.md
 - name: Values
   items: 
   - name: Binding

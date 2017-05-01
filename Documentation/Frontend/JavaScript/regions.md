@@ -8,7 +8,7 @@ author: einari
 # Regions
 
 Regions are at the center of the visual composition of the application.
-A region is a logical grouping of a [view](views.md) and a [view model](view_models.md).
+A region is a logical grouping of a [view](Views/views.md) and a [view model](Views/view_models.md).
 All regions are implicitly created during compositions, Bifrost manages creation and
 lifecycle of them.
 
