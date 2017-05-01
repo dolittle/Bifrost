@@ -4,7 +4,6 @@ description: About Queries
 keywords: 
 author: einari
 ---
-
 # Queries
 
 Bifrost has formalized queries into types. These types are then your contracts
@@ -34,7 +33,7 @@ public class AllEmployees : IQueryFor<Employee>
 
 The implementation of the query can be anything you want it to be. Use whatever
 underlying datastore and technique to get to the data. The only rule is that there
-must be a [query provider](query_providers.md) for the return type.
+must be a [query provider](../../Extending/Read/query_providers.md) for the return type.
 
 Bifrost has a very simple [repository for read models](read_model_repository.md) that
 can be used.
@@ -171,17 +170,11 @@ At the top of the pipeline sits the `QueryCoordinator`, this will execute the qu
 | Success          | `Boolean`               | True if considered successful                       |
 | Invalid          | `Boolean`               | True if not considered successful                   |
 
-
-## Query provider - Extension point
-
-```csharp
-
-```
-
 ## Pipeline
 
 ![Query Pipeline](Images/query_pipeline.png)
 
+## Query provider - Extension point
 
-
-
+Key aspect of the query pipeline is the query provider model, you can extend the behavior for custom return types.
+Read more about it [here](../../Extending/Read/query_providers.md).
