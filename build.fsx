@@ -223,7 +223,8 @@ let versionFromGitTag = getVersionFromGitTag buildNumber
 let lastNuGetVersion = getLatestNuGetVersion
 let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
-let isReleaseBuild = not versionFromGitTag.IsPreRelease
+let isReleaseBuild = false 
+// not versionFromGitTag.IsPreRelease
 // sameVersion && (not versionFromGitTag.IsPreRelease && lastNuGetVersion.IsPreRelease)
 System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then "true" else "false")
 
