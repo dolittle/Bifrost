@@ -79,7 +79,27 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Update(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            var properties = typeof(T).GetTypeInfo().GetProperties();
+            var idProperty = properties.Where(a => a.Name.ToLowerInvariant() == "id").FirstOrDefault();
+            var id = idProperty.GetValue(entity);
+
+            Document document = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink)
+                .Where(r => r.Id == id.ToString() )
+                .AsEnumerable()
+                .SingleOrDefault();
+
+            properties.ForEach(p =>
+            {
+                var value = p.GetValue(entity);
+
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
+
+                if (p.Name.ToLowerInvariant() != "id")                
+                    document.SetPropertyValue(p.Name, value);
+            });
+
+            //var result = _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity).Result;
+            var result = _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
         }
 
         public void Delete(T entity)
