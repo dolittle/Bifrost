@@ -9,7 +9,7 @@ author: einari
 The `IQueryFor<>`interface that a query implements is just a marker interface.
 Meaning that there is really nothing to implement. Instead of having a fixed interface there is a convention in place. Bifrost will look for a property called Query that has a public getter. From this it looks at the returntype and discovers from types loaded if there is a `IQueryProvider`implementation for that return type.
 
-The purpose of the `IQueryProvider`is to provide the capability to deal with the cross cutting aspects of paging for instance. This is not something we want to build into the queries we create, as it is a frontend concern and something we can provide as metadata from the frontend when performing a query. Out of the box comes support for `IQueryable` - both generic and non-generic.
+The purpose of the `IQueryProvider`is to provide the capability to deal with the cross cutting aspects of querying, such as paging. This is not something we want to build into the queries we create, as it is a frontend concern and something we can provide as metadata from the frontend when performing a query. Out of the box comes support for `IQueryable` - both generic and non-generic.
 
 ## Implementing
 
