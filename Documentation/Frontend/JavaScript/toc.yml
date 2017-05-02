@@ -24,6 +24,8 @@
   href: tasks.md    
 - name: Validation
   href: validation.md
+- name: Assets
+  href: assets.md
 - name: Views
   items: 
   - name: Introduction
@@ -34,6 +36,8 @@
     href: Views/view_models.md
   - name: Conventions
     href: Views/conventions.md
+  - name: URI Mapper
+    href: Views/uri_mapper.md
 - name: Values
   items: 
   - name: Binding
