@@ -80,7 +80,7 @@ namespace Bifrost.DocumentDB.Entities
         public void Update(T entity)
         {
             var properties = typeof(T).GetTypeInfo().GetProperties();
-            var idProperty = properties.Where(a => a.Name.ToLowerInvariant() == "id").FirstOrDefault();
+            var idProperty = properties.Where(a => a.Name.ToLowerInvariant() == "id").AsEnumerable().FirstOrDefault();
             var id = idProperty.GetValue(entity);
 
             Document document = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink)
