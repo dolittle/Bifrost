@@ -4,7 +4,6 @@ description: Learn about Commands and how to leverage them in the frontend
 keywords: JavaScript
 author: einari
 ---
-
 # Commands
 
 Commands represent the users intent and also the actual transactional boundaries in the system rather than arbitrary technical transactions.
@@ -60,7 +59,7 @@ then available to any parent region up the chain.
 
 ### Methods
 
-### properties
+### Properties
 
 | Property         | Type    | Observable | Description                                                    |
 | ---------------- | ------- | ---------- | -------------------------------------------------------------- |
@@ -73,7 +72,7 @@ then available to any parent region up the chain.
 If any of the previously described conditions are not met, the command is not allowed to execute.
 Code and UI can access this information and use it to reflect this to user for instance.
 
-### properties
+### Properties
 
 | Property     | Type    | Observable | Description                                       |
 | ------------ | ------- | ---------- | ------------------------------------------------- |
