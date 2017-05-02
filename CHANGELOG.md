@@ -39,6 +39,7 @@
 * Fixing an exception that occured in Ninject during parallell loading [#818](https://github.com/dolittle/Bifrost/issues/818)
 * Migrate to MSBuild based projects - away from project.json [#815](https://github.com/dolittle/Bifrost/issues/815)
 * [Breaking Change] Systemname not part of configuration anymore [#814](https://github.com/dolittle/Bifrost/issues/814)
+* [Breaking Change] Remove Saga implementation till we have a better design [#832](https://github.com/dolittle/Bifrost/issues/832)
 
 ## Version 1.1.2
 
