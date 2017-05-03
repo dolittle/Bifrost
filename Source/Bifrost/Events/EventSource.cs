@@ -36,6 +36,15 @@ namespace Bifrost.Events
         {
             UncommittedEvents.Append(@event, Version);
             Version = Version.NextSequence();
+            HandleInternally(@event);
+        }
+
+        void HandleInternally(IEvent @event)
+        {
+            var handleMethod = this.GetOnMethod(@event);
+
+            if (handleMethod != null)
+                handleMethod.Invoke(this, new[] { @event });
         }
 
         /// <inheritdoc/>

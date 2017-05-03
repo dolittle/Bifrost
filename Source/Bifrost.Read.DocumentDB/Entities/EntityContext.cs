@@ -72,7 +72,7 @@ namespace Bifrost.DocumentDB.Entities
             });
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
-            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
+            var result = _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document).Result;
 
             //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
         }
@@ -109,7 +109,7 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Save(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            var result = _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity).Result;
         }
 
         public void Commit()
