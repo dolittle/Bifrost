@@ -19,7 +19,7 @@ namespace Bifrost.Read.MongoDB
         /// Initializes a new instance of <see cref="EntityContextConnection"/>
         /// </summary>
         /// <param name="configuration"></param>
-        public EntityContextConnection(EntityContextConfiguration configuration)
+        public EntityContextConnection(EntityContextConfiguration configuration, IInstancesOf<BsonClassMap> classMaps)
         {
             var s = MongoClientSettings.FromUrl(new MongoUrl(configuration.Url));
             if (configuration.UseSSL)
@@ -36,6 +36,8 @@ namespace Bifrost.Read.MongoDB
             Database = Server.GetDatabase(configuration.DefaultDatabase);
 
             BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
+
+            classMaps.ForEach(c => BsonClassMap.RegisterClassMap);
         }
 
         /// <summary>
