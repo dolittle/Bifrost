@@ -11,6 +11,10 @@ using Bifrost.Extensions;
 using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -118,10 +122,12 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            return _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
+            Document result = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
                 new FeedOptions { MaxItemCount = 1 })
                 .AsEnumerable()
                 .FirstOrDefault();
+
+            return SerializeDocument(result);
         }
 
         public void DeleteById<TProperty>(TProperty id)
@@ -131,6 +137,28 @@ namespace Bifrost.DocumentDB.Entities
         public void Dispose()
         {
         }
+
+        private static T SerializeDocument(Document doc)
+        {
+            T document;
+            var serializer = new JsonSerializer()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,                
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            if (doc != null)
+            {
+                document = serializer.Deserialize<T>(new JsonTextReader(new StringReader(doc.ToString())));
+
+                return document;
+            }
+
+            return default(T);
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }
