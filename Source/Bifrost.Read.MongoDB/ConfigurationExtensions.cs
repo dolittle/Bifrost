@@ -25,8 +25,7 @@ namespace Bifrost.Configuration
             var entityContextConfiguration = new EntityContextConfiguration();
             configureCallback(entityContextConfiguration);
 
-            var classMaps = Configure.Instance.Container.Get<IInstancesOf<BsonClassMap>>();
-            var connection = new EntityContextConnection(entityContextConfiguration, classMaps);
+            var connection = new EntityContextConnection(entityContextConfiguration);
             entityContextConfiguration.Connection = connection;
 
             storage.EntityContextConfiguration = entityContextConfiguration;
