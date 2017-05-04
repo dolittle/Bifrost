@@ -30,7 +30,10 @@ namespace Bifrost.Read.MongoDB
         {
             if( registered ) return;
 
-            classMaps.ForEach(BsonClassMap.RegisterClassMap);
+            classMaps.ForEach(c => {
+                if( !BsonClassMap.IsClassMapRegistered(c.ClassType) )
+                    BsonClassMap.RegisterClassMap(c);
+            });
             registered = true;
         }
 
