@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using Bifrost.Entities;
 using Bifrost.Execution;
+using Bifrost.Extensions;
 using Bifrost.Read.MongoDB.Concepts;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -37,7 +38,7 @@ namespace Bifrost.Read.MongoDB
 
             BsonSerializer.RegisterSerializationProvider(new ConceptSerializationProvider());
 
-            classMaps.ForEach(c => BsonClassMap.RegisterClassMap);
+            classMaps.ForEach(BsonClassMap.RegisterClassMap);
         }
 
         /// <summary>
