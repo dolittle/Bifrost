@@ -5,7 +5,7 @@
 using Bifrost.Configuration.Assemblies;
 using Bifrost.Execution;
 
-namespace Bifrost
+namespace Bifrost.Events.Redis
 {
     /// <summary>
     /// Reperesents an <see cref="ICanSpecifyAssemblies">assembly specifier</see> for client aspects
@@ -16,12 +16,7 @@ namespace Bifrost
         public void Specify(IAssemblyRuleBuilder builder)
         {
             builder.ExcludeAssembliesStartingWith(
-#if(!NET461)
-                "SOS.NETCore",
-#endif                
-                "System",
-                "mscorlib",
-                "Microsoft"
+                "StackExchange"
             );
         }
 #pragma warning disable 1591 // Xml Comments
