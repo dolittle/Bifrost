@@ -28,7 +28,10 @@ namespace Bifrost.Logging
         /// <inheritdoc/>
         public void Append(string filePath, int lineNumber, string member, LogLevel level, string message, Exception exception = null)
         {
-            Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
+            if( exception == null )
+                Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member}");
+            else
+                Debug.WriteLine($"[{level}] - {message}", $"{filePath}[{lineNumber}] - {member} - {exception.Message} - {exception.StackTrace}");
         }
 #else
         ILoggerFactory _loggerFactory;
@@ -40,7 +43,6 @@ namespace Bifrost.Logging
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use</param>
         public DefaultLogAppender(ILoggerFactory loggerFactory)
         {
-            
             _loggerFactory = loggerFactory;
         }
 
@@ -64,7 +66,7 @@ namespace Bifrost.Logging
                 case LogLevel.Debug: logger.LogDebug(message); break;
                 case LogLevel.Info: logger.LogInformation(message); break;
                 case LogLevel.Warning: logger.LogWarning(message); break;
-                case LogLevel.Critical: logger.LogCritical(message); break;
+                case LogLevel.Critical: logger.LogCritical(0, exception, message); break;
                 case LogLevel.Error: logger.LogError(0, exception, message); break;
             }
         }
