@@ -68,6 +68,12 @@ namespace Bifrost.Logging
         }
 
         /// <inheritdoc/>
+        public void Critical(Exception exception, string message, string filePath, int lineNumber, string member)
+        {
+            _logAppenders.Append(filePath, lineNumber, member, LogLevel.Critical, message, exception);
+        }
+
+        /// <inheritdoc/>
         public void Error(string message, string filePath, int lineNumber, string member)
         {
             _logAppenders.Append(filePath, lineNumber, member, LogLevel.Error, message);

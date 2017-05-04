@@ -37,6 +37,11 @@ namespace Bifrost.Logging
         }
 
         /// <inheritdoc/>
+        public void Critical(Exception exception, string message, string filePath, int lineNumber, string member)
+        {
+        }
+
+        /// <inheritdoc/>
         public void Error(string message, string filePath, int lineNumber, string member)
         {
         }
