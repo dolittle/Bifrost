@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Read.MongoDB;
+using Bifrost.Execution;
+using MongoDB.Bson.Serialization;
 
 namespace Bifrost.Configuration
 {
@@ -23,7 +25,8 @@ namespace Bifrost.Configuration
             var entityContextConfiguration = new EntityContextConfiguration();
             configureCallback(entityContextConfiguration);
 
-            var connection = new EntityContextConnection(entityContextConfiguration);
+            var classMaps = Configure.Instance.Container.Get<IInstancesOf<BsonClassMap>>();
+            var connection = new EntityContextConnection(entityContextConfiguration, classMaps);
             entityContextConfiguration.Connection = connection;
 
             storage.EntityContextConfiguration = entityContextConfiguration;
