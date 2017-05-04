@@ -1,4 +1,5 @@
 ﻿using Bifrost.Events;
+using Bifrost.Logging;
 using Machine.Specifications;
 using Moq;
 
@@ -10,6 +11,7 @@ namespace Bifrost.Specs.Events.for_CommittedEventStreamCoordinator.given
         protected static Mock<IEventProcessors> event_processors;
         protected static Mock<IEventProcessorLog> event_processor_log;
         protected static Mock<IEventProcessorStates> event_processor_states;
+        protected static ILogger logger;
 
         Establish context = () =>
         {
@@ -17,6 +19,7 @@ namespace Bifrost.Specs.Events.for_CommittedEventStreamCoordinator.given
             event_processors = new Mock<IEventProcessors>();
             event_processor_log = new Mock<IEventProcessorLog>();
             event_processor_states = new Mock<IEventProcessorStates>();
+            logger = Mock.Of<ILogger>();
         };
     }
 }
