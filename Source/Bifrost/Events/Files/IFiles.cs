@@ -41,6 +41,6 @@ namespace Bifrost.Events.Files
         /// <param name="directory">Directory to get files from</param>
         /// <param name="searchPattern">Search pattern e.g. *.dll</param>
         /// <returns><see cref="IEnumerable{T}">Files</see></returns>
-        IEnumerable<string> GetFilesIn(string directory, string searchPattern);
+        IEnumerable<string> GetFilesIn(string directory, string searchPattern=null);
     }
 }

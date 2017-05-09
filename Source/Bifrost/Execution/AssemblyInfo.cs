@@ -2,12 +2,14 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
+
 namespace Bifrost.Execution
 {
     /// <summary>
     /// Represents the information about assemblies
     /// </summary>
-    public class AssemblyInfo
+    public class AssemblyInfo : IEquatable<AssemblyInfo>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyInfo"/>
@@ -35,5 +37,24 @@ namespace Bifrost.Execution
         /// Gets the fullpath to the assembly
         /// </summary>
         public string Path { get; private set; }
+
+        /// <inheritdoc/>
+        public override bool Equals (object obj)
+        {
+            var other = obj as AssemblyInfo;
+            return Equals(other);
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(AssemblyInfo other)
+        {
+            return other.Name == Name;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

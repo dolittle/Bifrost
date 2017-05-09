@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Bifrost.Collections;
 using Bifrost.Extensions;
+using Bifrost.Logging;
 
 namespace Bifrost.Execution
 {
@@ -18,15 +19,14 @@ namespace Bifrost.Execution
     public class AssemblyProvider : IAssemblyProvider
     {
         static object _lockObject = new object();
-
         AssemblyComparer comparer = new AssemblyComparer();
-
         IEnumerable<ICanProvideAssemblies> _assemblyProviders;
         IAssemblyFilters _assemblyFilters;
         IAssemblyUtility _assemblyUtility;
         IAssemblySpecifiers _assemblySpecifiers;
         IContractToImplementorsMap _contractToImplementorsMap;
         ObservableCollection<Assembly> _assemblies = new ObservableCollection<Assembly>();
+        ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of <see cref="AssemblyProvider"/>
@@ -36,18 +36,21 @@ namespace Bifrost.Execution
         /// <param name="assemblyUtility">An <see cref="IAssemblyUtility"/></param>
         /// <param name="assemblySpecifiers"><see cref="IAssemblySpecifiers"/> used for specifying what assemblies to include or not</param>
         /// <param name="contractToImplementorsMap"><see cref="IContractToImplementorsMap"/> for keeping track of the relationship between contracts and implementors</param>
+        /// <param name="logger"><see cref="ILogger"/> to use for logging</param>
         public AssemblyProvider(
             IEnumerable<ICanProvideAssemblies> assemblyProviders,
-            IAssemblyFilters assemblyFilters, 
+            IAssemblyFilters assemblyFilters,
             IAssemblyUtility assemblyUtility,
             IAssemblySpecifiers assemblySpecifiers,
-            IContractToImplementorsMap contractToImplementorsMap)
+            IContractToImplementorsMap contractToImplementorsMap,
+            ILogger logger)
         {
             _assemblyProviders = assemblyProviders;
             _assemblyFilters = assemblyFilters;
             _assemblyUtility = assemblyUtility;
             _assemblySpecifiers = assemblySpecifiers;
             _contractToImplementorsMap = contractToImplementorsMap;
+            _logger = logger;
 
             HookUpAssemblyAddedForProviders();
             Populate();
@@ -76,14 +79,30 @@ namespace Bifrost.Execution
 
         void Populate()
         {
+            var includedAssemblies = new List<AssemblyInfo>();
+
             foreach (var provider in _assemblyProviders)
             {
-                var assembliesToInclude = provider.AvailableAssemblies.Where(
-                    a => 
-                        _assemblyFilters.ShouldInclude(a.FileName) && 
-                        _assemblyUtility.IsAssembly(a)
-                    );
-                assembliesToInclude.Select(provider.Get).ForEach(AddAssembly);
+                var availableAssemblies = provider.AvailableAssemblies;
+                var bifrostAssemblies = availableAssemblies.Where(a => 
+                    a.Name.StartsWith("Bifrost") &&
+                    !includedAssemblies.Contains(a)
+                ).ToArray();
+
+                includedAssemblies.AddRange(bifrostAssemblies);
+
+                bifrostAssemblies.Select(provider.Get).ForEach(AddAssembly);
+
+                var otherAssemblies = availableAssemblies.Where(a => !a.Name.StartsWith("Bifrost"));
+                var filteredAssemblies = otherAssemblies.Where(
+                        a =>
+                            _assemblyUtility.IsAssembly(a) &&
+                            _assemblyFilters.ShouldInclude(a.Name) &&
+                            !includedAssemblies.Contains(a)
+                        ).ToArray();
+                
+                includedAssemblies.AddRange(filteredAssemblies);
+                filteredAssemblies.Select(provider.Get).ForEach(AddAssembly);
             }
         }
 
@@ -95,23 +114,18 @@ namespace Bifrost.Execution
         void ReapplyFilter()
         {
             var assembliesToRemove = _assemblies.Where(a => !_assemblyFilters.ShouldInclude(a.GetName().Name)).ToArray();
-            assembliesToRemove.ForEach((a) =>_assemblies.Remove(a));
+            assembliesToRemove.ForEach((a) => _assemblies.Remove(a));
         }
 
         void AddAssembly(Assembly assembly)
         {
             lock (_lockObject)
             {
+                _logger.Information($"Adding assembly '{assembly.FullName}'");
                 if (!_assemblies.Contains(assembly, comparer) &&
                     !_assemblyUtility.IsAssemblyDynamic(assembly))
                 {
                     _assemblies.Add(assembly);
-
-                    if (assembly.FullName.Contains("Web"))
-                    {
-                        var i = 0;
-                        i++;
-                    }
                     _contractToImplementorsMap.Feed(assembly.GetTypes());
                     SpecifyRules(assembly);
                     ReapplyFilter();
