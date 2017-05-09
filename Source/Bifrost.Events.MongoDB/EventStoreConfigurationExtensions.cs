@@ -20,7 +20,7 @@ namespace Bifrost.Events
         /// <param name="connectionString"><see cref="string">ConnectionString</see> for connecting to your Azure Storage account</param>
         /// <param name="databaseName">Name of <see cref="string">Database</see></param>
         /// <returns>Chained <see cref="EventStoreConfiguration"/></returns>
-        public static EventStoreConfiguration UsingTables(this EventStoreConfiguration eventStoreConfiguration, string connectionString, string databaseName)
+        public static EventStoreConfiguration UsingMongoDB(this EventStoreConfiguration eventStoreConfiguration, string connectionString, string databaseName)
         {
             eventStoreConfiguration.EventStore = typeof(EventStore);
             Configure.Instance.Container.Bind<ICanProvideConnectionDetails>(() => new Tuple<string,string>(connectionString, databaseName));
