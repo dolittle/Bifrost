@@ -60,7 +60,7 @@ namespace Bifrost.DocumentDB.Entities
             var properties = typeof(T).GetTypeInfo().GetProperties();
             properties.ForEach(p =>
             {
-                var value = p.GetValue(entity);
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
 
                 if (value.IsConcept()) value = value.GetConceptValue();
 
