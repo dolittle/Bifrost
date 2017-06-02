@@ -63,7 +63,7 @@ namespace Bifrost.Events.Files
             var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventSource);
             var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
 
-            var files = Directory.GetFiles(eventPath).OrderBy(f => f);
+            var files = _files.GetFilesIn(eventPath).OrderBy(f => f);
             var eventFiles = files.Where(f => f.EndsWith(".event")).ToArray();
             var envelopeFiles = files.Where(f => f.EndsWith(".envelope")).ToArray();
 
@@ -80,7 +80,7 @@ namespace Bifrost.Events.Files
                 var eventAsJson = _files.ReadString(Path.GetDirectoryName(eventFile), Path.GetFileName(eventFile));
                 var envelopeValues = _serializer.GetKeyValuesFromJson(envelopeAsJson);
 
-                var _correllationId = Guid.Parse((string)envelopeValues["CorrellationId"]);
+                var _correllationId = Guid.Parse((string)envelopeValues["CorrelationId"]);
                 var _eventId = Guid.Parse((string)envelopeValues["EventId"]);
                 var _sequenceNumber = (long)envelopeValues["SequenceNumber"];
                 var _sequenceNumberForEventType = (long)envelopeValues["SequenceNumberForEventType"];
@@ -107,8 +107,9 @@ namespace Bifrost.Events.Files
                 );
 
                 var eventType = _applicationResourceResolver.Resolve(envelope.Event);
-                var eventInstance = _serializer.FromJson(eventType, eventAsJson) as IEvent;
-                events.Add(new EventAndEnvelope(envelope, eventInstance));
+                var @event = Activator.CreateInstance(eventType, eventSourceId) as IEvent;
+                _serializer.FromJson(@event, eventAsJson);
+                events.Add(new EventAndEnvelope(envelope, @event));
             }
 
             return events;

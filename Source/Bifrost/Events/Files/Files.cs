@@ -65,14 +65,17 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public bool Exists(string path, string file)
         {
+            MakeSurePathExists(path);
             var fullPath = Path.Combine(path, file);
             return File.Exists(fullPath);
         }
 
         /// <inheritdoc/>
-        public IEnumerable<string> GetFilesIn(string directory, string searchPattern)
+        public IEnumerable<string> GetFilesIn(string path, string searchPattern)
         {
-            return Directory.GetFiles(directory, searchPattern);
+            MakeSurePathExists(path);
+            if( searchPattern == null ) return Directory.GetFiles(path);
+            return Directory.GetFiles(path, searchPattern);
         }
 
 

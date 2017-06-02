@@ -219,7 +219,8 @@ let currentBranch = getCurrentBranch
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
-let versionFromGitTag = getVersionFromGitTag buildNumber 
+let versionFromGitTag = BuildVersion(1, 2, 1, 0, "alpha", false)
+// getVersionFromGitTag buildNumber 
 let lastNuGetVersion = getLatestNuGetVersion
 let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.

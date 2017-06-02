@@ -21,7 +21,7 @@ namespace SimpleWeb
             //var redis = "52.166.200.146:6380,password=yGQibET0Re058gvkGz0VaObJzcY4rKFitMy1PWCfFd4=,ssl=True,abortConnect=False";
             //var redis = "127.0.0.1:6379";
             //var redis = "10.0.1.46:6379";
-            var rabbitMQ = "amqp://guest:guest@localhost:5672/";
+            
 
             configure
                 .Application("QuickStart", a => a.Structure(s => s
@@ -33,22 +33,23 @@ namespace SimpleWeb
 
                 .Events(e =>
                 {
-                    /*
                     e.EventStore.UsingFiles(eventsPath);
                     e.EventSequenceNumbers.UsingFiles(eventSequenceNumbersPath);
                     e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
                     e.EventSourceVersions.UsingFiles(eventSourceVersionsPath);
-                    */
 
                     /*
+                    var rabbitMQ = "amqp://guest:guest@localhost:5672/";
                     e.CommittedEventStreamSender.UsingRabbitMQ(rabbitMQ);
                     e.CommittedEventStreamReceiver.UsingRabbitMQ(rabbitMQ);
-                    */
 
                     e.EventProcessorStates.UsingRedis(redis);
                     e.EventSourceVersions.UsingRedis(redis);
                     e.EventSequenceNumbers.UsingRedis(redis);
                     e.EventStore.UsingTables("DefaultEndpointsProtocol=https;AccountName=dolittle;AccountKey=XcfKv4RV5Hd3My4PbXlBATvLhvI0TpZmP5jwcCFbiILM/kESPr6pibI8hdD3+qPpe+UZ5OlmWUI7Z7qSKlRwuQ==;EndpointSuffix=core.windows.net");
+                    */
+
+
                     
                 })
 
@@ -56,7 +57,8 @@ namespace SimpleWeb
                     .UsingJson()
 
                 .DefaultStorage
-                    .UsingFiles(entitiesPath)
+                    .UsingMongoDB(e => e.WithUrl("mongodb://localhost:27017").WithDefaultDatabase("inboxes"))
+                    //.UsingFiles(entitiesPath)
 
                 .Frontend
                     .Web(w =>

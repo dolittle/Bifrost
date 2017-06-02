@@ -2,13 +2,12 @@
  *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bifrost.Applications;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bifrost.Events.MongoDB
 {
@@ -50,21 +49,27 @@ namespace Bifrost.Events.MongoDB
         /// <inheritdoc/>
         public IEnumerable<EventAndEnvelope> GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            
+            var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
+            var result = _collection.Find(filter).SortBy(bson => bson["Version"]);
 
-            throw new NotImplementedException();
+            return new EventAndEnvelope[0];
         }
 
         /// <inheritdoc/>
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
+            var result = _collection.Find(filter).SortByDescending(bson => bson["Version"]).Single();
+            var value = result["Version"].AsDouble;
+            var version = EventSourceVersion.FromCombined(value);
+            return version;
         }
 
         /// <inheritdoc/>
         public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BsonDocument>.Filter.Eq("EventSourceId", eventSourceId);
+            return _collection.Count(filter) > 0;
         }
     }
 }

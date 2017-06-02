@@ -7,8 +7,8 @@
     <Authors>all contributors</Authors>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <DebugType>portable</DebugType>
-    <AssemblyName>Bifrost.Read.MongoDb</AssemblyName>
-    <PackageId>Bifrost.Read.MongoDb</PackageId>
+    <AssemblyName>Bifrost.Read.MongoDB</AssemblyName>
+    <PackageId>Bifrost.Read.MongoDB</PackageId>
     <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
     <PackageReleaseNotes>https://github.com/dolittle/Bifrost/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageIconUrl>https://github.com/dolittle/Bifrost/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>

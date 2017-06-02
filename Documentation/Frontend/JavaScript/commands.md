@@ -4,7 +4,6 @@ description: Learn about Commands and how to leverage them in the frontend
 keywords: JavaScript
 author: einari
 ---
-
 # Commands
 
 Commands represent the users intent and also the actual transactional boundaries in the system rather than arbitrary technical transactions.
@@ -51,7 +50,7 @@ The properties on a command is also part of the proxy generation.
 
 By default all properties on a command once generated through the proxy generation will hold a default value.
 In many cases you want to relate a command to data coming from an existing [ReadModel](../read_model.md) or other source.
-During initialization of a [ViewModel](../view_models.md) you would typically connect the command with an external source
+During initialization of a [ViewModel](../Views/view_models.md) you would typically connect the command with an external source
 for automatic population the command with an initial state.
 
 This initial population of state allows for tracking any changes the user does and can be very useful for the user interface.
@@ -60,7 +59,7 @@ then available to any parent region up the chain.
 
 ### Methods
 
-### properties
+### Properties
 
 | Property         | Type    | Observable | Description                                                    |
 | ---------------- | ------- | ---------- | -------------------------------------------------------------- |
@@ -73,7 +72,7 @@ then available to any parent region up the chain.
 If any of the previously described conditions are not met, the command is not allowed to execute.
 Code and UI can access this information and use it to reflect this to user for instance.
 
-### properties
+### Properties
 
 | Property     | Type    | Observable | Description                                       |
 | ------------ | ------- | ---------- | ------------------------------------------------- |

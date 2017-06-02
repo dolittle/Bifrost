@@ -104,7 +104,8 @@ namespace Bifrost.Configuration
                 new AssemblyFilters(assembliesConfiguration), 
                 new AssemblyUtility(),
                 assemblySpecifiers,
-                contractToImplementorsMap);
+                contractToImplementorsMap,
+                logger);
 
             var assemblies = assemblyProvider.GetAll(); 
             

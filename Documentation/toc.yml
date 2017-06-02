@@ -6,6 +6,8 @@
   href: Backend/
 - name: Frontend
   href: Frontend/index.md
+- name: Extending
+  href: Extending/
 - name: API Documentation
   href: obj/api/
   homepage: api/

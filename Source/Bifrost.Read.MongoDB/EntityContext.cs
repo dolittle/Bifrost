@@ -4,10 +4,13 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Linq;
 using Bifrost.Entities;
+using Bifrost.Extensions;
 using Bifrost.Concepts;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using System.Reflection;
+using Bifrost.Execution;
 
 namespace Bifrost.Read.MongoDB
 {
@@ -21,16 +24,34 @@ namespace Bifrost.Read.MongoDB
 		string _collectionName;
 		IMongoCollection<T> _collection;
 
+        static bool registered = false;
+
+        static void RegisterClassMapsIfNotRegistered(IInstancesOf<BsonClassMap> classMaps)
+        {
+            if( registered ) return;
+
+            classMaps.ForEach(c => {
+                if( !BsonClassMap.IsClassMapRegistered(c.ClassType) )
+                    BsonClassMap.RegisterClassMap(c);
+            });
+            registered = true;
+        }
+
+
+
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
         /// </summary>
-        /// <param name="connection"></param>
-		public EntityContext(EntityContextConnection connection)
+        /// <param name="connection"></param> 
+        /// <param name="classMaps"></param>
+		public EntityContext(EntityContextConnection connection, IInstancesOf<BsonClassMap> classMaps)
 		{
 			_connection = connection;
 			_collectionName = typeof(T).Name;
 
 			_collection = _connection.Database.GetCollection<T>(_collectionName);
+
+            RegisterClassMapsIfNotRegistered(classMaps);
 		}
 
         /// <inheritdoc/>

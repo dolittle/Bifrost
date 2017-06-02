@@ -41,6 +41,7 @@
           "Tutorials/**.{md,yml}",
           "Backend/**.{md,yml}",
           "Frontend/**.{md,yml}",
+          "Extending/**.{md,yml}",
           "*.{md,yml}"
         ],
         "src": "../../Documentation"

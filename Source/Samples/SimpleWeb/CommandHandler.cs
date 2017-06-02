@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Linq;
 using Bifrost.Commands;
+using Bifrost.Concepts;
 using Bifrost.Domain;
 using Bifrost.Events;
 using Bifrost.FluentValidation.Commands;
 using Bifrost.Read;
 using Bifrost.Tenancy;
+using Concepts.Awesome;
 using Events.Awesome;
 using FluentValidation;
+using MongoDB.Bson.Serialization;
 
 namespace Domain.Awesome
 {
@@ -76,11 +79,35 @@ namespace Events.Awesome
 
 }
 
+
+namespace Concepts.Awesome
+{
+    public class MyIdentifier : ConceptAs<Guid>
+    {
+        public static implicit operator MyIdentifier(Guid identifier)
+        {
+            return new MyIdentifier { Value = identifier };
+        }
+
+    }
+}
+
+
 namespace Read.Awesome
 {
     public class MyReadModel : IReadModel
     {
+        public MyIdentifier Identifier { get; set; }
         
+    }
+
+    public class MyReadModelMap : BsonClassMap<MyReadModel>
+    {
+        public MyReadModelMap()
+        {
+            AutoMap();
+            MapIdMember(m => m.Identifier);
+        }
     }
 
 
@@ -94,10 +121,19 @@ namespace Read.Awesome
 
     public class EventProcessors : IProcessEvents
     {
+        IReadModelRepositoryFor<MyReadModel> _repository;
+
+        public EventProcessors(IReadModelRepositoryFor<MyReadModel> repository)
+        {
+            _repository = repository;
+
+        }
+
         public void Process(MyEvent @event)
         {
-            var i=0;
-            i++;
+            _repository.Insert(new MyReadModel {
+                Identifier = (Guid)@event.EventSourceId
+            });
         }
     }
 }

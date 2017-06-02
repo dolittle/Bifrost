@@ -23,5 +23,6 @@
     <ProjectReference Include="..\..\Bifrost.Ninject\Bifrost.Ninject.csproj" />
     <ProjectReference Include="..\..\Bifrost.Web\Bifrost.Web.csproj" />
     <ProjectReference Include="..\..\Bifrost.FluentValidation\Bifrost.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\Bifrost.Read.MongoDB\Bifrost.Read.MongoDB.csproj" />
   </ItemGroup>
 </Project>

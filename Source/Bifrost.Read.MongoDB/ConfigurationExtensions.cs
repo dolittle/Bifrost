@@ -4,6 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using Bifrost.Read.MongoDB;
+using Bifrost.Execution;
+using MongoDB.Bson.Serialization;
 
 namespace Bifrost.Configuration
 {

@@ -16,12 +16,15 @@ namespace Bifrost.Execution
     /// </summary>
     public class DefaultAssemblyProvider : ICanProvideAssemblies
     {
+        ILogger _logger;
+
         /// <summary>
         /// Initializes a new instance of <see cref="DefaultAssemblyProvider"/>
         /// </summary>
         /// <param name="logger">Logger for logging</param>
         public DefaultAssemblyProvider(ILogger logger)
         {
+            _logger = logger;
             var entryAssembly = Assembly.GetEntryAssembly();
             var dependencyModel = DependencyContext.Load(entryAssembly);
             var assemblyNames = dependencyModel.GetRuntimeAssemblyNames(RuntimeEnvironment.GetRuntimeIdentifier());
@@ -39,6 +42,8 @@ namespace Bifrost.Execution
         /// <inheritdoc/>
         public Assembly Get(AssemblyInfo assemblyInfo)
         {
+            _logger.Information($"Loading assembly : {assemblyInfo.Name}");
+            
             return Assembly.Load(new AssemblyName(assemblyInfo.Name));
         }
     }

@@ -84,6 +84,8 @@ namespace Bifrost.CodeGeneration.JavaScript
                     assignment.WithNullValue();
                 else if (property.IsDateTime())
                     assignment.WithDate();
+                else if (property.IsDateTimeOffset())
+                    assignment.WithDate();
                 else if (property.IsBoolean())
                     assignment.WithBoolean();
                 else if (property.IsEnum())
@@ -160,6 +162,12 @@ namespace Bifrost.CodeGeneration.JavaScript
         {
             return property.PropertyType == typeof(DateTime);
         }
+
+        static bool IsDateTimeOffset(this PropertyInfo property)
+        {
+            return property.PropertyType == typeof(DateTimeOffset);
+        }
+        
 
         static bool IsBoolean(this PropertyInfo property)
         {
