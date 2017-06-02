@@ -10,6 +10,11 @@ using Bifrost.Entities;
 using Bifrost.Extensions;
 using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -52,8 +57,6 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Insert(T entity)
         {
-            //var document = _mapper.Map<Document, T>(entity);
-
             var documentType = typeof(T).Name;
             var document = new Document();
 
@@ -62,7 +65,7 @@ namespace Bifrost.DocumentDB.Entities
             {
                 var value = p.GetValue(entity);
 
-                if (value.IsConcept()) value = value.GetConceptValue();
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
 
                 if (p.Name.ToLowerInvariant() == "id")
                     document.Id = value.ToString();
@@ -71,24 +74,41 @@ namespace Bifrost.DocumentDB.Entities
             });
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
-            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
-
-            //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
+            var result = _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document).Result;
         }
 
         public void Update(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            var properties = typeof(T).GetTypeInfo().GetProperties();
+            var idProperty = properties.Where(a => a.Name.ToLowerInvariant() == "id").AsEnumerable().FirstOrDefault();
+            var id = idProperty.GetValue(entity);
+
+            Document document = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink)
+                .Where(r => r.Id == id.ToString())
+                .AsEnumerable()
+                .SingleOrDefault();
+
+            properties.ForEach(p =>
+            {
+                var value = p.GetValue(entity);
+
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
+
+                if (p.Name.ToLowerInvariant() != "id")
+                    document.SetPropertyValue(p.Name, value);
+            });
+
+            var result = _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
         }
 
         public void Delete(T entity)
         {
-            
+
         }
 
         public void Save(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            var result = _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity).Result;
         }
 
         public void Commit()
@@ -97,7 +117,12 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            throw new NotImplementedException();
+            Document result = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
+                new FeedOptions { MaxItemCount = 1 })
+                .AsEnumerable()
+                .FirstOrDefault();
+
+            return SerializeDocument(result);
         }
 
         public void DeleteById<TProperty>(TProperty id)
@@ -107,6 +132,28 @@ namespace Bifrost.DocumentDB.Entities
         public void Dispose()
         {
         }
+
+        private static T SerializeDocument(Document doc)
+        {
+            T document;
+            var serializer = new JsonSerializer()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            if (doc != null)
+            {
+                document = serializer.Deserialize<T>(new JsonTextReader(new StringReader(doc.ToString())));
+
+                return document;
+            }
+
+            return default(T);
+        }
+
 #pragma warning restore 1591 // Xml Comments
     }
 }
