@@ -29,6 +29,13 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <Target Name="CopyJavaScript" BeforeTargets="Build">
+    <Copy
+        SourceFiles="../Bifrost.JavaScript/Bifrost.debug.js"
+        DestinationFolder="./Scripts"
+        />
+  </Target>
+
   <ItemGroup>
     <None Update="**\*.cs">
       <PackagePath>src/</PackagePath>
@@ -70,6 +77,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj" />
+    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj" />
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
@@ -106,4 +114,5 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
+  
 </Project>
