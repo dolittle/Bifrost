@@ -36,8 +36,9 @@ namespace Bifrost.Events
         {
             UncommittedEvents.Append(@event, Version);
             Version = Version.NextSequence();
+            InvokeOnMethod(@event);
         }
-
+        
         /// <inheritdoc/>
         public virtual void ReApply(CommittedEventStream eventStream)
         {
@@ -87,7 +88,6 @@ namespace Bifrost.Events
             if (handleMethod != null)
                 handleMethod.Invoke(this, new[] { @event });
         }
-
 
         void ValidateEventStream(CommittedEventStream eventStream)
         {
