@@ -30,10 +30,7 @@
   </PropertyGroup>
 
   <Target Name="CopyJavaScript" BeforeTargets="Build">
-    <Copy
-        SourceFiles="../Bifrost.JavaScript/Bifrost.debug.js"
-        DestinationFolder="./Scripts"
-        />
+    <Copy SourceFiles="../Bifrost.JavaScript/Bifrost.debug.js" DestinationFolder="./Scripts" />
   </Target>
 
   <ItemGroup>
@@ -77,7 +74,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Bifrost\Bifrost.csproj" />
     <ProjectReference Include="..\Bifrost.JSON\Bifrost.JSON.csproj" />
-    <ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj" />
+    <!--<ProjectReference Include="..\Bifrost.JavaScript\Bifrost.JavaScript.csproj" />-->
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
