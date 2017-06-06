@@ -51,7 +51,8 @@ namespace Bifrost.Events.Azure.Tables
             tableClient.DefaultRequestOptions.RetryPolicy = new ExponentialRetry(TimeSpan.FromMilliseconds(100), 5);
             _table = tableClient.GetTableReference(EventStoreTable);
 
-            _table.CreateIfNotExistsAsync();
+            if (!_table.ExistsAsync().Result)
+                _table.CreateIfNotExistsAsync();
         }
 
         /// <inheritdoc/>
