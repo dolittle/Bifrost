@@ -1,7 +1,7 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+*  Copyright (c) 2008-2017 Dolittle. All rights reserved.
+*  Licensed under the MIT License. See LICENSE in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
 using System;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +10,7 @@ using Bifrost.Entities;
 using Bifrost.Extensions;
 using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -22,6 +23,15 @@ namespace Bifrost.DocumentDB.Entities
         EntityContextConnection _connection;
         DocumentCollection _collection;
         IMapper _mapper;
+
+        private static PropertyInfo[] _properties;
+        private static PropertyInfo _idProperty;
+
+        static EntityContext()
+        {
+            _properties = typeof(T).GetTypeInfo().GetProperties();
+            _idProperty = _properties.Where(a => a.Name.ToLowerInvariant() == "id").AsEnumerable().FirstOrDefault();
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
@@ -50,45 +60,55 @@ namespace Bifrost.DocumentDB.Entities
         {
         }
 
-        public void Insert(T entity)
+        private void PopulateDocument(Document document, T entity)
         {
-            //var document = _mapper.Map<Document, T>(entity);
-
-            var documentType = typeof(T).Name;
-            var document = new Document();
-
-            var properties = typeof(T).GetTypeInfo().GetProperties();
-            properties.ForEach(p =>
+            _properties.ForEach(p =>
             {
                 var value = p.GetValue(entity);
 
-                if (value.IsConcept()) value = value.GetConceptValue();
+                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
 
                 if (p.Name.ToLowerInvariant() == "id")
                     document.Id = value.ToString();
                 else
                     document.SetPropertyValue(p.Name, value);
             });
+        }
+
+        public void Insert(T entity)
+        {
+            var documentType = typeof(T).Name;
+            var document = new Document();
+
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
-            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
+            PopulateDocument(document, entity);
 
-            //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
+            var result = _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document).Result;
         }
 
         public void Update(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            var id = _idProperty.GetValue(entity);
+
+            Document document = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink)
+                .Where(r => r.Id == id.ToString())
+                .AsEnumerable()
+                .SingleOrDefault();
+
+            PopulateDocument(document, entity);
+
+            var result = _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
         }
 
         public void Delete(T entity)
         {
-            
+
         }
 
         public void Save(T entity)
         {
-            _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity);
+            Update(entity);
         }
 
         public void Commit()
@@ -97,7 +117,10 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            throw new NotImplementedException();
+            return _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
+                new FeedOptions { MaxItemCount = 1 })
+                .AsEnumerable()
+                .FirstOrDefault();
         }
 
         public void DeleteById<TProperty>(TProperty id)
