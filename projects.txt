@@ -4,6 +4,7 @@ Bifrost.FluentValidation
 Bifrost.Ninject
 Bifrost.StructureMap
 Bifrost.Events.Azure.Tables
+Bifrost.Events.Azure.ServiceBus
 Bifrost.Events.MongoDB
 Bifrost.Events.RabbitMQ
 Bifrost.Events.Redis
