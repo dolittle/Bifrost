@@ -3,16 +3,15 @@
         /// <summary>Represents a task that can handle an array of command</summary>
         var self = this;
 
-		var scriptSource = (function (scripts) {
-			var scripts = document.getElementsByTagName('script'),
-				script = scripts[scripts.length - 1];
+        var scriptSource = (function () {
+            var script = $("script[src*='Bifrost/Application']").get(0);
 
-			if (script.getAttribute.length !== undefined) {
-				return script.src;
-			}
+            if (script.getAttribute.length !== undefined) {
+                return script.src;
+            }
 
-			return script.getAttribute('src', -1);
-		}());
+            return script.getAttribute('src', -1);
+        }());
 
 		var uri = Bifrost.Uri.create(scriptSource);
 

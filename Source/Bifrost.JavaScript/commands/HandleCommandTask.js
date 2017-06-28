@@ -1,18 +1,19 @@
 ﻿Bifrost.namespace("Bifrost.commands", {
     HandleCommandTask: Bifrost.tasks.ExecutionTask.extend(function (command, server, systemEvents) {
         /// <summary>Represents a task that can handle a command</summary>
-		this.name = command.name;
+        var self = this;
 
-		var scriptSource = (function (scripts) {
-			var scripts = document.getElementsByTagName('script'),
-				script = scripts[scripts.length - 1];
+        this.name = command.name;
 
-			if (script.getAttribute.length !== undefined) {
-				return script.src;
-			}
+        var scriptSource = (function () {
+            var script = $("script[src*='Bifrost/Application']").get(0);
 
-			return script.getAttribute('src', -1);
-		}());
+            if (script.getAttribute.length !== undefined) {
+                return script.src;
+            }
+
+            return script.getAttribute('src', -1);
+        }());
 
 		var uri = Bifrost.Uri.create(scriptSource);
 
