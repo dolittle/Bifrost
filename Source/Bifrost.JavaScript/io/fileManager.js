@@ -3,9 +3,8 @@
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
 		var self = this;
 
-		var scriptSource = (function (scripts) {
-			var scripts = document.getElementsByTagName('script'),
-				script = scripts[scripts.length - 1];
+		var scriptSource = (function () {
+			var script = $("script[src*='Bifrost/Application']").get(0);
 
 			if (script.getAttribute.length !== undefined) {
 				return script.src;

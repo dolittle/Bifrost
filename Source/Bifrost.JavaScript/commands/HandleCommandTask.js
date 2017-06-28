@@ -1,7 +1,28 @@
 ﻿Bifrost.namespace("Bifrost.commands", {
     HandleCommandTask: Bifrost.tasks.ExecutionTask.extend(function (command, server, systemEvents) {
         /// <summary>Represents a task that can handle a command</summary>
+        var self = this;
+
         this.name = command.name;
+
+        var scriptSource = (function () {
+            var script = $("script[src*='Bifrost/Application']").get(0);
+
+            if (script.getAttribute.length !== undefined) {
+                return script.src;
+            }
+
+            return script.getAttribute('src', -1);
+        }());
+
+		var uri = Bifrost.Uri.create(scriptSource);
+
+		var port = uri.port || "";
+		if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
+			port = ":" + port;
+		}
+
+		this.origin = uri.scheme + "://" + uri.host + port;
 
         this.execute = function () {
             var promise = Bifrost.execution.Promise.create();
@@ -11,7 +32,7 @@
                 commandDescriptor: commandDescriptor
             };
 
-            var url = "/Bifrost/CommandCoordinator/Handle?_cmd=" + command._generatedFrom;
+			var url = self.origin + "/Bifrost/CommandCoordinator/Handle?_cmd=" + command._generatedFrom;
 
             server.post(url, parameters).continueWith(function (result) {
                 var commandResult = Bifrost.commands.CommandResult.createFrom(result);
