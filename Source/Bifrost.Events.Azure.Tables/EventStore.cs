@@ -72,7 +72,7 @@ namespace Bifrost.Events.Azure.Tables
                 batch.Add(TableOperation.Insert(@event));
             });
 
-            _table.ExecuteBatchAsync(batch);
+            _table.ExecuteBatchAsync(batch).Wait();
         }
 
         /// <inheritdoc/>
