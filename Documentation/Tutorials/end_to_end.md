@@ -77,30 +77,6 @@ for all kinds of combinations of IOC containers, database choices and so forth, 
 we will be very specific and use a set of extensions to Bifrost that we have neatly packed into a
 Nuget package called `Bifrost.Default`.
 
-> [!Note]
-> Bifrost is currently dependending on pre-release versions of some of its dependencies (Ninject & FluentValidation)
-> Due to Bifrost being marked as a release package, NuGet inside Visual Studio will complain and not install correctly.
-> This experience is not the same using the dotnet CLI and project.json.
->
-> In order for you to get things running, you need to explicitly install the FluentValidation and Ninject parts before
-> the `Bifrost.Default` package.
->
-> ![Ninject PreRelease](quickstart_images/ninject_prerelease.png)
->
-> Or through the package manager console:
->
->```PowerShell
->    PM> Install-Package Ninject -version 4.0.0-beta-0134
->```
->
-> ![FluentValidation PreRelease](quickstart_images/fluentvalidation_prerelease.png)
->
-> Or through the package manager console:
->
->```PowerShell
->    PM> Install-Package FluentValidation -version 6.4.0-beta-9
->```
-
 So select the Web project and do:
 
 ```PowerShell
