@@ -86,7 +86,7 @@ namespace Bifrost.DocumentDB.Entities
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
             PopulateDocument(document, entity);
-            var result = _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document).Result;
+            _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document);
         }
 
         public void Update(T entity)
@@ -99,7 +99,7 @@ namespace Bifrost.DocumentDB.Entities
                 .SingleOrDefault();
 
             PopulateDocument(document, entity);
-            _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
+            _connection.Client.ReplaceDocumentAsync(document.SelfLink, document);
         }
 
         public void Delete(T entity)
