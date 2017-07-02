@@ -28,15 +28,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Debug\Bifrost.JavaScript.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <WarningLevel>4</WarningLevel>
     <Optimize>False</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
@@ -47,13 +38,6 @@
     <Optimize>True</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Bifrost.JavaScript.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -89,6 +73,7 @@
     <Content Include="specifications\Specification.js" />
     <Content Include="types\PropertyInfo.js" />
     <Content Include="types\TypeInfo.js" />
+    <Content Include="utils\configuration.js" />
     <Content Include="utils\configurator.js" />
     <Content Include="validation\length.js" />
     <Content Include="validation\notNull.js" />
@@ -304,10 +289,6 @@
       <OutputFilename ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
-      <Reference Include="System.Core" />
-      <Using Namespace="System" />
-      <Using Namespace="System.IO" />
-      <Using Namespace="System.Linq" />
       <Code Type="Fragment" Language="cs"><![CDATA[
             var keyword = "@depends";
             var directory = Path.GetDirectoryName(InputFilename);
@@ -349,15 +330,13 @@
     <Content Include="utils\WellKnownTypesDependencyResolver.js" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Bifrost.JS.nuspec" />
     <None Include="jshint.conf" />
     <None Include="merge.cmd" />
   </ItemGroup>
+  <!--
   <UsingTask AssemblyFile="$(ProjectDir)..\..\Tools\JsLintNet\JsLintNet.dll" TaskName="JSLintTask" Condition=" '$(OS)' == 'Windows_NT' " />
   <Target Name="BeforeBuild">
     <JSLintTask SourceDirectory="$(ProjectDir)" SettingsFile="$(ProjectDir)jshint.conf" UseHint="true" Condition=" '$(OS)' == 'Windows_NT' "/>
-  </Target>
+  </Target>-->
 </Project>

@@ -22,5 +22,13 @@ namespace Bifrost.Security
         /// <param name="claimType">ClaimType to check for</param>
         /// <returns>True if the user has the claimtype, false if not </returns>
         bool HasClaimType(string claimType);
+
+        /// <summary>
+        /// Checks wether or not the Current user has the requested claim type with a specific value
+        /// </summary>
+        /// <param name="claimType">ClaimType to check for</param>
+        /// <param name="value">Value to check for</param>
+        /// <returns>True if the user has the claimtype, false if not </returns>
+        bool HasClaimTypeWithValue(string claimType, string value);
     }
 }

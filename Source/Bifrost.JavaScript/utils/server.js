@@ -1,8 +1,8 @@
 ﻿Bifrost.namespace("Bifrost", {
-    server: Bifrost.Singleton(function () {
+    server: Bifrost.Singleton(function (configuration) {
         var self = this;
 
-        this.target = "";
+        this.target = configuration.origins.APIs;
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
@@ -28,7 +28,6 @@
                 return data;
             }
         }
-
 
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();

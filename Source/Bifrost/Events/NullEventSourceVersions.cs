@@ -11,10 +11,24 @@ namespace Bifrost.Events
     /// </summary>
     public class NullEventSourceVersions : IEventSourceVersions
     {
+        readonly IEventStore _eventStore;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="NullEventSourceVersions"/>
+        /// </summary>
+        /// <param name="eventStore"><see cref="IEventStore"/> to forward requests for versioning</param>
+        public NullEventSourceVersions(IEventStore eventStore)
+        {
+            _eventStore = eventStore;
+        }
+
+
         /// <inheritdoc/>
         public EventSourceVersion GetFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            return EventSourceVersion.Zero;
+            var version = EventSourceVersion.Zero;
+            version = _eventStore.GetVersionFor(eventSource, eventSourceId);
+            return version;
         }
 
         /// <inheritdoc/>
