@@ -56,11 +56,12 @@ namespace Domain.Awesome
         }
 
 
+        /*
         void On(MyEvent @event)
         {
             var i = 0;
             i++;
-        }
+        }*/
     }
 }
 
@@ -97,6 +98,8 @@ namespace Read.Awesome
 {
     public class MyReadModel : IReadModel
     {
+        public Guid Id { get; set; }
+
         public MyIdentifier Identifier { get; set; }
         
     }
@@ -132,6 +135,7 @@ namespace Read.Awesome
         public void Process(MyEvent @event)
         {
             _repository.Insert(new MyReadModel {
+                Id = (Guid)@event.EventSourceId,
                 Identifier = (Guid)@event.EventSourceId
             });
         }

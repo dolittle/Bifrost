@@ -37,5 +37,11 @@ namespace Bifrost.Security
         {
             return _resolvePrincipal.Resolve().FindAll(claimType).Count() > 0;
         }
+
+        /// <inheritdoc/>
+        public bool HasClaimTypeWithValue(string claimType, string value)
+        {
+            return _resolvePrincipal.Resolve().Claims.Any(_ => _.Type == claimType && _.Value == value);
+        }
     }
 }

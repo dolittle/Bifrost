@@ -5,6 +5,7 @@
 *.gif   binary
 *.dll   binary
 *.exe   binary
+*.ttf   binary
 
 *.cs diff=csharp 
 *.sln text eol=crlf

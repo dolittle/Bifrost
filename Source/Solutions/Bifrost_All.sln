@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1663A5F5-14BA-4FDD-8D0D-B80996A32623}"
 EndProject
@@ -112,6 +112,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bifrost.Read.DocumentDB", "..\Bifrost.Read.DocumentDB\Bifrost.Read.DocumentDB.csproj", "{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.QuickStart", "..\Bifrost.QuickStart\Bifrost.QuickStart.csproj", "{AB9E9F37-42A8-4D18-A0F2-02E5677A17E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bifrost.Events.Azure.ServiceBus", "..\Bifrost.Events.Azure.ServiceBus\Bifrost.Events.Azure.ServiceBus.csproj", "{509C8232-4161-421C-9C60-74380CD7C42C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -694,6 +696,26 @@ Global
 		{AB9E9F37-42A8-4D18-A0F2-02E5677A17E2}.Release|x64.Build.0 = Release|Any CPU
 		{AB9E9F37-42A8-4D18-A0F2-02E5677A17E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB9E9F37-42A8-4D18-A0F2-02E5677A17E2}.Release|x86.Build.0 = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|ARM.Build.0 = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|x64.Build.0 = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Debug|x86.Build.0 = Debug|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|ARM.Build.0 = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|x64.ActiveCfg = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|x64.Build.0 = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|x86.ActiveCfg = Release|Any CPU
+		{509C8232-4161-421C-9C60-74380CD7C42C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -740,6 +762,7 @@ Global
 		{939DC032-0331-4453-930F-D12836879607} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
 		{5BD1D447-9E42-4BBC-8CA9-D768FF3F210D} = {5097934F-C4DE-4FC3-A0CD-57B43E834E61}
 		{AB9E9F37-42A8-4D18-A0F2-02E5677A17E2} = {ADBBEFA5-7DC6-43B7-8DE3-D66F529AAE1C}
+		{509C8232-4161-421C-9C60-74380CD7C42C} = {6B7FCD5E-7B6C-44AA-A370-6EEE78D9EBAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Bifrost.Testing.Fakes.Events;
+﻿using Bifrost.Testing.Fakes.Events;
 using Machine.Specifications;
 
 namespace Bifrost.Specs.Events.for_EventSource
@@ -14,6 +13,6 @@ namespace Bifrost.Specs.Events.for_EventSource
 		It should_add_the_event_to_the_uncommited_events = () => event_source.UncommittedEvents.ShouldContainOnly(@event);
 		It should_increment_the_sequence_of_the_version = () => event_source.Version.Sequence.ShouldEqual(1);
 		It should_not_increment_the_commit_of_the_version = () => event_source.Version.Commit.ShouldEqual(0);
-	    It should_not_call_the_on_method_for_the_event = () => event_source.EventApplied.ShouldBeFalse();
+	    It should_call_the_on_method_for_the_event = () => event_source.EventApplied.ShouldBeTrue();
 	}
 }
