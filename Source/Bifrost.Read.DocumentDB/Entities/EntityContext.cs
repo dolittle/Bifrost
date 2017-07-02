@@ -1,9 +1,12 @@
 ﻿/*---------------------------------------------------------------------------------------------
- *  Copyright (c) 2008-2017 Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+*  Copyright (c) 2008-2017 Dolittle. All rights reserved.
+*  Licensed under the MIT License. See LICENSE in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters;
+using System.IO;
 using Bifrost.Concepts;
 using Bifrost.Entities;
 using Bifrost.Extensions;
@@ -11,8 +14,6 @@ using Bifrost.Mapping;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
-using System.Runtime.Serialization.Formatters;
-using System.IO;
 
 namespace Bifrost.DocumentDB.Entities
 {
@@ -25,6 +26,15 @@ namespace Bifrost.DocumentDB.Entities
         EntityContextConnection _connection;
         DocumentCollection _collection;
         IMapper _mapper;
+
+        private static PropertyInfo[] _properties;
+        private static PropertyInfo _idProperty;
+
+        static EntityContext()
+        {
+            _properties = typeof(T).GetTypeInfo().GetProperties();
+            _idProperty = _properties.Where(a => a.Name.ToLowerInvariant() == "id").AsEnumerable().FirstOrDefault();
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="EntityContext{T}"/>
@@ -53,15 +63,9 @@ namespace Bifrost.DocumentDB.Entities
         {
         }
 
-        public void Insert(T entity)
+        private void PopulateDocument(Document document, T entity)
         {
-            //var document = _mapper.Map<Document, T>(entity);
-
-            var documentType = typeof(T).Name;
-            var document = new Document();
-
-            var properties = typeof(T).GetTypeInfo().GetProperties();
-            properties.ForEach(p =>
+            _properties.ForEach(p =>
             {
                 var value = p.GetValue(entity);
 
@@ -72,36 +76,30 @@ namespace Bifrost.DocumentDB.Entities
                 else
                     document.SetPropertyValue(p.Name, value);
             });
+        }
+
+        public void Insert(T entity)
+        {
+            var documentType = typeof(T).Name;
+            var document = new Document();
+
             document.SetPropertyValue("_DOCUMENT_TYPE", documentType);
 
+            PopulateDocument(document, entity);
             var result = _connection.Client.CreateDocumentAsync(_collection.DocumentsLink, document).Result;
-
-            //_connection.Client.CreateDocumentAsync(_collection.DocumentsLink, entity);
         }
 
         public void Update(T entity)
         {
-            var properties = typeof(T).GetTypeInfo().GetProperties();
-            var idProperty = properties.Where(a => a.Name.ToLowerInvariant() == "id").AsEnumerable().FirstOrDefault();
-            var id = idProperty.GetValue(entity);
+            var id = _idProperty.GetValue(entity);
 
             Document document = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink)
                 .Where(r => r.Id == id.ToString())
                 .AsEnumerable()
                 .SingleOrDefault();
 
-            properties.ForEach(p =>
-            {
-                var value = p.GetValue(entity);
-
-                if (p.PropertyType.IsConcept()) value = value.GetConceptValue();
-
-                if (p.Name.ToLowerInvariant() != "id")
-                    document.SetPropertyValue(p.Name, value);
-            });
-
-            //var result = _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity).Result;
-            var result = _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
+            PopulateDocument(document, entity);
+            _connection.Client.ReplaceDocumentAsync(document.SelfLink, document).Result;
         }
 
         public void Delete(T entity)
@@ -111,7 +109,7 @@ namespace Bifrost.DocumentDB.Entities
 
         public void Save(T entity)
         {
-            var result = _connection.Client.ReplaceDocumentAsync(_collection.DocumentsLink, entity).Result;
+            Update(entity);
         }
 
         public void Commit()
@@ -120,12 +118,10 @@ namespace Bifrost.DocumentDB.Entities
 
         public T GetById<TProperty>(TProperty id)
         {
-            Document result = _connection.Client.CreateDocumentQuery<Document>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
+            return _connection.Client.CreateDocumentQuery<T>(_collection.DocumentsLink, "SELECT * FROM Entities WHERE Entities.id = '" + id + "'",
                 new FeedOptions { MaxItemCount = 1 })
                 .AsEnumerable()
                 .FirstOrDefault();
-
-            return SerializeDocument(result);
         }
 
         public void DeleteById<TProperty>(TProperty id)
@@ -156,7 +152,6 @@ namespace Bifrost.DocumentDB.Entities
 
             return default(T);
         }
-
 #pragma warning restore 1591 // Xml Comments
     }
 }
