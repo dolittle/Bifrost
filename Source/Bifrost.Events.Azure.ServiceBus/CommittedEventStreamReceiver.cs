@@ -22,7 +22,7 @@ namespace Bifrost.Events.Azure.ServiceBus
         readonly ISerializer _serializer;
         readonly IApplicationResourceIdentifierConverter _applicationResourceIdentifierConverter;
         readonly IApplicationResourceResolver _applicationResourceResolver;
-        readonly QueueClient _queueClient;
+        readonly ISubscriptionClient _subscriptionClient;
 
         /// <inheritdoc/>
         public event CommittedEventStreamReceived Received = (e) => { };
@@ -34,19 +34,22 @@ namespace Bifrost.Events.Azure.ServiceBus
         /// <param name="applicationResourceIdentifierConverter"><see cref="IApplicationResourceIdentifierConverter"/> used for converting resource identifiers</param>
         /// <param name="applicationResourceResolver"><see cref="IApplicationResourceResolver"/> used for resolving types from <see cref="IApplicationResourceIdentifier"/></param>
         /// <param name="connectionStringProvider"><see cref="ICanProvideConnectionStringToReceiver">Provider</see> of connection string</param>
+        /// <param name="subscriptionNameProvider"><see cref="ICanProvideSubscriptionNameToReceiver">Provider</see> of subscription name</param>
         public CommittedEventStreamReceiver(
             ISerializer serializer,
             IApplicationResourceIdentifierConverter applicationResourceIdentifierConverter,
             IApplicationResourceResolver applicationResourceResolver,
-            ICanProvideConnectionStringToReceiver connectionStringProvider)
+            ICanProvideConnectionStringToReceiver connectionStringProvider,
+            ICanProvideSubscriptionNameToReceiver subscriptionNameProvider)
         {
             _serializer = serializer;
             _applicationResourceIdentifierConverter = applicationResourceIdentifierConverter;
             _applicationResourceResolver = applicationResourceResolver;
 
             var connectionString = connectionStringProvider();
-            _queueClient = new QueueClient(connectionString, Constants.QueueName, ReceiveMode.PeekLock);
-            _queueClient.RegisterMessageHandler(Receive);
+
+            _subscriptionClient = new SubscriptionClient(connectionString, Constants.TopicName, subscriptionNameProvider(), ReceiveMode.PeekLock);
+            _subscriptionClient.RegisterMessageHandler(Receive);
         }
 
 
@@ -102,7 +105,7 @@ namespace Bifrost.Events.Azure.ServiceBus
             var stream = new CommittedEventStream(eventsAndEnvelopes.First().Envelope.EventSourceId, eventsAndEnvelopes);
             Received(stream);
 
-            _queueClient.CompleteAsync(message.SystemProperties.LockToken);
+            _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
 
             return Task.CompletedTask;
         }

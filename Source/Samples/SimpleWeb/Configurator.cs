@@ -40,10 +40,10 @@ namespace SimpleWeb
                     e.EventProcessorStates.UsingFiles(eventProcessorsStatePath);
                     e.EventSourceVersions.UsingFiles(eventSourceVersionsPath);
 
-                    /*
+                    
                     e.CommittedEventStreamSender.UsingServiceBus(serviceBus);
-                    e.CommittedEventStreamReceiver.UsingServiceBus(serviceBus);
-                    */
+                    e.CommittedEventStreamReceiver.UsingServiceBus(serviceBus, "MyClient");
+                    
 
                     /*
                     var rabbitMQ = "amqp://guest:guest@localhost:5672/";

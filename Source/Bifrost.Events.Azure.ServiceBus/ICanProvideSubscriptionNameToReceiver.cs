@@ -5,13 +5,7 @@
 namespace Bifrost.Events.Azure.ServiceBus
 {
     /// <summary>
-    /// Holds constants used
+    /// Defines something that can provide a connection string for Redis
     /// </summary>
-    public class Constants
-    {
-        /// <summary>
-        /// The name of the queue being used
-        /// </summary>
-        public const string TopicName = "BifrostTopic";
-    }
+    public delegate string ICanProvideSubscriptionNameToReceiver();
 }

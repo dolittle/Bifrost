@@ -18,7 +18,7 @@ namespace Bifrost.Events.Azure.ServiceBus
     {
         readonly ISerializer _serializer;
         readonly string _connectionString;
-        readonly IQueueClient _queueClient;
+        readonly ITopicClient _topicClient;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CommittedEventStreamSender"/>
@@ -30,7 +30,7 @@ namespace Bifrost.Events.Azure.ServiceBus
             _serializer = serializer;
             _connectionString = connectionStringProvider();
 
-            _queueClient = new QueueClient(_connectionString, Constants.QueueName, ReceiveMode.PeekLock, RetryPolicy.Default);
+            _topicClient = new TopicClient(_connectionString, Constants.TopicName, RetryPolicy.Default);
         }
 
         /// <inheritdoc/>
@@ -48,7 +48,7 @@ namespace Bifrost.Events.Azure.ServiceBus
             var eventsToSendAsJson = _serializer.ToJson(eventsToSend);
             var messageBodyBytes = Encoding.UTF8.GetBytes(eventsToSendAsJson);
             var message = new Message(messageBodyBytes);
-            _queueClient.SendAsync(message);
+            _topicClient.SendAsync(message);
         }
     }
 }

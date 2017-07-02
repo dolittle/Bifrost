@@ -31,11 +31,13 @@ namespace Bifrost.Events
         /// </summary>
         /// <param name="configuration"><see cref="CommittedEventStreamReceiverConfiguration"/> to configure</param>
         /// <param name="connectionString">ConnectionString to connect with</param>
+        /// <param name="subscriptionName">Name of subscription used</param>
         /// <returns>Chained <see cref="CommittedEventStreamReceiverConfiguration"/></returns>
-        public static CommittedEventStreamReceiverConfiguration UsingServiceBus(this CommittedEventStreamReceiverConfiguration configuration, string connectionString)
+        public static CommittedEventStreamReceiverConfiguration UsingServiceBus(this CommittedEventStreamReceiverConfiguration configuration, string connectionString, string subscriptionName)
         {
             configuration.CommittedEventStreamReceiver = typeof(CommittedEventStreamReceiver);
             Configure.Instance.Container.Bind<ICanProvideConnectionStringToReceiver>(() => connectionString);
+            Configure.Instance.Container.Bind<ICanProvideSubscriptionNameToReceiver>(() => subscriptionName);
             return configuration;
         }
     }
