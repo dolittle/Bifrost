@@ -1,39 +1,10 @@
 ﻿Bifrost.namespace("Bifrost.io", {
-    fileManager: Bifrost.Singleton(function () {
+    fileManager: Bifrost.Singleton(function (configuration) {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
 		var self = this;
 
-		var scriptSource = (function (scripts) {
-			var scripts = document.getElementsByTagName('script'),
-				script = scripts[scripts.length - 1];
-
-			if (script.getAttribute.length !== undefined) {
-				return script.src;
-			}
-
-			return script.getAttribute('src', -1);
-		}());
-
-		var uri = Bifrost.Uri.create(scriptSource);
-
-        if (window.location.protocol === "file:") {
-            this.origin = window.location.href;
-            this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
-
-            if (this.origin.lastIndexOf("/") === this.origin.length - 1) {
-                this.origin = this.origin.substr(0, this.origin.length - 1);
-            }
-        } else {
-            var port = uri.port || "";
-            if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
-                port = ":" + port;
-            }
-
-            this.origin = uri.scheme + "://" + uri.host + port;
-        }
-
         function getActualFilename(filename) {
-            var actualFilename = self.origin;
+            var actualFilename = configuration.origins.files;
 
             if (filename.indexOf("/") !== 0) {
                 actualFilename += "/";

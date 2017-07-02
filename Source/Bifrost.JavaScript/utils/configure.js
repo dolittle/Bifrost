@@ -82,3 +82,12 @@
     })
 });
 Bifrost.configure = Bifrost.configureType.create();
+
+// Force Require Text to use XHR
+require.config({
+    text: {
+        useXHR: function () {
+            return true;
+        }
+    }
+});

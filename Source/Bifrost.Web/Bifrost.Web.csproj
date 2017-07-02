@@ -29,8 +29,12 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+
   <Target Name="CopyJavaScript" BeforeTargets="Build">
-    <Copy SourceFiles="../Bifrost.JavaScript/Bifrost.debug.js" DestinationFolder="./Scripts" />
+    <Copy
+        SourceFiles="../Bifrost.JavaScript/Bifrost.debug.js"
+        DestinationFolder="./Scripts"
+        />
   </Target>
 
   <ItemGroup>
