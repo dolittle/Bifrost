@@ -52,7 +52,7 @@ namespace Bifrost.Events.Azure.Tables
             _table = tableClient.GetTableReference(EventStoreTable);
 
             if (!_table.ExistsAsync().Result)
-                _table.CreateIfNotExistsAsync();
+                _table.CreateIfNotExistsAsync().Wait();
         }
 
         /// <inheritdoc/>

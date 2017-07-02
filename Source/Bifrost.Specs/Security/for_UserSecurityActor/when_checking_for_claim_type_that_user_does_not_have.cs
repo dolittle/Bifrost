@@ -1,26 +1,11 @@
-﻿using System.Security.Claims;
-using Bifrost.Security;
-using Machine.Specifications;
-using Moq;
+﻿using Machine.Specifications;
 using It = Machine.Specifications.It;
 
 namespace Bifrost.Specs.Security.for_UserSecurityActor
 {
-    public class when_checking_for_claim_type_that_user_does_not_have
+    public class when_checking_for_claim_type_that_user_does_not_have : given.a_user_security_actor
     {
-        static UserSecurityActor actor;
         static bool result;
-
-        Establish context = () =>
-        {
-            var identity = new ClaimsIdentity();
-            var principal = new ClaimsPrincipal(identity);
-
-            var principalResolver = new Mock<ICanResolvePrincipal>();
-            principalResolver.Setup(p => p.Resolve()).Returns(principal);
-
-            actor = new UserSecurityActor(principalResolver.Object);
-        };
 
         Because of = () => result = actor.HasClaimType("Something");
 

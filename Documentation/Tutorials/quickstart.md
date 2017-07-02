@@ -57,7 +57,7 @@ With the quickstart you get a Web based project that showcases Bifrost in an [en
 * Manage the NuGet packages for the project:  
 ![Manage NuGet Packages](quickstart_images/manage_nuget_packages.png)
 
-* Browse / Search for Bifrost and find the QuickStart package and then click **Install**:  
+* Browse / Search for Bifrost and find the latest QuickStart package and then click **Install**:  
 ![Find correct NuGet Package](quickstart_images/find_package.png)
 
 * During installation it will ask you accept licenses, accept these:  

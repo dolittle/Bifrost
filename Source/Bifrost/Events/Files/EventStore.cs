@@ -138,8 +138,7 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public bool HasEventsFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
-            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventSource);
             var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
             var files = _files.GetFilesIn(eventPath, "*.event");
             return files.Count() > 0;
@@ -148,8 +147,7 @@ namespace Bifrost.Events.Files
         /// <inheritdoc/>
         public EventSourceVersion GetVersionFor(IApplicationResourceIdentifier eventSource, EventSourceId eventSourceId)
         {
-            var applicationResourceIdentifier = _applicationResources.Identify(eventSource);
-            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(applicationResourceIdentifier);
+            var eventSourceIdentifier = _applicationResourceIdentifierConverter.AsString(eventSource);
             var eventPath = GetPathFor(eventSourceIdentifier, eventSourceId);
 
             var first = _files.GetFilesIn(eventPath,"*.event").OrderByDescending(f => f).FirstOrDefault();

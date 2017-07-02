@@ -1,4 +1,4 @@
-/*
+﻿/*
 @depends extensions/ArrayExtensions.js
 @depends extensions/stringExtensions.js
 @depends extensions/NodeListExtensions.js
@@ -226,4 +226,5 @@
 @depends values/DefaultValueConsumer.js
 @depends utils/configurator.js
 @depends utils/configure.js
+@depends utils/configuration.js
 */

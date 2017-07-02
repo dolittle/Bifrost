@@ -2304,10 +2304,10 @@ Bifrost.namespace("Bifrost", {
     }
 });
 Bifrost.namespace("Bifrost", {
-    server: Bifrost.Singleton(function () {
+    server: Bifrost.Singleton(function (configuration) {
         var self = this;
 
-        this.target = "";
+        this.target = configuration.origins.APIs;
 
         function deserialize(data) {
             if (Bifrost.isArray(data)) {
@@ -2333,7 +2333,6 @@ Bifrost.namespace("Bifrost", {
                 return data;
             }
         }
-
 
         this.post = function (url, parameters) {
             var promise = Bifrost.execution.Promise.create();
@@ -2961,29 +2960,12 @@ Bifrost.namespace("Bifrost.io", {
 });
 Bifrost.WellKnownTypesDependencyResolver.types.fileFactory = Bifrost.io.fileFactory;
 Bifrost.namespace("Bifrost.io", {
-    fileManager: Bifrost.Singleton(function () {
+    fileManager: Bifrost.Singleton(function (configuration) {
         /// <summary>Represents a manager for files, providing capabilities of loading and more</summary>
-        var self = this;
-
-        var uri = Bifrost.Uri.create(window.location.href);
-        if (window.location.protocol === "file:") {
-            this.origin = window.location.href;
-            this.origin = this.origin.substr(0, this.origin.lastIndexOf("/"));
-
-            if (this.origin.lastIndexOf("/") === this.origin.length - 1) {
-                this.origin = this.origin.substr(0, this.origin.length - 1);
-            }
-        } else {
-            var port = uri.port || "";
-            if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
-                port = ":" + port;
-            }
-
-            this.origin = uri.scheme + "://" + uri.host + port;
-        }
+		var self = this;
 
         function getActualFilename(filename) {
-            var actualFilename = self.origin;
+            var actualFilename = configuration.origins.files;
 
             if (filename.indexOf("/") !== 0) {
                 actualFilename += "/";
@@ -9097,3 +9079,68 @@ Bifrost.namespace("Bifrost", {
 });
 Bifrost.configure = Bifrost.configureType.create();
 
+// Force Require Text to use XHR
+require.config({
+    text: {
+        useXHR: function () {
+            return true;
+        }
+    }
+});
+Bifrost.namespace("Bifrost", {
+    configuration: Bifrost.Singleton(function () {
+        var self = this;
+
+        function getOriginFrom(uri) {
+            var origin = "";
+            if (window.location.protocol === "file:") {
+                origin = window.location.href;
+                origin = origin.substr(0, origin.lastIndexOf("/"));
+
+                if (origin.lastIndexOf("/") === origin.length - 1) {
+                    origin = origin.substr(0, origin.length - 1);
+                }
+            } else {
+                var port = uri.port || "";
+                if (!Bifrost.isUndefined(port) && port !== "" && port !== 80) {
+                    port = ":" + port;
+                }
+
+                origin = uri.scheme + "://" + uri.host + port;
+            }
+            return origin;
+        }
+
+        function getOriginFromElement(dataAttributeName) {
+            var element = null;
+            if (document.body.attributes[dataAttributeName]) element = document.body;
+            else element = document.querySelector("["+dataAttributeName+"]");
+            var originUri = null;
+            if (element !== null) {
+                var origin = element.attributes[dataAttributeName].value
+                if (origin == "" && velement.localName == "script") originUri = Bifrost.Uri.create(element.src);
+                else originUri = Bifrost.Uri.create(origin);
+            }
+            return originUri;
+        }
+
+        this.origins = {
+            files: null,
+            APIs: null
+        };
+
+        Bifrost.configure.ready(function () {
+            var currentScript = document.currentScript || (function () {
+                var scripts = document.getElementsByTagName('script');
+                return scripts[scripts.length - 1];
+            })();
+            var currentScriptUri = Bifrost.Uri.create(currentScript.src);
+            var filesOriginUri = getOriginFromElement("data-files-origin") || currentScriptUri;
+            var APIsOriginUri = getOriginFromElement("data-apis-origin") || currentScriptUri;
+
+            if (!self.origins.files) self.origins.files = getOriginFrom(filesOriginUri);
+            if (!self.origins.APIs) self.origins.APIs = getOriginFrom(APIsOriginUri);
+        });
+    })
+});
+Bifrost.WellKnownTypesDependencyResolver.types.configuration = Bifrost.configuration.create();
