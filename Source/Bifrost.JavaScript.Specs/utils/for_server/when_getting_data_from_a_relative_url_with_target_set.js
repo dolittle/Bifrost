@@ -3,8 +3,14 @@
     var data = { something: 42 };
 
     var target = "http://www.vg.no";
-    var server = Bifrost.server.create();
-    server.target = target;
+    var server = Bifrost.server.create({
+        configuration: {
+            origins: {
+                files: target,
+                APIs: target
+            }
+        }
+    });
     
     beforeEach(function() {
         sinon.stub($, "ajax")

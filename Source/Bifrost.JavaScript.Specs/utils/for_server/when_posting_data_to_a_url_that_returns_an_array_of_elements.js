@@ -10,7 +10,14 @@
         xhr.respond(200, { "Content-Type":"application/json" }, '[{"somethingElse":"43"},{"someStuff":"d44"}]');
     });
 
-    var server = Bifrost.server.create();
+    var server = Bifrost.server.create({
+        configuration: {
+            origins: {
+                files: "",
+                APIs: ""
+            }
+        }
+    });
     var promise = server.post(url, data);
     promise.continueWith(function (result) {
         response = result;
