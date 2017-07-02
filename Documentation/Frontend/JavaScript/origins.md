@@ -1,4 +1,4 @@
----
+﻿---
 title: About Origins
 description: Learn how to configure origins
 keywords: Frontend
@@ -58,8 +58,8 @@ Another option is to programatically using JavaScript assign the values within a
 ```html
 <script>
     var configuration = Bifrost.configuration.create();
-    configuration.origins.files = "http://www.db.no";
-    configuration.origins.APIs = "http://www.vg.no";
+    configuration.origins.files = "http://someplace";
+    configuration.origins.APIs = "http://someotherplace";
 </script>
 ```
 
