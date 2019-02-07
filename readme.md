@@ -1,7 +1,5 @@
 # IMPORTANT: WE'VE MOVED TO [HERE](https://github.com/dolittle/home)
 
-**This is considered the stabile release of doLittle till its out of alpha->beta stages** 
-
 
 | Source | Version |
 | ------ | ------- |
